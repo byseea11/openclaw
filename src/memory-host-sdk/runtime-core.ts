@@ -22,6 +22,7 @@ export type { MemoryCitationsMode } from "../config/types.memory.js";
 export type {
   MemoryFlushPlan,
   MemoryFlushPlanResolver,
+  MemoryFlushResultHandler,
   MemoryPluginCapability,
   MemoryPluginPublicArtifact,
   MemoryPluginPublicArtifactsProvider,

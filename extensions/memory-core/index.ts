@@ -1,4 +1,5 @@
 import { definePluginEntry } from "openclaw/plugin-sdk/plugin-entry";
+import { handleGraphFlushResult } from "./src/canonical/index.js";
 import { registerMemoryCli } from "./src/cli.js";
 import { registerDreamingCommand } from "./src/dreaming-command.js";
 import { registerShortTermPromotionDreaming } from "./src/dreaming.js";
@@ -33,6 +34,7 @@ export default definePluginEntry({
     api.registerMemoryCapability({
       promptBuilder: buildPromptSection,
       flushPlanResolver: buildMemoryFlushPlan,
+      flushResultHandler: handleGraphFlushResult,
       runtime: memoryRuntime,
       publicArtifacts: {
         listArtifacts: listMemoryCorePublicArtifacts,

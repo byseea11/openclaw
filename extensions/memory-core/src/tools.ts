@@ -14,6 +14,7 @@ import {
   resolveMemoryCorePluginConfig,
   resolveMemoryDeepDreamingConfig,
 } from "openclaw/plugin-sdk/memory-core-host-status";
+import { searchGraphForMemoryTool } from "./canonical/index.js";
 import { recordShortTermRecalls } from "./short-term-promotion.js";
 import {
   clampResultsByInjectedChars,
@@ -30,6 +31,7 @@ import {
   loadMemoryToolRuntime,
   MemoryGetSchema,
   MemorySearchSchema,
+  type MemorySearchResultWithCorpus,
   searchMemoryCorpusSupplements,
 } from "./tools.shared.js";
 
@@ -228,6 +230,11 @@ export function createMemorySearchTool(options: {
                 fallback?: string;
                 searchMs: number;
                 hits: number;
+                graph?: {
+                  enabled: boolean;
+                  hits: number;
+                  renderedHits: number;
+                };
               }
             | undefined;
           if (shouldQueryMemory && memory && !("error" in memory)) {
@@ -292,7 +299,10 @@ export function createMemorySearchTool(options: {
                 corpus: requestedCorpus,
               })
             : [];
-          const results = [...surfacedMemoryResults, ...supplementResults]
+          const baseResults: MemorySearchResultWithCorpus[] = [
+            ...surfacedMemoryResults,
+            ...supplementResults,
+          ]
             .toSorted((left, right) => {
               if (left.score !== right.score) {
                 return right.score - left.score;
@@ -300,6 +310,22 @@ export function createMemorySearchTool(options: {
               return left.path.localeCompare(right.path);
             })
             .slice(0, Math.max(1, maxResults ?? 10));
+          const graph = shouldQueryMemory
+            ? await searchGraphForMemoryTool({
+                cfg,
+                agentId,
+                query,
+                maxResults: maxResults ?? 5,
+              })
+            : { enabled: false, hits: 0, renderedHits: 0, results: [] };
+          if (searchDebug) {
+            searchDebug.graph = {
+              enabled: graph.enabled,
+              hits: graph.hits,
+              renderedHits: graph.renderedHits,
+            };
+          }
+          const results: MemorySearchResultWithCorpus[] = [...baseResults, ...graph.results];
           return jsonResult({
             results,
             provider,

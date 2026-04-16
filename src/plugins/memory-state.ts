@@ -78,6 +78,18 @@ export type MemoryFlushPlanResolver = (params: {
   nowMs?: number;
 }) => MemoryFlushPlan | null;
 
+export type MemoryFlushResultHandler = (params: {
+  cfg: OpenClawConfig;
+  agentId: string;
+  sessionKey?: string;
+  relativePath: string;
+  outputText: string;
+  nowMs: number;
+}) =>
+  | Promise<{ parsedEvents: number; persistedEvents: number } | void>
+  | { parsedEvents: number; persistedEvents: number }
+  | void;
+
 export type RegisteredMemorySearchManager = MemorySearchManager;
 
 export type MemoryRuntimeQmdConfig = {
@@ -127,6 +139,7 @@ export type MemoryPluginPublicArtifactsProvider = {
 export type MemoryPluginCapability = {
   promptBuilder?: MemoryPromptSectionBuilder;
   flushPlanResolver?: MemoryFlushPlanResolver;
+  flushResultHandler?: MemoryFlushResultHandler;
   runtime?: MemoryPluginRuntime;
   publicArtifacts?: MemoryPluginPublicArtifactsProvider;
 };
@@ -247,6 +260,10 @@ export function getMemoryFlushPlanResolver(): MemoryFlushPlanResolver | undefine
     memoryPluginState.capability?.capability.flushPlanResolver ??
     memoryPluginState.flushPlanResolver
   );
+}
+
+export function resolveMemoryFlushResultHandler(): MemoryFlushResultHandler | undefined {
+  return memoryPluginState.capability?.capability.flushResultHandler;
 }
 
 /** @deprecated Use registerMemoryCapability(pluginId, { runtime }) instead. */

@@ -24,7 +24,10 @@ import type { OpenClawConfig } from "../../config/types.openclaw.js";
 import { readSessionMessages } from "../../gateway/session-utils.fs.js";
 import { logVerbose } from "../../globals.js";
 import { registerAgentRunContext } from "../../infra/agent-events.js";
-import { resolveMemoryFlushPlan } from "../../plugins/memory-state.js";
+import {
+  resolveMemoryFlushPlan,
+  resolveMemoryFlushResultHandler,
+} from "../../plugins/memory-state.js";
 import { normalizeOptionalString } from "../../shared/string-coerce.js";
 import type { TemplateContext } from "../templating.js";
 import type { VerboseLevel } from "../thinking.js";
@@ -71,6 +74,16 @@ const memoryDeps = {
   randomUUID: () => crypto.randomUUID(),
   now: () => Date.now(),
 };
+
+function collectMemoryFlushOutputText(
+  result: Awaited<ReturnType<typeof runEmbeddedPiAgentDefault>>,
+): string {
+  const texts = [
+    normalizeOptionalString(result.meta?.finalAssistantVisibleText),
+    ...(result.payloads ?? []).map((payload) => normalizeOptionalString(payload.text)),
+  ].filter((text): text is string => Boolean(text));
+  return texts.join("\n\n");
+}
 
 export function setAgentRunnerMemoryTestDeps(overrides?: Partial<typeof memoryDeps>): void {
   Object.assign(memoryDeps, {
@@ -775,6 +788,27 @@ export async function runMemoryFlushIfNeeded(params: {
         });
         if (result.meta?.agentMeta?.sessionId) {
           postCompactionSessionId = result.meta.agentMeta.sessionId;
+        }
+        const flushResultHandler = resolveMemoryFlushResultHandler();
+        if (flushResultHandler) {
+          try {
+            const agentId = resolveAgentIdFromSessionKey(params.sessionKey);
+            const handlerResult = await flushResultHandler({
+              cfg: params.cfg,
+              agentId,
+              sessionKey: params.sessionKey,
+              relativePath: memoryFlushWritePath,
+              outputText: collectMemoryFlushOutputText(result),
+              nowMs: memoryFlushNowMs,
+            });
+            if (handlerResult) {
+              logVerbose(
+                `memoryFlush graph handler: parsed=${handlerResult.parsedEvents} persisted=${handlerResult.persistedEvents}`,
+              );
+            }
+          } catch (handlerErr) {
+            logVerbose(`memoryFlush graph handler failed: ${String(handlerErr)}`);
+          }
         }
         bootstrapPromptWarningSignaturesSeen = resolveBootstrapWarningSignaturesSeen(
           result.meta?.systemPromptReport,

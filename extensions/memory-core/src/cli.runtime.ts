@@ -6,6 +6,14 @@ import { resolveMemoryRemDreamingConfig } from "openclaw/plugin-sdk/memory-core-
 import { buildAgentSessionKey } from "openclaw/plugin-sdk/routing";
 import { resolvePreferredOpenClawTmpDir } from "openclaw/plugin-sdk/temp-path";
 import {
+  bootstrapCanonicalIndex,
+  getCanonicalStatus,
+  getCanonicalStore,
+  graphHitToMemorySearchResult,
+  resolveGraphIndexConfig,
+  search_graph,
+} from "./canonical/index.js";
+import {
   colorize,
   defaultRuntime,
   formatErrorMessage,
@@ -29,6 +37,8 @@ import {
 } from "./cli.host.runtime.js";
 import type {
   MemoryCommandOptions,
+  MemoryGraphCommandOptions,
+  MemoryGraphSearchCommandOptions,
   MemoryPromoteCommandOptions,
   MemoryPromoteExplainOptions,
   MemoryRemBackfillOptions,
@@ -1236,6 +1246,141 @@ export async function runMemorySearch(
       defaultRuntime.log(lines.join("\n").trim());
     },
   });
+}
+
+export async function runMemoryGraphStatus(opts: MemoryGraphCommandOptions) {
+  setVerbose(Boolean(opts.verbose));
+  const { config: cfg, diagnostics } = await loadMemoryCommandConfig("memory graph status");
+  emitMemorySecretResolveDiagnostics(diagnostics, { json: Boolean(opts.json) });
+  const agentId = resolveAgent(cfg, opts.agent);
+  const status = getCanonicalStatus({ cfg, agentId });
+  if (opts.json) {
+    defaultRuntime.writeJson({ agentId, ...status });
+    return;
+  }
+  const graphConfig = resolveGraphIndexConfig(cfg);
+  const rich = isRich();
+  const heading = (text: string) => colorize(rich, theme.heading, text);
+  const muted = (text: string) => colorize(rich, theme.muted, text);
+  const info = (text: string | number | boolean) => colorize(rich, theme.info, String(text));
+  defaultRuntime.log(
+    [
+      `${heading("Graph Memory")} ${muted(`(${agentId})`)}`,
+      `${muted("Enabled:")} ${info(graphConfig.enabled)}`,
+      `${muted("Bootstrap on start:")} ${info(graphConfig.bootstrapOnStart)}`,
+      `${muted("Extract during flush:")} ${info(graphConfig.extractDuringFlush)}`,
+      `${muted("Store:")} ${info(shortenHomePath(status.dbPath))}`,
+      `${muted("Events:")} ${info(status.eventsTotal)}`,
+      `${muted("Entities:")} ${info(status.entitiesTotal)}`,
+      `${muted("Schema:")} ${info(status.schemaVersion)}`,
+      `${muted("Extractor:")} ${info(status.extractorVersion)}`,
+    ].join("\n"),
+  );
+}
+
+export async function runMemoryGraphReindex(opts: MemoryGraphCommandOptions) {
+  setVerbose(Boolean(opts.verbose));
+  const { config: cfg, diagnostics } = await loadMemoryCommandConfig("memory graph reindex");
+  emitMemorySecretResolveDiagnostics(diagnostics, { json: Boolean(opts.json) });
+  const agentId = resolveAgent(cfg, opts.agent);
+  await withMemoryManagerForAgent({
+    cfg,
+    agentId,
+    purpose: "status",
+    run: async (manager) => {
+      const workspaceDir = manager.status().workspaceDir;
+      if (!workspaceDir) {
+        defaultRuntime.error("Graph reindex requires a resolvable memory workspace directory.");
+        process.exitCode = 1;
+        return;
+      }
+      const result = await withProgressTotals(
+        {
+          label: "Indexing graph memory...",
+          total: 0,
+          fallback: opts.verbose ? "line" : undefined,
+        },
+        async (update) =>
+          await bootstrapCanonicalIndex({
+            cfg,
+            agentId,
+            workspaceDir,
+            force: Boolean(opts.force),
+            progress: update,
+          }),
+      );
+      const status = getCanonicalStatus({ cfg, agentId });
+      if (opts.json) {
+        defaultRuntime.writeJson({ agentId, ...status, reindex: result });
+        return;
+      }
+      defaultRuntime.log(
+        [
+          `Graph memory reindex complete (${agentId}).`,
+          `Store: ${shortenHomePath(status.dbPath)}`,
+          `Files scanned: ${result.filesScanned}`,
+          `Events extracted: ${result.eventsExtracted}`,
+          `Records written: ${result.recordsWritten}`,
+          `Events total: ${status.eventsTotal}`,
+          `Entities total: ${status.entitiesTotal}`,
+        ].join("\n"),
+      );
+    },
+  });
+}
+
+export async function runMemoryGraphSearch(
+  queryArg: string | undefined,
+  opts: MemoryGraphSearchCommandOptions,
+) {
+  const query = opts.query ?? queryArg;
+  if (!query) {
+    defaultRuntime.error(
+      "Missing graph search query. Provide a positional query or use --query <text>.",
+    );
+    process.exitCode = 1;
+    return;
+  }
+  const { config: cfg, diagnostics } = await loadMemoryCommandConfig("memory graph search");
+  emitMemorySecretResolveDiagnostics(diagnostics, { json: Boolean(opts.json) });
+  const agentId = resolveAgent(cfg, opts.agent);
+  const store = getCanonicalStore(agentId);
+  const hits = await search_graph(store, query, Math.max(1, opts.maxResults ?? 10));
+  const results = hits.map((hit) => ({
+    ...hit,
+    memorySearchResult: graphHitToMemorySearchResult(hit),
+  }));
+  if (opts.json) {
+    defaultRuntime.writeJson({ agentId, query, results });
+    return;
+  }
+  if (results.length === 0) {
+    defaultRuntime.log("No graph matches.");
+    return;
+  }
+  defaultRuntime.log(
+    results
+      .map((result) =>
+        [
+          `${result.score.toFixed(3)} ${result.type} ${result.entity_id}`,
+          result.memorySearchResult?.snippet ?? `source: ${result.source_ref}`,
+        ].join("\n"),
+      )
+      .join("\n\n"),
+  );
+}
+
+export async function runMemoryGraphExport(opts: MemoryGraphCommandOptions) {
+  const { config: cfg, diagnostics } = await loadMemoryCommandConfig("memory graph export");
+  emitMemorySecretResolveDiagnostics(diagnostics, { json: Boolean(opts.json) });
+  const agentId = resolveAgent(cfg, opts.agent);
+  const store = getCanonicalStore(agentId);
+  const jsonl = await store.exportJsonl();
+  if (opts.json) {
+    defaultRuntime.writeJson({ agentId, jsonl });
+    return;
+  }
+  defaultRuntime.log(jsonl || "");
 }
 
 export async function runMemoryPromote(opts: MemoryPromoteCommandOptions) {

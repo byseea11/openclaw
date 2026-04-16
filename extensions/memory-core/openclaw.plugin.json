@@ -19,6 +19,21 @@
     "type": "object",
     "additionalProperties": false,
     "properties": {
+      "graphIndex": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "enabled": {
+            "type": "boolean"
+          },
+          "bootstrapOnStart": {
+            "type": "boolean"
+          },
+          "extractDuringFlush": {
+            "type": "boolean"
+          }
+        }
+      },
       "dreaming": {
         "type": "object",
         "additionalProperties": false,

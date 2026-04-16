@@ -5,6 +5,7 @@ import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import type { SessionEntry } from "../../config/sessions.js";
 import {
   clearMemoryPluginState,
+  registerMemoryCapability,
   registerMemoryFlushPlanResolver,
 } from "../../plugins/memory-state.js";
 import type { TemplateContext } from "../templating.js";
@@ -286,5 +287,92 @@ describe("runMemoryFlushIfNeeded", () => {
     expect(flushCall.silentExpected).toBe(true);
     expect(flushCall.bootstrapPromptWarningSignaturesSeen).toEqual(["sig-a", "sig-b"]);
     expect(flushCall.bootstrapPromptWarningSignature).toBe("sig-b");
+  });
+
+  it("passes memory flush output to the registered graph result handler", async () => {
+    const flushResultHandler = vi.fn(async () => ({ parsedEvents: 1, persistedEvents: 1 }));
+    registerMemoryCapability("memory-core", {
+      flushPlanResolver: () => ({
+        softThresholdTokens: 4_000,
+        forceFlushTranscriptBytes: 1_000_000_000,
+        reserveTokensFloor: 20_000,
+        prompt: "Pre-compaction memory flush.\nNO_REPLY",
+        systemPrompt: "Write memory to memory/YYYY-MM-DD.md.",
+        relativePath: "memory/2023-11-14.md",
+      }),
+      flushResultHandler,
+    });
+    runEmbeddedPiAgentMock.mockResolvedValueOnce({
+      payloads: [{ text: "payload graph json" }],
+      meta: { finalAssistantVisibleText: "visible graph json" },
+    });
+
+    const sessionEntry: SessionEntry = {
+      sessionId: "session",
+      updatedAt: Date.now(),
+      totalTokens: 80_000,
+      compactionCount: 1,
+    };
+
+    await runMemoryFlushIfNeeded({
+      cfg: { agents: { defaults: { compaction: { memoryFlush: {} } } } },
+      followupRun: createFollowupRun(),
+      sessionCtx: { Provider: "whatsapp" } as unknown as TemplateContext,
+      defaultModel: "anthropic/claude-opus-4-6",
+      agentCfgContextTokens: 100_000,
+      resolvedVerboseLevel: "off",
+      sessionEntry,
+      sessionStore: { main: sessionEntry },
+      sessionKey: "main",
+      isHeartbeat: false,
+      replyOperation: createReplyOperation(),
+    });
+
+    expect(flushResultHandler).toHaveBeenCalledWith(
+      expect.objectContaining({
+        agentId: "main",
+        relativePath: "memory/2023-11-14.md",
+        outputText: "visible graph json\n\npayload graph json",
+        nowMs: 1_700_000_000_000,
+      }),
+    );
+  });
+
+  it("contains graph result handler failures without failing the flush", async () => {
+    registerMemoryCapability("memory-core", {
+      flushPlanResolver: () => ({
+        softThresholdTokens: 4_000,
+        forceFlushTranscriptBytes: 1_000_000_000,
+        reserveTokensFloor: 20_000,
+        prompt: "Pre-compaction memory flush.\nNO_REPLY",
+        systemPrompt: "Write memory to memory/YYYY-MM-DD.md.",
+        relativePath: "memory/2023-11-14.md",
+      }),
+      flushResultHandler: async () => {
+        throw new Error("graph broke");
+      },
+    });
+    const sessionEntry: SessionEntry = {
+      sessionId: "session",
+      updatedAt: Date.now(),
+      totalTokens: 80_000,
+      compactionCount: 1,
+    };
+
+    await expect(
+      runMemoryFlushIfNeeded({
+        cfg: { agents: { defaults: { compaction: { memoryFlush: {} } } } },
+        followupRun: createFollowupRun(),
+        sessionCtx: { Provider: "whatsapp" } as unknown as TemplateContext,
+        defaultModel: "anthropic/claude-opus-4-6",
+        agentCfgContextTokens: 100_000,
+        resolvedVerboseLevel: "off",
+        sessionEntry,
+        sessionStore: { main: sessionEntry },
+        sessionKey: "main",
+        isHeartbeat: false,
+        replyOperation: createReplyOperation(),
+      }),
+    ).resolves.toBeDefined();
   });
 });

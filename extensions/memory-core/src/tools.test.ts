@@ -1,4 +1,8 @@
+import fs from "node:fs/promises";
+import os from "node:os";
+import path from "node:path";
 import { beforeEach, describe, expect, it } from "vitest";
+import { canonicalize, closeAllCanonicalStores, getCanonicalStore } from "./canonical/index.js";
 import {
   resetMemoryToolMockState,
   setMemoryBackend,
@@ -102,5 +106,83 @@ describe("memory_search unavailable payloads", () => {
     expect((result.details as { debug?: { searchMs?: number } }).debug?.searchMs).toEqual(
       expect.any(Number),
     );
+  });
+
+  it("appends graph hits when graph index is enabled", async () => {
+    const stateDir = await fs.mkdtemp(path.join(os.tmpdir(), "openclaw-tools-graph-"));
+    const previousStateDir = process.env.OPENCLAW_STATE_DIR;
+    process.env.OPENCLAW_STATE_DIR = stateDir;
+    try {
+      setMemorySearchImpl(async () => [
+        {
+          path: "MEMORY.md",
+          startLine: 1,
+          endLine: 1,
+          score: 0.9,
+          snippet: "chunk hit",
+          source: "memory",
+        },
+      ]);
+      const store = getCanonicalStore("main");
+      const records = canonicalize(
+        [
+          {
+            actor: "Alice",
+            action: "changed_status",
+            object: "task_123",
+            status_after: "blocked",
+            occurred_at: "2026-04-15",
+            source_ref: "memory/2026-04-15.md#L12-L18",
+          },
+        ],
+        "v-test",
+      );
+      await store.upsertEvents(records);
+      await store.refreshEntityStates(records);
+
+      const tool = createMemorySearchToolOrThrow({
+        config: {
+          agents: { list: [{ id: "main", default: true }] },
+          plugins: {
+            entries: {
+              "memory-core": {
+                config: {
+                  graphIndex: {
+                    enabled: true,
+                  },
+                },
+              },
+            },
+          },
+        },
+      });
+      const result = await tool.execute("graph", { query: "task_123" });
+      const details = result.details as {
+        results: Array<{ corpus?: string; snippet: string; graphMeta?: unknown }>;
+        debug?: { graph?: { hits: number; renderedHits: number } };
+      };
+
+      expect(details.results[0]).toMatchObject({ corpus: "memory" });
+      expect(details.results[0]?.snippet).toContain("chunk hit");
+      expect(details.results).toContainEqual(
+        expect.objectContaining({
+          corpus: "graph",
+          snippet: expect.stringContaining("[Graph state]"),
+          graphMeta: {
+            type: "state",
+            entity_id: expect.stringMatching(/^ent_/),
+          },
+        }),
+      );
+      expect(details.debug?.graph).toMatchObject({ hits: 2, renderedHits: 2 });
+    } finally {
+      await closeAllCanonicalStores();
+      if (previousStateDir === undefined) {
+        delete process.env.OPENCLAW_STATE_DIR;
+      } else {
+        process.env.OPENCLAW_STATE_DIR = previousStateDir;
+      }
+      await fs.rm(stateDir, { recursive: true, force: true });
+    }
   });
 });

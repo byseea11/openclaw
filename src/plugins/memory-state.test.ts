@@ -17,6 +17,7 @@ import {
   registerMemoryPromptSupplement,
   registerMemoryPromptSection,
   registerMemoryRuntime,
+  resolveMemoryFlushResultHandler,
   resolveMemoryFlushPlan,
   restoreMemoryPluginState,
 } from "./memory-state.js";
@@ -57,6 +58,7 @@ function createMemoryStateSnapshot() {
     promptBuilder: getMemoryPromptSectionBuilder(),
     promptSupplements: listMemoryPromptSupplements(),
     flushPlanResolver: getMemoryFlushPlanResolver(),
+    flushResultHandler: resolveMemoryFlushResultHandler(),
     runtime: getMemoryRuntime(),
   };
 }
@@ -118,6 +120,7 @@ describe("memory plugin state", () => {
     registerMemoryCapability("memory-core", {
       promptBuilder: () => ["capability prompt"],
       flushPlanResolver: () => createMemoryFlushPlan("memory/capability.md"),
+      flushResultHandler: () => ({ parsedEvents: 1, persistedEvents: 1 }),
       runtime,
     });
 
@@ -130,9 +133,23 @@ describe("memory plugin state", () => {
       }),
     ).resolves.toEqual({ manager: null, error: "missing" });
     expect(hasMemoryRuntime()).toBe(true);
+    expect(resolveMemoryFlushResultHandler()?.({} as never)).toEqual({
+      parsedEvents: 1,
+      persistedEvents: 1,
+    });
     expect(getMemoryCapabilityRegistration()).toMatchObject({
       pluginId: "memory-core",
     });
+  });
+
+  it("returns the registered memory flush result handler from capability state", () => {
+    const flushResultHandler = async () => ({ parsedEvents: 2, persistedEvents: 2 });
+
+    registerMemoryCapability("memory-core", {
+      flushResultHandler,
+    });
+
+    expect(resolveMemoryFlushResultHandler()).toBe(flushResultHandler);
   });
 
   it("lists active public memory artifacts in deterministic order", async () => {

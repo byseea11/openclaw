@@ -33,6 +33,11 @@ export const buildPromptSection: MemoryPromptSectionBuilder = ({
       "Citations: include Source: <path#line> when it helps the user verify memory snippets.",
     );
   }
+  if (hasMemorySearch) {
+    lines.push(
+      'Some memory_search results may have corpus: "graph". These are structured hints extracted from memory files: [Graph state] is an entity status, [Graph event] is a recorded change, and each graph hit has a source line pointing back to the original memory file. Treat graph hits as hints, not ground truth; when exact wording matters, call memory_get on the source path and lines.',
+    );
+  }
   lines.push("");
   return lines;
 };

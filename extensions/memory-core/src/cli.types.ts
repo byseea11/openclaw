@@ -14,6 +14,13 @@ export type MemorySearchCommandOptions = MemoryCommandOptions & {
   minScore?: number;
 };
 
+export type MemoryGraphCommandOptions = MemoryCommandOptions;
+
+export type MemoryGraphSearchCommandOptions = MemoryGraphCommandOptions & {
+  query?: string;
+  maxResults?: number;
+};
+
 export type MemoryPromoteCommandOptions = MemoryCommandOptions & {
   limit?: number;
   minScore?: number;

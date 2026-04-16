@@ -49,4 +49,20 @@ describe("memory-core manifest config schema", () => {
 
     expect(result.ok).toBe(true);
   });
+
+  it("accepts graph index feature flags", () => {
+    const result = validateJsonSchemaValue({
+      schema: manifest.configSchema,
+      cacheKey: "memory-core.manifest.graph-index",
+      value: {
+        graphIndex: {
+          enabled: true,
+          bootstrapOnStart: true,
+          extractDuringFlush: true,
+        },
+      },
+    });
+
+    expect(result.ok).toBe(true);
+  });
 });

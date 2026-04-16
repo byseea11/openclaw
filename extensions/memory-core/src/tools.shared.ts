@@ -3,11 +3,23 @@ import {
   listMemoryCorpusSupplements,
   resolveMemorySearchConfig,
   resolveSessionAgentId,
-  type MemoryCorpusGetResult,
   type MemoryCorpusSearchResult,
+  type MemoryCorpusGetResult,
   type AnyAgentTool,
   type OpenClawConfig,
 } from "openclaw/plugin-sdk/memory-core-host-runtime-core";
+import type { MemorySearchResult } from "openclaw/plugin-sdk/memory-core-host-runtime-files";
+
+export type MemorySearchResultWithCorpus =
+  | (MemorySearchResult & { corpus: "memory" })
+  | MemoryCorpusSearchResult
+  | (MemorySearchResult & {
+      corpus: "graph";
+      graphMeta: {
+        type: "event" | "state";
+        entity_id: string;
+      };
+    });
 import { normalizeLowercaseStringOrEmpty } from "openclaw/plugin-sdk/text-runtime";
 
 type MemoryToolRuntime = typeof import("./tools.runtime.js");

@@ -6,6 +6,7 @@ import {
   type MemoryFlushPlan,
   type OpenClawConfig,
 } from "openclaw/plugin-sdk/memory-core-host-runtime-core";
+import { resolveGraphIndexConfig } from "./canonical/schema.js";
 
 export const DEFAULT_MEMORY_FLUSH_SOFT_TOKENS = 4000;
 export const DEFAULT_MEMORY_FLUSH_FORCE_TRANSCRIPT_BYTES = 2 * 1024 * 1024;
@@ -21,6 +22,16 @@ const MEMORY_FLUSH_REQUIRED_HINTS = [
   MEMORY_FLUSH_APPEND_ONLY_HINT,
   MEMORY_FLUSH_READ_ONLY_HINT,
 ];
+
+const GRAPH_FLUSH_JSON_INSTRUCTIONS = [
+  "In addition to appending durable content to memory/YYYY-MM-DD.md, end this flush reply with a JSON code block for the graph index.",
+  "Use exactly this shape:",
+  '```json\n{"events":[]}\n```',
+  "Only include events from content newly appended to memory/YYYY-MM-DD.md during this flush.",
+  'Each event must use source_ref like "memory/YYYY-MM-DD.md#L12-L18" pointing to the lines just written.',
+  'If there are no extractable events, output {"events":[]}.',
+  `If no user-visible reply is needed, still include the JSON block after ${SILENT_REPLY_TOKEN}.`,
+].join("\n");
 
 export const DEFAULT_MEMORY_FLUSH_PROMPT = [
   "Pre-compaction memory flush.",
@@ -92,6 +103,13 @@ function appendCurrentTimeLine(text: string, timeLine: string): string {
   return `${trimmed}\n${timeLine}`;
 }
 
+function appendGraphFlushInstructions(text: string): string {
+  if (text.includes("graph index") && text.includes('"events"')) {
+    return text;
+  }
+  return `${text.trimEnd()}\n\n${GRAPH_FLUSH_JSON_INSTRUCTIONS}`;
+}
+
 export function buildMemoryFlushPlan(
   params: {
     cfg?: OpenClawConfig;
@@ -132,7 +150,13 @@ export function buildMemoryFlushPlan(
     softThresholdTokens,
     forceFlushTranscriptBytes,
     reserveTokensFloor,
-    prompt: appendCurrentTimeLine(promptBase.replaceAll("YYYY-MM-DD", dateStamp), timeLine),
+    prompt: appendCurrentTimeLine(
+      (resolveGraphIndexConfig(cfg).enabled && resolveGraphIndexConfig(cfg).extractDuringFlush
+        ? appendGraphFlushInstructions(promptBase)
+        : promptBase
+      ).replaceAll("YYYY-MM-DD", dateStamp),
+      timeLine,
+    ),
     systemPrompt: systemPrompt.replaceAll("YYYY-MM-DD", dateStamp),
     relativePath,
   };
