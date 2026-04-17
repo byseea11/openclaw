@@ -2,8 +2,7 @@ import fs from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
 import { afterEach, beforeEach, describe, expect, it } from "vitest";
-import type { GraphHit } from "./schema.js";
-import type { EventRecord } from "./schema.js";
+import type { EventRecord, GraphHit } from "./schema.js";
 import { CanonicalStore, closeAllCanonicalStores } from "./store.js";
 
 function record(overrides: Partial<EventRecord> = {}): EventRecord {
@@ -16,7 +15,10 @@ function record(overrides: Partial<EventRecord> = {}): EventRecord {
     actor: "Alice",
     action: "changed_status",
     object: "task_123",
+    status_before: null,
     status_after: "blocked",
+    session_id: null,
+    covered_until_entry_id: null,
     confidence: 0.8,
     extractor_version: "v-test",
     created_at: 1_765_000_000_000,
@@ -49,6 +51,9 @@ describe("canonical graph store", () => {
       latest_status: "done",
       latest_owner: "Alice",
       last_event_id: "evt_task",
+      entity_type: "task",
+      supporting_event_ids: ["evt_task"],
+      confidence: 0.8,
     });
     await expect(store.searchEvents("task_123", 5)).resolves.toEqual([
       expect.objectContaining({
@@ -60,10 +65,14 @@ describe("canonical graph store", () => {
     expect(store.getStatus()).toMatchObject({
       eventsTotal: 1,
       entitiesTotal: 1,
-      schemaVersion: "v0",
+      schemaVersion: "v1",
       metrics: expect.objectContaining({
         hitsReturned: 0,
+        hitsUsedRaw: 0,
+        hitsUsedUniqueRefs: 0,
         hitsUsed: 0,
+        sourceRefValidated: 0,
+        sourceRefRejected: 0,
       }),
     });
     store.close();
@@ -117,10 +126,15 @@ describe("canonical graph store", () => {
       entitiesTotal: 0,
       metrics: expect.objectContaining({
         hitsReturned: 0,
+        hitsUsedRaw: 0,
+        hitsUsedUniqueRefs: 0,
         hitsUsed: 0,
+        sourceRefValidated: 0,
+        sourceRefRejected: 0,
         extractSuccesses: 0,
       }),
     });
+    expect(store.listAliases()).toEqual([]);
     expect(store.getRecentGraphHits("session:main", nowMs + 100)).toEqual([]);
     store.close();
   });

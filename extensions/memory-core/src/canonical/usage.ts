@@ -1,9 +1,9 @@
-import { appendMemoryHostEvent } from "openclaw/plugin-sdk/memory-host-events";
 import {
   createSubsystemLogger,
   resolveAgentWorkspaceDir,
 } from "openclaw/plugin-sdk/memory-core-host-engine-foundation";
 import type { OpenClawConfig } from "openclaw/plugin-sdk/memory-core-host-runtime-core";
+import { appendMemoryHostEvent } from "openclaw/plugin-sdk/memory-host-events";
 import type { GraphMemorySearchResult } from "./prompt.js";
 import { parseSourceRef, type GraphHit } from "./schema.js";
 import { getCanonicalStore } from "./store.js";
@@ -21,7 +21,30 @@ function resolveWorkspaceDir(cfg: OpenClawConfig, agentId: string): string | und
 }
 
 function normalizeSourceRefs(texts: string[]): string[] {
-  return [...new Set(texts.flatMap((text) => [...text.matchAll(/\b(?:MEMORY\.md|memory\/[^\s#]+)#L\d+(?:-L?\d+)?\b/g)].map((match) => match[0] ?? "")).filter(Boolean))];
+  return [
+    ...new Set(
+      texts
+        .flatMap((text) =>
+          [...text.matchAll(/\b(?:MEMORY\.md|memory\/[^\s#]+)#L\d+(?:-L?\d+)?\b/g)].map(
+            (match) => match[0] ?? "",
+          ),
+        )
+        .filter(Boolean),
+    ),
+  ];
+}
+
+function uniqueBySourceRef<T extends { source_ref: string }>(items: T[]): T[] {
+  const seen = new Set<string>();
+  const unique: T[] = [];
+  for (const item of items) {
+    if (seen.has(item.source_ref)) {
+      continue;
+    }
+    seen.add(item.source_ref);
+    unique.push(item);
+  }
+  return unique;
 }
 
 function asRecordedResult(hit: GraphHit | GraphMemorySearchResult) {
@@ -29,8 +52,12 @@ function asRecordedResult(hit: GraphHit | GraphMemorySearchResult) {
   return {
     type: "graphMeta" in hit ? hit.graphMeta.type : hit.type,
     entityId: "graphMeta" in hit ? hit.graphMeta.entity_id : hit.entity_id,
-    sourceRef: "graphMeta" in hit ? `${hit.path}#L${hit.startLine}-L${hit.endLine}` : hit.source_ref,
-    path: "graphMeta" in hit ? hit.path : (parsed?.path ?? hit.source_ref.split("#", 1)[0] ?? hit.source_ref),
+    sourceRef:
+      "graphMeta" in hit ? `${hit.path}#L${hit.startLine}-L${hit.endLine}` : hit.source_ref,
+    path:
+      "graphMeta" in hit
+        ? hit.path
+        : (parsed?.path ?? hit.source_ref.split("#", 1)[0] ?? hit.source_ref),
     startLine: "graphMeta" in hit ? hit.startLine : (parsed?.startLine ?? 0),
     endLine: "graphMeta" in hit ? hit.endLine : (parsed?.endLine ?? 0),
     score: hit.score,
@@ -56,19 +83,23 @@ export async function recordReturnedGraphHits(
     return;
   }
   store.bumpMetric("hitsReturned", recorded);
-  log.info(`canonical.usage.returned session=${ctx.sessionKey} hits=${recorded}`);
+  log.info(`[canonical] usage.returned session=${ctx.sessionKey} hits=${recorded}`);
   const workspaceDir = resolveWorkspaceDir(ctx.cfg, ctx.agentId);
   if (!workspaceDir) {
     return;
   }
-  await appendMemoryHostEvent(workspaceDir, {
-    type: "memory.graph.recall.recorded",
-    timestamp: new Date().toISOString(),
-    sessionKey: ctx.sessionKey,
-    query: ctx.query,
-    resultCount: recorded,
-    results: ctx.hits.map(asRecordedResult),
-  });
+  try {
+    await appendMemoryHostEvent(workspaceDir, {
+      type: "memory.graph.recall.recorded",
+      timestamp: new Date().toISOString(),
+      sessionKey: ctx.sessionKey,
+      query: ctx.query,
+      resultCount: recorded,
+      results: ctx.hits.map(asRecordedResult),
+    });
+  } catch (err) {
+    log.warn(`[canonical] usage.host_event_failed via=returned error=${String(err)}`);
+  }
 }
 
 export async function markGraphHitsUsedFromMemoryGet(
@@ -91,29 +122,35 @@ export async function markGraphHitsUsedFromMemoryGet(
   if (used.length === 0) {
     return;
   }
-  store.bumpMetric("hitsUsed", used.length);
+  const uniqueUsed = uniqueBySourceRef(used);
+  store.bumpMetric("hitsUsedRaw", used.length);
+  store.bumpMetric("hitsUsedUniqueRefs", uniqueUsed.length);
   log.info(
-    `canonical.usage.used via=memory_get source_ref=${used.map((item) => item.source_ref).join(",")}`,
+    `[canonical] usage.used via=memory_get source_ref=${uniqueUsed.map((item) => item.source_ref).join(",")}`,
   );
   const workspaceDir = resolveWorkspaceDir(ctx.cfg, ctx.agentId);
   if (!workspaceDir) {
     return;
   }
-  await appendMemoryHostEvent(workspaceDir, {
-    type: "memory.graph.recall.used",
-    timestamp: new Date().toISOString(),
-    sessionKey: ctx.sessionKey,
-    via: "memory_get",
-    sourceRefs: used.map((item) => item.source_ref),
-    results: used.map((item) => ({
-      type: item.hit_type,
-      entityId: item.entity_id,
-      sourceRef: item.source_ref,
-      path: item.path,
-      startLine: item.start_line,
-      endLine: item.end_line,
-    })),
-  });
+  try {
+    await appendMemoryHostEvent(workspaceDir, {
+      type: "memory.graph.recall.used",
+      timestamp: new Date().toISOString(),
+      sessionKey: ctx.sessionKey,
+      via: "memory_get",
+      sourceRefs: uniqueUsed.map((item) => item.source_ref),
+      results: uniqueUsed.map((item) => ({
+        type: item.hit_type,
+        entityId: item.entity_id,
+        sourceRef: item.source_ref,
+        path: item.path,
+        startLine: item.start_line,
+        endLine: item.end_line,
+      })),
+    });
+  } catch (err) {
+    log.warn(`[canonical] usage.host_event_failed via=memory_get error=${String(err)}`);
+  }
 }
 
 export async function markGraphHitsUsedFromAssistantTexts(
@@ -136,31 +173,38 @@ export async function markGraphHitsUsedFromAssistantTexts(
   if (used.length === 0) {
     return;
   }
-  store.bumpMetric("hitsUsed", used.length);
+  const uniqueUsed = uniqueBySourceRef(used);
+  store.bumpMetric("hitsUsedRaw", used.length);
+  store.bumpMetric("hitsUsedUniqueRefs", uniqueUsed.length);
   log.info(
-    `canonical.usage.used via=llm_output source_ref=${used.map((item) => item.source_ref).join(",")}`,
+    `[canonical] usage.used via=llm_output source_ref=${uniqueUsed.map((item) => item.source_ref).join(",")}`,
   );
   const workspaceDir = resolveWorkspaceDir(ctx.cfg, ctx.agentId);
   if (!workspaceDir) {
     return;
   }
-  await appendMemoryHostEvent(workspaceDir, {
-    type: "memory.graph.recall.used",
-    timestamp: new Date().toISOString(),
-    sessionKey: ctx.sessionKey,
-    via: "llm_output",
-    sourceRefs: used.map((item) => item.source_ref),
-    results: used.map((item) => ({
-      type: item.hit_type,
-      entityId: item.entity_id,
-      sourceRef: item.source_ref,
-      path: item.path,
-      startLine: item.start_line,
-      endLine: item.end_line,
-    })),
-  });
+  try {
+    await appendMemoryHostEvent(workspaceDir, {
+      type: "memory.graph.recall.used",
+      timestamp: new Date().toISOString(),
+      sessionKey: ctx.sessionKey,
+      via: "llm_output",
+      sourceRefs: uniqueUsed.map((item) => item.source_ref),
+      results: uniqueUsed.map((item) => ({
+        type: item.hit_type,
+        entityId: item.entity_id,
+        sourceRef: item.source_ref,
+        path: item.path,
+        startLine: item.start_line,
+        endLine: item.end_line,
+      })),
+    });
+  } catch (err) {
+    log.warn(`[canonical] usage.host_event_failed via=llm_output error=${String(err)}`);
+  }
 }
 
 export const __testing = {
   normalizeSourceRefs,
+  uniqueBySourceRef,
 };

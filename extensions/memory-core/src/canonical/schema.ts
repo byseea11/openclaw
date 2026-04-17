@@ -1,18 +1,25 @@
 import type { OpenClawConfig } from "openclaw/plugin-sdk/memory-core-host-runtime-core";
 
 export const EXTRACTOR_VERSION = "v0-2026.04";
-export const CANONICAL_SCHEMA_VERSION = "v0";
+export const CANONICAL_SCHEMA_VERSION = "v1";
 export const GRAPH_RECALL_TTL_MS = 30 * 60 * 1000;
 
 export type GraphMetricKey =
   | "hitsReturned"
-  | "hitsUsed"
+  | "hitsUsedRaw"
+  | "hitsUsedUniqueRefs"
+  | "sourceRefValidated"
+  | "sourceRefRejected"
   | "extractSuccesses"
   | "extractFailures"
   | "extractLatencyMsSum"
   | "extractLatencyMsCount";
 
 export type GraphMetricsSnapshot = Record<GraphMetricKey, number> & {
+  /**
+   * V0 compatibility alias. M0-fix semantics are unique source_ref usage.
+   */
+  hitsUsed: number;
   extractLatencyMsAvg: number;
 };
 
@@ -20,6 +27,7 @@ export type RawEvent = {
   actor?: string;
   action: string;
   object?: string;
+  status_before?: string;
   status_after?: string;
   occurred_at?: string;
   source_ref: string;
@@ -35,7 +43,10 @@ export type EventRecord = {
   actor: string | null;
   action: string;
   object: string | null;
+  status_before: string | null;
   status_after: string | null;
+  session_id: string | null;
+  covered_until_entry_id: string | null;
   confidence: number;
   extractor_version: string;
   created_at: number;
@@ -47,6 +58,16 @@ export type EntityState = {
   latest_owner: string | null;
   last_event_id: string;
   last_updated_at: number;
+  entity_type: "task" | "project" | "person" | "decision" | "other";
+  supporting_event_ids: string[];
+  confidence: number;
+};
+
+export type EntityAlias = {
+  alias_id: string;
+  canonical_id: string;
+  source: "rule" | "manual" | "llm";
+  created_at: number;
 };
 
 export type GraphHit = {
@@ -84,9 +105,32 @@ export type GraphExportData = {
   metrics: GraphMetricsSnapshot;
 };
 
+export type SourceRefValidationResult =
+  | {
+      ok: true;
+      path: string;
+      startLine: number;
+      endLine: number;
+      totalLines: number;
+    }
+  | {
+      ok: false;
+      reason:
+        | "invalid_syntax"
+        | "unsafe_path"
+        | "not_memory_source"
+        | "file_missing"
+        | "line_range";
+      sourceRef: string;
+      totalLines?: number;
+    };
+
 export const GRAPH_METRIC_KEYS: GraphMetricKey[] = [
   "hitsReturned",
-  "hitsUsed",
+  "hitsUsedRaw",
+  "hitsUsedUniqueRefs",
+  "sourceRefValidated",
+  "sourceRefRejected",
   "extractSuccesses",
   "extractFailures",
   "extractLatencyMsSum",
@@ -108,7 +152,10 @@ CREATE TABLE IF NOT EXISTS event_records (
   actor             TEXT,
   action            TEXT NOT NULL,
   object            TEXT,
+  status_before     TEXT,
   status_after      TEXT,
+  session_id        TEXT,
+  covered_until_entry_id TEXT,
   confidence        REAL NOT NULL DEFAULT 0.5,
   extractor_version TEXT NOT NULL,
   created_at        INTEGER NOT NULL
@@ -124,6 +171,9 @@ CREATE TABLE IF NOT EXISTS entity_states (
   latest_owner     TEXT,
   last_event_id    TEXT NOT NULL,
   last_updated_at  INTEGER NOT NULL,
+  entity_type      TEXT NOT NULL DEFAULT 'other',
+  supporting_event_ids TEXT NOT NULL DEFAULT '[]',
+  confidence       REAL NOT NULL DEFAULT 0.5,
   FOREIGN KEY(last_event_id) REFERENCES event_records(event_id)
 );
 
@@ -162,6 +212,16 @@ CREATE INDEX IF NOT EXISTS idx_recent_graph_hits_session
   ON recent_graph_hits(session_key, expires_at);
 CREATE INDEX IF NOT EXISTS idx_recent_graph_hits_path
   ON recent_graph_hits(session_key, path, start_line, end_line);
+
+CREATE TABLE IF NOT EXISTS entity_aliases (
+  alias_id       TEXT NOT NULL,
+  canonical_id   TEXT NOT NULL,
+  source         TEXT NOT NULL,
+  created_at     INTEGER NOT NULL,
+  PRIMARY KEY (alias_id, canonical_id)
+);
+
+CREATE INDEX IF NOT EXISTS idx_alias_canonical ON entity_aliases(canonical_id);
 `;
 
 function asRecord(value: unknown): Record<string, unknown> | undefined {
@@ -197,7 +257,22 @@ export function describeGraphIndexConfig(cfg?: OpenClawConfig) {
 
 export function isMemorySourceRef(sourceRef: string): boolean {
   const trimmed = sourceRef.trim();
-  return trimmed === "MEMORY.md" || trimmed.startsWith("MEMORY.md#") || trimmed.startsWith("memory/");
+  return (
+    trimmed === "MEMORY.md" || trimmed.startsWith("MEMORY.md#") || trimmed.startsWith("memory/")
+  );
+}
+
+export function isSafeMemorySourcePath(sourcePath: string): boolean {
+  const normalized = sourcePath.replaceAll("\\", "/").trim();
+  if (
+    !normalized ||
+    normalized.startsWith("/") ||
+    normalized.includes("\0") ||
+    normalized.split("/").includes("..")
+  ) {
+    return false;
+  }
+  return normalized === "MEMORY.md" || normalized.startsWith("memory/");
 }
 
 export function parseSourceRef(
@@ -218,9 +293,16 @@ export function parseSourceRef(
   ) {
     return null;
   }
+  if (endLine < startLine) {
+    return null;
+  }
+  const sourcePath = (match[1] ?? "").replaceAll("\\", "/").replace(/^\.\//, "");
+  if (!isSafeMemorySourcePath(sourcePath)) {
+    return null;
+  }
   return {
-    path: (match[1] ?? "").replaceAll("\\", "/").replace(/^\.\//, ""),
+    path: sourcePath,
     startLine,
-    endLine: Math.max(startLine, endLine),
+    endLine,
   };
 }

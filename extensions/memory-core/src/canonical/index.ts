@@ -1,15 +1,24 @@
-import { createSubsystemLogger } from "openclaw/plugin-sdk/memory-core-host-engine-foundation";
+import fs from "node:fs/promises";
+import path from "node:path";
+import {
+  createSubsystemLogger,
+  resolveAgentWorkspaceDir,
+} from "openclaw/plugin-sdk/memory-core-host-engine-foundation";
 import type { OpenClawConfig } from "openclaw/plugin-sdk/memory-core-host-runtime-core";
 import { bootstrapCanonicalIndex } from "./bootstrap.js";
 import { canonicalize } from "./canonicalizer.js";
-import { parseGraphJsonBlock, parseGraphJsonBlockWithStatus } from "./extractor.js";
+import { parseGraphJsonBlockWithStatus } from "./extractor.js";
 import { graphHitToMemorySearchResult, type GraphMemorySearchResult } from "./prompt.js";
 import { search_graph } from "./retriever.js";
 import {
   describeGraphIndexConfig,
   EXTRACTOR_VERSION,
+  GRAPH_METRIC_KEYS,
+  type GraphMetricsSnapshot,
   parseSourceRef,
   resolveGraphIndexConfig,
+  type RawEvent,
+  type SourceRefValidationResult,
 } from "./schema.js";
 import { getCanonicalStore } from "./store.js";
 import {
@@ -19,6 +28,54 @@ import {
 } from "./usage.js";
 
 const log = createSubsystemLogger("memory");
+
+function isAllowedFlushMemoryPath(sourcePath: string): boolean {
+  return sourcePath === "MEMORY.md" || /^memory\/\d{4}-\d{2}-\d{2}\.md$/.test(sourcePath);
+}
+
+async function validateSourceRefForWorkspace(
+  sourceRef: string,
+  workspaceDir: string | undefined,
+): Promise<SourceRefValidationResult> {
+  const parsed = parseSourceRef(sourceRef);
+  if (!parsed) {
+    return { ok: false, reason: "invalid_syntax", sourceRef };
+  }
+  if (!isAllowedFlushMemoryPath(parsed.path)) {
+    return { ok: false, reason: "not_memory_source", sourceRef };
+  }
+  if (!workspaceDir?.trim()) {
+    return { ok: false, reason: "file_missing", sourceRef };
+  }
+  const workspaceRoot = path.resolve(workspaceDir);
+  const fullPath = path.resolve(workspaceRoot, parsed.path);
+  if (!fullPath.startsWith(`${workspaceRoot}${path.sep}`) && fullPath !== workspaceRoot) {
+    return { ok: false, reason: "unsafe_path", sourceRef };
+  }
+  let text: string;
+  try {
+    text = await fs.readFile(fullPath, "utf8");
+  } catch {
+    return { ok: false, reason: "file_missing", sourceRef };
+  }
+  const totalLines = text.split(/\r?\n/).length;
+  if (parsed.startLine > totalLines || parsed.endLine > totalLines) {
+    return { ok: false, reason: "line_range", sourceRef, totalLines };
+  }
+  return { ok: true, ...parsed, totalLines };
+}
+
+function emptyGraphMetrics(): GraphMetricsSnapshot {
+  const base = Object.fromEntries(GRAPH_METRIC_KEYS.map((key) => [key, 0])) as Record<
+    (typeof GRAPH_METRIC_KEYS)[number],
+    number
+  >;
+  return {
+    ...base,
+    hitsUsed: 0,
+    extractLatencyMsAvg: 0,
+  };
+}
 
 export { bootstrapCanonicalIndex } from "./bootstrap.js";
 export { canonicalize, canonicalizeEntityId, createEventId } from "./canonicalizer.js";
@@ -50,35 +107,46 @@ export async function handleGraphFlushResult(params: {
   agentId: string;
   outputText: string;
 }): Promise<{ parsedEvents: number; persistedEvents: number }> {
-  const graphConfig = resolveGraphIndexConfig(params.cfg);
-  if (!graphConfig.enabled || !graphConfig.extractDuringFlush) {
-    log.info("canonical.flush.skip_disabled");
-    return { parsedEvents: 0, persistedEvents: 0 };
-  }
-  const parseStartedAt = Date.now();
-  const parsed = parseGraphJsonBlockWithStatus(params.outputText);
-  const parseDurationMs = Date.now() - parseStartedAt;
-  const store = getCanonicalStore(params.agentId);
-  store.recordExtractorLatency(parseDurationMs);
-  store.bumpMetric(parsed.ok ? "extractSuccesses" : "extractFailures", 1);
-  const rawEvents = parsed.events.filter((event) => {
-    const parsedSourceRef = parseSourceRef(event.source_ref);
-    if (parsedSourceRef) {
-      return true;
+  try {
+    const graphConfig = resolveGraphIndexConfig(params.cfg);
+    if (!graphConfig.enabled || !graphConfig.extractDuringFlush) {
+      log.info("canonical.flush.skip_disabled");
+      return { parsedEvents: 0, persistedEvents: 0 };
     }
-    log.warn(`canonical.flush.invalid_source_ref source_ref=${event.source_ref}`);
-    return false;
-  });
-  log.info(`canonical.flush.parsed events=${rawEvents.length}`);
-  if (rawEvents.length === 0) {
+    const parseStartedAt = Date.now();
+    const parsed = parseGraphJsonBlockWithStatus(params.outputText);
+    const parseDurationMs = Date.now() - parseStartedAt;
+    const store = getCanonicalStore(params.agentId);
+    store.recordExtractorLatency(parseDurationMs);
+    store.bumpMetric(parsed.ok ? "extractSuccesses" : "extractFailures", 1);
+    const workspaceDir = resolveAgentWorkspaceDir(params.cfg, params.agentId);
+    const rawEvents: RawEvent[] = [];
+    for (const event of parsed.events) {
+      const validation = await validateSourceRefForWorkspace(event.source_ref, workspaceDir);
+      if (validation.ok) {
+        store.bumpMetric("sourceRefValidated", 1);
+        rawEvents.push(event);
+        continue;
+      }
+      store.bumpMetric("sourceRefRejected", 1);
+      log.warn(
+        `[canonical] source_ref.rejected reason=${validation.reason} source_ref=${event.source_ref}`,
+      );
+    }
+    log.info(`canonical.flush.parsed events=${rawEvents.length}`);
+    if (rawEvents.length === 0) {
+      return { parsedEvents: 0, persistedEvents: 0 };
+    }
+    const records = canonicalize(rawEvents, EXTRACTOR_VERSION);
+    store.setMeta("extractor_version", EXTRACTOR_VERSION);
+    await store.upsertEvents(records);
+    await store.refreshEntityStates(records);
+    log.info(`canonical.flush.persisted records=${records.length}`);
+    return { parsedEvents: rawEvents.length, persistedEvents: records.length };
+  } catch (err) {
+    log.warn(`[canonical] flush.fallback error=${String(err)}`);
     return { parsedEvents: 0, persistedEvents: 0 };
   }
-  const records = canonicalize(rawEvents, EXTRACTOR_VERSION);
-  store.setMeta("extractor_version", EXTRACTOR_VERSION);
-  await store.upsertEvents(records);
-  await store.refreshEntityStates(records);
-  log.info(`canonical.flush.persisted records=${records.length}`);
-  return { parsedEvents: rawEvents.length, persistedEvents: records.length };
 }
 
 export async function maybeBootstrapCanonicalIndex(params: {
@@ -88,24 +156,29 @@ export async function maybeBootstrapCanonicalIndex(params: {
   force?: boolean;
   progress?: (update: { completed: number; total: number; label?: string }) => void;
 }) {
-  const graphConfig = resolveGraphIndexConfig(params.cfg);
-  if (!graphConfig.enabled || !graphConfig.bootstrapOnStart || !params.workspaceDir) {
+  try {
+    const graphConfig = resolveGraphIndexConfig(params.cfg);
+    if (!graphConfig.enabled || !graphConfig.bootstrapOnStart || !params.workspaceDir) {
+      return null;
+    }
+    const store = getCanonicalStore(params.agentId);
+    const status = store.getStatus();
+    const shouldBootstrap =
+      params.force || status.eventsTotal === 0 || status.extractorVersion !== EXTRACTOR_VERSION;
+    if (!shouldBootstrap) {
+      return null;
+    }
+    return await bootstrapCanonicalIndex({
+      cfg: params.cfg,
+      agentId: params.agentId,
+      workspaceDir: params.workspaceDir,
+      force: params.force,
+      progress: params.progress,
+    });
+  } catch (err) {
+    log.warn(`[canonical] bootstrap.fallback error=${String(err)}`);
     return null;
   }
-  const store = getCanonicalStore(params.agentId);
-  const status = store.getStatus();
-  const shouldBootstrap =
-    params.force || status.eventsTotal === 0 || status.extractorVersion !== EXTRACTOR_VERSION;
-  if (!shouldBootstrap) {
-    return null;
-  }
-  return await bootstrapCanonicalIndex({
-    cfg: params.cfg,
-    agentId: params.agentId,
-    workspaceDir: params.workspaceDir,
-    force: params.force,
-    progress: params.progress,
-  });
 }
 
 export async function searchGraphForMemoryTool(params: {
@@ -120,45 +193,61 @@ export async function searchGraphForMemoryTool(params: {
   renderedHits: number;
   results: GraphMemorySearchResult[];
 }> {
-  const graphConfig = resolveGraphIndexConfig(params.cfg);
-  if (!graphConfig.enabled) {
+  try {
+    const graphConfig = resolveGraphIndexConfig(params.cfg);
+    if (!graphConfig.enabled) {
+      return { enabled: false, hits: 0, renderedHits: 0, results: [] };
+    }
+    const store = getCanonicalStore(params.agentId);
+    const hits = await search_graph(store, params.query, Math.max(1, params.maxResults ?? 5));
+    if (params.sessionKey) {
+      await recordReturnedGraphHits({
+        cfg: params.cfg,
+        agentId: params.agentId,
+        sessionKey: params.sessionKey,
+        query: params.query,
+        hits,
+      });
+    }
+    const results: GraphMemorySearchResult[] = [];
+    for (const hit of hits) {
+      const rendered = graphHitToMemorySearchResult(hit);
+      if (!rendered) {
+        log.warn(`canonical.render.invalid_source_ref source_ref=${hit.source_ref}`);
+        continue;
+      }
+      results.push(rendered);
+    }
+    log.info(`canonical.memory_search.graph_hits hits=${hits.length} rendered=${results.length}`);
+    return {
+      enabled: true,
+      hits: hits.length,
+      renderedHits: results.length,
+      results,
+    };
+  } catch (err) {
+    log.warn(`[canonical] memory_search.fallback error=${String(err)}`);
     return { enabled: false, hits: 0, renderedHits: 0, results: [] };
   }
-  const store = getCanonicalStore(params.agentId);
-  const hits = await search_graph(store, params.query, Math.max(1, params.maxResults ?? 5));
-  if (params.sessionKey) {
-    await recordReturnedGraphHits({
-      cfg: params.cfg,
-      agentId: params.agentId,
-      sessionKey: params.sessionKey,
-      query: params.query,
-      hits,
-    });
-  }
-  const results: GraphMemorySearchResult[] = [];
-  for (const hit of hits) {
-    const rendered = graphHitToMemorySearchResult(hit);
-    if (!rendered) {
-      log.warn(`canonical.render.invalid_source_ref source_ref=${hit.source_ref}`);
-      continue;
-    }
-    results.push(rendered);
-  }
-  log.info(`canonical.memory_search.graph_hits hits=${hits.length} rendered=${results.length}`);
-  return {
-    enabled: true,
-    hits: hits.length,
-    renderedHits: results.length,
-    results,
-  };
 }
 
 export function getCanonicalStatus(params: { cfg?: OpenClawConfig; agentId: string }) {
-  const store = getCanonicalStore(params.agentId);
-  return {
-    ...describeGraphIndexConfig(params.cfg),
-    ...store.getStatus(),
-  };
+  try {
+    const store = getCanonicalStore(params.agentId);
+    return {
+      ...describeGraphIndexConfig(params.cfg),
+      ...store.getStatus(),
+    };
+  } catch (err) {
+    log.warn(`[canonical] status.fallback error=${String(err)}`);
+    return {
+      ...describeGraphIndexConfig(params.cfg),
+      dbPath: "",
+      eventsTotal: 0,
+      entitiesTotal: 0,
+      metrics: emptyGraphMetrics(),
+    };
+  }
 }
 
 export async function noteGraphUsageFromMemoryGet(params: {
@@ -169,7 +258,11 @@ export async function noteGraphUsageFromMemoryGet(params: {
   from?: number;
   lines?: number;
 }): Promise<void> {
-  await markGraphHitsUsedFromMemoryGet(params);
+  try {
+    await markGraphHitsUsedFromMemoryGet(params);
+  } catch (err) {
+    log.warn(`[canonical] usage.memory_get.fallback error=${String(err)}`);
+  }
 }
 
 export async function noteGraphUsageFromAssistantOutput(params: {
@@ -178,5 +271,9 @@ export async function noteGraphUsageFromAssistantOutput(params: {
   sessionKey?: string;
   assistantTexts: string[];
 }): Promise<void> {
-  await markGraphHitsUsedFromAssistantTexts(params);
+  try {
+    await markGraphHitsUsedFromAssistantTexts(params);
+  } catch (err) {
+    log.warn(`[canonical] usage.llm_output.fallback error=${String(err)}`);
+  }
 }

@@ -9,6 +9,7 @@ import {
   spyRuntimeJson,
   spyRuntimeLogs,
 } from "../../../src/cli/test-runtime-capture.js";
+import { closeAllCanonicalStores } from "./canonical/index.js";
 import { readShortTermRecallEntries, recordShortTermRecalls } from "./short-term-promotion.js";
 
 const getMemorySearchManager = vi.hoisted(() => vi.fn());
@@ -81,7 +82,8 @@ beforeEach(() => {
   }));
 });
 
-afterEach(() => {
+afterEach(async () => {
+  await closeAllCanonicalStores();
   vi.restoreAllMocks();
   process.exitCode = undefined;
   setVerbose(false);
@@ -181,6 +183,44 @@ describe("memory cli", () => {
     const workspaceDir = path.join(workspaceFixtureRoot, `case-${workspaceCaseId++}`);
     await fs.mkdir(path.join(workspaceDir, "memory", ".dreams"), { recursive: true });
     await run(workspaceDir);
+  }
+
+  async function withGraphCliFixture(
+    run: (params: { workspaceDir: string; stateDir: string }) => Promise<void>,
+  ) {
+    const previousStateDir = process.env.OPENCLAW_STATE_DIR;
+    const workspaceDir = path.join(workspaceFixtureRoot, `graph-${workspaceCaseId++}`);
+    const stateDir = path.join(fixtureRoot, `graph-state-${workspaceCaseId++}`);
+    await fs.mkdir(path.join(workspaceDir, "memory"), { recursive: true });
+    await fs.mkdir(stateDir, { recursive: true });
+    process.env.OPENCLAW_STATE_DIR = stateDir;
+    loadConfig.mockReturnValue({
+      agents: {
+        list: [{ id: "main", default: true, workspace: workspaceDir }],
+      },
+      memory: { backend: "builtin" },
+      plugins: {
+        entries: {
+          "memory-core": {
+            config: {
+              graphIndex: {
+                enabled: true,
+              },
+            },
+          },
+        },
+      },
+    });
+    try {
+      await run({ workspaceDir, stateDir });
+    } finally {
+      await closeAllCanonicalStores();
+      if (previousStateDir === undefined) {
+        delete process.env.OPENCLAW_STATE_DIR;
+      } else {
+        process.env.OPENCLAW_STATE_DIR = previousStateDir;
+      }
+    }
   }
 
   async function writeDailyMemoryNote(
@@ -858,6 +898,69 @@ describe("memory cli", () => {
     expect(Array.isArray(payload.results)).toBe(true);
     expect(payload.results).toHaveLength(1);
     expect(close).toHaveBeenCalled();
+  });
+
+  it("runs graph status, reindex, search, and export json smoke commands", async () => {
+    await withGraphCliFixture(async ({ workspaceDir }) => {
+      await writeDailyMemoryNote(workspaceDir, "2026-04-15", [
+        "# 2026-04-15",
+        "task_123 is blocked by Alice",
+        "owner: Alice",
+        "status: blocked",
+      ]);
+      const close = vi.fn(async () => {});
+      mockManager({
+        status: () => makeMemoryStatus({ workspaceDir }),
+        close,
+      });
+
+      const writeJson = spyRuntimeJson(defaultRuntime);
+      await runMemoryCli(["graph", "reindex", "--json", "--force"]);
+      const reindexPayload = writeJson.mock.calls.at(-1)?.[0] as
+        | { reindex?: { filesScanned?: number; recordsWritten?: number }; eventsTotal?: number }
+        | undefined;
+      expect(reindexPayload?.reindex).toMatchObject({
+        filesScanned: 1,
+        recordsWritten: expect.any(Number),
+      });
+      expect((reindexPayload?.eventsTotal ?? 0) > 0).toBe(true);
+      expect(close).toHaveBeenCalled();
+
+      await runMemoryCli(["graph", "status", "--json"]);
+      const statusPayload = writeJson.mock.calls.at(-1)?.[0] as
+        | {
+            eventsTotal?: number;
+            entitiesTotal?: number;
+            extractorVersion?: string;
+            metrics?: { hitsReturned?: number; hitsUsedUniqueRefs?: number };
+          }
+        | undefined;
+      expect(statusPayload).toMatchObject({
+        extractorVersion: "v0-2026.04",
+        metrics: expect.objectContaining({
+          hitsReturned: expect.any(Number),
+          hitsUsedUniqueRefs: expect.any(Number),
+        }),
+      });
+      expect((statusPayload?.eventsTotal ?? 0) > 0).toBe(true);
+      expect((statusPayload?.entitiesTotal ?? 0) > 0).toBe(true);
+
+      await runMemoryCli(["graph", "search", "task_123", "--json"]);
+      const searchPayload = writeJson.mock.calls.at(-1)?.[0] as
+        | { results?: Array<{ source_ref?: string }> }
+        | undefined;
+      expect(searchPayload?.results?.[0]?.source_ref).toBe("memory/2026-04-15.md#L2-L2");
+
+      await runMemoryCli(["graph", "export", "--json"]);
+      const exportPayload = writeJson.mock.calls.at(-1)?.[0] as
+        | { events?: unknown[]; states?: unknown[]; metrics?: { hitsReturned?: number } }
+        | undefined;
+      expect(exportPayload?.events?.length).toBeGreaterThan(0);
+      expect(exportPayload?.states?.length).toBeGreaterThan(0);
+      expect(exportPayload?.metrics).toEqual(
+        expect.objectContaining({ hitsReturned: expect.any(Number) }),
+      );
+    });
   });
 
   it("prints no candidates when promote has no short-term recall data", async () => {

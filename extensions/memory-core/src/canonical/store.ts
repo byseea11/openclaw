@@ -6,10 +6,12 @@ import {
   resolveStateDir,
 } from "openclaw/plugin-sdk/memory-core-host-engine-foundation";
 import { openMemoryDatabaseAtPath } from "../memory/manager-db.js";
+import { runV0ToV1Migration } from "./migrations/v0-to-v1.js";
 import { reduce } from "./reducer.js";
 import {
   CANONICAL_SCHEMA_SQL,
   CANONICAL_SCHEMA_VERSION,
+  type EntityAlias,
   EXTRACTOR_VERSION,
   type EntityState,
   type EventRecord,
@@ -43,11 +45,32 @@ function rowToEvent(row: Record<string, unknown>): EventRecord {
     actor: typeof row.actor === "string" ? row.actor : null,
     action: String(row.action),
     object: typeof row.object === "string" ? row.object : null,
+    status_before: typeof row.status_before === "string" ? row.status_before : null,
     status_after: typeof row.status_after === "string" ? row.status_after : null,
+    session_id: typeof row.session_id === "string" ? row.session_id : null,
+    covered_until_entry_id:
+      typeof row.covered_until_entry_id === "string" ? row.covered_until_entry_id : null,
     confidence: typeof row.confidence === "number" ? row.confidence : Number(row.confidence ?? 0.5),
     extractor_version: String(row.extractor_version),
     created_at: typeof row.created_at === "number" ? row.created_at : Number(row.created_at ?? 0),
   };
+}
+
+function parseSupportingEventIds(value: unknown): string[] {
+  if (Array.isArray(value)) {
+    return value.filter((entry): entry is string => typeof entry === "string");
+  }
+  if (typeof value !== "string" || !value.trim()) {
+    return [];
+  }
+  try {
+    const parsed = JSON.parse(value) as unknown;
+    return Array.isArray(parsed)
+      ? parsed.filter((entry): entry is string => typeof entry === "string")
+      : [];
+  } catch {
+    return [];
+  }
 }
 
 function rowToState(row: Record<string, unknown>): EntityState {
@@ -60,6 +83,15 @@ function rowToState(row: Record<string, unknown>): EntityState {
       typeof row.last_updated_at === "number"
         ? row.last_updated_at
         : Number(row.last_updated_at ?? 0),
+    entity_type:
+      row.entity_type === "task" ||
+      row.entity_type === "project" ||
+      row.entity_type === "person" ||
+      row.entity_type === "decision"
+        ? row.entity_type
+        : "other",
+    supporting_event_ids: parseSupportingEventIds(row.supporting_event_ids),
+    confidence: typeof row.confidence === "number" ? row.confidence : Number(row.confidence ?? 0.5),
   };
 }
 
@@ -82,6 +114,19 @@ function rowToRecentGraphCandidate(row: Record<string, unknown>): RecentGraphCan
         : row.used_at == null
           ? null
           : Number(row.used_at),
+  };
+}
+
+function rowToEntityAlias(row: Record<string, unknown>): EntityAlias {
+  return {
+    alias_id: String(row.alias_id),
+    canonical_id: String(row.canonical_id),
+    source:
+      row.source === "rule" || row.source === "manual" || row.source === "llm"
+        ? row.source
+        : "rule",
+    created_at:
+      typeof row.created_at === "number" ? row.created_at : Number(row.created_at ?? Date.now()),
   };
 }
 
@@ -110,7 +155,11 @@ export class CanonicalStore {
   }
 
   private ensureSchema(): void {
+    const currentSchemaVersion = this.getMeta("schema_version");
     this.db.exec(CANONICAL_SCHEMA_SQL);
+    if (currentSchemaVersion === "v0") {
+      runV0ToV1Migration(this.db);
+    }
     this.setMeta("schema_version", CANONICAL_SCHEMA_VERSION);
     this.setMeta("extractor_version", EXTRACTOR_VERSION);
     const ensureMetric = this.db.prepare(
@@ -142,6 +191,7 @@ export class CanonicalStore {
     try {
       this.db.exec("DELETE FROM event_fts");
       this.db.exec("DELETE FROM entity_states");
+      this.db.exec("DELETE FROM entity_aliases");
       this.db.exec("DELETE FROM event_records");
       this.db.exec("DELETE FROM recent_graph_hits");
       this.db.exec("DELETE FROM graph_metrics");
@@ -187,15 +237,23 @@ export class CanonicalStore {
       GraphMetricKey,
       number
     >;
+    let legacyHitsUsed: number | null = null;
     for (const row of rows) {
       const key = typeof row.key === "string" ? (row.key as GraphMetricKey) : null;
       if (key && key in base) {
         base[key] = Number(row.value ?? 0);
+      } else if (row.key === "hitsUsed") {
+        legacyHitsUsed = Number(row.value ?? 0);
       }
+    }
+    if (legacyHitsUsed !== null && base.hitsUsedRaw === 0 && base.hitsUsedUniqueRefs === 0) {
+      base.hitsUsedRaw = legacyHitsUsed;
+      base.hitsUsedUniqueRefs = legacyHitsUsed;
     }
     const count = base.extractLatencyMsCount;
     return {
       ...base,
+      hitsUsed: base.hitsUsedUniqueRefs,
       extractLatencyMsAvg: count > 0 ? base.extractLatencyMsSum / count : 0,
     };
   }
@@ -212,8 +270,9 @@ export class CanonicalStore {
     const upsert = this.db.prepare(
       `INSERT OR REPLACE INTO event_records(
         event_id, source_type, source_ref, occurred_at, entity_id, actor, action, object,
-        status_after, confidence, extractor_version, created_at
-      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+        status_before, status_after, session_id, covered_until_entry_id, confidence,
+        extractor_version, created_at
+      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
     );
     const deleteFts = this.db.prepare("DELETE FROM event_fts WHERE event_id = ?");
     const insertFts = this.db.prepare(
@@ -232,7 +291,10 @@ export class CanonicalStore {
           record.actor,
           record.action,
           record.object,
+          record.status_before,
           record.status_after,
+          record.session_id,
+          record.covered_until_entry_id,
           record.confidence,
           record.extractor_version,
           record.created_at,
@@ -272,8 +334,9 @@ export class CanonicalStore {
     }
     const upsert = this.db.prepare(
       `INSERT OR REPLACE INTO entity_states(
-        entity_id, latest_status, latest_owner, last_event_id, last_updated_at
-      ) VALUES (?, ?, ?, ?, ?)`,
+        entity_id, latest_status, latest_owner, last_event_id, last_updated_at, entity_type,
+        supporting_event_ids, confidence
+      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
     );
     this.db.exec("BEGIN IMMEDIATE");
     try {
@@ -284,6 +347,9 @@ export class CanonicalStore {
           state.latest_owner,
           state.last_event_id,
           state.last_updated_at,
+          state.entity_type,
+          JSON.stringify(state.supporting_event_ids),
+          state.confidence,
         );
       }
       this.db.exec("COMMIT");
@@ -343,7 +409,9 @@ export class CanonicalStore {
       return 0;
     }
     const nowMs = Number.isFinite(params.nowMs) ? (params.nowMs as number) : Date.now();
-    const ttlMs = Number.isFinite(params.ttlMs) ? Math.max(1, params.ttlMs as number) : GRAPH_RECALL_TTL_MS;
+    const ttlMs = Number.isFinite(params.ttlMs)
+      ? Math.max(1, params.ttlMs as number)
+      : GRAPH_RECALL_TTL_MS;
     this.deleteExpiredRecentHits(nowMs);
     const upsert = this.db.prepare(
       `INSERT INTO recent_graph_hits(
@@ -400,7 +468,9 @@ export class CanonicalStore {
     }
     const nowMs = Number.isFinite(params.nowMs) ? (params.nowMs as number) : Date.now();
     this.deleteExpiredRecentHits(nowMs);
-    const startLine = Number.isFinite(params.from) ? Math.max(1, Math.floor(params.from as number)) : 1;
+    const startLine = Number.isFinite(params.from)
+      ? Math.max(1, Math.floor(params.from as number))
+      : 1;
     const requestedLines = Number.isFinite(params.lines)
       ? Math.max(1, Math.floor(params.lines as number))
       : Number.MAX_SAFE_INTEGER;
@@ -523,6 +593,18 @@ export class CanonicalStore {
       ...exported.events.map((row) => JSON.stringify({ type: "event", ...row })),
       ...exported.states.map((row) => JSON.stringify({ type: "state", ...row })),
     ].join("\n");
+  }
+
+  listAliases(canonicalId?: string): EntityAlias[] {
+    const rows =
+      canonicalId && canonicalId.trim()
+        ? (this.db
+            .prepare("SELECT * FROM entity_aliases WHERE canonical_id = ? ORDER BY alias_id ASC")
+            .all(canonicalId.trim()) as Array<Record<string, unknown>>)
+        : (this.db
+            .prepare("SELECT * FROM entity_aliases ORDER BY canonical_id ASC, alias_id ASC")
+            .all() as Array<Record<string, unknown>>);
+    return rows.map(rowToEntityAlias);
   }
 }
 

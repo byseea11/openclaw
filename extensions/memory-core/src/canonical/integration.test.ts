@@ -2,14 +2,19 @@ import fs from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
 import type { OpenClawConfig } from "openclaw/plugin-sdk/core";
-import { afterEach, beforeEach, describe, expect, it } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
+import { resetLogger, setLoggerOverride } from "../../../../src/logging.js";
+import { createHookRunnerWithRegistry } from "../../../../src/plugins/hooks.test-helpers.js";
+import memoryCorePlugin from "../../index.js";
 import {
   resetMemoryToolMockState,
   setMemoryReadFileImpl,
   setMemorySearchImpl,
 } from "../memory-tool-manager-mock.js";
-import { createMemoryGetToolOrThrow, createMemorySearchToolOrThrow } from "../tools.test-helpers.js";
-import { resetLogger, setLoggerOverride } from "../../../../src/logging.js";
+import {
+  createMemoryGetToolOrThrow,
+  createMemorySearchToolOrThrow,
+} from "../tools.test-helpers.js";
 import {
   closeAllCanonicalStores,
   getCanonicalStatus,
@@ -19,6 +24,42 @@ import {
   noteGraphUsageFromMemoryGet,
   search_graph,
 } from "./index.js";
+
+function createMemoryCoreHookRunner(cfg: OpenClawConfig) {
+  const hooks: Array<{
+    hookName: string;
+    handler: (...args: unknown[]) => unknown;
+    pluginId: string;
+  }> = [];
+  const api = new Proxy(
+    {
+      config: cfg,
+      logger: {
+        warn: vi.fn(),
+        error: vi.fn(),
+        info: vi.fn(),
+        debug: vi.fn(),
+      },
+      on: (hookName: string, handler: (...args: unknown[]) => unknown) => {
+        hooks.push({ pluginId: "memory-core", hookName, handler });
+      },
+      registerCli: vi.fn(),
+      registerMemoryCapability: vi.fn(),
+      registerMemoryEmbeddingProvider: vi.fn(),
+      registerTool: vi.fn(),
+    },
+    {
+      get(target, prop) {
+        if (prop in target) {
+          return target[prop as keyof typeof target];
+        }
+        return vi.fn();
+      },
+    },
+  );
+  memoryCorePlugin.register(api as never);
+  return createHookRunnerWithRegistry(hooks);
+}
 
 function createConfig(workspaceDir: string): OpenClawConfig {
   return {
@@ -52,8 +93,10 @@ describe("canonical graph integration", () => {
     workspaceDir = await fs.mkdtemp(path.join(os.tmpdir(), "openclaw-graph-int-workspace-"));
     stateDir = await fs.mkdtemp(path.join(os.tmpdir(), "openclaw-graph-int-state-"));
     logPath = path.join(stateDir, "graph-integration.log");
+    await fs.writeFile(logPath, "", "utf8");
     previousStateDir = process.env.OPENCLAW_STATE_DIR;
     process.env.OPENCLAW_STATE_DIR = stateDir;
+    resetLogger();
     setLoggerOverride({ level: "info", file: logPath });
     resetMemoryToolMockState({ searchImpl: async () => [] });
     setMemorySearchImpl(async () => []);
@@ -193,6 +236,121 @@ describe("canonical graph integration", () => {
     expect(logText).toContain("canonical.reduce");
     expect(logText).toContain("canonical.search");
     expect(logText).toContain("canonical.memory_search.graph_hits");
-    expect(logText).toContain("canonical.usage.used");
+    expect(logText).toContain("[canonical] usage.used");
+    expect(getCanonicalStatus({ cfg, agentId: "main" }).metrics).toMatchObject({
+      hitsUsedRaw: 4,
+      hitsUsedUniqueRefs: 2,
+      hitsUsed: 2,
+    });
+  });
+
+  it("rejects missing and overflowing flush source refs without failing flush", async () => {
+    const cfg = createConfig(workspaceDir);
+    const outputText = [
+      "NO_REPLY",
+      "```json",
+      JSON.stringify({
+        events: [
+          {
+            action: "changed_status",
+            object: "task_valid",
+            source_ref: "memory/2026-04-15.md#L12-L18",
+          },
+          {
+            action: "changed_status",
+            object: "task_missing",
+            source_ref: "memory/2026-04-16.md#L1-L1",
+          },
+          {
+            action: "changed_status",
+            object: "task_overflow",
+            source_ref: "memory/2026-04-15.md#L12-L200",
+          },
+        ],
+      }),
+      "```",
+    ].join("\n");
+
+    await expect(
+      handleGraphFlushResult({
+        cfg,
+        agentId: "main",
+        outputText,
+      }),
+    ).resolves.toMatchObject({ parsedEvents: 1, persistedEvents: 1 });
+
+    const status = getCanonicalStatus({ cfg, agentId: "main" });
+    expect(status).toMatchObject({
+      eventsTotal: 1,
+      entitiesTotal: 1,
+      metrics: expect.objectContaining({
+        sourceRefValidated: 1,
+        sourceRefRejected: 2,
+      }),
+    });
+    const hits = await search_graph(getCanonicalStore("main"), "task_missing task_overflow", 5);
+    expect(hits).toHaveLength(0);
+  });
+
+  it("marks graph hits used through the real hook runner dispatcher", async () => {
+    const cfg = createConfig(workspaceDir);
+    const sessionKey = "agent:main:hook-dispatch";
+    const records = [
+      {
+        action: "changed_status",
+        object: "task_123",
+        status_after: "blocked",
+        source_ref: "memory/2026-04-15.md#L12-L18",
+      },
+    ];
+    await handleGraphFlushResult({
+      cfg,
+      agentId: "main",
+      outputText: ["```json", JSON.stringify({ events: records }), "```"].join("\n"),
+    });
+
+    const searchTool = createMemorySearchToolOrThrow({
+      config: cfg,
+      agentSessionKey: sessionKey,
+    });
+    await searchTool.execute("hook-search", { query: "task_123" });
+
+    const { runner } = createMemoryCoreHookRunner(cfg);
+    await runner.runAfterToolCall(
+      {
+        toolName: "memory_get",
+        params: { path: "memory/2026-04-15.md", from: 12, lines: 7 },
+        runId: "run-hook",
+        toolCallId: "tool-hook",
+      },
+      {
+        toolName: "memory_get",
+        agentId: "main",
+        sessionKey,
+        runId: "run-hook",
+        toolCallId: "tool-hook",
+      },
+    );
+    await runner.runLlmOutput(
+      {
+        runId: "run-hook",
+        sessionId: "session-hook",
+        provider: "test",
+        model: "test",
+        assistantTexts: ["verified memory/2026-04-15.md#L12-L18"],
+        lastAssistant: { role: "assistant", content: "verified" },
+      },
+      {
+        runId: "run-hook",
+        agentId: "main",
+        sessionKey,
+      },
+    );
+
+    expect(getCanonicalStatus({ cfg, agentId: "main" }).metrics).toMatchObject({
+      hitsUsedRaw: 4,
+      hitsUsedUniqueRefs: 2,
+      hitsUsed: 2,
+    });
   });
 });

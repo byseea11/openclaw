@@ -73,6 +73,13 @@ describe("canonical graph usage tracking", () => {
           snippet_structured: {},
           score: 0.9,
         },
+        {
+          type: "event",
+          entity_id: records[0]?.entity_id ?? "ent_task",
+          source_ref: "memory/2026-04-15.md#L12-L18",
+          snippet_structured: {},
+          score: 0.8,
+        },
       ],
     });
     await markGraphHitsUsedFromMemoryGet({
@@ -91,9 +98,11 @@ describe("canonical graph usage tracking", () => {
     });
 
     expect(store.getStatus().metrics).toMatchObject({
-      hitsReturned: 1,
+      hitsReturned: 2,
+      hitsUsedRaw: 4,
+      hitsUsedUniqueRefs: 2,
       hitsUsed: 2,
     });
-    expect(store.getRecentGraphHits("agent:main:thread")).toHaveLength(1);
+    expect(store.getRecentGraphHits("agent:main:thread")).toHaveLength(2);
   });
 });
