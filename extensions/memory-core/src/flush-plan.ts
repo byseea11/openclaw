@@ -27,8 +27,8 @@ const GRAPH_FLUSH_JSON_INSTRUCTIONS = [
   "In addition to appending durable content to memory/YYYY-MM-DD.md, end this flush reply with a JSON code block for the graph index.",
   "Use exactly this shape:",
   '```json\n{"events":[]}\n```',
-  "Only include events from content newly appended to memory/YYYY-MM-DD.md during this flush.",
-  'Each event must use source_ref like "memory/YYYY-MM-DD.md#L12-L18" pointing to the lines just written.',
+  "Only include events from content newly appended to memory/YYYY-MM-DD.md during this flush; do not restate older lines from the file.",
+  'Each event must use source_ref like "memory/YYYY-MM-DD.md#L12-L18" pointing to the exact lines just written in this flush.',
   'If there are no extractable events, output {"events":[]}.',
   `If no user-visible reply is needed, still include the JSON block after ${SILENT_REPLY_TOKEN}.`,
 ].join("\n");

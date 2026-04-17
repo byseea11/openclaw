@@ -6,7 +6,7 @@ import { search_graph } from "./retriever.js";
 import type { EventRecord } from "./schema.js";
 import { CanonicalStore, closeAllCanonicalStores } from "./store.js";
 
-function record(): EventRecord {
+function record(overrides: Partial<EventRecord> = {}): EventRecord {
   return {
     event_id: "evt_task",
     source_type: "memory_file",
@@ -20,6 +20,7 @@ function record(): EventRecord {
     confidence: 0.8,
     extractor_version: "v-test",
     created_at: 1_765_000_000_000,
+    ...overrides,
   };
 }
 
@@ -37,8 +38,18 @@ describe("canonical graph retriever", () => {
 
   it("returns state and event hits with source refs", async () => {
     const store = new CanonicalStore("main", path.join(rootDir, "main.graph.sqlite"));
-    await store.upsertEvents([record()]);
-    await store.refreshEntityStates([record()]);
+    await store.upsertEvents([
+      record(),
+      record({
+        event_id: "evt_other",
+        entity_id: "ent_other",
+        object: "task_999",
+        source_ref: "memory/2026-04-01.md#L2-L2",
+        occurred_at: "2026-04-01T00:00:00.000Z",
+        created_at: 1_765_000_000_100,
+      }),
+    ]);
+    await store.refreshEntityStates([record(), record({ event_id: "evt_other", entity_id: "ent_other", object: "task_999" })]);
 
     const hits = await search_graph(store, "task_123", 5);
 

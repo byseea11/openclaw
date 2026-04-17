@@ -13,12 +13,21 @@ import {
   EXTRACTOR_VERSION,
   type EntityState,
   type EventRecord,
+  GRAPH_METRIC_KEYS,
+  GRAPH_RECALL_TTL_MS,
+  type GraphExportData,
+  type GraphHit,
+  type GraphMetricKey,
+  type GraphMetricsSnapshot,
+  parseSourceRef,
+  type RecentGraphCandidate,
 } from "./schema.js";
 
 const log = createSubsystemLogger("memory");
 const stores = new Map<string, CanonicalStore>();
 
 type EventRow = EventRecord & { fts_score?: number };
+type GraphMetricRow = { key?: string; value?: number | string };
 
 function graphDbPathForAgent(agentId: string): string {
   return path.join(resolveStateDir(process.env, os.homedir), "memory", `${agentId}.graph.sqlite`);
@@ -54,6 +63,28 @@ function rowToState(row: Record<string, unknown>): EntityState {
   };
 }
 
+function rowToRecentGraphCandidate(row: Record<string, unknown>): RecentGraphCandidate {
+  return {
+    session_key: String(row.session_key),
+    source_ref: String(row.source_ref),
+    path: String(row.path),
+    start_line: Number(row.start_line ?? 0),
+    end_line: Number(row.end_line ?? 0),
+    entity_id: String(row.entity_id),
+    hit_type: row.hit_type === "state" ? "state" : "event",
+    query: typeof row.query === "string" ? row.query : null,
+    first_returned_at: Number(row.first_returned_at ?? 0),
+    last_returned_at: Number(row.last_returned_at ?? 0),
+    expires_at: Number(row.expires_at ?? 0),
+    used_at:
+      typeof row.used_at === "number"
+        ? row.used_at
+        : row.used_at == null
+          ? null
+          : Number(row.used_at),
+  };
+}
+
 function quoteFtsToken(token: string): string {
   return `"${token.replaceAll('"', '""')}"`;
 }
@@ -80,12 +111,14 @@ export class CanonicalStore {
 
   private ensureSchema(): void {
     this.db.exec(CANONICAL_SCHEMA_SQL);
-    this.db
-      .prepare("INSERT OR REPLACE INTO meta(key, value) VALUES (?, ?)")
-      .run("schema_version", CANONICAL_SCHEMA_VERSION);
-    this.db
-      .prepare("INSERT OR REPLACE INTO meta(key, value) VALUES (?, ?)")
-      .run("extractor_version", EXTRACTOR_VERSION);
+    this.setMeta("schema_version", CANONICAL_SCHEMA_VERSION);
+    this.setMeta("extractor_version", EXTRACTOR_VERSION);
+    const ensureMetric = this.db.prepare(
+      "INSERT OR IGNORE INTO graph_metrics(key, value) VALUES (?, 0)",
+    );
+    for (const key of GRAPH_METRIC_KEYS) {
+      ensureMetric.run(key);
+    }
     log.info("canonical.store.schema_ready");
   }
 
@@ -98,6 +131,77 @@ export class CanonicalStore {
       | { value?: string }
       | undefined;
     return row?.value;
+  }
+
+  setMeta(key: string, value: string): void {
+    this.db.prepare("INSERT OR REPLACE INTO meta(key, value) VALUES (?, ?)").run(key, value);
+  }
+
+  reset(): void {
+    this.db.exec("BEGIN IMMEDIATE");
+    try {
+      this.db.exec("DELETE FROM event_fts");
+      this.db.exec("DELETE FROM entity_states");
+      this.db.exec("DELETE FROM event_records");
+      this.db.exec("DELETE FROM recent_graph_hits");
+      this.db.exec("DELETE FROM graph_metrics");
+      const ensureMetric = this.db.prepare(
+        "INSERT OR IGNORE INTO graph_metrics(key, value) VALUES (?, 0)",
+      );
+      for (const key of GRAPH_METRIC_KEYS) {
+        ensureMetric.run(key);
+      }
+      this.setMeta("schema_version", CANONICAL_SCHEMA_VERSION);
+      this.setMeta("extractor_version", EXTRACTOR_VERSION);
+      this.db.exec("COMMIT");
+    } catch (err) {
+      this.db.exec("ROLLBACK");
+      throw err;
+    }
+    log.info("canonical.store.reset");
+  }
+
+  bumpMetric(key: GraphMetricKey, delta = 1): number {
+    this.db
+      .prepare(
+        `INSERT INTO graph_metrics(key, value)
+         VALUES (?, ?)
+         ON CONFLICT(key) DO UPDATE SET value = value + excluded.value`,
+      )
+      .run(key, delta);
+    const row = this.db.prepare("SELECT value FROM graph_metrics WHERE key = ?").get(key) as
+      | { value?: number | string }
+      | undefined;
+    return Number(row?.value ?? 0);
+  }
+
+  recordExtractorLatency(durationMs: number): void {
+    const normalized = Number.isFinite(durationMs) ? Math.max(0, durationMs) : 0;
+    this.bumpMetric("extractLatencyMsSum", normalized);
+    this.bumpMetric("extractLatencyMsCount", 1);
+  }
+
+  getMetrics(): GraphMetricsSnapshot {
+    const rows = this.db.prepare("SELECT key, value FROM graph_metrics").all() as GraphMetricRow[];
+    const base = Object.fromEntries(GRAPH_METRIC_KEYS.map((key) => [key, 0])) as Record<
+      GraphMetricKey,
+      number
+    >;
+    for (const row of rows) {
+      const key = typeof row.key === "string" ? (row.key as GraphMetricKey) : null;
+      if (key && key in base) {
+        base[key] = Number(row.value ?? 0);
+      }
+    }
+    const count = base.extractLatencyMsCount;
+    return {
+      ...base,
+      extractLatencyMsAvg: count > 0 ? base.extractLatencyMsSum / count : 0,
+    };
+  }
+
+  private deleteExpiredRecentHits(nowMs = Date.now()): void {
+    this.db.prepare("DELETE FROM recent_graph_hits WHERE expires_at < ?").run(nowMs);
   }
 
   async upsertEvents(records: EventRecord[]): Promise<void> {
@@ -227,6 +331,161 @@ export class CanonicalStore {
     }
   }
 
+  recordRecentGraphHits(params: {
+    sessionKey: string;
+    query: string;
+    hits: GraphHit[];
+    ttlMs?: number;
+    nowMs?: number;
+  }): number {
+    const sessionKey = params.sessionKey.trim();
+    if (!sessionKey || params.hits.length === 0) {
+      return 0;
+    }
+    const nowMs = Number.isFinite(params.nowMs) ? (params.nowMs as number) : Date.now();
+    const ttlMs = Number.isFinite(params.ttlMs) ? Math.max(1, params.ttlMs as number) : GRAPH_RECALL_TTL_MS;
+    this.deleteExpiredRecentHits(nowMs);
+    const upsert = this.db.prepare(
+      `INSERT INTO recent_graph_hits(
+        session_key, source_ref, path, start_line, end_line, entity_id, hit_type, query,
+        first_returned_at, last_returned_at, expires_at, used_at
+      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NULL)
+      ON CONFLICT(session_key, source_ref, path, start_line, end_line, hit_type)
+      DO UPDATE SET
+        query = excluded.query,
+        last_returned_at = excluded.last_returned_at,
+        expires_at = excluded.expires_at`,
+    );
+    let recorded = 0;
+    this.db.exec("BEGIN IMMEDIATE");
+    try {
+      for (const hit of params.hits) {
+        const parsed = parseSourceRef(hit.source_ref);
+        if (!parsed) {
+          continue;
+        }
+        upsert.run(
+          sessionKey,
+          hit.source_ref,
+          parsed.path,
+          parsed.startLine,
+          parsed.endLine,
+          hit.entity_id,
+          hit.type,
+          params.query,
+          nowMs,
+          nowMs,
+          nowMs + ttlMs,
+        );
+        recorded += 1;
+      }
+      this.db.exec("COMMIT");
+    } catch (err) {
+      this.db.exec("ROLLBACK");
+      throw err;
+    }
+    return recorded;
+  }
+
+  markRecentGraphHitsUsedByRead(params: {
+    sessionKey: string;
+    path: string;
+    from?: number;
+    lines?: number;
+    nowMs?: number;
+  }): RecentGraphCandidate[] {
+    const sessionKey = params.sessionKey.trim();
+    if (!sessionKey) {
+      return [];
+    }
+    const nowMs = Number.isFinite(params.nowMs) ? (params.nowMs as number) : Date.now();
+    this.deleteExpiredRecentHits(nowMs);
+    const startLine = Number.isFinite(params.from) ? Math.max(1, Math.floor(params.from as number)) : 1;
+    const requestedLines = Number.isFinite(params.lines)
+      ? Math.max(1, Math.floor(params.lines as number))
+      : Number.MAX_SAFE_INTEGER;
+    const endLine =
+      requestedLines === Number.MAX_SAFE_INTEGER
+        ? Number.MAX_SAFE_INTEGER
+        : startLine + requestedLines - 1;
+    const rows = this.db
+      .prepare(
+        `SELECT * FROM recent_graph_hits
+         WHERE session_key = ?
+           AND path = ?
+           AND expires_at >= ?
+           AND end_line >= ?
+           AND start_line <= ?`,
+      )
+      .all(sessionKey, params.path, nowMs, startLine, endLine) as Array<Record<string, unknown>>;
+    if (rows.length === 0) {
+      return [];
+    }
+    this.db
+      .prepare(
+        `UPDATE recent_graph_hits
+         SET used_at = ?
+         WHERE session_key = ?
+           AND path = ?
+           AND expires_at >= ?
+           AND end_line >= ?
+           AND start_line <= ?`,
+      )
+      .run(nowMs, sessionKey, params.path, nowMs, startLine, endLine);
+    return rows.map(rowToRecentGraphCandidate);
+  }
+
+  markRecentGraphHitsUsedBySourceRefs(params: {
+    sessionKey: string;
+    sourceRefs: string[];
+    nowMs?: number;
+  }): RecentGraphCandidate[] {
+    const sessionKey = params.sessionKey.trim();
+    const sourceRefs = [...new Set(params.sourceRefs.map((value) => value.trim()).filter(Boolean))];
+    if (!sessionKey || sourceRefs.length === 0) {
+      return [];
+    }
+    const nowMs = Number.isFinite(params.nowMs) ? (params.nowMs as number) : Date.now();
+    this.deleteExpiredRecentHits(nowMs);
+    const placeholders = sourceRefs.map(() => "?").join(", ");
+    const rows = this.db
+      .prepare(
+        `SELECT * FROM recent_graph_hits
+         WHERE session_key = ?
+           AND expires_at >= ?
+           AND source_ref IN (${placeholders})`,
+      )
+      .all(sessionKey, nowMs, ...sourceRefs) as Array<Record<string, unknown>>;
+    if (rows.length === 0) {
+      return [];
+    }
+    this.db
+      .prepare(
+        `UPDATE recent_graph_hits
+         SET used_at = ?
+         WHERE session_key = ?
+           AND expires_at >= ?
+           AND source_ref IN (${placeholders})`,
+      )
+      .run(nowMs, sessionKey, nowMs, ...sourceRefs);
+    return rows.map(rowToRecentGraphCandidate);
+  }
+
+  getRecentGraphHits(sessionKey: string, nowMs = Date.now()): RecentGraphCandidate[] {
+    if (!sessionKey.trim()) {
+      return [];
+    }
+    this.deleteExpiredRecentHits(nowMs);
+    const rows = this.db
+      .prepare(
+        `SELECT * FROM recent_graph_hits
+         WHERE session_key = ?
+         ORDER BY last_returned_at DESC, source_ref ASC`,
+      )
+      .all(sessionKey) as Array<Record<string, unknown>>;
+    return rows.map(rowToRecentGraphCandidate);
+  }
+
   getStatus() {
     const eventRow = this.db.prepare("SELECT COUNT(*) AS count FROM event_records").get() as {
       count?: number;
@@ -240,19 +499,29 @@ export class CanonicalStore {
       entitiesTotal: entityRow.count ?? 0,
       schemaVersion: this.getMeta("schema_version") ?? CANONICAL_SCHEMA_VERSION,
       extractorVersion: this.getMeta("extractor_version") ?? EXTRACTOR_VERSION,
+      metrics: this.getMetrics(),
     };
   }
 
-  async exportJsonl(): Promise<string> {
+  async exportData(): Promise<GraphExportData> {
     const eventRows = this.db
       .prepare("SELECT * FROM event_records ORDER BY occurred_at, event_id")
       .all() as Array<Record<string, unknown>>;
     const stateRows = this.db
       .prepare("SELECT * FROM entity_states ORDER BY entity_id")
       .all() as Array<Record<string, unknown>>;
+    return {
+      events: eventRows.map(rowToEvent),
+      states: stateRows.map(rowToState),
+      metrics: this.getMetrics(),
+    };
+  }
+
+  async exportJsonl(): Promise<string> {
+    const exported = await this.exportData();
     return [
-      ...eventRows.map((row) => JSON.stringify({ type: "event", ...rowToEvent(row) })),
-      ...stateRows.map((row) => JSON.stringify({ type: "state", ...rowToState(row) })),
+      ...exported.events.map((row) => JSON.stringify({ type: "event", ...row })),
+      ...exported.states.map((row) => JSON.stringify({ type: "state", ...row })),
     ].join("\n");
   }
 }

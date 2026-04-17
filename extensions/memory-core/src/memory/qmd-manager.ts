@@ -1288,7 +1288,7 @@ export class QmdMemoryManager implements MemorySearchManager {
     if (watchPaths.size === 0) {
       return;
     }
-    this.watcher = chokidar.watch(Array.from(watchPaths), {
+    const watcher = chokidar.watch(Array.from(watchPaths), {
       ignoreInitial: true,
       ignored: (watchPath) => shouldIgnoreMemoryWatchPath(watchPath),
       awaitWriteFinish: {
@@ -1296,13 +1296,21 @@ export class QmdMemoryManager implements MemorySearchManager {
         pollInterval: 100,
       },
     });
+    this.watcher = watcher;
     const markDirty = () => {
       this.dirty = true;
       this.scheduleWatchSync();
     };
-    this.watcher.on("add", markDirty);
-    this.watcher.on("change", markDirty);
-    this.watcher.on("unlink", markDirty);
+    watcher.on("add", markDirty);
+    watcher.on("change", markDirty);
+    watcher.on("unlink", markDirty);
+    watcher.on("error", (err) => {
+      log.warn(`qmd watch disabled after watcher error: ${formatErrorMessage(err)}`);
+      if (this.watcher === watcher) {
+        this.watcher = null;
+      }
+      void watcher.close().catch(() => undefined);
+    });
   }
 
   private resolveCollectionWatchPath(collection: ManagedCollection): string {

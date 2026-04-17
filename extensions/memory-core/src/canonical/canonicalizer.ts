@@ -1,6 +1,6 @@
 import crypto from "node:crypto";
 import { createSubsystemLogger } from "openclaw/plugin-sdk/memory-core-host-engine-foundation";
-import type { EventRecord, RawEvent } from "./schema.js";
+import { isMemorySourceRef, type EventRecord, type RawEvent } from "./schema.js";
 
 const log = createSubsystemLogger("memory");
 
@@ -46,7 +46,10 @@ export function canonicalizeEntityId(raw: string): string {
 }
 
 export function createEventId(
-  event: Pick<RawEvent, "source_ref" | "actor" | "action" | "object" | "occurred_at">,
+  event: Pick<
+    RawEvent,
+    "source_ref" | "actor" | "action" | "object" | "status_after" | "occurred_at"
+  >,
 ): string {
   return sha256(
     [
@@ -54,6 +57,7 @@ export function createEventId(
       normalizeOptionalString(event.actor) ?? "",
       event.action.trim(),
       normalizeOptionalString(event.object) ?? "",
+      normalizeOptionalString(event.status_after) ?? "",
       normalizeOccurredAt(event.occurred_at),
     ].join("\0"),
   );
@@ -69,14 +73,11 @@ export function canonicalize(raw: RawEvent[], extractorVersion: string): EventRe
     }
     const actor = normalizeOptionalString(event.actor);
     const object = normalizeOptionalString(event.object);
-    const entityBasis = object ?? actor ?? action;
+    const entityBasis = object ?? (actor ? `${actor}:${action}` : `${action}:${sourceRef}`);
     return [
       {
         event_id: createEventId(event),
-        source_type:
-          sourceRef.startsWith("memory/") || sourceRef === "MEMORY.md"
-            ? "memory_file"
-            : "flush_turn",
+        source_type: isMemorySourceRef(sourceRef) ? "memory_file" : "flush_turn",
         source_ref: sourceRef,
         occurred_at: normalizeOccurredAt(event.occurred_at),
         entity_id: canonicalizeEntityId(entityBasis),

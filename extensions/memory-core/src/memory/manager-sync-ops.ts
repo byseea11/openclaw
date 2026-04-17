@@ -121,6 +121,10 @@ export function runDetachedMemorySync(sync: () => Promise<void>, reason: "interv
   });
 }
 
+function formatWatcherError(err: unknown): string {
+  return formatErrorMessage(err);
+}
+
 export abstract class MemoryManagerSyncOps {
   protected abstract readonly cfg: OpenClawConfig;
   protected abstract readonly agentId: string;
@@ -395,7 +399,7 @@ export abstract class MemoryManagerSyncOps {
         // Skip missing/unreadable additional paths.
       }
     }
-    this.watcher = chokidar.watch(Array.from(watchPaths), {
+    const watcher = chokidar.watch(Array.from(watchPaths), {
       ignoreInitial: true,
       ignored: (watchPath, stats) =>
         shouldIgnoreMemoryWatchPath(watchPath, stats, this.settings.multimodal),
@@ -404,13 +408,21 @@ export abstract class MemoryManagerSyncOps {
         pollInterval: 100,
       },
     });
+    this.watcher = watcher;
     const markDirty = () => {
       this.dirty = true;
       this.scheduleWatchSync();
     };
-    this.watcher.on("add", markDirty);
-    this.watcher.on("change", markDirty);
-    this.watcher.on("unlink", markDirty);
+    watcher.on("add", markDirty);
+    watcher.on("change", markDirty);
+    watcher.on("unlink", markDirty);
+    watcher.on("error", (err) => {
+      log.warn(`memory watch disabled after watcher error: ${formatWatcherError(err)}`);
+      if (this.watcher === watcher) {
+        this.watcher = null;
+      }
+      void watcher.close().catch(() => undefined);
+    });
   }
 
   protected ensureSessionListener() {

@@ -68,6 +68,10 @@ export async function bootstrapCanonicalIndex(params: {
     `canonical.bootstrap.start agent=${params.agentId} files=${files.length} force=${Boolean(params.force)}`,
   );
   const store = getCanonicalStore(params.agentId);
+  if (params.force) {
+    store.reset();
+  }
+  store.setMeta("extractor_version", EXTRACTOR_VERSION);
   const records: EventRecord[] = [];
   let eventsExtracted = 0;
   for (const [index, filePath] of files.entries()) {
@@ -75,7 +79,10 @@ export async function bootstrapCanonicalIndex(params: {
     const lineCount = text.split(/\r?\n/).length;
     const sourceRef = sourceRefForFile(params.workspaceDir, filePath, lineCount);
     log.info(`canonical.bootstrap.file source_ref=${sourceRef}`);
+    const extractStartedAt = Date.now();
     const raw = await extract(text, sourceRef);
+    store.recordExtractorLatency(Date.now() - extractStartedAt);
+    store.bumpMetric("extractSuccesses", 1);
     eventsExtracted += raw.length;
     records.push(...canonicalize(raw, EXTRACTOR_VERSION));
     params.progress?.({

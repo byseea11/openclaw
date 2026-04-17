@@ -42,10 +42,45 @@ export type MemoryHostDreamCompletedEvent = {
   storageMode: "inline" | "separate" | "both";
 };
 
+export type MemoryHostGraphRecallRecordedEvent = {
+  type: "memory.graph.recall.recorded";
+  timestamp: string;
+  sessionKey: string;
+  query: string;
+  resultCount: number;
+  results: Array<{
+    type: "event" | "state";
+    entityId: string;
+    sourceRef: string;
+    path: string;
+    startLine: number;
+    endLine: number;
+    score: number;
+  }>;
+};
+
+export type MemoryHostGraphRecallUsedEvent = {
+  type: "memory.graph.recall.used";
+  timestamp: string;
+  sessionKey: string;
+  via: "memory_get" | "llm_output";
+  sourceRefs: string[];
+  results: Array<{
+    type: "event" | "state";
+    entityId: string;
+    sourceRef: string;
+    path: string;
+    startLine: number;
+    endLine: number;
+  }>;
+};
+
 export type MemoryHostEvent =
   | MemoryHostRecallRecordedEvent
   | MemoryHostPromotionAppliedEvent
-  | MemoryHostDreamCompletedEvent;
+  | MemoryHostDreamCompletedEvent
+  | MemoryHostGraphRecallRecordedEvent
+  | MemoryHostGraphRecallUsedEvent;
 
 export function resolveMemoryHostEventLogPath(workspaceDir: string): string {
   return path.join(workspaceDir, MEMORY_HOST_EVENT_LOG_RELATIVE_PATH);

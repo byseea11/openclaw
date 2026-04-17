@@ -1274,6 +1274,11 @@ export async function runMemoryGraphStatus(opts: MemoryGraphCommandOptions) {
       `${muted("Entities:")} ${info(status.entitiesTotal)}`,
       `${muted("Schema:")} ${info(status.schemaVersion)}`,
       `${muted("Extractor:")} ${info(status.extractorVersion)}`,
+      `${muted("Hits returned:")} ${info(status.metrics.hitsReturned)}`,
+      `${muted("Hits used:")} ${info(status.metrics.hitsUsed)}`,
+      `${muted("Extract successes:")} ${info(status.metrics.extractSuccesses)}`,
+      `${muted("Extract failures:")} ${info(status.metrics.extractFailures)}`,
+      `${muted("Avg extract ms:")} ${info(status.metrics.extractLatencyMsAvg.toFixed(1))}`,
     ].join("\n"),
   );
 }
@@ -1323,6 +1328,8 @@ export async function runMemoryGraphReindex(opts: MemoryGraphCommandOptions) {
           `Records written: ${result.recordsWritten}`,
           `Events total: ${status.eventsTotal}`,
           `Entities total: ${status.entitiesTotal}`,
+          `Hits returned: ${status.metrics.hitsReturned}`,
+          `Hits used: ${status.metrics.hitsUsed}`,
         ].join("\n"),
       );
     },
@@ -1375,9 +1382,10 @@ export async function runMemoryGraphExport(opts: MemoryGraphCommandOptions) {
   emitMemorySecretResolveDiagnostics(diagnostics, { json: Boolean(opts.json) });
   const agentId = resolveAgent(cfg, opts.agent);
   const store = getCanonicalStore(agentId);
+  const exported = await store.exportData();
   const jsonl = await store.exportJsonl();
   if (opts.json) {
-    defaultRuntime.writeJson({ agentId, jsonl });
+    defaultRuntime.writeJson({ agentId, ...exported });
     return;
   }
   defaultRuntime.log(jsonl || "");

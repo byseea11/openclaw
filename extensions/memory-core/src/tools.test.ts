@@ -155,6 +155,7 @@ describe("memory_search unavailable payloads", () => {
             },
           },
         },
+        agentSessionKey: "agent:main:test:graph",
       });
       const result = await tool.execute("graph", { query: "task_123" });
       const details = result.details as {
@@ -175,6 +176,8 @@ describe("memory_search unavailable payloads", () => {
         }),
       );
       expect(details.debug?.graph).toMatchObject({ hits: 2, renderedHits: 2 });
+      expect(store.getStatus().metrics.hitsReturned).toBe(2);
+      expect(store.getRecentGraphHits("agent:main:test:graph")).toHaveLength(2);
     } finally {
       await closeAllCanonicalStores();
       if (previousStateDir === undefined) {

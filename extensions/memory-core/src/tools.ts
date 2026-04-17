@@ -316,6 +316,7 @@ export function createMemorySearchTool(options: {
                 agentId,
                 query,
                 maxResults: maxResults ?? 5,
+                sessionKey: options.agentSessionKey,
               })
             : { enabled: false, hits: 0, renderedHits: 0, results: [] };
           if (searchDebug) {

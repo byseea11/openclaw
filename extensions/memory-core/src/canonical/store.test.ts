@@ -2,6 +2,7 @@ import fs from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
 import { afterEach, beforeEach, describe, expect, it } from "vitest";
+import type { GraphHit } from "./schema.js";
 import type { EventRecord } from "./schema.js";
 import { CanonicalStore, closeAllCanonicalStores } from "./store.js";
 
@@ -60,7 +61,67 @@ describe("canonical graph store", () => {
       eventsTotal: 1,
       entitiesTotal: 1,
       schemaVersion: "v0",
+      metrics: expect.objectContaining({
+        hitsReturned: 0,
+        hitsUsed: 0,
+      }),
     });
+    store.close();
+  });
+
+  it("resets records and tracks metrics plus recent graph hits", async () => {
+    const store = new CanonicalStore("main", path.join(rootDir, "main.graph.sqlite"));
+    await store.upsertEvents([record()]);
+    await store.refreshEntityStates([record()]);
+    store.recordExtractorLatency(15);
+    store.bumpMetric("extractSuccesses", 2);
+    const hits: GraphHit[] = [
+      {
+        type: "state",
+        entity_id: "ent_task",
+        source_ref: "memory/2026-04-15.md#L12-L18",
+        snippet_structured: {},
+        score: 0.9,
+      },
+    ];
+    const nowMs = Date.now();
+    expect(
+      store.recordRecentGraphHits({
+        sessionKey: "session:main",
+        query: "task_123",
+        hits,
+        nowMs,
+      }),
+    ).toBe(1);
+    expect(store.getRecentGraphHits("session:main", nowMs)).toHaveLength(1);
+    expect(
+      store.markRecentGraphHitsUsedByRead({
+        sessionKey: "session:main",
+        path: "memory/2026-04-15.md",
+        from: 12,
+        lines: 3,
+        nowMs: nowMs + 100,
+      }),
+    ).toHaveLength(1);
+    expect(store.getStatus().metrics).toMatchObject({
+      extractSuccesses: 2,
+      extractLatencyMsSum: 15,
+      extractLatencyMsCount: 1,
+      extractLatencyMsAvg: 15,
+    });
+
+    store.reset();
+
+    expect(store.getStatus()).toMatchObject({
+      eventsTotal: 0,
+      entitiesTotal: 0,
+      metrics: expect.objectContaining({
+        hitsReturned: 0,
+        hitsUsed: 0,
+        extractSuccesses: 0,
+      }),
+    });
+    expect(store.getRecentGraphHits("session:main", nowMs + 100)).toEqual([]);
     store.close();
   });
 
@@ -68,11 +129,16 @@ describe("canonical graph store", () => {
     const store = new CanonicalStore("main", path.join(rootDir, "main.graph.sqlite"));
     await store.upsertEvents([record()]);
     await store.refreshEntityStates([record()]);
+    store.bumpMetric("hitsReturned", 3);
 
     const jsonl = await store.exportJsonl();
+    const exported = await store.exportData();
 
     expect(jsonl).toContain('"type":"event"');
     expect(jsonl).toContain('"type":"state"');
+    expect(exported.metrics.hitsReturned).toBe(3);
+    expect(exported.events).toHaveLength(1);
+    expect(exported.states).toHaveLength(1);
     store.close();
   });
 });

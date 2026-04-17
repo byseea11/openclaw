@@ -47,10 +47,13 @@ describe("canonical graph canonicalizer", () => {
 
     expect(records).toHaveLength(1);
     expect(records[0]).toMatchObject({
+      source_type: "memory_file",
       actor: null,
       object: null,
       status_after: null,
       confidence: 0.5,
+      occurred_at: expect.stringMatching(/^20\d{2}-\d{2}-\d{2}T/),
+      entity_id: expect.stringMatching(/^ent_/),
     });
   });
 });

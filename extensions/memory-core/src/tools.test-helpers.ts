@@ -25,9 +25,22 @@ export function createMemorySearchToolOrThrow(params?: {
 }
 
 export function createMemoryGetToolOrThrow(
-  config: OpenClawConfig = createDefaultMemoryToolConfig(),
+  paramsOrConfig?:
+    | OpenClawConfig
+    | {
+        config?: OpenClawConfig;
+        agentSessionKey?: string;
+      },
 ) {
-  const tool = createMemoryGetTool({ config });
+  const params: { config?: OpenClawConfig; agentSessionKey?: string } =
+    paramsOrConfig &&
+    ("config" in paramsOrConfig || "agentSessionKey" in paramsOrConfig)
+      ? paramsOrConfig
+      : { config: paramsOrConfig as OpenClawConfig | undefined };
+  const tool = createMemoryGetTool({
+    config: params?.config ?? createDefaultMemoryToolConfig(),
+    ...(params?.agentSessionKey ? { agentSessionKey: params.agentSessionKey } : {}),
+  });
   if (!tool) {
     throw new Error("tool missing");
   }

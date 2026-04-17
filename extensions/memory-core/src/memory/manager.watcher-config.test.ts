@@ -1,6 +1,7 @@
 import fs from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
+import { EventEmitter } from "node:events";
 import type {
   MemorySearchConfig,
   OpenClawConfig,
@@ -12,10 +13,12 @@ import { registerBuiltInMemoryEmbeddingProviders } from "./provider-adapters.js"
 type WatchIgnoredFn = (watchPath: string, stats?: { isDirectory?: () => boolean }) => boolean;
 
 const { watchMock } = vi.hoisted(() => ({
-  watchMock: vi.fn(() => ({
-    on: vi.fn(),
-    close: vi.fn(async () => undefined),
-  })),
+  watchMock: vi.fn(() => {
+    const watcher = new EventEmitter();
+    return Object.assign(watcher, {
+      close: vi.fn(async () => undefined),
+    });
+  }),
 }));
 
 vi.mock("chokidar", () => ({
@@ -189,5 +192,19 @@ describe("memory watcher config", () => {
     expect(ignored?.(path.join(extraDir, "nested", "PHOTO.PNG"))).toBe(false);
     expect(ignored?.(path.join(extraDir, "nested", "voice.WAV"))).toBe(false);
     expect(ignored?.(path.join(extraDir, "nested", "metadata.json"))).toBe(true);
+  });
+
+  it("turns watcher errors into best-effort degraded mode", async () => {
+    await setupWatcherWorkspace({ name: "notes.md", contents: "hello" });
+    const cfg = createWatcherConfig();
+
+    await expectWatcherManager(cfg);
+
+    const watcher = watchMock.mock.results[0]?.value as EventEmitter & {
+      close: ReturnType<typeof vi.fn>;
+    };
+    watcher.emit("error", Object.assign(new Error("too many open files, watch"), { code: "EMFILE" }));
+
+    expect(watcher.close).toHaveBeenCalledTimes(1);
   });
 });

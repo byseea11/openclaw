@@ -327,7 +327,7 @@ export class MemoryIndexManager extends MemoryManagerEmbeddingOps implements Mem
         log.warn(`memory sync failed (search): ${String(err)}`);
       },
     });
-    if (preflight.shouldInitializeProvider) {
+    if (preflight.shouldInitializeProvider && this.vector.enabled) {
       await this.ensureProviderInitialized();
     }
     const minScore = opts?.minScore ?? this.settings.query.minScore;
