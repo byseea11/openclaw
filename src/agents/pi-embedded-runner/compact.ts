@@ -934,10 +934,13 @@ export async function compactEmbeddedPiSessionDirect(
             estimateTokensFn: estimateTokens,
           });
           const { hookSessionKey, missingSessionKey } = await runBeforeCompactionHooks({
+            config: params.config,
             hookRunner,
             sessionId: params.sessionId,
             sessionKey: params.sessionKey,
             sessionAgentId,
+            sessionFile: params.sessionFile,
+            sessionManager,
             workspaceDir: effectiveWorkspace,
             messageProvider: resolvedMessageProvider,
             metrics: beforeHookMetrics,

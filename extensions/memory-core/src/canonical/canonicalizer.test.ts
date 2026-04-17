@@ -10,6 +10,7 @@ describe("canonical graph canonicalizer", () => {
       actor: "Alice",
       action: "changed_status",
       object: "Task 123",
+      status_before: "in_progress",
       status_after: "blocked",
       occurred_at: "2026-04-15",
       source_ref: "memory/2026-04-15.md#L12-L18",
@@ -27,7 +28,10 @@ describe("canonical graph canonicalizer", () => {
       actor: "Alice",
       action: "changed_status",
       object: "Task 123",
+      status_before: "in_progress",
       status_after: "blocked",
+      session_id: null,
+      covered_until_entry_id: null,
       confidence: 0.8,
       extractor_version: "v-test",
     });
@@ -50,10 +54,27 @@ describe("canonical graph canonicalizer", () => {
       source_type: "memory_file",
       actor: null,
       object: null,
+      status_before: null,
       status_after: null,
+      session_id: null,
+      covered_until_entry_id: null,
       confidence: 0.5,
       occurred_at: expect.stringMatching(/^20\d{2}-\d{2}-\d{2}T/),
       entity_id: expect.stringMatching(/^ent_/),
     });
+  });
+
+  it("keeps event ids stable when status_before changes", () => {
+    const base: RawEvent = {
+      action: "changed_status",
+      object: "task_123",
+      status_after: "blocked",
+      occurred_at: "2026-04-15",
+      source_ref: "memory/2026-04-15.md#L12-L18",
+    };
+    const withoutStatusBefore: RawEvent = { ...base, status_before: undefined };
+    const withStatusBefore: RawEvent = { ...base, status_before: "open" };
+
+    expect(createEventId(withoutStatusBefore)).toBe(createEventId(withStatusBefore));
   });
 });

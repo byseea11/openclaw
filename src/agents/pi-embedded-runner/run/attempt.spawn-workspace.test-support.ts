@@ -35,6 +35,7 @@ type BootstrapContext = {
 };
 type SessionManagerMocks = {
   getLeafEntry: UnknownMock;
+  getBranch: UnknownMock;
   branch: UnknownMock;
   resetLeaf: UnknownMock;
   buildSessionContext: Mock<() => { messages: AgentMessage[] }>;
@@ -123,6 +124,7 @@ const hoisted = vi.hoisted((): AttemptSpawnWorkspaceHoisted => {
   );
   const sessionManager = {
     getLeafEntry: vi.fn(() => null),
+    getBranch: vi.fn(() => []),
     branch: vi.fn(),
     resetLeaf: vi.fn(),
     buildSessionContext: vi.fn<() => { messages: AgentMessage[] }>(() => ({ messages: [] })),
@@ -706,6 +708,7 @@ export function resetEmbeddedAttemptHarness(
   hoisted.getDmHistoryLimitFromSessionKeyMock.mockReset().mockReturnValue(undefined);
   hoisted.limitHistoryTurnsMock.mockReset().mockImplementation((messages) => messages);
   hoisted.sessionManager.getLeafEntry.mockReset().mockReturnValue(null);
+  hoisted.sessionManager.getBranch.mockReset().mockReturnValue([]);
   hoisted.sessionManager.branch.mockReset();
   hoisted.sessionManager.resetLeaf.mockReset();
   hoisted.sessionManager.buildSessionContext

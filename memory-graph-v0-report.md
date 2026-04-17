@@ -8,7 +8,7 @@ Memory Graph Index V0 已在当前仓库中完成 M0-M6 范围内的骨架接线
 
 当前实现保持 `graphIndex.enabled=false` 的默认关闭策略。关闭时，现有 chunk memory 路径不应改变；开启时，graph hit 只作为 `memory_search` 返回结果末尾追加的结构化 hint，不替换 chunk branch，也不改变 `memory_search` / `memory_get` 的工具入参 schema。
 
-本报告只描述当前仓库已经实现和验证过的内容。V1 M0-fix 已在 V0 基线之上补齐一组交付前 guardrail：canonical runtime 入口 fallback、flush persist 前 `source_ref` 强校验、`hitsUsedRaw` / `hitsUsedUniqueRefs` 语义收敛、真实 hook runner dispatcher smoke、CLI runtime smoke 测试。M7 独立 LLM bootstrap 抽取、GraphRAG、关系图扩展、query-aware retrieval、全局 metrics 管线等能力仍未完成，详见“V0.1/M7 待做”和“已知限制与风险”。
+本报告只描述当前仓库已经实现和验证过的内容。V1 M0-fix 已在 V0 基线之上补齐一组交付前 guardrail：canonical runtime 入口 fallback、flush persist 前 `source_ref` 强校验、`hitsUsedRaw` / `hitsUsedUniqueRefs` 语义收敛、真实 hook runner dispatcher smoke、CLI runtime smoke 测试。当前轮次又完成了 V1 M1 的首段实现：schema 已升级到 `v1`、新增 `status_before` / richer entity state 字段、sidecar 支持 v0->v1 migration、flush prompt 升级为多事件抽取版本，并补入 3 份 flush 场景 fixture 与对应自动化验证。M7 独立 LLM bootstrap 抽取、GraphRAG、关系图扩展、query-aware retrieval、全局 metrics 管线等能力仍未完成，详见“V0.1/M7 待做”和“已知限制与风险”。
 
 ## 2. 背景与问题定义
 
@@ -57,25 +57,35 @@ OPENCLAW_STATE_DIR/memory/{agentId}.graph.sqlite
 
 ### 3.3 Event 定义
 
-当前 `RawEvent` / `EventRecord` 契约在 `extensions/memory-core/src/canonical/schema.ts` 中定义。核心字段包括：
+当前 `RawEvent` / `EventRecord` 契约在 `extensions/memory-core/src/canonical/schema.ts` 中定义。M1 后核心字段包括：
 
 - `action`：事件动作，必填。
 - `source_ref`：原文回指，必填，形如 `memory/2026-04-15.md#L12-L18`。
-- `actor` / `object` / `status_after` / `occurred_at` / `confidence`：可选结构化字段。
+- `actor` / `object` / `status_before` / `status_after` / `occurred_at` / `confidence`：可选结构化字段。
 - `event_id`：由 `source_ref + actor + action + object + status_after + occurred_at` 的稳定顺序生成。
 - `entity_id`：优先由 `object` 生成，其次使用 `actor:action` 或 `action:source_ref`，避免大量事件落到同一个空实体。
+- `session_id` / `covered_until_entry_id`：schema v1 预留字段，当前实现保留为 `null`，尚未接入行为。
 
 ### 3.4 State 定义
 
-`EntityState` 是从 event 派生出的当前实体状态：
+`EntityState` 是从 event 派生出的当前实体状态。M1 后字段包括：
 
 - `entity_id`
 - `latest_status`
 - `latest_owner`
 - `last_event_id`
 - `last_updated_at`
+- `entity_type`
+- `supporting_event_ids`
+- `confidence`
 
-V0 reducer 只做最小规则：按 `occurred_at` / `created_at` 选择每个 entity 最新事件并生成 state。更复杂的状态归并、alias resolution、关系归并属于 V1+。
+当前 reducer 仍只做最小规则：按 `occurred_at` / `created_at` 选择每个 entity 最新事件并生成 state，但会额外写入：
+
+- `entity_type`：保守默认 `other`；对明显像 `task_123` / `task-123` / 含 `task|issue|ticket` 的 object 标记为 `task`
+- `supporting_event_ids`：当前先写 `[last_event_id]`
+- `confidence`：当前直接沿用最新事件的 `confidence`
+
+更复杂的状态归并、alias resolution、关系归并属于后续里程碑。
 
 ## 4. V0 目标与范围
 
@@ -119,6 +129,20 @@ M0-fix 不进入 M1 schema v1 / alias / embedding，只关闭 V0 报告中的基
 | CLI graph runtime smoke 测试      | 已完成自动化测试 | `extensions/memory-core/src/cli.test.ts`                                             |
 | package CLI 人工 smoke            | 待补充           | `corepack pnpm openclaw ...` 在 dirty tree 自动 rebuild 路径中卡住，未作为通过项记录 |
 
+### 4.4 V1 M1 已实现并验证的内容
+
+当前轮次已实现并跑通以下 M1 范围：
+
+| 范围                           | 状态           | 当前实现                                                                          |
+| ------------------------------ | -------------- | --------------------------------------------------------------------------------- |
+| Schema V1 migration            | 已完成并已验证 | `canonical/schema.ts`、`canonical/store.ts`、`canonical/migrations/v0-to-v1.ts` |
+| `status_before` flush/parser   | 已完成并已验证 | `canonical/extractor.ts`、`canonical/canonicalizer.ts`、`canonical/integration.test.ts` |
+| 多事件 flush prompt 优化       | 已完成并已验证 | `flush-plan.ts`、`flush-plan.test.ts`                                            |
+| `entity_aliases` schema 落表   | 已完成，仅建表 | `canonical/schema.ts`、`canonical/migrations/v0-to-v1.ts`                        |
+| M1 flush fixture / parser 验证 | 已完成并已验证 | `canonical/flush-scenarios.test.ts` + 3 份 fixture                               |
+
+注意：M1 当前只把 `entity_aliases` 表纳入 schema v1；alias resolver、flush aliases、CLI alias 和 backfill 仍未实现。
+
 ## 5. 架构设计
 
 ### 5.1 主链路
@@ -147,11 +171,13 @@ flush prompt JSON / memory file
 
 ### 5.2 Flush Piggyback
 
-`extensions/memory-core/src/flush-plan.ts` 在 graph enabled 且 `extractDuringFlush=true` 时，在 memory flush prompt 中追加 JSON block 约束：
+`extensions/memory-core/src/flush-plan.ts` 在 graph enabled 且 `extractDuringFlush=true` 时，在 memory flush prompt 中追加 JSON block 约束。M1 后 prompt 已升级为多事件抽取版本，要求模型尽量从本轮 flush 中提取更多结构化事件，并在可知时同时输出 `status_before` 与 `status_after`：
 
 ```text
+Try to extract as many valid events as possible; a typical flush can produce 3-10 events
 Only include events from content newly appended to memory/YYYY-MM-DD.md during this flush
 Each event must use source_ref like "memory/YYYY-MM-DD.md#L12-L18"
+If both status_before and status_after are knowable, include both
 If there are no extractable events, output {"events":[]}
 ```
 
@@ -164,11 +190,12 @@ Flush run 完成后，`src/auto-reply/reply/agent-runner-memory.ts` 会调用通
 - `meta`
 - `event_records`
 - `entity_states`
+- `entity_aliases`
 - `event_fts`
 - `graph_metrics`
 - `recent_graph_hits`
 
-`upsertEvents()` 写入 event 和 FTS；`refreshEntityStates()` 调用 reducer 刷新 entity state；`recordRecentGraphHits()` / `markRecentGraphHitsUsed*()` 记录 graph hit 返回与使用。
+M1 后，store 在打开 sidecar 时会检查 `meta.schema_version`：新库直接建 `v1` schema，旧 `v0` sidecar 则通过 `extensions/memory-core/src/canonical/migrations/v0-to-v1.ts` 做 additive migration，并回填 event FTS。`upsertEvents()` 写入 event 和 FTS；`refreshEntityStates()` 调用 reducer 刷新 entity state；`recordRecentGraphHits()` / `markRecentGraphHitsUsed*()` 记录 graph hit 返回与使用。
 
 ### 5.4 Retrieval 与 Tool Merge
 
@@ -194,28 +221,38 @@ Graph hit 渲染由 `extensions/memory-core/src/canonical/prompt.ts` 统一处�
 
 - `extensions/memory-core/src/canonical/schema.ts`
   - 定义 `RawEvent`、`EventRecord`、`EntityState`、`GraphHit`、`GraphIndexConfig`、metrics、recent hit 类型。
-  - 定义 `EXTRACTOR_VERSION = "v0-2026.04"`、`CANONICAL_SCHEMA_VERSION = "v0"`。
+  - 定义 `EXTRACTOR_VERSION = "v0-2026.04"`、`CANONICAL_SCHEMA_VERSION = "v1"`。
   - 定义 SQLite schema 与 `resolveGraphIndexConfig()`、`describeGraphIndexConfig()`、`parseSourceRef()`。
+  - M1 新增 `status_before`、`session_id`、`covered_until_entry_id`、`entity_type`、`supporting_event_ids`、`confidence`、`EntityAlias`。
+
+- `extensions/memory-core/src/canonical/migrations/v0-to-v1.ts`
+  - 实现 sidecar 的 v0->v1 additive migration。
+  - 新增 event/state 列、`entity_aliases` 表，并回填 event FTS。
+  - 日志：`[canonical] migration.start`、`[canonical] migration.done`、`[canonical] migration.fallback`。
 
 - `extensions/memory-core/src/canonical/extractor.ts`
   - `parseGraphJsonBlock()` / `parseGraphJsonBlockWithStatus()` 解析 flush piggyback JSON。
   - `extract()` 实现规则抽取，覆盖 checklist、`status:`、`owner:`、`decided to ...`、`task_123 is blocked/done/in progress`、日期头/行内日期。
+  - M1 parser 已接受 `status_before/status_after` 的 JSON roundtrip。
   - 日志：`canonical.extract.parse_ok`、`canonical.extract.parse_failed`、`canonical.extract.rules`。
 
 - `extensions/memory-core/src/canonical/canonicalizer.ts`
   - 稳定生成 `event_id` / `entity_id`。
   - 规范 `occurred_at` 为 ISO8601。
   - `confidence` 越界回退，默认 `0.5`。
+  - M1 起 canonicalize 会持久化 `status_before`，但不会把 `status_before/session_id/covered_until_entry_id` 纳入 event id 计算，保持 V0 event id 稳定性。
   - 日志：`canonical.canonicalize input=N output=N`。
 
 - `extensions/memory-core/src/canonical/store.ts`
   - `CanonicalStore`、`getCanonicalStore()`、`closeAllCanonicalStores()`。
   - `reset()`、`setMeta()`、`bumpMetric()`、`recordExtractorLatency()`。
   - `upsertEvents()`、`refreshEntityStates()`、`searchEvents()`、`getStatus()`、`exportData()` / `exportJsonl()`。
+  - M1 起 store 支持 `schema_version=v0` sidecar 的 in-place 升级，并在 `reset()` 时同步清空 `entity_aliases`。
   - 日志：`canonical.store.open`、`canonical.store.schema_ready`、`canonical.store.upsert_events`、`canonical.store.refresh_states`、`canonical.store.close_all`。
 
 - `extensions/memory-core/src/canonical/reducer.ts`
   - `reduce(events, prevStates)` 从 event 归并出最新 entity state。
+  - M1 起 reducer 还会填充 `entity_type`、`supporting_event_ids`、`confidence`。
   - 日志：`canonical.reduce events=N states=N`。
 
 - `extensions/memory-core/src/canonical/retriever.ts`
@@ -242,6 +279,10 @@ Graph hit 渲染由 `extensions/memory-core/src/canonical/prompt.ts` 统一处�
   - `handleGraphFlushResult()`、`maybeBootstrapCanonicalIndex()`、`searchGraphForMemoryTool()`、`getCanonicalStatus()`、usage helper。
   - M0-fix 后对 flush/search/bootstrap/status/usage 入口统一加 try/catch fallback；graph 异常只 warning，不外溢到 memory / flush / compaction / active-memory。
   - `handleGraphFlushResult()` 在 persist 前校验 `source_ref`：语法、路径范围、文件存在、起止行号和文件总行数；非法 event 只跳过并计入 `sourceRefRejected`。
+
+- `extensions/memory-core/src/canonical/flush-scenarios.test.ts`
+  - M1 新增 fixture 驱动测试。
+  - 锁住 3 份代表性 flush transcript fixture 仍然能被当前规则 extractor 抽出至少 3 个事件，并产出精确行段 `source_ref`。
 
 ### 6.2 Memory-Core 与 Core 接线
 
@@ -301,6 +342,7 @@ Graph hit 渲染由 `extensions/memory-core/src/canonical/prompt.ts` 统一处�
 4. `resolveMemoryFlushResultHandler()` 找到 memory-core handler。
 5. `handleGraphFlushResult()`：
    - `parseGraphJsonBlockWithStatus()`
+   - M1 后可接受含 `status_before` 的 flush event
    - 基于 workspace 做 `source_ref` 强校验：只接受 `MEMORY.md` 或 `memory/YYYY-MM-DD.md`，文件必须存在，`startLine/endLine` 必须落在文件总行数内
    - `canonicalize()`
    - `store.upsertEvents()`
@@ -350,6 +392,7 @@ Graph hit 渲染由 `extensions/memory-core/src/canonical/prompt.ts` 统一处�
   - 解析 fenced JSON。
   - 坏 JSON 不 throw。
   - 规则抽取覆盖 checklist/status/owner/decision/status sentence/source_ref 精度。
+  - M1 新增 `status_before/status_after` parser roundtrip。
 
 - `extensions/memory-core/src/canonical/canonicalizer.test.ts`
   - 同一 RawEvent 稳定生成 event/entity id。
@@ -359,9 +402,14 @@ Graph hit 渲染由 `extensions/memory-core/src/canonical/prompt.ts` 统一处�
 - `extensions/memory-core/src/canonical/store.test.ts`
   - schema 创建、meta、upsert 幂等、FTS、state refresh、reset、metrics、close。
 
+- `extensions/memory-core/src/canonical/migration.test.ts`
+  - 构造 v0 sidecar 并验证打开后自动升到 v1。
+  - 验证 migration 后 event/state 新列默认值稳定，且 FTS 可继续查询旧 event。
+
 - `extensions/memory-core/src/canonical/reducer.test.ts`
   - 同一 entity 多事件取最新 state。
   - 空输入返回空。
+  - M1 新增 `entity_type`、`supporting_event_ids`、`confidence` 字段断言。
 
 - `extensions/memory-core/src/canonical/retriever.test.ts`
   - seeded event/state 可被 `search_graph()` 搜到。
@@ -388,6 +436,10 @@ Graph hit 渲染由 `extensions/memory-core/src/canonical/prompt.ts` 统一处�
 
 - `extensions/memory-core/src/flush-plan.test.ts`
   - flush prompt 包含 graph JSON 指令。
+  - M1 新增多事件抽取约束：`3-10 events`、`status_before`、`source_ref`、`occurred_at`。
+
+- `extensions/memory-core/src/canonical/flush-scenarios.test.ts`
+  - 使用 3 份 flush fixture 验证当前规则 extractor 仍可抽出多事件，并带精确 `#Lx-Ly` `source_ref`。
 
 - `extensions/memory-core/src/config.test.ts`
   - manifest config schema 接受 graphIndex 三个开关。
@@ -450,7 +502,37 @@ Live E2E 验证目标：
 
 ### 9.1 测试与 Gate 结果
 
-本报告更新时运行并通过以下 M0 targeted gates：
+本报告更新时，M0/M1 touched-surface 相关 gate 通过情况如下：
+
+```text
+corepack pnpm test extensions/memory-core/src/canonical/store.test.ts extensions/memory-core/src/canonical/migration.test.ts
+
+Test Files  2 passed (2)
+Tests       4 passed (4)
+```
+
+```text
+corepack pnpm test extensions/memory-core/src/canonical/canonicalizer.test.ts extensions/memory-core/src/canonical/reducer.test.ts
+
+Test Files  2 passed (2)
+Tests       6 passed (6)
+```
+
+```text
+corepack pnpm test extensions/memory-core/src/canonical/extractor.test.ts extensions/memory-core/src/canonical/flush-scenarios.test.ts extensions/memory-core/src/flush-plan.test.ts
+
+Test Files  3 passed (3)
+Tests       6 passed (6)
+```
+
+```text
+corepack pnpm test extensions/memory-core/src/canonical/integration.test.ts
+
+Test Files  1 passed (1)
+Tests       3 passed (3)
+```
+
+此前 M0 targeted gates 也已通过：
 
 ```text
 corepack pnpm test extensions/memory-core/src/canonical extensions/memory-core/src/tools.test.ts extensions/memory-core/src/cli.test.ts
@@ -662,7 +744,7 @@ Live E2E 最终 status：
   "enabled": true,
   "bootstrapOnStart": false,
   "extractDuringFlush": true,
-  "schemaVersion": "v0",
+  "schemaVersion": "v1",
   "extractorVersion": "v0-2026.04",
   "eventsTotal": 1,
   "entitiesTotal": 1,
@@ -726,6 +808,14 @@ assertion: watcher.close called once
 - Memory host event 类型：`memory.graph.recall.recorded`、`memory.graph.recall.used`。
 - canonical runtime fallback：graph 异常不阻塞 memory / flush / compaction / active-memory。
 - Watcher EMFILE degraded mode。
+- Schema v1 sidecar 与 migration：
+  - `event_records` / `entity_states` 新列已落地
+  - `entity_aliases` 表已建，但行为未启用
+  - 旧 v0 sidecar 可原地升级到 v1
+- M1 flush prompt 与 parser 升级：
+  - 多事件抽取提示
+  - `status_before` / `status_after` 支持
+  - 3 份 flush 场景 fixture 与自动化验证
 
 ### 10.2 CLI / Debug 面
 

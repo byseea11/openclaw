@@ -19,6 +19,8 @@ import {
   registerMemoryRuntime,
   resolveMemoryFlushResultHandler,
   resolveMemoryFlushPlan,
+  resolveMemoryAfterTurnObserver,
+  resolveMemoryBeforeCompactionObserver,
   restoreMemoryPluginState,
 } from "./memory-state.js";
 
@@ -150,6 +152,19 @@ describe("memory plugin state", () => {
     });
 
     expect(resolveMemoryFlushResultHandler()).toBe(flushResultHandler);
+  });
+
+  it("returns transcript lifecycle observers from capability state", () => {
+    const afterTurnObserver = async () => {};
+    const beforeCompactionObserver = async () => {};
+
+    registerMemoryCapability("memory-core", {
+      afterTurnObserver,
+      beforeCompactionObserver,
+    });
+
+    expect(resolveMemoryAfterTurnObserver()).toBe(afterTurnObserver);
+    expect(resolveMemoryBeforeCompactionObserver()).toBe(beforeCompactionObserver);
   });
 
   it("lists active public memory artifacts in deterministic order", async () => {

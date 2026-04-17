@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { extract, parseGraphJsonBlock } from "./extractor.js";
+import { extract, parseGraphJsonBlock, parseGraphJsonBlockWithStatus } from "./extractor.js";
 
 describe("canonical graph extractor", () => {
   it("parses the final fenced graph JSON block", () => {
@@ -24,6 +24,39 @@ describe("canonical graph extractor", () => {
 
   it("returns an empty event list for malformed JSON", () => {
     expect(parseGraphJsonBlock("```json\n{nope\n```")).toEqual([]);
+  });
+
+  it("accepts status_before and status_after from flush JSON", () => {
+    const parsed = parseGraphJsonBlockWithStatus(
+      [
+        "NO_REPLY",
+        "```json",
+        JSON.stringify({
+          events: [
+            {
+              actor: "Alice",
+              action: "changed_status",
+              object: "task_123",
+              status_before: "open",
+              status_after: "blocked",
+              occurred_at: "2026-04-15",
+              source_ref: "memory/2026-04-15.md#L12-L18",
+            },
+          ],
+        }),
+        "```",
+      ].join("\n"),
+    );
+
+    expect(parsed).toMatchObject({
+      ok: true,
+      events: [
+        expect.objectContaining({
+          status_before: "open",
+          status_after: "blocked",
+        }),
+      ],
+    });
   });
 
   it("extracts rule-based events with precise source refs", async () => {

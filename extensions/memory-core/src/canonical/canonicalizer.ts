@@ -63,7 +63,27 @@ export function createEventId(
   );
 }
 
-export function canonicalize(raw: RawEvent[], extractorVersion: string): EventRecord[] {
+type CanonicalizeOptions = {
+  sourceType?: EventRecord["source_type"];
+  sessionId?: string | null;
+  coveredUntilEntryId?: string | null;
+};
+
+function inferSourceType(sourceRef: string): EventRecord["source_type"] {
+  if (isMemorySourceRef(sourceRef)) {
+    return "memory_file";
+  }
+  if (sourceRef.startsWith("transcripts/")) {
+    return "transcript";
+  }
+  return "flush";
+}
+
+export function canonicalize(
+  raw: RawEvent[],
+  extractorVersion: string,
+  options: CanonicalizeOptions = {},
+): EventRecord[] {
   const createdAt = Date.now();
   const records = raw.flatMap((event): EventRecord[] => {
     const action = event.action?.trim();
@@ -77,14 +97,17 @@ export function canonicalize(raw: RawEvent[], extractorVersion: string): EventRe
     return [
       {
         event_id: createEventId(event),
-        source_type: isMemorySourceRef(sourceRef) ? "memory_file" : "flush_turn",
+        source_type: options.sourceType ?? inferSourceType(sourceRef),
         source_ref: sourceRef,
         occurred_at: normalizeOccurredAt(event.occurred_at),
         entity_id: canonicalizeEntityId(entityBasis),
         actor,
         action,
         object,
+        status_before: normalizeOptionalString(event.status_before),
         status_after: normalizeOptionalString(event.status_after),
+        session_id: options.sessionId ?? null,
+        covered_until_entry_id: options.coveredUntilEntryId ?? null,
         confidence: normalizeConfidence(event.confidence),
         extractor_version: extractorVersion,
         created_at: createdAt,

@@ -9,10 +9,16 @@ import { bootstrapCanonicalIndex } from "./bootstrap.js";
 import { canonicalize } from "./canonicalizer.js";
 import { parseGraphJsonBlockWithStatus } from "./extractor.js";
 import { graphHitToMemorySearchResult, type GraphMemorySearchResult } from "./prompt.js";
+import {
+  drainPendingGraphUpdates,
+  handleGraphAfterTurn,
+  handleGraphBeforeCompaction,
+} from "./projection.js";
 import { search_graph } from "./retriever.js";
 import {
   describeGraphIndexConfig,
   EXTRACTOR_VERSION,
+  GRAPH_PROJECTION_VERSION,
   GRAPH_METRIC_KEYS,
   type GraphMetricsSnapshot,
   parseSourceRef,
@@ -78,9 +84,15 @@ function emptyGraphMetrics(): GraphMetricsSnapshot {
 }
 
 export { bootstrapCanonicalIndex } from "./bootstrap.js";
+export { bootstrapCanonicalIndex as rebuildGraphIndex } from "./bootstrap.js";
 export { canonicalize, canonicalizeEntityId, createEventId } from "./canonicalizer.js";
 export { extract, parseGraphJsonBlock } from "./extractor.js";
 export { graphHitToMemorySearchResult, renderGraphHit } from "./prompt.js";
+export {
+  drainPendingGraphUpdates,
+  handleGraphAfterTurn,
+  handleGraphBeforeCompaction,
+} from "./projection.js";
 export { reduce } from "./reducer.js";
 export { search_graph } from "./retriever.js";
 export {
@@ -164,7 +176,10 @@ export async function maybeBootstrapCanonicalIndex(params: {
     const store = getCanonicalStore(params.agentId);
     const status = store.getStatus();
     const shouldBootstrap =
-      params.force || status.eventsTotal === 0 || status.extractorVersion !== EXTRACTOR_VERSION;
+      params.force ||
+      status.schemaVersion !== describeGraphIndexConfig(params.cfg).schemaVersion ||
+      status.extractorVersion !== EXTRACTOR_VERSION ||
+      status.projectionVersion !== GRAPH_PROJECTION_VERSION;
     if (!shouldBootstrap) {
       return null;
     }
@@ -199,6 +214,14 @@ export async function searchGraphForMemoryTool(params: {
       return { enabled: false, hits: 0, renderedHits: 0, results: [] };
     }
     const store = getCanonicalStore(params.agentId);
+    if (store.hasPendingProjection(params.sessionKey)) {
+      await drainPendingGraphUpdates({
+        cfg: params.cfg,
+        agentId: params.agentId,
+        sourceId: params.sessionKey,
+        reason: "recall",
+      });
+    }
     const hits = await search_graph(store, params.query, Math.max(1, params.maxResults ?? 5));
     if (params.sessionKey) {
       await recordReturnedGraphHits({

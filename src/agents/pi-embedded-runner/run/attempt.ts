@@ -2155,40 +2155,40 @@ export async function runEmbeddedAttempt(
           }
         }
 
-        // Let the active context engine run its post-turn lifecycle.
-        if (params.contextEngine) {
-          const afterTurnRuntimeContext = buildAfterTurnRuntimeContext({
-            attempt: params,
-            workspaceDir: effectiveWorkspace,
-            agentDir,
-            promptCache,
-          });
-          await finalizeAttemptContextEngineTurn({
-            contextEngine: params.contextEngine,
-            promptError: Boolean(promptError),
-            aborted,
-            yieldAborted,
-            sessionIdUsed,
-            sessionKey: params.sessionKey,
-            sessionFile: params.sessionFile,
-            messagesSnapshot,
-            prePromptMessageCount,
-            tokenBudget: params.contextTokenBudget,
-            runtimeContext: afterTurnRuntimeContext,
-            runMaintenance: async (contextParams) =>
-              await runContextEngineMaintenance({
-                contextEngine: contextParams.contextEngine as never,
-                sessionId: contextParams.sessionId,
-                sessionKey: contextParams.sessionKey,
-                sessionFile: contextParams.sessionFile,
-                reason: contextParams.reason,
-                sessionManager: contextParams.sessionManager as never,
-                runtimeContext: contextParams.runtimeContext,
-              }),
-            sessionManager,
-            warn: (message) => log.warn(message),
-          });
-        }
+        // Let the active context engine and memory capability run post-turn lifecycle work.
+        const afterTurnRuntimeContext = buildAfterTurnRuntimeContext({
+          attempt: params,
+          workspaceDir: effectiveWorkspace,
+          agentDir,
+          promptCache,
+        });
+        await finalizeAttemptContextEngineTurn({
+          cfg: params.config,
+          agentId: hookAgentId,
+          contextEngine: params.contextEngine,
+          promptError: Boolean(promptError),
+          aborted,
+          yieldAborted,
+          sessionIdUsed,
+          sessionKey: params.sessionKey,
+          sessionFile: params.sessionFile,
+          messagesSnapshot,
+          prePromptMessageCount,
+          tokenBudget: params.contextTokenBudget,
+          runtimeContext: afterTurnRuntimeContext,
+          runMaintenance: async (contextParams) =>
+            await runContextEngineMaintenance({
+              contextEngine: contextParams.contextEngine as never,
+              sessionId: contextParams.sessionId,
+              sessionKey: contextParams.sessionKey,
+              sessionFile: contextParams.sessionFile,
+              reason: contextParams.reason,
+              sessionManager: contextParams.sessionManager as never,
+              runtimeContext: contextParams.runtimeContext,
+            }),
+          sessionManager,
+          warn: (message) => log.warn(message),
+        });
 
         if (
           shouldPersistCompletedBootstrapTurn({

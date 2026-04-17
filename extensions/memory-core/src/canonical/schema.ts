@@ -1,7 +1,8 @@
 import type { OpenClawConfig } from "openclaw/plugin-sdk/memory-core-host-runtime-core";
 
 export const EXTRACTOR_VERSION = "v0-2026.04";
-export const CANONICAL_SCHEMA_VERSION = "v1";
+export const CANONICAL_SCHEMA_VERSION = "v2";
+export const GRAPH_PROJECTION_VERSION = "v1-2026.04";
 export const GRAPH_RECALL_TTL_MS = 30 * 60 * 1000;
 
 export type GraphMetricKey =
@@ -36,7 +37,7 @@ export type RawEvent = {
 
 export type EventRecord = {
   event_id: string;
-  source_type: "memory_file" | "flush_turn";
+  source_type: "transcript" | "tool_result" | "flush" | "promotion" | "memory_file";
   source_ref: string;
   occurred_at: string;
   entity_id: string;
@@ -83,6 +84,32 @@ export type GraphIndexConfig = {
   bootstrapOnStart: boolean;
   extractDuringFlush: boolean;
 };
+
+export type ProjectionSourceState = {
+  source_kind: "transcript";
+  source_id: string;
+  covered_until_entry_id: string | null;
+  dirty_since_entry_id: string | null;
+  last_projected_at: number | null;
+  projection_version: string;
+  status: "clean" | "dirty" | "draining" | "failed";
+};
+
+export type ProjectionInboxEntry = {
+  id: number;
+  source_kind: "transcript";
+  source_id: string;
+  first_entry_id: string;
+  last_entry_id: string;
+  entries_json: string;
+  dirty_reason: string;
+  signal_strength: number;
+  strong_event: boolean;
+  created_at: number;
+  drained_at: number | null;
+};
+
+export type ProjectionInboxWrite = Omit<ProjectionInboxEntry, "id" | "drained_at">;
 
 export type RecentGraphCandidate = {
   session_key: string;
@@ -213,6 +240,38 @@ CREATE INDEX IF NOT EXISTS idx_recent_graph_hits_session
 CREATE INDEX IF NOT EXISTS idx_recent_graph_hits_path
   ON recent_graph_hits(session_key, path, start_line, end_line);
 
+CREATE TABLE IF NOT EXISTS source_projection_state (
+  source_kind              TEXT NOT NULL,
+  source_id                TEXT NOT NULL,
+  covered_until_entry_id   TEXT,
+  dirty_since_entry_id     TEXT,
+  last_projected_at        INTEGER,
+  projection_version       TEXT NOT NULL,
+  status                   TEXT NOT NULL DEFAULT 'clean',
+  PRIMARY KEY (source_kind, source_id)
+);
+
+CREATE INDEX IF NOT EXISTS idx_projection_state_status
+  ON source_projection_state(status, source_kind);
+
+CREATE TABLE IF NOT EXISTS projection_inbox (
+  id              INTEGER PRIMARY KEY AUTOINCREMENT,
+  source_kind     TEXT NOT NULL,
+  source_id       TEXT NOT NULL,
+  first_entry_id  TEXT NOT NULL,
+  last_entry_id   TEXT NOT NULL,
+  entries_json    TEXT NOT NULL,
+  dirty_reason    TEXT NOT NULL,
+  signal_strength REAL NOT NULL DEFAULT 0,
+  strong_event    INTEGER NOT NULL DEFAULT 0,
+  created_at      INTEGER NOT NULL,
+  drained_at      INTEGER,
+  UNIQUE(source_kind, source_id, first_entry_id, last_entry_id)
+);
+
+CREATE INDEX IF NOT EXISTS idx_projection_inbox_pending
+  ON projection_inbox(source_kind, source_id, drained_at, created_at);
+
 CREATE TABLE IF NOT EXISTS entity_aliases (
   alias_id       TEXT NOT NULL,
   canonical_id   TEXT NOT NULL,
@@ -252,6 +311,7 @@ export function describeGraphIndexConfig(cfg?: OpenClawConfig) {
     ...resolveGraphIndexConfig(cfg),
     schemaVersion: CANONICAL_SCHEMA_VERSION,
     extractorVersion: EXTRACTOR_VERSION,
+    projectionVersion: GRAPH_PROJECTION_VERSION,
   };
 }
 
@@ -273,6 +333,23 @@ export function isSafeMemorySourcePath(sourcePath: string): boolean {
     return false;
   }
   return normalized === "MEMORY.md" || normalized.startsWith("memory/");
+}
+
+export function isSafeGraphSourcePath(sourcePath: string): boolean {
+  const normalized = sourcePath.replaceAll("\\", "/").trim();
+  if (
+    !normalized ||
+    normalized.startsWith("/") ||
+    normalized.includes("\0") ||
+    normalized.split("/").includes("..")
+  ) {
+    return false;
+  }
+  return (
+    normalized === "MEMORY.md" ||
+    normalized.startsWith("memory/") ||
+    normalized.startsWith("transcripts/")
+  );
 }
 
 export function parseSourceRef(
@@ -297,7 +374,7 @@ export function parseSourceRef(
     return null;
   }
   const sourcePath = (match[1] ?? "").replaceAll("\\", "/").replace(/^\.\//, "");
-  if (!isSafeMemorySourcePath(sourcePath)) {
+  if (!isSafeGraphSourcePath(sourcePath)) {
     return null;
   }
   return {

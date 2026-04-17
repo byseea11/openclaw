@@ -1,7 +1,9 @@
 import type { AgentMessage } from "@mariozechner/pi-agent-core";
 import type { AssistantMessage } from "@mariozechner/pi-ai";
+import type { OpenClawConfig } from "../../../config/types.openclaw.js";
 import type { MemoryCitationsMode } from "../../../config/types.memory.js";
 import type { ContextEngine, ContextEngineRuntimeContext } from "../../../context-engine/types.js";
+import { observeMemoryAfterTurn } from "../memory-capability-observers.js";
 import type { NormalizedUsage } from "../../usage.js";
 import type { PromptCacheChange } from "../prompt-cache-observability.js";
 import type { EmbeddedRunAttemptResult } from "./types.js";
@@ -177,6 +179,8 @@ export async function assembleAttemptContextEngine(params: {
 }
 
 export async function finalizeAttemptContextEngineTurn(params: {
+  cfg?: OpenClawConfig;
+  agentId?: string;
   contextEngine?: AttemptContextEngine;
   promptError: boolean;
   aborted: boolean;
@@ -200,13 +204,9 @@ export async function finalizeAttemptContextEngineTurn(params: {
   sessionManager: unknown;
   warn: (message: string) => void;
 }) {
-  if (!params.contextEngine) {
-    return { postTurnFinalizationSucceeded: true };
-  }
-
   let postTurnFinalizationSucceeded = true;
 
-  if (typeof params.contextEngine.afterTurn === "function") {
+  if (params.contextEngine && typeof params.contextEngine.afterTurn === "function") {
     try {
       await params.contextEngine.afterTurn({
         sessionId: params.sessionIdUsed,
@@ -221,7 +221,7 @@ export async function finalizeAttemptContextEngineTurn(params: {
       postTurnFinalizationSucceeded = false;
       params.warn(`context engine afterTurn failed: ${String(afterTurnErr)}`);
     }
-  } else {
+  } else if (params.contextEngine) {
     const newMessages = params.messagesSnapshot.slice(params.prePromptMessageCount);
     if (newMessages.length > 0) {
       if (typeof params.contextEngine.ingestBatch === "function") {
@@ -258,15 +258,34 @@ export async function finalizeAttemptContextEngineTurn(params: {
     !params.yieldAborted &&
     postTurnFinalizationSucceeded
   ) {
-    await params.runMaintenance({
-      contextEngine: params.contextEngine,
-      sessionId: params.sessionIdUsed,
-      sessionKey: params.sessionKey,
-      sessionFile: params.sessionFile,
-      reason: "turn",
-      sessionManager: params.sessionManager,
-      runtimeContext: params.runtimeContext,
-    });
+    if (params.cfg && params.agentId) {
+      try {
+        await observeMemoryAfterTurn({
+          cfg: params.cfg,
+          agentId: params.agentId,
+          sessionId: params.sessionIdUsed,
+          sessionKey: params.sessionKey,
+          sessionFile: params.sessionFile,
+          sessionManager: params.sessionManager as never,
+          prePromptMessageCount: params.prePromptMessageCount,
+          tokenBudget: params.tokenBudget,
+          runtimeContext: params.runtimeContext as Record<string, unknown> | undefined,
+        });
+      } catch (memoryObserverErr) {
+        params.warn(`memory afterTurn observer failed: ${String(memoryObserverErr)}`);
+      }
+    }
+    if (params.contextEngine) {
+      await params.runMaintenance({
+        contextEngine: params.contextEngine,
+        sessionId: params.sessionIdUsed,
+        sessionKey: params.sessionKey,
+        sessionFile: params.sessionFile,
+        reason: "turn",
+        sessionManager: params.sessionManager,
+        runtimeContext: params.runtimeContext,
+      });
+    }
   }
 
   return { postTurnFinalizationSucceeded };

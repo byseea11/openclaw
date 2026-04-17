@@ -112,6 +112,7 @@ async function runCompactionHooks(params: { sessionKey?: string; messageProvider
     sessionKey: params.sessionKey,
     sessionAgentId: "main",
     workspaceDir: TEST_WORKSPACE_DIR,
+    sessionFile: TEST_SESSION_FILE,
     messageProvider: params.messageProvider,
     metrics: beforeMetrics,
   });
@@ -363,6 +364,7 @@ describe("compactEmbeddedPiSessionDirect hooks", () => {
       sessionKey: "agent:main:session-1",
       sessionAgentId: "main",
       workspaceDir: "/tmp",
+      sessionFile: TEST_SESSION_FILE,
       metrics: beforeMetrics,
     });
 

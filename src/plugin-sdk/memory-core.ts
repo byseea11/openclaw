@@ -21,6 +21,8 @@ export {
 } from "./memory-core-host-runtime-core.js";
 export type {
   AnyAgentTool,
+  MemoryAfterTurnObserver,
+  MemoryBeforeCompactionObserver,
   MemoryCitationsMode,
   MemoryFlushPlan,
   MemoryFlushPlanResolver,
@@ -29,6 +31,7 @@ export type {
   MemoryPluginPublicArtifactsProvider,
   MemoryPluginRuntime,
   MemoryPromptSectionBuilder,
+  MemoryTranscriptSpanEntry,
   OpenClawConfig,
   OpenClawPluginApi,
 } from "./memory-core-host-runtime-core.js";

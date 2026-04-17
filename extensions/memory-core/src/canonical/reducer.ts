@@ -14,6 +14,14 @@ function isNewer(left: EventRecord, right: EventRecord): boolean {
   return leftMs === rightMs ? left.created_at >= right.created_at : leftMs > rightMs;
 }
 
+function inferEntityType(event: EventRecord, previous?: EntityState): EntityState["entity_type"] {
+  const object = event.object?.trim().toLowerCase() ?? "";
+  if (/\b(task|issue|ticket)\b/.test(object) || /\btask[-_ ]?\d+\b/.test(object)) {
+    return "task";
+  }
+  return previous?.entity_type ?? "other";
+}
+
 export function reduce(events: EventRecord[], prevStates: Map<string, EntityState>): EntityState[] {
   const latestByEntity = new Map<string, EventRecord>();
   for (const event of events) {
@@ -33,6 +41,9 @@ export function reduce(events: EventRecord[], prevStates: Map<string, EntityStat
       latest_owner: event.actor ?? previous?.latest_owner ?? null,
       last_event_id: event.event_id,
       last_updated_at: Number.isFinite(lastUpdatedAt) ? lastUpdatedAt : event.created_at,
+      entity_type: inferEntityType(event, previous),
+      supporting_event_ids: [event.event_id],
+      confidence: event.confidence,
     });
   }
 

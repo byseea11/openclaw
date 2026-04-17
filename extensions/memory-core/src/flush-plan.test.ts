@@ -30,5 +30,9 @@ describe("memory flush plan", () => {
     expect(enabled?.prompt).toContain("graph index");
     expect(enabled?.prompt).toContain('"events":[]');
     expect(enabled?.prompt).toContain("memory/2026-04-16.md#L12-L18");
+    expect(enabled?.prompt).toContain("3-10 events");
+    expect(enabled?.prompt).toContain("status_before");
+    expect(enabled?.prompt).toContain("source_ref");
+    expect(enabled?.prompt).toContain("occurred_at");
   });
 });

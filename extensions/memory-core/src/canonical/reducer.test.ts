@@ -12,7 +12,10 @@ function event(overrides: Partial<EventRecord>): EventRecord {
     actor: "Alice",
     action: "changed_status",
     object: "task",
+    status_before: null,
     status_after: "open",
+    session_id: null,
+    covered_until_entry_id: null,
     confidence: 0.5,
     extractor_version: "v-test",
     created_at: 1,
@@ -32,6 +35,9 @@ describe("canonical graph reducer", () => {
       latest_owner: "Old Owner",
       last_event_id: "old",
       last_updated_at: 1,
+      entity_type: "other",
+      supporting_event_ids: ["old"],
+      confidence: 0.4,
     };
 
     const states = reduce(
@@ -53,6 +59,31 @@ describe("canonical graph reducer", () => {
         latest_status: "blocked",
         latest_owner: "Bob",
         last_event_id: "newer",
+        entity_type: "task",
+        supporting_event_ids: ["newer"],
+        confidence: 0.5,
+      }),
+    ]);
+  });
+
+  it("marks obvious task objects as task entities", () => {
+    const states = reduce(
+      [
+        event({
+          event_id: "task",
+          object: "task_123",
+          status_after: "done",
+          confidence: 0.9,
+        }),
+      ],
+      new Map(),
+    );
+
+    expect(states).toEqual([
+      expect.objectContaining({
+        entity_type: "task",
+        supporting_event_ids: ["task"],
+        confidence: 0.9,
       }),
     ]);
   });

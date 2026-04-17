@@ -3,6 +3,7 @@ import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { buildMemorySystemPromptAddition } from "../../../plugin-sdk/core.js";
 import {
   clearMemoryPluginState,
+  registerMemoryCapability,
   registerMemoryPromptSection,
 } from "../../../plugins/memory-state.js";
 import {
@@ -237,6 +238,57 @@ describe("runEmbeddedAttempt context engine sessionKey forwarding", () => {
         return params.sessionKey === sessionKey;
       }),
     ).toBe(true);
+  });
+
+  it("runs the memory afterTurn observer even without a context engine", async () => {
+    const afterTurnObserver = vi.fn();
+    registerMemoryCapability("memory-core", { afterTurnObserver });
+    hoisted.sessionManager.getBranch.mockReturnValue([
+      {
+        type: "message",
+        id: "entry-1",
+        parentId: null,
+        message: {
+          role: "assistant",
+          content: "remember task_123 status: pending",
+          timestamp: "2026-04-17T00:00:00.000Z",
+        },
+      },
+    ]);
+
+    await finalizeAttemptContextEngineTurn({
+      cfg: {} as never,
+      agentId: "main",
+      promptError: false,
+      aborted: false,
+      yieldAborted: false,
+      sessionIdUsed: embeddedSessionId,
+      sessionKey,
+      sessionFile,
+      messagesSnapshot: [doneMessage],
+      prePromptMessageCount: 0,
+      tokenBudget: 2048,
+      runtimeContext: {},
+      runMaintenance: hoisted.runContextEngineMaintenanceMock,
+      sessionManager: hoisted.sessionManager,
+      warn: () => {},
+    });
+
+    expect(afterTurnObserver).toHaveBeenCalledWith(
+      expect.objectContaining({
+        agentId: "main",
+        sessionId: embeddedSessionId,
+        sessionKey,
+        entries: [
+          expect.objectContaining({
+            entryId: "entry-1",
+            messageRole: "assistant",
+            messageContent: "remember task_123 status: pending",
+          }),
+        ],
+      }),
+    );
+    expect(hoisted.runContextEngineMaintenanceMock).not.toHaveBeenCalled();
   });
 
   it("forwards silentExpected to the embedded subscription", async () => {

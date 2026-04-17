@@ -7,6 +7,7 @@ import { getActiveMemorySearchManager } from "../../plugins/memory-runtime.js";
 import { emitSessionTranscriptUpdate } from "../../sessions/transcript-events.js";
 import { resolveSessionAgentId } from "../agent-scope.js";
 import { resolveMemorySearchConfig } from "../memory-search.js";
+import { observeMemoryBeforeCompaction } from "./memory-capability-observers.js";
 import { log } from "./logger.js";
 
 function resolvePostCompactionIndexSyncMode(config?: OpenClawConfig): "off" | "async" | "await" {
@@ -171,13 +172,17 @@ export function buildBeforeCompactionHookMetrics(params: {
 }
 
 export async function runBeforeCompactionHooks(params: {
+  config?: OpenClawConfig;
   hookRunner?: CompactionHookRunner | null;
   sessionId: string;
   sessionKey?: string;
   sessionAgentId: string;
+  sessionFile: string;
+  sessionManager?: unknown;
   workspaceDir: string;
   messageProvider?: string;
   metrics: ReturnType<typeof buildBeforeCompactionHookMetrics>;
+  runtimeContext?: Record<string, unknown>;
 }) {
   const missingSessionKey = !params.sessionKey || !params.sessionKey.trim();
   const hookSessionKey = params.sessionKey?.trim() || params.sessionId;
@@ -193,6 +198,23 @@ export async function runBeforeCompactionHooks(params: {
     await triggerInternalHook(hookEvent);
   } catch (err) {
     log.warn("session:compact:before hook failed", {
+      errorMessage: formatErrorMessage(err),
+      errorStack: err instanceof Error ? err.stack : undefined,
+    });
+  }
+  try {
+    await observeMemoryBeforeCompaction({
+      cfg: params.config,
+      agentId: params.sessionAgentId,
+      sessionId: params.sessionId,
+      sessionKey: params.sessionKey,
+      sessionFile: params.sessionFile,
+      tokenCount: params.metrics.tokenCountBefore,
+      runtimeContext: params.runtimeContext,
+      sessionManager: params.sessionManager as never,
+    });
+  } catch (err) {
+    log.warn("memory before_compaction observer failed", {
       errorMessage: formatErrorMessage(err),
       errorStack: err instanceof Error ? err.stack : undefined,
     });

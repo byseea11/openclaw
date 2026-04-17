@@ -88,9 +88,12 @@ export type {
 export type { ProviderRuntimeModel } from "../plugins/provider-runtime-model.types.js";
 export type { OpenClawPluginToolContext, OpenClawPluginToolFactory } from "../plugins/types.js";
 export type {
+  MemoryAfterTurnObserver,
+  MemoryBeforeCompactionObserver,
   MemoryPluginCapability,
   MemoryPluginPublicArtifact,
   MemoryPluginPublicArtifactsProvider,
+  MemoryTranscriptSpanEntry,
 } from "../plugins/memory-state.js";
 export type {
   PluginHookReplyDispatchContext,

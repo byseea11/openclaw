@@ -2,6 +2,8 @@ import { formatErrorMessage } from "openclaw/plugin-sdk/error-runtime";
 import { definePluginEntry } from "openclaw/plugin-sdk/plugin-entry";
 import {
   handleGraphFlushResult,
+  handleGraphAfterTurn,
+  handleGraphBeforeCompaction,
   noteGraphUsageFromAssistantOutput,
   noteGraphUsageFromMemoryGet,
 } from "./src/canonical/index.js";
@@ -40,6 +42,8 @@ export default definePluginEntry({
       promptBuilder: buildPromptSection,
       flushPlanResolver: buildMemoryFlushPlan,
       flushResultHandler: handleGraphFlushResult,
+      afterTurnObserver: handleGraphAfterTurn,
+      beforeCompactionObserver: handleGraphBeforeCompaction,
       runtime: memoryRuntime,
       publicArtifacts: {
         listArtifacts: listMemoryCorePublicArtifacts,

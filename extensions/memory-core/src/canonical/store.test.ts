@@ -65,7 +65,7 @@ describe("canonical graph store", () => {
     expect(store.getStatus()).toMatchObject({
       eventsTotal: 1,
       entitiesTotal: 1,
-      schemaVersion: "v1",
+      schemaVersion: "v2",
       metrics: expect.objectContaining({
         hitsReturned: 0,
         hitsUsedRaw: 0,

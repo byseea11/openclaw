@@ -58,6 +58,26 @@ function resolveRecallTrackingResults(
   return surfacedResults.map((surfaced) => rawByKey.get(buildRecallKey(surfaced)) ?? surfaced);
 }
 
+function rankHybridMemoryResults(
+  results: MemorySearchResultWithCorpus[],
+  maxResults: number | undefined,
+): MemorySearchResultWithCorpus[] {
+  return results
+    .toSorted((left, right) => {
+      if (left.score !== right.score) {
+        return right.score - left.score;
+      }
+      if (left.corpus !== right.corpus) {
+        return left.corpus.localeCompare(right.corpus);
+      }
+      if (left.path !== right.path) {
+        return left.path.localeCompare(right.path);
+      }
+      return (left.startLine ?? 0) - (right.startLine ?? 0);
+    })
+    .slice(0, Math.max(1, maxResults ?? 10));
+}
+
 function queueShortTermRecallTracking(params: {
   workspaceDir?: string;
   query: string;
@@ -302,14 +322,12 @@ export function createMemorySearchTool(options: {
           const baseResults: MemorySearchResultWithCorpus[] = [
             ...surfacedMemoryResults,
             ...supplementResults,
-          ]
-            .toSorted((left, right) => {
-              if (left.score !== right.score) {
-                return right.score - left.score;
-              }
-              return left.path.localeCompare(right.path);
-            })
-            .slice(0, Math.max(1, maxResults ?? 10));
+          ].toSorted((left, right) => {
+            if (left.score !== right.score) {
+              return right.score - left.score;
+            }
+            return left.path.localeCompare(right.path);
+          });
           const graph = shouldQueryMemory
             ? await searchGraphForMemoryTool({
                 cfg,
@@ -326,7 +344,10 @@ export function createMemorySearchTool(options: {
               renderedHits: graph.renderedHits,
             };
           }
-          const results: MemorySearchResultWithCorpus[] = [...baseResults, ...graph.results];
+          const results = rankHybridMemoryResults(
+            [...baseResults, ...graph.results],
+            maxResults,
+          );
           return jsonResult({
             results,
             provider,

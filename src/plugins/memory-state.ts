@@ -90,6 +90,49 @@ export type MemoryFlushResultHandler = (params: {
   | { parsedEvents: number; persistedEvents: number }
   | void;
 
+export type MemoryTranscriptSpanEntry = {
+  entryId: string;
+  parentId: string | null;
+  entryType:
+    | "message"
+    | "compaction"
+    | "thinking_level_change"
+    | "model_change"
+    | "custom"
+    | "custom_message"
+    | "session_info"
+    | "branch_summary"
+    | "label_change";
+  messageRole: string | null;
+  messageContent: string;
+  toolName: string | null;
+  toolResult: string | null;
+  timestamp: string | null;
+};
+
+export type MemoryAfterTurnObserver = (params: {
+  cfg: OpenClawConfig;
+  agentId: string;
+  sessionId: string;
+  sessionKey?: string;
+  sessionFile: string;
+  entries: MemoryTranscriptSpanEntry[];
+  prePromptMessageCount: number;
+  tokenBudget?: number;
+  runtimeContext?: Record<string, unknown>;
+}) => Promise<void> | void;
+
+export type MemoryBeforeCompactionObserver = (params: {
+  cfg?: OpenClawConfig;
+  agentId: string;
+  sessionId: string;
+  sessionKey?: string;
+  sessionFile: string;
+  entries: MemoryTranscriptSpanEntry[];
+  tokenCount?: number;
+  runtimeContext?: Record<string, unknown>;
+}) => Promise<void> | void;
+
 export type RegisteredMemorySearchManager = MemorySearchManager;
 
 export type MemoryRuntimeQmdConfig = {
@@ -140,6 +183,8 @@ export type MemoryPluginCapability = {
   promptBuilder?: MemoryPromptSectionBuilder;
   flushPlanResolver?: MemoryFlushPlanResolver;
   flushResultHandler?: MemoryFlushResultHandler;
+  afterTurnObserver?: MemoryAfterTurnObserver;
+  beforeCompactionObserver?: MemoryBeforeCompactionObserver;
   runtime?: MemoryPluginRuntime;
   publicArtifacts?: MemoryPluginPublicArtifactsProvider;
 };
@@ -264,6 +309,14 @@ export function getMemoryFlushPlanResolver(): MemoryFlushPlanResolver | undefine
 
 export function resolveMemoryFlushResultHandler(): MemoryFlushResultHandler | undefined {
   return memoryPluginState.capability?.capability.flushResultHandler;
+}
+
+export function resolveMemoryAfterTurnObserver(): MemoryAfterTurnObserver | undefined {
+  return memoryPluginState.capability?.capability.afterTurnObserver;
+}
+
+export function resolveMemoryBeforeCompactionObserver(): MemoryBeforeCompactionObserver | undefined {
+  return memoryPluginState.capability?.capability.beforeCompactionObserver;
 }
 
 /** @deprecated Use registerMemoryCapability(pluginId, { runtime }) instead. */

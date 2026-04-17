@@ -24,11 +24,16 @@ const MEMORY_FLUSH_REQUIRED_HINTS = [
 ];
 
 const GRAPH_FLUSH_JSON_INSTRUCTIONS = [
-  "In addition to appending durable content to memory/YYYY-MM-DD.md, end this flush reply with a JSON code block for the graph index.",
+  "In addition to appending durable content to memory/YYYY-MM-DD.md, you must end this flush reply with a JSON code block for the graph index.",
+  "Extract all recognizable structured events from the session content handled by this flush.",
+  "Focus on status changes, owner changes, decisions, milestones, and new preferences or constraints.",
   "Use exactly this shape:",
-  '```json\n{"events":[]}\n```',
+  '```json\n{"events":[{"actor":"who did it (optional)","action":"what happened","object":"what it happened to (optional)","status_before":"previous status (optional)","status_after":"new status (optional)","occurred_at":"YYYY-MM-DD","source_ref":"memory/YYYY-MM-DD.md#L12-L18","confidence":0.8}]}\n```',
+  "Try to extract as many valid events as possible; a typical flush can produce 3-10 events.",
   "Only include events from content newly appended to memory/YYYY-MM-DD.md during this flush; do not restate older lines from the file.",
   'Each event must use source_ref like "memory/YYYY-MM-DD.md#L12-L18" pointing to the exact lines just written in this flush.',
+  "Each event must include occurred_at; if unsure, use the current flush date.",
+  "If both status_before and status_after are knowable, include both.",
   'If there are no extractable events, output {"events":[]}.',
   `If no user-visible reply is needed, still include the JSON block after ${SILENT_REPLY_TOKEN}.`,
 ].join("\n");

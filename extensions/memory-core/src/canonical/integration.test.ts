@@ -149,6 +149,7 @@ describe("canonical graph integration", () => {
             actor: "Alice",
             action: "changed_status",
             object: "task_123",
+            status_before: "in_progress",
             status_after: "blocked",
             occurred_at: "2026-04-15",
             source_ref: "memory/2026-04-15.md#L12-L18",
@@ -169,6 +170,7 @@ describe("canonical graph integration", () => {
     expect(getCanonicalStatus({ cfg, agentId: "main" })).toMatchObject({
       eventsTotal: 1,
       entitiesTotal: 1,
+      schemaVersion: "v2",
       extractorVersion: "v0-2026.04",
     });
 
@@ -254,6 +256,8 @@ describe("canonical graph integration", () => {
           {
             action: "changed_status",
             object: "task_valid",
+            status_before: "open",
+            status_after: "blocked",
             source_ref: "memory/2026-04-15.md#L12-L18",
           },
           {
@@ -299,6 +303,7 @@ describe("canonical graph integration", () => {
       {
         action: "changed_status",
         object: "task_123",
+        status_before: "open",
         status_after: "blocked",
         source_ref: "memory/2026-04-15.md#L12-L18",
       },
