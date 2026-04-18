@@ -574,6 +574,12 @@ describe("active-memory plugin", () => {
     );
     expect(runParams?.prompt).toContain("Use only memory_search and memory_get.");
     expect(runParams?.prompt).toContain(
+      "Before replying with either NONE or a summary, you must call memory_search at least once.",
+    );
+    expect(runParams?.prompt).toContain(
+      "Do not rely on the conversation context alone when deciding whether memory is relevant.",
+    );
+    expect(runParams?.prompt).toContain(
       "If the user is directly asking about favorites, preferences, habits, routines, or personal facts, treat that as a strong recall signal.",
     );
     expect(runParams?.prompt).toContain(

@@ -13,16 +13,21 @@ type GraphJsonParseResult = {
 type DateContext = {
   currentDate?: string;
   defaultDate?: string;
+  currentEntity?: string;
 };
 
 const CHECKBOX_RE = /^[-*]\s+\[( |x|X)\]\s+(.+)$/;
-const STATUS_LINE_RE = /^(?<prefix>.+?)?\bstatus:\s*(?<status>[A-Za-z][A-Za-z _-]*)$/i;
-const OWNER_LINE_RE = /^(?<prefix>.+?)?\bowner:\s*(?<owner>[@A-Za-z0-9_.-][A-Za-z0-9_@ .-]*)$/i;
+const STATUS_LINE_RE =
+  /^(?<prefix>.+?)?(?:[-*]\s*)?(?:\*\*)?(?:status|当前状态|状态)(?:\*\*)?\s*[:：]\s*(?<status>[A-Za-z][A-Za-z _-]*)(?:\s*[（(][^)）]+[)）])?$/i;
+const OWNER_LINE_RE =
+  /^(?<prefix>.+?)?(?:[-*]\s*)?(?:\*\*)?(?:owner|跟进人|负责人)(?:\*\*)?\s*[:：]\s*(?<owner>.+)$/i;
 const DECIDED_RE = /^(?:(?<actor>[A-Z][A-Za-z0-9_.-]+)\s+)?decided to\s+(?<decision>.+)$/i;
 const EXPLICIT_STATUS_RE =
   /\b(?<object>[A-Za-z][\w./:-]*\d[\w./:-]*)\s+is\s+(?<status>blocked|done|in progress|pending|open)\b/i;
 const INLINE_DATE_RE = /\b(20\d{2}-\d{2}-\d{2})\b/;
 const DATE_HEADING_RE = /^(?:#{1,6}\s*)?(20\d{2}-\d{2}-\d{2})(?:\b.*)?$/;
+const ENTITY_HEADING_RE =
+  /^(?:\[[^\]]+\]\s+[A-Za-z_]+:\s*)?(?:#{1,6}\s*)?(?:[-*]\s*)?(?:\*\*)?(?<entity>[A-Za-z][\w./:-]*\d[\w./:-]*)\b/i;
 
 function isRawEvent(value: unknown): value is RawEvent {
   const record = value && typeof value === "object" ? (value as Record<string, unknown>) : null;
@@ -104,6 +109,13 @@ function updateDateContext(line: string, ctx: DateContext): void {
   }
 }
 
+function updateEntityContext(line: string, ctx: DateContext): void {
+  const headingMatch = line.trim().match(ENTITY_HEADING_RE);
+  if (headingMatch?.groups?.entity) {
+    ctx.currentEntity = headingMatch.groups.entity;
+  }
+}
+
 function occurredAtForLine(line: string, ctx: DateContext): string | undefined {
   const inlineMatch = line.match(INLINE_DATE_RE);
   return inlineMatch?.[1] ?? ctx.currentDate ?? ctx.defaultDate;
@@ -113,7 +125,7 @@ function cleanTaskText(raw: string): string {
   return normalizeWhitespace(raw.replace(/\b(owner|status):.+$/i, "").replace(/\s+\([^)]*\)\s*$/, ""));
 }
 
-function extractEntityToken(body: string): string | undefined {
+function extractEntityToken(body: string, fallback?: string): string | undefined {
   const tokenMatch = body.match(/\b([A-Za-z][\w./:-]*\d[\w./:-]*)\b/);
   if (tokenMatch?.[1]) {
     return tokenMatch[1];
@@ -125,7 +137,7 @@ function extractEntityToken(body: string): string | undefined {
   const cleaned = cleanTaskText(body)
     .replace(/^[-*]\s+/, "")
     .replace(/^task[:\s-]+/i, "");
-  return cleaned || undefined;
+  return /[\p{L}\p{N}]/u.test(cleaned) ? cleaned : fallback;
 }
 
 function extractOwner(prefix: string | undefined): string | undefined {
@@ -135,6 +147,19 @@ function extractOwner(prefix: string | undefined): string | undefined {
   }
   const ownerMatch = trimmed.match(/owner:\s*([@A-Za-z0-9_.-][A-Za-z0-9_@ .-]*)$/i);
   return ownerMatch?.[1] ? normalizeWhitespace(ownerMatch[1]).replace(/^@/, "") : undefined;
+}
+
+function normalizeOwnerValue(raw: string): string | undefined {
+  const trimmed = normalizeWhitespace(raw);
+  if (!trimmed) {
+    return undefined;
+  }
+  const withoutTrailingNotes = trimmed
+    .replace(/\s*[（(][^()（）]*[)）]\s*$/u, "")
+    .replace(/\s*(?:[-,，;；].*)$/u, "")
+    .trim();
+  const normalized = withoutTrailingNotes.replace(/^@/, "").trim();
+  return normalized || undefined;
 }
 
 function pushEvent(
@@ -178,7 +203,7 @@ function extractLineEvents(
       events,
       {
         action: "changed_status",
-        object: extractEntityToken(body),
+        object: extractEntityToken(body, ctx.currentEntity),
         status_after: checkboxMatch[1]?.toLowerCase() === "x" ? "done" : "pending",
         actor: extractOwner(body),
         occurred_at: occurredAt,
@@ -195,7 +220,7 @@ function extractLineEvents(
       events,
       {
         action: "changed_status",
-        object: extractEntityToken(statusMatch.groups.prefix ?? trimmed),
+        object: extractEntityToken(statusMatch.groups.prefix ?? trimmed, ctx.currentEntity),
         status_after: statusMatch.groups.status,
         occurred_at: occurredAt,
         confidence: 0.78,
@@ -207,12 +232,13 @@ function extractLineEvents(
 
   const ownerMatch = trimmed.match(OWNER_LINE_RE);
   if (ownerMatch?.groups?.owner) {
+    const owner = normalizeOwnerValue(ownerMatch.groups.owner);
     pushEvent(
       events,
       {
         action: "assigned_owner",
-        object: extractEntityToken(ownerMatch.groups.prefix ?? trimmed),
-        actor: ownerMatch.groups.owner.replace(/^@/, ""),
+        object: extractEntityToken(ownerMatch.groups.prefix ?? trimmed, ctx.currentEntity),
+        actor: owner,
         occurred_at: occurredAt,
         confidence: 0.75,
       },
@@ -269,6 +295,7 @@ export async function extract(
   const lines = text.split(/\r?\n/);
   for (const [index, line] of lines.entries()) {
     updateDateContext(line, ctx);
+    updateEntityContext(line, ctx);
     events.push(...extractLineEvents(line, index + 1, sourcePath, ctx));
   }
   log.info(

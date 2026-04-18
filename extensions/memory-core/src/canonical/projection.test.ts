@@ -13,7 +13,7 @@ import {
 } from "./projection.js";
 import { closeAllCanonicalStores, getCanonicalStore } from "./store.js";
 
-function cfg(): OpenClawConfig {
+function cfg(tracePath?: string): OpenClawConfig {
   return {
     memory: {
       backend: "builtin",
@@ -24,6 +24,16 @@ function cfg(): OpenClawConfig {
           config: {
             graphIndex: {
               enabled: true,
+              ...(tracePath
+                ? {
+                    trace: {
+                      enabled: true,
+                      filePath: tracePath,
+                      includeEntryPreview: true,
+                      maxPreviewChars: 80,
+                    },
+                  }
+                : {}),
             },
           },
         },
@@ -172,5 +182,86 @@ describe("canonical graph transcript projection", () => {
         covered_until_entry_id: "entry-2",
       }),
     ]);
+  });
+
+  it("writes graph trace JSONL for dirty then drain", async () => {
+    const tracePath = path.join(stateDir, "logs", "graph-index-trace.jsonl");
+    const graphCfg = cfg(tracePath);
+
+    await handleGraphAfterTurn({
+      cfg: graphCfg,
+      agentId: "main",
+      sessionId: "session-1",
+      sessionKey: "agent:channel:thread",
+      sessionFile: "/tmp/session.jsonl",
+      entries: [entry()],
+      prePromptMessageCount: 3,
+    });
+    await drainPendingGraphUpdates({
+      cfg: graphCfg,
+      agentId: "main",
+      sourceId: "agent:channel:thread",
+      reason: "recall",
+    });
+
+    const traceLines = (await fs.readFile(tracePath, "utf8")).trim().split("\n");
+    const traceEvents = traceLines.map(
+      (line) => JSON.parse(line) as { stage?: string; tag?: string },
+    );
+    expect(traceEvents).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({ tag: "GRAPH_INDEX", stage: "after_turn_mark_dirty" }),
+        expect.objectContaining({ tag: "GRAPH_INDEX", stage: "drain_started" }),
+        expect.objectContaining({ tag: "GRAPH_INDEX", stage: "events_persisted" }),
+        expect.objectContaining({ tag: "GRAPH_INDEX", stage: "cursor_advanced" }),
+      ]),
+    );
+  });
+
+  it("updates latest owner from a transcript handoff note", async () => {
+    await handleGraphAfterTurn({
+      cfg: cfg(),
+      agentId: "main",
+      sessionId: "session-1",
+      sessionKey: "agent:channel:thread",
+      sessionFile: "/tmp/session.jsonl",
+      entries: [
+        entry({
+          entryId: "entry-bob",
+          messageContent: [
+            "**FEISHU-231 飞书机器人权限问题**",
+            "- **状态**: blocked（阻塞）",
+            "- **跟进人**: Bob（从 Alice 接手）",
+          ].join("\n"),
+        }),
+      ],
+      prePromptMessageCount: 3,
+    });
+
+    await drainPendingGraphUpdates({
+      cfg: cfg(),
+      agentId: "main",
+      sourceId: "agent:channel:thread",
+      reason: "recall",
+    });
+
+    const store = getCanonicalStore("main");
+    const exported = await store.exportData();
+    expect(exported.events).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          action: "assigned_owner",
+          actor: "Bob",
+          object: "FEISHU-231",
+        }),
+      ]),
+    );
+    expect(exported.states).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          latest_owner: "Bob",
+        }),
+      ]),
+    );
   });
 });

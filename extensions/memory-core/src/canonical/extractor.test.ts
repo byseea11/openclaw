@@ -106,4 +106,72 @@ describe("canonical graph extractor", () => {
       ]),
     );
   });
+
+  it("extracts markdown status and owner events from real-world Chinese notes", async () => {
+    const events = await extract(
+      [
+        "[51bcc3e3] assistant: 已记录！我已经创建了今天的记忆文件，并记录了以下信息：",
+        "",
+        "**FEISHU-231 飞书机器人权限问题**",
+        "- **状态**: blocked（阻塞）",
+        "- **跟进人**: Alice",
+        "",
+        "是的，我记得！根据刚才的记录：",
+        "- **当前状态**: blocked（阻塞）",
+        "- **跟进人**: Alice",
+      ].join("\n"),
+      "transcripts/test-transcript.txt#L1-L9",
+    );
+
+    expect(events).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          action: "changed_status",
+          object: "FEISHU-231",
+          status_after: "blocked",
+          source_ref: "transcripts/test-transcript.txt#L4-L4",
+        }),
+        expect.objectContaining({
+          action: "assigned_owner",
+          object: "FEISHU-231",
+          actor: "Alice",
+          source_ref: "transcripts/test-transcript.txt#L5-L5",
+        }),
+        expect.objectContaining({
+          action: "changed_status",
+          object: "FEISHU-231",
+          status_after: "blocked",
+          source_ref: "transcripts/test-transcript.txt#L8-L8",
+        }),
+        expect.objectContaining({
+          action: "assigned_owner",
+          object: "FEISHU-231",
+          actor: "Alice",
+          source_ref: "transcripts/test-transcript.txt#L9-L9",
+        }),
+      ]),
+    );
+  });
+
+  it("extracts owner changes when the new owner includes a Chinese handoff note", async () => {
+    const events = await extract(
+      [
+        "**FEISHU-231 飞书机器人权限问题**",
+        "- **状态**: blocked（阻塞）",
+        "- **跟进人**: Bob（从 Alice 接手）",
+      ].join("\n"),
+      "transcripts/test-transcript.txt#L1-L3",
+    );
+
+    expect(events).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          action: "assigned_owner",
+          object: "FEISHU-231",
+          actor: "Bob",
+          source_ref: "transcripts/test-transcript.txt#L3-L3",
+        }),
+      ]),
+    );
+  });
 });

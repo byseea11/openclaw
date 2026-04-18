@@ -83,6 +83,14 @@ export type GraphIndexConfig = {
   enabled: boolean;
   bootstrapOnStart: boolean;
   extractDuringFlush: boolean;
+  trace: GraphIndexTraceConfig;
+};
+
+export type GraphIndexTraceConfig = {
+  enabled: boolean;
+  filePath: string | null;
+  includeEntryPreview: boolean;
+  maxPreviewChars: number;
 };
 
 export type ProjectionSourceState = {
@@ -293,16 +301,33 @@ function normalizeBoolean(value: unknown, fallback: boolean): boolean {
   return typeof value === "boolean" ? value : fallback;
 }
 
+function normalizeString(value: unknown, fallback: string | null): string | null {
+  return typeof value === "string" && value.trim().length > 0 ? value.trim() : fallback;
+}
+
+function normalizePositiveInteger(value: unknown, fallback: number): number {
+  return typeof value === "number" && Number.isFinite(value) && value > 0
+    ? Math.floor(value)
+    : fallback;
+}
+
 export function resolveGraphIndexConfig(cfg?: OpenClawConfig): GraphIndexConfig {
   const plugins = asRecord(cfg?.plugins);
   const entries = asRecord(plugins?.entries);
   const memoryEntry = asRecord(entries?.["memory-core"]);
   const pluginConfig = asRecord(memoryEntry?.config);
   const graphIndex = asRecord(pluginConfig?.graphIndex);
+  const trace = asRecord(graphIndex?.trace);
   return {
     enabled: normalizeBoolean(graphIndex?.enabled, false),
     bootstrapOnStart: normalizeBoolean(graphIndex?.bootstrapOnStart, true),
     extractDuringFlush: normalizeBoolean(graphIndex?.extractDuringFlush, true),
+    trace: {
+      enabled: normalizeBoolean(trace?.enabled, false),
+      filePath: normalizeString(trace?.filePath, null),
+      includeEntryPreview: normalizeBoolean(trace?.includeEntryPreview, true),
+      maxPreviewChars: normalizePositiveInteger(trace?.maxPreviewChars, 180),
+    },
   };
 }
 

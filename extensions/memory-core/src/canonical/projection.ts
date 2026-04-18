@@ -14,6 +14,7 @@ import {
   resolveGraphIndexConfig,
 } from "./schema.js";
 import { getCanonicalStore } from "./store.js";
+import { buildGraphTraceId, recordGraphIndexTrace } from "./trace.js";
 
 const log = createSubsystemLogger("memory");
 
@@ -170,6 +171,20 @@ function scheduleIdleDrain(params: { cfg: OpenClawConfig; agentId: string; sourc
   }, IDLE_DRAIN_MS);
   timer.unref?.();
   idleTimers.set(params.sourceId, timer);
+  recordGraphIndexTrace({
+    cfg: params.cfg,
+    message: "canonical.projection.drain_scheduled",
+    summary: `reason=idle source=${params.sourceId}`,
+    event: {
+      stage: "drain_scheduled",
+      source_kind: "transcript",
+      source_id: params.sourceId,
+      drain: {
+        reason: "idle",
+        delay_ms: IDLE_DRAIN_MS,
+      },
+    },
+  });
 }
 
 function scheduleAsyncDrain(params: {
@@ -178,6 +193,20 @@ function scheduleAsyncDrain(params: {
   sourceId: string;
   reason: DrainReason;
 }): void {
+  recordGraphIndexTrace({
+    cfg: params.cfg,
+    message: "canonical.projection.drain_scheduled",
+    summary: `reason=${params.reason} source=${params.sourceId}`,
+    event: {
+      stage: "drain_scheduled",
+      source_kind: "transcript",
+      source_id: params.sourceId,
+      drain: {
+        reason: params.reason,
+        delay_ms: 0,
+      },
+    },
+  });
   setTimeout(() => {
     void drainPendingGraphUpdates(params).catch((err) => {
       log.warn(`[canonical] projection.async_drain_failed reason=${params.reason} error=${String(err)}`);
@@ -203,17 +232,35 @@ export const handleGraphAfterTurn: MemoryAfterTurnObserver = async (params) => {
     return;
   }
   const detected = detectTranscriptSignals(params.entries);
-  if (!detected.dirty) {
-    log.info("canonical.projection.after_turn.clean");
-    return;
-  }
   const sourceId = sourceIdFromParams(params);
   const firstEntry = params.entries[0]?.entryId;
   const lastEntry = params.entries.at(-1)?.entryId;
+  const traceId = buildGraphTraceId([sourceId, firstEntry, lastEntry]);
+  if (!detected.dirty) {
+    recordGraphIndexTrace({
+      cfg: params.cfg,
+      message: "canonical.projection.after_turn",
+      summary: `clean source=${sourceId} entries=${params.entries.length}`,
+      event: {
+        trace_id: traceId,
+        stage: "after_turn_clean",
+        source_kind: "transcript",
+        source_id: sourceId,
+        entry_range: {
+          first: firstEntry,
+          last: lastEntry,
+        },
+      },
+      entries: params.entries,
+    });
+    return;
+  }
   if (!firstEntry || !lastEntry) {
     return;
   }
   const store = getCanonicalStore(params.agentId);
+  const beforeState = store.getProjectionState(sourceId);
+  const beforeSummary = store.listPendingProjectionSummaries(sourceId)[0];
   const inserted = store.enqueueProjectionInbox({
     source_kind: "transcript",
     source_id: sourceId,
@@ -225,9 +272,42 @@ export const handleGraphAfterTurn: MemoryAfterTurnObserver = async (params) => {
     strong_event: detected.strongEvent,
     created_at: Date.now(),
   });
-  log.info(
-    `canonical.projection.after_turn dirty inserted=${inserted} source=${sourceId} reason=${detected.dirtyReason} strength=${detected.signalStrength.toFixed(2)} needs_llm=${detected.needsLlmExtraction}`,
-  );
+  const afterState = store.getProjectionState(sourceId);
+  const afterSummary = store.listPendingProjectionSummaries(sourceId)[0];
+  recordGraphIndexTrace({
+    cfg: params.cfg,
+    message: "canonical.projection.after_turn",
+    summary: `dirty inserted=${inserted} source=${sourceId} reason=${detected.dirtyReason} strength=${detected.signalStrength.toFixed(2)} needs_llm=${detected.needsLlmExtraction} strong=${detected.strongEvent}`,
+    event: {
+      trace_id: traceId,
+      stage: "after_turn_mark_dirty",
+      source_kind: "transcript",
+      source_id: sourceId,
+      entry_range: {
+        first: firstEntry,
+        last: lastEntry,
+      },
+      dirty: {
+        reason: detected.dirtyReason,
+        signal_strength: detected.signalStrength,
+        needs_llm_extraction: detected.needsLlmExtraction,
+        strong_event: detected.strongEvent,
+      },
+      tables: {
+        projection_inbox: {
+          inserted,
+          pending_before: beforeSummary?.pending_spans ?? 0,
+          pending_after: afterSummary?.pending_spans ?? 0,
+        },
+        source_projection_state: {
+          status_before: beforeState?.status ?? "missing",
+          status_after: afterState?.status ?? "missing",
+          dirty_since_entry_id: afterState?.dirty_since_entry_id ?? null,
+        },
+      },
+    },
+    entries: params.entries,
+  });
   scheduleIdleDrain({ cfg: params.cfg, agentId: params.agentId, sourceId });
   const summary = store.listPendingProjectionSummaries(sourceId)[0];
   if (detected.strongEvent) {
@@ -275,6 +355,26 @@ export const handleGraphBeforeCompaction: MemoryBeforeCompactionObserver = async
     strong_event: true,
     created_at: Date.now(),
   });
+  recordGraphIndexTrace({
+    cfg: params.cfg,
+    message: "canonical.projection.before_compaction",
+    summary: `source=${sourceId} entries=${params.entries.length}`,
+    event: {
+      trace_id: buildGraphTraceId([sourceId, firstEntry, lastEntry, "pre_compaction"]),
+      stage: "before_compaction_catchup",
+      source_kind: "transcript",
+      source_id: sourceId,
+      entry_range: {
+        first: firstEntry,
+        last: lastEntry,
+      },
+      drain: {
+        reason: "pre_compaction",
+        synchronous: true,
+      },
+    },
+    entries: params.entries,
+  });
   await drainPendingGraphUpdates({
     cfg: params.cfg,
     agentId: params.agentId,
@@ -303,11 +403,40 @@ export async function drainPendingGraphUpdates(params: {
       continue;
     }
     drainingSources.add(summary.source_id);
+    const traceId = buildGraphTraceId([
+      summary.source_id,
+      summary.first_entry_id,
+      summary.last_entry_id,
+      params.reason,
+    ]);
+    const stateBeforeDrain = store.getProjectionState(summary.source_id);
     store.markProjectionSourceDraining(summary.source_id);
     try {
       const rows = store.listPendingProjectionInbox(summary.source_id);
       const entries = parseInboxEntries(rows);
       const coveredUntilEntryId = entries.at(-1)?.entryId ?? summary.last_entry_id;
+      recordGraphIndexTrace({
+        cfg: params.cfg,
+        message: "canonical.projection.drain",
+        summary: `started reason=${params.reason} source=${summary.source_id} spans=${rows.length} entries=${entries.length}`,
+        event: {
+          trace_id: traceId,
+          stage: "drain_started",
+          source_kind: "transcript",
+          source_id: summary.source_id,
+          entry_range: {
+            first: summary.first_entry_id,
+            last: coveredUntilEntryId,
+          },
+          drain: {
+            reason: params.reason,
+            pending_spans: rows.length,
+            pending_entries: entries.length,
+            state_before: stateBeforeDrain?.status ?? "missing",
+          },
+        },
+        entries,
+      });
       if (entries.length === 0 || !coveredUntilEntryId) {
         store.markProjectionDrained({
           sourceId: summary.source_id,
@@ -318,9 +447,31 @@ export async function drainPendingGraphUpdates(params: {
       const startedAt = Date.now();
       const rendered = renderProjectionBatch(summary.source_id, entries);
       const rawEvents = await extract(rendered.text, rendered.sourceRef);
-      store.recordExtractorLatency(Date.now() - startedAt);
+      const extractionMs = Date.now() - startedAt;
+      store.recordExtractorLatency(extractionMs);
       store.bumpMetric("extractSuccesses", 1);
       parsedEvents += rawEvents.length;
+      recordGraphIndexTrace({
+        cfg: params.cfg,
+        message: "canonical.projection.extractor",
+        summary: `completed reason=${params.reason} source=${summary.source_id} entries=${entries.length} events=${rawEvents.length} latency_ms=${extractionMs}`,
+        event: {
+          trace_id: traceId,
+          stage: "extractor_completed",
+          source_kind: "transcript",
+          source_id: summary.source_id,
+          entry_range: {
+            first: summary.first_entry_id,
+            last: coveredUntilEntryId,
+          },
+          extract: {
+            reason: params.reason,
+            entries: entries.length,
+            events: rawEvents.length,
+            latency_ms: extractionMs,
+          },
+        },
+      });
       if (rawEvents.length > 0) {
         const records = canonicalize(rawEvents, EXTRACTOR_VERSION, {
           sourceType: "transcript",
@@ -329,17 +480,121 @@ export async function drainPendingGraphUpdates(params: {
         });
         store.setMeta("extractor_version", EXTRACTOR_VERSION);
         await store.upsertEvents(records);
-        await store.refreshEntityStates(records);
+        recordGraphIndexTrace({
+          cfg: params.cfg,
+          message: "canonical.projection.events_persisted",
+          summary: `source=${summary.source_id} records=${records.length}`,
+          event: {
+            trace_id: traceId,
+            stage: "events_persisted",
+            source_kind: "transcript",
+            source_id: summary.source_id,
+            entry_range: {
+              first: summary.first_entry_id,
+              last: coveredUntilEntryId,
+            },
+            tables: {
+              event_records: {
+                persisted: records.length,
+              },
+            },
+          },
+        });
+        const states = await store.refreshEntityStates(records);
+        recordGraphIndexTrace({
+          cfg: params.cfg,
+          message: "canonical.projection.entity_states_merged",
+          summary: `source=${summary.source_id} states=${states.length}`,
+          event: {
+            trace_id: traceId,
+            stage: "entity_states_merged",
+            source_kind: "transcript",
+            source_id: summary.source_id,
+            entry_range: {
+              first: summary.first_entry_id,
+              last: coveredUntilEntryId,
+            },
+            tables: {
+              entity_states: {
+                merged: states.length,
+              },
+            },
+          },
+        });
         persistedEvents += records.length;
+      } else {
+        recordGraphIndexTrace({
+          cfg: params.cfg,
+          message: "canonical.projection.events_persisted",
+          summary: `source=${summary.source_id} records=0`,
+          event: {
+            trace_id: traceId,
+            stage: "events_persisted",
+            source_kind: "transcript",
+            source_id: summary.source_id,
+            entry_range: {
+              first: summary.first_entry_id,
+              last: coveredUntilEntryId,
+            },
+            tables: {
+              event_records: {
+                persisted: 0,
+              },
+            },
+          },
+        });
       }
       store.markProjectionDrained({ sourceId: summary.source_id, coveredUntilEntryId });
+      const stateAfterDrain = store.getProjectionState(summary.source_id);
       drainedSources += 1;
-      log.info(
-        `canonical.projection.drain reason=${params.reason} source=${summary.source_id} entries=${entries.length} events=${rawEvents.length}`,
-      );
+      recordGraphIndexTrace({
+        cfg: params.cfg,
+        message: "canonical.projection.drain",
+        summary: `reason=${params.reason} source=${summary.source_id} entries=${entries.length} events=${rawEvents.length} persisted=${rawEvents.length > 0 ? rawEvents.length : 0} covered_until=${coveredUntilEntryId}`,
+        event: {
+          trace_id: traceId,
+          stage: "cursor_advanced",
+          source_kind: "transcript",
+          source_id: summary.source_id,
+          entry_range: {
+            first: summary.first_entry_id,
+            last: coveredUntilEntryId,
+          },
+          tables: {
+            projection_inbox: {
+              drained: rows.length,
+            },
+            source_projection_state: {
+              status_before: stateBeforeDrain?.status ?? "missing",
+              status_after: stateAfterDrain?.status ?? "missing",
+              covered_until_entry_id: stateAfterDrain?.covered_until_entry_id ?? null,
+              dirty_since_entry_id: stateAfterDrain?.dirty_since_entry_id ?? null,
+            },
+          },
+        },
+      });
     } catch (err) {
       store.bumpMetric("extractFailures", 1);
       store.markProjectionFailed(summary.source_id);
+      recordGraphIndexTrace({
+        cfg: params.cfg,
+        message: "canonical.projection.drain_failed",
+        summary: `reason=${params.reason} source=${summary.source_id} error=${String(err)}`,
+        event: {
+          trace_id: traceId,
+          stage: "drain_failed",
+          source_kind: "transcript",
+          source_id: summary.source_id,
+          entry_range: {
+            first: summary.first_entry_id,
+            last: summary.last_entry_id,
+          },
+          drain: {
+            reason: params.reason,
+          },
+          error: String(err),
+        },
+      });
       log.warn(
         `[canonical] projection.drain_failed reason=${params.reason} source=${summary.source_id} error=${String(err)}`,
       );

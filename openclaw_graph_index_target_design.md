@@ -1,4 +1,12 @@
-# OpenClaw Graph Index 目标方案（原始处理 vs 目标处理）
+# 目标：需要完成课题2的技术报告，申请项目
+
+课题二：企业级长程协作 Memory 系统
+
+本课题聚焦企业跨部门长程协作场景中的智能体易 “失忆”、信息和协作断层等核心问题，基于飞书 OpenClaw、飞书 CLI、飞书生态与大模型能力，打造具备全流程记忆管理的企业级记忆引擎。
+参赛同学需完成办公记忆定义、引擎架构搭建、评测用例设计关键过程，交付记忆定义与架构白皮书、可运行 Demo 和自证评测报告，实现增强飞书 OpenClaw 智能体记忆能力、贯通长程协作链路、释放企业办公效能的核心价值。
+
+
+# 实现方案：OpenClaw Graph Index 目标方案（原始处理 vs 目标处理）
 
 ## 一、文档目的
 
@@ -589,3 +597,259 @@ memory_search
    - hybrid retrieval
    - evidence pack
    - cache-boundary-aware placement
+
+
+
+#### 主增量观测点
+你指出的问题本质上是：我前面把 `afterTurn` 写成了“主增量抽取点”，但**没有把它和“每轮一次 LLM 调用”明确切开**。如果不切开，方案会天然滑向最差实现：每轮对话结束都跑一次结构化抽取。对一个高活跃 session，这个成本和延迟都不可接受。你前面那版目标方案里把 `afterTurn` 写成了主增量入口，同时又保留了 `pre-compaction catch-up` 兜底；而 V0 报告明确说，当前实现还**不做 afterTurn 实时增量抽取**，只做 flush piggyback 和 bootstrap/reindex，所以 V0 之所以稳，确实就是因为它还没引入这笔 per-turn 成本。  
+
+所以我现在会修正一句非常关键的话：
+
+**`afterTurn` 应该是“主增量观测点”，不应该等价于“每轮一次 LLM 抽取点”。**
+
+这是两个完全不同的成本模型。
+
+---
+
+## 正确的 V1 成本模型
+
+V1 不应该是：
+
+```text
+每轮 afterTurn
+  -> 跑一次 LLM event extraction
+  -> append EventRecord
+  -> merge EntityState
+```
+
+而应该改成：
+
+```text
+每轮 afterTurn
+  -> 做超轻量 signal detection
+  -> 标记 dirty span / pending projection
+
+在满足触发条件时
+  -> 对 dirty span 做一次批量抽取
+  -> append EventRecord
+  -> merge EntityState
+
+pre-compaction
+  -> 强制 catch-up
+```
+
+也就是你说的那个方向：
+**条件触发 + 批量抽取 + compaction 兜底**。
+我认为这是对的，而且应该直接写进 V1 方案，替换我前面那版“afterTurn 轻量抽取”的表述。
+
+---
+
+## 为什么这是更合理的
+
+因为 graph 的价值不在于“5 秒级实时状态同步”，而在于：
+
+* 让历史状态、owner、decision、变更链条可检索
+* 在真正需要 recall 时能拿出对的结构化证据
+* 在 compaction 前不丢失关键事件关系
+
+这三件事都不要求**每轮都立刻做一次完整 LLM 抽取**。
+你说“graph 的价值在于历史状态，不在于 5 秒级实时性”，这个判断我认同。
+
+---
+
+## 我建议你把 V1 的生命周期改成 4 层
+
+### 第 1 层：afterTurn 只做 signal detection
+
+每轮结束后，只做非常轻的事情：
+
+* 扫新增消息和 toolResult
+* 看有没有结构化信号
+* 记录 dirty 起点和 dirty 类型
+* 不做完整 canonical extraction
+
+信号检测可以非常便宜，比如：
+
+* 是否出现 `status / owner / decided / blocked / done / due / assigned`
+* 是否命中 task / project / ticket / decision 样式
+* 是否有 toolResult 带明确状态变化
+* 是否有“记住”“更新”“负责人”“截止时间”这类强模式
+
+这一步的输出不是 `EventRecord`，而是类似：
+
+* `dirty_since_entry_id`
+* `dirty_reason`
+* `estimated_signal_strength`
+* `needs_llm_extraction`
+
+所以 `afterTurn` 在 V1 里应该理解成：
+
+**观察点 / 标脏点，不是抽取点。**
+
+---
+
+### 第 2 层：触发式批量抽取
+
+只有在满足条件时，才真正做 LLM 抽取或更重的抽取。
+
+我建议至少保留 5 个触发器：
+
+**A. recall 前触发**
+当 `memory_search` 真正要用 graph，而当前 session 有 dirty span 时，先做一次 `drainPendingGraphUpdates()`。
+
+**B. dirty 累积触发**
+例如累计到 `N` 轮 dirty turn，或者 dirty span 超过某个 token/entry 阈值时，批量抽一次。
+
+**C. idle 触发**
+session 闲置超过 `X` 分钟时，利用空档批量抽一次。
+
+**D. 强事件触发**
+出现非常明确的结构化事件时，比如：
+
+* owner changed
+* status changed
+* decision made
+* deadline updated
+  这类可以直接触发一次 extraction drain。
+
+**E. pre-compaction 强制触发**
+这是最终兜底，必须保留。
+因为历史一旦被 compaction summary 抹平，就丢了最细粒度关系。你前面的总方案里已经把它定义成最关键的 catch-up hook，这点不变。
+
+---
+
+### 第 3 层：抽取时做批量，不做单轮单抽
+
+真正触发抽取时，不要只看当前一轮，而是看：
+
+**从 `dirty_since_entry_id` 到当前边界的整段 transcript span**
+
+然后一次性喂给 extractor。
+
+这一步的好处是：
+
+* 减少 LLM 调用次数
+* 给模型更完整的上下文，抽取得更准
+* 更容易识别跨轮的 owner/status/decision 变化
+* 更符合 canonical event 的语义
+
+也就是你说的：
+
+**不是 O(轮次) 次 LLM 调用，而是 O(批次数) 次。**
+
+这个方向完全对。
+
+---
+
+### 第 4 层：merge 和 coverage 推进
+
+抽取完成后，再做两步：
+
+1. `append EventRecord`
+2. `merge EntityState`
+3. 更新 `covered_until_entry_id` / `dirty_since_entry_id = null`
+
+这一步和我前面给你的 update 语义一致：
+
+* append events
+* merge states
+* 推进覆盖边界
+  而不是“扫 md -> reindex graph”。你之前那版目标文档里也已经把 projection cursor / coverage state 写出来了，这里正好能用上。
+
+---
+
+## 这样改完以后，成本模型会变成什么样
+
+你举的例子是：
+
+* 一个活跃 session
+* 一天 50 轮
+
+如果按错误实现：
+
+* 每轮 afterTurn 都 LLM 抽取
+* 那就是 50 次额外调用/天/活跃 session
+
+如果按你提出的改法：
+
+* 每轮只做规则 signal detection，成本接近 0
+* 只有满足触发器时才批量抽取
+
+那一天的 LLM 抽取次数会更接近：
+
+* `max(强事件批次, recall 触发批次, idle 批次, compaction 批次)`
+
+实际很可能从 **50 次** 降到 **5–10 次甚至更少**。
+这个具体数字要看 N、idle timeout、触发阈值怎么设，但方向上肯定是从 **O(turns)** 降到 **O(batches)**。
+
+所以从成本模型上讲，你这个修正不是“小优化”，而是**把 V1 从不可上线改成可上线的必要条件**。
+
+---
+
+## 我会怎么改写 V1 方案里的这段
+
+原来那句：
+
+> afterTurn：主增量抽取点
+
+我会改成：
+
+> **afterTurn：主增量观测与标脏点**
+
+然后把原本写在 afterTurn 里的“轻量 event extraction”改成：
+
+**afterTurn 的职责**
+
+* 扫描本轮新增 `user / assistant / toolResult`
+* 做超轻量 signal detection
+* 记录 `dirty_since_entry_id`
+* 标记 `needs_projection_update`
+* 不直接跑完整 LLM extraction
+
+再新增一段：
+
+> **Batch Projection Drain：条件触发的批量抽取点**
+
+职责：
+
+* 当 `memory_search` 需要 graph recall、或 dirty 累积超过阈值、或 session idle、或 pre-compaction 时
+* 对 `dirty_since_entry_id..current_entry_id` 的 transcript span 做批量抽取
+* `append EventRecord`
+* `merge EntityState`
+* 推进 coverage cursor
+
+这样整个生命周期就合理了。
+
+---
+
+## 还有一个更稳的实现建议
+
+V1 的 extractor 不要只有一种。
+
+建议分成两级：
+
+### L0：规则 detector
+
+只负责：
+
+* 发现是不是值得抽
+* 给 span 打信号
+* 做极少量显式事件抽取
+
+### L1：LLM batch extractor
+
+只在触发 drain 时运行：
+
+* 对 dirty span 做真正 canonical extraction
+* 生成更可靠的 event/state 输入
+
+这样你既保留了 V0 规则路径的低成本优势，也把 LLM 用在真正值得用的地方。V0 报告里已经明确承认，规则 extractor 不能理解复杂上下文，而独立 LLM bootstrap extractor 是待做项；你现在这套成本模型，正好给 LLM extractor 一个合理落点。
+
+---
+
+## 最后一句结论
+
+**对，这是一个真实问题，而且不是小问题。**
+如果把 `afterTurn` 理解成“每轮一次 LLM 抽取”，V1 成本模型基本站不住。正确做法应该是你说的这版：
+
+**每轮只做极轻量 signal detection；真正的 graph 抽取改成“条件触发 + dirty span 批量抽取 + pre-compaction catch-up 兜底”。**

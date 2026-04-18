@@ -238,6 +238,7 @@ describe("canonical graph integration", () => {
     expect(logText).toContain("canonical.reduce");
     expect(logText).toContain("canonical.search");
     expect(logText).toContain("canonical.memory_search.graph_hits");
+    expect(logText).toContain("GRAPH_INDEX canonical.memory_search.graph_hits");
     expect(logText).toContain("[canonical] usage.used");
     expect(getCanonicalStatus({ cfg, agentId: "main" }).metrics).toMatchObject({
       hitsUsedRaw: 4,

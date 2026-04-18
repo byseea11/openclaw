@@ -27,6 +27,7 @@ import {
   type SourceRefValidationResult,
 } from "./schema.js";
 import { getCanonicalStore } from "./store.js";
+import { buildGraphTraceId, recordGraphIndexTrace } from "./trace.js";
 import {
   markGraphHitsUsedFromAssistantTexts,
   markGraphHitsUsedFromMemoryGet,
@@ -215,6 +216,31 @@ export async function searchGraphForMemoryTool(params: {
     }
     const store = getCanonicalStore(params.agentId);
     if (store.hasPendingProjection(params.sessionKey)) {
+      const summary = store.listPendingProjectionSummaries(params.sessionKey)[0];
+      recordGraphIndexTrace({
+        cfg: params.cfg,
+        message: "canonical.memory_search.pending_drain",
+        summary: `source=${params.sessionKey ?? ""} query=${JSON.stringify(params.query)}`,
+        event: {
+          trace_id: buildGraphTraceId([
+            params.sessionKey,
+            summary?.first_entry_id,
+            summary?.last_entry_id,
+            "memory_search_pending_drain",
+          ]),
+          stage: "memory_search_pending_drain",
+          source_kind: "transcript",
+          source_id: params.sessionKey,
+          entry_range: {
+            first: summary?.first_entry_id,
+            last: summary?.last_entry_id,
+          },
+          search: {
+            query: params.query,
+            pending_spans: summary?.pending_spans ?? 0,
+          },
+        },
+      });
       await drainPendingGraphUpdates({
         cfg: params.cfg,
         agentId: params.agentId,
@@ -241,7 +267,26 @@ export async function searchGraphForMemoryTool(params: {
       }
       results.push(rendered);
     }
-    log.info(`canonical.memory_search.graph_hits hits=${hits.length} rendered=${results.length}`);
+    recordGraphIndexTrace({
+      cfg: params.cfg,
+      message: "canonical.memory_search.graph_hits",
+      summary: `query=${JSON.stringify(params.query)} hits=${hits.length} rendered=${results.length}`,
+      event: {
+        trace_id: buildGraphTraceId([
+          params.sessionKey,
+          params.query,
+          "memory_search_graph_hits",
+        ]),
+        stage: "memory_search_graph_hits",
+        source_kind: params.sessionKey ? "transcript" : undefined,
+        source_id: params.sessionKey,
+        search: {
+          query: params.query,
+          hits: hits.length,
+          rendered: results.length,
+        },
+      },
+    });
     return {
       enabled: true,
       hits: hits.length,

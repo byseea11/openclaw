@@ -31,6 +31,25 @@
           },
           "extractDuringFlush": {
             "type": "boolean"
+          },
+          "trace": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "enabled": {
+                "type": "boolean"
+              },
+              "filePath": {
+                "type": "string"
+              },
+              "includeEntryPreview": {
+                "type": "boolean"
+              },
+              "maxPreviewChars": {
+                "type": "integer",
+                "minimum": 1
+              }
+            }
           }
         }
       },

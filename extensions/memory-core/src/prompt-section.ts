@@ -14,10 +14,10 @@ export const buildPromptSection: MemoryPromptSectionBuilder = ({
   let toolGuidance: string;
   if (hasMemorySearch && hasMemoryGet) {
     toolGuidance =
-      "Before answering anything about prior work, decisions, dates, people, preferences, or todos: run memory_search on MEMORY.md + memory/*.md + indexed session transcripts; then use memory_get to pull only the needed lines. If low confidence after search, say you checked.";
+      "Before answering anything about prior work, decisions, dates, people, preferences, or todos: run memory_search on MEMORY.md + memory/*.md + indexed session transcripts; then use memory_get to pull only the needed lines. Do not use generic file reads on MEMORY.md or memory/*.md before memory_search when the tool is available. If low confidence after search, say you checked.";
   } else if (hasMemorySearch) {
     toolGuidance =
-      "Before answering anything about prior work, decisions, dates, people, preferences, or todos: run memory_search on MEMORY.md + memory/*.md + indexed session transcripts and answer from the matching results. If low confidence after search, say you checked.";
+      "Before answering anything about prior work, decisions, dates, people, preferences, or todos: run memory_search on MEMORY.md + memory/*.md + indexed session transcripts and answer from the matching results. Do not use generic file reads on MEMORY.md or memory/*.md before memory_search when the tool is available. If low confidence after search, say you checked.";
   } else {
     toolGuidance =
       "Before answering anything about prior work, decisions, dates, people, preferences, or todos that already point to a specific memory file or note: run memory_get to pull only the needed lines. If low confidence after reading them, say you checked.";
