@@ -7,6 +7,7 @@ import { appendMemoryHostEvent } from "openclaw/plugin-sdk/memory-host-events";
 import type { GraphMemorySearchResult } from "./prompt.js";
 import { parseSourceRef, type GraphHit } from "./schema.js";
 import { getCanonicalStore } from "./store.js";
+import { buildGraphTraceId, recordGraphIndexTrace } from "./trace.js";
 
 const log = createSubsystemLogger("memory");
 
@@ -84,6 +85,32 @@ export async function recordReturnedGraphHits(
   }
   store.bumpMetric("hitsReturned", recorded);
   log.info(`[canonical] usage.returned session=${ctx.sessionKey} hits=${recorded}`);
+  recordGraphIndexTrace({
+    cfg: ctx.cfg,
+    message: "canonical.memory_search.graph_hits_recorded",
+    summary: `session=${ctx.sessionKey} table=recent_graph_hits rows=${recorded}`,
+    event: {
+      trace_id: buildGraphTraceId([ctx.sessionKey, ctx.query, "recent_graph_hits"]),
+      stage: "memory_search_graph_hits",
+      source_kind: "transcript",
+      source_id: ctx.sessionKey,
+      search: {
+        query: ctx.query,
+        recorded_recent_hits: recorded,
+      },
+      tables: {
+        recent_graph_hits: {
+          table: "recent_graph_hits",
+          rows: recorded,
+          hits: ctx.hits.map(asRecordedResult),
+        },
+      },
+      call: {
+        function: "recordReturnedGraphHits",
+        steps: ["recordRecentGraphHits", "appendMemoryHostEvent"],
+      },
+    },
+  });
   const workspaceDir = resolveWorkspaceDir(ctx.cfg, ctx.agentId);
   if (!workspaceDir) {
     return;

@@ -1,5 +1,10 @@
 import { describe, expect, it } from "vitest";
-import { extract, parseGraphJsonBlock, parseGraphJsonBlockWithStatus } from "./extractor.js";
+import {
+  extract,
+  parseGraphJsonBlock,
+  parseGraphJsonBlockWithStatus,
+  type LLMClient,
+} from "./extractor.js";
 
 describe("canonical graph extractor", () => {
   it("parses the final fenced graph JSON block", () => {
@@ -59,17 +64,35 @@ describe("canonical graph extractor", () => {
     });
   });
 
-  it("extracts rule-based events with precise source refs", async () => {
+  it("extracts transcript events through the LLM client", async () => {
+    const client: LLMClient = {
+      async extractGraphEvents() {
+        return JSON.stringify({
+          events: [
+            {
+              action: "changed_status",
+              object: "task_123",
+              status_after: "blocked",
+              occurred_at: "2026-04-15",
+              source_ref: "#L2-L2",
+              confidence: 0.82,
+            },
+            {
+              action: "assigned_owner",
+              actor: "Bob",
+              object: "task_123",
+              occurred_at: "2026-04-15",
+              source_ref: "#L3-L3",
+              confidence: 0.79,
+            },
+          ],
+        });
+      },
+    };
     const events = await extract(
-      [
-        "# 2026-04-15",
-        "- [ ] task_123 owner: Alice",
-        "task_123 is blocked",
-        "owner: Bob",
-        "Alice decided to ship task_123 tomorrow",
-        "status: done",
-      ].join("\n"),
-      "memory/2026-04-15.md#L1-L6",
+      ["# 2026-04-15", "task_123 is blocked", "owner: Bob"].join("\n"),
+      "memory/2026-04-15.md#L1-L3",
+      client,
     );
 
     expect(events).toEqual(
@@ -77,37 +100,43 @@ describe("canonical graph extractor", () => {
         expect.objectContaining({
           action: "changed_status",
           object: "task_123",
-          status_after: "pending",
+          status_after: "blocked",
           source_ref: "memory/2026-04-15.md#L2-L2",
           occurred_at: "2026-04-15",
         }),
         expect.objectContaining({
-          action: "changed_status",
-          object: "task_123",
-          status_after: "blocked",
-          source_ref: "memory/2026-04-15.md#L3-L3",
-        }),
-        expect.objectContaining({
           action: "assigned_owner",
           actor: "Bob",
-          source_ref: "memory/2026-04-15.md#L4-L4",
-        }),
-        expect.objectContaining({
-          action: "decided",
-          actor: "Alice",
-          object: "ship task_123 tomorrow",
-          source_ref: "memory/2026-04-15.md#L5-L5",
-        }),
-        expect.objectContaining({
-          action: "changed_status",
-          status_after: "done",
-          source_ref: "memory/2026-04-15.md#L6-L6",
+          object: "task_123",
+          source_ref: "memory/2026-04-15.md#L3-L3",
         }),
       ]),
     );
   });
 
-  it("extracts markdown status and owner events from real-world Chinese notes", async () => {
+  it("accepts direct event arrays from the LLM client", async () => {
+    const client: LLMClient = {
+      async extractGraphEvents() {
+        return {
+          events: [
+            {
+              action: "changed_status",
+              object: "FEISHU-231",
+              status_after: "blocked",
+              source_ref: "transcripts/test-transcript.txt#L4-L4",
+              confidence: 0.78,
+            },
+            {
+              action: "assigned_owner",
+              object: "FEISHU-231",
+              actor: "Alice",
+              source_ref: "transcripts/test-transcript.txt#L5-L5",
+              confidence: 0.75,
+            },
+          ],
+        };
+      },
+    };
     const events = await extract(
       [
         "[51bcc3e3] assistant: 已记录！我已经创建了今天的记忆文件，并记录了以下信息：",
@@ -121,6 +150,7 @@ describe("canonical graph extractor", () => {
         "- **跟进人**: Alice",
       ].join("\n"),
       "transcripts/test-transcript.txt#L1-L9",
+      client,
     );
 
     expect(events).toEqual(
@@ -137,23 +167,16 @@ describe("canonical graph extractor", () => {
           actor: "Alice",
           source_ref: "transcripts/test-transcript.txt#L5-L5",
         }),
-        expect.objectContaining({
-          action: "changed_status",
-          object: "FEISHU-231",
-          status_after: "blocked",
-          source_ref: "transcripts/test-transcript.txt#L8-L8",
-        }),
-        expect.objectContaining({
-          action: "assigned_owner",
-          object: "FEISHU-231",
-          actor: "Alice",
-          source_ref: "transcripts/test-transcript.txt#L9-L9",
-        }),
       ]),
     );
   });
 
-  it("extracts owner changes when the new owner includes a Chinese handoff note", async () => {
+  it("falls back to rules when the LLM extractor fails", async () => {
+    const client: LLMClient = {
+      async extractGraphEvents() {
+        throw new Error("boom");
+      },
+    };
     const events = await extract(
       [
         "**FEISHU-231 飞书机器人权限问题**",
@@ -161,6 +184,7 @@ describe("canonical graph extractor", () => {
         "- **跟进人**: Bob（从 Alice 接手）",
       ].join("\n"),
       "transcripts/test-transcript.txt#L1-L3",
+      client,
     );
 
     expect(events).toEqual(

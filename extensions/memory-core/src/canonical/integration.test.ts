@@ -171,7 +171,7 @@ describe("canonical graph integration", () => {
       eventsTotal: 1,
       entitiesTotal: 1,
       schemaVersion: "v2",
-      extractorVersion: "v0-2026.04",
+      extractorVersion: "v1-2026.04-llm",
     });
 
     const store = getCanonicalStore("main");
@@ -238,7 +238,7 @@ describe("canonical graph integration", () => {
     expect(logText).toContain("canonical.reduce");
     expect(logText).toContain("canonical.search");
     expect(logText).toContain("canonical.memory_search.graph_hits");
-    expect(logText).toContain("GRAPH_INDEX canonical.memory_search.graph_hits");
+    expect(logText).toContain("GRAPH_INDEX_IMPL canonical.memory_search.graph_hits");
     expect(logText).toContain("[canonical] usage.used");
     expect(getCanonicalStatus({ cfg, agentId: "main" }).metrics).toMatchObject({
       hitsUsedRaw: 4,

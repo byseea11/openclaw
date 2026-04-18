@@ -47,6 +47,13 @@ type PendingProjectionSummary = {
   oldest_created_at: number;
 };
 
+export type EntityStateRefreshComputation = {
+  entityIds: string[];
+  previousStates: EntityState[];
+  states: EntityState[];
+  events: EventRecord[];
+};
+
 function graphDbPathForAgent(agentId: string): string {
   return path.join(resolveStateDir(process.env, os.homedir), "memory", `${agentId}.graph.sqlite`);
 }
@@ -597,7 +604,9 @@ export class CanonicalStore {
       .run(sourceId);
   }
 
-  async refreshEntityStates(records: EventRecord[]): Promise<EntityState[]> {
+  private async computeEntityStateRefresh(
+    records: EventRecord[],
+  ): Promise<EntityStateRefreshComputation> {
     const entityIds = [...new Set(records.map((record) => record.entity_id))];
     const prevStates = new Map<string, EntityState>();
     for (const entityId of entityIds) {
@@ -606,7 +615,25 @@ export class CanonicalStore {
         prevStates.set(entityId, state);
       }
     }
-    const states = reduce(records, prevStates);
+    return {
+      entityIds,
+      previousStates: [...prevStates.values()],
+      states: reduce(records, prevStates),
+      events: records,
+    };
+  }
+
+  async explainEntityStateRefresh(
+    records: EventRecord[],
+  ): Promise<EntityStateRefreshComputation> {
+    return this.computeEntityStateRefresh(records);
+  }
+
+  async refreshEntityStates(
+    records: EventRecord[],
+    computed?: EntityStateRefreshComputation,
+  ): Promise<EntityState[]> {
+    const states = (computed ?? (await this.computeEntityStateRefresh(records))).states;
     if (states.length === 0) {
       log.info("canonical.store.refresh_states states=0");
       return states;

@@ -8,6 +8,7 @@ import type {
 } from "openclaw/plugin-sdk/memory-core-host-runtime-core";
 import { canonicalize } from "./canonicalizer.js";
 import { extract } from "./extractor.js";
+import { isGraphExtractorSessionKey } from "./extractor.runtime.js";
 import {
   EXTRACTOR_VERSION,
   type ProjectionInboxEntry,
@@ -42,6 +43,104 @@ const STRUCTURED_RE =
   /\b(?:[A-Z]+-\d+|#[1-9]\d*|task[:\s-]+|project[:\s-]+|decision[:\s-]+|owner:\s*|status:\s*)/i;
 const STRONG_EVENT_RE =
   /\b(owner changed|status changed|decided|decision made|deadline updated|assigned to|blocked|done|completed)\b/i;
+
+function projectionTraceId(params: {
+  sourceId: string;
+  firstEntryId?: string | null;
+  lastEntryId?: string | null;
+}): string {
+  return buildGraphTraceId([params.sourceId, params.firstEntryId, params.lastEntryId]);
+}
+
+function normalizeTraceText(value: string, limit = 600): string {
+  return value.replace(/\s+/g, " ").trim().slice(0, limit);
+}
+
+function latestUserQuery(entries: MemoryTranscriptSpanEntry[]): string | null {
+  for (let index = entries.length - 1; index >= 0; index -= 1) {
+    const entry = entries[index];
+    if (entry?.messageRole !== "user") {
+      continue;
+    }
+    const text = entry.messageContent.trim();
+    if (!text) {
+      continue;
+    }
+    return normalizeTraceText(text, 1000);
+  }
+  return null;
+}
+
+function buildTraceInput(entries: MemoryTranscriptSpanEntry[]): Record<string, unknown> {
+  const userMessages = entries
+    .filter((entry) => entry.messageRole === "user" && entry.messageContent.trim())
+    .map((entry) => ({
+      entry_id: entry.entryId,
+      text: normalizeTraceText(entry.messageContent, 1000),
+    }));
+  const toolCalls = entries
+    .filter((entry) => entry.toolName?.trim())
+    .map((entry) => ({
+      entry_id: entry.entryId,
+      tool_name: entry.toolName,
+    }));
+  return {
+    latest_user_query: latestUserQuery(entries),
+    user_messages: userMessages,
+    tool_calls: toolCalls,
+    entry_count: entries.length,
+  };
+}
+
+function traceRawEvent(event: {
+  actor?: string;
+  action: string;
+  object?: string;
+  status_before?: string;
+  status_after?: string;
+  occurred_at?: string;
+  source_ref: string;
+  confidence?: number;
+}) {
+  return {
+    actor: event.actor ?? null,
+    action: event.action,
+    object: event.object ?? null,
+    status_before: event.status_before ?? null,
+    status_after: event.status_after ?? null,
+    occurred_at: event.occurred_at ?? null,
+    source_ref: event.source_ref,
+    confidence: event.confidence ?? null,
+  };
+}
+
+function traceEventRecord(record: {
+  event_id: string;
+  entity_id: string;
+  actor: string | null;
+  action: string;
+  object: string | null;
+  status_before: string | null;
+  status_after: string | null;
+  source_type: string;
+  source_ref: string;
+  session_id: string | null;
+  covered_until_entry_id: string | null;
+}) {
+  return {
+    event_id: record.event_id,
+    entity_id: record.entity_id,
+    actor: record.actor,
+    action: record.action,
+    object: record.object,
+    status_before: record.status_before,
+    status_after: record.status_after,
+    source_type: record.source_type,
+    source_ref: record.source_ref,
+    session_id: record.session_id,
+    covered_until_entry_id: record.covered_until_entry_id,
+  };
+}
 
 function hashSourceId(value: string): string {
   return crypto.createHash("sha1").update(value).digest("hex").slice(0, 16);
@@ -153,7 +252,14 @@ function parseInboxEntries(rows: ProjectionInboxEntry[]): MemoryTranscriptSpanEn
   return [...entriesById.values()];
 }
 
-function scheduleIdleDrain(params: { cfg: OpenClawConfig; agentId: string; sourceId: string }): void {
+function scheduleIdleDrain(params: {
+  cfg: OpenClawConfig;
+  agentId: string;
+  sourceId: string;
+  traceId?: string;
+  firstEntryId?: string | null;
+  lastEntryId?: string | null;
+}): void {
   const existing = idleTimers.get(params.sourceId);
   if (existing) {
     clearTimeout(existing);
@@ -176,6 +282,13 @@ function scheduleIdleDrain(params: { cfg: OpenClawConfig; agentId: string; sourc
     message: "canonical.projection.drain_scheduled",
     summary: `reason=idle source=${params.sourceId}`,
     event: {
+      trace_id:
+        params.traceId ??
+        projectionTraceId({
+          sourceId: params.sourceId,
+          firstEntryId: params.firstEntryId,
+          lastEntryId: params.lastEntryId,
+        }),
       stage: "drain_scheduled",
       source_kind: "transcript",
       source_id: params.sourceId,
@@ -192,12 +305,22 @@ function scheduleAsyncDrain(params: {
   agentId: string;
   sourceId: string;
   reason: DrainReason;
+  traceId?: string;
+  firstEntryId?: string | null;
+  lastEntryId?: string | null;
 }): void {
   recordGraphIndexTrace({
     cfg: params.cfg,
     message: "canonical.projection.drain_scheduled",
     summary: `reason=${params.reason} source=${params.sourceId}`,
     event: {
+      trace_id:
+        params.traceId ??
+        projectionTraceId({
+          sourceId: params.sourceId,
+          firstEntryId: params.firstEntryId,
+          lastEntryId: params.lastEntryId,
+        }),
       stage: "drain_scheduled",
       source_kind: "transcript",
       source_id: params.sourceId,
@@ -231,11 +354,18 @@ export const handleGraphAfterTurn: MemoryAfterTurnObserver = async (params) => {
   if (!graphConfig.enabled || params.entries.length === 0) {
     return;
   }
+  if (isGraphExtractorSessionKey(params.sessionKey) || isGraphExtractorSessionKey(params.sessionId)) {
+    return;
+  }
   const detected = detectTranscriptSignals(params.entries);
   const sourceId = sourceIdFromParams(params);
   const firstEntry = params.entries[0]?.entryId;
   const lastEntry = params.entries.at(-1)?.entryId;
-  const traceId = buildGraphTraceId([sourceId, firstEntry, lastEntry]);
+  const traceId = projectionTraceId({
+    sourceId,
+    firstEntryId: firstEntry,
+    lastEntryId: lastEntry,
+  });
   if (!detected.dirty) {
     recordGraphIndexTrace({
       cfg: params.cfg,
@@ -293,6 +423,11 @@ export const handleGraphAfterTurn: MemoryAfterTurnObserver = async (params) => {
         needs_llm_extraction: detected.needsLlmExtraction,
         strong_event: detected.strongEvent,
       },
+      input: buildTraceInput(params.entries),
+      call: {
+        function: "handleGraphAfterTurn",
+        steps: ["detectTranscriptSignals", "enqueueProjectionInbox", "scheduleIdleDrain"],
+      },
       tables: {
         projection_inbox: {
           inserted,
@@ -308,10 +443,25 @@ export const handleGraphAfterTurn: MemoryAfterTurnObserver = async (params) => {
     },
     entries: params.entries,
   });
-  scheduleIdleDrain({ cfg: params.cfg, agentId: params.agentId, sourceId });
+  scheduleIdleDrain({
+    cfg: params.cfg,
+    agentId: params.agentId,
+    sourceId,
+    traceId,
+    firstEntryId: firstEntry,
+    lastEntryId: lastEntry,
+  });
   const summary = store.listPendingProjectionSummaries(sourceId)[0];
   if (detected.strongEvent) {
-    scheduleAsyncDrain({ cfg: params.cfg, agentId: params.agentId, sourceId, reason: "strong_event" });
+    scheduleAsyncDrain({
+      cfg: params.cfg,
+      agentId: params.agentId,
+      sourceId,
+      reason: "strong_event",
+      traceId,
+      firstEntryId: firstEntry,
+      lastEntryId: lastEntry,
+    });
   } else if (
     summary &&
     shouldDrainForAccumulation({
@@ -325,6 +475,9 @@ export const handleGraphAfterTurn: MemoryAfterTurnObserver = async (params) => {
       agentId: params.agentId,
       sourceId,
       reason: "dirty_threshold",
+      traceId,
+      firstEntryId: firstEntry,
+      lastEntryId: lastEntry,
     });
   }
 };
@@ -335,6 +488,9 @@ export const handleGraphBeforeCompaction: MemoryBeforeCompactionObserver = async
   }
   const graphConfig = resolveGraphIndexConfig(params.cfg);
   if (!graphConfig.enabled || params.entries.length === 0) {
+    return;
+  }
+  if (isGraphExtractorSessionKey(params.sessionKey) || isGraphExtractorSessionKey(params.sessionId)) {
     return;
   }
   const sourceId = sourceIdFromParams(params);
@@ -360,7 +516,11 @@ export const handleGraphBeforeCompaction: MemoryBeforeCompactionObserver = async
     message: "canonical.projection.before_compaction",
     summary: `source=${sourceId} entries=${params.entries.length}`,
     event: {
-      trace_id: buildGraphTraceId([sourceId, firstEntry, lastEntry, "pre_compaction"]),
+      trace_id: projectionTraceId({
+        sourceId,
+        firstEntryId: firstEntry,
+        lastEntryId: lastEntry,
+      }),
       stage: "before_compaction_catchup",
       source_kind: "transcript",
       source_id: sourceId,
@@ -403,12 +563,11 @@ export async function drainPendingGraphUpdates(params: {
       continue;
     }
     drainingSources.add(summary.source_id);
-    const traceId = buildGraphTraceId([
-      summary.source_id,
-      summary.first_entry_id,
-      summary.last_entry_id,
-      params.reason,
-    ]);
+    const traceId = projectionTraceId({
+      sourceId: summary.source_id,
+      firstEntryId: summary.first_entry_id,
+      lastEntryId: summary.last_entry_id,
+    });
     const stateBeforeDrain = store.getProjectionState(summary.source_id);
     store.markProjectionSourceDraining(summary.source_id);
     try {
@@ -433,6 +592,11 @@ export async function drainPendingGraphUpdates(params: {
             pending_spans: rows.length,
             pending_entries: entries.length,
             state_before: stateBeforeDrain?.status ?? "missing",
+          },
+          input: buildTraceInput(entries),
+          call: {
+            function: "drainPendingGraphUpdates",
+            steps: ["listPendingProjectionInbox", "parseInboxEntries", "renderProjectionBatch"],
           },
         },
         entries,
@@ -469,6 +633,16 @@ export async function drainPendingGraphUpdates(params: {
             entries: entries.length,
             events: rawEvents.length,
             latency_ms: extractionMs,
+            rendered_source_ref: rendered.sourceRef,
+            raw_events_json: rawEvents.map(traceRawEvent),
+          },
+          input: {
+            ...buildTraceInput(entries),
+            rendered_transcript_ref: rendered.sourceRef,
+          },
+          call: {
+            function: "extract",
+            steps: ["renderProjectionBatch", "extract"],
           },
         },
       });
@@ -478,6 +652,7 @@ export async function drainPendingGraphUpdates(params: {
           sessionId: summary.source_id,
           coveredUntilEntryId,
         });
+        const mergeComputation = await store.explainEntityStateRefresh(records);
         store.setMeta("extractor_version", EXTRACTOR_VERSION);
         await store.upsertEvents(records);
         recordGraphIndexTrace({
@@ -495,12 +670,18 @@ export async function drainPendingGraphUpdates(params: {
             },
             tables: {
               event_records: {
+                table: "event_records",
                 persisted: records.length,
+                canonical_records_json: records.map(traceEventRecord),
               },
+            },
+            call: {
+              function: "upsertEvents",
+              steps: ["canonicalize", "event_records", "event_fts"],
             },
           },
         });
-        const states = await store.refreshEntityStates(records);
+        const states = await store.refreshEntityStates(records, mergeComputation);
         recordGraphIndexTrace({
           cfg: params.cfg,
           message: "canonical.projection.entity_states_merged",
@@ -516,8 +697,27 @@ export async function drainPendingGraphUpdates(params: {
             },
             tables: {
               entity_states: {
+                table: "entity_states",
                 merged: states.length,
+                next_states: states,
               },
+            },
+            reducer: {
+              function: "reduce",
+              policy: {
+                latest_event_selection:
+                  "Newest event per entity wins by occurred_at, then created_at.",
+                latest_status: "event.status_after ?? previous.latest_status",
+                latest_owner: "event.actor ?? previous.latest_owner",
+              },
+              entity_ids: mergeComputation.entityIds,
+              previous_states: mergeComputation.previousStates,
+              input_events: mergeComputation.events.map(traceEventRecord),
+              next_states: mergeComputation.states,
+            },
+            call: {
+              function: "refreshEntityStates",
+              steps: ["getEntityState", "reduce", "entity_states upsert"],
             },
           },
         });

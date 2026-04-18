@@ -15,7 +15,8 @@ import type {
 import { resolveGraphIndexConfig } from "./schema.js";
 
 const log = createSubsystemLogger("memory");
-const GRAPH_TRACE_TAG = "GRAPH_INDEX";
+export const GRAPH_INDEX_IMPL_TAG = "GRAPH_INDEX_IMPL";
+export const OPENCLAW_RUNTIME_TAG = "OPENCLAW_RUNTIME";
 
 export type GraphIndexTraceStage =
   | "after_turn_clean"
@@ -33,9 +34,10 @@ export type GraphIndexTraceStage =
 
 export type GraphIndexTraceEvent = {
   ts: string;
-  tag: typeof GRAPH_TRACE_TAG;
+  tag: typeof GRAPH_INDEX_IMPL_TAG;
   trace_id: string;
   stage: GraphIndexTraceStage;
+  observed_tags?: string[];
   source_kind?: "transcript";
   source_id?: string;
   entry_range?: {
@@ -44,9 +46,12 @@ export type GraphIndexTraceEvent = {
   };
   dirty?: Record<string, unknown>;
   drain?: Record<string, unknown>;
+  input?: Record<string, unknown>;
   extract?: Record<string, unknown>;
   tables?: Record<string, unknown>;
   search?: Record<string, unknown>;
+  reducer?: Record<string, unknown>;
+  call?: Record<string, unknown>;
   error?: string;
   entry_preview?: Array<{
     entryId: string;
@@ -93,13 +98,26 @@ function entryPreview(
   });
 }
 
+function observedTags(entries: MemoryTranscriptSpanEntry[] | undefined): string[] | undefined {
+  if (!entries?.length) {
+    return undefined;
+  }
+  const tags = new Set<string>();
+  for (const entry of entries) {
+    if (entry.messageRole === "user" || entry.toolName?.trim() || entry.toolResult?.trim()) {
+      tags.add(OPENCLAW_RUNTIME_TAG);
+    }
+  }
+  return tags.size > 0 ? [...tags] : undefined;
+}
+
 function writeTraceFile(filePath: string, event: GraphIndexTraceEvent): void {
   try {
     fs.mkdirSync(path.dirname(filePath), { recursive: true });
     fs.appendFileSync(filePath, `${JSON.stringify(event)}\n`, "utf8");
   } catch (err) {
-    log.warn(`GRAPH_INDEX canonical.trace.write_failed error=${String(err)}`, {
-      tag: GRAPH_TRACE_TAG,
+    log.warn(`${GRAPH_INDEX_IMPL_TAG} canonical.trace.write_failed error=${String(err)}`, {
+      tag: GRAPH_INDEX_IMPL_TAG,
       graph_stage: "trace_write_failed",
       trace_id: event.trace_id,
     });
@@ -125,18 +143,25 @@ export function recordGraphIndexTrace(params: {
   const event: GraphIndexTraceEvent = {
     ...params.event,
     ts: new Date().toISOString(),
-    tag: GRAPH_TRACE_TAG,
+    tag: GRAPH_INDEX_IMPL_TAG,
     trace_id: traceId,
   };
+  event.observed_tags = observedTags(params.entries);
   if (graphConfig.trace.enabled && graphConfig.trace.includeEntryPreview) {
     event.entry_preview = entryPreview(params.entries, graphConfig.trace.maxPreviewChars);
   }
 
-  const runtimeMessage = [GRAPH_TRACE_TAG, params.message, params.summary]
+  const runtimeMessage = [
+    GRAPH_INDEX_IMPL_TAG,
+    params.message,
+    params.summary,
+    event.observed_tags?.length ? `observed=${event.observed_tags.join(",")}` : null,
+  ]
     .filter((part): part is string => Boolean(part?.trim()))
     .join(" ");
   log.info(runtimeMessage, {
-    tag: GRAPH_TRACE_TAG,
+    tag: GRAPH_INDEX_IMPL_TAG,
+    observed_tags: event.observed_tags,
     graph_stage: event.stage,
     trace_id: event.trace_id,
     source_id: event.source_id,

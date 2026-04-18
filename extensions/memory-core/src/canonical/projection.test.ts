@@ -6,6 +6,7 @@ import type {
   OpenClawConfig,
 } from "openclaw/plugin-sdk/memory-core-host-runtime-core";
 import { afterEach, beforeEach, describe, expect, it } from "vitest";
+import { setDefaultExtractorClient, type CanonicalExtractorClient } from "./index.js";
 import {
   drainPendingGraphUpdates,
   handleGraphAfterTurn,
@@ -56,6 +57,57 @@ function entry(overrides: Partial<MemoryTranscriptSpanEntry> = {}): MemoryTransc
   };
 }
 
+function createMockExtractorClient(): CanonicalExtractorClient {
+  return {
+    async extractGraphEvents(params) {
+      if (params.prompt.includes("FEISHU-231") && params.prompt.includes("Bob（从 Alice 接手）")) {
+        return JSON.stringify({
+          events: [
+            {
+              action: "changed_status",
+              object: "FEISHU-231",
+              status_after: "blocked",
+              source_ref: "#L2-L2",
+              confidence: 0.78,
+            },
+            {
+              action: "assigned_owner",
+              actor: "Bob",
+              object: "FEISHU-231",
+              source_ref: "#L3-L3",
+              confidence: 0.76,
+            },
+          ],
+        });
+      }
+      if (params.prompt.includes("task_456 is blocked")) {
+        return JSON.stringify({
+          events: [
+            {
+              action: "changed_status",
+              object: "task_456",
+              status_after: "blocked",
+              source_ref: "#L1-L1",
+              confidence: 0.82,
+            },
+          ],
+        });
+      }
+      return JSON.stringify({
+        events: [
+          {
+            action: "changed_status",
+            object: "task_123",
+            status_after: "pending",
+            source_ref: "#L1-L1",
+            confidence: 0.74,
+          },
+        ],
+      });
+    },
+  };
+}
+
 describe("canonical graph transcript projection", () => {
   let stateDir = "";
   let previousStateDir: string | undefined;
@@ -64,9 +116,11 @@ describe("canonical graph transcript projection", () => {
     stateDir = await fs.mkdtemp(path.join(os.tmpdir(), "openclaw-graph-projection-"));
     previousStateDir = process.env.OPENCLAW_STATE_DIR;
     process.env.OPENCLAW_STATE_DIR = stateDir;
+    setDefaultExtractorClient(createMockExtractorClient());
   });
 
   afterEach(async () => {
+    setDefaultExtractorClient(null);
     await closeAllCanonicalStores();
     if (previousStateDir === undefined) {
       delete process.env.OPENCLAW_STATE_DIR;
@@ -206,16 +260,75 @@ describe("canonical graph transcript projection", () => {
 
     const traceLines = (await fs.readFile(tracePath, "utf8")).trim().split("\n");
     const traceEvents = traceLines.map(
-      (line) => JSON.parse(line) as { stage?: string; tag?: string },
+      (line) =>
+        JSON.parse(line) as {
+          trace_id?: string;
+          stage?: string;
+          tag?: string;
+          observed_tags?: string[];
+          input?: { latest_user_query?: string | null };
+          extract?: { raw_events_json?: unknown[] };
+          tables?: {
+            event_records?: { canonical_records_json?: unknown[] };
+            entity_states?: { next_states?: unknown[] };
+          };
+          reducer?: { previous_states?: unknown[]; next_states?: unknown[] };
+        },
     );
     expect(traceEvents).toEqual(
       expect.arrayContaining([
-        expect.objectContaining({ tag: "GRAPH_INDEX", stage: "after_turn_mark_dirty" }),
-        expect.objectContaining({ tag: "GRAPH_INDEX", stage: "drain_started" }),
-        expect.objectContaining({ tag: "GRAPH_INDEX", stage: "events_persisted" }),
-        expect.objectContaining({ tag: "GRAPH_INDEX", stage: "cursor_advanced" }),
+        expect.objectContaining({ tag: "GRAPH_INDEX_IMPL", stage: "after_turn_mark_dirty" }),
+        expect.objectContaining({ tag: "GRAPH_INDEX_IMPL", stage: "drain_started" }),
+        expect.objectContaining({ tag: "GRAPH_INDEX_IMPL", stage: "events_persisted" }),
+        expect.objectContaining({ tag: "GRAPH_INDEX_IMPL", stage: "cursor_advanced" }),
       ]),
     );
+    const chainTraceIds = traceEvents
+      .filter((event) =>
+        ["after_turn_mark_dirty", "drain_scheduled", "drain_started", "extractor_completed", "events_persisted", "entity_states_merged", "cursor_advanced"].includes(
+          event.stage ?? "",
+        ),
+      )
+      .map((event) => event.trace_id);
+    expect(new Set(chainTraceIds).size).toBe(1);
+    expect(traceEvents.find((event) => event.stage === "after_turn_mark_dirty")).toMatchObject({
+      input: {
+        latest_user_query: null,
+      },
+    });
+    expect(traceEvents.find((event) => event.stage === "extractor_completed")).toMatchObject({
+      extract: {
+        raw_events_json: [
+          expect.objectContaining({
+            action: "changed_status",
+            object: "task_123",
+          }),
+        ],
+      },
+    });
+    expect(traceEvents.find((event) => event.stage === "events_persisted")).toMatchObject({
+      tables: {
+        event_records: {
+          canonical_records_json: [
+            expect.objectContaining({
+              action: "changed_status",
+              object: "task_123",
+              source_type: "transcript",
+            }),
+          ],
+        },
+      },
+    });
+    expect(traceEvents.find((event) => event.stage === "entity_states_merged")).toMatchObject({
+      reducer: {
+        previous_states: [],
+        next_states: [
+          expect.objectContaining({
+            latest_status: "pending",
+          }),
+        ],
+      },
+    });
   });
 
   it("updates latest owner from a transcript handoff note", async () => {

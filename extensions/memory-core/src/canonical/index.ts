@@ -87,7 +87,16 @@ function emptyGraphMetrics(): GraphMetricsSnapshot {
 export { bootstrapCanonicalIndex } from "./bootstrap.js";
 export { bootstrapCanonicalIndex as rebuildGraphIndex } from "./bootstrap.js";
 export { canonicalize, canonicalizeEntityId, createEventId } from "./canonicalizer.js";
-export { extract, parseGraphJsonBlock } from "./extractor.js";
+export {
+  extract,
+  parseGraphJsonBlock,
+  setDefaultExtractorClient,
+  type LLMClient as CanonicalExtractorClient,
+} from "./extractor.js";
+export {
+  createSubagentExtractorClient,
+  isGraphExtractorSessionKey,
+} from "./extractor.runtime.js";
 export { graphHitToMemorySearchResult, renderGraphHit } from "./prompt.js";
 export {
   drainPendingGraphUpdates,
@@ -235,12 +244,16 @@ export async function searchGraphForMemoryTool(params: {
             first: summary?.first_entry_id,
             last: summary?.last_entry_id,
           },
-          search: {
-            query: params.query,
-            pending_spans: summary?.pending_spans ?? 0,
-          },
+        search: {
+          query: params.query,
+          pending_spans: summary?.pending_spans ?? 0,
         },
-      });
+        call: {
+          function: "searchGraphForMemoryTool",
+          steps: ["hasPendingProjection", "drainPendingGraphUpdates"],
+        },
+      },
+    });
       await drainPendingGraphUpdates({
         cfg: params.cfg,
         agentId: params.agentId,
@@ -284,6 +297,18 @@ export async function searchGraphForMemoryTool(params: {
           query: params.query,
           hits: hits.length,
           rendered: results.length,
+          graph_results: results.map((result) => ({
+            path: result.path,
+            startLine: result.startLine,
+            endLine: result.endLine,
+            corpus: result.corpus,
+            graphMeta: result.graphMeta,
+            snippet: result.snippet,
+          })),
+        },
+        call: {
+          function: "searchGraphForMemoryTool",
+          steps: ["search_graph", "recordReturnedGraphHits", "graphHitToMemorySearchResult"],
         },
       },
     });

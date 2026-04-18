@@ -936,7 +936,7 @@ describe("memory cli", () => {
           }
         | undefined;
       expect(statusPayload).toMatchObject({
-        extractorVersion: "v0-2026.04",
+        extractorVersion: "v1-2026.04-llm",
         metrics: expect.objectContaining({
           hitsReturned: expect.any(Number),
           hitsUsedUniqueRefs: expect.any(Number),

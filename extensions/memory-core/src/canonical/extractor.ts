@@ -3,7 +3,18 @@ import { parseSourceRef, type RawEvent } from "./schema.js";
 
 const log = createSubsystemLogger("memory");
 
-export type LLMClient = unknown;
+export type CanonicalExtractorRequest = {
+  prompt: string;
+  sourceRef: string;
+  sourcePath: string;
+  lineCount: number;
+};
+
+export type LLMClient = {
+  extractGraphEvents(
+    params: CanonicalExtractorRequest,
+  ): Promise<string | { outputText?: string; events?: RawEvent[] }>;
+};
 
 type GraphJsonParseResult = {
   ok: boolean;
@@ -28,6 +39,20 @@ const INLINE_DATE_RE = /\b(20\d{2}-\d{2}-\d{2})\b/;
 const DATE_HEADING_RE = /^(?:#{1,6}\s*)?(20\d{2}-\d{2}-\d{2})(?:\b.*)?$/;
 const ENTITY_HEADING_RE =
   /^(?:\[[^\]]+\]\s+[A-Za-z_]+:\s*)?(?:#{1,6}\s*)?(?:[-*]\s*)?(?:\*\*)?(?<entity>[A-Za-z][\w./:-]*\d[\w./:-]*)\b/i;
+
+const EXTRACTOR_SYSTEM_PROMPT = [
+  "You extract canonical graph events from OpenClaw transcript or memory-file spans.",
+  "Return JSON only, with this exact shape:",
+  '{"events":[{"actor":"Alice","action":"assigned_owner","object":"FEISHU-231","status_before":null,"status_after":null,"occurred_at":"2026-04-18","source_ref":"transcripts/example.txt#L2-L2","confidence":0.82}]}',
+  "Rules:",
+  "- Never call tools and never add prose.",
+  "- Use only facts that are explicitly supported by the provided text.",
+  "- Prefer these actions when applicable: changed_status, assigned_owner, decided, updated_deadline.",
+  "- `source_ref` must always point at the most specific supporting line using the provided source path and line numbers.",
+  "- If nothing should be extracted, return {\"events\":[]}.",
+].join("\n");
+
+let defaultLlmClient: LLMClient | null = null;
 
 function isRawEvent(value: unknown): value is RawEvent {
   const record = value && typeof value === "object" ? (value as Record<string, unknown>) : null;
@@ -62,12 +87,40 @@ function normalizeWhitespace(value: string): string {
   return value.replace(/\s+/g, " ").trim();
 }
 
+function lineNumberedText(text: string): { numberedText: string; lineCount: number } {
+  const lines = text.split(/\r?\n/);
+  return {
+    numberedText: lines.map((line, index) => `${index + 1} | ${line}`).join("\n"),
+    lineCount: lines.length,
+  };
+}
+
 function sourcePathFromSourceRef(sourceRef: string): string {
   return parseSourceRef(sourceRef)?.path ?? sourceRef.split("#", 1)[0]?.replaceAll("\\", "/") ?? sourceRef;
 }
 
 function sourceRefForLine(path: string, line: number): string {
   return `${path}#L${line}-L${line}`;
+}
+
+function buildExtractionPrompt(text: string, sourceRef: string): CanonicalExtractorRequest {
+  const sourcePath = sourcePathFromSourceRef(sourceRef);
+  const { numberedText, lineCount } = lineNumberedText(text);
+  return {
+    sourceRef,
+    sourcePath,
+    lineCount,
+    prompt: [
+      `SOURCE_REF_RANGE: ${sourceRef}`,
+      `SOURCE_PATH: ${sourcePath}`,
+      `LINE_COUNT: ${lineCount}`,
+      "",
+      "Extract canonical graph events from the numbered lines below.",
+      "Each event must use a line-precise source_ref like SOURCE_PATH#Lx-Lx.",
+      "",
+      numberedText,
+    ].join("\n"),
+  };
 }
 
 function normalizeStatus(raw: string): string {
@@ -282,11 +335,55 @@ function extractLineEvents(
   return events;
 }
 
-export async function extract(
+function coerceLlmOutputText(
+  result: string | { outputText?: string; events?: RawEvent[] },
+): string {
+  if (typeof result === "string") {
+    return result;
+  }
+  if (Array.isArray(result.events)) {
+    return JSON.stringify({ events: result.events });
+  }
+  return result.outputText ?? "";
+}
+
+function normalizeEventSourceRef(sourceRef: string, candidate: string): string {
+  const trimmed = candidate.trim();
+  if (!trimmed) {
+    return sourceRef;
+  }
+  const sourcePath = sourcePathFromSourceRef(sourceRef);
+  if (trimmed.startsWith("#L")) {
+    return `${sourcePath}${trimmed}`;
+  }
+  if (trimmed === sourcePath) {
+    return sourceRef;
+  }
+  return trimmed;
+}
+
+async function extractWithLlm(
   text: string,
   sourceRef: string,
-  _llmClient?: LLMClient,
+  llmClient: LLMClient,
 ): Promise<RawEvent[]> {
+  const request = buildExtractionPrompt(text, sourceRef);
+  const outputText = coerceLlmOutputText(await llmClient.extractGraphEvents(request));
+  const parsed = parseGraphJsonBlockDetailed(outputText);
+  if (!parsed.ok) {
+    throw new Error(`graph extractor output was not valid JSON for ${request.sourcePath}`);
+  }
+  const events = parsed.events.map((event) => ({
+    ...event,
+    source_ref: normalizeEventSourceRef(sourceRef, event.source_ref),
+  }));
+  log.info(
+    `canonical.extract.llm source_ref=${request.sourcePath} events=${events.length} precise=${events.every((event) => event.source_ref.includes("#L"))}`,
+  );
+  return events;
+}
+
+function extractWithRules(text: string, sourceRef: string): RawEvent[] {
   const sourcePath = sourcePathFromSourceRef(sourceRef);
   const ctx: DateContext = {
     defaultDate: extractDateFromSourcePath(sourcePath),
@@ -302,6 +399,30 @@ export async function extract(
     `canonical.extract.rules source_ref=${sourcePath} events=${events.length} precise=${events.every((event) => event.source_ref.includes("#L"))}`,
   );
   return events;
+}
+
+export function setDefaultExtractorClient(client: LLMClient | null): void {
+  defaultLlmClient = client;
+}
+
+export function getDefaultExtractorSystemPrompt(): string {
+  return EXTRACTOR_SYSTEM_PROMPT;
+}
+
+export async function extract(
+  text: string,
+  sourceRef: string,
+  llmClient?: LLMClient,
+): Promise<RawEvent[]> {
+  const client = llmClient ?? defaultLlmClient;
+  if (client) {
+    try {
+      return await extractWithLlm(text, sourceRef, client);
+    } catch (err) {
+      log.warn(`[canonical] extract.llm_failed source_ref=${sourceRef} error=${String(err)}`);
+    }
+  }
+  return extractWithRules(text, sourceRef);
 }
 
 export function parseGraphJsonBlock(outputText: string): RawEvent[] {

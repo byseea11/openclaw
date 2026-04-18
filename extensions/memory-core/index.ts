@@ -1,11 +1,13 @@
 import { formatErrorMessage } from "openclaw/plugin-sdk/error-runtime";
 import { definePluginEntry } from "openclaw/plugin-sdk/plugin-entry";
 import {
+  createSubagentExtractorClient,
   handleGraphFlushResult,
   handleGraphAfterTurn,
   handleGraphBeforeCompaction,
   noteGraphUsageFromAssistantOutput,
   noteGraphUsageFromMemoryGet,
+  setDefaultExtractorClient,
 } from "./src/canonical/index.js";
 import { registerMemoryCli } from "./src/cli.js";
 import { registerDreamingCommand } from "./src/dreaming-command.js";
@@ -35,6 +37,7 @@ export default definePluginEntry({
   description: "File-backed memory search tools and CLI",
   kind: "memory",
   register(api) {
+    setDefaultExtractorClient(createSubagentExtractorClient(api.runtime?.subagent, api.logger));
     registerBuiltInMemoryEmbeddingProviders(api);
     registerShortTermPromotionDreaming(api);
     registerDreamingCommand(api);
