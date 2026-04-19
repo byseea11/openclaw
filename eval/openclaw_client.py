@@ -4,10 +4,10 @@ from __future__ import annotations
 
 import json
 import time
+import urllib.error
+import urllib.request
 from dataclasses import dataclass, field
 from typing import Any
-
-import httpx
 
 
 def _normalize_gateway_url(gateway_url: str) -> str:
@@ -53,6 +53,46 @@ class OpenClawEvalResponse:
 
 class OpenClawEvalClientError(RuntimeError):
     """Raised when the OpenClaw Gateway request fails or returns bad payloads."""
+
+
+@dataclass(frozen=True)
+class _JsonHttpResponse:
+    status_code: int
+    text: str
+
+    def json(self) -> Any:
+        return json.loads(self.text)
+
+
+def _request_json(
+    method: str,
+    url: str,
+    *,
+    headers: dict[str, str],
+    payload: dict[str, Any] | None = None,
+    timeout_seconds: float,
+) -> _JsonHttpResponse:
+    """Use httpx when available, but keep eval runnable with the stdlib only."""
+
+    try:
+        import httpx
+
+        with httpx.Client(timeout=timeout_seconds, trust_env=False) as client:
+            response = client.request(method, url, headers=headers, json=payload)
+        return _JsonHttpResponse(status_code=response.status_code, text=response.text)
+    except ModuleNotFoundError as exc:
+        if exc.name != "httpx":
+            raise
+
+    data = None if payload is None else json.dumps(payload).encode("utf-8")
+    request = urllib.request.Request(url, data=data, headers=headers, method=method)
+    try:
+        with urllib.request.urlopen(request, timeout=timeout_seconds) as response:
+            text = response.read().decode("utf-8", errors="replace")
+            return _JsonHttpResponse(status_code=response.status, text=text)
+    except urllib.error.HTTPError as exc:
+        text = exc.read().decode("utf-8", errors="replace")
+        return _JsonHttpResponse(status_code=exc.code, text=text)
 
 
 def _extract_text(item: dict[str, Any]) -> str:
@@ -134,8 +174,12 @@ class OpenClawEvalClient:
         return headers
 
     def probe_models(self) -> dict[str, Any]:
-        with httpx.Client(timeout=self.timeout_seconds, trust_env=False) as client:
-            response = client.get(self.models_url, headers=self._build_headers())
+        response = _request_json(
+            "GET",
+            self.models_url,
+            headers=self._build_headers(),
+            timeout_seconds=self.timeout_seconds,
+        )
         if response.status_code >= 400:
             detail = response.text.strip()
             raise OpenClawEvalClientError(
@@ -185,8 +229,13 @@ class OpenClawEvalClient:
         )
 
         started_at = time.perf_counter()
-        with httpx.Client(timeout=self.timeout_seconds, trust_env=False) as client:
-            response = client.post(self.responses_url, headers=headers, json=payload)
+        response = _request_json(
+            "POST",
+            self.responses_url,
+            headers=headers,
+            payload=payload,
+            timeout_seconds=self.timeout_seconds,
+        )
         latency_ms = (time.perf_counter() - started_at) * 1000
 
         if response.status_code >= 400:

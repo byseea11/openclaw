@@ -57,6 +57,7 @@ export {
   readMemoryHostEvents,
   resolveMemoryHostEventLogPath,
 } from "./memory-core-host-events.js";
+export { createPluginRuntime } from "../plugins/runtime/index.js";
 export type { MemoryHostEvent } from "./memory-core-host-events.js";
 export {
   resolveMemoryCorePluginConfig,

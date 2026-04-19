@@ -58,7 +58,6 @@ export function createEventId(
       event.action.trim(),
       normalizeOptionalString(event.object) ?? "",
       normalizeOptionalString(event.status_after) ?? "",
-      normalizeOccurredAt(event.occurred_at),
     ].join("\0"),
   );
 }
@@ -85,18 +84,24 @@ export function canonicalize(
   options: CanonicalizeOptions = {},
 ): EventRecord[] {
   const createdAt = Date.now();
+  const seenEventIds = new Set<string>();
   const records = raw.flatMap((event): EventRecord[] => {
     const action = event.action?.trim();
     const sourceRef = event.source_ref?.trim();
     if (!action || !sourceRef) {
       return [];
     }
+    const eventId = createEventId(event);
+    if (seenEventIds.has(eventId)) {
+      return [];
+    }
+    seenEventIds.add(eventId);
     const actor = normalizeOptionalString(event.actor);
     const object = normalizeOptionalString(event.object);
     const entityBasis = object ?? (actor ? `${actor}:${action}` : `${action}:${sourceRef}`);
     return [
       {
-        event_id: createEventId(event),
+        event_id: eventId,
         source_type: options.sourceType ?? inferSourceType(sourceRef),
         source_ref: sourceRef,
         occurred_at: normalizeOccurredAt(event.occurred_at),

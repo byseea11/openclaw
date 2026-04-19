@@ -71,6 +71,9 @@ eval/
   __init__.py
   base.py
   openclaw_client.py
+  graph_usage.py
+  memory_ablation.py
+  variants.py
   adapters/
     __init__.py
     locomo.py
@@ -87,6 +90,7 @@ eval/
   scripts/
     run_locomo.py
     run_longmemeval.py
+    run_graph_ablation.py
     run_tau2.py
     run_toolsandbox.py
 ```
@@ -958,6 +962,100 @@ eval/
   - 只做 benchmark 官方格式写回和评分
 
 这才是后面继续重构的干净起点。
+
+---
+
+## Graph Index A/B 对比实验
+
+`run_graph_ablation.py` 用来比较两套 OpenClaw Gateway：
+
+```text
+native OpenClaw
+vs
+graph-index OpenClaw
+```
+
+它不会修改 OpenClaw 配置；为了保证实验干净，建议准备两个独立 Gateway 或按 variant 顺序重启不同配置。
+
+内存类 benchmark 是主实验：
+
+- `LoCoMo`
+- `LongMemEval`
+
+这两类会走真实 Gateway session replay：
+
+```bash
+python3 -m eval.scripts.run_graph_ablation \
+  --benchmark longmemeval \
+  --longmemeval-input eval/fixtures/longmemeval_smoke.json \
+  --native-gateway-url http://127.0.0.1:18789 \
+  --graph-gateway-url http://127.0.0.1:18790 \
+  --graph-trace-path ~/.openclaw/logs/graph-index-trace.jsonl \
+  --max-samples 10
+```
+
+输出位置默认是：
+
+```text
+outputs/openclaw_eval/graph_ablation/
+  comparison.json
+  locomo/
+    native.predictions.json
+    native.predictions.summary.json
+    graph.predictions.json
+    graph.predictions.summary.json
+    comparison.json
+  longmemeval/
+    native.predictions.jsonl
+    native.predictions.summary.json
+    graph.predictions.jsonl
+    graph.predictions.summary.json
+    comparison.json
+```
+
+summary 会额外包含 graph-aware 观测指标：
+
+- `graph_usage.used_graph_count`
+- `graph_usage.graph_hit_rate`
+- `graph_usage.memory_search_calls`
+- `graph_usage.graph_state_hits`
+- `graph_usage.graph_event_hits`
+- `graph_trace.stage_counts`
+- `graph_trace.graph_hits`
+- `graph_trace.extractor_events`
+
+为了看“graph-index 提升最高的点”，memory benchmark 还会按题型分桶：
+
+- LoCoMo: `category:<id>`
+- LongMemEval: `question_type:<name>`
+
+最终 `comparison.json` 里会包含：
+
+- `metric_deltas`
+- `bucket_metric_deltas`
+
+交互型 benchmark 暂时作为回归护栏：
+
+- `tau2-bench`
+- `ToolSandbox`
+
+它们复用现有单路 runner，通过 extra args 传入原 runner 参数：
+
+```bash
+python3 -m eval.scripts.run_graph_ablation \
+  --benchmark tau2 \
+  --native-gateway-url http://127.0.0.1:18789 \
+  --graph-gateway-url http://127.0.0.1:18790 \
+  --tau2-extra-args "--domain mock --solo-mode --num-tasks 5"
+```
+
+```bash
+python3 -m eval.scripts.run_graph_ablation \
+  --benchmark toolsandbox \
+  --native-gateway-url http://127.0.0.1:18789 \
+  --graph-gateway-url http://127.0.0.1:18790 \
+  --toolsandbox-extra-args "--scenario wifi_off --user-type DeepSeek"
+```
 
 ---
 

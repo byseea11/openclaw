@@ -78,11 +78,17 @@ class LoCoMoAdapter(MemAdapter):
                 if not text:
                     continue
                 role = self._speaker_role(speaker, speaker_a, speaker_b)
+                prefix = self._message_prefix(
+                    session_num=session_num,
+                    session_date=session_date,
+                    speaker=speaker or "speaker",
+                    role=role,
+                )
                 input_items.append(
                     {
                         "type": "message",
                         "role": role,
-                        "content": f"{speaker or 'speaker'}: {text}",
+                        "content": f"{prefix} {speaker or 'speaker'}: {text}",
                     }
                 )
 
@@ -108,6 +114,8 @@ class LoCoMoAdapter(MemAdapter):
             kind="query",
             instructions=(
                 "Answer the LoCoMo question using only the conversation history already provided. "
+                "Before answering, call the memory_search tool exactly once with the user's question "
+                "and use any relevant recall results as supporting evidence. "
                 "Return the shortest correct answer."
             ),
             input_items=[{"type": "message", "role": "user", "content": question}],
@@ -148,3 +156,12 @@ class LoCoMoAdapter(MemAdapter):
         if speaker == speaker_b:
             return "assistant"
         return "user"
+
+    @staticmethod
+    def _message_prefix(*, session_num: int, session_date: str, speaker: str, role: str) -> str:
+        parts = [f"LoCoMo session {session_num}"]
+        if session_date:
+            parts.append(f"Session date: {session_date}")
+        parts.append(f"speaker: {speaker}")
+        parts.append(f"role: {role}")
+        return "[" + "; ".join(parts) + "]"

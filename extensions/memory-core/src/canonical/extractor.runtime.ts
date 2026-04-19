@@ -90,6 +90,7 @@ export function createSubagentExtractorClient(
           message: params.prompt,
           extraSystemPrompt: getDefaultExtractorSystemPrompt(),
           deliver: false,
+          disableTools: true,
           lane: "memory-graph-extractor",
         });
         runId = run.runId;
@@ -117,4 +118,3 @@ export function createSubagentExtractorClient(
     },
   };
 }
-

@@ -77,4 +77,23 @@ describe("canonical graph canonicalizer", () => {
 
     expect(createEventId(withoutStatusBefore)).toBe(createEventId(withStatusBefore));
   });
+
+  it("keeps event ids stable when occurred_at is omitted or normalized differently", () => {
+    const base: RawEvent = {
+      actor: "user",
+      action: "preference_fact",
+      object: "user loves jazz music",
+      source_ref: "transcripts/session.txt#L4-L4",
+    };
+
+    expect(createEventId(base)).toBe(
+      createEventId({
+        ...base,
+        occurred_at: "2026-04-19",
+      }),
+    );
+    expect(canonicalize([base, { ...base, occurred_at: "2026-04-19" }], "v-test")).toHaveLength(
+      1,
+    );
+  });
 });

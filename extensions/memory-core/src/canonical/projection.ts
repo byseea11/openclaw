@@ -38,11 +38,12 @@ const idleTimers = new Map<string, ReturnType<typeof setTimeout>>();
 const drainingSources = new Set<string>();
 
 const SIGNAL_RE =
-  /\b(status|owner|decided|decision|blocked|done|due|assigned|remember|update|deadline|todo|task|project|ticket|issue)\b/i;
+  /\b(status|owner|decided|decision|blocked|done|due|assigned|remember|update|deadline|todo|task|project|ticket|issue|prefer|preference|like|love|favorite|family|friend|partner|husband|wife|daughter|son|child|children|parent|school|class|college|university|work|job|internship|research|trip|travel|move|moved|live|lives|birthday|appointment|doctor|health|medicine|medication|plan|planning|tomorrow|yesterday)\b/i;
 const STRUCTURED_RE =
   /\b(?:[A-Z]+-\d+|#[1-9]\d*|task[:\s-]+|project[:\s-]+|decision[:\s-]+|owner:\s*|status:\s*)/i;
 const STRONG_EVENT_RE =
   /\b(owner changed|status changed|decided|decision made|deadline updated|assigned to|blocked|done|completed)\b/i;
+const GRAPH_RECALL_MARKER_RE = /\[Graph (?:event|state)\]|\[toolCall:memory_search\]/i;
 
 function projectionTraceId(params: {
   sourceId: string;
@@ -203,6 +204,27 @@ function renderEntry(entry: MemoryTranscriptSpanEntry): string {
   ]
     .filter((line): line is string => Boolean(line?.trim()))
     .join(" ");
+}
+
+function isMemorySearchEchoEntry(entry: MemoryTranscriptSpanEntry): boolean {
+  return (
+    entry.toolName === "memory_search" ||
+    entry.messageRole === "toolResult" ||
+    GRAPH_RECALL_MARKER_RE.test(entry.messageContent) ||
+    (entry.toolResult ? GRAPH_RECALL_MARKER_RE.test(entry.toolResult) : false)
+  );
+}
+
+function entriesForExtraction(entries: MemoryTranscriptSpanEntry[]): MemoryTranscriptSpanEntry[] {
+  const firstRecallEchoIndex = entries.findIndex(isMemorySearchEchoEntry);
+  const candidateEntries =
+    firstRecallEchoIndex >= 0 ? entries.slice(0, firstRecallEchoIndex) : entries;
+  return candidateEntries.filter((entry) => {
+    if (entry.messageRole === "toolResult" || entry.toolName?.trim()) {
+      return false;
+    }
+    return Boolean(entry.messageContent.trim());
+  });
 }
 
 function renderProjectionBatch(sourceId: string, entries: MemoryTranscriptSpanEntry[]): {
@@ -608,8 +630,9 @@ export async function drainPendingGraphUpdates(params: {
         });
         continue;
       }
+      const extractEntries = entriesForExtraction(entries);
       const startedAt = Date.now();
-      const rendered = renderProjectionBatch(summary.source_id, entries);
+      const rendered = renderProjectionBatch(summary.source_id, extractEntries);
       const rawEvents = await extract(rendered.text, rendered.sourceRef);
       const extractionMs = Date.now() - startedAt;
       store.recordExtractorLatency(extractionMs);
@@ -630,7 +653,8 @@ export async function drainPendingGraphUpdates(params: {
           },
           extract: {
             reason: params.reason,
-            entries: entries.length,
+            entries: extractEntries.length,
+            skipped_entries: entries.length - extractEntries.length,
             events: rawEvents.length,
             latency_ms: extractionMs,
             rendered_source_ref: rendered.sourceRef,
@@ -638,6 +662,8 @@ export async function drainPendingGraphUpdates(params: {
           },
           input: {
             ...buildTraceInput(entries),
+            extractable_entry_count: extractEntries.length,
+            skipped_echo_entry_count: entries.length - extractEntries.length,
             rendered_transcript_ref: rendered.sourceRef,
           },
           call: {

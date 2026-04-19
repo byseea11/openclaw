@@ -1,4 +1,5 @@
 import { formatErrorMessage } from "openclaw/plugin-sdk/error-runtime";
+import { createPluginRuntime } from "openclaw/plugin-sdk/memory-core";
 import { definePluginEntry } from "openclaw/plugin-sdk/plugin-entry";
 import {
   createSubagentExtractorClient,
@@ -37,7 +38,10 @@ export default definePluginEntry({
   description: "File-backed memory search tools and CLI",
   kind: "memory",
   register(api) {
-    setDefaultExtractorClient(createSubagentExtractorClient(api.runtime?.subagent, api.logger));
+    const extractorRuntime = createPluginRuntime({ allowGatewaySubagentBinding: true });
+    setDefaultExtractorClient(
+      createSubagentExtractorClient(extractorRuntime.subagent ?? api.runtime?.subagent, api.logger),
+    );
     registerBuiltInMemoryEmbeddingProviders(api);
     registerShortTermPromotionDreaming(api);
     registerDreamingCommand(api);

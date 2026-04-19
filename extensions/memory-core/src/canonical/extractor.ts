@@ -47,9 +47,21 @@ const EXTRACTOR_SYSTEM_PROMPT = [
   "Rules:",
   "- Never call tools and never add prose.",
   "- Use only facts that are explicitly supported by the provided text.",
-  "- Prefer these actions when applicable: changed_status, assigned_owner, decided, updated_deadline.",
+  "- Extract task/project facts when present, using actions like changed_status, assigned_owner, decided, updated_deadline.",
+  "- Also extract long-memory conversational facts that are useful for later recall: biographical_fact, relationship_fact, preference_fact, plan_or_intent, life_event, location_fact, work_or_school_fact, health_fact.",
+  "- For conversational facts, set actor to the speaker/person the fact is about when the line makes it clear.",
+  "- For conversational facts, set object to a concise self-contained fact phrase that includes the important names, objects, dates, places, or preferences.",
+  "- When transcript lines include metadata such as `Session date: YYYY-MM-DD`, use that date to resolve relative dates like yesterday, today, tomorrow, last week, last Friday, and this month.",
+  "- If a relative date cannot be resolved from explicit line or session metadata, keep the relative phrase in `object` and omit `occurred_at` instead of inventing today's date.",
+  "- Prefer the original user/speaker line for source_ref, not assistant paraphrases, summaries, or later recall answers.",
+  "- Do not require a ticket id or task id; ordinary personal facts and plans are valid graph events.",
+  "- Prefer user-stated facts over assistant encouragement or paraphrase. Skip generic small talk with no durable fact.",
+  "- Return up to 16 high-value events per span. Split distinct durable facts into separate events.",
   "- `source_ref` must always point at the most specific supporting line using the provided source path and line numbers.",
   "- If nothing should be extracted, return {\"events\":[]}.",
+  "Examples:",
+  '{"events":[{"actor":"Caroline","action":"work_or_school_fact","object":"Caroline is researching internships for the summer","source_ref":"transcripts/example.txt#L4-L4","confidence":0.86}]}',
+  '{"events":[{"actor":"Caroline","action":"preference_fact","object":"Caroline loves spending time with family","source_ref":"transcripts/example.txt#L7-L7","confidence":0.78}]}',
 ].join("\n");
 
 let defaultLlmClient: LLMClient | null = null;

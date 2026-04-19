@@ -13,6 +13,7 @@ export type SubagentRunParams = {
   extraSystemPrompt?: string;
   lane?: string;
   deliver?: boolean;
+  disableTools?: boolean;
   idempotencyKey?: string;
 };
 

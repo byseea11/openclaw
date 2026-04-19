@@ -1,12 +1,23 @@
 import { describe, expect, it } from "vitest";
 import {
   extract,
+  getDefaultExtractorSystemPrompt,
   parseGraphJsonBlock,
   parseGraphJsonBlockWithStatus,
   type LLMClient,
 } from "./extractor.js";
 
 describe("canonical graph extractor", () => {
+  it("prompts the LLM to extract durable conversational memory facts", () => {
+    const prompt = getDefaultExtractorSystemPrompt();
+
+    expect(prompt).toContain("biographical_fact");
+    expect(prompt).toContain("preference_fact");
+    expect(prompt).toContain("Do not require a ticket id or task id");
+    expect(prompt).toContain("Session date: YYYY-MM-DD");
+    expect(prompt).toContain("omit `occurred_at`");
+  });
+
   it("parses the final fenced graph JSON block", () => {
     const events = parseGraphJsonBlock(
       [

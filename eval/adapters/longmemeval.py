@@ -48,11 +48,16 @@ class LongMemEvalAdapter(MemAdapter):
                     if not content:
                         continue
                     normalized_role = role if role in {"system", "user", "assistant"} else "user"
+                    prefix = self._message_prefix(
+                        session_id=str(session_id),
+                        session_date=str(session_date),
+                        role=normalized_role,
+                    )
                     input_items.append(
                         {
                             "type": "message",
                             "role": normalized_role,
-                            "content": content,
+                            "content": f"{prefix} {content}",
                         }
                     )
             steps.append(
@@ -71,11 +76,15 @@ class LongMemEvalAdapter(MemAdapter):
         if question_id.endswith("_abs"):
             instructions = (
                 "Answer the LongMemEval question using only the history already provided. "
+                "Before answering, call the memory_search tool exactly once with the question "
+                "and use any relevant recall results as supporting evidence. "
                 "If the answer is not available in the history, reply with 'I don't know'."
             )
         else:
             instructions = (
                 "Answer the LongMemEval question using only the history already provided. "
+                "Before answering, call the memory_search tool exactly once with the question "
+                "and use any relevant recall results as supporting evidence. "
                 "Return the shortest correct answer."
             )
         return InputStep(
@@ -90,6 +99,14 @@ class LongMemEvalAdapter(MemAdapter):
             ],
             metadata={"question_type": question_type},
         )
+
+    @staticmethod
+    def _message_prefix(*, session_id: str, session_date: str, role: str) -> str:
+        parts = [f"LongMemEval session {session_id}"]
+        if session_date:
+            parts.append(f"Session date: {session_date}")
+        parts.append(f"role: {role}")
+        return "[" + "; ".join(parts) + "]"
 
     def parse_prediction(self, sample: Any, response: OpenClawEvalResponse) -> dict[str, Any]:
         prediction = (response.text or "").strip()

@@ -377,4 +377,79 @@ describe("canonical graph transcript projection", () => {
       ]),
     );
   });
+
+  it("does not extract graph recall tool-result echoes", async () => {
+    const prompts: string[] = [];
+    setDefaultExtractorClient({
+      async extractGraphEvents(params) {
+        prompts.push(params.prompt);
+        if (params.prompt.includes("[Graph event]")) {
+          return JSON.stringify({
+            events: [
+              {
+                actor: "user",
+                action: "work_or_school_fact",
+                object: "user started as a volunteer coordinator at the community health clinic this week",
+                source_ref: "#L3-L3",
+                confidence: 0.92,
+              },
+            ],
+          });
+        }
+        return JSON.stringify({ events: [] });
+      },
+    });
+
+    await handleGraphAfterTurn({
+      cfg: cfg(),
+      agentId: "main",
+      sessionId: "session-1",
+      sessionKey: "agent:channel:thread",
+      sessionFile: "/tmp/session.jsonl",
+      entries: [
+        entry({
+          entryId: "query",
+          messageRole: "user",
+          messageContent: "Question: What role did the user start at the clinic?",
+        }),
+        entry({
+          entryId: "assistant-tool-call",
+          parentId: "query",
+          messageRole: "assistant",
+          messageContent: "Let me check memory. [toolCall:memory_search]",
+        }),
+        entry({
+          entryId: "tool-result",
+          parentId: "assistant-tool-call",
+          messageRole: "toolResult",
+          messageContent:
+            "[Graph event]\n2024-03-15 user work_or_school_fact user started as a volunteer coordinator at the community health clinic this week",
+          toolName: "memory_search",
+          toolResult:
+            "[Graph event]\n2024-03-15 user work_or_school_fact user started as a volunteer coordinator at the community health clinic this week",
+        }),
+        entry({
+          entryId: "final-answer",
+          parentId: "tool-result",
+          messageRole: "assistant",
+          messageContent: "Answer: volunteer coordinator",
+        }),
+      ],
+      prePromptMessageCount: 3,
+    });
+
+    await drainPendingGraphUpdates({
+      cfg: cfg(),
+      agentId: "main",
+      sourceId: "agent:channel:thread",
+      reason: "recall",
+    });
+
+    expect(prompts).toHaveLength(1);
+    expect(prompts[0]).not.toContain("[Graph event]");
+    expect(prompts[0]).not.toContain("Answer: volunteer coordinator");
+    await expect(getCanonicalStore("main").exportData()).resolves.toMatchObject({
+      events: [],
+    });
+  });
 });
