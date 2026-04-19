@@ -65,7 +65,7 @@ describe("canonical graph store", () => {
     expect(store.getStatus()).toMatchObject({
       eventsTotal: 1,
       entitiesTotal: 1,
-      schemaVersion: "v3",
+      schemaVersion: "v4",
       metrics: expect.objectContaining({
         hitsReturned: 0,
         hitsUsedRaw: 0,
@@ -109,6 +109,7 @@ describe("canonical graph store", () => {
       entitiesTotal: 1,
       canonicalEntitiesTotal: 2,
       graphEdgesTotal: 1,
+      workflowStatesTotal: 0,
     });
     expect(store.resolveEntityIds("FEISHU-231")).toContain("ent_task");
     store.close();

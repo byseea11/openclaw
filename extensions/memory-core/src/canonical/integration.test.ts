@@ -172,7 +172,7 @@ describe("canonical graph integration", () => {
       entitiesTotal: 1,
       canonicalEntitiesTotal: 2,
       graphEdgesTotal: 1,
-      schemaVersion: "v3",
+      schemaVersion: "v4",
       extractorVersion: "v1-2026.04-llm",
     });
 

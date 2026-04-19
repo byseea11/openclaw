@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>多源协作信号流程图</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            /* 颜色变量 */
+            --bg-color: #fdfdff;
+            --stage1-color: #004b8d;
+            /* 深蓝 */
+            --stage1-bg: #b0c4de;
+            --stage2-color: #1a6843;
+            /* 墨绿 */
+            --stage2-bg: #8fbca0;
+            --stage3-color: #7d5d42;
+            /* 深褐 */
+            --stage3-bg: #d0bda9;
+            --conclusion-color: #004b8d;
+            --text-color: #333;
+            --shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        body {
+            font-family: "PingFang SC", "Microsoft YaHei", "Helvetica Neue", Helvetica, Arial, sans-serif;
+            background-color: var(--bg-color);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        /* 主容器，设置背景网格 */
+        .main-container {
+            width: 100%;
+            max-width: 900px;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.05);
+            position: relative;
+            background-image: linear-gradient(#e6e9f0 1px, transparent 1px), linear-gradient(90deg, #e6e9f0 1px, transparent 1px);
+            background-size: 20px 20px;
+            background-position: -1px -1px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* 顶部标题 */
+        .title-top {
+            font-size: 18px;
+            font-weight: bold;
+            color: var(--text-color);
+            margin-bottom: 25px;
+            text-align: center;
+        }
+
+        /* 输入模块容器 */
+        .input-modules {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        .input-item {
+            flex: 1;
+            background-color: #f8f9fc;
+            border: 1px solid #d1d5db;
+            border-radius: 12px;
+            padding: 12px 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            box-shadow: var(--shadow);
+            min-width: 0;
+            /* 允许文本收缩 */
+        }
+
+        .input-item i {
+            font-size: 18px;
+            color: #555;
+        }
+
+        .input-item span {
+            font-size: 14px;
+            color: var(--text-color);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        /* 连接箭头和编号 */
+        .connector-wrapper {
+            position: relative;
+            width: 100%;
+            height: 50px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .vertical-line {
+            width: 2px;
+            height: 100%;
+            background-color: #a0aec0;
+            position: relative;
+        }
+
+        .vertical-line::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-left: 8px solid transparent;
+            border-right: 8px solid transparent;
+            border-top: 8px solid #a0aec0;
+        }
+
+        .step-marker {
+            position: absolute;
+            top: 5px;
+            left: calc(50% + 5px);
+            /* 偏移一点，不盖住线 */
+            background-color: transparent;
+            font-size: 20px;
+            color: var(--text-color);
+            font-weight: bold;
+        }
+
+        /* 主要阶段块容器 */
+        .stage-block {
+            width: 100%;
+            border-radius: 16px;
+            padding: 25px;
+            margin-bottom: 10px;
+            box-shadow: var(--shadow);
+            position: relative;
+        }
+
+        .stage-title {
+            font-size: 16px;
+            font-weight: bold;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .stage-desc {
+            font-size: 12px;
+            color: var(--text-color);
+            margin-bottom: 20px;
+            margin-top: -5px;
+        }
+
+        /* 内部功能模块 Grid */
+        .inner-grid {
+            display: grid;
+            gap: 15px;
+        }
+
+        .grid-item {
+            background-color: #fff;
+            border-radius: 12px;
+            padding: 15px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+            min-width: 0;
+        }
+
+        .grid-item i {
+            font-size: 24px;
+            min-width: 24px;
+            /* 保持图标对齐 */
+            text-align: center;
+        }
+
+        .text-group {
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .main-text {
+            font-size: 14px;
+            font-weight: bold;
+            color: var(--text-color);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .sub-text {
+            font-size: 11px;
+            color: #777;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        /* 阶段 1：统一采集更新层 */
+        .stage-1 {
+            background-color: var(--stage1-bg);
+            border: 1px solid var(--stage1-color);
+        }
+
+        .stage-1 .stage-title {
+            color: var(--stage1-color);
+        }
+
+        .stage-1 .stage-desc {
+            color: var(--stage1-color);
+        }
+
+        .stage-1 .inner-grid {
+            grid-template-columns: repeat(4, 1fr);
+        }
+
+        .stage-1 .grid-item i {
+            color: var(--stage1-color);
+        }
+
+        /* 阶段 2：状态图谱建模层 */
+        .stage-2 {
+            background-color: var(--stage2-bg);
+            border: 1px solid var(--stage2-color);
+        }
+
+        .stage-2 .stage-title {
+            color: var(--stage2-color);
+        }
+
+        .stage-2 .stage-desc {
+            color: var(--stage2-color);
+        }
+
+        .stage-2 .inner-grid {
+            grid-template-columns: repeat(3, 1fr);
+            grid-template-rows: auto auto;
+        }
+
+        .stage-2 .grid-item i {
+            color: var(--stage2-color);
+        }
+
+        /* 阶段2 底部长条 */
+        .bottom-bar {
+            grid-column: span 3;
+            background-color: #fff;
+            border-radius: 12px;
+            padding: 15px;
+            display: flex;
+            justify-content: flex-start;
+            gap: 20px;
+            font-size: 12px;
+            color: var(--text-color);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+
+        .bottom-bar-title {
+            font-weight: bold;
+            margin-right: auto;
+            /* 靠左对齐，其他项靠右对齐 */
+        }
+
+        /* 阶段 3：证据链条恢复层 */
+        .stage-3 {
+            background-color: var(--stage3-bg);
+            border: 1px solid var(--stage3-color);
+        }
+
+        .stage-3 .stage-title {
+            color: var(--stage3-color);
+        }
+
+        .stage-3 .stage-desc {
+            color: var(--stage3-color);
+        }
+
+        .stage-3 .inner-grid {
+            grid-template-columns: repeat(4, 1fr);
+        }
+
+        .stage-3 .grid-item i {
+            color: var(--stage3-color);
+        }
+
+        /* 底部分块：可信协作结论 */
+        .conclusion-block {
+            width: calc(100% - 20px);
+            /* 稍微收窄，增加内间距效果 */
+            background-color: #fff;
+            border: 2px solid var(--conclusion-color);
+            border-radius: 12px;
+            padding: 20px 25px;
+            box-shadow: var(--shadow);
+            position: relative;
+            margin-top: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .conclusion-content {
+            flex: 1;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .conclusion-title {
+            font-size: 16px;
+            font-weight: bold;
+            color: var(--conclusion-color);
+            text-align: center;
+            flex: 1;
+            margin-bottom: 8px;
+        }
+
+        .conclusion-details {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            font-size: 12px;
+            color: var(--conclusion-color);
+        }
+
+        .conclusion-details-left,
+        .conclusion-details-right {
+            display: flex;
+            flex-direction: column;
+            gap: 3px;
+        }
+
+        /* "trusted" 图标样式 */
+        .trusted-icon {
+            position: absolute;
+            bottom: 10px;
+            right: 15px;
+            font-size: 36px;
+            color: #e6e9f0;
+            /* 非常淡的颜色，类似水印 */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            pointer-events: none;
+            /* 防止遮挡交互 */
+        }
+
+        .trusted-icon span {
+            font-size: 10px;
+            text-transform: uppercase;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="main-container">
+        <div class="title-top">多源协作信号</div>
+
+        <div class="input-modules">
+            <div class="input-item">
+                <i class="fas fa-microphone"></i>
+                <span>会话</span>
+            </div>
+            <div class="input-item">
+                <i class="far fa-file-alt"></i>
+                <span>文档</span>
+            </div>
+            <div class="input-item">
+                <i class="fas fa-tools"></i>
+                <span>工具调用</span>
+            </div>
+            <div class="input-item">
+                <i class="fas fa-stamp"></i>
+                <span>审批系统</span>
+            </div>
+            <div class="input-item">
+                <i class="fas fa-tasks"></i>
+                <span>项目管理</span>
+            </div>
+            <div class="input-item">
+                <i class="fas fa-code"></i>
+                <span>代码平台</span>
+            </div>
+        </div>
+
+        <div class="connector-wrapper">
+            <div class="vertical-line"></div>
+            <div class="step-marker">①</div>
+        </div>
+
+        <div class="stage-block stage-1">
+            <div class="stage-title">统一采集更新层</div>
+            <div class="stage-desc">协作变化如何持续、稳定、不遗漏进入系统</div>
+            <div class="inner-grid">
+                <div class="grid-item">
+                    <i class="fas fa-plus-circle"></i>
+                    <div class="text-group">
+                        <span class="main-text">增量检测</span>
+                        <span class="sub-text">变化感知</span>
+                    </div>
+                </div>
+                <div class="grid-item">
+                    <i class="fas fa-cloud-download-alt"></i>
+                    <div class="text-group">
+                        <span class="main-text">批量抽取</span>
+                        <span class="sub-text">结构化提取</span>
+                    </div>
+                </div>
+                <div class="grid-item">
+                    <i class="fas fa-lock"></i>
+                    <div class="text-group">
+                        <span class="main-text">事务一致性写入</span>
+                        <span class="sub-text">可靠落盘</span>
+                    </div>
+                </div>
+                <div class="grid-item">
+                    <i class="fas fa-redo-alt"></i>
+                    <div class="text-group">
+                        <span class="main-text">可恢复更新</span>
+                        <span class="sub-text">失败重放</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="connector-wrapper">
+            <div class="vertical-line"></div>
+            <div class="step-marker">②</div>
+        </div>
+
+        <div class="stage-block stage-2">
+            <div class="stage-title">状态图谱建模层</div>
+            <div class="stage-desc">事件-状态-关系 三位一体，沉淀统一协作状态</div>
+            <div class="inner-grid">
+                <div class="grid-item">
+                    <i class="fas fa-book"></i>
+                    <div class="text-group">
+                        <span class="main-text">事件账本</span>
+                        <span class="sub-text">过程可追溯</span>
+                    </div>
+                </div>
+                <div class="grid-item">
+                    <i class="far fa-eye"></i>
+                    <div class="text-group">
+                        <span class="main-text">状态视图</span>
+                        <span class="sub-text">当前可查询</span>
+                    </div>
+                </div>
+                <div class="grid-item">
+                    <i class="fas fa-project-diagram"></i>
+                    <div class="text-group">
+                        <span class="main-text">知识图谱</span>
+                        <span class="sub-text">关系可关联</span>
+                    </div>
+                </div>
+                <div class="bottom-bar">
+                    <span class="bottom-bar-title">权威状态层</span>
+                    <span>任务阶段 · 责任人 · 阻塞点 · 审批状态 · 下一步动作</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="connector-wrapper">
+            <div class="vertical-line"></div>
+            <div class="step-marker">③</div>
+        </div>
+
+        <div class="stage-block stage-3">
+            <div class="stage-title">证据链条恢复层</div>
+            <div class="stage-desc">规则式召回，按问题类型链条化组织证据</div>
+            <div class="inner-grid">
+                <div class="grid-item">
+                    <i class="far fa-question-circle"></i>
+                    <div class="text-group">
+                        <span class="main-text">状态查询</span>
+                        <span class="sub-text">当前是什么</span>
+                    </div>
+                </div>
+                <div class="grid-item">
+                    <i class="fas fa-list-ol"></i>
+                    <div class="text-group">
+                        <span class="main-text">列表查询</span>
+                        <span class="sub-text">符合条件集合</span>
+                    </div>
+                </div>
+                <div class="grid-item">
+                    <i class="fas fa-stream"></i>
+                    <div class="text-group">
+                        <span class="main-text">时间线查询</span>
+                        <span class="sub-text">如何演进</span>
+                    </div>
+                </div>
+                <div class="grid-item">
+                    <i class="fas fa-ban"></i>
+                    <div class="text-group">
+                        <span class="main-text">阻塞原因查询</span>
+                        <span class="sub-text">为何卡住</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="connector-wrapper" style="height: 30px;">
+            <div class="vertical-line" style="height: 100%;"></div>
+        </div>
+
+        <div class="conclusion-block">
+            <div class="conclusion-content-wrapper"
+                style="width: 100%; display: flex; flex-direction: column; align-items: center;">
+                <div class="conclusion-title">可信协作结论</div>
+                <div class="conclusion-details">
+                    <div class="conclusion-details-left">
+                        <span>• 谁负责 · 何时改 · 为</span>
+                    </div>
+                    <div class="conclusion-details-right">
+                        <span>• 当前状态 · 证据来源</span>
+                    </div>
+                </div>
+            </div>
+            <div class="trusted-icon">
+                <i class="fas fa-shield-alt"></i>
+                <span>trusted</span>
+            </div>
+        </div>
+
+    </div>
+
+</body>
+
+</html>

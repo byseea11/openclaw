@@ -10,6 +10,7 @@ import { deriveGraphObjects, normalizeEntityAlias } from "./kg.js";
 import { runV0ToV1Migration } from "./migrations/v0-to-v1.js";
 import { runV1ToV2Migration } from "./migrations/v1-to-v2.js";
 import { runV2ToV3Migration } from "./migrations/v2-to-v3.js";
+import { runV3ToV4Migration } from "./migrations/v3-to-v4.js";
 import { reduce } from "./reducer.js";
 import {
   CANONICAL_SCHEMA_SQL,
@@ -34,7 +35,22 @@ import {
   type ProjectionInboxWrite,
   type ProjectionSourceState,
   type RecentGraphCandidate,
+  type WorkflowAdmission,
+  type WorkflowObjectType,
+  type WorkflowStateView,
+  type WorkflowUpdate,
+  type WorkflowUpdateResult,
 } from "./schema.js";
+import {
+  deriveWorkflowUpdates,
+  isWorkflowStateLayerEnabled,
+  preliminaryWorkflowAdmission,
+  sortWorkflowUpdatesDeterministically,
+  type WorkflowBackfillMode,
+  workflowBatchTypeConflictObjectIds,
+  workflowSourcePriority,
+  workflowUpdateId,
+} from "./workflow.js";
 
 const log = createSubsystemLogger("memory");
 const stores = new Map<string, CanonicalStore>();
@@ -45,6 +61,14 @@ type EdgeRow = GraphEdge & {
   src_type?: string;
   dst_name?: string;
   dst_type?: string;
+};
+type WorkflowSlotVersion = {
+  event_id: string;
+  occurred_at: string;
+  source_kind: string;
+  source_priority: number;
+  confidence: number;
+  update_id: string;
 };
 export type EntityResolutionCandidate = {
   entity_id: string;
@@ -197,6 +221,47 @@ function parseSupportingEventIds(value: unknown): string[] {
   }
 }
 
+function parseStringArray(value: unknown): string[] {
+  return [...new Set(parseSupportingEventIds(value))];
+}
+
+function parseSlotVersions(value: unknown): Record<string, WorkflowSlotVersion> {
+  if (typeof value !== "string" || !value.trim()) {
+    return {};
+  }
+  try {
+    const parsed = JSON.parse(value) as unknown;
+    if (!parsed || typeof parsed !== "object" || Array.isArray(parsed)) {
+      return {};
+    }
+    const versions: Record<string, WorkflowSlotVersion> = {};
+    for (const [slot, rawVersion] of Object.entries(parsed)) {
+      if (!rawVersion || typeof rawVersion !== "object" || Array.isArray(rawVersion)) {
+        continue;
+      }
+      const version = rawVersion as Record<string, unknown>;
+      if (
+        typeof version.event_id === "string" &&
+        typeof version.occurred_at === "string" &&
+        typeof version.source_kind === "string" &&
+        typeof version.update_id === "string"
+      ) {
+        versions[slot] = {
+          event_id: version.event_id,
+          occurred_at: version.occurred_at,
+          source_kind: version.source_kind,
+          source_priority: Number(version.source_priority ?? 0),
+          confidence: Number(version.confidence ?? 0),
+          update_id: version.update_id,
+        };
+      }
+    }
+    return versions;
+  } catch {
+    return {};
+  }
+}
+
 function rowToState(row: Record<string, unknown>): EntityState {
   return {
     entity_id: String(row.entity_id),
@@ -216,6 +281,63 @@ function rowToState(row: Record<string, unknown>): EntityState {
         : "other",
     supporting_event_ids: parseSupportingEventIds(row.supporting_event_ids),
     confidence: typeof row.confidence === "number" ? row.confidence : Number(row.confidence ?? 0.5),
+  };
+}
+
+function normalizeWorkflowObjectType(value: unknown): WorkflowObjectType | null {
+  switch (value) {
+    case "task":
+    case "project":
+    case "approval":
+    case "meeting":
+    case "document":
+    case "artifact":
+      return value;
+    default:
+      return null;
+  }
+}
+
+function normalizeBlockerStatus(value: unknown): WorkflowStateView["blocker_status"] {
+  switch (value) {
+    case "none":
+    case "blocked":
+    case "resolved":
+    case "unknown":
+      return value;
+    default:
+      return "unknown";
+  }
+}
+
+function normalizeApprovalStatus(value: unknown): WorkflowStateView["approval_status"] {
+  switch (value) {
+    case "pending":
+    case "approved":
+    case "rejected":
+    case "needs_review":
+    case "unknown":
+      return value;
+    default:
+      return "unknown";
+  }
+}
+
+function rowToWorkflowState(row: Record<string, unknown>): WorkflowStateView {
+  return {
+    object_type: normalizeWorkflowObjectType(row.object_type) ?? "task",
+    object_id: String(row.object_id),
+    stage: typeof row.stage === "string" ? row.stage : null,
+    owner_entity_id: typeof row.owner_entity_id === "string" ? row.owner_entity_id : null,
+    blocker_status: normalizeBlockerStatus(row.blocker_status),
+    blocker_reason: typeof row.blocker_reason === "string" ? row.blocker_reason : null,
+    approval_status: normalizeApprovalStatus(row.approval_status),
+    next_action: typeof row.next_action === "string" ? row.next_action : null,
+    last_event_id: String(row.last_event_id),
+    last_updated_at: Number(row.last_updated_at ?? 0),
+    supporting_event_ids: parseStringArray(row.supporting_event_ids_json),
+    conflict_flags: parseStringArray(row.conflict_flags_json),
+    slot_versions: parseSlotVersions(row.slot_versions_json),
   };
 }
 
@@ -354,6 +476,14 @@ export class CanonicalStore {
     ) {
       runV2ToV3Migration(this.db);
     }
+    if (
+      currentSchemaVersion === "v0" ||
+      currentSchemaVersion === "v1" ||
+      currentSchemaVersion === "v2" ||
+      currentSchemaVersion === "v3"
+    ) {
+      runV3ToV4Migration(this.db);
+    }
     this.setMeta("schema_version", CANONICAL_SCHEMA_VERSION);
     this.setMeta("extractor_version", EXTRACTOR_VERSION);
     this.setMeta("projection_version", GRAPH_PROJECTION_VERSION);
@@ -386,6 +516,7 @@ export class CanonicalStore {
     try {
       this.db.exec("DELETE FROM event_fts");
       this.db.exec("DELETE FROM graph_edges");
+      this.db.exec("DELETE FROM workflow_state_view");
       this.db.exec("DELETE FROM canonical_entities");
       this.db.exec("DELETE FROM entity_states");
       this.db.exec("DELETE FROM entity_aliases");
@@ -615,23 +746,345 @@ export class CanonicalStore {
     }
   }
 
+  private getWorkflowStateByObjectIdInTransaction(objectId: string): WorkflowStateView | null {
+    const row = this.db
+      .prepare("SELECT * FROM workflow_state_view WHERE object_id = ?")
+      .get(objectId) as Record<string, unknown> | undefined;
+    return row ? rowToWorkflowState(row) : null;
+  }
+
+  private compareWorkflowSlotVersion(
+    update: WorkflowUpdate,
+    updateId: string,
+    previous: WorkflowSlotVersion | undefined,
+  ): { apply: boolean; reason?: WorkflowUpdateResult["ignored_slots"][number]["reason"] } {
+    if (!previous) {
+      return { apply: true };
+    }
+    const sourcePriority = workflowSourcePriority(update.source.source_kind);
+    const fields: Array<[number | string, number | string]> = [
+      [Date.parse(update.occurred_at), Date.parse(previous.occurred_at)],
+      [sourcePriority, previous.source_priority],
+      [update.evidence.confidence, previous.confidence],
+      [update.evidence.event_id, previous.event_id],
+      [updateId, previous.update_id],
+    ];
+    for (const [next, current] of fields) {
+      if (typeof next === "number" && typeof current === "number") {
+        if (next > current) {
+          return { apply: true };
+        }
+        if (next < current) {
+          return {
+            apply: false,
+            reason: next < Date.parse(previous.occurred_at) ? "stale" : "lower_priority",
+          };
+        }
+      } else {
+        const delta = String(next).localeCompare(String(current));
+        if (delta > 0) {
+          return { apply: true };
+        }
+        if (delta < 0) {
+          return { apply: false, reason: "lower_priority" };
+        }
+      }
+    }
+    return { apply: false, reason: "duplicate" };
+  }
+
+  private workflowAdmissionForUpdate(
+    update: WorkflowUpdate,
+    existing: WorkflowStateView | null,
+    hasBatchTypeConflict: boolean,
+    hadPreexistingRow: boolean,
+  ): {
+    admission: WorkflowAdmission;
+    ignored: WorkflowUpdateResult["ignored_slots"];
+  } {
+    const ignored: WorkflowUpdateResult["ignored_slots"] = [];
+    if (update.object_id !== update.derived.canonical_entity_id) {
+      ignored.push({ slot: "object_id", reason: "type_conflict" });
+      return { admission: "reject", ignored };
+    }
+    if (hasBatchTypeConflict) {
+      ignored.push({ slot: "object_type", reason: "type_conflict" });
+      return { admission: hadPreexistingRow ? "evidence_only" : "reject", ignored };
+    }
+    if (existing && existing.object_type !== update.object_type) {
+      ignored.push({ slot: "object_type", reason: "type_conflict" });
+      return { admission: "evidence_only", ignored };
+    }
+    if (update.evidence.resolution_status !== "stable") {
+      ignored.push({ slot: "object_id", reason: "ambiguous" });
+      return { admission: existing ? "evidence_only" : "reject", ignored };
+    }
+    if (update.evidence.relation_strength === "weak") {
+      ignored.push({ slot: "patch", reason: "weak_relation" });
+      return { admission: existing ? "evidence_only" : "reject", ignored };
+    }
+    if (update.source.source_kind === "backfill") {
+      return { admission: existing ? "evidence_only" : "current_state_patch", ignored };
+    }
+    return { admission: preliminaryWorkflowAdmission(update), ignored };
+  }
+
+  private applyWorkflowUpdateInTransaction(
+    update: WorkflowUpdate,
+    hasBatchTypeConflict: boolean,
+    hadPreexistingRow: boolean,
+  ): WorkflowUpdateResult {
+    const updateId = update.update_id ?? workflowUpdateId(update);
+    const existing = this.getWorkflowStateByObjectIdInTransaction(update.object_id);
+    const { admission, ignored } = this.workflowAdmissionForUpdate(
+      update,
+      existing,
+      hasBatchTypeConflict,
+      hadPreexistingRow,
+    );
+    const supportingEventIds = new Set(existing?.supporting_event_ids ?? []);
+    const conflictFlags = new Set(existing?.conflict_flags ?? []);
+    for (const eventId of [
+      update.evidence.event_id,
+      ...(update.evidence.supporting_event_ids ?? []),
+      ...(update.patch.append?.supporting_event_ids ?? []),
+    ]) {
+      if (eventId) {
+        supportingEventIds.add(eventId);
+      }
+    }
+    const conflictFlagsAdded: string[] = [];
+    for (const flag of update.patch.append?.conflict_flags ?? []) {
+      if (!conflictFlags.has(flag)) {
+        conflictFlags.add(flag);
+        conflictFlagsAdded.push(flag);
+      }
+    }
+    if (admission === "reject") {
+      return {
+        update_id: updateId,
+        object_type: update.object_type,
+        object_id: update.object_id,
+        admission,
+        applied: false,
+        changed_slots: [],
+        ignored_slots: ignored,
+        conflict_flags_added: [],
+      };
+    }
+
+    const next: WorkflowStateView = existing ?? {
+      object_type: update.object_type,
+      object_id: update.object_id,
+      stage: null,
+      owner_entity_id: null,
+      blocker_status: "unknown",
+      blocker_reason: null,
+      approval_status: "unknown",
+      next_action: null,
+      last_event_id: update.evidence.event_id,
+      last_updated_at: Date.parse(update.occurred_at) || Date.now(),
+      supporting_event_ids: [],
+      conflict_flags: [],
+      slot_versions: {},
+    };
+    const slotVersions = parseSlotVersions(JSON.stringify(next.slot_versions));
+    const changedSlots: string[] = [];
+    const setSlot = <
+      K extends keyof Pick<
+        WorkflowStateView,
+        | "stage"
+        | "owner_entity_id"
+        | "blocker_status"
+        | "blocker_reason"
+        | "approval_status"
+        | "next_action"
+      >,
+    >(
+      slot: K,
+      value: WorkflowStateView[K],
+    ) => {
+      if (admission !== "current_state_patch") {
+        ignored.push({ slot, reason: "lower_priority" });
+        return;
+      }
+      const decision = this.compareWorkflowSlotVersion(update, updateId, slotVersions[slot]);
+      if (!decision.apply) {
+        ignored.push({ slot, reason: decision.reason ?? "lower_priority" });
+        return;
+      }
+      if (next[slot] !== value) {
+        next[slot] = value;
+        changedSlots.push(slot);
+      }
+      slotVersions[slot] = {
+        event_id: update.evidence.event_id,
+        occurred_at: update.occurred_at,
+        source_kind: update.source.source_kind,
+        source_priority: workflowSourcePriority(update.source.source_kind),
+        confidence: update.evidence.confidence,
+        update_id: updateId,
+      };
+    };
+    const patchSet = update.patch.set ?? {};
+    if ("stage" in patchSet) {
+      setSlot("stage", patchSet.stage ?? null);
+    }
+    if ("owner_entity_id" in patchSet) {
+      setSlot("owner_entity_id", patchSet.owner_entity_id ?? null);
+    }
+    if ("blocker_status" in patchSet) {
+      setSlot("blocker_status", patchSet.blocker_status ?? "unknown");
+    }
+    if ("blocker_reason" in patchSet) {
+      setSlot("blocker_reason", patchSet.blocker_reason ?? null);
+    }
+    if ("approval_status" in patchSet) {
+      setSlot("approval_status", patchSet.approval_status ?? "unknown");
+    }
+    if ("next_action" in patchSet) {
+      setSlot("next_action", patchSet.next_action ?? null);
+    }
+    for (const clearSlot of update.patch.clear ?? []) {
+      switch (clearSlot) {
+        case "approval_status":
+          setSlot("approval_status", "unknown");
+          break;
+        case "stage":
+        case "owner_entity_id":
+        case "blocker_reason":
+        case "next_action":
+          setSlot(clearSlot, null);
+          break;
+      }
+    }
+    if (update.patch.resolve?.blocker) {
+      setSlot("blocker_status", "resolved");
+    }
+    if (update.patch.resolve?.approval) {
+      setSlot("approval_status", "approved");
+    }
+    const changedOrNew = changedSlots.length > 0 || !existing;
+    if (changedSlots.length > 0) {
+      next.last_event_id = update.evidence.event_id;
+      next.last_updated_at = Date.parse(update.occurred_at) || Date.now();
+    }
+    next.supporting_event_ids = [...supportingEventIds].toSorted();
+    next.conflict_flags = [...conflictFlags].toSorted();
+    next.slot_versions = slotVersions;
+    const upsert = this.db.prepare(
+      `INSERT INTO workflow_state_view(
+        object_type, object_id, stage, owner_entity_id, blocker_status, blocker_reason,
+        approval_status, next_action, last_event_id, last_updated_at, supporting_event_ids_json,
+        conflict_flags_json, slot_versions_json
+      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+      ON CONFLICT(object_type, object_id) DO UPDATE SET
+        stage = excluded.stage,
+        owner_entity_id = excluded.owner_entity_id,
+        blocker_status = excluded.blocker_status,
+        blocker_reason = excluded.blocker_reason,
+        approval_status = excluded.approval_status,
+        next_action = excluded.next_action,
+        last_event_id = excluded.last_event_id,
+        last_updated_at = excluded.last_updated_at,
+        supporting_event_ids_json = excluded.supporting_event_ids_json,
+        conflict_flags_json = excluded.conflict_flags_json,
+        slot_versions_json = excluded.slot_versions_json`,
+    );
+    upsert.run(
+      next.object_type,
+      next.object_id,
+      next.stage,
+      next.owner_entity_id,
+      next.blocker_status,
+      next.blocker_reason,
+      next.approval_status,
+      next.next_action,
+      next.last_event_id,
+      next.last_updated_at,
+      JSON.stringify(next.supporting_event_ids),
+      JSON.stringify(next.conflict_flags),
+      JSON.stringify(next.slot_versions),
+    );
+    return {
+      update_id: updateId,
+      object_type: update.object_type,
+      object_id: update.object_id,
+      admission,
+      applied: changedOrNew || conflictFlagsAdded.length > 0,
+      changed_slots: changedSlots,
+      ignored_slots: ignored,
+      conflict_flags_added: conflictFlagsAdded,
+    };
+  }
+
+  private applyWorkflowUpdatesInTransaction(updates: WorkflowUpdate[]): WorkflowUpdateResult[] {
+    const sorted = sortWorkflowUpdatesDeterministically(updates);
+    const conflictObjectIds = workflowBatchTypeConflictObjectIds(sorted);
+    const preexistingObjectIds = new Set(
+      [...conflictObjectIds].filter((objectId) =>
+        this.getWorkflowStateByObjectIdInTransaction(objectId),
+      ),
+    );
+    return sorted.map((update) =>
+      this.applyWorkflowUpdateInTransaction(
+        update,
+        conflictObjectIds.has(update.object_id),
+        preexistingObjectIds.has(update.object_id),
+      ),
+    );
+  }
+
+  async applyWorkflowUpdate(update: WorkflowUpdate): Promise<WorkflowUpdateResult> {
+    const [result] = await this.applyWorkflowUpdates([update]);
+    return (
+      result ?? {
+        update_id: update.update_id ?? workflowUpdateId(update),
+        object_type: update.object_type,
+        object_id: update.object_id,
+        admission: "reject",
+        applied: false,
+        changed_slots: [],
+        ignored_slots: [{ slot: "update", reason: "duplicate" }],
+        conflict_flags_added: [],
+      }
+    );
+  }
+
+  async applyWorkflowUpdates(updates: WorkflowUpdate[]): Promise<WorkflowUpdateResult[]> {
+    this.db.exec("BEGIN IMMEDIATE");
+    try {
+      const results = this.applyWorkflowUpdatesInTransaction(updates);
+      this.db.exec("COMMIT");
+      return results;
+    } catch (err) {
+      this.db.exec("ROLLBACK");
+      throw err;
+    }
+  }
+
   async persistCanonicalBatch(
     records: EventRecord[],
     computed?: EntityStateRefreshComputation,
   ): Promise<{
     states: EntityState[];
     graphObjects: GraphObjectSet;
+    workflowResults: WorkflowUpdateResult[];
   }> {
     const mergeComputation = computed ?? (await this.computeEntityStateRefresh(records));
     const graphObjects = deriveGraphObjects(records);
+    const workflowUpdates = isWorkflowStateLayerEnabled()
+      ? deriveWorkflowUpdates(records, graphObjects)
+      : [];
     this.db.exec("BEGIN IMMEDIATE");
     try {
       this.upsertEventsInTransaction(records);
       this.upsertGraphObjectsInTransaction(graphObjects);
       const states = this.refreshEntityStatesInTransaction(mergeComputation.states);
+      const workflowResults = this.applyWorkflowUpdatesInTransaction(workflowUpdates);
       this.setMeta("extractor_version", EXTRACTOR_VERSION);
       this.db.exec("COMMIT");
-      return { states, graphObjects };
+      return { states, graphObjects, workflowResults };
     } catch (err) {
       this.db.exec("ROLLBACK");
       throw err;
@@ -951,6 +1404,30 @@ export class CanonicalStore {
     return row ? rowToCanonicalEntity(row) : null;
   }
 
+  getWorkflowState(objectType: WorkflowObjectType, objectId: string): WorkflowStateView | null {
+    const row = this.db
+      .prepare(
+        `SELECT * FROM workflow_state_view
+         WHERE object_type = ? AND object_id = ?`,
+      )
+      .get(objectType, objectId) as Record<string, unknown> | undefined;
+    return row ? rowToWorkflowState(row) : null;
+  }
+
+  getWorkflowStateByObjectId(objectId: string): WorkflowStateView | null {
+    const row = this.db
+      .prepare("SELECT * FROM workflow_state_view WHERE object_id = ?")
+      .get(objectId) as Record<string, unknown> | undefined;
+    return row ? rowToWorkflowState(row) : null;
+  }
+
+  listWorkflowStates(): WorkflowStateView[] {
+    const rows = this.db
+      .prepare("SELECT * FROM workflow_state_view ORDER BY object_type ASC, object_id ASC")
+      .all() as Array<Record<string, unknown>>;
+    return rows.map(rowToWorkflowState);
+  }
+
   resolveEntityIds(query: string, limit = 8): string[] {
     const tokens = query
       .split(/[^\p{L}\p{N}_@-]+/u)
@@ -1213,23 +1690,41 @@ export class CanonicalStore {
     params: {
       scope?: string;
       batchSize?: number;
+      includeWorkflowState?: boolean;
     } = {},
-  ): Promise<{ processedEvents: number; entities: number; aliases: number; edges: number }> {
+  ): Promise<{
+    processedEvents: number;
+    entities: number;
+    aliases: number;
+    edges: number;
+    workflowUpdates: number;
+  }> {
     const scope = params.scope ?? "events";
     const batchSize = params.batchSize ?? 200;
+    const backfillMode: WorkflowBackfillMode =
+      params.includeWorkflowState && isWorkflowStateLayerEnabled()
+        ? "graph_and_workflow"
+        : "graph_only";
     const records = this.listEventsForKgBackfill({
       scope,
       limit: batchSize,
     });
     if (records.length === 0) {
       this.recordKgRetryMarker({ scope, status: "complete" });
-      return { processedEvents: 0, entities: 0, aliases: 0, edges: 0 };
+      return { processedEvents: 0, entities: 0, aliases: 0, edges: 0, workflowUpdates: 0 };
     }
     const graphObjects = deriveGraphObjects(records);
+    const workflowUpdates =
+      backfillMode === "graph_and_workflow"
+        ? deriveWorkflowUpdates(records, graphObjects, { sourceKind: "backfill" })
+        : [];
     const last = records.at(-1);
     this.db.exec("BEGIN IMMEDIATE");
     try {
       this.upsertGraphObjectsInTransaction(graphObjects);
+      if (workflowUpdates.length > 0) {
+        this.applyWorkflowUpdatesInTransaction(workflowUpdates);
+      }
       this.db
         .prepare(
           `INSERT INTO kg_backfill_state(
@@ -1266,6 +1761,7 @@ export class CanonicalStore {
       entities: graphObjects.entities.length,
       aliases: graphObjects.aliases.length,
       edges: graphObjects.edges.length,
+      workflowUpdates: workflowUpdates.length,
     };
   }
 
@@ -1443,6 +1939,11 @@ export class CanonicalStore {
     const edgeRow = this.db.prepare("SELECT COUNT(*) AS count FROM graph_edges").get() as {
       count?: number;
     };
+    const workflowRow = this.db
+      .prepare("SELECT COUNT(*) AS count FROM workflow_state_view")
+      .get() as {
+      count?: number;
+    };
     const pendingProjectionRow = this.db
       .prepare(
         `SELECT COUNT(*) AS count FROM projection_inbox
@@ -1455,6 +1956,7 @@ export class CanonicalStore {
       entitiesTotal: entityRow.count ?? 0,
       canonicalEntitiesTotal: kgEntityRow.count ?? 0,
       graphEdgesTotal: edgeRow.count ?? 0,
+      workflowStatesTotal: workflowRow.count ?? 0,
       schemaVersion: this.getMeta("schema_version") ?? CANONICAL_SCHEMA_VERSION,
       extractorVersion: this.getMeta("extractor_version") ?? EXTRACTOR_VERSION,
       projectionVersion: this.getMeta("projection_version") ?? GRAPH_PROJECTION_VERSION,

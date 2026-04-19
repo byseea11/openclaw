@@ -5,8 +5,10 @@ import {
   type GraphHit,
   type ProjectionSourceState,
   type StrongGraphRelation,
+  type WorkflowStateView,
 } from "./schema.js";
 import type { CanonicalStore, EntityResolutionCandidate } from "./store.js";
+import { isWorkflowStateReadEnabled } from "./workflow.js";
 
 export type QueryClass = "state" | "list" | "timeline" | "blocker_why";
 export type EvidenceFreshness = "fresh" | "mixed" | "unknown" | "stale";
@@ -592,6 +594,42 @@ function buildStateGroups(params: {
   return sortGroups(groups);
 }
 
+function buildWorkflowStateGroups(params: {
+  queryClass: QueryClass;
+  rows: WorkflowStateView[];
+  eventsById: Map<string, EventRecord>;
+  freshness: ReturnType<typeof buildFreshnessContext>;
+}): EvidenceGroup[] {
+  return sortGroups(
+    params.rows.map((row) => {
+      const events = row.supporting_event_ids
+        .map((eventId) => params.eventsById.get(eventId))
+        .filter((event): event is EventRecord => Boolean(event));
+      const group = groupFromEdges({
+        queryClass: params.queryClass,
+        groupType: "state",
+        edges: [],
+        events,
+        anchorEntityId: row.object_id,
+        relation: "workflow_state",
+        label:
+          row.stage ??
+          row.owner_entity_id ??
+          row.blocker_reason ??
+          row.approval_status ??
+          `workflow state for ${row.object_id}`,
+        freshness: params.freshness.groupFreshness([], events),
+        main: true,
+        conflictType: row.conflict_flags[0],
+      });
+      return {
+        ...group,
+        has_conflict: row.conflict_flags.length > 0 || group.has_conflict,
+      };
+    }),
+  );
+}
+
 function buildListGroups(params: {
   queryClass: QueryClass;
   edges: EdgeRow[];
@@ -703,6 +741,42 @@ function buildBlockerGroups(params: {
     });
   });
   return sortGroups(groups);
+}
+
+function buildWorkflowBlockerGroups(params: {
+  queryClass: QueryClass;
+  rows: WorkflowStateView[];
+  eventsById: Map<string, EventRecord>;
+  freshness: ReturnType<typeof buildFreshnessContext>;
+}): EvidenceGroup[] {
+  return sortGroups(
+    params.rows
+      .filter((row) => row.blocker_status === "blocked" || row.blocker_status === "resolved")
+      .map((row) => {
+        const events = row.supporting_event_ids
+          .map((eventId) => params.eventsById.get(eventId))
+          .filter((event): event is EventRecord => Boolean(event));
+        const group = groupFromEdges({
+          queryClass: params.queryClass,
+          groupType: "blocker",
+          edges: [],
+          events,
+          anchorEntityId: row.object_id,
+          relation: "workflow_blocker",
+          label:
+            row.blocker_status === "blocked"
+              ? `blocked: ${row.blocker_reason ?? row.stage ?? row.object_id}`
+              : `resolved blocker: ${row.blocker_reason ?? row.object_id}`,
+          freshness: params.freshness.groupFreshness([], events),
+          main: row.blocker_status === "blocked",
+          conflictType: row.conflict_flags[0],
+        });
+        return {
+          ...group,
+          has_conflict: row.conflict_flags.length > 0 || group.has_conflict,
+        };
+      }),
+  );
 }
 
 function buildWeakGroups(params: {
@@ -923,7 +997,16 @@ export async function buildPlannerResult(params: {
   const allEdgeEventIds = [
     ...new Set([...strongEdges, ...weakEdges].map((edge) => edge.evidence_event_id)),
   ];
-  const events = params.store.getEventsByIds(allEdgeEventIds);
+  const workflowRows =
+    isWorkflowStateReadEnabled() && resolution.status === "stable"
+      ? resolution.entityIds
+          .map((entityId) => params.store.getWorkflowStateByObjectId(entityId))
+          .filter((row): row is WorkflowStateView => Boolean(row))
+      : [];
+  const workflowEventIds = workflowRows.flatMap((row) => row.supporting_event_ids);
+  const events = params.store.getEventsByIds([
+    ...new Set([...allEdgeEventIds, ...workflowEventIds]),
+  ]);
   const eventsById = new Map(events.map((event) => [event.event_id, event]));
   const freshness = buildFreshnessContext(params.store, [...strongEdges, ...weakEdges], events);
   const conflictGroups = detectConflictGroups({
@@ -933,20 +1016,34 @@ export async function buildPlannerResult(params: {
     freshness,
   }).slice(0, budget.conflict);
   const mainCandidates =
-    queryClass === "state"
-      ? buildStateGroups({
-          store: params.store,
+    queryClass === "state" && workflowRows.length > 0
+      ? buildWorkflowStateGroups({
           queryClass,
-          entityIds: resolution.entityIds,
-          edges: strongEdges,
-          events,
+          rows: workflowRows,
+          eventsById,
           freshness,
         })
-      : queryClass === "list"
-        ? buildListGroups({ queryClass, edges: strongEdges, eventsById, freshness })
-        : queryClass === "timeline"
-          ? buildTimelineGroups({ queryClass, edges: strongEdges, eventsById, freshness })
-          : buildBlockerGroups({ queryClass, edges: strongEdges, eventsById, freshness });
+      : queryClass === "state"
+        ? buildStateGroups({
+            store: params.store,
+            queryClass,
+            entityIds: resolution.entityIds,
+            edges: strongEdges,
+            events,
+            freshness,
+          })
+        : queryClass === "list"
+          ? buildListGroups({ queryClass, edges: strongEdges, eventsById, freshness })
+          : queryClass === "timeline"
+            ? buildTimelineGroups({ queryClass, edges: strongEdges, eventsById, freshness })
+            : queryClass === "blocker_why" && workflowRows.length > 0
+              ? buildWorkflowBlockerGroups({
+                  queryClass,
+                  rows: workflowRows,
+                  eventsById,
+                  freshness,
+                })
+              : buildBlockerGroups({ queryClass, edges: strongEdges, eventsById, freshness });
   const selectedMain = markConflicts(selectMainGroups(mainCandidates, budget), conflictGroups);
   const weakGroups =
     selectedMain.length < budget.main

@@ -71,7 +71,7 @@ CREATE TABLE IF NOT EXISTS recent_graph_hits (
 );
 `;
 
-describe("canonical graph v0 to v3 migration", () => {
+describe("canonical graph v0 to v4 migration", () => {
   let rootDir = "";
 
   beforeEach(async () => {
@@ -121,13 +121,14 @@ describe("canonical graph v0 to v3 migration", () => {
     const store = new CanonicalStore("main", dbPath);
 
     expect(store.getStatus()).toMatchObject({
-      schemaVersion: "v3",
+      schemaVersion: "v4",
       extractorVersion: "v1-2026.04-llm",
       projectionVersion: "v1-2026.04",
       eventsTotal: 1,
       entitiesTotal: 1,
       canonicalEntitiesTotal: 0,
       graphEdgesTotal: 0,
+      workflowStatesTotal: 0,
     });
     await expect(store.searchEvents("task_123", 5)).resolves.toEqual([
       expect.objectContaining({

@@ -90,6 +90,15 @@ export { bootstrapCanonicalIndex as rebuildGraphIndex } from "./bootstrap.js";
 export { canonicalize, canonicalizeEntityId, createEventId } from "./canonicalizer.js";
 export { deriveGraphObjects, normalizeEntityAlias } from "./kg.js";
 export {
+  deriveWorkflowUpdates,
+  isWorkflowStateLayerEnabled,
+  isWorkflowStateReadEnabled,
+  sortWorkflowUpdatesDeterministically,
+  workflowBatchTypeConflictObjectIds,
+  workflowSourcePriority,
+  workflowUpdateId,
+} from "./workflow.js";
+export {
   extract,
   parseGraphJsonBlock,
   setDefaultExtractorClient,
@@ -121,6 +130,9 @@ export {
   type GraphHit,
   type GraphIndexConfig,
   type RawEvent,
+  type WorkflowStateView,
+  type WorkflowUpdate,
+  type WorkflowUpdateResult,
 } from "./schema.js";
 export { CanonicalStore, closeAllCanonicalStores, getCanonicalStore } from "./store.js";
 
@@ -232,11 +244,13 @@ export async function backfillGraphObjectsFromEvents(params: {
   agentId: string;
   scope?: string;
   batchSize?: number;
+  includeWorkflowState?: boolean;
 }) {
   const store = getCanonicalStore(params.agentId);
   return await store.backfillGraphObjectsFromEvents({
     scope: params.scope,
     batchSize: params.batchSize,
+    includeWorkflowState: params.includeWorkflowState,
   });
 }
 

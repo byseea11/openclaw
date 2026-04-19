@@ -43,6 +43,27 @@ async function withP1a<T>(run: () => Promise<T>): Promise<T> {
   }
 }
 
+async function withWorkflowStateRead<T>(run: () => Promise<T>): Promise<T> {
+  const previousWrite = process.env.OPENCLAW_WORKFLOW_STATE_LAYER;
+  const previousRead = process.env.OPENCLAW_WORKFLOW_STATE_READ;
+  process.env.OPENCLAW_WORKFLOW_STATE_LAYER = "1";
+  process.env.OPENCLAW_WORKFLOW_STATE_READ = "1";
+  try {
+    return await run();
+  } finally {
+    if (previousWrite === undefined) {
+      delete process.env.OPENCLAW_WORKFLOW_STATE_LAYER;
+    } else {
+      process.env.OPENCLAW_WORKFLOW_STATE_LAYER = previousWrite;
+    }
+    if (previousRead === undefined) {
+      delete process.env.OPENCLAW_WORKFLOW_STATE_READ;
+    } else {
+      process.env.OPENCLAW_WORKFLOW_STATE_READ = previousRead;
+    }
+  }
+}
+
 function markStaleSource(store: CanonicalStore, sourceId: string): void {
   store.enqueueProjectionInbox({
     source_kind: "transcript",
@@ -408,6 +429,36 @@ describe("canonical graph retriever", () => {
         path: "memory/2026-04-15.md",
       });
       store.close();
+    });
+  });
+
+  it("prefers workflow state rows for state queries when workflow read is enabled", async () => {
+    await withP1a(async () => {
+      await withWorkflowStateRead(async () => {
+        const store = new CanonicalStore("main", path.join(rootDir, "main.graph.sqlite"));
+        await store.persistCanonicalBatch([
+          record({
+            event_id: "evt_workflow_owner",
+            entity_id: "ent_feishu_500",
+            actor: "Alice",
+            action: "assigned_owner",
+            object: "FEISHU-500",
+            object_type: "task",
+            status_after: "blocked",
+            source_type: "transcript",
+            session_id: "session-a",
+            source_ref: "transcripts/session-a.txt#L10-L10",
+          }),
+        ]);
+
+        const { plannerResult } = await search_graph_with_plan(store, "who owns FEISHU-500", 5);
+
+        expect(plannerResult?.main_groups[0]).toMatchObject({
+          group_type: "state",
+          relation: "workflow_state",
+        });
+        store.close();
+      });
     });
   });
 });

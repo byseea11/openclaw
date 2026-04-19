@@ -1,7 +1,7 @@
 import type { OpenClawConfig } from "openclaw/plugin-sdk/memory-core-host-runtime-core";
 
 export const EXTRACTOR_VERSION = "v1-2026.04-llm";
-export const CANONICAL_SCHEMA_VERSION = "v3";
+export const CANONICAL_SCHEMA_VERSION = "v4";
 export const GRAPH_PROJECTION_VERSION = "v1-2026.04";
 export const GRAPH_RECALL_TTL_MS = 30 * 60 * 1000;
 
@@ -142,6 +142,104 @@ export type KgBackfillState = {
   last_error: string | null;
   retry_marker_json: string | null;
   updated_at: number;
+};
+
+export type WorkflowObjectType =
+  | "task"
+  | "project"
+  | "approval"
+  | "meeting"
+  | "document"
+  | "artifact";
+export type WorkflowSourceKind = "transcript" | "tool_result" | "flush" | "backfill" | "doc_parse";
+export type WorkflowAdmission = "current_state_patch" | "evidence_only" | "reject";
+export type WorkflowRelationStrength = "strong" | "weak" | "none";
+export type WorkflowResolutionStatus = "stable" | "ambiguous" | "unresolved";
+
+export type WorkflowStateView = {
+  object_type: WorkflowObjectType;
+  object_id: string;
+  stage: string | null;
+  owner_entity_id: string | null;
+  blocker_status: "unknown" | "none" | "blocked" | "resolved";
+  blocker_reason: string | null;
+  approval_status: "unknown" | "pending" | "approved" | "rejected" | "needs_review";
+  next_action: string | null;
+  last_event_id: string;
+  last_updated_at: number;
+  supporting_event_ids: string[];
+  conflict_flags: string[];
+  slot_versions: Record<string, unknown>;
+};
+
+export type WorkflowUpdate = {
+  update_id?: string;
+  object_type: WorkflowObjectType;
+  object_id: string;
+  occurred_at: string;
+  source: {
+    source_kind: WorkflowSourceKind;
+    source_ref: string;
+    session_id?: string | null;
+  };
+  patch: {
+    set?: {
+      stage?: string;
+      owner_entity_id?: string | null;
+      blocker_status?: WorkflowStateView["blocker_status"];
+      blocker_reason?: string | null;
+      approval_status?: WorkflowStateView["approval_status"];
+      next_action?: string | null;
+    };
+    clear?: Array<
+      "stage" | "owner_entity_id" | "blocker_reason" | "approval_status" | "next_action"
+    >;
+    resolve?: {
+      blocker?: boolean;
+      approval?: boolean;
+    };
+    append?: {
+      supporting_event_ids?: string[];
+      conflict_flags?: string[];
+    };
+  };
+  evidence: {
+    event_id: string;
+    supporting_event_ids?: string[];
+    edge_ids?: string[];
+    confidence: number;
+    relation_strength: WorkflowRelationStrength;
+    resolution_status: WorkflowResolutionStatus;
+  };
+  derived: {
+    canonical_entity_id: string;
+    canonical_entity_type: string;
+    workflow_type_source:
+      | "canonical_type"
+      | "event_object_type"
+      | "strong_relation"
+      | "explicit_semantics";
+  };
+};
+
+export type WorkflowUpdateResult = {
+  update_id: string;
+  object_type: string;
+  object_id: string;
+  admission: WorkflowAdmission;
+  applied: boolean;
+  changed_slots: string[];
+  ignored_slots: Array<{
+    slot: string;
+    reason:
+      | "stale"
+      | "duplicate"
+      | "lower_priority"
+      | "ambiguous"
+      | "weak_relation"
+      | "type_conflict";
+  }>;
+  conflict_flags_added: string[];
 };
 
 export type GraphHit = {
@@ -413,6 +511,37 @@ CREATE TABLE IF NOT EXISTS kg_backfill_state (
   retry_marker_json     TEXT,
   updated_at            INTEGER NOT NULL
 );
+
+CREATE TABLE IF NOT EXISTS workflow_state_view (
+  object_type               TEXT NOT NULL,
+  object_id                 TEXT NOT NULL,
+  stage                     TEXT,
+  owner_entity_id           TEXT,
+  blocker_status            TEXT NOT NULL DEFAULT 'unknown',
+  blocker_reason            TEXT,
+  approval_status           TEXT NOT NULL DEFAULT 'unknown',
+  next_action               TEXT,
+  last_event_id             TEXT NOT NULL,
+  last_updated_at           INTEGER NOT NULL,
+  supporting_event_ids_json TEXT NOT NULL DEFAULT '[]',
+  conflict_flags_json       TEXT NOT NULL DEFAULT '[]',
+  slot_versions_json        TEXT NOT NULL DEFAULT '{}',
+  PRIMARY KEY (object_type, object_id),
+  FOREIGN KEY(last_event_id) REFERENCES event_records(event_id)
+);
+
+CREATE UNIQUE INDEX IF NOT EXISTS idx_workflow_state_unique_object_id
+  ON workflow_state_view(object_id);
+CREATE INDEX IF NOT EXISTS idx_workflow_state_type_stage
+  ON workflow_state_view(object_type, stage);
+CREATE INDEX IF NOT EXISTS idx_workflow_state_owner
+  ON workflow_state_view(owner_entity_id);
+CREATE INDEX IF NOT EXISTS idx_workflow_state_blocker
+  ON workflow_state_view(blocker_status, last_updated_at);
+CREATE INDEX IF NOT EXISTS idx_workflow_state_approval
+  ON workflow_state_view(approval_status, last_updated_at);
+CREATE INDEX IF NOT EXISTS idx_workflow_state_last_event
+  ON workflow_state_view(last_event_id);
 `;
 
 function asRecord(value: unknown): Record<string, unknown> | undefined {
