@@ -8,13 +8,14 @@ import type { OpenClawConfig } from "openclaw/plugin-sdk/memory-core-host-runtim
 import { bootstrapCanonicalIndex } from "./bootstrap.js";
 import { canonicalize } from "./canonicalizer.js";
 import { parseGraphJsonBlockWithStatus } from "./extractor.js";
-import { graphHitToMemorySearchResult, type GraphMemorySearchResult } from "./prompt.js";
 import {
   drainPendingGraphUpdates,
   handleGraphAfterTurn,
   handleGraphBeforeCompaction,
 } from "./projection.js";
-import { search_graph } from "./retriever.js";
+import { graphHitToMemorySearchResult, type GraphMemorySearchResult } from "./prompt.js";
+import { plannerResultToTraceSearch } from "./retriever-groups.js";
+import { search_graph_with_plan } from "./retriever.js";
 import {
   describeGraphIndexConfig,
   EXTRACTOR_VERSION,
@@ -87,16 +88,14 @@ function emptyGraphMetrics(): GraphMetricsSnapshot {
 export { bootstrapCanonicalIndex } from "./bootstrap.js";
 export { bootstrapCanonicalIndex as rebuildGraphIndex } from "./bootstrap.js";
 export { canonicalize, canonicalizeEntityId, createEventId } from "./canonicalizer.js";
+export { deriveGraphObjects, normalizeEntityAlias } from "./kg.js";
 export {
   extract,
   parseGraphJsonBlock,
   setDefaultExtractorClient,
   type LLMClient as CanonicalExtractorClient,
 } from "./extractor.js";
-export {
-  createSubagentExtractorClient,
-  isGraphExtractorSessionKey,
-} from "./extractor.runtime.js";
+export { createSubagentExtractorClient, isGraphExtractorSessionKey } from "./extractor.runtime.js";
 export { graphHitToMemorySearchResult, renderGraphHit } from "./prompt.js";
 export {
   drainPendingGraphUpdates,
@@ -104,7 +103,8 @@ export {
   handleGraphBeforeCompaction,
 } from "./projection.js";
 export { reduce } from "./reducer.js";
-export { search_graph } from "./retriever.js";
+export { search_graph, search_graph_with_plan } from "./retriever.js";
+export { plannerResultToTraceSearch } from "./retriever-groups.js";
 export {
   __testing as canonicalUsageTesting,
   markGraphHitsUsedFromAssistantTexts,
@@ -160,10 +160,32 @@ export async function handleGraphFlushResult(params: {
       return { parsedEvents: 0, persistedEvents: 0 };
     }
     const records = canonicalize(rawEvents, EXTRACTOR_VERSION);
-    store.setMeta("extractor_version", EXTRACTOR_VERSION);
-    await store.upsertEvents(records);
-    await store.refreshEntityStates(records);
+    const persisted = await store.persistCanonicalBatch(records);
     log.info(`canonical.flush.persisted records=${records.length}`);
+    recordGraphIndexTrace({
+      cfg: params.cfg,
+      message: "canonical.flush.kg_persisted",
+      summary: `records=${records.length} entities=${persisted.graphObjects.entities.length} edges=${persisted.graphObjects.edges.length}`,
+      event: {
+        trace_id: buildGraphTraceId(["flush", records[0]?.event_id, "kg_persisted"]),
+        stage: "kg_objects_derived",
+        source_kind: "flush",
+        tables: {
+          canonical_entities: {
+            table: "canonical_entities",
+            persisted: persisted.graphObjects.entities.length,
+          },
+          entity_aliases: {
+            table: "entity_aliases",
+            persisted: persisted.graphObjects.aliases.length,
+          },
+          graph_edges: {
+            table: "graph_edges",
+            persisted: persisted.graphObjects.edges.length,
+          },
+        },
+      },
+    });
     return { parsedEvents: rawEvents.length, persistedEvents: records.length };
   } catch (err) {
     log.warn(`[canonical] flush.fallback error=${String(err)}`);
@@ -206,6 +228,18 @@ export async function maybeBootstrapCanonicalIndex(params: {
   }
 }
 
+export async function backfillGraphObjectsFromEvents(params: {
+  agentId: string;
+  scope?: string;
+  batchSize?: number;
+}) {
+  const store = getCanonicalStore(params.agentId);
+  return await store.backfillGraphObjectsFromEvents({
+    scope: params.scope,
+    batchSize: params.batchSize,
+  });
+}
+
 export async function searchGraphForMemoryTool(params: {
   cfg: OpenClawConfig;
   agentId: string;
@@ -244,16 +278,16 @@ export async function searchGraphForMemoryTool(params: {
             first: summary?.first_entry_id,
             last: summary?.last_entry_id,
           },
-        search: {
-          query: params.query,
-          pending_spans: summary?.pending_spans ?? 0,
+          search: {
+            query: params.query,
+            pending_spans: summary?.pending_spans ?? 0,
+          },
+          call: {
+            function: "searchGraphForMemoryTool",
+            steps: ["hasPendingProjection", "drainPendingGraphUpdates"],
+          },
         },
-        call: {
-          function: "searchGraphForMemoryTool",
-          steps: ["hasPendingProjection", "drainPendingGraphUpdates"],
-        },
-      },
-    });
+      });
       await drainPendingGraphUpdates({
         cfg: params.cfg,
         agentId: params.agentId,
@@ -261,7 +295,11 @@ export async function searchGraphForMemoryTool(params: {
         reason: "recall",
       });
     }
-    const hits = await search_graph(store, params.query, Math.max(1, params.maxResults ?? 5));
+    const { hits, plannerResult } = await search_graph_with_plan(
+      store,
+      params.query,
+      Math.max(1, params.maxResults ?? 5),
+    );
     if (params.sessionKey) {
       await recordReturnedGraphHits({
         cfg: params.cfg,
@@ -285,11 +323,7 @@ export async function searchGraphForMemoryTool(params: {
       message: "canonical.memory_search.graph_hits",
       summary: `query=${JSON.stringify(params.query)} hits=${hits.length} rendered=${results.length}`,
       event: {
-        trace_id: buildGraphTraceId([
-          params.sessionKey,
-          params.query,
-          "memory_search_graph_hits",
-        ]),
+        trace_id: buildGraphTraceId([params.sessionKey, params.query, "memory_search_graph_hits"]),
         stage: "memory_search_graph_hits",
         source_kind: params.sessionKey ? "transcript" : undefined,
         source_id: params.sessionKey,
@@ -297,6 +331,14 @@ export async function searchGraphForMemoryTool(params: {
           query: params.query,
           hits: hits.length,
           rendered: results.length,
+          ...(plannerResult ? plannerResultToTraceSearch(plannerResult) : {}),
+          strong_edge_hits: hits.filter((hit) => hit.type === "edge").length,
+          weak_edge_hits: hits.filter((hit) => {
+            if (hit.type !== "edge" || typeof hit.snippet_structured.relation !== "string") {
+              return false;
+            }
+            return ["about", "mentions", "related_to"].includes(hit.snippet_structured.relation);
+          }).length,
           graph_results: results.map((result) => ({
             path: result.path,
             startLine: result.startLine,

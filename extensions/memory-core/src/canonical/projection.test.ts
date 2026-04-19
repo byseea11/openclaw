@@ -285,9 +285,15 @@ describe("canonical graph transcript projection", () => {
     );
     const chainTraceIds = traceEvents
       .filter((event) =>
-        ["after_turn_mark_dirty", "drain_scheduled", "drain_started", "extractor_completed", "events_persisted", "entity_states_merged", "cursor_advanced"].includes(
-          event.stage ?? "",
-        ),
+        [
+          "after_turn_mark_dirty",
+          "drain_scheduled",
+          "drain_started",
+          "extractor_completed",
+          "events_persisted",
+          "entity_states_merged",
+          "cursor_advanced",
+        ].includes(event.stage ?? ""),
       )
       .map((event) => event.trace_id);
     expect(new Set(chainTraceIds).size).toBe(1);
@@ -389,7 +395,8 @@ describe("canonical graph transcript projection", () => {
               {
                 actor: "user",
                 action: "work_or_school_fact",
-                object: "user started as a volunteer coordinator at the community health clinic this week",
+                object:
+                  "user started as a volunteer coordinator at the community health clinic this week",
                 source_ref: "#L3-L3",
                 confidence: 0.92,
               },

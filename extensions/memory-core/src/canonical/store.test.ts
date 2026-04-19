@@ -65,7 +65,7 @@ describe("canonical graph store", () => {
     expect(store.getStatus()).toMatchObject({
       eventsTotal: 1,
       entitiesTotal: 1,
-      schemaVersion: "v2",
+      schemaVersion: "v3",
       metrics: expect.objectContaining({
         hitsReturned: 0,
         hitsUsedRaw: 0,
@@ -74,6 +74,59 @@ describe("canonical graph store", () => {
         sourceRefValidated: 0,
         sourceRefRejected: 0,
       }),
+    });
+    store.close();
+  });
+
+  it("persists events, KG objects, and states in one batch", async () => {
+    const store = new CanonicalStore("main", path.join(rootDir, "main.graph.sqlite"));
+
+    await expect(
+      store.persistCanonicalBatch([
+        record({
+          action: "assigned_owner",
+          object: "FEISHU-231",
+          object_type: "task",
+          status_after: "blocked",
+        }),
+      ]),
+    ).resolves.toMatchObject({
+      states: [expect.objectContaining({ entity_id: "ent_task" })],
+      graphObjects: {
+        entities: expect.arrayContaining([
+          expect.objectContaining({ entity_id: "ent_task", entity_type: "task" }),
+        ]),
+        aliases: expect.arrayContaining([
+          expect.objectContaining({ alias: "feishu-231", entity_id: "ent_task" }),
+        ]),
+        edges: expect.arrayContaining([
+          expect.objectContaining({ relation: "owned_by", src_entity_id: "ent_task" }),
+        ]),
+      },
+    });
+    expect(store.getStatus()).toMatchObject({
+      eventsTotal: 1,
+      entitiesTotal: 1,
+      canonicalEntitiesTotal: 2,
+      graphEdgesTotal: 1,
+    });
+    expect(store.resolveEntityIds("FEISHU-231")).toContain("ent_task");
+    store.close();
+  });
+
+  it("rolls back events and states when KG persistence fails", async () => {
+    const store = new CanonicalStore("main", path.join(rootDir, "main.graph.sqlite"));
+    const testDb = (store as unknown as { db: { exec(sql: string): void } }).db;
+    testDb.exec(
+      "CREATE TRIGGER fail_graph_edges BEFORE INSERT ON graph_edges BEGIN SELECT RAISE(ABORT, 'kg fail'); END;",
+    );
+
+    await expect(store.persistCanonicalBatch([record()])).rejects.toThrow("kg fail");
+    expect(store.getStatus()).toMatchObject({
+      eventsTotal: 0,
+      entitiesTotal: 0,
+      canonicalEntitiesTotal: 0,
+      graphEdgesTotal: 0,
     });
     store.close();
   });

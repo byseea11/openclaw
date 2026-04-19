@@ -1,6 +1,11 @@
 import crypto from "node:crypto";
 import { createSubsystemLogger } from "openclaw/plugin-sdk/memory-core-host-engine-foundation";
-import { isMemorySourceRef, type EventRecord, type RawEvent } from "./schema.js";
+import {
+  isMemorySourceRef,
+  type CanonicalEntityType,
+  type EventRecord,
+  type RawEvent,
+} from "./schema.js";
 
 const log = createSubsystemLogger("memory");
 
@@ -15,6 +20,27 @@ function sha256(value: string): string {
 function normalizeOptionalString(value: string | undefined): string | null {
   const trimmed = value?.trim();
   return trimmed ? trimmed : null;
+}
+
+function normalizeObjectType(value: string | undefined): CanonicalEntityType | null {
+  const normalized = value
+    ?.trim()
+    .toLowerCase()
+    .replace(/[\s-]+/g, "_");
+  switch (normalized) {
+    case "person":
+    case "team":
+    case "project":
+    case "task":
+    case "decision":
+    case "document":
+    case "meeting":
+    case "customer":
+    case "other":
+      return normalized;
+    default:
+      return null;
+  }
 }
 
 function normalizeOccurredAt(value: string | undefined): string {
@@ -109,6 +135,7 @@ export function canonicalize(
         actor,
         action,
         object,
+        object_type: normalizeObjectType(event.object_type),
         status_before: normalizeOptionalString(event.status_before),
         status_after: normalizeOptionalString(event.status_after),
         session_id: options.sessionId ?? null,

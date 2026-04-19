@@ -26,6 +26,25 @@ function optionalLine(label: string, value: unknown): string | null {
 
 export function renderGraphHit(hit: GraphHit): string {
   const structured = hit.snippet_structured;
+  if (typeof structured.group_type === "string" && typeof structured.evidence_group === "object") {
+    const group = structured.evidence_group as Record<string, unknown>;
+    const label =
+      typeof group.summary_label === "string" ? group.summary_label : "Grouped graph evidence";
+    const freshness = typeof group.freshness === "string" ? group.freshness : "unknown";
+    const relation = optionalLine("relation", group.relation);
+    const conflicts = group.has_conflict === true ? "has_conflict: true" : null;
+    return [
+      `[Graph ${structured.group_type}]`,
+      label,
+      relation,
+      optionalLine("freshness", freshness),
+      conflicts,
+      optionalLine("last_seen", group.last_seen_at),
+      `source: ${hit.source_ref}`,
+    ]
+      .filter((line): line is string => Boolean(line))
+      .join("\n");
+  }
   if (hit.type === "state") {
     return [
       "[Graph state]",
@@ -33,6 +52,28 @@ export function renderGraphHit(hit: GraphHit): string {
       optionalLine("status", structured.latest_status),
       optionalLine("owner", structured.latest_owner),
       `last_updated: ${formatDate(structured.last_updated_at)}`,
+      `source: ${hit.source_ref}`,
+    ]
+      .filter((line): line is string => Boolean(line))
+      .join("\n");
+  }
+  if (hit.type === "edge") {
+    const relation = typeof structured.relation === "string" ? structured.relation : "related_to";
+    const src = typeof structured.src_name === "string" ? structured.src_name : hit.entity_id;
+    const dst =
+      typeof structured.dst_name === "string"
+        ? structured.dst_name
+        : typeof structured.dst_entity_id === "string"
+          ? structured.dst_entity_id
+          : "(unknown entity)";
+    const freshness =
+      typeof structured.graph_freshness === "string"
+        ? `freshness: ${structured.graph_freshness}`
+        : null;
+    return [
+      "[Graph edge]",
+      `${formatDate(structured.occurred_at)} ${src} --${relation}--> ${dst}`,
+      freshness,
       `source: ${hit.source_ref}`,
     ]
       .filter((line): line is string => Boolean(line))

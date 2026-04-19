@@ -6,16 +6,22 @@ import {
   resolveStateDir,
 } from "openclaw/plugin-sdk/memory-core-host-engine-foundation";
 import { openMemoryDatabaseAtPath } from "../memory/manager-db.js";
+import { deriveGraphObjects, normalizeEntityAlias } from "./kg.js";
 import { runV0ToV1Migration } from "./migrations/v0-to-v1.js";
 import { runV1ToV2Migration } from "./migrations/v1-to-v2.js";
+import { runV2ToV3Migration } from "./migrations/v2-to-v3.js";
 import { reduce } from "./reducer.js";
 import {
   CANONICAL_SCHEMA_SQL,
   CANONICAL_SCHEMA_VERSION,
+  type CanonicalEntity,
+  type CanonicalEntityType,
   type EntityAlias,
   EXTRACTOR_VERSION,
   type EntityState,
   type EventRecord,
+  type GraphEdge,
+  type GraphObjectSet,
   GRAPH_PROJECTION_VERSION,
   GRAPH_METRIC_KEYS,
   GRAPH_RECALL_TTL_MS,
@@ -34,6 +40,22 @@ const log = createSubsystemLogger("memory");
 const stores = new Map<string, CanonicalStore>();
 
 type EventRow = EventRecord & { fts_score?: number };
+type EdgeRow = GraphEdge & {
+  src_name?: string;
+  src_type?: string;
+  dst_name?: string;
+  dst_type?: string;
+};
+export type EntityResolutionCandidate = {
+  entity_id: string;
+  entity_type: CanonicalEntityType;
+  canonical_name: string;
+  match_kind: "stable_id" | "exact_alias" | "normalized_alias" | "canonical_name";
+  matched_text: string;
+  confidence: number;
+  last_seen_at: string | null;
+  updated_at: number;
+};
 type GraphMetricRow = { key?: string; value?: number | string };
 type PendingProjectionSummary = {
   source_kind: "transcript";
@@ -79,6 +101,7 @@ function rowToEvent(row: Record<string, unknown>): EventRecord {
     actor: typeof row.actor === "string" ? row.actor : null,
     action: String(row.action),
     object: typeof row.object === "string" ? row.object : null,
+    object_type: normalizeEntityType(row.object_type),
     status_before: typeof row.status_before === "string" ? row.status_before : null,
     status_after: typeof row.status_after === "string" ? row.status_after : null,
     session_id: typeof row.session_id === "string" ? row.session_id : null,
@@ -88,6 +111,23 @@ function rowToEvent(row: Record<string, unknown>): EventRecord {
     extractor_version: String(row.extractor_version),
     created_at: typeof row.created_at === "number" ? row.created_at : Number(row.created_at ?? 0),
   };
+}
+
+function normalizeEntityType(value: unknown): CanonicalEntityType | null {
+  switch (value) {
+    case "person":
+    case "team":
+    case "project":
+    case "task":
+    case "decision":
+    case "document":
+    case "meeting":
+    case "customer":
+    case "other":
+      return value;
+    default:
+      return null;
+  }
 }
 
 function rowToProjectionState(row: Record<string, unknown>): ProjectionSourceState {
@@ -112,7 +152,9 @@ function rowToProjectionState(row: Record<string, unknown>): ProjectionSourceSta
           ? null
           : Number(row.last_projected_at),
     projection_version:
-      typeof row.projection_version === "string" ? row.projection_version : GRAPH_PROJECTION_VERSION,
+      typeof row.projection_version === "string"
+        ? row.projection_version
+        : GRAPH_PROJECTION_VERSION,
     status,
   };
 }
@@ -185,7 +227,7 @@ function rowToRecentGraphCandidate(row: Record<string, unknown>): RecentGraphCan
     start_line: Number(row.start_line ?? 0),
     end_line: Number(row.end_line ?? 0),
     entity_id: String(row.entity_id),
-    hit_type: row.hit_type === "state" ? "state" : "event",
+    hit_type: row.hit_type === "state" || row.hit_type === "edge" ? row.hit_type : "event",
     query: typeof row.query === "string" ? row.query : null,
     first_returned_at: Number(row.first_returned_at ?? 0),
     last_returned_at: Number(row.last_returned_at ?? 0),
@@ -201,14 +243,49 @@ function rowToRecentGraphCandidate(row: Record<string, unknown>): RecentGraphCan
 
 function rowToEntityAlias(row: Record<string, unknown>): EntityAlias {
   return {
-    alias_id: String(row.alias_id),
-    canonical_id: String(row.canonical_id),
-    source:
-      row.source === "rule" || row.source === "manual" || row.source === "llm"
-        ? row.source
-        : "rule",
+    alias: String(row.alias),
+    entity_id: String(row.entity_id),
+    alias_type:
+      row.alias_type === "normalized" || row.alias_type === "heuristic" ? row.alias_type : "exact",
+    confidence: typeof row.confidence === "number" ? row.confidence : Number(row.confidence ?? 0.5),
+    source_ref: typeof row.source_ref === "string" ? row.source_ref : null,
+    session_id: typeof row.session_id === "string" ? row.session_id : null,
     created_at:
       typeof row.created_at === "number" ? row.created_at : Number(row.created_at ?? Date.now()),
+  };
+}
+
+function rowToCanonicalEntity(row: Record<string, unknown>): CanonicalEntity {
+  return {
+    entity_id: String(row.entity_id),
+    entity_type: normalizeEntityType(row.entity_type) ?? "other",
+    canonical_name: String(row.canonical_name),
+    status: typeof row.status === "string" ? row.status : null,
+    last_seen_at: typeof row.last_seen_at === "string" ? row.last_seen_at : null,
+    confidence: typeof row.confidence === "number" ? row.confidence : Number(row.confidence ?? 0.5),
+    created_at: typeof row.created_at === "number" ? row.created_at : Number(row.created_at ?? 0),
+    updated_at: typeof row.updated_at === "number" ? row.updated_at : Number(row.updated_at ?? 0),
+    provenance_json: typeof row.provenance_json === "string" ? row.provenance_json : "[]",
+  };
+}
+
+function rowToGraphEdge(row: Record<string, unknown>): EdgeRow {
+  const relation = String(row.relation) as GraphEdge["relation"];
+  return {
+    edge_id: String(row.edge_id),
+    src_entity_id: String(row.src_entity_id),
+    relation,
+    dst_entity_id: String(row.dst_entity_id),
+    occurred_at: String(row.occurred_at),
+    source_ref: String(row.source_ref),
+    session_id: typeof row.session_id === "string" ? row.session_id : null,
+    evidence_event_id: String(row.evidence_event_id),
+    confidence: typeof row.confidence === "number" ? row.confidence : Number(row.confidence ?? 0.5),
+    created_at: typeof row.created_at === "number" ? row.created_at : Number(row.created_at ?? 0),
+    src_name: typeof row.src_name === "string" ? row.src_name : undefined,
+    src_type: typeof row.src_type === "string" ? row.src_type : undefined,
+    dst_name: typeof row.dst_name === "string" ? row.dst_name : undefined,
+    dst_type: typeof row.dst_type === "string" ? row.dst_type : undefined,
   };
 }
 
@@ -223,6 +300,31 @@ function buildFtsQuery(query: string): string {
     .filter(Boolean)
     .slice(0, 8);
   return tokens.map(quoteFtsToken).join(" OR ");
+}
+
+function extractResolutionTokens(query: string): string[] {
+  return [
+    ...new Set(
+      query
+        .split(/[^\p{L}\p{N}_@-]+/u)
+        .map((token) => normalizeEntityAlias(token))
+        .filter((token) => token.length > 1),
+    ),
+  ].slice(0, 12);
+}
+
+function isStableEntityToken(token: string): boolean {
+  return /^[a-z][a-z0-9]+-\d+$/i.test(token);
+}
+
+function canonicalNameTokenBonus(row: Record<string, unknown>, queryTokens: string[]): number {
+  const canonicalName = typeof row.canonical_name === "string" ? row.canonical_name : "";
+  const nameTokens = new Set(extractResolutionTokens(canonicalName));
+  if (nameTokens.size === 0) {
+    return 0;
+  }
+  const matched = queryTokens.filter((token) => nameTokens.has(token)).length;
+  return Math.min(0.2, (matched / nameTokens.size) * 0.2);
 }
 
 export class CanonicalStore {
@@ -244,6 +346,13 @@ export class CanonicalStore {
     }
     if (currentSchemaVersion === "v0" || currentSchemaVersion === "v1") {
       runV1ToV2Migration(this.db);
+    }
+    if (
+      currentSchemaVersion === "v0" ||
+      currentSchemaVersion === "v1" ||
+      currentSchemaVersion === "v2"
+    ) {
+      runV2ToV3Migration(this.db);
     }
     this.setMeta("schema_version", CANONICAL_SCHEMA_VERSION);
     this.setMeta("extractor_version", EXTRACTOR_VERSION);
@@ -276,8 +385,11 @@ export class CanonicalStore {
     this.db.exec("BEGIN IMMEDIATE");
     try {
       this.db.exec("DELETE FROM event_fts");
+      this.db.exec("DELETE FROM graph_edges");
+      this.db.exec("DELETE FROM canonical_entities");
       this.db.exec("DELETE FROM entity_states");
       this.db.exec("DELETE FROM entity_aliases");
+      this.db.exec("DELETE FROM kg_backfill_state");
       this.db.exec("DELETE FROM event_records");
       this.db.exec("DELETE FROM recent_graph_hits");
       this.db.exec("DELETE FROM source_projection_state");
@@ -351,60 +463,179 @@ export class CanonicalStore {
     this.db.prepare("DELETE FROM recent_graph_hits WHERE expires_at < ?").run(nowMs);
   }
 
-  async upsertEvents(records: EventRecord[]): Promise<void> {
+  private upsertEventsInTransaction(records: EventRecord[]): void {
     if (records.length === 0) {
       log.info("canonical.store.upsert_events records=0");
       return;
     }
     const upsert = this.db.prepare(
       `INSERT OR REPLACE INTO event_records(
-        event_id, source_type, source_ref, occurred_at, entity_id, actor, action, object,
+        event_id, source_type, source_ref, occurred_at, entity_id, actor, action, object, object_type,
         status_before, status_after, session_id, covered_until_entry_id, confidence,
         extractor_version, created_at
-      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
     );
     const deleteFts = this.db.prepare("DELETE FROM event_fts WHERE event_id = ?");
     const insertFts = this.db.prepare(
       `INSERT INTO event_fts(event_id, entity_id, actor, action, object, status_after)
        VALUES (?, ?, ?, ?, ?, ?)`,
     );
+    for (const record of records) {
+      const values: SQLInputValue[] = [
+        record.event_id,
+        record.source_type,
+        record.source_ref,
+        record.occurred_at,
+        record.entity_id,
+        record.actor,
+        record.action,
+        record.object,
+        record.object_type ?? null,
+        record.status_before,
+        record.status_after,
+        record.session_id,
+        record.covered_until_entry_id,
+        record.confidence,
+        record.extractor_version,
+        record.created_at,
+      ];
+      upsert.run(...values);
+      deleteFts.run(record.event_id);
+      insertFts.run(
+        record.event_id,
+        record.entity_id,
+        record.actor,
+        record.action,
+        record.object,
+        record.status_after,
+      );
+    }
+    log.info(`canonical.store.upsert_events records=${records.length}`);
+  }
+
+  async upsertEvents(records: EventRecord[]): Promise<void> {
     this.db.exec("BEGIN IMMEDIATE");
     try {
-      for (const record of records) {
-        const values: SQLInputValue[] = [
-          record.event_id,
-          record.source_type,
-          record.source_ref,
-          record.occurred_at,
-          record.entity_id,
-          record.actor,
-          record.action,
-          record.object,
-          record.status_before,
-          record.status_after,
-          record.session_id,
-          record.covered_until_entry_id,
-          record.confidence,
-          record.extractor_version,
-          record.created_at,
-        ];
-        upsert.run(...values);
-        deleteFts.run(record.event_id);
-        insertFts.run(
-          record.event_id,
-          record.entity_id,
-          record.actor,
-          record.action,
-          record.object,
-          record.status_after,
-        );
-      }
+      this.upsertEventsInTransaction(records);
       this.db.exec("COMMIT");
     } catch (err) {
       this.db.exec("ROLLBACK");
       throw err;
     }
-    log.info(`canonical.store.upsert_events records=${records.length}`);
+  }
+
+  private upsertGraphObjectsInTransaction(objects: GraphObjectSet): void {
+    const upsertEntity = this.db.prepare(
+      `INSERT INTO canonical_entities(
+        entity_id, entity_type, canonical_name, status, last_seen_at, confidence,
+        created_at, updated_at, provenance_json
+      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+      ON CONFLICT(entity_id) DO UPDATE SET
+        entity_type = excluded.entity_type,
+        canonical_name = excluded.canonical_name,
+        status = COALESCE(excluded.status, canonical_entities.status),
+        last_seen_at = CASE
+          WHEN canonical_entities.last_seen_at IS NULL THEN excluded.last_seen_at
+          WHEN excluded.last_seen_at IS NULL THEN canonical_entities.last_seen_at
+          WHEN excluded.last_seen_at >= canonical_entities.last_seen_at THEN excluded.last_seen_at
+          ELSE canonical_entities.last_seen_at
+        END,
+        confidence = MAX(canonical_entities.confidence, excluded.confidence),
+        updated_at = excluded.updated_at,
+        provenance_json = excluded.provenance_json`,
+    );
+    const upsertAlias = this.db.prepare(
+      `INSERT INTO entity_aliases(
+        alias, entity_id, alias_type, confidence, source_ref, session_id, created_at
+      ) VALUES (?, ?, ?, ?, ?, ?, ?)
+      ON CONFLICT(alias, entity_id, alias_type) DO UPDATE SET
+        confidence = MAX(entity_aliases.confidence, excluded.confidence),
+        source_ref = COALESCE(entity_aliases.source_ref, excluded.source_ref),
+        session_id = COALESCE(entity_aliases.session_id, excluded.session_id)`,
+    );
+    const upsertEdge = this.db.prepare(
+      `INSERT INTO graph_edges(
+        edge_id, src_entity_id, relation, dst_entity_id, occurred_at, source_ref,
+        session_id, evidence_event_id, confidence, created_at
+      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+      ON CONFLICT(edge_id) DO UPDATE SET
+        confidence = MAX(graph_edges.confidence, excluded.confidence)`,
+    );
+    for (const entity of objects.entities) {
+      upsertEntity.run(
+        entity.entity_id,
+        entity.entity_type,
+        entity.canonical_name,
+        entity.status,
+        entity.last_seen_at,
+        entity.confidence,
+        entity.created_at,
+        entity.updated_at,
+        entity.provenance_json,
+      );
+    }
+    for (const alias of objects.aliases) {
+      upsertAlias.run(
+        alias.alias,
+        alias.entity_id,
+        alias.alias_type,
+        alias.confidence,
+        alias.source_ref,
+        alias.session_id,
+        alias.created_at,
+      );
+    }
+    for (const edge of objects.edges) {
+      upsertEdge.run(
+        edge.edge_id,
+        edge.src_entity_id,
+        edge.relation,
+        edge.dst_entity_id,
+        edge.occurred_at,
+        edge.source_ref,
+        edge.session_id,
+        edge.evidence_event_id,
+        edge.confidence,
+        edge.created_at,
+      );
+    }
+    log.info(
+      `canonical.store.upsert_kg entities=${objects.entities.length} aliases=${objects.aliases.length} edges=${objects.edges.length}`,
+    );
+  }
+
+  async upsertGraphObjects(objects: GraphObjectSet): Promise<void> {
+    this.db.exec("BEGIN IMMEDIATE");
+    try {
+      this.upsertGraphObjectsInTransaction(objects);
+      this.db.exec("COMMIT");
+    } catch (err) {
+      this.db.exec("ROLLBACK");
+      throw err;
+    }
+  }
+
+  async persistCanonicalBatch(
+    records: EventRecord[],
+    computed?: EntityStateRefreshComputation,
+  ): Promise<{
+    states: EntityState[];
+    graphObjects: GraphObjectSet;
+  }> {
+    const mergeComputation = computed ?? (await this.computeEntityStateRefresh(records));
+    const graphObjects = deriveGraphObjects(records);
+    this.db.exec("BEGIN IMMEDIATE");
+    try {
+      this.upsertEventsInTransaction(records);
+      this.upsertGraphObjectsInTransaction(graphObjects);
+      const states = this.refreshEntityStatesInTransaction(mergeComputation.states);
+      this.setMeta("extractor_version", EXTRACTOR_VERSION);
+      this.db.exec("COMMIT");
+      return { states, graphObjects };
+    } catch (err) {
+      this.db.exec("ROLLBACK");
+      throw err;
+    }
   }
 
   enqueueProjectionInbox(entry: ProjectionInboxWrite): boolean {
@@ -562,7 +793,11 @@ export class CanonicalStore {
       .run(sourceId);
   }
 
-  markProjectionDrained(params: { sourceId: string; coveredUntilEntryId: string; nowMs?: number }): void {
+  markProjectionDrained(params: {
+    sourceId: string;
+    coveredUntilEntryId: string;
+    nowMs?: number;
+  }): void {
     const nowMs = Number.isFinite(params.nowMs) ? (params.nowMs as number) : Date.now();
     this.db.exec("BEGIN IMMEDIATE");
     try {
@@ -604,6 +839,38 @@ export class CanonicalStore {
       .run(sourceId);
   }
 
+  recordKgRetryMarker(params: {
+    scope: string;
+    status: "failed" | "running" | "complete" | "idle";
+    error?: string;
+    retryMarker?: Record<string, unknown>;
+    lastEventCreatedAt?: number | null;
+    lastEventId?: string | null;
+    nowMs?: number;
+  }): void {
+    const nowMs = Number.isFinite(params.nowMs) ? (params.nowMs as number) : Date.now();
+    this.db
+      .prepare(
+        `INSERT INTO kg_backfill_state(
+          scope, last_event_created_at, last_event_id, status, last_error, retry_marker_json, updated_at
+        ) VALUES (?, ?, ?, ?, ?, ?, ?)
+        ON CONFLICT(scope) DO UPDATE SET
+          status = excluded.status,
+          last_error = excluded.last_error,
+          retry_marker_json = excluded.retry_marker_json,
+          updated_at = excluded.updated_at`,
+      )
+      .run(
+        params.scope,
+        params.lastEventCreatedAt ?? null,
+        params.lastEventId ?? null,
+        params.status,
+        params.error ?? null,
+        params.retryMarker ? JSON.stringify(params.retryMarker) : null,
+        nowMs,
+      );
+  }
+
   private async computeEntityStateRefresh(
     records: EventRecord[],
   ): Promise<EntityStateRefreshComputation> {
@@ -623,17 +890,11 @@ export class CanonicalStore {
     };
   }
 
-  async explainEntityStateRefresh(
-    records: EventRecord[],
-  ): Promise<EntityStateRefreshComputation> {
+  async explainEntityStateRefresh(records: EventRecord[]): Promise<EntityStateRefreshComputation> {
     return this.computeEntityStateRefresh(records);
   }
 
-  async refreshEntityStates(
-    records: EventRecord[],
-    computed?: EntityStateRefreshComputation,
-  ): Promise<EntityState[]> {
-    const states = (computed ?? (await this.computeEntityStateRefresh(records))).states;
+  private refreshEntityStatesInTransaction(states: EntityState[]): EntityState[] {
     if (states.length === 0) {
       log.info("canonical.store.refresh_states states=0");
       return states;
@@ -644,26 +905,35 @@ export class CanonicalStore {
         supporting_event_ids, confidence
       ) VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
     );
+    for (const state of states) {
+      upsert.run(
+        state.entity_id,
+        state.latest_status,
+        state.latest_owner,
+        state.last_event_id,
+        state.last_updated_at,
+        state.entity_type,
+        JSON.stringify(state.supporting_event_ids),
+        state.confidence,
+      );
+    }
+    log.info(`canonical.store.refresh_states states=${states.length}`);
+    return states;
+  }
+
+  async refreshEntityStates(
+    records: EventRecord[],
+    computed?: EntityStateRefreshComputation,
+  ): Promise<EntityState[]> {
+    const states = (computed ?? (await this.computeEntityStateRefresh(records))).states;
     this.db.exec("BEGIN IMMEDIATE");
     try {
-      for (const state of states) {
-        upsert.run(
-          state.entity_id,
-          state.latest_status,
-          state.latest_owner,
-          state.last_event_id,
-          state.last_updated_at,
-          state.entity_type,
-          JSON.stringify(state.supporting_event_ids),
-          state.confidence,
-        );
-      }
+      this.refreshEntityStatesInTransaction(states);
       this.db.exec("COMMIT");
     } catch (err) {
       this.db.exec("ROLLBACK");
       throw err;
     }
-    log.info(`canonical.store.refresh_states states=${states.length}`);
     return states;
   }
 
@@ -672,6 +942,212 @@ export class CanonicalStore {
       | Record<string, unknown>
       | undefined;
     return row ? rowToState(row) : null;
+  }
+
+  getCanonicalEntity(entityId: string): CanonicalEntity | null {
+    const row = this.db
+      .prepare("SELECT * FROM canonical_entities WHERE entity_id = ?")
+      .get(entityId) as Record<string, unknown> | undefined;
+    return row ? rowToCanonicalEntity(row) : null;
+  }
+
+  resolveEntityIds(query: string, limit = 8): string[] {
+    const tokens = query
+      .split(/[^\p{L}\p{N}_@-]+/u)
+      .map((token) => token.trim().toLowerCase())
+      .filter((token) => token.length > 1)
+      .slice(0, 8);
+    const ids = new Set<string>();
+    const aliasLookup = this.db.prepare(
+      `SELECT entity_id FROM entity_aliases
+       WHERE alias = ? OR alias LIKE ?
+       ORDER BY confidence DESC, created_at DESC
+       LIMIT ?`,
+    );
+    const entityLookup = this.db.prepare(
+      `SELECT entity_id FROM canonical_entities
+       WHERE lower(canonical_name) = ? OR lower(canonical_name) LIKE ?
+       ORDER BY confidence DESC, updated_at DESC
+       LIMIT ?`,
+    );
+    for (const token of tokens) {
+      const pattern = `%${token}%`;
+      for (const row of aliasLookup.all(token, pattern, limit) as Array<Record<string, unknown>>) {
+        ids.add(String(row.entity_id));
+      }
+      for (const row of entityLookup.all(token, pattern, limit) as Array<Record<string, unknown>>) {
+        ids.add(String(row.entity_id));
+      }
+      if (ids.size >= limit) {
+        break;
+      }
+    }
+    return [...ids].slice(0, limit);
+  }
+
+  resolveEntityCandidates(query: string, limit = 8): EntityResolutionCandidate[] {
+    const tokens = extractResolutionTokens(query);
+    if (tokens.length === 0) {
+      return [];
+    }
+    const candidates = new Map<string, EntityResolutionCandidate>();
+    const addCandidate = (
+      row: Record<string, unknown>,
+      matchKind: EntityResolutionCandidate["match_kind"],
+      matchedText: string,
+      confidenceBonus = 0,
+    ) => {
+      const entityId = String(row.entity_id);
+      const confidence = Math.min(1, Number(row.confidence ?? 0.5) + confidenceBonus);
+      const candidate: EntityResolutionCandidate = {
+        entity_id: entityId,
+        entity_type: normalizeEntityType(row.entity_type) ?? "other",
+        canonical_name: typeof row.canonical_name === "string" ? row.canonical_name : entityId,
+        match_kind: matchKind,
+        matched_text: matchedText,
+        confidence,
+        last_seen_at: typeof row.last_seen_at === "string" ? row.last_seen_at : null,
+        updated_at: Number(row.updated_at ?? row.created_at ?? 0),
+      };
+      const existing = candidates.get(entityId);
+      if (
+        !existing ||
+        confidence > existing.confidence ||
+        (confidence === existing.confidence && candidate.updated_at > existing.updated_at)
+      ) {
+        candidates.set(entityId, candidate);
+      }
+    };
+    const aliasLookup = this.db.prepare(
+      `SELECT
+         a.alias,
+         a.alias_type,
+         a.confidence,
+         e.entity_id,
+         e.entity_type,
+         e.canonical_name,
+         e.last_seen_at,
+         e.updated_at,
+         e.created_at
+       FROM entity_aliases a
+       JOIN canonical_entities e ON e.entity_id = a.entity_id
+       WHERE a.alias = ?
+       ORDER BY a.confidence DESC, e.updated_at DESC
+       LIMIT ?`,
+    );
+    const canonicalExactLookup = this.db.prepare(
+      `SELECT * FROM canonical_entities
+       WHERE lower(canonical_name) = ?
+       ORDER BY confidence DESC, updated_at DESC
+       LIMIT ?`,
+    );
+    const canonicalLikeLookup = this.db.prepare(
+      `SELECT * FROM canonical_entities
+       WHERE lower(canonical_name) LIKE ?
+       ORDER BY confidence DESC, updated_at DESC
+       LIMIT ?`,
+    );
+    for (const token of tokens) {
+      for (const row of aliasLookup.all(token, limit) as Array<Record<string, unknown>>) {
+        addCandidate(row, isStableEntityToken(token) ? "stable_id" : "exact_alias", token, 0.15);
+      }
+      for (const row of canonicalExactLookup.all(token, limit) as Array<Record<string, unknown>>) {
+        addCandidate(
+          row,
+          isStableEntityToken(token) ? "stable_id" : "canonical_name",
+          token,
+          0.1 + canonicalNameTokenBonus(row, tokens),
+        );
+      }
+    }
+    const normalizedQuery = normalizeEntityAlias(query);
+    if (normalizedQuery) {
+      for (const row of aliasLookup.all(normalizedQuery, limit) as Array<Record<string, unknown>>) {
+        addCandidate(row, "normalized_alias", normalizedQuery, 0.05);
+      }
+    }
+    for (const token of tokens) {
+      const pattern = `${token}%`;
+      for (const row of canonicalLikeLookup.all(pattern, limit) as Array<Record<string, unknown>>) {
+        addCandidate(row, "canonical_name", token, canonicalNameTokenBonus(row, tokens));
+      }
+    }
+    return [...candidates.values()]
+      .toSorted((left, right) => {
+        if (left.confidence !== right.confidence) {
+          return right.confidence - left.confidence;
+        }
+        if (left.updated_at !== right.updated_at) {
+          return right.updated_at - left.updated_at;
+        }
+        return left.entity_id.localeCompare(right.entity_id);
+      })
+      .slice(0, limit);
+  }
+
+  searchGraphEdges(params: {
+    entityIds?: string[];
+    relations?: string[];
+    includeWeak?: boolean;
+    limit: number;
+  }): EdgeRow[] {
+    const clauses: string[] = [];
+    const args: SQLInputValue[] = [];
+    const entityIds = [...new Set(params.entityIds ?? [])].filter(Boolean);
+    if (entityIds.length > 0) {
+      const placeholders = entityIds.map(() => "?").join(", ");
+      clauses.push(
+        `(g.src_entity_id IN (${placeholders}) OR g.dst_entity_id IN (${placeholders}))`,
+      );
+      args.push(...entityIds, ...entityIds);
+    }
+    const relations = [...new Set(params.relations ?? [])].filter(Boolean);
+    if (relations.length > 0) {
+      clauses.push(`g.relation IN (${relations.map(() => "?").join(", ")})`);
+      args.push(...relations);
+    } else if (!params.includeWeak) {
+      clauses.push("g.relation NOT IN ('about', 'mentions', 'related_to')");
+    }
+    const where = clauses.length > 0 ? `WHERE ${clauses.join(" AND ")}` : "";
+    const rows = this.db
+      .prepare(
+        `SELECT
+           g.*,
+           src.canonical_name AS src_name,
+           src.entity_type AS src_type,
+           dst.canonical_name AS dst_name,
+           dst.entity_type AS dst_type
+         FROM graph_edges g
+         LEFT JOIN canonical_entities src ON src.entity_id = g.src_entity_id
+         LEFT JOIN canonical_entities dst ON dst.entity_id = g.dst_entity_id
+         ${where}
+         ORDER BY g.confidence DESC, g.occurred_at DESC, g.created_at DESC
+         LIMIT ?`,
+      )
+      .all(...args, Math.max(1, params.limit)) as Array<Record<string, unknown>>;
+    return rows.map(rowToGraphEdge);
+  }
+
+  getEventsByIds(eventIds: string[]): EventRecord[] {
+    const ids = [...new Set(eventIds)].filter(Boolean);
+    if (ids.length === 0) {
+      return [];
+    }
+    const rows = this.db
+      .prepare(
+        `SELECT * FROM event_records
+         WHERE event_id IN (${ids.map(() => "?").join(", ")})
+         ORDER BY occurred_at DESC, created_at DESC`,
+      )
+      .all(...ids) as Array<Record<string, unknown>>;
+    return rows.map(rowToEvent);
+  }
+
+  listProjectionStates(): ProjectionSourceState[] {
+    const rows = this.db
+      .prepare("SELECT * FROM source_projection_state ORDER BY source_id ASC")
+      .all() as Array<Record<string, unknown>>;
+    return rows.map(rowToProjectionState);
   }
 
   async searchEvents(query: string, limit: number): Promise<EventRow[]> {
@@ -701,6 +1177,96 @@ export class CanonicalStore {
       log.warn(`canonical.search fts_failed ${String(err)}`);
       return [];
     }
+  }
+
+  listEventsForKgBackfill(params: { scope: string; limit?: number }): EventRecord[] {
+    const state = this.db
+      .prepare("SELECT * FROM kg_backfill_state WHERE scope = ?")
+      .get(params.scope) as Record<string, unknown> | undefined;
+    const lastCreatedAt =
+      typeof state?.last_event_created_at === "number"
+        ? state.last_event_created_at
+        : state?.last_event_created_at == null
+          ? null
+          : Number(state.last_event_created_at);
+    const lastEventId = typeof state?.last_event_id === "string" ? state.last_event_id : null;
+    const limit = Math.max(1, params.limit ?? 200);
+    const rows =
+      lastCreatedAt == null || !lastEventId
+        ? (this.db
+            .prepare("SELECT * FROM event_records ORDER BY created_at ASC, event_id ASC LIMIT ?")
+            .all(limit) as Array<Record<string, unknown>>)
+        : (this.db
+            .prepare(
+              `SELECT * FROM event_records
+               WHERE created_at > ? OR (created_at = ? AND event_id > ?)
+               ORDER BY created_at ASC, event_id ASC
+               LIMIT ?`,
+            )
+            .all(lastCreatedAt, lastCreatedAt, lastEventId, limit) as Array<
+            Record<string, unknown>
+          >);
+    return rows.map(rowToEvent);
+  }
+
+  async backfillGraphObjectsFromEvents(
+    params: {
+      scope?: string;
+      batchSize?: number;
+    } = {},
+  ): Promise<{ processedEvents: number; entities: number; aliases: number; edges: number }> {
+    const scope = params.scope ?? "events";
+    const batchSize = params.batchSize ?? 200;
+    const records = this.listEventsForKgBackfill({
+      scope,
+      limit: batchSize,
+    });
+    if (records.length === 0) {
+      this.recordKgRetryMarker({ scope, status: "complete" });
+      return { processedEvents: 0, entities: 0, aliases: 0, edges: 0 };
+    }
+    const graphObjects = deriveGraphObjects(records);
+    const last = records.at(-1);
+    this.db.exec("BEGIN IMMEDIATE");
+    try {
+      this.upsertGraphObjectsInTransaction(graphObjects);
+      this.db
+        .prepare(
+          `INSERT INTO kg_backfill_state(
+            scope, last_event_created_at, last_event_id, status, last_error, retry_marker_json, updated_at
+          ) VALUES (?, ?, ?, ?, NULL, NULL, ?)
+          ON CONFLICT(scope) DO UPDATE SET
+            last_event_created_at = excluded.last_event_created_at,
+            last_event_id = excluded.last_event_id,
+            status = excluded.status,
+            last_error = NULL,
+            retry_marker_json = NULL,
+            updated_at = excluded.updated_at`,
+        )
+        .run(
+          scope,
+          last?.created_at ?? null,
+          last?.event_id ?? null,
+          records.length < batchSize ? "complete" : "running",
+          Date.now(),
+        );
+      this.db.exec("COMMIT");
+    } catch (err) {
+      this.db.exec("ROLLBACK");
+      this.recordKgRetryMarker({
+        scope,
+        status: "failed",
+        error: String(err),
+        retryMarker: { function: "backfillGraphObjectsFromEvents" },
+      });
+      throw err;
+    }
+    return {
+      processedEvents: records.length,
+      entities: graphObjects.entities.length,
+      aliases: graphObjects.aliases.length,
+      edges: graphObjects.edges.length,
+    };
   }
 
   recordRecentGraphHits(params: {
@@ -869,6 +1435,14 @@ export class CanonicalStore {
     const entityRow = this.db.prepare("SELECT COUNT(*) AS count FROM entity_states").get() as {
       count?: number;
     };
+    const kgEntityRow = this.db
+      .prepare("SELECT COUNT(*) AS count FROM canonical_entities")
+      .get() as {
+      count?: number;
+    };
+    const edgeRow = this.db.prepare("SELECT COUNT(*) AS count FROM graph_edges").get() as {
+      count?: number;
+    };
     const pendingProjectionRow = this.db
       .prepare(
         `SELECT COUNT(*) AS count FROM projection_inbox
@@ -879,6 +1453,8 @@ export class CanonicalStore {
       dbPath: this.dbPath,
       eventsTotal: eventRow.count ?? 0,
       entitiesTotal: entityRow.count ?? 0,
+      canonicalEntitiesTotal: kgEntityRow.count ?? 0,
+      graphEdgesTotal: edgeRow.count ?? 0,
       schemaVersion: this.getMeta("schema_version") ?? CANONICAL_SCHEMA_VERSION,
       extractorVersion: this.getMeta("extractor_version") ?? EXTRACTOR_VERSION,
       projectionVersion: this.getMeta("projection_version") ?? GRAPH_PROJECTION_VERSION,
@@ -913,10 +1489,10 @@ export class CanonicalStore {
     const rows =
       canonicalId && canonicalId.trim()
         ? (this.db
-            .prepare("SELECT * FROM entity_aliases WHERE canonical_id = ? ORDER BY alias_id ASC")
+            .prepare("SELECT * FROM entity_aliases WHERE entity_id = ? ORDER BY alias ASC")
             .all(canonicalId.trim()) as Array<Record<string, unknown>>)
         : (this.db
-            .prepare("SELECT * FROM entity_aliases ORDER BY canonical_id ASC, alias_id ASC")
+            .prepare("SELECT * FROM entity_aliases ORDER BY entity_id ASC, alias ASC")
             .all() as Array<Record<string, unknown>>);
     return rows.map(rowToEntityAlias);
   }

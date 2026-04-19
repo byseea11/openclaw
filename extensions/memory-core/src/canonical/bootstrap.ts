@@ -91,8 +91,7 @@ export async function bootstrapCanonicalIndex(params: {
       label: `Graph bootstrap ${path.basename(filePath)}`,
     });
   }
-  await store.upsertEvents(records);
-  await store.refreshEntityStates(records);
+  await store.persistCanonicalBatch(records);
   log.info(
     `canonical.bootstrap.done files=${files.length} events=${eventsExtracted} records=${records.length}`,
   );

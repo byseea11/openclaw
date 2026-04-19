@@ -43,11 +43,12 @@ const ENTITY_HEADING_RE =
 const EXTRACTOR_SYSTEM_PROMPT = [
   "You extract canonical graph events from OpenClaw transcript or memory-file spans.",
   "Return JSON only, with this exact shape:",
-  '{"events":[{"actor":"Alice","action":"assigned_owner","object":"FEISHU-231","status_before":null,"status_after":null,"occurred_at":"2026-04-18","source_ref":"transcripts/example.txt#L2-L2","confidence":0.82}]}',
+  '{"events":[{"actor":"Alice","action":"assigned_owner","object":"FEISHU-231","object_type":"task","status_before":null,"status_after":null,"occurred_at":"2026-04-18","source_ref":"transcripts/example.txt#L2-L2","confidence":0.82}]}',
   "Rules:",
   "- Never call tools and never add prose.",
   "- Use only facts that are explicitly supported by the provided text.",
   "- Extract task/project facts when present, using actions like changed_status, assigned_owner, decided, updated_deadline.",
+  "- When clear, include object_type as one of person, team, project, task, decision, document, meeting, customer, other.",
   "- Also extract long-memory conversational facts that are useful for later recall: biographical_fact, relationship_fact, preference_fact, plan_or_intent, life_event, location_fact, work_or_school_fact, health_fact.",
   "- For conversational facts, set actor to the speaker/person the fact is about when the line makes it clear.",
   "- For conversational facts, set object to a concise self-contained fact phrase that includes the important names, objects, dates, places, or preferences.",
@@ -58,7 +59,7 @@ const EXTRACTOR_SYSTEM_PROMPT = [
   "- Prefer user-stated facts over assistant encouragement or paraphrase. Skip generic small talk with no durable fact.",
   "- Return up to 16 high-value events per span. Split distinct durable facts into separate events.",
   "- `source_ref` must always point at the most specific supporting line using the provided source path and line numbers.",
-  "- If nothing should be extracted, return {\"events\":[]}.",
+  '- If nothing should be extracted, return {"events":[]}.',
   "Examples:",
   '{"events":[{"actor":"Caroline","action":"work_or_school_fact","object":"Caroline is researching internships for the summer","source_ref":"transcripts/example.txt#L4-L4","confidence":0.86}]}',
   '{"events":[{"actor":"Caroline","action":"preference_fact","object":"Caroline loves spending time with family","source_ref":"transcripts/example.txt#L7-L7","confidence":0.78}]}',
@@ -108,7 +109,11 @@ function lineNumberedText(text: string): { numberedText: string; lineCount: numb
 }
 
 function sourcePathFromSourceRef(sourceRef: string): string {
-  return parseSourceRef(sourceRef)?.path ?? sourceRef.split("#", 1)[0]?.replaceAll("\\", "/") ?? sourceRef;
+  return (
+    parseSourceRef(sourceRef)?.path ??
+    sourceRef.split("#", 1)[0]?.replaceAll("\\", "/") ??
+    sourceRef
+  );
 }
 
 function sourceRefForLine(path: string, line: number): string {
@@ -187,7 +192,9 @@ function occurredAtForLine(line: string, ctx: DateContext): string | undefined {
 }
 
 function cleanTaskText(raw: string): string {
-  return normalizeWhitespace(raw.replace(/\b(owner|status):.+$/i, "").replace(/\s+\([^)]*\)\s*$/, ""));
+  return normalizeWhitespace(
+    raw.replace(/\b(owner|status):.+$/i, "").replace(/\s+\([^)]*\)\s*$/, ""),
+  );
 }
 
 function extractEntityToken(body: string, fallback?: string): string | undefined {

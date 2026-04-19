@@ -1,9 +1,25 @@
 import type { OpenClawConfig } from "openclaw/plugin-sdk/memory-core-host-runtime-core";
 
 export const EXTRACTOR_VERSION = "v1-2026.04-llm";
-export const CANONICAL_SCHEMA_VERSION = "v2";
+export const CANONICAL_SCHEMA_VERSION = "v3";
 export const GRAPH_PROJECTION_VERSION = "v1-2026.04";
 export const GRAPH_RECALL_TTL_MS = 30 * 60 * 1000;
+
+export const STRONG_GRAPH_RELATIONS = [
+  "assigned_to",
+  "owned_by",
+  "depends_on",
+  "blocks",
+  "decided_by",
+  "scheduled_for",
+  "participated_in",
+] as const;
+
+export const WEAK_GRAPH_RELATIONS = ["about", "mentions", "related_to"] as const;
+
+export type StrongGraphRelation = (typeof STRONG_GRAPH_RELATIONS)[number];
+export type WeakGraphRelation = (typeof WEAK_GRAPH_RELATIONS)[number];
+export type GraphRelation = StrongGraphRelation | WeakGraphRelation;
 
 export type GraphMetricKey =
   | "hitsReturned"
@@ -28,6 +44,7 @@ export type RawEvent = {
   actor?: string;
   action: string;
   object?: string;
+  object_type?: string;
   status_before?: string;
   status_after?: string;
   occurred_at?: string;
@@ -44,6 +61,7 @@ export type EventRecord = {
   actor: string | null;
   action: string;
   object: string | null;
+  object_type?: CanonicalEntityType | null;
   status_before: string | null;
   status_after: string | null;
   session_id: string | null;
@@ -65,14 +83,69 @@ export type EntityState = {
 };
 
 export type EntityAlias = {
-  alias_id: string;
-  canonical_id: string;
-  source: "rule" | "manual" | "llm";
+  alias: string;
+  entity_id: string;
+  alias_type: "exact" | "normalized" | "heuristic";
+  confidence: number;
+  source_ref: string | null;
+  session_id: string | null;
   created_at: number;
 };
 
+export type CanonicalEntityType =
+  | "person"
+  | "team"
+  | "project"
+  | "task"
+  | "decision"
+  | "document"
+  | "meeting"
+  | "customer"
+  | "other";
+
+export type CanonicalEntity = {
+  entity_id: string;
+  entity_type: CanonicalEntityType;
+  canonical_name: string;
+  status: string | null;
+  last_seen_at: string | null;
+  confidence: number;
+  created_at: number;
+  updated_at: number;
+  provenance_json: string;
+};
+
+export type GraphEdge = {
+  edge_id: string;
+  src_entity_id: string;
+  relation: GraphRelation;
+  dst_entity_id: string;
+  occurred_at: string;
+  source_ref: string;
+  session_id: string | null;
+  evidence_event_id: string;
+  confidence: number;
+  created_at: number;
+};
+
+export type GraphObjectSet = {
+  entities: CanonicalEntity[];
+  aliases: EntityAlias[];
+  edges: GraphEdge[];
+};
+
+export type KgBackfillState = {
+  scope: string;
+  last_event_created_at: number | null;
+  last_event_id: string | null;
+  status: "idle" | "running" | "failed" | "complete";
+  last_error: string | null;
+  retry_marker_json: string | null;
+  updated_at: number;
+};
+
 export type GraphHit = {
-  type: "event" | "state";
+  type: "event" | "state" | "edge";
   entity_id: string;
   source_ref: string;
   snippet_structured: Record<string, unknown>;
@@ -187,6 +260,7 @@ CREATE TABLE IF NOT EXISTS event_records (
   actor             TEXT,
   action            TEXT NOT NULL,
   object            TEXT,
+  object_type       TEXT,
   status_before     TEXT,
   status_after      TEXT,
   session_id        TEXT,
@@ -281,14 +355,64 @@ CREATE INDEX IF NOT EXISTS idx_projection_inbox_pending
   ON projection_inbox(source_kind, source_id, drained_at, created_at);
 
 CREATE TABLE IF NOT EXISTS entity_aliases (
-  alias_id       TEXT NOT NULL,
-  canonical_id   TEXT NOT NULL,
-  source         TEXT NOT NULL,
-  created_at     INTEGER NOT NULL,
-  PRIMARY KEY (alias_id, canonical_id)
+  alias        TEXT NOT NULL,
+  entity_id    TEXT NOT NULL,
+  alias_type   TEXT NOT NULL,
+  confidence   REAL NOT NULL DEFAULT 0.5,
+  source_ref   TEXT,
+  session_id   TEXT,
+  created_at   INTEGER NOT NULL,
+  PRIMARY KEY (alias, entity_id, alias_type)
 );
 
-CREATE INDEX IF NOT EXISTS idx_alias_canonical ON entity_aliases(canonical_id);
+CREATE INDEX IF NOT EXISTS idx_alias_canonical ON entity_aliases(entity_id);
+CREATE INDEX IF NOT EXISTS idx_alias_lookup ON entity_aliases(alias);
+
+CREATE TABLE IF NOT EXISTS canonical_entities (
+  entity_id       TEXT PRIMARY KEY,
+  entity_type     TEXT NOT NULL,
+  canonical_name  TEXT NOT NULL,
+  status          TEXT,
+  last_seen_at    TEXT,
+  confidence      REAL NOT NULL DEFAULT 0.5,
+  created_at      INTEGER NOT NULL,
+  updated_at      INTEGER NOT NULL,
+  provenance_json TEXT NOT NULL DEFAULT '[]'
+);
+
+CREATE INDEX IF NOT EXISTS idx_canonical_entities_type_name
+  ON canonical_entities(entity_type, canonical_name);
+
+CREATE TABLE IF NOT EXISTS graph_edges (
+  edge_id           TEXT PRIMARY KEY,
+  src_entity_id     TEXT NOT NULL,
+  relation          TEXT NOT NULL,
+  dst_entity_id     TEXT NOT NULL,
+  occurred_at       TEXT NOT NULL,
+  source_ref        TEXT NOT NULL,
+  session_id        TEXT,
+  evidence_event_id TEXT NOT NULL,
+  confidence        REAL NOT NULL DEFAULT 0.5,
+  created_at        INTEGER NOT NULL,
+  FOREIGN KEY(evidence_event_id) REFERENCES event_records(event_id)
+);
+
+CREATE INDEX IF NOT EXISTS idx_graph_edges_src_relation_time
+  ON graph_edges(src_entity_id, relation, occurred_at);
+CREATE INDEX IF NOT EXISTS idx_graph_edges_dst_relation_time
+  ON graph_edges(dst_entity_id, relation, occurred_at);
+CREATE INDEX IF NOT EXISTS idx_graph_edges_evidence
+  ON graph_edges(evidence_event_id);
+
+CREATE TABLE IF NOT EXISTS kg_backfill_state (
+  scope                 TEXT PRIMARY KEY,
+  last_event_created_at INTEGER,
+  last_event_id         TEXT,
+  status                TEXT NOT NULL DEFAULT 'idle',
+  last_error            TEXT,
+  retry_marker_json     TEXT,
+  updated_at            INTEGER NOT NULL
+);
 `;
 
 function asRecord(value: unknown): Record<string, unknown> | undefined {

@@ -9,11 +9,7 @@ import type {
 import { canonicalize } from "./canonicalizer.js";
 import { extract } from "./extractor.js";
 import { isGraphExtractorSessionKey } from "./extractor.runtime.js";
-import {
-  EXTRACTOR_VERSION,
-  type ProjectionInboxEntry,
-  resolveGraphIndexConfig,
-} from "./schema.js";
+import { EXTRACTOR_VERSION, type ProjectionInboxEntry, resolveGraphIndexConfig } from "./schema.js";
 import { getCanonicalStore } from "./store.js";
 import { buildGraphTraceId, recordGraphIndexTrace } from "./trace.js";
 
@@ -147,7 +143,11 @@ function hashSourceId(value: string): string {
   return crypto.createHash("sha1").update(value).digest("hex").slice(0, 16);
 }
 
-function sourceIdFromParams(params: { sessionKey?: string; sessionId: string; sessionFile: string }): string {
+function sourceIdFromParams(params: {
+  sessionKey?: string;
+  sessionId: string;
+  sessionFile: string;
+}): string {
   return params.sessionKey?.trim() || params.sessionId.trim() || hashSourceId(params.sessionFile);
 }
 
@@ -227,7 +227,10 @@ function entriesForExtraction(entries: MemoryTranscriptSpanEntry[]): MemoryTrans
   });
 }
 
-function renderProjectionBatch(sourceId: string, entries: MemoryTranscriptSpanEntry[]): {
+function renderProjectionBatch(
+  sourceId: string,
+  entries: MemoryTranscriptSpanEntry[],
+): {
   text: string;
   sourceRef: string;
 } {
@@ -354,7 +357,9 @@ function scheduleAsyncDrain(params: {
   });
   setTimeout(() => {
     void drainPendingGraphUpdates(params).catch((err) => {
-      log.warn(`[canonical] projection.async_drain_failed reason=${params.reason} error=${String(err)}`);
+      log.warn(
+        `[canonical] projection.async_drain_failed reason=${params.reason} error=${String(err)}`,
+      );
     });
   }, 0).unref?.();
 }
@@ -376,7 +381,10 @@ export const handleGraphAfterTurn: MemoryAfterTurnObserver = async (params) => {
   if (!graphConfig.enabled || params.entries.length === 0) {
     return;
   }
-  if (isGraphExtractorSessionKey(params.sessionKey) || isGraphExtractorSessionKey(params.sessionId)) {
+  if (
+    isGraphExtractorSessionKey(params.sessionKey) ||
+    isGraphExtractorSessionKey(params.sessionId)
+  ) {
     return;
   }
   const detected = detectTranscriptSignals(params.entries);
@@ -512,7 +520,10 @@ export const handleGraphBeforeCompaction: MemoryBeforeCompactionObserver = async
   if (!graphConfig.enabled || params.entries.length === 0) {
     return;
   }
-  if (isGraphExtractorSessionKey(params.sessionKey) || isGraphExtractorSessionKey(params.sessionId)) {
+  if (
+    isGraphExtractorSessionKey(params.sessionKey) ||
+    isGraphExtractorSessionKey(params.sessionId)
+  ) {
     return;
   }
   const sourceId = sourceIdFromParams(params);
@@ -679,8 +690,7 @@ export async function drainPendingGraphUpdates(params: {
           coveredUntilEntryId,
         });
         const mergeComputation = await store.explainEntityStateRefresh(records);
-        store.setMeta("extractor_version", EXTRACTOR_VERSION);
-        await store.upsertEvents(records);
+        const persisted = await store.persistCanonicalBatch(records, mergeComputation);
         recordGraphIndexTrace({
           cfg: params.cfg,
           message: "canonical.projection.events_persisted",
@@ -702,12 +712,48 @@ export async function drainPendingGraphUpdates(params: {
               },
             },
             call: {
-              function: "upsertEvents",
+              function: "persistCanonicalBatch",
               steps: ["canonicalize", "event_records", "event_fts"],
             },
           },
         });
-        const states = await store.refreshEntityStates(records, mergeComputation);
+        recordGraphIndexTrace({
+          cfg: params.cfg,
+          message: "canonical.projection.kg_objects_derived",
+          summary: `source=${summary.source_id} entities=${persisted.graphObjects.entities.length} aliases=${persisted.graphObjects.aliases.length} edges=${persisted.graphObjects.edges.length}`,
+          event: {
+            trace_id: traceId,
+            stage: "kg_objects_derived",
+            source_kind: "transcript",
+            source_id: summary.source_id,
+            entry_range: {
+              first: summary.first_entry_id,
+              last: coveredUntilEntryId,
+            },
+            tables: {
+              canonical_entities: {
+                table: "canonical_entities",
+                persisted: persisted.graphObjects.entities.length,
+                entities: persisted.graphObjects.entities,
+              },
+              entity_aliases: {
+                table: "entity_aliases",
+                persisted: persisted.graphObjects.aliases.length,
+                aliases: persisted.graphObjects.aliases,
+              },
+              graph_edges: {
+                table: "graph_edges",
+                persisted: persisted.graphObjects.edges.length,
+                edges: persisted.graphObjects.edges,
+              },
+            },
+            call: {
+              function: "persistCanonicalBatch",
+              steps: ["deriveGraphObjects", "canonical_entities", "entity_aliases", "graph_edges"],
+            },
+          },
+        });
+        const states = persisted.states;
         recordGraphIndexTrace({
           cfg: params.cfg,
           message: "canonical.projection.entity_states_merged",
@@ -742,7 +788,7 @@ export async function drainPendingGraphUpdates(params: {
               next_states: mergeComputation.states,
             },
             call: {
-              function: "refreshEntityStates",
+              function: "persistCanonicalBatch",
               steps: ["getEntityState", "reduce", "entity_states upsert"],
             },
           },
@@ -802,6 +848,19 @@ export async function drainPendingGraphUpdates(params: {
     } catch (err) {
       store.bumpMetric("extractFailures", 1);
       store.markProjectionFailed(summary.source_id);
+      if (params.reason === "pre_compaction") {
+        store.recordKgRetryMarker({
+          scope: `pre_compaction:${summary.source_id}`,
+          status: "failed",
+          error: String(err),
+          retryMarker: {
+            source_id: summary.source_id,
+            first_entry_id: summary.first_entry_id,
+            last_entry_id: summary.last_entry_id,
+            reason: params.reason,
+          },
+        });
+      }
       recordGraphIndexTrace({
         cfg: params.cfg,
         message: "canonical.projection.drain_failed",

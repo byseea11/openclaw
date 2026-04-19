@@ -1,6 +1,6 @@
 import type { MemoryPluginRuntime } from "openclaw/plugin-sdk/memory-core-host-runtime-core";
 import { resolveMemoryBackendConfig } from "openclaw/plugin-sdk/memory-core-host-runtime-files";
-import { closeAllCanonicalStores } from "./canonical/index.js";
+import { closeAllCanonicalStores } from "./canonical/store.js";
 import { closeAllMemorySearchManagers, getMemorySearchManager } from "./memory/index.js";
 
 export const memoryRuntime: MemoryPluginRuntime = {

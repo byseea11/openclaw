@@ -170,7 +170,9 @@ describe("canonical graph integration", () => {
     expect(getCanonicalStatus({ cfg, agentId: "main" })).toMatchObject({
       eventsTotal: 1,
       entitiesTotal: 1,
-      schemaVersion: "v2",
+      canonicalEntitiesTotal: 2,
+      graphEdgesTotal: 1,
+      schemaVersion: "v3",
       extractorVersion: "v1-2026.04-llm",
     });
 
@@ -200,7 +202,7 @@ describe("canonical graph integration", () => {
       startLine: 12,
       endLine: 18,
     });
-    expect(graphHit?.snippet).toMatch(/\[Graph (state|event)\]/);
+    expect(graphHit?.snippet).toMatch(/\[Graph (state|event|edge)\]/);
     expect(details.debug?.graph?.hits).toBeGreaterThan(0);
 
     const getTool = createMemoryGetToolOrThrow({
@@ -241,7 +243,7 @@ describe("canonical graph integration", () => {
     expect(logText).toContain("GRAPH_INDEX_IMPL canonical.memory_search.graph_hits");
     expect(logText).toContain("[canonical] usage.used");
     expect(getCanonicalStatus({ cfg, agentId: "main" }).metrics).toMatchObject({
-      hitsUsedRaw: 4,
+      hitsUsedRaw: 6,
       hitsUsedUniqueRefs: 2,
       hitsUsed: 2,
     });
@@ -354,7 +356,7 @@ describe("canonical graph integration", () => {
     );
 
     expect(getCanonicalStatus({ cfg, agentId: "main" }).metrics).toMatchObject({
-      hitsUsedRaw: 4,
+      hitsUsedRaw: 6,
       hitsUsedUniqueRefs: 2,
       hitsUsed: 2,
     });

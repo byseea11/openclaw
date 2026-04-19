@@ -50,8 +50,9 @@ function uniqueBySourceRef<T extends { source_ref: string }>(items: T[]): T[] {
 
 function asRecordedResult(hit: GraphHit | GraphMemorySearchResult) {
   const parsed = "graphMeta" in hit ? null : parseSourceRef(hit.source_ref);
+  const hitType = "graphMeta" in hit ? hit.graphMeta.type : hit.type;
   return {
-    type: "graphMeta" in hit ? hit.graphMeta.type : hit.type,
+    type: hitType === "edge" ? "event" : hitType,
     entityId: "graphMeta" in hit ? hit.graphMeta.entity_id : hit.entity_id,
     sourceRef:
       "graphMeta" in hit ? `${hit.path}#L${hit.startLine}-L${hit.endLine}` : hit.source_ref,
@@ -167,7 +168,7 @@ export async function markGraphHitsUsedFromMemoryGet(
       via: "memory_get",
       sourceRefs: uniqueUsed.map((item) => item.source_ref),
       results: uniqueUsed.map((item) => ({
-        type: item.hit_type,
+        type: item.hit_type === "edge" ? "event" : item.hit_type,
         entityId: item.entity_id,
         sourceRef: item.source_ref,
         path: item.path,
@@ -218,7 +219,7 @@ export async function markGraphHitsUsedFromAssistantTexts(
       via: "llm_output",
       sourceRefs: uniqueUsed.map((item) => item.source_ref),
       results: uniqueUsed.map((item) => ({
-        type: item.hit_type,
+        type: item.hit_type === "edge" ? "event" : item.hit_type,
         entityId: item.entity_id,
         sourceRef: item.source_ref,
         path: item.path,

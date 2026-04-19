@@ -25,11 +25,15 @@ export type GraphIndexTraceStage =
   | "drain_started"
   | "extractor_completed"
   | "events_persisted"
+  | "kg_objects_derived"
+  | "canonical_entities_upserted"
+  | "graph_edges_upserted"
   | "entity_states_merged"
   | "cursor_advanced"
   | "memory_search_pending_drain"
   | "memory_search_graph_hits"
   | "before_compaction_catchup"
+  | "kg_persist_failed"
   | "drain_failed";
 
 export type GraphIndexTraceEvent = {
@@ -38,7 +42,7 @@ export type GraphIndexTraceEvent = {
   trace_id: string;
   stage: GraphIndexTraceStage;
   observed_tags?: string[];
-  source_kind?: "transcript";
+  source_kind?: "transcript" | "flush" | "backfill";
   source_id?: string;
   entry_range?: {
     first?: string | null;
