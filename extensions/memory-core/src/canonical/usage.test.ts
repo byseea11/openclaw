@@ -3,7 +3,9 @@ import os from "node:os";
 import path from "node:path";
 import type { OpenClawConfig } from "openclaw/plugin-sdk/core";
 import { afterEach, beforeEach, describe, expect, it } from "vitest";
-import { canonicalize, closeAllCanonicalStores, getCanonicalStore } from "./index.js";
+import { generateUlid } from "./id-v2.js";
+import { closeAllCanonicalStores, getCanonicalStore } from "./index.js";
+import { buildEvidenceFingerprint, buildEventFingerprint } from "./schema-v2.js";
 import {
   markGraphHitsUsedFromAssistantTexts,
   markGraphHitsUsedFromMemoryGet,
@@ -44,21 +46,65 @@ describe("canonical graph usage tracking", () => {
   it("tracks returned hits and marks them used by memory_get and llm output", async () => {
     const cfg = createConfig(workspaceDir);
     const store = getCanonicalStore("main");
-    const records = canonicalize(
-      [
-        {
-          actor: "Alice",
-          action: "changed_status",
-          object: "task_123",
-          status_after: "blocked",
-          occurred_at: "2026-04-15",
+    const evidenceId = generateUlid();
+    const occurredAt = "2026-04-15T00:00:00.000Z";
+    await store.persistSemanticBatchV2({
+      evidence: {
+        evidence_id: evidenceId,
+        evidence_fingerprint: buildEvidenceFingerprint({
+          sourcePlatform: "transcript",
+          sourceKind: "transcript_span",
+          sessionKey: "agent:main:thread",
+          firstEntryId: "e1",
+          lastEntryId: "e1",
+          occurredAt,
+          contentText: "task_123 blocked",
+          contentJson: {},
+        }),
+        source_platform: "transcript",
+        source_kind: "transcript_span",
+        session_key: "agent:main:thread",
+        message_id: null,
+        chat_id: null,
+        chat_type: null,
+        thread_id: null,
+        root_id: null,
+        parent_id: null,
+        first_entry_id: "e1",
+        last_entry_id: "e1",
+        content_text: "task_123 blocked",
+        content_json: "{}",
+        source_locator_json: JSON.stringify({
           source_ref: "memory/2026-04-15.md#L12-L18",
+        }),
+        occurred_at: occurredAt,
+        created_at: Date.now(),
+      },
+      events: [
+        {
+          event_id: generateUlid(),
+          event_fingerprint: buildEventFingerprint({
+            evidenceId,
+            eventType: "blocked",
+            subjectRef: "task:task_123",
+            objectRef: "blocker:test",
+            occurredAt,
+            payloadJson: { blocker_ref: "blocker:test" },
+          }),
+          evidence_id: evidenceId,
+          event_type: "blocked",
+          subject_ref: "task:task_123",
+          actor_ref: "person_name:alice",
+          object_ref: "blocker:test",
+          related_refs_json: JSON.stringify(["person_name:alice", "blocker:test"]),
+          occurred_at: occurredAt,
+          payload_json: JSON.stringify({ blocker_ref: "blocker:test" }),
+          confidence: 0.9,
+          extraction_version: "v-test",
+          created_at: Date.now(),
         },
       ],
-      "v-test",
-    );
-    await store.upsertEvents(records);
-    await store.refreshEntityStates(records);
+    });
 
     await recordReturnedGraphHits({
       cfg,
@@ -68,14 +114,14 @@ describe("canonical graph usage tracking", () => {
       hits: [
         {
           type: "state",
-          entity_id: records[0]?.entity_id ?? "ent_task",
+          entity_id: "task:task_123",
           source_ref: "memory/2026-04-15.md#L12-L18",
           snippet_structured: {},
           score: 0.9,
         },
         {
           type: "event",
-          entity_id: records[0]?.entity_id ?? "ent_task",
+          entity_id: "task:task_123",
           source_ref: "memory/2026-04-15.md#L12-L18",
           snippet_structured: {},
           score: 0.8,

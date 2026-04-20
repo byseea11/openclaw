@@ -66,7 +66,8 @@ function taskRefForEvent(event: EventRecordV2): string | null {
     // ignore malformed related refs and fall back to payload inspection
   }
   const payload = asRecordJson(event.payload_json);
-  return isTaskRef(payload.task_ref) ? payload.task_ref : null;
+  const payloadTaskRef = typeof payload.task_ref === "string" ? payload.task_ref : null;
+  return isTaskRef(payloadTaskRef) ? payloadTaskRef : null;
 }
 
 export function deriveWorkflowPatchesV2(events: EventRecordV2[]): WorkflowPatchV2[] {

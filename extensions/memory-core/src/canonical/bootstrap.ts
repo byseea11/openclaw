@@ -2,9 +2,9 @@ import fs from "node:fs/promises";
 import path from "node:path";
 import type { OpenClawConfig } from "openclaw/plugin-sdk/core";
 import { createSubsystemLogger } from "openclaw/plugin-sdk/memory-core-host-engine-foundation";
-import { canonicalize } from "./canonicalizer.js";
+import { canonicalizeV2 } from "./canonicalizer-v2.js";
 import { extract } from "./extractor.js";
-import { EXTRACTOR_VERSION, type EventRecord } from "./schema.js";
+import { EXTRACTOR_VERSION } from "./schema.js";
 import { getCanonicalStore } from "./store.js";
 
 const log = createSubsystemLogger("memory");
@@ -72,7 +72,7 @@ export async function bootstrapCanonicalIndex(params: {
     store.reset();
   }
   store.setMeta("extractor_version", EXTRACTOR_VERSION);
-  const records: EventRecord[] = [];
+  let recordsWritten = 0;
   let eventsExtracted = 0;
   for (const [index, filePath] of files.entries()) {
     const text = await fs.readFile(filePath, "utf-8");
@@ -84,20 +84,31 @@ export async function bootstrapCanonicalIndex(params: {
     store.recordExtractorLatency(Date.now() - extractStartedAt);
     store.bumpMetric("extractSuccesses", 1);
     eventsExtracted += raw.length;
-    records.push(...canonicalize(raw, EXTRACTOR_VERSION));
+    if (raw.length > 0) {
+      const canonicalized = canonicalizeV2({
+        sourceId: params.agentId,
+        sourceRef,
+        text,
+        entries: [],
+        rawEvents: raw,
+        sourcePlatform: "legacy",
+        sourceKind: "legacy_event_record",
+      });
+      const persisted = await store.persistSemanticBatchV2(canonicalized);
+      recordsWritten += persisted.events.length;
+    }
     params.progress?.({
       completed: index + 1,
       total: files.length,
       label: `Graph bootstrap ${path.basename(filePath)}`,
     });
   }
-  await store.persistCanonicalBatch(records);
   log.info(
-    `canonical.bootstrap.done files=${files.length} events=${eventsExtracted} records=${records.length}`,
+    `canonical.bootstrap.done files=${files.length} events=${eventsExtracted} records=${recordsWritten}`,
   );
   return {
     filesScanned: files.length,
     eventsExtracted,
-    recordsWritten: records.length,
+    recordsWritten,
   };
 }

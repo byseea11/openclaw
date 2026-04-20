@@ -14,14 +14,14 @@ export type V2EventType = (typeof V2_EVENT_TYPES)[number];
 export type EvidenceRecordV2 = {
   evidence_id: string;
   evidence_fingerprint: string;
-  source_platform: "transcript" | "feishu" | "flush";
+  source_platform: "transcript" | "feishu" | "legacy";
   source_kind:
     | "transcript_span"
     | "p2p_text"
     | "group_text"
     | "group_thread"
     | "interactive"
-    | "flush_graph_json";
+    | "legacy_event_record";
   session_key: string | null;
   message_id: string | null;
   chat_id: string | null;

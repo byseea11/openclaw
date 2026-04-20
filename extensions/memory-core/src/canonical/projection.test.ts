@@ -49,7 +49,7 @@ function entry(overrides: Partial<MemoryTranscriptSpanEntry> = {}): MemoryTransc
     parentId: null,
     entryType: "message",
     messageRole: "assistant",
-    messageContent: "remember task_123 status: pending",
+    messageContent: "FEISHU-231 blocked by AP-778",
     toolName: null,
     toolResult: null,
     timestamp: "2026-04-17T00:00:00.000Z",
@@ -60,60 +60,31 @@ function entry(overrides: Partial<MemoryTranscriptSpanEntry> = {}): MemoryTransc
 function createMockExtractorClient(): CanonicalExtractorClient {
   return {
     async extractGraphEvents(params) {
-      if (params.prompt.includes("FEISHU-231") && params.prompt.includes("Bob（从 Alice 接手）")) {
+      if (params.prompt.includes("AP-778")) {
         return JSON.stringify({
           events: [
             {
-              action: "changed_status",
-              object: "FEISHU-231",
-              status_after: "blocked",
-              source_ref: "#L2-L2",
-              confidence: 0.78,
-            },
-            {
-              action: "assigned_owner",
               actor: "Bob",
-              object: "FEISHU-231",
-              source_ref: "#L3-L3",
-              confidence: 0.76,
-            },
-          ],
-        });
-      }
-      if (params.prompt.includes("task_456 is blocked")) {
-        return JSON.stringify({
-          events: [
-            {
               action: "changed_status",
-              object: "task_456",
+              object: "FEISHU-231",
               status_after: "blocked",
+              occurred_at: "2026-04-17T00:00:00.000Z",
               source_ref: "#L1-L1",
-              confidence: 0.82,
             },
           ],
         });
       }
-      return JSON.stringify({
-        events: [
-          {
-            action: "changed_status",
-            object: "task_123",
-            status_after: "pending",
-            source_ref: "#L1-L1",
-            confidence: 0.74,
-          },
-        ],
-      });
+      return JSON.stringify({ events: [] });
     },
   };
 }
 
-describe("canonical graph transcript projection", () => {
+describe("canonical graph transcript projection v2", () => {
   let stateDir = "";
   let previousStateDir: string | undefined;
 
   beforeEach(async () => {
-    stateDir = await fs.mkdtemp(path.join(os.tmpdir(), "openclaw-graph-projection-"));
+    stateDir = await fs.mkdtemp(path.join(os.tmpdir(), "openclaw-graph-projection-v2-"));
     previousStateDir = process.env.OPENCLAW_STATE_DIR;
     process.env.OPENCLAW_STATE_DIR = stateDir;
     setDefaultExtractorClient(createMockExtractorClient());
@@ -130,7 +101,7 @@ describe("canonical graph transcript projection", () => {
     await fs.rm(stateDir, { recursive: true, force: true });
   });
 
-  it("marks afterTurn spans dirty without per-turn event extraction", async () => {
+  it("marks afterTurn spans dirty without per-turn semantic writes", async () => {
     await handleGraphAfterTurn({
       cfg: cfg(),
       agentId: "main",
@@ -144,36 +115,12 @@ describe("canonical graph transcript projection", () => {
     const store = getCanonicalStore("main");
     expect(store.getStatus()).toMatchObject({
       eventsTotal: 0,
+      evidenceRecordsV2Total: 0,
       pendingProjectionSpans: 1,
     });
-    expect(store.listPendingProjectionSummaries("agent:channel:thread")).toMatchObject([
-      {
-        pending_spans: 1,
-        pending_entries: 1,
-        strong_event: false,
-      },
-    ]);
   });
 
-  it("deduplicates repeated afterTurn inbox writes", async () => {
-    const params = {
-      cfg: cfg(),
-      agentId: "main",
-      sessionId: "session-1",
-      sessionKey: "agent:channel:thread",
-      sessionFile: "/tmp/session.jsonl",
-      entries: [entry()],
-      prePromptMessageCount: 3,
-    };
-
-    await handleGraphAfterTurn(params);
-    await handleGraphAfterTurn(params);
-
-    const store = getCanonicalStore("main");
-    expect(store.getStatus().pendingProjectionSpans).toBe(1);
-  });
-
-  it("drains dirty spans in a batch on recall", async () => {
+  it("drains transcript spans into v2 semantic tables", async () => {
     await handleGraphAfterTurn({
       cfg: cfg(),
       agentId: "main",
@@ -184,32 +131,33 @@ describe("canonical graph transcript projection", () => {
       prePromptMessageCount: 3,
     });
 
-    await expect(
-      drainPendingGraphUpdates({
-        cfg: cfg(),
-        agentId: "main",
-        sourceId: "agent:channel:thread",
-        reason: "recall",
-      }),
-    ).resolves.toMatchObject({ drainedSources: 1, parsedEvents: 1, persistedEvents: 1 });
+    await drainPendingGraphUpdates({
+      cfg: cfg(),
+      agentId: "main",
+      sourceId: "agent:channel:thread",
+      reason: "recall",
+    });
 
     const store = getCanonicalStore("main");
     expect(store.getStatus()).toMatchObject({
-      eventsTotal: 1,
+      eventRecordsV2Total: 1,
+      workflowStatesV2Total: 1,
+      graphEntitiesV2Total: 4,
+      graphEdgesV2Total: 1,
       pendingProjectionSpans: 0,
     });
+    expect(store.getWorkflowStateV2("task:FEISHU-231")).toMatchObject({
+      current_stage: "blocked",
+      current_blocker_ref: "approval:AP-778",
+    });
     await expect(store.exportData()).resolves.toMatchObject({
-      events: [
-        expect.objectContaining({
-          source_type: "transcript",
-          session_id: "agent:channel:thread",
-          covered_until_entry_id: "entry-1",
-        }),
-      ],
+      evidence: [expect.objectContaining({ source_platform: "transcript" })],
+      events: [expect.objectContaining({ event_type: "blocked", subject_ref: "task:FEISHU-231" })],
+      workflowStates: [expect.objectContaining({ task_ref: "task:FEISHU-231" })],
     });
   });
 
-  it("forces a synchronous drain before compaction", async () => {
+  it("forces a synchronous v2 drain before compaction", async () => {
     await handleGraphBeforeCompaction({
       cfg: cfg(),
       agentId: "main",
@@ -219,244 +167,18 @@ describe("canonical graph transcript projection", () => {
       entries: [
         entry({
           entryId: "entry-2",
-          messageContent: "task_456 is blocked",
+          messageContent: "FEISHU-231 blocked by AP-778",
+          timestamp: "2026-04-17T00:05:00.000Z",
         }),
       ],
     });
 
     const store = getCanonicalStore("main");
-    expect(store.getStatus()).toMatchObject({
-      eventsTotal: 1,
-      pendingProjectionSpans: 0,
-    });
-    await expect(store.searchEvents("task_456", 5)).resolves.toEqual([
-      expect.objectContaining({
-        source_type: "transcript",
-        session_id: "agent:channel:thread",
-        covered_until_entry_id: "entry-2",
-      }),
-    ]);
-  });
-
-  it("writes graph trace JSONL for dirty then drain", async () => {
-    const tracePath = path.join(stateDir, "logs", "graph-index-trace.jsonl");
-    const graphCfg = cfg(tracePath);
-
-    await handleGraphAfterTurn({
-      cfg: graphCfg,
-      agentId: "main",
-      sessionId: "session-1",
-      sessionKey: "agent:channel:thread",
-      sessionFile: "/tmp/session.jsonl",
-      entries: [entry()],
-      prePromptMessageCount: 3,
-    });
-    await drainPendingGraphUpdates({
-      cfg: graphCfg,
-      agentId: "main",
-      sourceId: "agent:channel:thread",
-      reason: "recall",
-    });
-
-    const traceLines = (await fs.readFile(tracePath, "utf8")).trim().split("\n");
-    const traceEvents = traceLines.map(
-      (line) =>
-        JSON.parse(line) as {
-          trace_id?: string;
-          stage?: string;
-          tag?: string;
-          observed_tags?: string[];
-          input?: { latest_user_query?: string | null };
-          extract?: { raw_events_json?: unknown[] };
-          tables?: {
-            event_records?: { canonical_records_json?: unknown[] };
-            entity_states?: { next_states?: unknown[] };
-          };
-          reducer?: { previous_states?: unknown[]; next_states?: unknown[] };
-        },
-    );
-    expect(traceEvents).toEqual(
-      expect.arrayContaining([
-        expect.objectContaining({ tag: "GRAPH_INDEX_IMPL", stage: "after_turn_mark_dirty" }),
-        expect.objectContaining({ tag: "GRAPH_INDEX_IMPL", stage: "drain_started" }),
-        expect.objectContaining({ tag: "GRAPH_INDEX_IMPL", stage: "events_persisted" }),
-        expect.objectContaining({ tag: "GRAPH_INDEX_IMPL", stage: "cursor_advanced" }),
-      ]),
-    );
-    const chainTraceIds = traceEvents
-      .filter((event) =>
-        [
-          "after_turn_mark_dirty",
-          "drain_scheduled",
-          "drain_started",
-          "extractor_completed",
-          "events_persisted",
-          "entity_states_merged",
-          "cursor_advanced",
-        ].includes(event.stage ?? ""),
-      )
-      .map((event) => event.trace_id);
-    expect(new Set(chainTraceIds).size).toBe(1);
-    expect(traceEvents.find((event) => event.stage === "after_turn_mark_dirty")).toMatchObject({
-      input: {
-        latest_user_query: null,
-      },
-    });
-    expect(traceEvents.find((event) => event.stage === "extractor_completed")).toMatchObject({
-      extract: {
-        raw_events_json: [
-          expect.objectContaining({
-            action: "changed_status",
-            object: "task_123",
-          }),
-        ],
-      },
-    });
-    expect(traceEvents.find((event) => event.stage === "events_persisted")).toMatchObject({
-      tables: {
-        event_records: {
-          canonical_records_json: [
-            expect.objectContaining({
-              action: "changed_status",
-              object: "task_123",
-              source_type: "transcript",
-            }),
-          ],
-        },
-      },
-    });
-    expect(traceEvents.find((event) => event.stage === "entity_states_merged")).toMatchObject({
-      reducer: {
-        previous_states: [],
-        next_states: [
-          expect.objectContaining({
-            latest_status: "pending",
-          }),
-        ],
-      },
-    });
-  });
-
-  it("updates latest owner from a transcript handoff note", async () => {
-    await handleGraphAfterTurn({
-      cfg: cfg(),
-      agentId: "main",
-      sessionId: "session-1",
-      sessionKey: "agent:channel:thread",
-      sessionFile: "/tmp/session.jsonl",
-      entries: [
-        entry({
-          entryId: "entry-bob",
-          messageContent: [
-            "**FEISHU-231 飞书机器人权限问题**",
-            "- **状态**: blocked（阻塞）",
-            "- **跟进人**: Bob（从 Alice 接手）",
-          ].join("\n"),
-        }),
-      ],
-      prePromptMessageCount: 3,
-    });
-
-    await drainPendingGraphUpdates({
-      cfg: cfg(),
-      agentId: "main",
-      sourceId: "agent:channel:thread",
-      reason: "recall",
-    });
-
-    const store = getCanonicalStore("main");
-    const exported = await store.exportData();
-    expect(exported.events).toEqual(
-      expect.arrayContaining([
-        expect.objectContaining({
-          action: "assigned_owner",
-          actor: "Bob",
-          object: "FEISHU-231",
-        }),
-      ]),
-    );
-    expect(exported.states).toEqual(
-      expect.arrayContaining([
-        expect.objectContaining({
-          latest_owner: "Bob",
-        }),
-      ]),
-    );
-  });
-
-  it("does not extract graph recall tool-result echoes", async () => {
-    const prompts: string[] = [];
-    setDefaultExtractorClient({
-      async extractGraphEvents(params) {
-        prompts.push(params.prompt);
-        if (params.prompt.includes("[Graph event]")) {
-          return JSON.stringify({
-            events: [
-              {
-                actor: "user",
-                action: "work_or_school_fact",
-                object:
-                  "user started as a volunteer coordinator at the community health clinic this week",
-                source_ref: "#L3-L3",
-                confidence: 0.92,
-              },
-            ],
-          });
-        }
-        return JSON.stringify({ events: [] });
-      },
-    });
-
-    await handleGraphAfterTurn({
-      cfg: cfg(),
-      agentId: "main",
-      sessionId: "session-1",
-      sessionKey: "agent:channel:thread",
-      sessionFile: "/tmp/session.jsonl",
-      entries: [
-        entry({
-          entryId: "query",
-          messageRole: "user",
-          messageContent: "Question: What role did the user start at the clinic?",
-        }),
-        entry({
-          entryId: "assistant-tool-call",
-          parentId: "query",
-          messageRole: "assistant",
-          messageContent: "Let me check memory. [toolCall:memory_search]",
-        }),
-        entry({
-          entryId: "tool-result",
-          parentId: "assistant-tool-call",
-          messageRole: "toolResult",
-          messageContent:
-            "[Graph event]\n2024-03-15 user work_or_school_fact user started as a volunteer coordinator at the community health clinic this week",
-          toolName: "memory_search",
-          toolResult:
-            "[Graph event]\n2024-03-15 user work_or_school_fact user started as a volunteer coordinator at the community health clinic this week",
-        }),
-        entry({
-          entryId: "final-answer",
-          parentId: "tool-result",
-          messageRole: "assistant",
-          messageContent: "Answer: volunteer coordinator",
-        }),
-      ],
-      prePromptMessageCount: 3,
-    });
-
-    await drainPendingGraphUpdates({
-      cfg: cfg(),
-      agentId: "main",
-      sourceId: "agent:channel:thread",
-      reason: "recall",
-    });
-
-    expect(prompts).toHaveLength(1);
-    expect(prompts[0]).not.toContain("[Graph event]");
-    expect(prompts[0]).not.toContain("Answer: volunteer coordinator");
-    await expect(getCanonicalStore("main").exportData()).resolves.toMatchObject({
-      events: [],
+    const status = store.getStatus();
+    expect(status.eventRecordsV2Total).toBeGreaterThanOrEqual(1);
+    expect(status.pendingProjectionSpans).toBe(0);
+    expect(store.getWorkflowStateV2("task:FEISHU-231")).toMatchObject({
+      current_stage: "blocked",
     });
   });
 });

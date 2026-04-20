@@ -307,7 +307,7 @@ export function canonicalizeV2(params: CanonicalizeV2Params): CanonicalizeV2Resu
       event_type: eventType,
       subject_ref: subjectRef,
       actor_ref: refs.actorRef,
-      object_ref,
+      object_ref: objectRef ?? null,
       related_refs_json: JSON.stringify(relatedRefs),
       occurred_at: occurredAt,
       payload_json: JSON.stringify(payloadJson),

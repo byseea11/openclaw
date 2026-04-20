@@ -5,7 +5,7 @@ import { afterEach, beforeEach, describe, expect, it } from "vitest";
 import { openMemoryDatabaseAtPath } from "../memory/manager-db.js";
 import { CanonicalStore, closeAllCanonicalStores } from "./store.js";
 
-const V0_SCHEMA_SQL = `
+const V5_LEGACY_SCHEMA_SQL = `
 CREATE TABLE IF NOT EXISTS meta (
   key TEXT PRIMARY KEY,
   value TEXT NOT NULL
@@ -20,15 +20,15 @@ CREATE TABLE IF NOT EXISTS event_records (
   actor             TEXT,
   action            TEXT NOT NULL,
   object            TEXT,
+  object_type       TEXT,
+  status_before     TEXT,
   status_after      TEXT,
+  session_id        TEXT,
+  covered_until_entry_id TEXT,
   confidence        REAL NOT NULL DEFAULT 0.5,
   extractor_version TEXT NOT NULL,
   created_at        INTEGER NOT NULL
 );
-
-CREATE INDEX IF NOT EXISTS idx_events_entity ON event_records(entity_id);
-CREATE INDEX IF NOT EXISTS idx_events_occurred ON event_records(occurred_at);
-CREATE INDEX IF NOT EXISTS idx_events_source ON event_records(source_ref);
 
 CREATE TABLE IF NOT EXISTS entity_states (
   entity_id        TEXT PRIMARY KEY,
@@ -36,7 +36,9 @@ CREATE TABLE IF NOT EXISTS entity_states (
   latest_owner     TEXT,
   last_event_id    TEXT NOT NULL,
   last_updated_at  INTEGER NOT NULL,
-  FOREIGN KEY(last_event_id) REFERENCES event_records(event_id)
+  entity_type      TEXT NOT NULL DEFAULT 'other',
+  supporting_event_ids TEXT NOT NULL DEFAULT '[]',
+  confidence       REAL NOT NULL DEFAULT 0.5
 );
 
 CREATE VIRTUAL TABLE IF NOT EXISTS event_fts USING fts5(
@@ -49,33 +51,35 @@ CREATE VIRTUAL TABLE IF NOT EXISTS event_fts USING fts5(
   tokenize = 'unicode61 remove_diacritics 2'
 );
 
-CREATE TABLE IF NOT EXISTS graph_metrics (
-  key TEXT PRIMARY KEY,
-  value REAL NOT NULL DEFAULT 0
+CREATE TABLE IF NOT EXISTS canonical_entities (
+  entity_id       TEXT PRIMARY KEY,
+  entity_type     TEXT NOT NULL,
+  canonical_name  TEXT NOT NULL,
+  status          TEXT,
+  last_seen_at    TEXT,
+  confidence      REAL NOT NULL DEFAULT 0.5,
+  created_at      INTEGER NOT NULL,
+  updated_at      INTEGER NOT NULL,
+  provenance_json TEXT NOT NULL DEFAULT '[]'
 );
 
-CREATE TABLE IF NOT EXISTS recent_graph_hits (
-  session_key       TEXT NOT NULL,
-  source_ref        TEXT NOT NULL,
-  path              TEXT NOT NULL,
-  start_line        INTEGER NOT NULL,
-  end_line          INTEGER NOT NULL,
-  entity_id         TEXT NOT NULL,
-  hit_type          TEXT NOT NULL,
-  query             TEXT,
-  first_returned_at INTEGER NOT NULL,
-  last_returned_at  INTEGER NOT NULL,
-  expires_at        INTEGER NOT NULL,
-  used_at           INTEGER,
-  PRIMARY KEY(session_key, source_ref, path, start_line, end_line, hit_type)
+CREATE TABLE IF NOT EXISTS entity_aliases (
+  alias        TEXT NOT NULL,
+  entity_id    TEXT NOT NULL,
+  alias_type   TEXT NOT NULL,
+  confidence   REAL NOT NULL DEFAULT 0.5,
+  source_ref   TEXT,
+  session_id   TEXT,
+  created_at   INTEGER NOT NULL,
+  PRIMARY KEY (alias, entity_id, alias_type)
 );
 `;
 
-describe("canonical graph v0 to v4 migration", () => {
+describe("canonical graph v5 to v6 migration", () => {
   let rootDir = "";
 
   beforeEach(async () => {
-    rootDir = await fs.mkdtemp(path.join(os.tmpdir(), "openclaw-canonical-migration-"));
+    rootDir = await fs.mkdtemp(path.join(os.tmpdir(), "openclaw-canonical-migration-v6-"));
   });
 
   afterEach(async () => {
@@ -83,76 +87,88 @@ describe("canonical graph v0 to v4 migration", () => {
     await fs.rm(rootDir, { recursive: true, force: true });
   });
 
-  it("upgrades a v0 sidecar in place", async () => {
+  it("migrates legacy semantic rows into v2 and drops legacy tables", async () => {
     const dbPath = path.join(rootDir, "main.graph.sqlite");
     const db = openMemoryDatabaseAtPath(dbPath, false);
-    db.exec(V0_SCHEMA_SQL);
-    db.prepare("INSERT OR REPLACE INTO meta(key, value) VALUES (?, ?)").run("schema_version", "v0");
-    db.prepare("INSERT OR REPLACE INTO meta(key, value) VALUES (?, ?)").run(
-      "extractor_version",
-      "v0-2026.04",
+    db.exec(V5_LEGACY_SCHEMA_SQL);
+    db.prepare("INSERT OR REPLACE INTO meta(key, value) VALUES (?, ?)").run("schema_version", "v5");
+    db.prepare(
+      `INSERT INTO canonical_entities(
+        entity_id, entity_type, canonical_name, status, last_seen_at, confidence, created_at, updated_at, provenance_json
+      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+    ).run(
+      "ent_task",
+      "task",
+      "FEISHU-231",
+      "blocked",
+      "2026-04-20T00:00:00.000Z",
+      0.9,
+      1_765_000_000_000,
+      1_765_000_000_000,
+      "[]",
+    );
+    db.prepare(
+      `INSERT INTO entity_aliases(alias, entity_id, alias_type, confidence, source_ref, session_id, created_at)
+       VALUES (?, ?, ?, ?, ?, ?, ?)`,
+    ).run(
+      "feishu-231",
+      "ent_task",
+      "normalized",
+      0.9,
+      "memory/2026-04-15.md#L12-L18",
+      "agent:channel:thread",
+      1_765_000_000_000,
     );
     db.prepare(
       `INSERT INTO event_records(
         event_id, source_type, source_ref, occurred_at, entity_id, actor, action, object,
-        status_after, confidence, extractor_version, created_at
-      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+        object_type, status_before, status_after, session_id, covered_until_entry_id, confidence,
+        extractor_version, created_at
+      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
     ).run(
-      "evt_v0",
-      "memory_file",
-      "memory/2026-04-15.md#L12-L18",
-      "2026-04-15T00:00:00.000Z",
+      "evt_v5",
+      "transcript",
+      "transcripts/main.txt#L1-L1",
+      "2026-04-20T00:00:00.000Z",
       "ent_task",
       "Alice",
       "changed_status",
-      "task_123",
+      "FEISHU-231 blocked by AP-778",
+      "task",
+      "in_progress",
       "blocked",
-      0.8,
-      "v0-2026.04",
+      "agent:channel:thread",
+      "entry-9",
+      0.9,
+      "v1-2026.04-llm",
       1_765_000_000_000,
     );
-    db.prepare(
-      `INSERT INTO entity_states(
-        entity_id, latest_status, latest_owner, last_event_id, last_updated_at
-      ) VALUES (?, ?, ?, ?, ?)`,
-    ).run("ent_task", "blocked", "Alice", "evt_v0", 1_765_000_000_000);
     db.close();
 
     const store = new CanonicalStore("main", dbPath);
+    expect(store.getStatus()).toMatchObject({
+      schemaVersion: "v6",
+      eventRecordsV2Total: 1,
+      workflowStatesV2Total: 1,
+      graphEntitiesV2Total: 3,
+      graphEdgesV2Total: 1,
+    });
+    expect(store.getWorkflowStateV2("task:FEISHU-231")).toMatchObject({
+      current_stage: "blocked",
+      current_blocker_ref: "approval:AP-778",
+    });
 
-    expect(store.getStatus()).toMatchObject({
-      schemaVersion: "v4",
-      extractorVersion: "v1-2026.04-llm",
-      projectionVersion: "v1-2026.04",
-      eventsTotal: 1,
-      entitiesTotal: 1,
-      canonicalEntitiesTotal: 0,
-      graphEdgesTotal: 0,
-      workflowStatesTotal: 0,
-    });
-    await expect(store.searchEvents("task_123", 5)).resolves.toEqual([
-      expect.objectContaining({
-        event_id: "evt_v0",
-        object_type: null,
-        status_before: null,
-        session_id: null,
-        covered_until_entry_id: null,
-      }),
-    ]);
-    await expect(store.getEntityState("ent_task")).resolves.toMatchObject({
-      entity_type: "other",
-      supporting_event_ids: [],
-      confidence: 0.5,
-    });
-    expect(store.listAliases()).toEqual([]);
-    await expect(store.backfillGraphObjectsFromEvents()).resolves.toMatchObject({
-      processedEvents: 1,
-      entities: 2,
-    });
-    expect(store.getStatus()).toMatchObject({
-      canonicalEntitiesTotal: 2,
-      graphEdgesTotal: 1,
-    });
+    const reopened = openMemoryDatabaseAtPath(dbPath, false);
+    const legacyEventTable = reopened
+      .prepare("SELECT name FROM sqlite_master WHERE type = 'table' AND name = 'event_records'")
+      .get() as { name?: string } | undefined;
+    const legacyStateTable = reopened
+      .prepare("SELECT name FROM sqlite_master WHERE type = 'table' AND name = 'entity_states'")
+      .get() as { name?: string } | undefined;
+    expect(legacyEventTable).toBeUndefined();
+    expect(legacyStateTable).toBeUndefined();
+    reopened.close();
+
     store.close();
   });
 });

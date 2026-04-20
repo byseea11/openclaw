@@ -58,7 +58,6 @@ describe("memory-core manifest config schema", () => {
         graphIndex: {
           enabled: true,
           bootstrapOnStart: true,
-          extractDuringFlush: true,
           trace: {
             enabled: true,
             filePath: "/tmp/openclaw-graph-index-trace.jsonl",

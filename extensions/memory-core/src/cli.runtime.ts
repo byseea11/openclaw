@@ -11,7 +11,7 @@ import {
   getCanonicalStore,
   graphHitToMemorySearchResult,
   resolveGraphIndexConfig,
-  search_graph,
+  searchGraphV2,
 } from "./canonical/index.js";
 import {
   colorize,
@@ -1268,7 +1268,6 @@ export async function runMemoryGraphStatus(opts: MemoryGraphCommandOptions) {
       `${heading("Graph Memory")} ${muted(`(${agentId})`)}`,
       `${muted("Enabled:")} ${info(graphConfig.enabled)}`,
       `${muted("Bootstrap on start:")} ${info(graphConfig.bootstrapOnStart)}`,
-      `${muted("Extract during flush:")} ${info(graphConfig.extractDuringFlush)}`,
       `${muted("Store:")} ${info(shortenHomePath(status.dbPath))}`,
       `${muted("Events:")} ${info(status.eventsTotal)}`,
       `${muted("Entities:")} ${info(status.entitiesTotal)}`,
@@ -1358,7 +1357,7 @@ export async function runMemoryGraphSearch(
   emitMemorySecretResolveDiagnostics(diagnostics, { json: Boolean(opts.json) });
   const agentId = resolveAgent(cfg, opts.agent);
   const store = getCanonicalStore(agentId);
-  const hits = await search_graph(store, query, Math.max(1, opts.maxResults ?? 10));
+  const { hits } = await searchGraphV2(store, query, Math.max(1, opts.maxResults ?? 10));
   const results = hits.map((hit) => ({
     ...hit,
     memorySearchResult: graphHitToMemorySearchResult(hit),

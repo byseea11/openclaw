@@ -3,7 +3,6 @@ import { createPluginRuntime } from "openclaw/plugin-sdk/memory-core";
 import { definePluginEntry } from "openclaw/plugin-sdk/plugin-entry";
 import {
   createSubagentExtractorClient,
-  handleGraphFlushResult,
   handleGraphAfterTurn,
   handleGraphBeforeCompaction,
   noteGraphUsageFromAssistantOutput,
@@ -48,7 +47,6 @@ export default definePluginEntry({
     api.registerMemoryCapability({
       promptBuilder: buildPromptSection,
       flushPlanResolver: buildMemoryFlushPlan,
-      flushResultHandler: handleGraphFlushResult,
       afterTurnObserver: handleGraphAfterTurn,
       beforeCompactionObserver: handleGraphBeforeCompaction,
       runtime: memoryRuntime,

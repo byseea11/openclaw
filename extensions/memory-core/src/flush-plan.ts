@@ -6,7 +6,6 @@ import {
   type MemoryFlushPlan,
   type OpenClawConfig,
 } from "openclaw/plugin-sdk/memory-core-host-runtime-core";
-import { resolveGraphIndexConfig } from "./canonical/schema.js";
 
 export const DEFAULT_MEMORY_FLUSH_SOFT_TOKENS = 4000;
 export const DEFAULT_MEMORY_FLUSH_FORCE_TRANSCRIPT_BYTES = 2 * 1024 * 1024;
@@ -22,21 +21,6 @@ const MEMORY_FLUSH_REQUIRED_HINTS = [
   MEMORY_FLUSH_APPEND_ONLY_HINT,
   MEMORY_FLUSH_READ_ONLY_HINT,
 ];
-
-const GRAPH_FLUSH_JSON_INSTRUCTIONS = [
-  "In addition to appending durable content to memory/YYYY-MM-DD.md, you must end this flush reply with a JSON code block for the graph index.",
-  "Extract all recognizable structured events from the session content handled by this flush.",
-  "Focus on status changes, owner changes, decisions, milestones, and new preferences or constraints.",
-  "Use exactly this shape:",
-  '```json\n{"events":[{"actor":"who did it (optional)","action":"what happened","object":"what it happened to (optional)","status_before":"previous status (optional)","status_after":"new status (optional)","occurred_at":"YYYY-MM-DD","source_ref":"memory/YYYY-MM-DD.md#L12-L18","confidence":0.8}]}\n```',
-  "Try to extract as many valid events as possible; a typical flush can produce 3-10 events.",
-  "Only include events from content newly appended to memory/YYYY-MM-DD.md during this flush; do not restate older lines from the file.",
-  'Each event must use source_ref like "memory/YYYY-MM-DD.md#L12-L18" pointing to the exact lines just written in this flush.',
-  "Each event must include occurred_at; if unsure, use the current flush date.",
-  "If both status_before and status_after are knowable, include both.",
-  'If there are no extractable events, output {"events":[]}.',
-  `If no user-visible reply is needed, still include the JSON block after ${SILENT_REPLY_TOKEN}.`,
-].join("\n");
 
 export const DEFAULT_MEMORY_FLUSH_PROMPT = [
   "Pre-compaction memory flush.",
@@ -108,13 +92,6 @@ function appendCurrentTimeLine(text: string, timeLine: string): string {
   return `${trimmed}\n${timeLine}`;
 }
 
-function appendGraphFlushInstructions(text: string): string {
-  if (text.includes("graph index") && text.includes('"events"')) {
-    return text;
-  }
-  return `${text.trimEnd()}\n\n${GRAPH_FLUSH_JSON_INSTRUCTIONS}`;
-}
-
 export function buildMemoryFlushPlan(
   params: {
     cfg?: OpenClawConfig;
@@ -155,13 +132,7 @@ export function buildMemoryFlushPlan(
     softThresholdTokens,
     forceFlushTranscriptBytes,
     reserveTokensFloor,
-    prompt: appendCurrentTimeLine(
-      (resolveGraphIndexConfig(cfg).enabled && resolveGraphIndexConfig(cfg).extractDuringFlush
-        ? appendGraphFlushInstructions(promptBase)
-        : promptBase
-      ).replaceAll("YYYY-MM-DD", dateStamp),
-      timeLine,
-    ),
+    prompt: appendCurrentTimeLine(promptBase.replaceAll("YYYY-MM-DD", dateStamp), timeLine),
     systemPrompt: systemPrompt.replaceAll("YYYY-MM-DD", dateStamp),
     relativePath,
   };

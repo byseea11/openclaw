@@ -1,7 +1,7 @@
 import type { OpenClawConfig } from "openclaw/plugin-sdk/memory-core-host-runtime-core";
 
 export const EXTRACTOR_VERSION = "v1-2026.04-llm";
-export const CANONICAL_SCHEMA_VERSION = "v5";
+export const CANONICAL_SCHEMA_VERSION = "v6";
 export const GRAPH_PROJECTION_VERSION = "v1-2026.04";
 export const GRAPH_RECALL_TTL_MS = 30 * 60 * 1000;
 
@@ -253,7 +253,6 @@ export type GraphHit = {
 export type GraphIndexConfig = {
   enabled: boolean;
   bootstrapOnStart: boolean;
-  extractDuringFlush: boolean;
   trace: GraphIndexTraceConfig;
 };
 
@@ -306,8 +305,11 @@ export type RecentGraphCandidate = {
 };
 
 export type GraphExportData = {
-  events: EventRecord[];
-  states: EntityState[];
+  evidence: Array<Record<string, unknown>>;
+  events: Array<Record<string, unknown>>;
+  workflowStates: Array<Record<string, unknown>>;
+  entities: Array<Record<string, unknown>>;
+  edges: Array<Record<string, unknown>>;
   metrics: GraphMetricsSnapshot;
 };
 
@@ -347,51 +349,6 @@ export const CANONICAL_SCHEMA_SQL = `
 CREATE TABLE IF NOT EXISTS meta (
   key TEXT PRIMARY KEY,
   value TEXT NOT NULL
-);
-
-CREATE TABLE IF NOT EXISTS event_records (
-  event_id          TEXT PRIMARY KEY,
-  source_type       TEXT NOT NULL,
-  source_ref        TEXT NOT NULL,
-  occurred_at       TEXT NOT NULL,
-  entity_id         TEXT NOT NULL,
-  actor             TEXT,
-  action            TEXT NOT NULL,
-  object            TEXT,
-  object_type       TEXT,
-  status_before     TEXT,
-  status_after      TEXT,
-  session_id        TEXT,
-  covered_until_entry_id TEXT,
-  confidence        REAL NOT NULL DEFAULT 0.5,
-  extractor_version TEXT NOT NULL,
-  created_at        INTEGER NOT NULL
-);
-
-CREATE INDEX IF NOT EXISTS idx_events_entity ON event_records(entity_id);
-CREATE INDEX IF NOT EXISTS idx_events_occurred ON event_records(occurred_at);
-CREATE INDEX IF NOT EXISTS idx_events_source ON event_records(source_ref);
-
-CREATE TABLE IF NOT EXISTS entity_states (
-  entity_id        TEXT PRIMARY KEY,
-  latest_status    TEXT,
-  latest_owner     TEXT,
-  last_event_id    TEXT NOT NULL,
-  last_updated_at  INTEGER NOT NULL,
-  entity_type      TEXT NOT NULL DEFAULT 'other',
-  supporting_event_ids TEXT NOT NULL DEFAULT '[]',
-  confidence       REAL NOT NULL DEFAULT 0.5,
-  FOREIGN KEY(last_event_id) REFERENCES event_records(event_id)
-);
-
-CREATE VIRTUAL TABLE IF NOT EXISTS event_fts USING fts5(
-  event_id UNINDEXED,
-  entity_id,
-  actor,
-  action,
-  object,
-  status_after,
-  tokenize = 'unicode61 remove_diacritics 2'
 );
 
 CREATE TABLE IF NOT EXISTS graph_metrics (
@@ -451,97 +408,6 @@ CREATE TABLE IF NOT EXISTS projection_inbox (
 
 CREATE INDEX IF NOT EXISTS idx_projection_inbox_pending
   ON projection_inbox(source_kind, source_id, drained_at, created_at);
-
-CREATE TABLE IF NOT EXISTS entity_aliases (
-  alias        TEXT NOT NULL,
-  entity_id    TEXT NOT NULL,
-  alias_type   TEXT NOT NULL,
-  confidence   REAL NOT NULL DEFAULT 0.5,
-  source_ref   TEXT,
-  session_id   TEXT,
-  created_at   INTEGER NOT NULL,
-  PRIMARY KEY (alias, entity_id, alias_type)
-);
-
-CREATE INDEX IF NOT EXISTS idx_alias_canonical ON entity_aliases(entity_id);
-CREATE INDEX IF NOT EXISTS idx_alias_lookup ON entity_aliases(alias);
-
-CREATE TABLE IF NOT EXISTS canonical_entities (
-  entity_id       TEXT PRIMARY KEY,
-  entity_type     TEXT NOT NULL,
-  canonical_name  TEXT NOT NULL,
-  status          TEXT,
-  last_seen_at    TEXT,
-  confidence      REAL NOT NULL DEFAULT 0.5,
-  created_at      INTEGER NOT NULL,
-  updated_at      INTEGER NOT NULL,
-  provenance_json TEXT NOT NULL DEFAULT '[]'
-);
-
-CREATE INDEX IF NOT EXISTS idx_canonical_entities_type_name
-  ON canonical_entities(entity_type, canonical_name);
-
-CREATE TABLE IF NOT EXISTS graph_edges (
-  edge_id           TEXT PRIMARY KEY,
-  src_entity_id     TEXT NOT NULL,
-  relation          TEXT NOT NULL,
-  dst_entity_id     TEXT NOT NULL,
-  occurred_at       TEXT NOT NULL,
-  source_ref        TEXT NOT NULL,
-  session_id        TEXT,
-  evidence_event_id TEXT NOT NULL,
-  confidence        REAL NOT NULL DEFAULT 0.5,
-  created_at        INTEGER NOT NULL,
-  FOREIGN KEY(evidence_event_id) REFERENCES event_records(event_id)
-);
-
-CREATE INDEX IF NOT EXISTS idx_graph_edges_src_relation_time
-  ON graph_edges(src_entity_id, relation, occurred_at);
-CREATE INDEX IF NOT EXISTS idx_graph_edges_dst_relation_time
-  ON graph_edges(dst_entity_id, relation, occurred_at);
-CREATE INDEX IF NOT EXISTS idx_graph_edges_evidence
-  ON graph_edges(evidence_event_id);
-
-CREATE TABLE IF NOT EXISTS kg_backfill_state (
-  scope                 TEXT PRIMARY KEY,
-  last_event_created_at INTEGER,
-  last_event_id         TEXT,
-  status                TEXT NOT NULL DEFAULT 'idle',
-  last_error            TEXT,
-  retry_marker_json     TEXT,
-  updated_at            INTEGER NOT NULL
-);
-
-CREATE TABLE IF NOT EXISTS workflow_state_view (
-  object_type               TEXT NOT NULL,
-  object_id                 TEXT NOT NULL,
-  stage                     TEXT,
-  owner_entity_id           TEXT,
-  blocker_status            TEXT NOT NULL DEFAULT 'unknown',
-  blocker_reason            TEXT,
-  approval_status           TEXT NOT NULL DEFAULT 'unknown',
-  next_action               TEXT,
-  last_event_id             TEXT NOT NULL,
-  last_updated_at           INTEGER NOT NULL,
-  supporting_event_ids_json TEXT NOT NULL DEFAULT '[]',
-  conflict_flags_json       TEXT NOT NULL DEFAULT '[]',
-  slot_versions_json        TEXT NOT NULL DEFAULT '{}',
-  PRIMARY KEY (object_type, object_id),
-  FOREIGN KEY(last_event_id) REFERENCES event_records(event_id)
-);
-
-CREATE UNIQUE INDEX IF NOT EXISTS idx_workflow_state_unique_object_id
-  ON workflow_state_view(object_id);
-CREATE INDEX IF NOT EXISTS idx_workflow_state_type_stage
-  ON workflow_state_view(object_type, stage);
-CREATE INDEX IF NOT EXISTS idx_workflow_state_owner
-  ON workflow_state_view(owner_entity_id);
-CREATE INDEX IF NOT EXISTS idx_workflow_state_blocker
-  ON workflow_state_view(blocker_status, last_updated_at);
-CREATE INDEX IF NOT EXISTS idx_workflow_state_approval
-  ON workflow_state_view(approval_status, last_updated_at);
-CREATE INDEX IF NOT EXISTS idx_workflow_state_last_event
-  ON workflow_state_view(last_event_id);
 
 CREATE TABLE IF NOT EXISTS evidence_records (
   evidence_id          TEXT PRIMARY KEY,
@@ -701,7 +567,6 @@ export function resolveGraphIndexConfig(cfg?: OpenClawConfig): GraphIndexConfig 
   return {
     enabled: normalizeBoolean(graphIndex?.enabled, false),
     bootstrapOnStart: normalizeBoolean(graphIndex?.bootstrapOnStart, true),
-    extractDuringFlush: normalizeBoolean(graphIndex?.extractDuringFlush, true),
     trace: {
       enabled: normalizeBoolean(trace?.enabled, false),
       filePath: normalizeString(trace?.filePath, null),

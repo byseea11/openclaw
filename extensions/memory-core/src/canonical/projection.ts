@@ -779,7 +779,7 @@ export async function drainPendingGraphUpdates(params: {
               last: coveredUntilEntryId,
             },
             tables: {
-              event_records: {
+              event_records_v2: {
                 persisted: 0,
               },
             },

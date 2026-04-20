@@ -42,7 +42,7 @@ describe("canonical graph extractor", () => {
     expect(parseGraphJsonBlock("```json\n{nope\n```")).toEqual([]);
   });
 
-  it("accepts status_before and status_after from flush JSON", () => {
+  it("accepts status_before and status_after from fenced graph JSON", () => {
     const parsed = parseGraphJsonBlockWithStatus(
       [
         "NO_REPLY",

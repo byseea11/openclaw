@@ -29,9 +29,6 @@
           "bootstrapOnStart": {
             "type": "boolean"
           },
-          "extractDuringFlush": {
-            "type": "boolean"
-          },
           "trace": {
             "type": "object",
             "additionalProperties": false,
