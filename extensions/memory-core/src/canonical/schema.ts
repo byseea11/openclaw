@@ -1,7 +1,7 @@
 import type { OpenClawConfig } from "openclaw/plugin-sdk/memory-core-host-runtime-core";
 
 export const EXTRACTOR_VERSION = "v1-2026.04-llm";
-export const CANONICAL_SCHEMA_VERSION = "v4";
+export const CANONICAL_SCHEMA_VERSION = "v5";
 export const GRAPH_PROJECTION_VERSION = "v1-2026.04";
 export const GRAPH_RECALL_TTL_MS = 30 * 60 * 1000;
 
@@ -542,6 +542,133 @@ CREATE INDEX IF NOT EXISTS idx_workflow_state_approval
   ON workflow_state_view(approval_status, last_updated_at);
 CREATE INDEX IF NOT EXISTS idx_workflow_state_last_event
   ON workflow_state_view(last_event_id);
+
+CREATE TABLE IF NOT EXISTS evidence_records (
+  evidence_id          TEXT PRIMARY KEY,
+  evidence_fingerprint TEXT NOT NULL UNIQUE,
+  source_platform      TEXT NOT NULL,
+  source_kind          TEXT NOT NULL,
+  session_key          TEXT,
+  message_id           TEXT,
+  chat_id              TEXT,
+  chat_type            TEXT,
+  thread_id            TEXT,
+  root_id              TEXT,
+  parent_id            TEXT,
+  first_entry_id       TEXT,
+  last_entry_id        TEXT,
+  content_text         TEXT,
+  content_json         TEXT NOT NULL DEFAULT '{}',
+  source_locator_json  TEXT NOT NULL DEFAULT '{}',
+  occurred_at          TEXT,
+  created_at           INTEGER NOT NULL
+);
+
+CREATE INDEX IF NOT EXISTS idx_evidence_records_session
+  ON evidence_records(session_key, created_at);
+CREATE INDEX IF NOT EXISTS idx_evidence_records_message
+  ON evidence_records(message_id);
+CREATE INDEX IF NOT EXISTS idx_evidence_records_thread
+  ON evidence_records(thread_id, created_at);
+
+CREATE TABLE IF NOT EXISTS event_type_registry (
+  event_type          TEXT PRIMARY KEY,
+  subject_type        TEXT NOT NULL,
+  object_type         TEXT,
+  payload_schema_json TEXT NOT NULL,
+  description         TEXT NOT NULL,
+  enabled             INTEGER NOT NULL DEFAULT 1,
+  created_at          INTEGER NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS event_records_v2 (
+  event_id            TEXT PRIMARY KEY,
+  event_fingerprint   TEXT NOT NULL UNIQUE,
+  evidence_id         TEXT NOT NULL,
+  event_type          TEXT NOT NULL,
+  subject_ref         TEXT NOT NULL,
+  actor_ref           TEXT,
+  object_ref          TEXT,
+  related_refs_json   TEXT NOT NULL DEFAULT '[]',
+  occurred_at         TEXT NOT NULL,
+  payload_json        TEXT NOT NULL DEFAULT '{}',
+  confidence          REAL NOT NULL DEFAULT 0.5,
+  extraction_version  TEXT NOT NULL,
+  created_at          INTEGER NOT NULL,
+  FOREIGN KEY(evidence_id) REFERENCES evidence_records(evidence_id),
+  FOREIGN KEY(event_type) REFERENCES event_type_registry(event_type)
+);
+
+CREATE INDEX IF NOT EXISTS idx_event_records_v2_subject
+  ON event_records_v2(subject_ref, occurred_at);
+CREATE INDEX IF NOT EXISTS idx_event_records_v2_object
+  ON event_records_v2(object_ref, occurred_at);
+CREATE INDEX IF NOT EXISTS idx_event_records_v2_type
+  ON event_records_v2(event_type, occurred_at);
+CREATE INDEX IF NOT EXISTS idx_event_records_v2_evidence
+  ON event_records_v2(evidence_id);
+
+CREATE TABLE IF NOT EXISTS workflow_state_view_v2 (
+  task_ref              TEXT PRIMARY KEY,
+  current_owner_ref     TEXT,
+  current_stage         TEXT,
+  current_approval_ref  TEXT,
+  approval_status       TEXT,
+  current_blocker_ref   TEXT,
+  next_action_json      TEXT NOT NULL DEFAULT '{}',
+  last_event_id         TEXT NOT NULL,
+  last_event_time       TEXT NOT NULL,
+  slot_versions_json    TEXT NOT NULL DEFAULT '{}',
+  supporting_event_ids  TEXT NOT NULL DEFAULT '[]',
+  updated_at            INTEGER NOT NULL,
+  FOREIGN KEY(last_event_id) REFERENCES event_records_v2(event_id)
+);
+
+CREATE INDEX IF NOT EXISTS idx_workflow_state_v2_owner
+  ON workflow_state_view_v2(current_owner_ref, updated_at);
+CREATE INDEX IF NOT EXISTS idx_workflow_state_v2_stage
+  ON workflow_state_view_v2(current_stage, updated_at);
+CREATE INDEX IF NOT EXISTS idx_workflow_state_v2_approval
+  ON workflow_state_view_v2(approval_status, updated_at);
+CREATE INDEX IF NOT EXISTS idx_workflow_state_v2_blocker
+  ON workflow_state_view_v2(current_blocker_ref, updated_at);
+
+CREATE TABLE IF NOT EXISTS graph_entities_v2 (
+  entity_ref         TEXT PRIMARY KEY,
+  entity_type        TEXT NOT NULL,
+  canonical_name     TEXT NOT NULL,
+  alias_json         TEXT NOT NULL DEFAULT '[]',
+  first_seen_at      TEXT NOT NULL,
+  last_seen_at       TEXT NOT NULL,
+  last_evidence_id   TEXT,
+  updated_at         INTEGER NOT NULL
+);
+
+CREATE INDEX IF NOT EXISTS idx_graph_entities_v2_type_name
+  ON graph_entities_v2(entity_type, canonical_name);
+CREATE INDEX IF NOT EXISTS idx_graph_entities_v2_last_seen
+  ON graph_entities_v2(last_seen_at);
+
+CREATE TABLE IF NOT EXISTS graph_edges_v2 (
+  edge_id                TEXT PRIMARY KEY,
+  edge_key               TEXT NOT NULL UNIQUE,
+  src_ref                TEXT NOT NULL,
+  edge_type              TEXT NOT NULL,
+  dst_ref                TEXT NOT NULL,
+  derived_from_event_id  TEXT NOT NULL,
+  active                 INTEGER NOT NULL,
+  valid_from             TEXT NOT NULL,
+  valid_to               TEXT,
+  updated_at             INTEGER NOT NULL,
+  FOREIGN KEY(derived_from_event_id) REFERENCES event_records_v2(event_id)
+);
+
+CREATE INDEX IF NOT EXISTS idx_graph_edges_v2_src
+  ON graph_edges_v2(src_ref, edge_type, active);
+CREATE INDEX IF NOT EXISTS idx_graph_edges_v2_dst
+  ON graph_edges_v2(dst_ref, edge_type, active);
+CREATE INDEX IF NOT EXISTS idx_graph_edges_v2_event
+  ON graph_edges_v2(derived_from_event_id);
 `;
 
 function asRecord(value: unknown): Record<string, unknown> | undefined {

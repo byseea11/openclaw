@@ -6,10 +6,10 @@ import type {
   MemoryTranscriptSpanEntry,
   OpenClawConfig,
 } from "openclaw/plugin-sdk/memory-core-host-runtime-core";
-import { canonicalize } from "./canonicalizer.js";
+import { canonicalizeV2 } from "./canonicalizer-v2.js";
 import { extract } from "./extractor.js";
 import { isGraphExtractorSessionKey } from "./extractor.runtime.js";
-import { EXTRACTOR_VERSION, type ProjectionInboxEntry, resolveGraphIndexConfig } from "./schema.js";
+import { type ProjectionInboxEntry, resolveGraphIndexConfig } from "./schema.js";
 import { getCanonicalStore } from "./store.js";
 import { buildGraphTraceId, recordGraphIndexTrace } from "./trace.js";
 
@@ -108,34 +108,6 @@ function traceRawEvent(event: {
     occurred_at: event.occurred_at ?? null,
     source_ref: event.source_ref,
     confidence: event.confidence ?? null,
-  };
-}
-
-function traceEventRecord(record: {
-  event_id: string;
-  entity_id: string;
-  actor: string | null;
-  action: string;
-  object: string | null;
-  status_before: string | null;
-  status_after: string | null;
-  source_type: string;
-  source_ref: string;
-  session_id: string | null;
-  covered_until_entry_id: string | null;
-}) {
-  return {
-    event_id: record.event_id,
-    entity_id: record.entity_id,
-    actor: record.actor,
-    action: record.action,
-    object: record.object,
-    status_before: record.status_before,
-    status_after: record.status_after,
-    source_type: record.source_type,
-    source_ref: record.source_ref,
-    session_id: record.session_id,
-    covered_until_entry_id: record.covered_until_entry_id,
   };
 }
 
@@ -684,17 +656,20 @@ export async function drainPendingGraphUpdates(params: {
         },
       });
       if (rawEvents.length > 0) {
-        const records = canonicalize(rawEvents, EXTRACTOR_VERSION, {
-          sourceType: "transcript",
-          sessionId: summary.source_id,
-          coveredUntilEntryId,
+        const canonicalized = canonicalizeV2({
+          sourceId: summary.source_id,
+          sourceRef: rendered.sourceRef,
+          firstEntryId: summary.first_entry_id,
+          lastEntryId: coveredUntilEntryId,
+          text: rendered.text,
+          entries: extractEntries,
+          rawEvents,
         });
-        const mergeComputation = await store.explainEntityStateRefresh(records);
-        const persisted = await store.persistCanonicalBatch(records, mergeComputation);
+        const persisted = await store.persistSemanticBatchV2(canonicalized);
         recordGraphIndexTrace({
           cfg: params.cfg,
           message: "canonical.projection.events_persisted",
-          summary: `source=${summary.source_id} records=${records.length}`,
+          summary: `source=${summary.source_id} records=${persisted.events.length}`,
           event: {
             trace_id: traceId,
             stage: "events_persisted",
@@ -705,22 +680,35 @@ export async function drainPendingGraphUpdates(params: {
               last: coveredUntilEntryId,
             },
             tables: {
-              event_records: {
-                table: "event_records",
-                persisted: records.length,
-                canonical_records_json: records.map(traceEventRecord),
+              evidence_records: {
+                table: "evidence_records",
+                persisted: 1,
+                evidence_id: persisted.evidence.evidence_id,
+              },
+              event_records_v2: {
+                table: "event_records_v2",
+                persisted: persisted.events.length,
+                canonical_records_json: persisted.events.map((record) => ({
+                  event_id: record.event_id,
+                  event_type: record.event_type,
+                  subject_ref: record.subject_ref,
+                  actor_ref: record.actor_ref,
+                  object_ref: record.object_ref,
+                  occurred_at: record.occurred_at,
+                  evidence_id: record.evidence_id,
+                })),
               },
             },
             call: {
-              function: "persistCanonicalBatch",
-              steps: ["canonicalize", "event_records", "event_fts"],
+              function: "persistSemanticBatchV2",
+              steps: ["canonicalizeV2", "evidence_records", "event_records_v2"],
             },
           },
         });
         recordGraphIndexTrace({
           cfg: params.cfg,
           message: "canonical.projection.kg_objects_derived",
-          summary: `source=${summary.source_id} entities=${persisted.graphObjects.entities.length} aliases=${persisted.graphObjects.aliases.length} edges=${persisted.graphObjects.edges.length}`,
+          summary: `source=${summary.source_id} entities=${persisted.entities.length} edges=${persisted.edges.length}`,
           event: {
             trace_id: traceId,
             stage: "kg_objects_derived",
@@ -731,25 +719,20 @@ export async function drainPendingGraphUpdates(params: {
               last: coveredUntilEntryId,
             },
             tables: {
-              canonical_entities: {
-                table: "canonical_entities",
-                persisted: persisted.graphObjects.entities.length,
-                entities: persisted.graphObjects.entities,
+              graph_entities_v2: {
+                table: "graph_entities_v2",
+                persisted: persisted.entities.length,
+                entities: persisted.entities,
               },
-              entity_aliases: {
-                table: "entity_aliases",
-                persisted: persisted.graphObjects.aliases.length,
-                aliases: persisted.graphObjects.aliases,
-              },
-              graph_edges: {
-                table: "graph_edges",
-                persisted: persisted.graphObjects.edges.length,
-                edges: persisted.graphObjects.edges,
+              graph_edges_v2: {
+                table: "graph_edges_v2",
+                persisted: persisted.edges.length,
+                edges: persisted.edges,
               },
             },
             call: {
-              function: "persistCanonicalBatch",
-              steps: ["deriveGraphObjects", "canonical_entities", "entity_aliases", "graph_edges"],
+              function: "persistSemanticBatchV2",
+              steps: ["graph_entities_v2", "graph_edges_v2"],
             },
           },
         });
@@ -768,32 +751,19 @@ export async function drainPendingGraphUpdates(params: {
               last: coveredUntilEntryId,
             },
             tables: {
-              entity_states: {
-                table: "entity_states",
+              workflow_state_view_v2: {
+                table: "workflow_state_view_v2",
                 merged: states.length,
                 next_states: states,
               },
             },
-            reducer: {
-              function: "reduce",
-              policy: {
-                latest_event_selection:
-                  "Newest event per entity wins by occurred_at, then created_at.",
-                latest_status: "event.status_after ?? previous.latest_status",
-                latest_owner: "event.actor ?? previous.latest_owner",
-              },
-              entity_ids: mergeComputation.entityIds,
-              previous_states: mergeComputation.previousStates,
-              input_events: mergeComputation.events.map(traceEventRecord),
-              next_states: mergeComputation.states,
-            },
             call: {
-              function: "persistCanonicalBatch",
-              steps: ["getEntityState", "reduce", "entity_states upsert"],
+              function: "persistSemanticBatchV2",
+              steps: ["projector-workflow-v2", "workflow_state_view_v2 upsert"],
             },
           },
         });
-        persistedEvents += records.length;
+        persistedEvents += persisted.events.length;
       } else {
         recordGraphIndexTrace({
           cfg: params.cfg,

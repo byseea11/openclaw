@@ -6,12 +6,26 @@ import {
   resolveStateDir,
 } from "openclaw/plugin-sdk/memory-core-host-engine-foundation";
 import { openMemoryDatabaseAtPath } from "../memory/manager-db.js";
+import { generateUlid } from "./id-v2.js";
 import { deriveGraphObjects, normalizeEntityAlias } from "./kg.js";
 import { runV0ToV1Migration } from "./migrations/v0-to-v1.js";
 import { runV1ToV2Migration } from "./migrations/v1-to-v2.js";
 import { runV2ToV3Migration } from "./migrations/v2-to-v3.js";
 import { runV3ToV4Migration } from "./migrations/v3-to-v4.js";
+import { runV4ToV5Migration } from "./migrations/v4-to-v5.js";
+import { deriveGraphEdgeMutationsV2, reopenOrCreateEdgeV2 } from "./projector-edges-v2.js";
+import { deriveGraphEntitiesV2 } from "./projector-entities-v2.js";
+import { deriveWorkflowPatchesV2, type WorkflowSlotVersionV2 } from "./projector-workflow-v2.js";
 import { reduce } from "./reducer.js";
+import {
+  buildEventFingerprint,
+  EVENT_TYPE_REGISTRY_SEED,
+  type EvidenceRecordV2,
+  type EventRecordV2,
+  type GraphEdgeV2,
+  type GraphEntityV2,
+  type WorkflowStateViewV2,
+} from "./schema-v2.js";
 import {
   CANONICAL_SCHEMA_SQL,
   CANONICAL_SCHEMA_VERSION,
@@ -341,6 +355,126 @@ function rowToWorkflowState(row: Record<string, unknown>): WorkflowStateView {
   };
 }
 
+function rowToEvidenceV2(row: Record<string, unknown>): EvidenceRecordV2 {
+  return {
+    evidence_id: String(row.evidence_id),
+    evidence_fingerprint: String(row.evidence_fingerprint),
+    source_platform: String(row.source_platform),
+    source_kind: String(row.source_kind),
+    session_key: typeof row.session_key === "string" ? row.session_key : null,
+    message_id: typeof row.message_id === "string" ? row.message_id : null,
+    chat_id: typeof row.chat_id === "string" ? row.chat_id : null,
+    chat_type: typeof row.chat_type === "string" ? row.chat_type : null,
+    thread_id: typeof row.thread_id === "string" ? row.thread_id : null,
+    root_id: typeof row.root_id === "string" ? row.root_id : null,
+    parent_id: typeof row.parent_id === "string" ? row.parent_id : null,
+    first_entry_id: typeof row.first_entry_id === "string" ? row.first_entry_id : null,
+    last_entry_id: typeof row.last_entry_id === "string" ? row.last_entry_id : null,
+    content_text: typeof row.content_text === "string" ? row.content_text : null,
+    content_json: typeof row.content_json === "string" ? row.content_json : "{}",
+    source_locator_json:
+      typeof row.source_locator_json === "string" ? row.source_locator_json : "{}",
+    occurred_at: typeof row.occurred_at === "string" ? row.occurred_at : null,
+    created_at: Number(row.created_at ?? 0),
+  };
+}
+
+function rowToEventV2(row: Record<string, unknown>): EventRecordV2 {
+  return {
+    event_id: String(row.event_id),
+    event_fingerprint: String(row.event_fingerprint),
+    evidence_id: String(row.evidence_id),
+    event_type: String(row.event_type),
+    subject_ref: String(row.subject_ref),
+    actor_ref: typeof row.actor_ref === "string" ? row.actor_ref : null,
+    object_ref: typeof row.object_ref === "string" ? row.object_ref : null,
+    related_refs_json: typeof row.related_refs_json === "string" ? row.related_refs_json : "[]",
+    occurred_at: String(row.occurred_at),
+    payload_json: typeof row.payload_json === "string" ? row.payload_json : "{}",
+    confidence: Number(row.confidence ?? 0.5),
+    extraction_version: String(row.extraction_version),
+    created_at: Number(row.created_at ?? 0),
+  };
+}
+
+function rowToWorkflowStateV2(row: Record<string, unknown>): WorkflowStateViewV2 {
+  return {
+    task_ref: String(row.task_ref),
+    current_owner_ref: typeof row.current_owner_ref === "string" ? row.current_owner_ref : null,
+    current_stage: typeof row.current_stage === "string" ? row.current_stage : null,
+    current_approval_ref:
+      typeof row.current_approval_ref === "string" ? row.current_approval_ref : null,
+    approval_status: typeof row.approval_status === "string" ? row.approval_status : null,
+    current_blocker_ref:
+      typeof row.current_blocker_ref === "string" ? row.current_blocker_ref : null,
+    next_action_json: typeof row.next_action_json === "string" ? row.next_action_json : "{}",
+    last_event_id: String(row.last_event_id),
+    last_event_time: String(row.last_event_time),
+    slot_versions_json: typeof row.slot_versions_json === "string" ? row.slot_versions_json : "{}",
+    supporting_event_ids:
+      typeof row.supporting_event_ids === "string" ? row.supporting_event_ids : "[]",
+    updated_at: Number(row.updated_at ?? 0),
+  };
+}
+
+function rowToGraphEntityV2(row: Record<string, unknown>): GraphEntityV2 {
+  return {
+    entity_ref: String(row.entity_ref),
+    entity_type: String(row.entity_type),
+    canonical_name: String(row.canonical_name),
+    alias_json: typeof row.alias_json === "string" ? row.alias_json : "[]",
+    first_seen_at: String(row.first_seen_at),
+    last_seen_at: String(row.last_seen_at),
+    last_evidence_id: typeof row.last_evidence_id === "string" ? row.last_evidence_id : null,
+    updated_at: Number(row.updated_at ?? 0),
+  };
+}
+
+function rowToGraphEdgeV2(row: Record<string, unknown>): GraphEdgeV2 {
+  return {
+    edge_id: String(row.edge_id),
+    edge_key: String(row.edge_key),
+    src_ref: String(row.src_ref),
+    edge_type: String(row.edge_type),
+    dst_ref: String(row.dst_ref),
+    derived_from_event_id: String(row.derived_from_event_id),
+    active: Number(row.active ?? 0) > 0 ? 1 : 0,
+    valid_from: String(row.valid_from),
+    valid_to: typeof row.valid_to === "string" ? row.valid_to : null,
+    updated_at: Number(row.updated_at ?? 0),
+  };
+}
+
+function parseSlotVersionsV2(value: string): Record<string, WorkflowSlotVersionV2> {
+  try {
+    const parsed = JSON.parse(value) as unknown;
+    if (!parsed || typeof parsed !== "object" || Array.isArray(parsed)) {
+      return {};
+    }
+    const result: Record<string, WorkflowSlotVersionV2> = {};
+    for (const [slot, raw] of Object.entries(parsed)) {
+      if (!raw || typeof raw !== "object" || Array.isArray(raw)) {
+        continue;
+      }
+      const record = raw as Record<string, unknown>;
+      if (
+        typeof record.event_id === "string" &&
+        typeof record.event_fingerprint === "string" &&
+        typeof record.occurred_at === "string"
+      ) {
+        result[slot] = {
+          event_id: record.event_id,
+          event_fingerprint: record.event_fingerprint,
+          occurred_at: record.occurred_at,
+        };
+      }
+    }
+    return result;
+  } catch {
+    return {};
+  }
+}
+
 function rowToRecentGraphCandidate(row: Record<string, unknown>): RecentGraphCandidate {
   return {
     session_key: String(row.session_key),
@@ -484,6 +618,15 @@ export class CanonicalStore {
     ) {
       runV3ToV4Migration(this.db);
     }
+    if (
+      currentSchemaVersion === "v0" ||
+      currentSchemaVersion === "v1" ||
+      currentSchemaVersion === "v2" ||
+      currentSchemaVersion === "v3" ||
+      currentSchemaVersion === "v4"
+    ) {
+      runV4ToV5Migration(this.db);
+    }
     this.setMeta("schema_version", CANONICAL_SCHEMA_VERSION);
     this.setMeta("extractor_version", EXTRACTOR_VERSION);
     this.setMeta("projection_version", GRAPH_PROJECTION_VERSION);
@@ -493,7 +636,28 @@ export class CanonicalStore {
     for (const key of GRAPH_METRIC_KEYS) {
       ensureMetric.run(key);
     }
+    this.seedEventTypeRegistryV2();
     log.info("canonical.store.schema_ready");
+  }
+
+  private seedEventTypeRegistryV2(): void {
+    const insert = this.db.prepare(
+      `INSERT OR IGNORE INTO event_type_registry(
+        event_type, subject_type, object_type, payload_schema_json, description, enabled, created_at
+      ) VALUES (?, ?, ?, ?, ?, ?, ?)`,
+    );
+    const nowMs = Date.now();
+    for (const record of EVENT_TYPE_REGISTRY_SEED) {
+      insert.run(
+        record.event_type,
+        record.subject_type,
+        record.object_type,
+        record.payload_schema_json,
+        record.description,
+        record.enabled,
+        record.created_at ?? nowMs,
+      );
+    }
   }
 
   close(): void {
@@ -517,6 +681,12 @@ export class CanonicalStore {
       this.db.exec("DELETE FROM event_fts");
       this.db.exec("DELETE FROM graph_edges");
       this.db.exec("DELETE FROM workflow_state_view");
+      this.db.exec("DELETE FROM graph_edges_v2");
+      this.db.exec("DELETE FROM graph_entities_v2");
+      this.db.exec("DELETE FROM workflow_state_view_v2");
+      this.db.exec("DELETE FROM event_records_v2");
+      this.db.exec("DELETE FROM event_type_registry");
+      this.db.exec("DELETE FROM evidence_records");
       this.db.exec("DELETE FROM canonical_entities");
       this.db.exec("DELETE FROM entity_states");
       this.db.exec("DELETE FROM entity_aliases");
@@ -532,6 +702,7 @@ export class CanonicalStore {
       for (const key of GRAPH_METRIC_KEYS) {
         ensureMetric.run(key);
       }
+      this.seedEventTypeRegistryV2();
       this.setMeta("schema_version", CANONICAL_SCHEMA_VERSION);
       this.setMeta("extractor_version", EXTRACTOR_VERSION);
       this.setMeta("projection_version", GRAPH_PROJECTION_VERSION);
@@ -1924,6 +2095,479 @@ export class CanonicalStore {
     return rows.map(rowToRecentGraphCandidate);
   }
 
+  private getEvidenceByFingerprintInTransaction(fingerprint: string): EvidenceRecordV2 | null {
+    const row = this.db
+      .prepare("SELECT * FROM evidence_records WHERE evidence_fingerprint = ?")
+      .get(fingerprint) as Record<string, unknown> | undefined;
+    return row ? rowToEvidenceV2(row) : null;
+  }
+
+  private upsertEvidenceRecordV2InTransaction(evidence: EvidenceRecordV2): EvidenceRecordV2 {
+    const existing = this.getEvidenceByFingerprintInTransaction(evidence.evidence_fingerprint);
+    if (existing) {
+      this.db
+        .prepare(
+          `UPDATE evidence_records
+           SET message_id = COALESCE(message_id, ?),
+               thread_id = COALESCE(thread_id, ?),
+               root_id = COALESCE(root_id, ?),
+               parent_id = COALESCE(parent_id, ?),
+               content_json = CASE
+                 WHEN content_json = '{}' AND ? <> '{}' THEN ?
+                 ELSE content_json
+               END
+           WHERE evidence_id = ?`,
+        )
+        .run(
+          evidence.message_id,
+          evidence.thread_id,
+          evidence.root_id,
+          evidence.parent_id,
+          evidence.content_json,
+          evidence.content_json,
+          existing.evidence_id,
+        );
+      const refreshed = this.db
+        .prepare("SELECT * FROM evidence_records WHERE evidence_id = ?")
+        .get(existing.evidence_id) as Record<string, unknown>;
+      return rowToEvidenceV2(refreshed);
+    }
+    const persisted: EvidenceRecordV2 = {
+      ...evidence,
+      evidence_id: evidence.evidence_id || generateUlid(),
+      created_at: evidence.created_at || Date.now(),
+    };
+    this.db
+      .prepare(
+        `INSERT INTO evidence_records(
+          evidence_id, evidence_fingerprint, source_platform, source_kind, session_key, message_id,
+          chat_id, chat_type, thread_id, root_id, parent_id, first_entry_id, last_entry_id,
+          content_text, content_json, source_locator_json, occurred_at, created_at
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+      )
+      .run(
+        persisted.evidence_id,
+        persisted.evidence_fingerprint,
+        persisted.source_platform,
+        persisted.source_kind,
+        persisted.session_key,
+        persisted.message_id,
+        persisted.chat_id,
+        persisted.chat_type,
+        persisted.thread_id,
+        persisted.root_id,
+        persisted.parent_id,
+        persisted.first_entry_id,
+        persisted.last_entry_id,
+        persisted.content_text,
+        persisted.content_json,
+        persisted.source_locator_json,
+        persisted.occurred_at,
+        persisted.created_at,
+      );
+    return persisted;
+  }
+
+  private insertEventsV2InTransaction(events: EventRecordV2[]): EventRecordV2[] {
+    const inserted: EventRecordV2[] = [];
+    const lookup = this.db.prepare("SELECT * FROM event_records_v2 WHERE event_fingerprint = ?");
+    const insert = this.db.prepare(
+      `INSERT INTO event_records_v2(
+        event_id, event_fingerprint, evidence_id, event_type, subject_ref, actor_ref, object_ref,
+        related_refs_json, occurred_at, payload_json, confidence, extraction_version, created_at
+      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+    );
+    for (const event of events) {
+      const existing = lookup.get(event.event_fingerprint) as Record<string, unknown> | undefined;
+      if (existing) {
+        inserted.push(rowToEventV2(existing));
+        continue;
+      }
+      const persisted: EventRecordV2 = {
+        ...event,
+        event_id: event.event_id || generateUlid(),
+        created_at: event.created_at || Date.now(),
+      };
+      insert.run(
+        persisted.event_id,
+        persisted.event_fingerprint,
+        persisted.evidence_id,
+        persisted.event_type,
+        persisted.subject_ref,
+        persisted.actor_ref,
+        persisted.object_ref,
+        persisted.related_refs_json,
+        persisted.occurred_at,
+        persisted.payload_json,
+        persisted.confidence,
+        persisted.extraction_version,
+        persisted.created_at,
+      );
+      inserted.push(persisted);
+    }
+    return inserted;
+  }
+
+  private getWorkflowStateV2InTransaction(taskRef: string): WorkflowStateViewV2 | null {
+    const row = this.db
+      .prepare("SELECT * FROM workflow_state_view_v2 WHERE task_ref = ?")
+      .get(taskRef) as Record<string, unknown> | undefined;
+    return row ? rowToWorkflowStateV2(row) : null;
+  }
+
+  private upsertWorkflowStateV2InTransaction(events: EventRecordV2[]): WorkflowStateViewV2[] {
+    const patches = deriveWorkflowPatchesV2(events);
+    const grouped = new Map<string, typeof patches>();
+    for (const patch of patches) {
+      const list = grouped.get(patch.task_ref) ?? [];
+      list.push(patch);
+      grouped.set(patch.task_ref, list);
+    }
+    const results: WorkflowStateViewV2[] = [];
+    for (const [taskRef, taskPatches] of grouped.entries()) {
+      let state =
+        this.getWorkflowStateV2InTransaction(taskRef) ??
+        ({
+          task_ref: taskRef,
+          current_owner_ref: null,
+          current_stage: null,
+          current_approval_ref: null,
+          approval_status: null,
+          current_blocker_ref: null,
+          next_action_json: "{}",
+          last_event_id: taskPatches[0].event.event_id,
+          last_event_time: taskPatches[0].event.occurred_at,
+          slot_versions_json: "{}",
+          supporting_event_ids: "[]",
+          updated_at: Date.now(),
+        } satisfies WorkflowStateViewV2);
+      const slotVersions = parseSlotVersionsV2(state.slot_versions_json);
+      const supportingIds = new Set(parseStringArray(state.supporting_event_ids));
+      taskPatches.sort(
+        (left, right) =>
+          left.event.occurred_at.localeCompare(right.event.occurred_at) ||
+          left.event.event_fingerprint.localeCompare(right.event.event_fingerprint),
+      );
+      for (const patch of taskPatches) {
+        supportingIds.add(patch.event.event_id);
+        for (const slot of patch.slots) {
+          const previous = slotVersions[slot];
+          const nextKey = `${patch.event.occurred_at}|${patch.event.event_fingerprint}`;
+          const previousKey = previous
+            ? `${previous.occurred_at}|${previous.event_fingerprint}`
+            : "";
+          if (!previous || nextKey >= previousKey) {
+            (state as Record<string, unknown>)[slot] = patch.set[slot] ?? null;
+            slotVersions[slot] = {
+              event_id: patch.event.event_id,
+              event_fingerprint: patch.event.event_fingerprint,
+              occurred_at: patch.event.occurred_at,
+            };
+          }
+        }
+        const lastKey = `${state.last_event_time}|${state.last_event_id}`;
+        const eventKey = `${patch.event.occurred_at}|${patch.event.event_id}`;
+        if (eventKey >= lastKey) {
+          state.last_event_id = patch.event.event_id;
+          state.last_event_time = patch.event.occurred_at;
+        }
+      }
+      state.slot_versions_json = JSON.stringify(slotVersions);
+      state.supporting_event_ids = JSON.stringify([...supportingIds]);
+      state.updated_at = Date.now();
+      this.db
+        .prepare(
+          `INSERT INTO workflow_state_view_v2(
+            task_ref, current_owner_ref, current_stage, current_approval_ref, approval_status,
+            current_blocker_ref, next_action_json, last_event_id, last_event_time,
+            slot_versions_json, supporting_event_ids, updated_at
+          ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+          ON CONFLICT(task_ref) DO UPDATE SET
+            current_owner_ref = excluded.current_owner_ref,
+            current_stage = excluded.current_stage,
+            current_approval_ref = excluded.current_approval_ref,
+            approval_status = excluded.approval_status,
+            current_blocker_ref = excluded.current_blocker_ref,
+            next_action_json = excluded.next_action_json,
+            last_event_id = excluded.last_event_id,
+            last_event_time = excluded.last_event_time,
+            slot_versions_json = excluded.slot_versions_json,
+            supporting_event_ids = excluded.supporting_event_ids,
+            updated_at = excluded.updated_at`,
+        )
+        .run(
+          state.task_ref,
+          state.current_owner_ref,
+          state.current_stage,
+          state.current_approval_ref,
+          state.approval_status,
+          state.current_blocker_ref,
+          state.next_action_json,
+          state.last_event_id,
+          state.last_event_time,
+          state.slot_versions_json,
+          state.supporting_event_ids,
+          state.updated_at,
+        );
+      results.push(state);
+    }
+    return results;
+  }
+
+  private upsertGraphEntitiesV2InTransaction(
+    evidence: EvidenceRecordV2,
+    events: EventRecordV2[],
+  ): GraphEntityV2[] {
+    const entities = deriveGraphEntitiesV2(evidence, events);
+    const upsert = this.db.prepare(
+      `INSERT INTO graph_entities_v2(
+        entity_ref, entity_type, canonical_name, alias_json, first_seen_at, last_seen_at,
+        last_evidence_id, updated_at
+      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+      ON CONFLICT(entity_ref) DO UPDATE SET
+        entity_type = excluded.entity_type,
+        canonical_name = excluded.canonical_name,
+        alias_json = excluded.alias_json,
+        first_seen_at = MIN(graph_entities_v2.first_seen_at, excluded.first_seen_at),
+        last_seen_at = MAX(graph_entities_v2.last_seen_at, excluded.last_seen_at),
+        last_evidence_id = excluded.last_evidence_id,
+        updated_at = excluded.updated_at`,
+    );
+    for (const entity of entities) {
+      upsert.run(
+        entity.entity_ref,
+        entity.entity_type,
+        entity.canonical_name,
+        entity.alias_json,
+        entity.first_seen_at,
+        entity.last_seen_at,
+        entity.last_evidence_id,
+        entity.updated_at,
+      );
+    }
+    return entities;
+  }
+
+  private upsertGraphEdgesV2InTransaction(events: EventRecordV2[]): GraphEdgeV2[] {
+    const mutations = deriveGraphEdgeMutationsV2(events);
+    if (mutations.closes.length > 0) {
+      const close = this.db.prepare(
+        `UPDATE graph_edges_v2
+         SET active = 0, valid_to = ?, updated_at = ?
+         WHERE src_ref = ? AND edge_type = ? AND active = 1`,
+      );
+      for (const mutation of mutations.closes) {
+        close.run(mutation.closed_at, Date.now(), mutation.src_ref, mutation.edge_type);
+      }
+    }
+    const persisted: GraphEdgeV2[] = [];
+    const lookup = this.db.prepare("SELECT * FROM graph_edges_v2 WHERE edge_key = ?");
+    const insert = this.db.prepare(
+      `INSERT INTO graph_edges_v2(
+        edge_id, edge_key, src_ref, edge_type, dst_ref, derived_from_event_id, active,
+        valid_from, valid_to, updated_at
+      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+    );
+    const update = this.db.prepare(
+      `UPDATE graph_edges_v2
+       SET src_ref = ?, edge_type = ?, dst_ref = ?, derived_from_event_id = ?, active = ?,
+           valid_from = ?, valid_to = ?, updated_at = ?
+       WHERE edge_key = ?`,
+    );
+    for (const mutation of mutations.upserts) {
+      const existingRow = lookup.get(mutation.edge_key) as Record<string, unknown> | undefined;
+      const existing = existingRow ? rowToGraphEdgeV2(existingRow) : null;
+      const next = reopenOrCreateEdgeV2({ existing, upsert: mutation });
+      const edgeId = existing?.edge_id || generateUlid();
+      if (existing) {
+        update.run(
+          next.src_ref,
+          next.edge_type,
+          next.dst_ref,
+          next.derived_from_event_id,
+          next.active,
+          next.valid_from,
+          next.valid_to,
+          next.updated_at,
+          next.edge_key,
+        );
+      } else {
+        insert.run(
+          edgeId,
+          next.edge_key,
+          next.src_ref,
+          next.edge_type,
+          next.dst_ref,
+          next.derived_from_event_id,
+          next.active,
+          next.valid_from,
+          next.valid_to,
+          next.updated_at,
+        );
+      }
+      persisted.push({ ...next, edge_id: edgeId });
+    }
+    return persisted;
+  }
+
+  async persistSemanticBatchV2(params: {
+    evidence: EvidenceRecordV2;
+    events: EventRecordV2[];
+  }): Promise<{
+    evidence: EvidenceRecordV2;
+    events: EventRecordV2[];
+    states: WorkflowStateViewV2[];
+    entities: GraphEntityV2[];
+    edges: GraphEdgeV2[];
+  }> {
+    this.db.exec("BEGIN IMMEDIATE");
+    try {
+      const evidence = this.upsertEvidenceRecordV2InTransaction(params.evidence);
+      const normalizedEvents = params.events.map((event) => {
+        const payloadJson = (() => {
+          try {
+            return JSON.parse(event.payload_json) as unknown;
+          } catch {
+            return {};
+          }
+        })();
+        return {
+          ...event,
+          evidence_id: evidence.evidence_id,
+          event_fingerprint: buildEventFingerprint({
+            evidenceId: evidence.evidence_id,
+            eventType: event.event_type,
+            subjectRef: event.subject_ref,
+            objectRef: event.object_ref,
+            occurredAt: event.occurred_at,
+            payloadJson,
+          }),
+        };
+      });
+      const events = this.insertEventsV2InTransaction(normalizedEvents);
+      const entities = this.upsertGraphEntitiesV2InTransaction(evidence, events);
+      const states = this.upsertWorkflowStateV2InTransaction(events);
+      const edges = this.upsertGraphEdgesV2InTransaction(events);
+      this.db.exec("COMMIT");
+      return { evidence, events, states, entities, edges };
+    } catch (err) {
+      this.db.exec("ROLLBACK");
+      throw err;
+    }
+  }
+
+  getEvidenceByIdV2(evidenceId: string): EvidenceRecordV2 | null {
+    const row = this.db
+      .prepare("SELECT * FROM evidence_records WHERE evidence_id = ?")
+      .get(evidenceId) as Record<string, unknown> | undefined;
+    return row ? rowToEvidenceV2(row) : null;
+  }
+
+  getEventByIdV2(eventId: string): EventRecordV2 | null {
+    const row = this.db
+      .prepare("SELECT * FROM event_records_v2 WHERE event_id = ?")
+      .get(eventId) as Record<string, unknown> | undefined;
+    return row ? rowToEventV2(row) : null;
+  }
+
+  getEventsByIdsV2(eventIds: string[]): EventRecordV2[] {
+    const unique = [...new Set(eventIds.filter(Boolean))];
+    if (unique.length === 0) {
+      return [];
+    }
+    const placeholders = unique.map(() => "?").join(", ");
+    const rows = this.db
+      .prepare(`SELECT * FROM event_records_v2 WHERE event_id IN (${placeholders})`)
+      .all(...unique) as Array<Record<string, unknown>>;
+    return rows.map(rowToEventV2);
+  }
+
+  getWorkflowStateV2(taskRef: string): WorkflowStateViewV2 | null {
+    return this.getWorkflowStateV2InTransaction(taskRef);
+  }
+
+  listWorkflowStatesV2(filters?: {
+    ownerRef?: string;
+    stage?: string;
+    approvalStatus?: string;
+  }): WorkflowStateViewV2[] {
+    const clauses: string[] = [];
+    const values: string[] = [];
+    if (filters?.ownerRef) {
+      clauses.push("current_owner_ref = ?");
+      values.push(filters.ownerRef);
+    }
+    if (filters?.stage) {
+      clauses.push("current_stage = ?");
+      values.push(filters.stage);
+    }
+    if (filters?.approvalStatus) {
+      clauses.push("approval_status = ?");
+      values.push(filters.approvalStatus);
+    }
+    const where = clauses.length > 0 ? `WHERE ${clauses.join(" AND ")}` : "";
+    const rows = this.db
+      .prepare(
+        `SELECT * FROM workflow_state_view_v2 ${where} ORDER BY updated_at DESC, task_ref ASC`,
+      )
+      .all(...values) as Array<Record<string, unknown>>;
+    return rows.map(rowToWorkflowStateV2);
+  }
+
+  listEventsForRefV2(ref: string, limit = 50): EventRecordV2[] {
+    const rows = this.db
+      .prepare(
+        `SELECT * FROM event_records_v2
+         WHERE subject_ref = ?
+            OR object_ref = ?
+            OR related_refs_json LIKE ?
+         ORDER BY occurred_at ASC, created_at ASC
+         LIMIT ?`,
+      )
+      .all(ref, ref, `%${ref}%`, Math.max(1, limit)) as Array<Record<string, unknown>>;
+    return rows.map(rowToEventV2);
+  }
+
+  listActiveEdgesForRefV2(ref: string): GraphEdgeV2[] {
+    const rows = this.db
+      .prepare(
+        `SELECT * FROM graph_edges_v2
+         WHERE active = 1 AND (src_ref = ? OR dst_ref = ?)
+         ORDER BY edge_type ASC, src_ref ASC, dst_ref ASC`,
+      )
+      .all(ref, ref) as Array<Record<string, unknown>>;
+    return rows.map(rowToGraphEdgeV2);
+  }
+
+  findEntityMatchesV2(query: string, limit = 10): GraphEntityV2[] {
+    const normalized = query.trim();
+    if (!normalized) {
+      return [];
+    }
+    const exactRows = this.db
+      .prepare(
+        `SELECT * FROM graph_entities_v2
+         WHERE entity_ref = ? OR canonical_name = ?
+         ORDER BY last_seen_at DESC, entity_ref ASC
+         LIMIT ?`,
+      )
+      .all(normalized, normalized, Math.max(1, limit)) as Array<Record<string, unknown>>;
+    if (exactRows.length > 0) {
+      return exactRows.map(rowToGraphEntityV2);
+    }
+    const fuzzyRows = this.db
+      .prepare(
+        `SELECT * FROM graph_entities_v2
+         WHERE canonical_name LIKE ? OR alias_json LIKE ? OR entity_ref LIKE ?
+         ORDER BY last_seen_at DESC, entity_ref ASC
+         LIMIT ?`,
+      )
+      .all(`%${normalized}%`, `%${normalized}%`, `%${normalized}%`, Math.max(1, limit)) as Array<
+      Record<string, unknown>
+    >;
+    return fuzzyRows.map(rowToGraphEntityV2);
+  }
+
   getStatus() {
     const eventRow = this.db.prepare("SELECT COUNT(*) AS count FROM event_records").get() as {
       count?: number;
@@ -1944,6 +2588,21 @@ export class CanonicalStore {
       .get() as {
       count?: number;
     };
+    const evidenceV2Row = this.db
+      .prepare("SELECT COUNT(*) AS count FROM evidence_records")
+      .get() as { count?: number };
+    const eventsV2Row = this.db.prepare("SELECT COUNT(*) AS count FROM event_records_v2").get() as {
+      count?: number;
+    };
+    const entitiesV2Row = this.db
+      .prepare("SELECT COUNT(*) AS count FROM graph_entities_v2")
+      .get() as { count?: number };
+    const edgesV2Row = this.db.prepare("SELECT COUNT(*) AS count FROM graph_edges_v2").get() as {
+      count?: number;
+    };
+    const workflowV2Row = this.db
+      .prepare("SELECT COUNT(*) AS count FROM workflow_state_view_v2")
+      .get() as { count?: number };
     const pendingProjectionRow = this.db
       .prepare(
         `SELECT COUNT(*) AS count FROM projection_inbox
@@ -1952,11 +2611,16 @@ export class CanonicalStore {
       .get() as { count?: number } | undefined;
     return {
       dbPath: this.dbPath,
-      eventsTotal: eventRow.count ?? 0,
-      entitiesTotal: entityRow.count ?? 0,
-      canonicalEntitiesTotal: kgEntityRow.count ?? 0,
-      graphEdgesTotal: edgeRow.count ?? 0,
-      workflowStatesTotal: workflowRow.count ?? 0,
+      eventsTotal: Math.max(eventRow.count ?? 0, eventsV2Row.count ?? 0),
+      entitiesTotal: Math.max(entityRow.count ?? 0, workflowV2Row.count ?? 0),
+      canonicalEntitiesTotal: Math.max(kgEntityRow.count ?? 0, entitiesV2Row.count ?? 0),
+      graphEdgesTotal: Math.max(edgeRow.count ?? 0, edgesV2Row.count ?? 0),
+      workflowStatesTotal: Math.max(workflowRow.count ?? 0, workflowV2Row.count ?? 0),
+      evidenceRecordsV2Total: evidenceV2Row.count ?? 0,
+      eventRecordsV2Total: eventsV2Row.count ?? 0,
+      graphEntitiesV2Total: entitiesV2Row.count ?? 0,
+      graphEdgesV2Total: edgesV2Row.count ?? 0,
+      workflowStatesV2Total: workflowV2Row.count ?? 0,
       schemaVersion: this.getMeta("schema_version") ?? CANONICAL_SCHEMA_VERSION,
       extractorVersion: this.getMeta("extractor_version") ?? EXTRACTOR_VERSION,
       projectionVersion: this.getMeta("projection_version") ?? GRAPH_PROJECTION_VERSION,

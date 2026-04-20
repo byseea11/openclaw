@@ -1,7 +1,12 @@
-import type { MemorySearchResult } from "openclaw/plugin-sdk/memory-core-host-runtime-files";
 import { parseSourceRef, type GraphHit } from "./schema.js";
 
-export type GraphMemorySearchResult = MemorySearchResult & {
+export type GraphMemorySearchResult = {
+  path: string;
+  startLine: number;
+  endLine: number;
+  score: number;
+  snippet: string;
+  source: "memory";
   corpus: "graph";
   graphMeta: {
     type: GraphHit["type"];
@@ -46,11 +51,22 @@ export function renderGraphHit(hit: GraphHit): string {
       .join("\n");
   }
   if (hit.type === "state") {
+    const owner =
+      typeof structured.current_owner_ref === "string"
+        ? structured.current_owner_ref
+        : structured.latest_owner;
+    const stage =
+      typeof structured.current_stage === "string"
+        ? structured.current_stage
+        : structured.latest_status;
     return [
       "[Graph state]",
       `entity: ${hit.entity_id}`,
-      optionalLine("status", structured.latest_status),
-      optionalLine("owner", structured.latest_owner),
+      optionalLine("status", stage),
+      optionalLine("owner", owner),
+      optionalLine("approval", structured.current_approval_ref),
+      optionalLine("approval_status", structured.approval_status),
+      optionalLine("blocker", structured.current_blocker_ref),
       `last_updated: ${formatDate(structured.last_updated_at)}`,
       `source: ${hit.source_ref}`,
     ]

@@ -6,7 +6,7 @@ import {
 } from "openclaw/plugin-sdk/memory-core-host-engine-foundation";
 import type { OpenClawConfig } from "openclaw/plugin-sdk/memory-core-host-runtime-core";
 import { bootstrapCanonicalIndex } from "./bootstrap.js";
-import { canonicalize } from "./canonicalizer.js";
+import { canonicalizeV2 } from "./canonicalizer-v2.js";
 import { parseGraphJsonBlockWithStatus } from "./extractor.js";
 import {
   drainPendingGraphUpdates,
@@ -14,8 +14,7 @@ import {
   handleGraphBeforeCompaction,
 } from "./projection.js";
 import { graphHitToMemorySearchResult, type GraphMemorySearchResult } from "./prompt.js";
-import { plannerResultToTraceSearch } from "./retriever-groups.js";
-import { search_graph_with_plan } from "./retriever.js";
+import { searchGraphV2 } from "./query-v2.js";
 import {
   describeGraphIndexConfig,
   EXTRACTOR_VERSION,
@@ -87,6 +86,7 @@ function emptyGraphMetrics(): GraphMetricsSnapshot {
 
 export { bootstrapCanonicalIndex } from "./bootstrap.js";
 export { bootstrapCanonicalIndex as rebuildGraphIndex } from "./bootstrap.js";
+export { canonicalizeV2 } from "./canonicalizer-v2.js";
 export { canonicalize, canonicalizeEntityId, createEventId } from "./canonicalizer.js";
 export { deriveGraphObjects, normalizeEntityAlias } from "./kg.js";
 export {
@@ -113,7 +113,7 @@ export {
 } from "./projection.js";
 export { reduce } from "./reducer.js";
 export { search_graph, search_graph_with_plan } from "./retriever.js";
-export { plannerResultToTraceSearch } from "./retriever-groups.js";
+export { classifyQueryV2, resolveEntityRefV2, searchGraphV2 } from "./query-v2.js";
 export {
   __testing as canonicalUsageTesting,
   markGraphHitsUsedFromAssistantTexts,
@@ -171,34 +171,38 @@ export async function handleGraphFlushResult(params: {
     if (rawEvents.length === 0) {
       return { parsedEvents: 0, persistedEvents: 0 };
     }
-    const records = canonicalize(rawEvents, EXTRACTOR_VERSION);
-    const persisted = await store.persistCanonicalBatch(records);
-    log.info(`canonical.flush.persisted records=${records.length}`);
+    const canonicalized = canonicalizeV2({
+      sourceId: params.agentId,
+      sourceRef: rawEvents[0]?.source_ref ?? "transcripts/flush.txt#L1-L1",
+      text: params.outputText,
+      entries: [],
+      rawEvents,
+      sourcePlatform: "flush",
+      sourceKind: "flush_graph_json",
+    });
+    const persisted = await store.persistSemanticBatchV2(canonicalized);
+    log.info(`canonical.flush.persisted records=${persisted.events.length}`);
     recordGraphIndexTrace({
       cfg: params.cfg,
       message: "canonical.flush.kg_persisted",
-      summary: `records=${records.length} entities=${persisted.graphObjects.entities.length} edges=${persisted.graphObjects.edges.length}`,
+      summary: `records=${persisted.events.length} entities=${persisted.entities.length} edges=${persisted.edges.length}`,
       event: {
-        trace_id: buildGraphTraceId(["flush", records[0]?.event_id, "kg_persisted"]),
+        trace_id: buildGraphTraceId(["flush", persisted.events[0]?.event_id, "kg_persisted"]),
         stage: "kg_objects_derived",
         source_kind: "flush",
         tables: {
-          canonical_entities: {
-            table: "canonical_entities",
-            persisted: persisted.graphObjects.entities.length,
+          graph_entities_v2: {
+            table: "graph_entities_v2",
+            persisted: persisted.entities.length,
           },
-          entity_aliases: {
-            table: "entity_aliases",
-            persisted: persisted.graphObjects.aliases.length,
-          },
-          graph_edges: {
-            table: "graph_edges",
-            persisted: persisted.graphObjects.edges.length,
+          graph_edges_v2: {
+            table: "graph_edges_v2",
+            persisted: persisted.edges.length,
           },
         },
       },
     });
-    return { parsedEvents: rawEvents.length, persistedEvents: records.length };
+    return { parsedEvents: rawEvents.length, persistedEvents: persisted.events.length };
   } catch (err) {
     log.warn(`[canonical] flush.fallback error=${String(err)}`);
     return { parsedEvents: 0, persistedEvents: 0 };
@@ -309,7 +313,7 @@ export async function searchGraphForMemoryTool(params: {
         reason: "recall",
       });
     }
-    const { hits, plannerResult } = await search_graph_with_plan(
+    const { hits, queryClass, resolvedRef } = await searchGraphV2(
       store,
       params.query,
       Math.max(1, params.maxResults ?? 5),
@@ -345,7 +349,8 @@ export async function searchGraphForMemoryTool(params: {
           query: params.query,
           hits: hits.length,
           rendered: results.length,
-          ...(plannerResult ? plannerResultToTraceSearch(plannerResult) : {}),
+          query_class: queryClass,
+          resolved_ref: resolvedRef,
           strong_edge_hits: hits.filter((hit) => hit.type === "edge").length,
           weak_edge_hits: hits.filter((hit) => {
             if (hit.type !== "edge" || typeof hit.snippet_structured.relation !== "string") {
@@ -364,7 +369,7 @@ export async function searchGraphForMemoryTool(params: {
         },
         call: {
           function: "searchGraphForMemoryTool",
-          steps: ["search_graph", "recordReturnedGraphHits", "graphHitToMemorySearchResult"],
+          steps: ["searchGraphV2", "recordReturnedGraphHits", "graphHitToMemorySearchResult"],
         },
       },
     });
