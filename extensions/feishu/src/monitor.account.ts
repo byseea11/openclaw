@@ -32,6 +32,7 @@ import { getMessageFeishu } from "./send.js";
 import { getFeishuSequentialKey } from "./sequential-key.js";
 import { createSequentialQueue } from "./sequential-queue.js";
 import { createFeishuThreadBindingManager } from "./thread-bindings.js";
+import { recordFeishuIngressTrace } from "./trace.js";
 import type { FeishuChatType, ResolvedFeishuAccount } from "./types.js";
 
 const FEISHU_REACTION_VERIFY_TIMEOUT_MS = 1_500;
@@ -546,6 +547,7 @@ function registerEventHandlers(
         error(`feishu[${accountId}]: ignoring malformed message event payload`);
         return;
       }
+      recordFeishuIngressTrace({ log, accountId, event });
       const messageId = event.message?.message_id?.trim();
       if (!tryBeginFeishuMessageProcessing(messageId, accountId)) {
         log(`feishu[${accountId}]: dropping duplicate event for message ${messageId}`);

@@ -54,6 +54,7 @@ import { resolveFeishuReasoningPreviewEnabled } from "./reasoning-preview.js";
 import { createFeishuReplyDispatcher } from "./reply-dispatcher.js";
 import { getFeishuRuntime } from "./runtime.js";
 import { getMessageFeishu, listFeishuThreadMessages, sendMessageFeishu } from "./send.js";
+import { recordFeishuNormalizedTrace, recordFeishuRouteTrace } from "./trace.js";
 export type { FeishuBotAddedEvent, FeishuMessageEvent } from "./event-types.js";
 import type { FeishuMessageEvent } from "./event-types.js";
 import type { FeishuMessageContext, FeishuMessageInfo } from "./types.js";
@@ -305,6 +306,7 @@ export async function handleFeishuMessage(params: {
   const isGroup = ctx.chatType === "group";
   const isDirect = !isGroup;
   const senderUserId = normalizeOptionalString(event.sender.sender_id.user_id);
+  const rawContent = event.message.content;
 
   // Handle merge_forward messages: fetch full message via API then expand sub-messages
   if (event.message.message_type === "merge_forward") {
@@ -363,6 +365,15 @@ export async function handleFeishuMessage(params: {
       }
     }
   }
+
+  recordFeishuNormalizedTrace({
+    log,
+    accountId: account.accountId,
+    ctx,
+    rawContent,
+    senderUserId,
+    senderName: ctx.senderName ?? null,
+  });
 
   log(
     `feishu[${account.accountId}]: received message from ${ctx.senderOpenId} in ${ctx.chatId} (${ctx.chatType})`,
@@ -676,6 +687,19 @@ export async function handleFeishuMessage(params: {
         );
       }
     }
+
+    recordFeishuRouteTrace({
+      log,
+      accountId: account.accountId,
+      ctx,
+      groupSession,
+      route,
+      peerId,
+      parentPeerId: parentPeer?.id ?? null,
+      replyInThread,
+      currentConversationId,
+      parentConversationId,
+    });
 
     if (configuredBinding) {
       const ensured = await ensureConfiguredBindingRouteReady({
