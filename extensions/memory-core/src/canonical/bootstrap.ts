@@ -71,7 +71,6 @@ export async function bootstrapCanonicalIndex(params: {
   if (params.force) {
     store.reset();
   }
-  store.setMeta("extractor_version", EXTRACTOR_VERSION);
   let recordsWritten = 0;
   let eventsExtracted = 0;
   for (const [index, filePath] of files.entries()) {
@@ -80,7 +79,17 @@ export async function bootstrapCanonicalIndex(params: {
     const sourceRef = sourceRefForFile(params.workspaceDir, filePath, lineCount);
     log.info(`canonical.bootstrap.file source_ref=${sourceRef}`);
     const extractStartedAt = Date.now();
-    const raw = await extract(text, sourceRef);
+    let raw;
+    try {
+      raw = await extract(text, sourceRef);
+    } catch (err) {
+      store.recordExtractorLatency(Date.now() - extractStartedAt);
+      store.bumpMetric("extractFailures", 1);
+      log.warn(
+        `[canonical] bootstrap.extract_failed source_ref=${sourceRef} error=${String(err)}`,
+      );
+      throw err;
+    }
     store.recordExtractorLatency(Date.now() - extractStartedAt);
     store.bumpMetric("extractSuccesses", 1);
     eventsExtracted += raw.length;
@@ -103,6 +112,7 @@ export async function bootstrapCanonicalIndex(params: {
       label: `Graph bootstrap ${path.basename(filePath)}`,
     });
   }
+  store.setMeta("extractor_version", EXTRACTOR_VERSION);
   log.info(
     `canonical.bootstrap.done files=${files.length} events=${eventsExtracted} records=${recordsWritten}`,
   );

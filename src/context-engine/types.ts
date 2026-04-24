@@ -1,5 +1,6 @@
 import type { AgentMessage } from "@mariozechner/pi-agent-core";
 import type { MemoryCitationsMode } from "../config/types.memory.js";
+import type { OpenClawConfig } from "../config/types.openclaw.js";
 
 // Result types
 
@@ -10,6 +11,12 @@ export type AssembleResult = {
   estimatedTokens: number;
   /** Optional context-engine-provided instructions prepended to the runtime system prompt */
   systemPromptAddition?: string;
+  /**
+   * Optional current-turn-only text prepended directly before the incoming user prompt.
+   *
+   * This is intentionally ephemeral: runners must not persist it into the transcript.
+   */
+  currentUserPromptPrefix?: string;
 };
 
 export type CompactResult = {
@@ -226,6 +233,10 @@ export interface ContextEngine {
     sessionKey?: string;
     messages: AgentMessage[];
     tokenBudget?: number;
+    /** Runtime configuration for engines that need plugin-owned stores or retrieval settings. */
+    config?: OpenClawConfig;
+    /** Runtime-resolved agent id for engines that need agent-scoped stores. */
+    agentId?: string;
     /** Tool names available for this run so engines can align prompt guidance with runtime tool access. */
     availableTools?: Set<string>;
     /** Active memory citation mode when engines want to mirror memory prompt guidance. */

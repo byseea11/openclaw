@@ -12,6 +12,7 @@ import {
 import { registerMemoryCli } from "./src/cli.js";
 import { registerDreamingCommand } from "./src/dreaming-command.js";
 import { registerShortTermPromotionDreaming } from "./src/dreaming.js";
+import { createMemoryCoreContextEngine } from "./src/context-engine.js";
 import {
   buildMemoryFlushPlan,
   DEFAULT_MEMORY_FLUSH_FORCE_TRANSCRIPT_BYTES,
@@ -35,7 +36,7 @@ export default definePluginEntry({
   id: "memory-core",
   name: "Memory (Core)",
   description: "File-backed memory search tools and CLI",
-  kind: "memory",
+  kind: ["memory", "context-engine"],
   register(api) {
     const extractorRuntime = createPluginRuntime({ allowGatewaySubagentBinding: true });
     setDefaultExtractorClient(
@@ -44,6 +45,7 @@ export default definePluginEntry({
     registerBuiltInMemoryEmbeddingProviders(api);
     registerShortTermPromotionDreaming(api);
     registerDreamingCommand(api);
+    api.registerContextEngine("memory-core", () => createMemoryCoreContextEngine());
     api.registerMemoryCapability({
       promptBuilder: buildPromptSection,
       flushPlanResolver: buildMemoryFlushPlan,

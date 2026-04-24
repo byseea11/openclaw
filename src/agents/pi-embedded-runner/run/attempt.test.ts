@@ -9,6 +9,7 @@ import {
   composeSystemPromptWithHookContext,
   decodeHtmlEntitiesInObject,
   mergeOrphanedTrailingUserPrompt,
+  prependCurrentUserPromptPrefix,
   prependSystemPromptAddition,
   resetEmbeddedAgentBaseStreamFnCacheForTest,
   resolveEmbeddedAgentBaseStreamFn,
@@ -2379,6 +2380,27 @@ describe("prependSystemPromptAddition", () => {
     });
 
     expect(result).toBe("base system");
+  });
+});
+
+describe("prependCurrentUserPromptPrefix", () => {
+  it("prepends current-turn memory context to the user prompt", () => {
+    const result = prependCurrentUserPromptPrefix({
+      prompt: "What is blocking FEISHU-231?",
+      currentUserPromptPrefix: "## Current Memory Context\n- FEISHU-231 is blocked by AP-778.",
+    });
+
+    expect(result).toBe(
+      "## Current Memory Context\n- FEISHU-231 is blocked by AP-778.\n\nWhat is blocking FEISHU-231?",
+    );
+  });
+
+  it("returns the original prompt when no current-turn prefix is provided", () => {
+    const result = prependCurrentUserPromptPrefix({
+      prompt: "What is blocking FEISHU-231?",
+    });
+
+    expect(result).toBe("What is blocking FEISHU-231?");
   });
 });
 

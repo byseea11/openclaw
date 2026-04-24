@@ -3,6 +3,15 @@ import { parseSourceRef, type RawEvent } from "./schema.js";
 
 const log = createSubsystemLogger("memory");
 
+const WORKFLOW_ACTIONS = new Set([
+  "assigned_owner",
+  "changed_status",
+  "approval_status_updated",
+  "next_action_set",
+]);
+
+const PRECISE_SOURCE_REF_RE = /#L\d+-L\d+$/;
+
 export type CanonicalExtractorRequest = {
   prompt: string;
   sourceRef: string;
@@ -21,51 +30,57 @@ type GraphJsonParseResult = {
   events: RawEvent[];
 };
 
-type DateContext = {
-  currentDate?: string;
-  defaultDate?: string;
-  currentEntity?: string;
-};
+export const GRAPH_EXTRACTOR_ERROR_CODES = [
+  "extractor_unavailable",
+  "extractor_timeout",
+  "extractor_invalid_json",
+  "extractor_empty_output",
+] as const;
 
-const CHECKBOX_RE = /^[-*]\s+\[( |x|X)\]\s+(.+)$/;
-const STATUS_LINE_RE =
-  /^(?<prefix>.+?)?(?:[-*]\s*)?(?:\*\*)?(?:status|当前状态|状态)(?:\*\*)?\s*[:：]\s*(?<status>[A-Za-z][A-Za-z _-]*)(?:\s*[（(][^)）]+[)）])?$/i;
-const OWNER_LINE_RE =
-  /^(?<prefix>.+?)?(?:[-*]\s*)?(?:\*\*)?(?:owner|跟进人|负责人)(?:\*\*)?\s*[:：]\s*(?<owner>.+)$/i;
-const DECIDED_RE = /^(?:(?<actor>[A-Z][A-Za-z0-9_.-]+)\s+)?decided to\s+(?<decision>.+)$/i;
-const EXPLICIT_STATUS_RE =
-  /\b(?<object>[A-Za-z][\w./:-]*\d[\w./:-]*)\s+is\s+(?<status>blocked|done|in progress|pending|open)\b/i;
-const INLINE_DATE_RE = /\b(20\d{2}-\d{2}-\d{2})\b/;
-const DATE_HEADING_RE = /^(?:#{1,6}\s*)?(20\d{2}-\d{2}-\d{2})(?:\b.*)?$/;
-const ENTITY_HEADING_RE =
-  /^(?:\[[^\]]+\]\s+[A-Za-z_]+:\s*)?(?:#{1,6}\s*)?(?:[-*]\s*)?(?:\*\*)?(?<entity>[A-Za-z][\w./:-]*\d[\w./:-]*)\b/i;
+export type GraphExtractorErrorCode = (typeof GRAPH_EXTRACTOR_ERROR_CODES)[number];
 
 const EXTRACTOR_SYSTEM_PROMPT = [
-  "You extract canonical graph events from OpenClaw transcript or memory-file spans.",
-  "Return JSON only, with this exact shape:",
-  '{"events":[{"actor":"Alice","action":"assigned_owner","object":"FEISHU-231","object_type":"task","status_before":null,"status_after":null,"occurred_at":"2026-04-18","source_ref":"transcripts/example.txt#L2-L2","confidence":0.82}]}',
+  "You extract workflow graph events from OpenClaw transcript or memory-file spans.",
+  "Return JSON only with this exact shape:",
+  '{"events":[{"actor":"xzy","action":"assigned_owner","object":"FEISHU-231","status_before":null,"status_after":null,"occurred_at":"2026-04-18","source_ref":"transcripts/example.txt#L2-L2","confidence":0.92}]}',
+  "Only emit workflow events that can feed Graph Index V2.",
+  "Allowed actions:",
+  "- assigned_owner",
+  "- changed_status",
+  "- approval_status_updated",
+  "- next_action_set",
+  "How these map downstream:",
+  "- owner_changed -> action=assigned_owner, actor=new owner, object=task id when possible",
+  "- blocked/unblocked/stage_changed -> action=changed_status with status_after set to blocked, unblocked, resolved, pending, in_progress, done, or another explicit workflow stage",
+  "- approval_status_updated -> action=approval_status_updated with object set to the approval ref when possible and status_after set to approved, rejected, pending, submitted, or unknown",
+  "- next_action_set -> action=next_action_set with actor set to the assignee when known and object set to the action text",
   "Rules:",
   "- Never call tools and never add prose.",
-  "- Use only facts that are explicitly supported by the provided text.",
-  "- Extract task/project facts when present, using actions like changed_status, assigned_owner, decided, updated_deadline.",
-  "- When clear, include object_type as one of person, team, project, task, decision, document, meeting, customer, other.",
-  "- Also extract long-memory conversational facts that are useful for later recall: biographical_fact, relationship_fact, preference_fact, plan_or_intent, life_event, location_fact, work_or_school_fact, health_fact.",
-  "- For conversational facts, set actor to the speaker/person the fact is about when the line makes it clear.",
-  "- For conversational facts, set object to a concise self-contained fact phrase that includes the important names, objects, dates, places, or preferences.",
-  "- When transcript lines include metadata such as `Session date: YYYY-MM-DD`, use that date to resolve relative dates like yesterday, today, tomorrow, last week, last Friday, and this month.",
-  "- If a relative date cannot be resolved from explicit line or session metadata, keep the relative phrase in `object` and omit `occurred_at` instead of inventing today's date.",
-  "- Prefer the original user/speaker line for source_ref, not assistant paraphrases, summaries, or later recall answers.",
-  "- Do not require a ticket id or task id; ordinary personal facts and plans are valid graph events.",
-  "- Prefer user-stated facts over assistant encouragement or paraphrase. Skip generic small talk with no durable fact.",
-  "- Return up to 16 high-value events per span. Split distinct durable facts into separate events.",
-  "- `source_ref` must always point at the most specific supporting line using the provided source path and line numbers.",
   '- If nothing should be extracted, return {"events":[]}.',
+  "- Split one span into multiple events when the text contains multiple workflow changes.",
+  "- Use only facts explicitly supported by the text. Do not invent old owners, old stages, deadlines, or hidden state.",
+  "- Extract only task-centric workflow events. If the text does not clearly anchor to a task/ticket/work item, return no events.",
+  "- Prefer the smallest supporting line span for source_ref and always use SOURCE_PATH#Lx-Lx form.",
+  "- Keep object concise. For task-centric status changes, prefer the task id in object when present.",
+  "- Keep actor concise. Use the assignee/new owner only when the text states it clearly.",
+  "- Do not emit conversational memory facts such as preferences, biography, relationships, location, health, or general life events.",
   "Examples:",
-  '{"events":[{"actor":"Caroline","action":"work_or_school_fact","object":"Caroline is researching internships for the summer","source_ref":"transcripts/example.txt#L4-L4","confidence":0.86}]}',
-  '{"events":[{"actor":"Caroline","action":"preference_fact","object":"Caroline loves spending time with family","source_ref":"transcripts/example.txt#L7-L7","confidence":0.78}]}',
+  '{"events":[{"actor":"xzy","action":"assigned_owner","object":"FEISHU-231","occurred_at":"2026-04-18","source_ref":"transcripts/example.txt#L2-L2","confidence":0.93}]}',
+  '{"events":[{"action":"changed_status","object":"FEISHU-231","status_after":"blocked","occurred_at":"2026-04-18","source_ref":"transcripts/example.txt#L3-L3","confidence":0.95}]}',
+  '{"events":[{"actor":"Bob","action":"next_action_set","object":"先补材料再提","occurred_at":"2026-04-18","source_ref":"transcripts/example.txt#L4-L4","confidence":0.88}]}',
 ].join("\n");
 
 let defaultLlmClient: LLMClient | null = null;
+
+export class GraphExtractorError extends Error {
+  readonly code: GraphExtractorErrorCode;
+
+  constructor(code: GraphExtractorErrorCode, message: string, options?: { cause?: unknown }) {
+    super(message, options);
+    this.name = "GraphExtractorError";
+    this.code = code;
+  }
+}
 
 function isRawEvent(value: unknown): value is RawEvent {
   const record = value && typeof value === "object" ? (value as Record<string, unknown>) : null;
@@ -116,10 +131,6 @@ function sourcePathFromSourceRef(sourceRef: string): string {
   );
 }
 
-function sourceRefForLine(path: string, line: number): string {
-  return `${path}#L${line}-L${line}`;
-}
-
 function buildExtractionPrompt(text: string, sourceRef: string): CanonicalExtractorRequest {
   const sourcePath = sourcePathFromSourceRef(sourceRef);
   const { numberedText, lineCount } = lineNumberedText(text);
@@ -132,226 +143,12 @@ function buildExtractionPrompt(text: string, sourceRef: string): CanonicalExtrac
       `SOURCE_PATH: ${sourcePath}`,
       `LINE_COUNT: ${lineCount}`,
       "",
-      "Extract canonical graph events from the numbered lines below.",
+      "Extract workflow graph events from the numbered lines below.",
       "Each event must use a line-precise source_ref like SOURCE_PATH#Lx-Lx.",
       "",
       numberedText,
     ].join("\n"),
   };
-}
-
-function normalizeStatus(raw: string): string {
-  const normalized = normalizeWhitespace(raw).toLowerCase();
-  switch (normalized) {
-    case "x":
-    case "done":
-    case "complete":
-    case "completed":
-      return "done";
-    case "blocked":
-      return "blocked";
-    case "in-progress":
-    case "in progress":
-      return "in_progress";
-    case "todo":
-    case "open":
-    case "pending":
-      return "pending";
-    default:
-      return normalized.replace(/\s+/g, "_");
-  }
-}
-
-function extractDateFromSourcePath(sourcePath: string): string | undefined {
-  const match = sourcePath.match(/(?:^|\/)(20\d{2}-\d{2}-\d{2})\.md$/);
-  return match?.[1];
-}
-
-function updateDateContext(line: string, ctx: DateContext): void {
-  const headingMatch = line.trim().match(DATE_HEADING_RE);
-  if (headingMatch?.[1]) {
-    ctx.currentDate = headingMatch[1];
-    return;
-  }
-  const inlineMatch = line.match(INLINE_DATE_RE);
-  if (inlineMatch?.[1]) {
-    ctx.currentDate = inlineMatch[1];
-  }
-}
-
-function updateEntityContext(line: string, ctx: DateContext): void {
-  const headingMatch = line.trim().match(ENTITY_HEADING_RE);
-  if (headingMatch?.groups?.entity) {
-    ctx.currentEntity = headingMatch.groups.entity;
-  }
-}
-
-function occurredAtForLine(line: string, ctx: DateContext): string | undefined {
-  const inlineMatch = line.match(INLINE_DATE_RE);
-  return inlineMatch?.[1] ?? ctx.currentDate ?? ctx.defaultDate;
-}
-
-function cleanTaskText(raw: string): string {
-  return normalizeWhitespace(
-    raw.replace(/\b(owner|status):.+$/i, "").replace(/\s+\([^)]*\)\s*$/, ""),
-  );
-}
-
-function extractEntityToken(body: string, fallback?: string): string | undefined {
-  const tokenMatch = body.match(/\b([A-Za-z][\w./:-]*\d[\w./:-]*)\b/);
-  if (tokenMatch?.[1]) {
-    return tokenMatch[1];
-  }
-  const quoted = body.match(/"([^"]+)"/);
-  if (quoted?.[1]) {
-    return cleanTaskText(quoted[1]);
-  }
-  const cleaned = cleanTaskText(body)
-    .replace(/^[-*]\s+/, "")
-    .replace(/^task[:\s-]+/i, "");
-  return /[\p{L}\p{N}]/u.test(cleaned) ? cleaned : fallback;
-}
-
-function extractOwner(prefix: string | undefined): string | undefined {
-  const trimmed = normalizeWhitespace(prefix ?? "");
-  if (!trimmed) {
-    return undefined;
-  }
-  const ownerMatch = trimmed.match(/owner:\s*([@A-Za-z0-9_.-][A-Za-z0-9_@ .-]*)$/i);
-  return ownerMatch?.[1] ? normalizeWhitespace(ownerMatch[1]).replace(/^@/, "") : undefined;
-}
-
-function normalizeOwnerValue(raw: string): string | undefined {
-  const trimmed = normalizeWhitespace(raw);
-  if (!trimmed) {
-    return undefined;
-  }
-  const withoutTrailingNotes = trimmed
-    .replace(/\s*[（(][^()（）]*[)）]\s*$/u, "")
-    .replace(/\s*(?:[-,，;；].*)$/u, "")
-    .trim();
-  const normalized = withoutTrailingNotes.replace(/^@/, "").trim();
-  return normalized || undefined;
-}
-
-function pushEvent(
-  events: RawEvent[],
-  event: Omit<RawEvent, "source_ref"> & { source_ref?: string },
-  sourcePath: string,
-  lineNumber: number,
-): void {
-  const action = normalizeWhitespace(event.action);
-  if (!action) {
-    return;
-  }
-  events.push({
-    actor: event.actor ? normalizeWhitespace(event.actor) : undefined,
-    action,
-    object: event.object ? normalizeWhitespace(event.object) : undefined,
-    status_after: event.status_after ? normalizeStatus(event.status_after) : undefined,
-    occurred_at: event.occurred_at,
-    source_ref: event.source_ref?.trim() || sourceRefForLine(sourcePath, lineNumber),
-    confidence: event.confidence,
-  });
-}
-
-function extractLineEvents(
-  line: string,
-  lineNumber: number,
-  sourcePath: string,
-  ctx: DateContext,
-): RawEvent[] {
-  const trimmed = line.trim();
-  if (!trimmed || trimmed.startsWith("#")) {
-    return [];
-  }
-  const occurredAt = occurredAtForLine(line, ctx);
-  const events: RawEvent[] = [];
-
-  const checkboxMatch = trimmed.match(CHECKBOX_RE);
-  if (checkboxMatch) {
-    const body = checkboxMatch[2] ?? "";
-    pushEvent(
-      events,
-      {
-        action: "changed_status",
-        object: extractEntityToken(body, ctx.currentEntity),
-        status_after: checkboxMatch[1]?.toLowerCase() === "x" ? "done" : "pending",
-        actor: extractOwner(body),
-        occurred_at: occurredAt,
-        confidence: 0.72,
-      },
-      sourcePath,
-      lineNumber,
-    );
-  }
-
-  const statusMatch = trimmed.match(STATUS_LINE_RE);
-  if (statusMatch?.groups?.status) {
-    pushEvent(
-      events,
-      {
-        action: "changed_status",
-        object: extractEntityToken(statusMatch.groups.prefix ?? trimmed, ctx.currentEntity),
-        status_after: statusMatch.groups.status,
-        occurred_at: occurredAt,
-        confidence: 0.78,
-      },
-      sourcePath,
-      lineNumber,
-    );
-  }
-
-  const ownerMatch = trimmed.match(OWNER_LINE_RE);
-  if (ownerMatch?.groups?.owner) {
-    const owner = normalizeOwnerValue(ownerMatch.groups.owner);
-    pushEvent(
-      events,
-      {
-        action: "assigned_owner",
-        object: extractEntityToken(ownerMatch.groups.prefix ?? trimmed, ctx.currentEntity),
-        actor: owner,
-        occurred_at: occurredAt,
-        confidence: 0.75,
-      },
-      sourcePath,
-      lineNumber,
-    );
-  }
-
-  const decidedMatch = trimmed.match(DECIDED_RE);
-  if (decidedMatch?.groups?.decision) {
-    pushEvent(
-      events,
-      {
-        action: "decided",
-        actor: decidedMatch.groups.actor,
-        object: cleanTaskText(decidedMatch.groups.decision),
-        occurred_at: occurredAt,
-        confidence: 0.68,
-      },
-      sourcePath,
-      lineNumber,
-    );
-  }
-
-  const explicitStatusMatch = trimmed.match(EXPLICIT_STATUS_RE);
-  if (explicitStatusMatch?.groups?.object && explicitStatusMatch.groups.status) {
-    pushEvent(
-      events,
-      {
-        action: "changed_status",
-        object: explicitStatusMatch.groups.object,
-        status_after: explicitStatusMatch.groups.status,
-        occurred_at: occurredAt,
-        confidence: 0.82,
-      },
-      sourcePath,
-      lineNumber,
-    );
-  }
-
-  return events;
 }
 
 function coerceLlmOutputText(
@@ -381,41 +178,87 @@ function normalizeEventSourceRef(sourceRef: string, candidate: string): string {
   return trimmed;
 }
 
+function toErrorMessage(err: unknown): string {
+  if (err instanceof Error) {
+    return err.message || String(err);
+  }
+  return String(err);
+}
+
+function validateWorkflowEvents(sourceRef: string, events: RawEvent[]): RawEvent[] {
+  return events.map((event) => {
+    const action = normalizeWhitespace(event.action);
+    if (!WORKFLOW_ACTIONS.has(action)) {
+      throw new GraphExtractorError(
+        "extractor_invalid_json",
+        `graph extractor returned unsupported action=${JSON.stringify(action)}`,
+      );
+    }
+    const normalizedSourceRef = normalizeEventSourceRef(sourceRef, event.source_ref);
+    if (!PRECISE_SOURCE_REF_RE.test(normalizedSourceRef)) {
+      throw new GraphExtractorError(
+        "extractor_invalid_json",
+        `graph extractor returned non-precise source_ref=${JSON.stringify(normalizedSourceRef)}`,
+      );
+    }
+    return {
+      ...event,
+      action,
+      actor: event.actor ? normalizeWhitespace(event.actor) : undefined,
+      object: event.object ? normalizeWhitespace(event.object) : undefined,
+      source_ref: normalizedSourceRef,
+    };
+  });
+}
+
+function isGraphExtractorError(value: unknown): value is GraphExtractorError {
+  return value instanceof GraphExtractorError;
+}
+
+function classifyRuntimeFailure(err: unknown): GraphExtractorErrorCode {
+  const message = toErrorMessage(err).toLowerCase();
+  if (message.includes("timeout") || message.includes("timed out")) {
+    return "extractor_timeout";
+  }
+  return "extractor_unavailable";
+}
+
+function wrapExtractorError(err: unknown): GraphExtractorError {
+  if (isGraphExtractorError(err)) {
+    return err;
+  }
+  const code = classifyRuntimeFailure(err);
+  return new GraphExtractorError(code, toErrorMessage(err), { cause: err });
+}
+
 async function extractWithLlm(
   text: string,
   sourceRef: string,
   llmClient: LLMClient,
 ): Promise<RawEvent[]> {
   const request = buildExtractionPrompt(text, sourceRef);
-  const outputText = coerceLlmOutputText(await llmClient.extractGraphEvents(request));
+  let outputText = "";
+  try {
+    outputText = coerceLlmOutputText(await llmClient.extractGraphEvents(request));
+  } catch (err) {
+    throw wrapExtractorError(err);
+  }
+  if (!outputText.trim()) {
+    throw new GraphExtractorError(
+      "extractor_empty_output",
+      `graph extractor produced empty output for ${request.sourcePath}`,
+    );
+  }
   const parsed = parseGraphJsonBlockDetailed(outputText);
   if (!parsed.ok) {
-    throw new Error(`graph extractor output was not valid JSON for ${request.sourcePath}`);
+    throw new GraphExtractorError(
+      "extractor_invalid_json",
+      `graph extractor output was not valid JSON for ${request.sourcePath}`,
+    );
   }
-  const events = parsed.events.map((event) => ({
-    ...event,
-    source_ref: normalizeEventSourceRef(sourceRef, event.source_ref),
-  }));
+  const events = validateWorkflowEvents(sourceRef, parsed.events);
   log.info(
     `canonical.extract.llm source_ref=${request.sourcePath} events=${events.length} precise=${events.every((event) => event.source_ref.includes("#L"))}`,
-  );
-  return events;
-}
-
-function extractWithRules(text: string, sourceRef: string): RawEvent[] {
-  const sourcePath = sourcePathFromSourceRef(sourceRef);
-  const ctx: DateContext = {
-    defaultDate: extractDateFromSourcePath(sourcePath),
-  };
-  const events: RawEvent[] = [];
-  const lines = text.split(/\r?\n/);
-  for (const [index, line] of lines.entries()) {
-    updateDateContext(line, ctx);
-    updateEntityContext(line, ctx);
-    events.push(...extractLineEvents(line, index + 1, sourcePath, ctx));
-  }
-  log.info(
-    `canonical.extract.rules source_ref=${sourcePath} events=${events.length} precise=${events.every((event) => event.source_ref.includes("#L"))}`,
   );
   return events;
 }
@@ -428,20 +271,31 @@ export function getDefaultExtractorSystemPrompt(): string {
   return EXTRACTOR_SYSTEM_PROMPT;
 }
 
+export function getGraphExtractorErrorCode(err: unknown): GraphExtractorErrorCode | null {
+  return isGraphExtractorError(err) ? err.code : null;
+}
+
 export async function extract(
   text: string,
   sourceRef: string,
   llmClient?: LLMClient,
 ): Promise<RawEvent[]> {
   const client = llmClient ?? defaultLlmClient;
-  if (client) {
-    try {
-      return await extractWithLlm(text, sourceRef, client);
-    } catch (err) {
-      log.warn(`[canonical] extract.llm_failed source_ref=${sourceRef} error=${String(err)}`);
-    }
+  if (!client) {
+    throw new GraphExtractorError(
+      "extractor_unavailable",
+      `graph extractor runtime unavailable for ${sourceRef}`,
+    );
   }
-  return extractWithRules(text, sourceRef);
+  try {
+    return await extractWithLlm(text, sourceRef, client);
+  } catch (err) {
+    const extractorError = wrapExtractorError(err);
+    log.warn(
+      `[canonical] extract.llm_failed source_ref=${sourceRef} code=${extractorError.code} error=${extractorError.message}`,
+    );
+    throw extractorError;
+  }
 }
 
 export function parseGraphJsonBlock(outputText: string): RawEvent[] {

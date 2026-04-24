@@ -2,6 +2,7 @@ import crypto from "node:crypto";
 import { formatErrorMessage } from "openclaw/plugin-sdk/error-runtime";
 import type { OpenClawPluginApi } from "openclaw/plugin-sdk/memory-core";
 import {
+  GraphExtractorError,
   getDefaultExtractorSystemPrompt,
   type CanonicalExtractorRequest,
   type LLMClient,
@@ -99,8 +100,16 @@ export function createSubagentExtractorClient(
           timeoutMs: GRAPH_EXTRACTOR_TIMEOUT_MS,
         });
         if (result.status !== "ok") {
-          throw new Error(
-            `graph extractor subagent ended with status=${result.status}${result.error ? ` error=${result.error}` : ""}`,
+          const detail =
+            result.error && typeof result.error === "string" ? ` error=${result.error}` : "";
+          const code =
+            String(result.status).toLowerCase().includes("timeout") ||
+            (typeof result.error === "string" && /timeout|timed out/i.test(result.error))
+              ? "extractor_timeout"
+              : "extractor_unavailable";
+          throw new GraphExtractorError(
+            code,
+            `graph extractor subagent ended with status=${result.status}${detail}`,
           );
         }
         const { messages } = await subagent.getSessionMessages({
@@ -109,7 +118,10 @@ export function createSubagentExtractorClient(
         });
         const outputText = extractAssistantText(messages);
         if (!outputText) {
-          throw new Error("graph extractor produced no assistant text");
+          throw new GraphExtractorError(
+            "extractor_empty_output",
+            "graph extractor produced no assistant text",
+          );
         }
         return outputText;
       } finally {

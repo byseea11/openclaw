@@ -180,6 +180,7 @@ import {
 import {
   buildAfterTurnRuntimeContext,
   mergeOrphanedTrailingUserPrompt,
+  prependCurrentUserPromptPrefix,
   prependSystemPromptAddition,
   resolveAttemptFsWorkspaceOnly,
   resolveAttemptPrependSystemContext,
@@ -242,6 +243,7 @@ export {
 export {
   buildAfterTurnRuntimeContext,
   mergeOrphanedTrailingUserPrompt,
+  prependCurrentUserPromptPrefix,
   prependSystemPromptAddition,
   resolveAttemptFsWorkspaceOnly,
   resolveAttemptPrependSystemContext,
@@ -777,7 +779,10 @@ export async function runEmbeddedAttempt(
         userTime,
         userTimeFormat,
         contextFiles,
-        includeMemorySection: !params.contextEngine || params.contextEngine.info.id === "legacy",
+        includeMemorySection:
+          !params.contextEngine ||
+          params.contextEngine.info.id === "legacy" ||
+          params.contextEngine.info.id === "memory-core",
         memoryCitationsMode: params.config?.memory?.citations,
         promptContribution,
       });
@@ -1284,6 +1289,7 @@ export async function runEmbeddedAttempt(
         );
       }
 
+      let currentUserPromptPrefix: string | undefined;
       try {
         const prior = await sanitizeSessionHistory({
           messages: activeSession.messages,
@@ -1346,6 +1352,8 @@ export async function runEmbeddedAttempt(
               sessionKey: params.sessionKey,
               messages: activeSession.messages,
               tokenBudget: params.contextTokenBudget,
+              cfg: params.config,
+              agentId: sessionAgentId,
               availableTools: new Set(effectiveTools.map((tool) => tool.name)),
               citationsMode: params.config?.memory?.citations,
               modelId: params.modelId,
@@ -1365,6 +1373,12 @@ export async function runEmbeddedAttempt(
               applySystemPromptOverrideToSession(activeSession, systemPromptText);
               log.debug(
                 `context engine: prepended system prompt addition (${assembled.systemPromptAddition.length} chars)`,
+              );
+            }
+            if (assembled.currentUserPromptPrefix) {
+              currentUserPromptPrefix = assembled.currentUserPromptPrefix;
+              log.debug(
+                `context engine: prepared current user prompt prefix (${assembled.currentUserPromptPrefix.length} chars)`,
               );
             }
           } catch (assembleErr) {
@@ -1696,6 +1710,10 @@ export async function runEmbeddedAttempt(
               `hooks: applied prependSystemContext/appendSystemContext (${prependSystemLen}+${appendSystemLen} chars)`,
             );
           }
+          effectivePrompt = prependCurrentUserPromptPrefix({
+            prompt: effectivePrompt,
+            currentUserPromptPrefix,
+          });
         }
 
         if (cacheObservabilityEnabled) {

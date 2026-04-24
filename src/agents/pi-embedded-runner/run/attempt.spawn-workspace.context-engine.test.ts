@@ -171,6 +171,28 @@ describe("runEmbeddedAttempt context engine sessionKey forwarding", () => {
     );
   });
 
+  it("forwards config and agentId to assemble", async () => {
+    const { bootstrap, assemble } = createContextEngineBootstrapAndAssemble();
+    const contextEngine = createTestContextEngine({ bootstrap, assemble });
+    const cfg = {
+      agents: { list: [{ id: "main", default: true }] },
+      plugins: { slots: { contextEngine: "memory-core" } },
+    };
+
+    await runBootstrap(sessionKey, contextEngine);
+    await runAssemble(sessionKey, contextEngine, {
+      cfg,
+      agentId: "main",
+    });
+
+    expect(assemble).toHaveBeenCalledWith(
+      expect.objectContaining({
+        config: cfg,
+        agentId: "main",
+      }),
+    );
+  });
+
   it("lets non-legacy engines opt into the active memory prompt helper", async () => {
     registerMemoryPromptSection(({ availableTools, citationsMode }) => {
       if (!availableTools.has("memory_search")) {

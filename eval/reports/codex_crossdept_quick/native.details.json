@@ -1,0 +1,78 @@
+[
+  {
+    "sample_id": "product_launch_v1",
+    "query_id": "q1",
+    "query_type": "state",
+    "predicted_answer": "根据最新的对话记录和任务状态，**PROD-123 现在没有任何阻塞**。\n\n## 当前状态分析：\n\n### ✅ 所有前置依赖已满足：\n1. **AP-456 技术审批** - ✅ 已通过（Carol 在审批卡片中确认）\n2. **TASK-789 数据迁移** - ✅ 已完成（Bob 确认已 done）\n3. **工作量评估** - ✅ 已完成（Bob 已评估为2周开发时间）\n\n### 📋 最新对话时间线：\n1. **Alice**（产品经理）：要求 Bob 评估 PROD-123 工作量，希望本周推进上线\n2. **Bob**（开发）：已完成评估，但提到卡在 AP-456 审批\n3. **Carol**（运营）：更新审批卡片，确认 AP-456 已通过，但需要先处理 TASK-789\n4. **Bob**：确认 TASK-789 已经 done，PROD-123 可以继续推进\n\n### 🚀 当前状态：\n- **状态**：✅ 所有阻塞已解除\n- **开发负责人**：Bob\n- **可以开始时间**：立即（今天 2026-04-21）\n- **预计开发周期**：2周\n- **预计完成时间**：2026-05-05\n\n### 📝 建议行动：\n1. **通知 Alice**：所有阻塞已解除，PROD-123 可以立即开始开发\n2. **提醒 Bob**：可以开始2周开发工作\n3. **更新项目状态**：从\"准备开始开发\"改为\"开发进行中\"\n\n**结论**：PROD-123 目前没有任何阻塞，所有前置条件都已满足，可以立即开始开发工作。",
+    "gold_answer": "已解除阻塞，可以开始开发",
+    "tool_calls": [],
+    "prompt_tokens": 13530,
+    "completion_tokens": 367,
+    "latency_ms": 19957.728,
+    "gold_evidence_items": [
+      {
+        "ref": "history[3]",
+        "texts": [
+          "TASK-789 已完成，PROD-123 可以开始开发了",
+          "TASK-789 这边已经 done 了，PROD-123 可以继续推进了。"
+        ]
+      }
+    ],
+    "retrieval_results": [],
+    "retrieval_probe_status": "missing_tool_output",
+    "retrieval_probe_source": null,
+    "retrieval_probe_error": "probe response did not contain parseable memory_search results",
+    "exact_match": 0.0,
+    "f1": 0.06547619047619048,
+    "memory_search_calls": 0,
+    "memory_get_calls": 0,
+    "memory_tool_calls": 0,
+    "recall_at_5": 0.0,
+    "recall_at_10": 0.0
+  },
+  {
+    "sample_id": "product_launch_v1",
+    "query_id": "q2",
+    "query_type": "why",
+    "predicted_answer": "根据对话记录和任务历史，我来分析一下 **PROD-123 为什么一直没有启动**：\n\n## 根本原因分析\n\n### 1. **前置依赖未完成（主要阻塞）**\nPROD-123 有两个关键的前置依赖：\n- **AP-456 技术审批** - 需要运营部门（Carol）审批通过\n- **TASK-789 数据迁移** - 需要先完成数据迁移工作\n\n### 2. **时间线回顾**\n1. **2026-04-01**: Alice 创建 PROD-123 任务，需要研发评估工作量\n2. **2026-04-02**: Bob 完成评估，预计需要2周开发时间，但指出需要先完成 **AP-456 技术审批**\n3. **2026-04-05**: Carol 通知 AP-456 审批通过，但需要先完成 **TASK-789 数据迁移**\n4. **2026-04-10**: TASK-789 数据迁移完成（但可能没有及时通知相关人员）\n5. **2026-04-21**: 今天对话中，Bob 询问 AP-456 状态，Carol 确认已通过，Bob 确认 TASK-789 已完成\n\n### 3. **阻塞链条**\n```\nPROD-123 启动 → 需要 AP-456 审批通过 → 需要 TASK-789 完成\n                    ↑                          ↑\n               Carol审批                  Bob执行数据迁移\n```\n\n### 4. **沟通问题**\n- **信息同步不及时**: TASK-789 在4月10日就完成了，但直到今天（4月21日）Bob 才明确告知已完成\n- **审批状态不透明**: Bob 需要主动询问 AP-456 状态，说明审批状态没有自动同步给相关人员\n- **依赖关系不清晰**: 虽然任务有前置依赖，但没有明确的依赖跟踪机制\n\n### 5. **当前状态**\n**现在所有阻塞都已解除：**\n- ✅ AP-456 技术审批已通过（Carol 确认）\n- ✅ TASK-789 数据迁移已完成（Bob 确认）\n- ✅ 工作量评估已完成（Bob 已评估2周）\n\n## 总结\nPROD-123 一直没有启动的主要原因是 **前置依赖的审批和迁移工作没有及时完成和同步**，形成了\"审批等迁移，迁移等通知\"的循环阻塞。\n\n**好消息是：现在所有阻塞都已解除，PROD-123 可以立即开始开发了！**\n\n需要我帮忙建立更好的依赖跟踪机制，避免未来出现类似问题吗？",
+    "gold_answer": "先被 AP-456 阻塞，审批通过后又被 TASK-789 阻塞，现在已解除",
+    "tool_calls": [],
+    "prompt_tokens": 10660,
+    "completion_tokens": 538,
+    "latency_ms": 26441.358,
+    "gold_evidence_items": [
+      {
+        "ref": "history[1]",
+        "texts": [
+          "PROD-123 评估完成，预计 2 周开发，但需要先完成 AP-456 的技术审批",
+          "@Carol PROD-123 我这边先评完了，当前还是卡在 AP-456。审批过了我再继续往下推。"
+        ]
+      },
+      {
+        "ref": "history[2]",
+        "texts": [
+          "AP-456 审批通过，但运营侧需要先完成数据迁移 TASK-789",
+          "@Bob 审批卡片更新：AP-456 已通过。 不过还得先把 TASK-789 处理掉。"
+        ]
+      },
+      {
+        "ref": "history[3]",
+        "texts": [
+          "TASK-789 已完成，PROD-123 可以开始开发了",
+          "TASK-789 这边已经 done 了，PROD-123 可以继续推进了。"
+        ]
+      }
+    ],
+    "retrieval_results": [],
+    "retrieval_probe_status": "missing_tool_output",
+    "retrieval_probe_source": null,
+    "retrieval_probe_error": "probe response did not contain parseable memory_search results",
+    "exact_match": 0.0,
+    "f1": 0.06545454545454546,
+    "memory_search_calls": 0,
+    "memory_get_calls": 0,
+    "memory_tool_calls": 0,
+    "recall_at_5": 0.0,
+    "recall_at_10": 0.0
+  }
+]

@@ -1,0 +1,109 @@
+{
+  "benchmark": "cross_dept_mem",
+  "headline_metrics": [
+    "average_f1",
+    "average_recall_at_5",
+    "average_recall_at_10"
+  ],
+  "variants": {
+    "native": {
+      "summary": {
+        "benchmark": "cross_dept_mem",
+        "sample_count": 1,
+        "query_count": 2,
+        "exact_match": 0.0,
+        "average_f1": 0.0655,
+        "average_recall_at_5": 0.0,
+        "average_recall_at_10": 0.0,
+        "average_latency_ms": 23199.543,
+        "average_prompt_tokens": 12095.0,
+        "average_memory_search_calls": 0.0,
+        "average_memory_get_calls": 0.0,
+        "average_memory_tool_calls": 0.0,
+        "buckets": {
+          "state": {
+            "count": 1,
+            "exact_match": 0.0,
+            "average_f1": 0.0655,
+            "average_recall_at_5": 0.0,
+            "average_recall_at_10": 0.0,
+            "average_prompt_tokens": 13530.0,
+            "average_memory_search_calls": 0.0,
+            "average_memory_get_calls": 0.0,
+            "average_memory_tool_calls": 0.0
+          },
+          "why": {
+            "count": 1,
+            "exact_match": 0.0,
+            "average_f1": 0.0655,
+            "average_recall_at_5": 0.0,
+            "average_recall_at_10": 0.0,
+            "average_prompt_tokens": 10660.0,
+            "average_memory_search_calls": 0.0,
+            "average_memory_get_calls": 0.0,
+            "average_memory_tool_calls": 0.0
+          }
+        }
+      },
+      "output": "eval/reports/codex_crossdept_quick/native.details.json"
+    },
+    "graph_ordering": {
+      "summary": {
+        "benchmark": "cross_dept_mem",
+        "sample_count": 1,
+        "query_count": 2,
+        "exact_match": 0.0,
+        "average_f1": 0.0836,
+        "average_recall_at_5": 0.0,
+        "average_recall_at_10": 0.0,
+        "average_latency_ms": 24146.449,
+        "average_prompt_tokens": 10177.0,
+        "average_memory_search_calls": 0.0,
+        "average_memory_get_calls": 0.0,
+        "average_memory_tool_calls": 0.0,
+        "buckets": {
+          "state": {
+            "count": 1,
+            "exact_match": 0.0,
+            "average_f1": 0.0928,
+            "average_recall_at_5": 0.0,
+            "average_recall_at_10": 0.0,
+            "average_prompt_tokens": 12475.0,
+            "average_memory_search_calls": 0.0,
+            "average_memory_get_calls": 0.0,
+            "average_memory_tool_calls": 0.0
+          },
+          "why": {
+            "count": 1,
+            "exact_match": 0.0,
+            "average_f1": 0.0743,
+            "average_recall_at_5": 0.0,
+            "average_recall_at_10": 0.0,
+            "average_prompt_tokens": 7879.0,
+            "average_memory_search_calls": 0.0,
+            "average_memory_get_calls": 0.0,
+            "average_memory_tool_calls": 0.0
+          }
+        }
+      },
+      "output": "eval/reports/codex_crossdept_quick/graph_ordering.details.json"
+    }
+  },
+  "metric_deltas": {
+    "average_f1": {
+      "native": 0.0655,
+      "graph_ordering": 0.0836,
+      "delta": 0.0181
+    },
+    "average_recall_at_5": {
+      "native": 0.0,
+      "graph_ordering": 0.0,
+      "delta": 0.0
+    },
+    "average_recall_at_10": {
+      "native": 0.0,
+      "graph_ordering": 0.0,
+      "delta": 0.0
+    }
+  }
+}

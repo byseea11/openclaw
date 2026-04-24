@@ -35,7 +35,7 @@ export const buildPromptSection: MemoryPromptSectionBuilder = ({
   }
   if (hasMemorySearch) {
     lines.push(
-      'Some memory_search results may have corpus: "graph". These are structured hints extracted from memory files: [Graph state] is an entity status, [Graph event] is a recorded change, and each graph hit has a source line pointing back to the original memory file. Treat graph hits as hints, not ground truth; when exact wording matters, call memory_get on the source path and lines.',
+      'Some memory_search results may have corpus: "graph". These are semantically compressed Graph Index results: [Graph state] is the current workflow view, [Graph event] is a recorded change, and [Graph edge] is an active relation. If the prompt already includes "## Current Memory Context", use it directly when sufficient; call memory_search or memory_get only when you need more evidence or exact wording.',
     );
   }
   lines.push("");

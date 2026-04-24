@@ -182,6 +182,17 @@ export function prependSystemPromptAddition(params: {
   return prependSystemPromptAdditionAfterCacheBoundary(params);
 }
 
+export function prependCurrentUserPromptPrefix(params: {
+  prompt: string;
+  currentUserPromptPrefix?: string;
+}): string {
+  const prefix = params.currentUserPromptPrefix?.trim();
+  if (!prefix) {
+    return params.prompt;
+  }
+  return `${prefix}\n\n${params.prompt}`;
+}
+
 export function resolveAttemptPrependSystemContext(params: {
   sessionKey?: string;
   trigger?: EmbeddedRunAttemptParams["trigger"];

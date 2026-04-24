@@ -79,6 +79,14 @@ function createMockExtractorClient(): CanonicalExtractorClient {
   };
 }
 
+function createFailingExtractorClient(message = "gateway timeout after 60000ms"): CanonicalExtractorClient {
+  return {
+    async extractGraphEvents() {
+      throw new Error(message);
+    },
+  };
+}
+
 describe("canonical graph transcript projection v2", () => {
   let stateDir = "";
   let previousStateDir: string | undefined;
@@ -179,6 +187,80 @@ describe("canonical graph transcript projection v2", () => {
     expect(status.pendingProjectionSpans).toBe(0);
     expect(store.getWorkflowStateV2("task:FEISHU-231")).toMatchObject({
       current_stage: "blocked",
+    });
+  });
+
+  it("marks projection failed and keeps pending spans when extraction fails", async () => {
+    const agentId = "failed-agent";
+    const sessionKey = "agent:channel:failed-thread";
+    setDefaultExtractorClient(createFailingExtractorClient());
+
+    await handleGraphAfterTurn({
+      cfg: cfg(),
+      agentId,
+      sessionId: "session-1",
+      sessionKey,
+      sessionFile: "/tmp/session.jsonl",
+      entries: [entry()],
+      prePromptMessageCount: 3,
+    });
+
+    await drainPendingGraphUpdates({
+      cfg: cfg(),
+      agentId,
+      sourceId: sessionKey,
+      reason: "recall",
+    });
+
+    const store = getCanonicalStore(agentId);
+    expect(store.getProjectionState(sessionKey)).toMatchObject({
+      status: "failed",
+    });
+    expect(store.getStatus()).toMatchObject({
+      eventRecordsV2Total: 0,
+      pendingProjectionSpans: 1,
+    });
+  });
+
+  it("retries the same pending span after extractor recovery", async () => {
+    const agentId = "retry-agent";
+    const sessionKey = "agent:channel:retry-thread";
+    setDefaultExtractorClient(createFailingExtractorClient());
+
+    await handleGraphAfterTurn({
+      cfg: cfg(),
+      agentId,
+      sessionId: "session-1",
+      sessionKey,
+      sessionFile: "/tmp/session.jsonl",
+      entries: [entry()],
+      prePromptMessageCount: 3,
+    });
+
+    await drainPendingGraphUpdates({
+      cfg: cfg(),
+      agentId,
+      sourceId: sessionKey,
+      reason: "recall",
+    });
+
+    setDefaultExtractorClient(createMockExtractorClient());
+
+    await drainPendingGraphUpdates({
+      cfg: cfg(),
+      agentId,
+      sourceId: sessionKey,
+      reason: "recall",
+    });
+
+    const store = getCanonicalStore(agentId);
+    expect(store.getProjectionState(sessionKey)).toMatchObject({
+      status: "clean",
+      covered_until_entry_id: "entry-1",
+    });
+    expect(store.getStatus()).toMatchObject({
+      eventRecordsV2Total: 1,
+      pendingProjectionSpans: 0,
     });
   });
 });

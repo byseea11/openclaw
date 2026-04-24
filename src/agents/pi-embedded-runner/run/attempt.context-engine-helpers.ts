@@ -158,6 +158,8 @@ export async function assembleAttemptContextEngine(params: {
   sessionKey?: string;
   messages: AgentMessage[];
   tokenBudget?: number;
+  cfg?: OpenClawConfig;
+  agentId?: string;
   availableTools?: Set<string>;
   citationsMode?: MemoryCitationsMode;
   modelId: string;
@@ -171,6 +173,8 @@ export async function assembleAttemptContextEngine(params: {
     sessionKey: params.sessionKey,
     messages: params.messages,
     tokenBudget: params.tokenBudget,
+    ...(params.cfg ? { config: params.cfg } : {}),
+    ...(params.agentId ? { agentId: params.agentId } : {}),
     ...(params.availableTools ? { availableTools: params.availableTools } : {}),
     ...(params.citationsMode ? { citationsMode: params.citationsMode } : {}),
     model: params.modelId,

@@ -325,35 +325,35 @@
 
         <div class="layer-box layer-1">
             <div class="layer-title">① 统一采集更新层</div>
-            <div class="layer-subtitle">协作变化如何持续、稳定、不遗漏进入系统</div>
+            <div class="layer-subtitle">保留运行时增量主链：先轻量标脏，再批量抽取，确保可恢复</div>
 
             <div class="cards-grid">
                 <div class="layer-card">
                     <div class="card-icon">🔍</div>
                     <div class="card-content">
                         <span class="card-title">增量检测</span>
-                        <span class="card-sub">变化感知</span>
+                        <span class="card-sub">先判断是否进入 graph</span>
                     </div>
                 </div>
                 <div class="layer-card">
                     <div class="card-icon">📥</div>
                     <div class="card-content">
                         <span class="card-title">批量抽取</span>
-                        <span class="card-sub">结构化提取</span>
+                        <span class="card-sub">recall / strong / idle / compaction</span>
                     </div>
                 </div>
                 <div class="layer-card">
                     <div class="card-icon">🔐</div>
                     <div class="card-content">
                         <span class="card-title">事务一致性写入</span>
-                        <span class="card-sub">可靠落盘</span>
+                        <span class="card-sub">projection_inbox</span>
                     </div>
                 </div>
                 <div class="layer-card">
                     <div class="card-icon">🔄</div>
                     <div class="card-content">
                         <span class="card-title">可恢复更新</span>
-                        <span class="card-sub">失败重放</span>
+                        <span class="card-sub">source_projection_state</span>
                     </div>
                 </div>
             </div>
@@ -373,22 +373,22 @@
                 <div class="layer-card">
                     <div class="card-icon">📑</div>
                     <div class="card-content">
-                        <span class="card-title">事件账本</span>
-                        <span class="card-sub">过程可追溯</span>
+                        <span class="card-title">证据 + 事件账本</span>
+                        <span class="card-sub">evidence / event</span>
                     </div>
                 </div>
                 <div class="layer-card">
                     <div class="card-icon">👁️</div>
                     <div class="card-content">
-                        <span class="card-title">状态视图</span>
-                        <span class="card-sub">当前可查询</span>
+                        <span class="card-title">Workflow 当前视图</span>
+                        <span class="card-sub">slot patch / upsert</span>
                     </div>
                 </div>
                 <div class="layer-card">
                     <div class="card-icon">🕸️</div>
                     <div class="card-content">
-                        <span class="card-title">知识图谱</span>
-                        <span class="card-sub">关系可关联</span>
+                        <span class="card-title">实体与关系图谱</span>
+                        <span class="card-sub">entities / edges</span>
                     </div>
                 </div>
             </div>
@@ -408,7 +408,7 @@
 
         <div class="layer-box layer-3">
             <div class="layer-title">③ 证据链条恢复层</div>
-            <div class="layer-subtitle">规则式召回，按问题型链条化组织证据</div>
+            <div class="layer-subtitle">query layer：先分类问题，再解析实体，最后按问题类型走不同表链</div>
 
             <div class="cards-grid">
                 <div class="layer-card">

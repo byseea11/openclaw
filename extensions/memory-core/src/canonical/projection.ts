@@ -7,7 +7,7 @@ import type {
   OpenClawConfig,
 } from "openclaw/plugin-sdk/memory-core-host-runtime-core";
 import { canonicalizeV2 } from "./canonicalizer-v2.js";
-import { extract } from "./extractor.js";
+import { extract, getGraphExtractorErrorCode } from "./extractor.js";
 import { isGraphExtractorSessionKey } from "./extractor.runtime.js";
 import { type ProjectionInboxEntry, resolveGraphIndexConfig } from "./schema.js";
 import { getCanonicalStore } from "./store.js";
@@ -816,6 +816,7 @@ export async function drainPendingGraphUpdates(params: {
         },
       });
     } catch (err) {
+      const extractorErrorCode = getGraphExtractorErrorCode(err) ?? "unknown";
       store.bumpMetric("extractFailures", 1);
       store.markProjectionFailed(summary.source_id);
       if (params.reason === "pre_compaction") {
@@ -828,13 +829,14 @@ export async function drainPendingGraphUpdates(params: {
             first_entry_id: summary.first_entry_id,
             last_entry_id: summary.last_entry_id,
             reason: params.reason,
+            error_code: extractorErrorCode,
           },
         });
       }
       recordGraphIndexTrace({
         cfg: params.cfg,
         message: "canonical.projection.drain_failed",
-        summary: `reason=${params.reason} source=${summary.source_id} error=${String(err)}`,
+        summary: `reason=${params.reason} source=${summary.source_id} error_code=${extractorErrorCode} error=${String(err)}`,
         event: {
           trace_id: traceId,
           stage: "drain_failed",
@@ -846,12 +848,13 @@ export async function drainPendingGraphUpdates(params: {
           },
           drain: {
             reason: params.reason,
+            error_code: extractorErrorCode,
           },
           error: String(err),
         },
       });
       log.warn(
-        `[canonical] projection.drain_failed reason=${params.reason} source=${summary.source_id} error=${String(err)}`,
+        `[canonical] projection.drain_failed reason=${params.reason} source=${summary.source_id} error_code=${extractorErrorCode} error=${String(err)}`,
       );
     } finally {
       drainingSources.delete(summary.source_id);

@@ -1,6 +1,6 @@
 import type { OpenClawConfig } from "openclaw/plugin-sdk/memory-core-host-runtime-core";
 
-export const EXTRACTOR_VERSION = "v1-2026.04-llm";
+export const EXTRACTOR_VERSION = "v2-2026.04-llm-workflow-only";
 export const CANONICAL_SCHEMA_VERSION = "v6";
 export const GRAPH_PROJECTION_VERSION = "v1-2026.04";
 export const GRAPH_RECALL_TTL_MS = 30 * 60 * 1000;

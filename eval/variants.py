@@ -75,3 +75,91 @@ def bucket_metric_deltas(native: dict[str, Any], graph: dict[str, Any]) -> dict[
         if bucket_deltas:
             deltas[bucket] = bucket_deltas
     return deltas
+
+
+def build_quality_comparison(
+    *,
+    benchmark: str,
+    native_summary: dict[str, Any],
+    graph_ordering_summary: dict[str, Any],
+    native_output: str,
+    graph_ordering_output: str,
+) -> dict[str, Any]:
+    metrics = ("average_f1", "average_recall_at_5", "average_recall_at_10")
+    deltas = {
+        metric: {
+            "native": native_summary.get(metric, 0.0),
+            "graph_ordering": graph_ordering_summary.get(metric, 0.0),
+            "delta": round(
+                float(graph_ordering_summary.get(metric, 0.0)) - float(native_summary.get(metric, 0.0)),
+                6,
+            ),
+        }
+        for metric in metrics
+    }
+    return {
+        "benchmark": benchmark,
+        "headline_metrics": list(metrics),
+        "variants": {
+            "native": {
+                "summary": native_summary,
+                "output": native_output,
+            },
+            "graph_ordering": {
+                "summary": graph_ordering_summary,
+                "output": graph_ordering_output,
+            },
+        },
+        "metric_deltas": deltas,
+    }
+
+
+def build_efficiency_comparison(
+    *,
+    benchmark: str,
+    native_summary: dict[str, Any],
+    graph_summary: dict[str, Any],
+    graph_ordering_summary: dict[str, Any],
+    native_output: str,
+    graph_output: str,
+    graph_ordering_output: str,
+) -> dict[str, Any]:
+    native_prompt_tokens = float(native_summary.get("average_prompt_tokens", 0.0))
+    graph_prompt_tokens = float(graph_summary.get("average_prompt_tokens", 0.0))
+    graph_memory_tool_calls = float(graph_summary.get("average_memory_tool_calls", 0.0))
+    graph_ordering_memory_tool_calls = float(
+        graph_ordering_summary.get("average_memory_tool_calls", 0.0)
+    )
+    return {
+        "benchmark": benchmark,
+        "headline_metrics": [
+            "graph_index_context_saving",
+            "ordering_tool_call_saving",
+        ],
+        "variants": {
+            "native": {
+                "summary": native_summary,
+                "output": native_output,
+            },
+            "graph": {
+                "summary": graph_summary,
+                "output": graph_output,
+            },
+            "graph_ordering": {
+                "summary": graph_ordering_summary,
+                "output": graph_ordering_output,
+            },
+        },
+        "graph_index_context_saving": {
+            "metric": "average_prompt_tokens",
+            "native": native_prompt_tokens,
+            "graph": graph_prompt_tokens,
+            "delta": round(native_prompt_tokens - graph_prompt_tokens, 6),
+        },
+        "ordering_tool_call_saving": {
+            "metric": "average_memory_tool_calls",
+            "graph": graph_memory_tool_calls,
+            "graph_ordering": graph_ordering_memory_tool_calls,
+            "delta": round(graph_memory_tool_calls - graph_ordering_memory_tool_calls, 6),
+        },
+    }

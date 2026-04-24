@@ -1,6 +1,6 @@
 {
   "id": "memory-core",
-  "kind": "memory",
+  "kind": ["memory", "context-engine"],
   "commandAliases": [
     {
       "name": "dreaming",
@@ -29,6 +29,9 @@
           "bootstrapOnStart": {
             "type": "boolean"
           },
+          "extractDuringFlush": {
+            "type": "boolean"
+          },
           "trace": {
             "type": "object",
             "additionalProperties": false,
@@ -47,6 +50,15 @@
                 "minimum": 1
               }
             }
+          }
+        }
+      },
+      "contextRecall": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "enabled": {
+            "type": "boolean"
           }
         }
       },

@@ -70,4 +70,18 @@ describe("memory-core manifest config schema", () => {
 
     expect(result.ok).toBe(true);
   });
+
+  it("accepts context recall feature flags", () => {
+    const result = validateJsonSchemaValue({
+      schema: manifest.configSchema,
+      cacheKey: "memory-core.manifest.context-recall",
+      value: {
+        contextRecall: {
+          enabled: false,
+        },
+      },
+    });
+
+    expect(result.ok).toBe(true);
+  });
 });

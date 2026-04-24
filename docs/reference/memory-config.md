@@ -25,6 +25,10 @@ All memory search settings live under `agents.defaults.memorySearch` in
 If you are looking for the **active memory** feature toggle and sub-agent config,
 that lives under `plugins.entries.active-memory` instead of `memorySearch`.
 
+Graph Index V2 event extraction is owned by the bundled `memory-core` plugin.
+When enabled, it now relies on the graph extractor runtime and does not fall
+back to local regex parsing if that runtime is unavailable.
+
 Active memory uses a two-gate model:
 
 1. the plugin must be enabled and target the current agent id
