@@ -1,0 +1,23 @@
+employee_id,open_id,name,department_id,department_name,title,manager_id,employment_status,aliases
+emp-acme-001,ou_acme_ceo,Elena Park,dept-exec,Executive,CEO,,active,CEO|elena
+emp-acme-002,ou_acme_cpo,Maya Singh,dept-product,Product,Chief Product Officer,ou_acme_ceo,active,CPO|maya
+emp-acme-003,ou_acme_product_pm,Alice Chen,dept-product,Product,Senior Product Manager,ou_acme_cpo,active,alice|launch PM
+emp-acme-004,ou_acme_design,Leo Martinez,dept-product,Product,Product Designer,ou_acme_cpo,active,design|leo
+emp-acme-005,ou_acme_cto,Nora Williams,dept-engineering,Engineering,Chief Technology Officer,ou_acme_ceo,active,CTO|nora
+emp-acme-006,ou_acme_eng_mgr,Ben Carter,dept-engineering,Engineering,Engineering Manager,ou_acme_cto,active,ben|eng manager
+emp-acme-007,ou_acme_backend,Priya Raman,dept-engineering,Engineering,Backend Engineer,ou_acme_eng_mgr,active,backend|priya
+emp-acme-008,ou_acme_frontend,Owen Brooks,dept-engineering,Engineering,Frontend Engineer,ou_acme_eng_mgr,active,frontend|owen
+emp-acme-009,ou_acme_platform_mgr,Samir Patel,dept-platform,Platform,Platform Lead,ou_acme_cto,active,platform|samir
+emp-acme-010,ou_acme_sre,Iris Kim,dept-platform,Platform,SRE,ou_acme_platform_mgr,active,iris|sre
+emp-acme-011,ou_acme_security_lead,Grace Liu,dept-security,Security,Security Lead,ou_acme_cto,active,grace|security
+emp-acme-012,ou_acme_seceng,Noah Evans,dept-security,Security,Security Engineer,ou_acme_security_lead,active,noah|seceng
+emp-acme-013,ou_acme_data_lead,Hannah Zhao,dept-data,Data,Data Lead,ou_acme_cto,active,data|hannah
+emp-acme-014,ou_acme_data_eng,Victor Huang,dept-data,Data,Data Engineer,ou_acme_data_lead,active,data eng|victor
+emp-acme-015,ou_acme_ops_head,Rachel Adams,dept-operations,Operations,Operations Director,ou_acme_ceo,active,ops|rachel
+emp-acme-016,ou_acme_release,Tom Nguyen,dept-operations,Operations,Release Manager,ou_acme_ops_head,active,release|tom
+emp-acme-017,ou_acme_cfo,Claire Dubois,dept-finance,Finance,Chief Financial Officer,ou_acme_ceo,active,CFO|claire
+emp-acme-018,ou_acme_finance_ops,Mateo Rossi,dept-finance,Finance,Finance Operations Manager,ou_acme_cfo,active,finance ops|mateo
+emp-acme-019,ou_acme_legal,Ava Johnson,dept-legal,Legal,Legal Counsel,ou_acme_ceo,active,ava|legal
+emp-acme-020,ou_acme_marketing,Zoe Miller,dept-marketing,Marketing,Marketing Lead,ou_acme_cpo,active,marketing|zoe
+emp-acme-021,ou_acme_cs_lead,Daniel Smith,dept-customer-success,Customer Success,Customer Success Lead,ou_acme_ceo,active,CS|daniel
+emp-acme-022,ou_acme_support,Sofia Garcia,dept-customer-success,Customer Success,Support Specialist,ou_acme_cs_lead,active,sofia|support

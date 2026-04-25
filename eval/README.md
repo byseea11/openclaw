@@ -25,8 +25,12 @@
 
 真实 Feishu 办公数据、验证集和 Graph 统一走 snapshot flow：
 
+- `eval/scripts/create_office_fixture_dataset.py`
+  - 生成第一版可注入的企业真实场景 fixture snapshot：`acme_q2_ops_v1`。
 - `eval/scripts/sync_feishu_employees.py`
   - 通过 OpenClaw 的 `feishu_chat` 工具从真实 Feishu 群成员同步员工集合。
+- `eval/scripts/inject_office_snapshot_to_feishu.py`
+  - 把 frozen snapshot 按时间顺序 replay 到专用 Feishu 测试群；默认支持 `--dry-run`，真实发送只写 delivery ledger，不改 snapshot。
 - `extensions/feishu/src/dataset-capture.ts`
   - 在 Feishu 入站/出站链路上把真实消息归档到 live capture。
 - `eval/scripts/freeze_office_snapshot.py`
@@ -43,6 +47,8 @@ eval/office_dataset/
   captures/<capture_id>/
     capture-metadata.json
     office_events.jsonl
+    injection-results.jsonl
+    injection-summary.json
   snapshots/<snapshot_id>/
     employees.json
     employees.csv
@@ -51,6 +57,39 @@ eval/office_dataset/
     snapshot-metadata.json
     SNAPSHOT_LOCK
 ```
+
+第一版内置 fixture：
+
+```bash
+python3 eval/scripts/create_office_fixture_dataset.py \
+  --root-dir eval/office_dataset \
+  --snapshot-id acme_q2_ops_v1
+```
+
+`acme_q2_ops_v1` 是冻结的企业办公场景数据集：22 名员工、7 个 Feishu 群/线程、102 条办公事件、14 条只读验证 case。它描述一家 B2B SaaS 公司 Q2 增长发布期间的产品、工程、安全、数据、财务、法务、市场和客服协作。
+
+中文 fixture 另存为独立 snapshot：
+
+```bash
+python3 eval/scripts/create_office_fixture_dataset_zh.py \
+  --root-dir eval/office_dataset \
+  --snapshot-id yunhe_q2_ops_zh_v1
+```
+
+`yunhe_q2_ops_zh_v1` 使用同一套 schema 和验证方式，但员工、部门、群聊、事件正文、验证问题与期望答案均为中文企业办公语境。它同样保持 22 名员工、7 个 Feishu 群/线程、102 条办公事件、14 条只读验证 case。
+
+注入真实 Feishu 测试群前先 dry-run：
+
+```bash
+python3 eval/scripts/inject_office_snapshot_to_feishu.py \
+  --root-dir eval/office_dataset \
+  --snapshot-id acme_q2_ops_v1 \
+  --target-chat-id <feishu-test-chat-id> \
+  --capture-id acme_q2_ops_v1_injection_001 \
+  --dry-run
+```
+
+真实注入时去掉 `--dry-run`。脚本通过 `openclaw message send --channel feishu` 发送，每条消息会带 `[Dataset actor: ...]` 和原始事件 metadata，保留员工语境；真实 Feishu 回流仍应由 dataset capture 写入 `office_events.jsonl`，再冻结成新的 captured snapshot。
 
 ---
 

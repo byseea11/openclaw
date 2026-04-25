@@ -1,0 +1,70 @@
+{
+  "snapshot_id": "yunhe_q2_ops_zh_v1",
+  "source": "deterministic_realistic_enterprise_fixture_zh",
+  "workspace_id": "feishu_test_workspace_yunhe_q2_ops_zh",
+  "created_at": "2026-04-25T00:00:00Z",
+  "frozen_at": "2026-04-25T00:00:00Z",
+  "scenario": "一家中文 B2B SaaS 公司在 Q2 增长版发布期间的产品、研发、安全、数据、财务、法务、市场和客户成功协作。",
+  "employees_version": {
+    "employee_count": 22,
+    "source": "eval.office_fixture_dataset_zh.EMPLOYEES_ZH"
+  },
+  "validation_case_count": 14,
+  "coverage": {
+    "chats": {
+      "oc_yh_launch": "增长版发布作战群",
+      "oc_yh_risk": "安全与法务评审群",
+      "oc_yh_cutover": "数据迁移割接群",
+      "oc_yh_incident": "支付回调 SEV-2 处置群",
+      "oc_yh_finance": "财务审批协同群",
+      "oc_yh_beta": "客户灰度升级群",
+      "oc_yh_enablement": "发布物料与客服赋能群"
+    },
+    "threads": {
+      "th_yh_launch": "Q2 增长版发布",
+      "th_yh_risk": "安全与法务风险评审",
+      "th_yh_cutover": "数仓 v2 割接",
+      "th_yh_incident": "支付回调 SEV-2",
+      "th_yh_finance": "预算与供应商审批",
+      "th_yh_beta": "灰度客户升级",
+      "th_yh_enablement": "发布赋能材料"
+    },
+    "abilities": [
+      "approval_progression",
+      "blocked_by_chain",
+      "cross_thread_relation",
+      "doc_reference",
+      "file_reference",
+      "graph_hit",
+      "long_horizon_status",
+      "multi_party_dependency",
+      "owner_change",
+      "stale_info_resolution",
+      "temporal_reasoning"
+    ],
+    "message_types": [
+      "approval",
+      "bot_notice",
+      "card",
+      "comment",
+      "document",
+      "file",
+      "post",
+      "system",
+      "text"
+    ]
+  },
+  "stats": {
+    "event_count": 102,
+    "chat_count": 7,
+    "thread_count": 7,
+    "time_range": {
+      "start": "2026-04-01T08:45:00Z",
+      "end": "2026-04-12T16:45:00Z"
+    }
+  },
+  "immutability": {
+    "policy": "不要原地修改该 snapshot；更新或真实 Feishu 回流应创建新的 snapshot_id。",
+    "validation_mode": "read_only_replay"
+  }
+}

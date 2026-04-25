@@ -1,0 +1,312 @@
+{
+  "employees": [
+    {
+      "employee_id": "emp-yh-001",
+      "open_id": "ou_yh_ceo",
+      "name": "林若安",
+      "department_id": "dept-exec",
+      "department_name": "总经办",
+      "title": "CEO",
+      "manager_id": "",
+      "employment_status": "active",
+      "aliases": [
+        "林总",
+        "若安"
+      ]
+    },
+    {
+      "employee_id": "emp-yh-002",
+      "open_id": "ou_yh_cpo",
+      "name": "周明澈",
+      "department_id": "dept-product",
+      "department_name": "产品部",
+      "title": "首席产品官",
+      "manager_id": "ou_yh_ceo",
+      "employment_status": "active",
+      "aliases": [
+        "CPO",
+        "明澈"
+      ]
+    },
+    {
+      "employee_id": "emp-yh-003",
+      "open_id": "ou_yh_product_pm",
+      "name": "陈雨薇",
+      "department_id": "dept-product",
+      "department_name": "产品部",
+      "title": "高级产品经理",
+      "manager_id": "ou_yh_cpo",
+      "employment_status": "active",
+      "aliases": [
+        "发布PM",
+        "雨薇"
+      ]
+    },
+    {
+      "employee_id": "emp-yh-004",
+      "open_id": "ou_yh_design",
+      "name": "许嘉宁",
+      "department_id": "dept-product",
+      "department_name": "产品部",
+      "title": "产品设计师",
+      "manager_id": "ou_yh_cpo",
+      "employment_status": "active",
+      "aliases": [
+        "嘉宁",
+        "设计"
+      ]
+    },
+    {
+      "employee_id": "emp-yh-005",
+      "open_id": "ou_yh_cto",
+      "name": "唐启航",
+      "department_id": "dept-engineering",
+      "department_name": "研发部",
+      "title": "CTO",
+      "manager_id": "ou_yh_ceo",
+      "employment_status": "active",
+      "aliases": [
+        "CTO",
+        "启航"
+      ]
+    },
+    {
+      "employee_id": "emp-yh-006",
+      "open_id": "ou_yh_eng_mgr",
+      "name": "李承泽",
+      "department_id": "dept-engineering",
+      "department_name": "研发部",
+      "title": "研发经理",
+      "manager_id": "ou_yh_cto",
+      "employment_status": "active",
+      "aliases": [
+        "承泽",
+        "研发经理"
+      ]
+    },
+    {
+      "employee_id": "emp-yh-007",
+      "open_id": "ou_yh_backend",
+      "name": "王昕然",
+      "department_id": "dept-engineering",
+      "department_name": "研发部",
+      "title": "后端工程师",
+      "manager_id": "ou_yh_eng_mgr",
+      "employment_status": "active",
+      "aliases": [
+        "后端",
+        "昕然"
+      ]
+    },
+    {
+      "employee_id": "emp-yh-008",
+      "open_id": "ou_yh_frontend",
+      "name": "赵一诺",
+      "department_id": "dept-engineering",
+      "department_name": "研发部",
+      "title": "前端工程师",
+      "manager_id": "ou_yh_eng_mgr",
+      "employment_status": "active",
+      "aliases": [
+        "一诺",
+        "前端"
+      ]
+    },
+    {
+      "employee_id": "emp-yh-009",
+      "open_id": "ou_yh_platform_mgr",
+      "name": "顾清远",
+      "department_id": "dept-platform",
+      "department_name": "平台部",
+      "title": "平台负责人",
+      "manager_id": "ou_yh_cto",
+      "employment_status": "active",
+      "aliases": [
+        "平台",
+        "清远"
+      ]
+    },
+    {
+      "employee_id": "emp-yh-010",
+      "open_id": "ou_yh_sre",
+      "name": "何知夏",
+      "department_id": "dept-platform",
+      "department_name": "平台部",
+      "title": "SRE",
+      "manager_id": "ou_yh_platform_mgr",
+      "employment_status": "active",
+      "aliases": [
+        "SRE",
+        "知夏"
+      ]
+    },
+    {
+      "employee_id": "emp-yh-011",
+      "open_id": "ou_yh_security_lead",
+      "name": "陆安琪",
+      "department_id": "dept-security",
+      "department_name": "安全部",
+      "title": "安全负责人",
+      "manager_id": "ou_yh_cto",
+      "employment_status": "active",
+      "aliases": [
+        "安全",
+        "安琪"
+      ]
+    },
+    {
+      "employee_id": "emp-yh-012",
+      "open_id": "ou_yh_seceng",
+      "name": "蒋亦凡",
+      "department_id": "dept-security",
+      "department_name": "安全部",
+      "title": "安全工程师",
+      "manager_id": "ou_yh_security_lead",
+      "employment_status": "active",
+      "aliases": [
+        "亦凡",
+        "安全工程师"
+      ]
+    },
+    {
+      "employee_id": "emp-yh-013",
+      "open_id": "ou_yh_data_lead",
+      "name": "沈星澜",
+      "department_id": "dept-data",
+      "department_name": "数据部",
+      "title": "数据负责人",
+      "manager_id": "ou_yh_cto",
+      "employment_status": "active",
+      "aliases": [
+        "数据",
+        "星澜"
+      ]
+    },
+    {
+      "employee_id": "emp-yh-014",
+      "open_id": "ou_yh_data_eng",
+      "name": "罗子墨",
+      "department_id": "dept-data",
+      "department_name": "数据部",
+      "title": "数据工程师",
+      "manager_id": "ou_yh_data_lead",
+      "employment_status": "active",
+      "aliases": [
+        "子墨",
+        "数据工程"
+      ]
+    },
+    {
+      "employee_id": "emp-yh-015",
+      "open_id": "ou_yh_ops_head",
+      "name": "韩舒雅",
+      "department_id": "dept-operations",
+      "department_name": "运营部",
+      "title": "运营总监",
+      "manager_id": "ou_yh_ceo",
+      "employment_status": "active",
+      "aliases": [
+        "舒雅",
+        "运营"
+      ]
+    },
+    {
+      "employee_id": "emp-yh-016",
+      "open_id": "ou_yh_release",
+      "name": "范景行",
+      "department_id": "dept-operations",
+      "department_name": "运营部",
+      "title": "发布经理",
+      "manager_id": "ou_yh_ops_head",
+      "employment_status": "active",
+      "aliases": [
+        "发布",
+        "景行"
+      ]
+    },
+    {
+      "employee_id": "emp-yh-017",
+      "open_id": "ou_yh_cfo",
+      "name": "宋知微",
+      "department_id": "dept-finance",
+      "department_name": "财务部",
+      "title": "CFO",
+      "manager_id": "ou_yh_ceo",
+      "employment_status": "active",
+      "aliases": [
+        "CFO",
+        "知微"
+      ]
+    },
+    {
+      "employee_id": "emp-yh-018",
+      "open_id": "ou_yh_finance_ops",
+      "name": "邵予怀",
+      "department_id": "dept-finance",
+      "department_name": "财务部",
+      "title": "财务运营经理",
+      "manager_id": "ou_yh_cfo",
+      "employment_status": "active",
+      "aliases": [
+        "予怀",
+        "财务运营"
+      ]
+    },
+    {
+      "employee_id": "emp-yh-019",
+      "open_id": "ou_yh_legal",
+      "name": "秦晚晴",
+      "department_id": "dept-legal",
+      "department_name": "法务部",
+      "title": "法务顾问",
+      "manager_id": "ou_yh_ceo",
+      "employment_status": "active",
+      "aliases": [
+        "晚晴",
+        "法务"
+      ]
+    },
+    {
+      "employee_id": "emp-yh-020",
+      "open_id": "ou_yh_marketing",
+      "name": "白芷晴",
+      "department_id": "dept-marketing",
+      "department_name": "市场部",
+      "title": "市场负责人",
+      "manager_id": "ou_yh_cpo",
+      "employment_status": "active",
+      "aliases": [
+        "市场",
+        "芷晴"
+      ]
+    },
+    {
+      "employee_id": "emp-yh-021",
+      "open_id": "ou_yh_cs_lead",
+      "name": "孟子昂",
+      "department_id": "dept-customer-success",
+      "department_name": "客户成功部",
+      "title": "客户成功负责人",
+      "manager_id": "ou_yh_ceo",
+      "employment_status": "active",
+      "aliases": [
+        "子昂",
+        "客户成功"
+      ]
+    },
+    {
+      "employee_id": "emp-yh-022",
+      "open_id": "ou_yh_support",
+      "name": "叶思源",
+      "department_id": "dept-customer-success",
+      "department_name": "客户成功部",
+      "title": "支持专员",
+      "manager_id": "ou_yh_cs_lead",
+      "employment_status": "active",
+      "aliases": [
+        "思源",
+        "支持"
+      ]
+    }
+  ]
+}
