@@ -52,6 +52,7 @@ import {
 } from "./policy.js";
 import { resolveFeishuReasoningPreviewEnabled } from "./reasoning-preview.js";
 import { createFeishuReplyDispatcher } from "./reply-dispatcher.js";
+import { recordFeishuDatasetInboundEvent } from "./dataset-capture.js";
 import { getFeishuRuntime } from "./runtime.js";
 import { getMessageFeishu, listFeishuThreadMessages, sendMessageFeishu } from "./send.js";
 import { recordFeishuNormalizedTrace, recordFeishuRouteTrace } from "./trace.js";
@@ -378,6 +379,15 @@ export async function handleFeishuMessage(params: {
   log(
     `feishu[${account.accountId}]: received message from ${ctx.senderOpenId} in ${ctx.chatId} (${ctx.chatType})`,
   );
+  void recordFeishuDatasetInboundEvent({
+    cfg: feishuCfg,
+    accountId: account.accountId,
+    event,
+    ctx,
+    senderName: ctx.senderName,
+  }).catch((captureErr) => {
+    log(`feishu[${account.accountId}]: dataset capture failed: ${String(captureErr)}`);
+  });
 
   // Log mention targets if detected
   if (ctx.mentionTargets && ctx.mentionTargets.length > 0) {

@@ -21,6 +21,37 @@
 - `openclaw-main/` 负责真正的 memory 存储、更新、检索和 context assemble
 - `Feishu` 是真实业务里的消息入口、消息出口和原始事件来源，但不是 memory 本身
 
+## Office Snapshot Flow
+
+真实 Feishu 办公数据、验证集和 Graph 统一走 snapshot flow：
+
+- `eval/scripts/sync_feishu_employees.py`
+  - 通过 OpenClaw 的 `feishu_chat` 工具从真实 Feishu 群成员同步员工集合。
+- `extensions/feishu/src/dataset-capture.ts`
+  - 在 Feishu 入站/出站链路上把真实消息归档到 live capture。
+- `eval/scripts/freeze_office_snapshot.py`
+  - 把 live capture 冻结成不可变 snapshot。
+- `eval/scripts/build_office_graph.py`
+  - 只从 frozen snapshot 构建 Graph。
+- `eval/scripts/run_office_validation.py`
+  - 在同一个 frozen snapshot 上做只读验证回放，不改 Feishu，不改 snapshot。
+
+目录约定：
+
+```text
+eval/office_dataset/
+  captures/<capture_id>/
+    capture-metadata.json
+    office_events.jsonl
+  snapshots/<snapshot_id>/
+    employees.json
+    employees.csv
+    office_events.jsonl
+    validation_manifest.json
+    snapshot-metadata.json
+    SNAPSHOT_LOCK
+```
+
 ---
 
 ## 一、统一设计原则

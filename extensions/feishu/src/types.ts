@@ -97,6 +97,15 @@ export type FeishuToolsConfig = {
   scopes?: boolean;
 };
 
+export type FeishuDatasetCaptureConfig = {
+  enabled?: boolean;
+  rootDir?: string;
+  workspaceId?: string;
+  captureId?: string;
+  collectInbound?: boolean;
+  collectOutbound?: boolean;
+};
+
 export type DynamicAgentCreationConfig = {
   enabled?: boolean;
   workspaceTemplate?: string;

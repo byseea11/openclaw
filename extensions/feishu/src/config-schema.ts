@@ -103,6 +103,18 @@ const FeishuToolsConfigSchema = z
   .strict()
   .optional();
 
+const FeishuDatasetCaptureSchema = z
+  .object({
+    enabled: z.boolean().optional(),
+    rootDir: z.string().optional(),
+    workspaceId: z.string().optional(),
+    captureId: z.string().optional(),
+    collectInbound: z.boolean().optional(),
+    collectOutbound: z.boolean().optional(),
+  })
+  .strict()
+  .optional();
+
 /**
  * Group session scope for routing Feishu group messages.
  * - "group" (default): one session per group chat
@@ -177,6 +189,7 @@ const FeishuSharedConfigShape = {
   renderMode: RenderModeSchema,
   streaming: StreamingModeSchema,
   tools: FeishuToolsConfigSchema,
+  datasetCapture: FeishuDatasetCaptureSchema,
   actions: ChannelActionsSchema,
   replyInThread: ReplyInThreadSchema,
   reactionNotifications: ReactionNotificationModeSchema,
