@@ -1,7 +1,11 @@
+import type { DecisionStateViewV2, EventRecordV2 } from "./schema-v2.js";
 import type { GraphHit } from "./schema.js";
 import type { CanonicalStore } from "./store.js";
 
-type QueryClass = "state" | "why" | "timeline" | "list_relation";
+type QueryClass = "state" | "why" | "timeline" | "list_relation" | "decision_card";
+
+const DECISION_CARD_RE =
+  /(之前怎么定的|为什么这样定|反对意见|这个结论后来改过吗|为什么.*确认日期|现在到底按哪个口径|之前为什么选|历史决策|结论|口径|方案)/i;
 
 function asRecord(value: string): Record<string, unknown> {
   try {
@@ -35,6 +39,8 @@ function eventLabel(eventType: string): string {
       return "unblocked";
     case "next_action_set":
       return "next action set";
+    case "decision_claim_recorded":
+      return "decision claim recorded";
     default:
       return eventType;
   }
@@ -42,6 +48,9 @@ function eventLabel(eventType: string): string {
 
 export function classifyQueryV2(query: string): QueryClass {
   const normalized = query.toLowerCase();
+  if (DECISION_CARD_RE.test(normalized)) {
+    return "decision_card";
+  }
   if (/(why|为什么|原因|卡在哪|blocked|blocker|dependency)/i.test(normalized)) {
     return "why";
   }
@@ -247,6 +256,164 @@ function buildListRelationHits(
   return [];
 }
 
+function resolveDecisionAxisKey(query: string): string | null {
+  if (/(确认日期|发布日期|目标日期|5月|5 月|deadline|release date)/i.test(query)) {
+    return "release_date";
+  }
+  if (/(方案|选 A|选 B|solution)/i.test(query)) {
+    return "solution_choice";
+  }
+  if (/(灰度|gray|灰度发布)/i.test(query)) {
+    return "gray_release_plan";
+  }
+  if (/(依赖|迁移窗口|readiness|checklist|ready)/i.test(query)) {
+    return "dependency_readiness";
+  }
+  if (/(对外|同步|口径|communication)/i.test(query)) {
+    return "external_communication";
+  }
+  if (/(阶段|stage)/i.test(query)) {
+    return "project_stage";
+  }
+  if (/(风险|risk)/i.test(query)) {
+    return "risk_handling";
+  }
+  if (/(决策|结论|之前怎么定)/i.test(query)) {
+    return "general_decision";
+  }
+  return null;
+}
+
+function arrayFromJson(value: string): string[] {
+  try {
+    const parsed = JSON.parse(value) as unknown;
+    return Array.isArray(parsed)
+      ? parsed.filter((entry): entry is string => typeof entry === "string")
+      : [];
+  } catch {
+    return [];
+  }
+}
+
+function payloadForDecisionEvent(event: EventRecordV2): Record<string, unknown> {
+  return asRecord(event.payload_json);
+}
+
+function claimTextFromEvent(event: EventRecordV2 | null): string | null {
+  if (!event) {
+    return null;
+  }
+  const payload = payloadForDecisionEvent(event);
+  return typeof payload.claim_text === "string" ? payload.claim_text : null;
+}
+
+function collectDecisionEvidence(
+  store: CanonicalStore,
+  events: EventRecordV2[],
+): Array<{ event_id: string; evidence_id: string; source_ref: string; quote: string | null }> {
+  return events.flatMap((event) => {
+    const evidence = store.getEvidenceByIdV2(event.evidence_id);
+    if (!evidence) {
+      return [];
+    }
+    const payload = payloadForDecisionEvent(event);
+    return [
+      {
+        event_id: event.event_id,
+        evidence_id: evidence.evidence_id,
+        source_ref: sourceRefFromEvidence(evidence.source_locator_json),
+        quote:
+          typeof payload.evidence_quote === "string"
+            ? payload.evidence_quote
+            : evidence.content_text,
+      },
+    ];
+  });
+}
+
+function buildDecisionCardHit(
+  store: CanonicalStore,
+  decisionState: DecisionStateViewV2,
+  decisionEvents: EventRecordV2[],
+): GraphHit {
+  const conclusionEvent = decisionState.active_conclusion_event_id
+    ? store.getEventByIdV2(decisionState.active_conclusion_event_id)
+    : null;
+  const rationaleEvents = store.getEventsByIdsV2(
+    arrayFromJson(decisionState.active_rationale_event_ids_json),
+  );
+  const objectionEvents = store.getEventsByIdsV2(
+    arrayFromJson(decisionState.active_objection_event_ids_json),
+  );
+  const activeStageEvent = decisionState.active_stage_event_id
+    ? store.getEventByIdV2(decisionState.active_stage_event_id)
+    : null;
+  const timePointEvents = store.getEventsByIdsV2(
+    arrayFromJson(decisionState.active_time_point_event_ids_json),
+  );
+  const evidenceRefs = collectDecisionEvidence(store, decisionEvents);
+  const sourceRef = evidenceRefs[0]?.source_ref ?? "transcripts/unknown.txt#L1-L1";
+  return {
+    type: "state",
+    entity_id: decisionState.topic_ref,
+    source_ref: sourceRef,
+    score: 1,
+    snippet_structured: {
+      query_kind: "decision_card",
+      topic_ref: decisionState.topic_ref,
+      decision_axis_key: decisionState.decision_axis_key,
+      decision_axis_text: decisionState.decision_axis_text,
+      current_conclusion: claimTextFromEvent(conclusionEvent),
+      rationales: rationaleEvents
+        .map((event) => claimTextFromEvent(event))
+        .filter((value): value is string => Boolean(value)),
+      objections: objectionEvents
+        .map((event) => claimTextFromEvent(event))
+        .filter((value): value is string => Boolean(value)),
+      stage_claims: activeStageEvent ? [claimTextFromEvent(activeStageEvent)].filter(Boolean) : [],
+      time_point_claims: timePointEvents
+        .map((event) => claimTextFromEvent(event))
+        .filter((value): value is string => Boolean(value)),
+      evidence_refs: evidenceRefs,
+      historical_claims: decisionEvents.map((event) => ({
+        event_id: event.event_id,
+        occurred_at: event.occurred_at,
+        ...payloadForDecisionEvent(event),
+      })),
+      last_event_id: decisionState.last_event_id,
+    },
+  };
+}
+
+function buildDecisionCardHits(
+  store: CanonicalStore,
+  query: string,
+  limit: number,
+  resolvedRef: string | null,
+): GraphHit[] {
+  const taskMatch = query.match(/\b([A-Z][A-Z0-9]+-\d+)\b/);
+  const axisKey = resolveDecisionAxisKey(query);
+  const taskId = taskMatch?.[1] ?? (resolvedRef?.startsWith("task:") ? resolvedRef.slice(5) : null);
+  if (!taskId) {
+    return [];
+  }
+  const states = store.findDecisionStatesByAnchor({
+    anchorType: "task",
+    anchorRef: taskId,
+    decisionAxisKey: axisKey,
+    limit,
+  });
+  return states.slice(0, limit).map((state) => {
+    const events = store.listDecisionEventsForTopic({
+      topicRef: state.topic_ref,
+      decisionAxisKey: state.decision_axis_key,
+      decisionAxisInstanceId: state.decision_axis_instance_id,
+      limit: 50,
+    });
+    return buildDecisionCardHit(store, state, events);
+  });
+}
+
 export async function searchGraphV2(
   store: CanonicalStore,
   query: string,
@@ -256,6 +423,13 @@ export async function searchGraphV2(
   const resolved = resolveEntityRefV2(store, query);
   const resolvedRef = resolved?.entity_ref ?? null;
   const limit = Math.max(1, maxResults);
+  if (queryClass === "decision_card") {
+    return {
+      hits: buildDecisionCardHits(store, query, limit, resolvedRef).slice(0, limit),
+      queryClass,
+      resolvedRef,
+    };
+  }
   if (queryClass === "state" && resolvedRef?.startsWith("task:")) {
     return { hits: buildStateHit(store, resolvedRef).slice(0, limit), queryClass, resolvedRef };
   }

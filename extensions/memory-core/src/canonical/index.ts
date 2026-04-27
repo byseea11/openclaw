@@ -49,6 +49,7 @@ export {
 } from "./extractor.js";
 export { createSubagentExtractorClient, isGraphExtractorSessionKey } from "./extractor.runtime.js";
 export { graphHitToMemorySearchResult, renderGraphHit } from "./prompt.js";
+export type { GraphMemorySearchResult } from "./prompt.js";
 export {
   drainPendingGraphUpdates,
   handleGraphAfterTurn,

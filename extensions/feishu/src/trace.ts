@@ -1,9 +1,14 @@
+import fs from "node:fs/promises";
+import path from "node:path";
 import type { FeishuMessageContext } from "./types.js";
 import type { FeishuMessageEvent } from "./event-types.js";
 import type { ResolvedFeishuGroupSession } from "./bot-content.js";
 
 export const FEISHU_TRACE_ENV = "OPENCLAW_FEISHU_TRACE";
 export const FEISHU_TRACE_TAG = "FEISHU_TRACE";
+export const FEISHU_INGRESS_CAPTURE_DIR_ENV = "OPENCLAW_FEISHU_INGRESS_CAPTURE_DIR";
+
+const ingressCaptureWriteQueue = new Map<string, Promise<void>>();
 
 type FeishuLogger = ((...args: unknown[]) => void) | undefined;
 
@@ -54,6 +59,47 @@ function recordTrace(params: {
   }
 }
 
+function resolveFeishuIngressCaptureDir(): string | null {
+  const dir = process.env[FEISHU_INGRESS_CAPTURE_DIR_ENV]?.trim();
+  return dir ? dir : null;
+}
+
+function enqueueIngressCaptureWrite(filePath: string, row: Record<string, unknown>): Promise<void> {
+  const previous = ingressCaptureWriteQueue.get(filePath) ?? Promise.resolve();
+  const next = previous.then(async () => {
+    await fs.mkdir(path.dirname(filePath), { recursive: true });
+    await fs.appendFile(filePath, `${JSON.stringify(row)}\n`, "utf8");
+  });
+  ingressCaptureWriteQueue.set(filePath, next.catch(() => {}));
+  return next;
+}
+
+function recordFeishuIngressCaptureRow(params: {
+  log?: FeishuLogger;
+  accountId: string;
+  fileName: string;
+  row: Record<string, unknown>;
+}): void {
+  const captureDir = resolveFeishuIngressCaptureDir();
+  if (!captureDir) {
+    return;
+  }
+  const filePath = path.join(captureDir, params.fileName);
+  void enqueueIngressCaptureWrite(filePath, {
+    ts: new Date().toISOString(),
+    account_id: params.accountId,
+    ...params.row,
+  }).catch((err) => {
+    params.log?.(
+      `feishu[${params.accountId}]: failed to write ingress capture ${params.fileName}: ${String(err)}`,
+    );
+  });
+}
+
+export async function flushFeishuIngressCaptureWritesForTest(): Promise<void> {
+  await Promise.all([...ingressCaptureWriteQueue.values()]);
+}
+
 export function recordFeishuIngressTrace(params: {
   log?: FeishuLogger;
   accountId: string;
@@ -86,6 +132,15 @@ export function recordFeishuIngressTrace(params: {
           mentions: simplifyMentions(event.message.mentions),
         },
       },
+    },
+  });
+  recordFeishuIngressCaptureRow({
+    log: params.log,
+    accountId: params.accountId,
+    fileName: "feishu_message_events.jsonl",
+    row: {
+      stage: "message_event_received",
+      event,
     },
   });
 }
@@ -125,6 +180,18 @@ export function recordFeishuNormalizedTrace(params: {
             key: target.key,
           })) ?? [],
       },
+    },
+  });
+  recordFeishuIngressCaptureRow({
+    log: params.log,
+    accountId: params.accountId,
+    fileName: "feishu_message_contexts.jsonl",
+    row: {
+      stage: "message_normalized",
+      raw_content: params.rawContent,
+      sender_user_id: params.senderUserId ?? null,
+      sender_name: params.senderName ?? null,
+      context: params.ctx,
     },
   });
 }

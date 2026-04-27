@@ -79,9 +79,9 @@ export async function bootstrapCanonicalIndex(params: {
     const sourceRef = sourceRefForFile(params.workspaceDir, filePath, lineCount);
     log.info(`canonical.bootstrap.file source_ref=${sourceRef}`);
     const extractStartedAt = Date.now();
-    let raw;
+    let extraction;
     try {
-      raw = await extract(text, sourceRef);
+      extraction = await extract(text, sourceRef);
     } catch (err) {
       store.recordExtractorLatency(Date.now() - extractStartedAt);
       store.bumpMetric("extractFailures", 1);
@@ -92,18 +92,21 @@ export async function bootstrapCanonicalIndex(params: {
     }
     store.recordExtractorLatency(Date.now() - extractStartedAt);
     store.bumpMetric("extractSuccesses", 1);
-    eventsExtracted += raw.length;
-    if (raw.length > 0) {
+    eventsExtracted += extraction.claims.length;
+    if (extraction.should_extract && extraction.claims.length > 0) {
       const canonicalized = canonicalizeV2({
         sourceId: params.agentId,
         sourceRef,
         text,
         entries: [],
-        rawEvents: raw,
+        extraction,
         sourcePlatform: "legacy",
         sourceKind: "legacy_event_record",
       });
-      const persisted = await store.persistSemanticBatchV2(canonicalized);
+      const persisted = await store.persistSemanticBatchV2({
+        evidence: canonicalized.evidence,
+        events: canonicalized.events,
+      });
       recordsWritten += persisted.events.length;
     }
     params.progress?.({

@@ -49,7 +49,7 @@ describe("canonical graph usage tracking", () => {
     const evidenceId = generateUlid();
     const occurredAt = "2026-04-15T00:00:00.000Z";
     await store.persistSemanticBatchV2({
-      evidence: {
+      evidence: [{
         evidence_id: evidenceId,
         evidence_fingerprint: buildEvidenceFingerprint({
           sourcePlatform: "transcript",
@@ -79,7 +79,7 @@ describe("canonical graph usage tracking", () => {
         }),
         occurred_at: occurredAt,
         created_at: Date.now(),
-      },
+      }],
       events: [
         {
           event_id: generateUlid(),

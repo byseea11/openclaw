@@ -31,6 +31,49 @@ function optionalLine(label: string, value: unknown): string | null {
 
 export function renderGraphHit(hit: GraphHit): string {
   const structured = hit.snippet_structured;
+  if (hit.type === "state" && structured.query_kind === "decision_card") {
+    const rationales = Array.isArray(structured.rationales)
+      ? structured.rationales.filter((value): value is string => typeof value === "string")
+      : [];
+    const objections = Array.isArray(structured.objections)
+      ? structured.objections.filter((value): value is string => typeof value === "string")
+      : [];
+    const stageClaims = Array.isArray(structured.stage_claims)
+      ? structured.stage_claims.filter((value): value is string => typeof value === "string")
+      : [];
+    const timePoints = Array.isArray(structured.time_point_claims)
+      ? structured.time_point_claims.filter((value): value is string => typeof value === "string")
+      : [];
+    const evidenceRefs = Array.isArray(structured.evidence_refs)
+      ? structured.evidence_refs
+          .map((value) =>
+            value && typeof value === "object" && !Array.isArray(value)
+              ? (value as Record<string, unknown>)
+              : null,
+          )
+          .filter((value): value is Record<string, unknown> => Boolean(value))
+      : [];
+    return [
+      "[Graph decision_card]",
+      optionalLine("topic", structured.topic_ref),
+      optionalLine("axis", structured.decision_axis_text ?? structured.decision_axis_key),
+      optionalLine("current_conclusion", structured.current_conclusion),
+      stageClaims.length > 0 ? `stage: ${stageClaims.join(" | ")}` : null,
+      timePoints.length > 0 ? `time_points: ${timePoints.join(" | ")}` : null,
+      rationales.length > 0 ? `rationales: ${rationales.join(" | ")}` : null,
+      objections.length > 0 ? `objections: ${objections.join(" | ")}` : null,
+      evidenceRefs.length > 0
+        ? `evidence: ${evidenceRefs
+            .map((value) =>
+              typeof value.source_ref === "string" ? value.source_ref : "(unknown source)",
+            )
+            .join(", ")}`
+        : null,
+      `source: ${hit.source_ref}`,
+    ]
+      .filter((line): line is string => Boolean(line))
+      .join("\n");
+  }
   if (typeof structured.group_type === "string" && typeof structured.evidence_group === "object") {
     const group = structured.evidence_group as Record<string, unknown>;
     const label =

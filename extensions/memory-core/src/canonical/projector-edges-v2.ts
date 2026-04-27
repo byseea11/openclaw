@@ -14,6 +14,7 @@ export type EdgeUpsertV2 = {
 export type EdgeCloseV2 = {
   src_ref: string;
   edge_type: GraphEdgeV2["edge_type"];
+  dst_ref?: string | null;
   closed_at: string;
 };
 
@@ -65,8 +66,87 @@ export function deriveGraphEdgeMutationsV2(events: EventRecordV2[]): EdgeMutatio
   const upserts: EdgeUpsertV2[] = [];
 
   for (const event of events) {
-    const src = taskRef(event);
     const payload = asPayload(event.payload_json);
+    if (event.event_type === "decision_claim_recorded") {
+      const topicRef =
+        typeof payload.topic_ref === "string" ? payload.topic_ref : event.subject_ref;
+      const claimField =
+        typeof payload.claim_field === "string" ? payload.claim_field : "rationale";
+      const claimRef = `event:${event.event_id}`;
+      const evidenceRef = `evidence:${event.evidence_id}`;
+      const edgeType =
+        claimField === "conclusion"
+          ? "has_active_conclusion_claim"
+          : claimField === "objection"
+            ? "has_active_objection_claim"
+            : claimField === "stage"
+              ? "has_active_stage_claim"
+              : claimField === "time_point"
+                ? "has_active_time_point_claim"
+                : "has_active_rationale_claim";
+      if (claimField === "conclusion" || claimField === "stage") {
+        closes.push({ src_ref: topicRef, edge_type: edgeType, closed_at: event.occurred_at });
+      }
+      upserts.push(upsert(event, topicRef, edgeType, claimRef));
+      upserts.push(upsert(event, claimRef, "supported_by", evidenceRef));
+      const anchors =
+        payload.topic_anchors_json && typeof payload.topic_anchors_json === "object"
+          ? (payload.topic_anchors_json as Record<string, unknown>)
+          : {};
+      for (const taskRef of Array.isArray(anchors.task_refs) ? anchors.task_refs : []) {
+        if (typeof taskRef === "string" && taskRef.trim()) {
+          upserts.push(
+            upsert(
+              event,
+              topicRef,
+              "anchored_by_task",
+              taskRef.startsWith("task:") ? taskRef : `task:${taskRef}`,
+            ),
+          );
+        }
+      }
+      for (const threadId of Array.isArray(anchors.thread_ids) ? anchors.thread_ids : []) {
+        if (typeof threadId === "string" && threadId.trim()) {
+          upserts.push(upsert(event, topicRef, "anchored_by_thread", `thread:${threadId}`));
+        }
+      }
+      for (const docRef of Array.isArray(anchors.doc_refs) ? anchors.doc_refs : []) {
+        if (typeof docRef === "string" && docRef.trim()) {
+          upserts.push(
+            upsert(event, topicRef, "anchored_by_doc", docRef.includes(":") ? docRef : `doc:${docRef}`),
+          );
+        }
+      }
+      for (const projectName of Array.isArray(anchors.project_names) ? anchors.project_names : []) {
+        if (typeof projectName === "string" && projectName.trim()) {
+          upserts.push(
+            upsert(
+              event,
+              topicRef,
+              "anchored_by_project",
+              `project:${projectName.trim().toLowerCase().replace(/\s+/g, "-")}`,
+            ),
+          );
+        }
+      }
+      const claimValue =
+        payload.claim_value_json && typeof payload.claim_value_json === "object"
+          ? (payload.claim_value_json as Record<string, unknown>)
+          : {};
+      if (claimField === "time_point" && typeof claimValue.date === "string" && claimValue.date.trim()) {
+        const dateRef = `date:${claimValue.date.trim()}`;
+        closes.push({
+          src_ref: topicRef,
+          edge_type: "has_active_time_point_claim",
+          dst_ref: dateRef,
+          closed_at: event.occurred_at,
+        });
+        upserts.push(upsert(event, topicRef, "related_time", dateRef));
+      }
+      continue;
+    }
+
+    const src = taskRef(event);
     if (!src) {
       continue;
     }

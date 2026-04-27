@@ -52,7 +52,7 @@ async function seedBlockedTask() {
   const evidenceId = generateUlid();
   const occurredAt = "2026-04-20T12:00:00.000Z";
   await store.persistSemanticBatchV2({
-    evidence: {
+    evidence: [{
       evidence_id: evidenceId,
       evidence_fingerprint: buildEvidenceFingerprint({
         sourcePlatform: "transcript",
@@ -80,7 +80,7 @@ async function seedBlockedTask() {
       source_locator_json: JSON.stringify({ source_ref: "transcripts/test.txt#L1-L1" }),
       occurred_at: occurredAt,
       created_at: Date.now(),
-    },
+    }],
     events: [
       {
         event_id: generateUlid(),

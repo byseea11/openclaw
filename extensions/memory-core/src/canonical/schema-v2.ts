@@ -7,6 +7,7 @@ export const V2_EVENT_TYPES = [
   "blocked",
   "unblocked",
   "next_action_set",
+  "decision_claim_recorded",
 ] as const;
 
 export type V2EventType = (typeof V2_EVENT_TYPES)[number];
@@ -36,12 +37,13 @@ export type EvidenceRecordV2 = {
   source_locator_json: string;
   occurred_at: string | null;
   created_at: number;
+  linked_event_ids_json?: string | null;
 };
 
 export type EventTypeRegistryRecord = {
   event_type: V2EventType;
-  subject_type: "task" | "approval";
-  object_type: "person" | "approval" | "blocker" | "task" | null;
+  subject_type: string;
+  object_type: string | null;
   payload_schema_json: string;
   description: string;
   enabled: number;
@@ -79,9 +81,53 @@ export type WorkflowStateViewV2 = {
   updated_at: number;
 };
 
+export type DecisionClaimFieldV2 =
+  | "conclusion"
+  | "rationale"
+  | "objection"
+  | "stage"
+  | "time_point";
+
+export type DecisionAxisKeyV2 =
+  | "release_date"
+  | "solution_choice"
+  | "gray_release_plan"
+  | "dependency_readiness"
+  | "external_communication"
+  | "project_stage"
+  | "risk_handling"
+  | "general_decision";
+
+export type DecisionStateViewV2 = {
+  topic_ref: string;
+  decision_axis_key: DecisionAxisKeyV2;
+  decision_axis_text: string;
+  decision_axis_instance_id: string | null;
+  active_conclusion_event_id: string | null;
+  active_rationale_event_ids_json: string;
+  active_objection_event_ids_json: string;
+  active_stage_event_id: string | null;
+  active_time_point_event_ids_json: string;
+  slot_versions_json: string;
+  last_event_id: string;
+  updated_at: number;
+};
+
 export type GraphEntityV2 = {
   entity_ref: string;
-  entity_type: "task" | "approval" | "person" | "blocker";
+  entity_type:
+    | "task"
+    | "approval"
+    | "person"
+    | "blocker"
+    | "topic"
+    | "thread"
+    | "doc"
+    | "project"
+    | "claim"
+    | "evidence"
+    | "date"
+    | "stage";
   canonical_name: string;
   alias_json: string;
   first_seen_at: string;
@@ -94,7 +140,24 @@ export type GraphEdgeV2 = {
   edge_id: string;
   edge_key: string;
   src_ref: string;
-  edge_type: "assigned_to" | "has_approval" | "blocked_by" | "next_action_owner" | "related_to";
+  edge_type:
+    | "assigned_to"
+    | "has_approval"
+    | "blocked_by"
+    | "next_action_owner"
+    | "related_to"
+    | "anchored_by_task"
+    | "anchored_by_thread"
+    | "anchored_by_doc"
+    | "anchored_by_project"
+    | "has_active_conclusion_claim"
+    | "has_active_rationale_claim"
+    | "has_active_objection_claim"
+    | "has_active_stage_claim"
+    | "has_active_time_point_claim"
+    | "supported_by"
+    | "related_time"
+    | "supersedes";
   dst_ref: string;
   derived_from_event_id: string;
   active: number;
@@ -103,7 +166,7 @@ export type GraphEdgeV2 = {
   updated_at: number;
 };
 
-export type QueryClassV2 = "state" | "why" | "timeline" | "list_relation";
+export type QueryClassV2 = "state" | "why" | "timeline" | "list_relation" | "decision_card";
 
 export const EVENT_TYPE_REGISTRY_SEED: EventTypeRegistryRecord[] = [
   {
@@ -183,6 +246,26 @@ export const EVENT_TYPE_REGISTRY_SEED: EventTypeRegistryRecord[] = [
     enabled: 1,
     created_at: 0,
   },
+  {
+    event_type: "decision_claim_recorded",
+    subject_type: "topic",
+    object_type: null,
+    payload_schema_json: canonicalJson({
+      topic_ref: "string",
+      topic_anchors_json: "object",
+      decision_axis_key: "string",
+      decision_axis_text: "string",
+      decision_axis_instance_id: "string?",
+      claim_field: "string",
+      claim_text: "string",
+      claim_value_json: "object?",
+      evidence_quote: "string",
+      confidence: "number",
+    }),
+    description: "A quote-grounded atomic decision claim.",
+    enabled: 1,
+    created_at: 0,
+  },
 ];
 
 export function buildEvidenceFingerprint(params: {
@@ -235,6 +318,26 @@ export function buildEventFingerprint(params: {
       params.objectRef ?? "",
       params.occurredAt,
       canonicalJson(params.payloadJson),
+    ].join("|"),
+  );
+}
+
+export function buildDecisionClaimEventFingerprint(params: {
+  topicRef: string;
+  decisionAxisKey: string;
+  decisionAxisInstanceId?: string | null;
+  claimField: string;
+  claimText: string;
+  evidenceId: string;
+}): string {
+  return sha256(
+    [
+      params.topicRef,
+      params.decisionAxisKey,
+      params.decisionAxisInstanceId ?? "",
+      params.claimField,
+      params.claimText,
+      params.evidenceId,
     ].join("|"),
   );
 }

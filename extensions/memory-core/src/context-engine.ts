@@ -15,7 +15,7 @@ const STATE_SUMMARY_BUDGET_CHARS = 900;
 const TAIL_EVIDENCE_BUDGET_CHARS = 1_800;
 const TAIL_EVIDENCE_LIMIT = 3;
 const MEMORY_INTENT_RE =
-  /\b([A-Z][A-Z0-9]+-\d+|AP-\d+)\b|why|blocked|blocker|dependency|timeline|changed|owner|approval|status|todo|next action|memory|remember|之前|上次|历史|演进|为什么|原因|卡在哪|哪些|列出|关系|依赖|负责人|审批|状态|下一步/i;
+  /\b([A-Z][A-Z0-9]+-\d+|AP-\d+)\b|why|blocked|blocker|dependency|timeline|changed|owner|approval|status|todo|next action|memory|remember|decision|conclusion|rationale|objection|release date|之前|上次|历史|演进|为什么|原因|卡在哪|哪些|列出|关系|依赖|负责人|审批|状态|下一步|结论|口径|反对意见|决策|发布日期/i;
 
 function hasMemoryIntent(prompt: string): boolean {
   return MEMORY_INTENT_RE.test(prompt);
@@ -31,20 +31,31 @@ function isContextRecallEnabled(cfg: OpenClawConfig): boolean {
   return value !== false;
 }
 
-function resultRef(result: Pick<MemorySearchResult, "path" | "startLine" | "endLine">): string {
-  return `${result.path}#L${result.startLine}-L${result.endLine}`;
+function resultRef(
+  result: Pick<MemorySearchResultWithCorpus, "path" | "startLine" | "endLine">,
+): string {
+  return `${result.path}#L${result.startLine ?? 1}-L${result.endLine ?? result.startLine ?? 1}`;
+}
+
+function isGraphResult(
+  result: MemorySearchResultWithCorpus,
+): result is GraphMemorySearchResult {
+  return result.corpus === "graph";
 }
 
 function resultCorpus(result: MemorySearchResultWithCorpus): string {
-  return result.corpus === "graph" ? `graph:${result.graphMeta.type}` : result.corpus;
+  return isGraphResult(result) ? `graph:${result.graphMeta.type}` : result.corpus;
 }
 
 function graphType(result: MemorySearchResultWithCorpus): string | null {
-  return result.corpus === "graph" ? result.graphMeta.type : null;
+  return isGraphResult(result) ? result.graphMeta.type : null;
 }
 
 function evidencePriority(queryClass: QueryClass, result: MemorySearchResultWithCorpus): number {
   const type = graphType(result);
+  if (queryClass === "decision_card") {
+    return type === "state" ? 0 : type === "event" ? 1 : result.corpus === "memory" ? 2 : 3;
+  }
   if (queryClass === "state") {
     return type === "state" ? 0 : type === "event" ? 1 : result.corpus === "memory" ? 2 : 3;
   }
@@ -221,6 +232,16 @@ export class MemoryCoreContextEngine implements ContextEngine {
     } catch {
       return { messages: params.messages, estimatedTokens: 0 };
     }
+  }
+
+  async compact(
+    _params: Parameters<ContextEngine["compact"]>[0],
+  ): Promise<{ ok: true; compacted: false; reason: string }> {
+    return {
+      ok: true,
+      compacted: false,
+      reason: "memory-core-context-engine-noop",
+    };
   }
 }
 

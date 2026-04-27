@@ -1,7 +1,12 @@
+import fs from "node:fs/promises";
+import os from "node:os";
+import path from "node:path";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import {
+  FEISHU_INGRESS_CAPTURE_DIR_ENV,
   FEISHU_TRACE_ENV,
   FEISHU_TRACE_TAG,
+  flushFeishuIngressCaptureWritesForTest,
   recordFeishuIngressTrace,
   recordFeishuNormalizedTrace,
   recordFeishuRouteTrace,
@@ -10,6 +15,8 @@ import type { FeishuMessageEvent } from "./event-types.js";
 import type { FeishuMessageContext } from "./types.js";
 
 const originalTraceEnv = process.env[FEISHU_TRACE_ENV];
+const originalCaptureDirEnv = process.env[FEISHU_INGRESS_CAPTURE_DIR_ENV];
+const tempDirs: string[] = [];
 
 function buildEvent(): FeishuMessageEvent {
   return {
@@ -65,9 +72,23 @@ afterEach(() => {
   vi.restoreAllMocks();
   if (originalTraceEnv === undefined) {
     delete process.env[FEISHU_TRACE_ENV];
-    return;
+  } else {
+    process.env[FEISHU_TRACE_ENV] = originalTraceEnv;
   }
-  process.env[FEISHU_TRACE_ENV] = originalTraceEnv;
+  if (originalCaptureDirEnv === undefined) {
+    delete process.env[FEISHU_INGRESS_CAPTURE_DIR_ENV];
+  } else {
+    process.env[FEISHU_INGRESS_CAPTURE_DIR_ENV] = originalCaptureDirEnv;
+  }
+});
+
+afterEach(async () => {
+  await flushFeishuIngressCaptureWritesForTest();
+  await Promise.all(
+    tempDirs.splice(0).map(async (dir) => {
+      await fs.rm(dir, { recursive: true, force: true });
+    }),
+  );
 });
 
 describe("Feishu trace logging", () => {
@@ -171,6 +192,65 @@ describe("Feishu trace logging", () => {
           }),
         }),
       ]),
+    );
+  });
+
+  it("captures raw events and normalized contexts to jsonl when capture dir is enabled", async () => {
+    const captureDir = await fs.mkdtemp(path.join(os.tmpdir(), "openclaw-feishu-ingress-"));
+    tempDirs.push(captureDir);
+    process.env[FEISHU_INGRESS_CAPTURE_DIR_ENV] = captureDir;
+
+    const event = buildEvent();
+    const ctx = buildContext();
+
+    recordFeishuIngressTrace({
+      accountId: "default",
+      event,
+    });
+    recordFeishuNormalizedTrace({
+      accountId: "default",
+      ctx,
+      rawContent: event.message.content,
+      senderUserId: event.sender.sender_id.user_id ?? null,
+      senderName: "Alice",
+    });
+
+    await flushFeishuIngressCaptureWritesForTest();
+
+    const eventRows = (await fs.readFile(path.join(captureDir, "feishu_message_events.jsonl"), "utf8"))
+      .trim()
+      .split("\n")
+      .map((line) => JSON.parse(line) as Record<string, unknown>);
+    const contextRows = (
+      await fs.readFile(path.join(captureDir, "feishu_message_contexts.jsonl"), "utf8")
+    )
+      .trim()
+      .split("\n")
+      .map((line) => JSON.parse(line) as Record<string, unknown>);
+
+    expect(eventRows).toHaveLength(1);
+    expect(eventRows[0]).toEqual(
+      expect.objectContaining({
+        account_id: "default",
+        stage: "message_event_received",
+        event: expect.objectContaining({
+          message: expect.objectContaining({
+            message_id: "om_123",
+          }),
+        }),
+      }),
+    );
+    expect(contextRows).toHaveLength(1);
+    expect(contextRows[0]).toEqual(
+      expect.objectContaining({
+        account_id: "default",
+        stage: "message_normalized",
+        sender_name: "Alice",
+        context: expect.objectContaining({
+          messageId: "om_123",
+          content: "FEISHU-231 blocked by legal approval",
+        }),
+      }),
     );
   });
 });

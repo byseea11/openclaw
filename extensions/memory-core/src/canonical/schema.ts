@@ -1,7 +1,7 @@
 import type { OpenClawConfig } from "openclaw/plugin-sdk/memory-core-host-runtime-core";
 
-export const EXTRACTOR_VERSION = "v2-2026.04-llm-workflow-only";
-export const CANONICAL_SCHEMA_VERSION = "v6";
+export const EXTRACTOR_VERSION = "v3-2026.04-decision-memory-v1";
+export const CANONICAL_SCHEMA_VERSION = "v7";
 export const GRAPH_PROJECTION_VERSION = "v1-2026.04";
 export const GRAPH_RECALL_TTL_MS = 30 * 60 * 1000;
 
@@ -50,6 +50,62 @@ export type RawEvent = {
   occurred_at?: string;
   source_ref: string;
   confidence?: number;
+};
+
+export type DecisionClaimField =
+  | "conclusion"
+  | "rationale"
+  | "objection"
+  | "stage"
+  | "time_point";
+
+export type DecisionAxisKey =
+  | "release_date"
+  | "solution_choice"
+  | "gray_release_plan"
+  | "dependency_readiness"
+  | "external_communication"
+  | "project_stage"
+  | "risk_handling"
+  | "general_decision";
+
+export type DecisionSupportingContextQuote = {
+  quote: string;
+  entry_id: string | null;
+  source: "context";
+};
+
+export type DecisionClaimValueJson = Record<string, unknown> & {
+  /**
+   * Optional metadata emitted by the extractor to point back to the Core span
+   * entry that contains evidence_quote. The canonicalizer resolves and
+   * validates this before persistence.
+   */
+  core_entry_id?: string;
+  /**
+   * Optional context-only quotes used for reference resolution. These may only
+   * come from Context entries, never from current_state_context.
+   */
+  supporting_context_quotes?: DecisionSupportingContextQuote[];
+};
+
+export type ExtractedDecisionClaim = {
+  claim_field: DecisionClaimField;
+  claim_text: string;
+  claim_value_json: DecisionClaimValueJson | null;
+  evidence_quote: string;
+  confidence: number;
+};
+
+export type DecisionExtractionResult = {
+  should_extract: boolean;
+  topic_ref: string | null;
+  topic_anchors_json: Record<string, unknown> | null;
+  decision_axis_key: DecisionAxisKey | null;
+  decision_axis_text: string | null;
+  decision_axis_instance_id: string | null;
+  claims: ExtractedDecisionClaim[];
+  overflow_warning?: boolean;
 };
 
 export type EventRecord = {
@@ -308,6 +364,7 @@ export type GraphExportData = {
   evidence: Array<Record<string, unknown>>;
   events: Array<Record<string, unknown>>;
   workflowStates: Array<Record<string, unknown>>;
+  decisionStates: Array<Record<string, unknown>>;
   entities: Array<Record<string, unknown>>;
   edges: Array<Record<string, unknown>>;
   metrics: GraphMetricsSnapshot;
@@ -427,7 +484,8 @@ CREATE TABLE IF NOT EXISTS evidence_records (
   content_json         TEXT NOT NULL DEFAULT '{}',
   source_locator_json  TEXT NOT NULL DEFAULT '{}',
   occurred_at          TEXT,
-  created_at           INTEGER NOT NULL
+  created_at           INTEGER NOT NULL,
+  linked_event_ids_json TEXT
 );
 
 CREATE INDEX IF NOT EXISTS idx_evidence_records_session
@@ -473,6 +531,29 @@ CREATE INDEX IF NOT EXISTS idx_event_records_v2_type
   ON event_records_v2(event_type, occurred_at);
 CREATE INDEX IF NOT EXISTS idx_event_records_v2_evidence
   ON event_records_v2(evidence_id);
+
+CREATE TABLE IF NOT EXISTS decision_state_view_v2 (
+  topic_ref                        TEXT PRIMARY KEY,
+  decision_axis_key                TEXT NOT NULL,
+  decision_axis_text               TEXT NOT NULL,
+  decision_axis_instance_id        TEXT,
+  active_conclusion_event_id       TEXT,
+  active_rationale_event_ids_json  TEXT NOT NULL DEFAULT '[]',
+  active_objection_event_ids_json  TEXT NOT NULL DEFAULT '[]',
+  active_stage_event_id            TEXT,
+  active_time_point_event_ids_json TEXT NOT NULL DEFAULT '[]',
+  slot_versions_json               TEXT NOT NULL DEFAULT '{}',
+  last_event_id                    TEXT NOT NULL,
+  updated_at                       INTEGER NOT NULL,
+  FOREIGN KEY(active_conclusion_event_id) REFERENCES event_records_v2(event_id),
+  FOREIGN KEY(active_stage_event_id) REFERENCES event_records_v2(event_id),
+  FOREIGN KEY(last_event_id) REFERENCES event_records_v2(event_id)
+);
+
+CREATE INDEX IF NOT EXISTS idx_decision_state_v2_axis
+  ON decision_state_view_v2(decision_axis_key, updated_at);
+CREATE INDEX IF NOT EXISTS idx_decision_state_v2_instance
+  ON decision_state_view_v2(decision_axis_instance_id, updated_at);
 
 CREATE TABLE IF NOT EXISTS workflow_state_view_v2 (
   task_ref              TEXT PRIMARY KEY,

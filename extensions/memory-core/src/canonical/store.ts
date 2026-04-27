@@ -13,12 +13,15 @@ import { runV2ToV3Migration } from "./migrations/v2-to-v3.js";
 import { runV3ToV4Migration } from "./migrations/v3-to-v4.js";
 import { runV4ToV5Migration } from "./migrations/v4-to-v5.js";
 import { runV5ToV6Migration } from "./migrations/v5-to-v6.js";
+import { runV6ToV7Migration } from "./migrations/v6-to-v7.js";
 import { deriveGraphEdgeMutationsV2, reopenOrCreateEdgeV2 } from "./projector-edges-v2.js";
 import { deriveGraphEntitiesV2 } from "./projector-entities-v2.js";
 import { deriveWorkflowPatchesV2, type WorkflowSlotVersionV2 } from "./projector-workflow-v2.js";
 import {
+  buildDecisionClaimEventFingerprint,
   buildEventFingerprint,
   EVENT_TYPE_REGISTRY_SEED,
+  type DecisionStateViewV2,
   type EvidenceRecordV2,
   type EventRecordV2,
   type GraphEdgeV2,
@@ -154,6 +157,8 @@ function rowToEvidenceV2(row: Record<string, unknown>): EvidenceRecordV2 {
       typeof row.source_locator_json === "string" ? row.source_locator_json : "{}",
     occurred_at: typeof row.occurred_at === "string" ? row.occurred_at : null,
     created_at: Number(row.created_at ?? 0),
+    linked_event_ids_json:
+      typeof row.linked_event_ids_json === "string" ? row.linked_event_ids_json : null,
   };
 }
 
@@ -191,6 +196,35 @@ function rowToWorkflowStateV2(row: Record<string, unknown>): WorkflowStateViewV2
     slot_versions_json: typeof row.slot_versions_json === "string" ? row.slot_versions_json : "{}",
     supporting_event_ids:
       typeof row.supporting_event_ids === "string" ? row.supporting_event_ids : "[]",
+    updated_at: Number(row.updated_at ?? 0),
+  };
+}
+
+function rowToDecisionStateV2(row: Record<string, unknown>): DecisionStateViewV2 {
+  return {
+    topic_ref: String(row.topic_ref),
+    decision_axis_key: String(row.decision_axis_key) as DecisionStateViewV2["decision_axis_key"],
+    decision_axis_text: String(row.decision_axis_text),
+    decision_axis_instance_id:
+      typeof row.decision_axis_instance_id === "string" ? row.decision_axis_instance_id : null,
+    active_conclusion_event_id:
+      typeof row.active_conclusion_event_id === "string" ? row.active_conclusion_event_id : null,
+    active_rationale_event_ids_json:
+      typeof row.active_rationale_event_ids_json === "string"
+        ? row.active_rationale_event_ids_json
+        : "[]",
+    active_objection_event_ids_json:
+      typeof row.active_objection_event_ids_json === "string"
+        ? row.active_objection_event_ids_json
+        : "[]",
+    active_stage_event_id:
+      typeof row.active_stage_event_id === "string" ? row.active_stage_event_id : null,
+    active_time_point_event_ids_json:
+      typeof row.active_time_point_event_ids_json === "string"
+        ? row.active_time_point_event_ids_json
+        : "[]",
+    slot_versions_json: typeof row.slot_versions_json === "string" ? row.slot_versions_json : "{}",
+    last_event_id: String(row.last_event_id),
     updated_at: Number(row.updated_at ?? 0),
   };
 }
@@ -251,6 +285,33 @@ function parseSlotVersionsV2(value: string): Record<string, WorkflowSlotVersionV
   } catch {
     return {};
   }
+}
+
+function asPayloadRecord(value: string): Record<string, unknown> {
+  try {
+    const parsed = JSON.parse(value) as unknown;
+    return parsed && typeof parsed === "object" && !Array.isArray(parsed)
+      ? (parsed as Record<string, unknown>)
+      : {};
+  } catch {
+    return {};
+  }
+}
+
+function decisionTimePointKey(payload: Record<string, unknown>, fallbackEventId: string): string {
+  const claimValue =
+    payload.claim_value_json && typeof payload.claim_value_json === "object"
+      ? (payload.claim_value_json as Record<string, unknown>)
+      : {};
+  const role = typeof claimValue.role === "string" ? claimValue.role.trim() : "";
+  const date = typeof claimValue.date === "string" ? claimValue.date.trim() : "";
+  if (role) {
+    return `role:${role}`;
+  }
+  if (date) {
+    return `date:${date}`;
+  }
+  return `event:${fallbackEventId}`;
 }
 
 function rowToRecentGraphCandidate(row: Record<string, unknown>): RecentGraphCandidate {
@@ -329,6 +390,17 @@ export class CanonicalStore {
     ) {
       runV5ToV6Migration(this.db);
     }
+    if (
+      currentSchemaVersion === "v0" ||
+      currentSchemaVersion === "v1" ||
+      currentSchemaVersion === "v2" ||
+      currentSchemaVersion === "v3" ||
+      currentSchemaVersion === "v4" ||
+      currentSchemaVersion === "v5" ||
+      currentSchemaVersion === "v6"
+    ) {
+      runV6ToV7Migration(this.db);
+    }
     this.setMeta("schema_version", CANONICAL_SCHEMA_VERSION);
     this.setMeta("extractor_version", EXTRACTOR_VERSION);
     this.setMeta("projection_version", GRAPH_PROJECTION_VERSION);
@@ -382,6 +454,7 @@ export class CanonicalStore {
     try {
       this.db.exec("DELETE FROM graph_edges_v2");
       this.db.exec("DELETE FROM graph_entities_v2");
+      this.db.exec("DELETE FROM decision_state_view_v2");
       this.db.exec("DELETE FROM workflow_state_view_v2");
       this.db.exec("DELETE FROM event_records_v2");
       this.db.exec("DELETE FROM event_type_registry");
@@ -848,6 +921,16 @@ export class CanonicalStore {
   private upsertEvidenceRecordV2InTransaction(evidence: EvidenceRecordV2): EvidenceRecordV2 {
     const existing = this.getEvidenceByFingerprintInTransaction(evidence.evidence_fingerprint);
     if (existing) {
+      const updateValues: Array<string | number | null> = [
+        evidence.message_id,
+        evidence.thread_id,
+        evidence.root_id,
+        evidence.parent_id,
+        evidence.linked_event_ids_json ?? null,
+        evidence.content_json,
+        evidence.content_json,
+        existing.evidence_id,
+      ];
       this.db
         .prepare(
           `UPDATE evidence_records
@@ -855,21 +938,14 @@ export class CanonicalStore {
                thread_id = COALESCE(thread_id, ?),
                root_id = COALESCE(root_id, ?),
                parent_id = COALESCE(parent_id, ?),
+               linked_event_ids_json = COALESCE(linked_event_ids_json, ?),
                content_json = CASE
                  WHEN content_json = '{}' AND ? <> '{}' THEN ?
                  ELSE content_json
                END
            WHERE evidence_id = ?`,
         )
-        .run(
-          evidence.message_id,
-          evidence.thread_id,
-          evidence.root_id,
-          evidence.parent_id,
-          evidence.content_json,
-          evidence.content_json,
-          existing.evidence_id,
-        );
+        .run(...updateValues);
       const refreshed = this.db
         .prepare("SELECT * FROM evidence_records WHERE evidence_id = ?")
         .get(existing.evidence_id) as Record<string, unknown>;
@@ -879,35 +955,38 @@ export class CanonicalStore {
       ...evidence,
       evidence_id: evidence.evidence_id || generateUlid(),
       created_at: evidence.created_at || Date.now(),
+      linked_event_ids_json: evidence.linked_event_ids_json ?? null,
     };
+    const insertValues: Array<string | number | null> = [
+      persisted.evidence_id,
+      persisted.evidence_fingerprint,
+      persisted.source_platform,
+      persisted.source_kind,
+      persisted.session_key,
+      persisted.message_id,
+      persisted.chat_id,
+      persisted.chat_type,
+      persisted.thread_id,
+      persisted.root_id,
+      persisted.parent_id,
+      persisted.first_entry_id,
+      persisted.last_entry_id,
+      persisted.content_text,
+      persisted.content_json,
+      persisted.source_locator_json,
+      persisted.occurred_at,
+      persisted.created_at,
+      persisted.linked_event_ids_json ?? null,
+    ];
     this.db
       .prepare(
         `INSERT INTO evidence_records(
           evidence_id, evidence_fingerprint, source_platform, source_kind, session_key, message_id,
           chat_id, chat_type, thread_id, root_id, parent_id, first_entry_id, last_entry_id,
-          content_text, content_json, source_locator_json, occurred_at, created_at
-        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+          content_text, content_json, source_locator_json, occurred_at, created_at, linked_event_ids_json
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
       )
-      .run(
-        persisted.evidence_id,
-        persisted.evidence_fingerprint,
-        persisted.source_platform,
-        persisted.source_kind,
-        persisted.session_key,
-        persisted.message_id,
-        persisted.chat_id,
-        persisted.chat_type,
-        persisted.thread_id,
-        persisted.root_id,
-        persisted.parent_id,
-        persisted.first_entry_id,
-        persisted.last_entry_id,
-        persisted.content_text,
-        persisted.content_json,
-        persisted.source_locator_json,
-        persisted.occurred_at,
-        persisted.created_at,
-      );
+      .run(...insertValues);
     return persisted;
   }
 
@@ -1057,6 +1136,168 @@ export class CanonicalStore {
     return results;
   }
 
+  private getDecisionStateV2InTransaction(topicRef: string): DecisionStateViewV2 | null {
+    const row = this.db
+      .prepare("SELECT * FROM decision_state_view_v2 WHERE topic_ref = ?")
+      .get(topicRef) as Record<string, unknown> | undefined;
+    return row ? rowToDecisionStateV2(row) : null;
+  }
+
+  private upsertDecisionStateV2InTransaction(events: EventRecordV2[]): DecisionStateViewV2[] {
+    const decisionEvents = events.filter((event) => event.event_type === "decision_claim_recorded");
+    const grouped = new Map<string, EventRecordV2[]>();
+    for (const event of decisionEvents) {
+      const list = grouped.get(event.subject_ref) ?? [];
+      list.push(event);
+      grouped.set(event.subject_ref, list);
+    }
+    const results: DecisionStateViewV2[] = [];
+    for (const [topicRef, topicEvents] of grouped.entries()) {
+      topicEvents.sort(
+        (left, right) =>
+          left.occurred_at.localeCompare(right.occurred_at) ||
+          left.event_fingerprint.localeCompare(right.event_fingerprint),
+      );
+      const firstPayload = asPayloadRecord(topicEvents[0]?.payload_json ?? "{}");
+      let state: DecisionStateViewV2 =
+        this.getDecisionStateV2InTransaction(topicRef) ??
+        ({
+          topic_ref: topicRef,
+          decision_axis_key: String(
+            firstPayload.decision_axis_key ?? "general_decision",
+          ) as DecisionStateViewV2["decision_axis_key"],
+          decision_axis_text: String(firstPayload.decision_axis_text ?? "General decision"),
+          decision_axis_instance_id:
+            typeof firstPayload.decision_axis_instance_id === "string"
+              ? firstPayload.decision_axis_instance_id
+              : null,
+          active_conclusion_event_id: null,
+          active_rationale_event_ids_json: "[]",
+          active_objection_event_ids_json: "[]",
+          active_stage_event_id: null,
+          active_time_point_event_ids_json: "[]",
+          slot_versions_json: "{}",
+          last_event_id: topicEvents[0].event_id,
+          updated_at: Date.now(),
+        } satisfies DecisionStateViewV2);
+      const slotVersions = parseSlotVersionsV2(state.slot_versions_json);
+      const rationaleIds = new Set(parseStringArray(state.active_rationale_event_ids_json));
+      const objectionIds = new Set(parseStringArray(state.active_objection_event_ids_json));
+      const timePointIds = new Map<string, string>();
+      for (const existingEventId of parseStringArray(state.active_time_point_event_ids_json)) {
+        const existingEvent = this.getEventByIdV2(existingEventId);
+        if (!existingEvent) {
+          continue;
+        }
+        const existingPayload = asPayloadRecord(existingEvent.payload_json);
+        timePointIds.set(decisionTimePointKey(existingPayload, existingEventId), existingEventId);
+      }
+      for (const event of topicEvents) {
+        const payload = asPayloadRecord(event.payload_json);
+        const field = typeof payload.claim_field === "string" ? payload.claim_field : null;
+        state.decision_axis_key = String(
+          payload.decision_axis_key ?? state.decision_axis_key,
+        ) as DecisionStateViewV2["decision_axis_key"];
+        state.decision_axis_text = String(payload.decision_axis_text ?? state.decision_axis_text);
+        state.decision_axis_instance_id =
+          typeof payload.decision_axis_instance_id === "string"
+            ? payload.decision_axis_instance_id
+            : state.decision_axis_instance_id;
+        if (field === "conclusion") {
+          state.active_conclusion_event_id = event.event_id;
+          slotVersions.conclusion = {
+            event_id: event.event_id,
+            event_fingerprint: event.event_fingerprint,
+            occurred_at: event.occurred_at,
+          };
+        } else if (field === "rationale") {
+          rationaleIds.add(event.event_id);
+        } else if (field === "objection") {
+          objectionIds.add(event.event_id);
+        } else if (field === "stage") {
+          state.active_stage_event_id = event.event_id;
+          slotVersions.stage = {
+            event_id: event.event_id,
+            event_fingerprint: event.event_fingerprint,
+            occurred_at: event.occurred_at,
+          };
+        } else if (field === "time_point") {
+          timePointIds.set(decisionTimePointKey(payload, event.event_id), event.event_id);
+        }
+        state.last_event_id = event.event_id;
+      }
+      state.active_rationale_event_ids_json = JSON.stringify([...rationaleIds]);
+      state.active_objection_event_ids_json = JSON.stringify([...objectionIds]);
+      state.active_time_point_event_ids_json = JSON.stringify([...timePointIds.values()]);
+      state.slot_versions_json = JSON.stringify(slotVersions);
+      state.updated_at = Date.now();
+      this.db
+        .prepare(
+          `INSERT INTO decision_state_view_v2(
+            topic_ref, decision_axis_key, decision_axis_text, decision_axis_instance_id,
+            active_conclusion_event_id, active_rationale_event_ids_json, active_objection_event_ids_json,
+            active_stage_event_id, active_time_point_event_ids_json, slot_versions_json,
+            last_event_id, updated_at
+          ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+          ON CONFLICT(topic_ref) DO UPDATE SET
+            decision_axis_key = excluded.decision_axis_key,
+            decision_axis_text = excluded.decision_axis_text,
+            decision_axis_instance_id = excluded.decision_axis_instance_id,
+            active_conclusion_event_id = excluded.active_conclusion_event_id,
+            active_rationale_event_ids_json = excluded.active_rationale_event_ids_json,
+            active_objection_event_ids_json = excluded.active_objection_event_ids_json,
+            active_stage_event_id = excluded.active_stage_event_id,
+            active_time_point_event_ids_json = excluded.active_time_point_event_ids_json,
+            slot_versions_json = excluded.slot_versions_json,
+            last_event_id = excluded.last_event_id,
+            updated_at = excluded.updated_at`,
+        )
+        .run(
+          state.topic_ref,
+          state.decision_axis_key,
+          state.decision_axis_text,
+          state.decision_axis_instance_id,
+          state.active_conclusion_event_id,
+          state.active_rationale_event_ids_json,
+          state.active_objection_event_ids_json,
+          state.active_stage_event_id,
+          state.active_time_point_event_ids_json,
+          state.slot_versions_json,
+          state.last_event_id,
+          state.updated_at,
+        );
+      results.push(state);
+    }
+    return results;
+  }
+
+  private updateEvidenceLinkedEventIdsInTransaction(
+    evidenceRows: EvidenceRecordV2[],
+    events: EventRecordV2[],
+  ): EvidenceRecordV2[] {
+    const idsByEvidence = new Map<string, Set<string>>();
+    for (const event of events) {
+      const set = idsByEvidence.get(event.evidence_id) ?? new Set<string>();
+      set.add(event.event_id);
+      idsByEvidence.set(event.evidence_id, set);
+    }
+    const update = this.db.prepare(
+      `UPDATE evidence_records SET linked_event_ids_json = ? WHERE evidence_id = ?`,
+    );
+    const refreshed: EvidenceRecordV2[] = [];
+    for (const evidence of evidenceRows) {
+      const linked = idsByEvidence.get(evidence.evidence_id);
+      if (linked) {
+        update.run(JSON.stringify([...linked]), evidence.evidence_id);
+      }
+      const row = this.db
+        .prepare("SELECT * FROM evidence_records WHERE evidence_id = ?")
+        .get(evidence.evidence_id) as Record<string, unknown>;
+      refreshed.push(rowToEvidenceV2(row));
+    }
+    return refreshed;
+  }
+
   private upsertGraphEntitiesV2InTransaction(
     evidence: EvidenceRecordV2,
     events: EventRecordV2[],
@@ -1097,10 +1338,18 @@ export class CanonicalStore {
       const close = this.db.prepare(
         `UPDATE graph_edges_v2
          SET active = 0, valid_to = ?, updated_at = ?
-         WHERE src_ref = ? AND edge_type = ? AND active = 1`,
+         WHERE src_ref = ? AND edge_type = ? AND active = 1
+           AND (? IS NULL OR dst_ref = ?)`,
       );
       for (const mutation of mutations.closes) {
-        close.run(mutation.closed_at, Date.now(), mutation.src_ref, mutation.edge_type);
+        close.run(
+          mutation.closed_at,
+          Date.now(),
+          mutation.src_ref,
+          mutation.edge_type,
+          mutation.dst_ref ?? null,
+          mutation.dst_ref ?? null,
+        );
       }
     }
     const persisted: GraphEdgeV2[] = [];
@@ -1154,18 +1403,25 @@ export class CanonicalStore {
   }
 
   async persistSemanticBatchV2(params: {
-    evidence: EvidenceRecordV2;
+    evidence: EvidenceRecordV2[];
     events: EventRecordV2[];
   }): Promise<{
-    evidence: EvidenceRecordV2;
+    evidence: EvidenceRecordV2[];
     events: EventRecordV2[];
     states: WorkflowStateViewV2[];
+    decisionStates: DecisionStateViewV2[];
     entities: GraphEntityV2[];
     edges: GraphEdgeV2[];
   }> {
     this.db.exec("BEGIN IMMEDIATE");
     try {
-      const evidence = this.upsertEvidenceRecordV2InTransaction(params.evidence);
+      const evidenceRows = params.evidence.map((row) =>
+        this.upsertEvidenceRecordV2InTransaction(row),
+      );
+      const evidenceById = new Map(evidenceRows.map((row) => [row.evidence_id, row]));
+      const evidenceByFingerprint = new Map(
+        evidenceRows.map((row) => [row.evidence_fingerprint, row]),
+      );
       const normalizedEvents = params.events.map((event) => {
         const payloadJson = (() => {
           try {
@@ -1174,25 +1430,71 @@ export class CanonicalStore {
             return {};
           }
         })();
+        const eventEvidence =
+          evidenceById.get(event.evidence_id) ??
+          (typeof (payloadJson as Record<string, unknown>).evidence_fingerprint === "string"
+            ? evidenceByFingerprint.get(
+                (payloadJson as Record<string, unknown>).evidence_fingerprint as string,
+              )
+            : null) ??
+          evidenceRows[0];
         return {
           ...event,
-          evidence_id: evidence.evidence_id,
-          event_fingerprint: buildEventFingerprint({
-            evidenceId: evidence.evidence_id,
-            eventType: event.event_type,
-            subjectRef: event.subject_ref,
-            objectRef: event.object_ref,
-            occurredAt: event.occurred_at,
-            payloadJson,
-          }),
+          evidence_id: eventEvidence.evidence_id,
+          event_fingerprint:
+            event.event_type === "decision_claim_recorded"
+              ? buildDecisionClaimEventFingerprint({
+                  topicRef: event.subject_ref,
+                  decisionAxisKey:
+                    typeof (payloadJson as Record<string, unknown>).decision_axis_key === "string"
+                      ? ((payloadJson as Record<string, unknown>).decision_axis_key as string)
+                      : "general_decision",
+                  decisionAxisInstanceId:
+                    typeof (payloadJson as Record<string, unknown>).decision_axis_instance_id ===
+                    "string"
+                      ? ((payloadJson as Record<string, unknown>)
+                          .decision_axis_instance_id as string)
+                      : null,
+                  claimField:
+                    typeof (payloadJson as Record<string, unknown>).claim_field === "string"
+                      ? ((payloadJson as Record<string, unknown>).claim_field as string)
+                      : "conclusion",
+                  claimText:
+                    typeof (payloadJson as Record<string, unknown>).claim_text === "string"
+                      ? ((payloadJson as Record<string, unknown>).claim_text as string)
+                      : "",
+                  evidenceId: eventEvidence.evidence_id,
+                })
+              : buildEventFingerprint({
+                  evidenceId: eventEvidence.evidence_id,
+                  eventType: event.event_type,
+                  subjectRef: event.subject_ref,
+                  objectRef: event.object_ref,
+                  occurredAt: event.occurred_at,
+                  payloadJson,
+                }),
         };
       });
       const events = this.insertEventsV2InTransaction(normalizedEvents);
-      const entities = this.upsertGraphEntitiesV2InTransaction(evidence, events);
+      const linkedEvidence = this.updateEvidenceLinkedEventIdsInTransaction(evidenceRows, events);
+      const entities = linkedEvidence.flatMap((evidence) =>
+        this.upsertGraphEntitiesV2InTransaction(
+          evidence,
+          events.filter((event) => event.evidence_id === evidence.evidence_id),
+        ),
+      );
       const states = this.upsertWorkflowStateV2InTransaction(events);
+      const decisionStates = this.upsertDecisionStateV2InTransaction(events);
       const edges = this.upsertGraphEdgesV2InTransaction(events);
       this.db.exec("COMMIT");
-      return { evidence, events, states, entities, edges };
+      return {
+        evidence: linkedEvidence,
+        events,
+        states,
+        decisionStates,
+        entities,
+        edges,
+      };
     } catch (err) {
       this.db.exec("ROLLBACK");
       throw err;
@@ -1227,6 +1529,79 @@ export class CanonicalStore {
 
   getWorkflowStateV2(taskRef: string): WorkflowStateViewV2 | null {
     return this.getWorkflowStateV2InTransaction(taskRef);
+  }
+
+  getDecisionStateV2(topicRef: string): DecisionStateViewV2 | null {
+    return this.getDecisionStateV2InTransaction(topicRef);
+  }
+
+  findDecisionStatesByAnchor(params: {
+    anchorType: "task" | "thread" | "doc" | "project";
+    anchorRef: string;
+    decisionAxisKey?: string | null;
+    limit?: number;
+  }): DecisionStateViewV2[] {
+    const suffix = `${params.anchorType}:${params.anchorRef}:`;
+    const axisFilter = params.decisionAxisKey?.trim();
+    const rows = axisFilter
+      ? (this.db
+          .prepare(
+            `SELECT * FROM decision_state_view_v2
+             WHERE topic_ref LIKE ? AND decision_axis_key = ?
+             ORDER BY updated_at DESC, topic_ref ASC
+             LIMIT ?`,
+          )
+          .all(
+            `topic:${suffix}%`,
+            axisFilter,
+            Math.max(1, params.limit ?? 10),
+          ) as Array<Record<string, unknown>>)
+      : (this.db
+          .prepare(
+            `SELECT * FROM decision_state_view_v2
+             WHERE topic_ref LIKE ?
+             ORDER BY updated_at DESC, topic_ref ASC
+             LIMIT ?`,
+          )
+          .all(`topic:${suffix}%`, Math.max(1, params.limit ?? 10)) as Array<
+          Record<string, unknown>
+        >);
+    return rows.map(rowToDecisionStateV2);
+  }
+
+  listDecisionEventsForTopic(params: {
+    topicRef: string;
+    decisionAxisKey?: string | null;
+    decisionAxisInstanceId?: string | null;
+    limit?: number;
+  }): EventRecordV2[] {
+    const rows = this.db
+      .prepare(
+        `SELECT * FROM event_records_v2
+         WHERE subject_ref = ?
+           AND event_type = 'decision_claim_recorded'
+         ORDER BY occurred_at ASC, created_at ASC
+         LIMIT ?`,
+      )
+      .all(params.topicRef, Math.max(1, params.limit ?? 100)) as Array<Record<string, unknown>>;
+    return rows
+      .map(rowToEventV2)
+      .filter((event) => {
+        const payload = asPayloadRecord(event.payload_json);
+        if (
+          params.decisionAxisKey &&
+          payload.decision_axis_key !== params.decisionAxisKey
+        ) {
+          return false;
+        }
+        if (
+          params.decisionAxisInstanceId &&
+          payload.decision_axis_instance_id !== params.decisionAxisInstanceId
+        ) {
+          return false;
+        }
+        return true;
+      });
   }
 
   listWorkflowStatesV2(filters?: {
@@ -1327,6 +1702,9 @@ export class CanonicalStore {
     const workflowV2Row = this.db
       .prepare("SELECT COUNT(*) AS count FROM workflow_state_view_v2")
       .get() as { count?: number };
+    const decisionStateV2Row = this.db
+      .prepare("SELECT COUNT(*) AS count FROM decision_state_view_v2")
+      .get() as { count?: number };
     const pendingProjectionRow = this.db
       .prepare(
         `SELECT COUNT(*) AS count FROM projection_inbox
@@ -1345,6 +1723,7 @@ export class CanonicalStore {
       graphEntitiesV2Total: entitiesV2Row.count ?? 0,
       graphEdgesV2Total: edgesV2Row.count ?? 0,
       workflowStatesV2Total: workflowV2Row.count ?? 0,
+      decisionStatesV2Total: decisionStateV2Row.count ?? 0,
       schemaVersion: this.getMeta("schema_version") ?? CANONICAL_SCHEMA_VERSION,
       extractorVersion: this.getMeta("extractor_version") ?? EXTRACTOR_VERSION,
       projectionVersion: this.getMeta("projection_version") ?? GRAPH_PROJECTION_VERSION,
@@ -1365,6 +1744,9 @@ export class CanonicalStore {
     const workflowRows = this.db
       .prepare("SELECT * FROM workflow_state_view_v2 ORDER BY task_ref ASC")
       .all() as Array<Record<string, unknown>>;
+    const decisionStateRows = this.db
+      .prepare("SELECT * FROM decision_state_view_v2 ORDER BY topic_ref ASC")
+      .all() as Array<Record<string, unknown>>;
     const entityRows = this.db
       .prepare("SELECT * FROM graph_entities_v2 ORDER BY entity_ref ASC")
       .all() as Array<Record<string, unknown>>;
@@ -1375,6 +1757,7 @@ export class CanonicalStore {
       evidence: evidenceRows.map(rowToEvidenceV2),
       events: eventRows.map(rowToEventV2),
       workflowStates: workflowRows.map(rowToWorkflowStateV2),
+      decisionStates: decisionStateRows.map(rowToDecisionStateV2),
       entities: entityRows.map(rowToGraphEntityV2),
       edges: edgeRows.map(rowToGraphEdgeV2),
       metrics: this.getMetrics(),
@@ -1388,6 +1771,9 @@ export class CanonicalStore {
       ...exported.events.map((row) => JSON.stringify({ type: "event_v2", ...row })),
       ...exported.workflowStates.map((row) =>
         JSON.stringify({ type: "workflow_state_v2", ...row }),
+      ),
+      ...exported.decisionStates.map((row) =>
+        JSON.stringify({ type: "decision_state_v2", ...row }),
       ),
       ...exported.entities.map((row) => JSON.stringify({ type: "graph_entity_v2", ...row })),
       ...exported.edges.map((row) => JSON.stringify({ type: "graph_edge_v2", ...row })),

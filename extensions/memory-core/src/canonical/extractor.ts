@@ -1,16 +1,11 @@
 import { createSubsystemLogger } from "openclaw/plugin-sdk/memory-core-host-engine-foundation";
-import { parseSourceRef, type RawEvent } from "./schema.js";
+import type {
+  DecisionClaimValueJson,
+  DecisionExtractionResult,
+  DecisionSupportingContextQuote,
+} from "./schema.js";
 
 const log = createSubsystemLogger("memory");
-
-const WORKFLOW_ACTIONS = new Set([
-  "assigned_owner",
-  "changed_status",
-  "approval_status_updated",
-  "next_action_set",
-]);
-
-const PRECISE_SOURCE_REF_RE = /#L\d+-L\d+$/;
 
 export type CanonicalExtractorRequest = {
   prompt: string;
@@ -19,15 +14,45 @@ export type CanonicalExtractorRequest = {
   lineCount: number;
 };
 
+export type DecisionPromptEntry = {
+  entry_id: string;
+  parent_id?: string | null;
+  role: string;
+  content: string;
+  timestamp?: string | null;
+};
+
+export type DecisionCurrentStateContext = {
+  topic_ref: string | null;
+  decision_axis_key: string | null;
+  active_conclusion: string | null;
+  active_time_points: string[];
+  active_rationales: string[];
+  active_objections: string[];
+};
+
+export type DecisionExtractionEnvelope = {
+  anchors: {
+    task_refs: string[];
+    thread_ids: string[];
+    doc_refs: string[];
+    project_names: string[];
+    source_chat_ids: string[];
+  };
+  current_state_context: DecisionCurrentStateContext | null;
+  context_entries: DecisionPromptEntry[];
+  core_entries: DecisionPromptEntry[];
+};
+
 export type LLMClient = {
   extractGraphEvents(
     params: CanonicalExtractorRequest,
-  ): Promise<string | { outputText?: string; events?: RawEvent[] }>;
+  ): Promise<string | { outputText?: string; extraction?: DecisionExtractionResult }>;
 };
 
-type GraphJsonParseResult = {
+type DecisionJsonParseResult = {
   ok: boolean;
-  events: RawEvent[];
+  extraction: DecisionExtractionResult;
 };
 
 export const GRAPH_EXTRACTOR_ERROR_CODES = [
@@ -40,34 +65,20 @@ export const GRAPH_EXTRACTOR_ERROR_CODES = [
 export type GraphExtractorErrorCode = (typeof GRAPH_EXTRACTOR_ERROR_CODES)[number];
 
 const EXTRACTOR_SYSTEM_PROMPT = [
-  "You extract workflow graph events from OpenClaw transcript or memory-file spans.",
+  "You extract quote-grounded decision memory events from OpenClaw transcript spans.",
   "Return JSON only with this exact shape:",
-  '{"events":[{"actor":"xzy","action":"assigned_owner","object":"FEISHU-231","status_before":null,"status_after":null,"occurred_at":"2026-04-18","source_ref":"transcripts/example.txt#L2-L2","confidence":0.92}]}',
-  "Only emit workflow events that can feed Graph Index V2.",
-  "Allowed actions:",
-  "- assigned_owner",
-  "- changed_status",
-  "- approval_status_updated",
-  "- next_action_set",
-  "How these map downstream:",
-  "- owner_changed -> action=assigned_owner, actor=new owner, object=task id when possible",
-  "- blocked/unblocked/stage_changed -> action=changed_status with status_after set to blocked, unblocked, resolved, pending, in_progress, done, or another explicit workflow stage",
-  "- approval_status_updated -> action=approval_status_updated with object set to the approval ref when possible and status_after set to approved, rejected, pending, submitted, or unknown",
-  "- next_action_set -> action=next_action_set with actor set to the assignee when known and object set to the action text",
-  "Rules:",
-  "- Never call tools and never add prose.",
-  '- If nothing should be extracted, return {"events":[]}.',
-  "- Split one span into multiple events when the text contains multiple workflow changes.",
-  "- Use only facts explicitly supported by the text. Do not invent old owners, old stages, deadlines, or hidden state.",
-  "- Extract only task-centric workflow events. If the text does not clearly anchor to a task/ticket/work item, return no events.",
-  "- Prefer the smallest supporting line span for source_ref and always use SOURCE_PATH#Lx-Lx form.",
-  "- Keep object concise. For task-centric status changes, prefer the task id in object when present.",
-  "- Keep actor concise. Use the assignee/new owner only when the text states it clearly.",
-  "- Do not emit conversational memory facts such as preferences, biography, relationships, location, health, or general life events.",
-  "Examples:",
-  '{"events":[{"actor":"xzy","action":"assigned_owner","object":"FEISHU-231","occurred_at":"2026-04-18","source_ref":"transcripts/example.txt#L2-L2","confidence":0.93}]}',
-  '{"events":[{"action":"changed_status","object":"FEISHU-231","status_after":"blocked","occurred_at":"2026-04-18","source_ref":"transcripts/example.txt#L3-L3","confidence":0.95}]}',
-  '{"events":[{"actor":"Bob","action":"next_action_set","object":"先补材料再提","occurred_at":"2026-04-18","source_ref":"transcripts/example.txt#L4-L4","confidence":0.88}]}',
+  '{"should_extract":true,"topic_ref":"topic:task:FEISHU-231:release_date","topic_anchors_json":{"task_refs":["task:FEISHU-231"]},"decision_axis_key":"release_date","decision_axis_text":"Whether the release date is confirmed","decision_axis_instance_id":null,"claims":[{"claim_field":"time_point","claim_text":"May 5 is still a target date, not a confirmed release date","claim_value_json":{"date":"2026-05-05","role":"target_date","modality":"not_confirmed"},"evidence_quote":"5 月 5 日只能视为目标日期，不是已确认发布日期","confidence":0.92}]}',
+  'If nothing should be extracted, return {"should_extract":false,"topic_ref":null,"topic_anchors_json":null,"decision_axis_key":null,"decision_axis_text":null,"decision_axis_instance_id":null,"claims":[]}.',
+  "Extract only atomic decision claims directly supported by evidence quotes from the text.",
+  "Allowed claim_field values: conclusion, rationale, objection, stage, time_point.",
+  "Do not invent anchors, topics, dates, conclusions, or reasons not directly supported by the text.",
+  "Every claim must include a verbatim evidence_quote copied from a continuous span in the source text.",
+  "Use CORE to decide whether to create new decision events.",
+  "Use CONTEXT only to resolve references such as '这个', '刚才', '按上面说的', or '那个日期'.",
+  "Do not generate a new decision event from CONTEXT alone.",
+  "Do not use CURRENT_STATE_CONTEXT as evidence.",
+  "Supporting context quotes may come only from CONTEXT entries.",
+  "If CORE has no new semantic action, return should_extract=false or claims=[].",
 ].join("\n");
 
 let defaultLlmClient: LLMClient | null = null;
@@ -82,35 +93,6 @@ export class GraphExtractorError extends Error {
   }
 }
 
-function isRawEvent(value: unknown): value is RawEvent {
-  const record = value && typeof value === "object" ? (value as Record<string, unknown>) : null;
-  return (
-    typeof record?.action === "string" &&
-    record.action.trim().length > 0 &&
-    typeof record.source_ref === "string" &&
-    record.source_ref.trim().length > 0
-  );
-}
-
-function parseGraphJsonBlockDetailed(outputText: string): GraphJsonParseResult {
-  const blocks = [...outputText.matchAll(/```json\s*([\s\S]*?)```/gi)].map(
-    (match) => match[1] ?? "",
-  );
-  const candidates = blocks.length > 0 ? blocks.toReversed() : [outputText];
-  for (const candidate of candidates) {
-    try {
-      const parsed = JSON.parse(candidate.trim()) as { events?: unknown };
-      const rawEvents = Array.isArray(parsed.events) ? parsed.events.filter(isRawEvent) : [];
-      log.info(`canonical.extract.parse_ok events=${rawEvents.length}`);
-      return { ok: true, events: rawEvents };
-    } catch {
-      // Continue scanning later candidates.
-    }
-  }
-  log.warn("canonical.extract.parse_failed events=0");
-  return { ok: false, events: [] };
-}
-
 function normalizeWhitespace(value: string): string {
   return value.replace(/\s+/g, " ").trim();
 }
@@ -123,17 +105,58 @@ function lineNumberedText(text: string): { numberedText: string; lineCount: numb
   };
 }
 
-function sourcePathFromSourceRef(sourceRef: string): string {
-  return (
-    parseSourceRef(sourceRef)?.path ??
-    sourceRef.split("#", 1)[0]?.replaceAll("\\", "/") ??
-    sourceRef
-  );
+function countEnvelopeLines(envelope: DecisionExtractionEnvelope): number {
+  const lines = [
+    "[ANCHORS]",
+    JSON.stringify(envelope.anchors),
+    "",
+    "[CURRENT_STATE_CONTEXT]",
+    JSON.stringify(envelope.current_state_context),
+    "",
+    "[CONTEXT]",
+    ...envelope.context_entries.flatMap((entry) => [
+      `ENTRY_ID: ${entry.entry_id}`,
+      `ROLE: ${entry.role}`,
+      entry.parent_id ? `PARENT_ID: ${entry.parent_id}` : null,
+      entry.timestamp ? `TIMESTAMP: ${entry.timestamp}` : null,
+      `CONTENT: ${entry.content}`,
+      "",
+    ]),
+    "[CORE]",
+    ...envelope.core_entries.flatMap((entry) => [
+      `ENTRY_ID: ${entry.entry_id}`,
+      `ROLE: ${entry.role}`,
+      entry.parent_id ? `PARENT_ID: ${entry.parent_id}` : null,
+      entry.timestamp ? `TIMESTAMP: ${entry.timestamp}` : null,
+      `CONTENT: ${entry.content}`,
+      "",
+    ]),
+  ].filter((line): line is string => line !== null);
+  return lines.length;
 }
 
-function buildExtractionPrompt(text: string, sourceRef: string): CanonicalExtractorRequest {
+function sourcePathFromSourceRef(sourceRef: string): string {
+  return sourceRef.split("#", 1)[0]?.replaceAll("\\", "/") ?? sourceRef;
+}
+
+function renderPromptEntry(entry: DecisionPromptEntry): string {
+  return [
+    `ENTRY_ID: ${entry.entry_id}`,
+    `ROLE: ${entry.role}`,
+    entry.parent_id ? `PARENT_ID: ${entry.parent_id}` : null,
+    entry.timestamp ? `TIMESTAMP: ${entry.timestamp}` : null,
+    `CONTENT: ${entry.content}`,
+  ]
+    .filter((line): line is string => Boolean(line))
+    .join("\n");
+}
+
+function buildEnvelopePrompt(
+  envelope: DecisionExtractionEnvelope,
+  sourceRef: string,
+): CanonicalExtractorRequest {
   const sourcePath = sourcePathFromSourceRef(sourceRef);
-  const { numberedText, lineCount } = lineNumberedText(text);
+  const lineCount = countEnvelopeLines(envelope);
   return {
     sourceRef,
     sourcePath,
@@ -143,39 +166,52 @@ function buildExtractionPrompt(text: string, sourceRef: string): CanonicalExtrac
       `SOURCE_PATH: ${sourcePath}`,
       `LINE_COUNT: ${lineCount}`,
       "",
-      "Extract workflow graph events from the numbered lines below.",
-      "Each event must use a line-precise source_ref like SOURCE_PATH#Lx-Lx.",
+      "Extract quote-grounded decision memory claims from the structured envelope below.",
+      "Extract new claims only from CORE.",
+      "Use CONTEXT only for reference resolution.",
+      "Do not generate a new decision event from CONTEXT alone.",
+      "Do not use CURRENT_STATE_CONTEXT as evidence.",
+      "topic_ref and decision_axis must be derived only from reliable anchors in the text.",
       "",
-      numberedText,
+      "[ANCHORS]",
+      JSON.stringify(envelope.anchors),
+      "",
+      "[CURRENT_STATE_CONTEXT]",
+      JSON.stringify(envelope.current_state_context),
+      "",
+      "[CONTEXT]",
+      envelope.context_entries.map(renderPromptEntry).join("\n\n") || "(none)",
+      "",
+      "[CORE]",
+      envelope.core_entries.map(renderPromptEntry).join("\n\n") || "(none)",
     ].join("\n"),
   };
 }
 
-function coerceLlmOutputText(
-  result: string | { outputText?: string; events?: RawEvent[] },
-): string {
-  if (typeof result === "string") {
-    return result;
-  }
-  if (Array.isArray(result.events)) {
-    return JSON.stringify({ events: result.events });
-  }
-  return result.outputText ?? "";
-}
-
-function normalizeEventSourceRef(sourceRef: string, candidate: string): string {
-  const trimmed = candidate.trim();
-  if (!trimmed) {
-    return sourceRef;
+function buildExtractionPrompt(
+  input: string | DecisionExtractionEnvelope,
+  sourceRef: string,
+): CanonicalExtractorRequest {
+  if (typeof input !== "string") {
+    return buildEnvelopePrompt(input, sourceRef);
   }
   const sourcePath = sourcePathFromSourceRef(sourceRef);
-  if (trimmed.startsWith("#L")) {
-    return `${sourcePath}${trimmed}`;
-  }
-  if (trimmed === sourcePath) {
-    return sourceRef;
-  }
-  return trimmed;
+  const { numberedText, lineCount } = lineNumberedText(input);
+  return {
+    sourceRef,
+    sourcePath,
+    lineCount,
+    prompt: [
+      `SOURCE_REF_RANGE: ${sourceRef}`,
+      `SOURCE_PATH: ${sourcePath}`,
+      `LINE_COUNT: ${lineCount}`,
+      "",
+      "Extract quote-grounded decision memory claims from the numbered lines below.",
+      "topic_ref and decision_axis must be derived only from reliable anchors in the text.",
+      "",
+      numberedText,
+    ].join("\n"),
+  };
 }
 
 function toErrorMessage(err: unknown): string {
@@ -183,36 +219,6 @@ function toErrorMessage(err: unknown): string {
     return err.message || String(err);
   }
   return String(err);
-}
-
-function validateWorkflowEvents(sourceRef: string, events: RawEvent[]): RawEvent[] {
-  return events.map((event) => {
-    const action = normalizeWhitespace(event.action);
-    if (!WORKFLOW_ACTIONS.has(action)) {
-      throw new GraphExtractorError(
-        "extractor_invalid_json",
-        `graph extractor returned unsupported action=${JSON.stringify(action)}`,
-      );
-    }
-    const normalizedSourceRef = normalizeEventSourceRef(sourceRef, event.source_ref);
-    if (!PRECISE_SOURCE_REF_RE.test(normalizedSourceRef)) {
-      throw new GraphExtractorError(
-        "extractor_invalid_json",
-        `graph extractor returned non-precise source_ref=${JSON.stringify(normalizedSourceRef)}`,
-      );
-    }
-    return {
-      ...event,
-      action,
-      actor: event.actor ? normalizeWhitespace(event.actor) : undefined,
-      object: event.object ? normalizeWhitespace(event.object) : undefined,
-      source_ref: normalizedSourceRef,
-    };
-  });
-}
-
-function isGraphExtractorError(value: unknown): value is GraphExtractorError {
-  return value instanceof GraphExtractorError;
 }
 
 function classifyRuntimeFailure(err: unknown): GraphExtractorErrorCode {
@@ -224,19 +230,139 @@ function classifyRuntimeFailure(err: unknown): GraphExtractorErrorCode {
 }
 
 function wrapExtractorError(err: unknown): GraphExtractorError {
-  if (isGraphExtractorError(err)) {
+  if (err instanceof GraphExtractorError) {
     return err;
   }
-  const code = classifyRuntimeFailure(err);
-  return new GraphExtractorError(code, toErrorMessage(err), { cause: err });
+  return new GraphExtractorError(classifyRuntimeFailure(err), toErrorMessage(err), { cause: err });
+}
+
+function isDecisionExtractionResult(value: unknown): value is DecisionExtractionResult {
+  if (!value || typeof value !== "object" || Array.isArray(value)) {
+    return false;
+  }
+  const record = value as Record<string, unknown>;
+  return typeof record.should_extract === "boolean" && Array.isArray(record.claims);
+}
+
+function normalizeExtraction(result: DecisionExtractionResult): DecisionExtractionResult {
+  function sanitizeSupportingContextQuotes(
+    value: unknown,
+  ): DecisionSupportingContextQuote[] | undefined {
+    if (!Array.isArray(value)) {
+      return undefined;
+    }
+    const quotes = value
+      .filter((entry) => entry && typeof entry === "object" && !Array.isArray(entry))
+      .map((entry) => {
+        const record = entry as Record<string, unknown>;
+        if (typeof record.quote !== "string" || record.source !== "context") {
+          return null;
+        }
+        return {
+          quote: record.quote.trim(),
+          entry_id: typeof record.entry_id === "string" ? record.entry_id.trim() : null,
+          source: "context" as const,
+        };
+      })
+      .filter((entry): entry is DecisionSupportingContextQuote => Boolean(entry?.quote));
+    return quotes.length > 0 ? quotes : undefined;
+  }
+
+  function sanitizeClaimValueJson(value: unknown): DecisionClaimValueJson | null {
+    if (!value || typeof value !== "object" || Array.isArray(value)) {
+      return null;
+    }
+    const next: DecisionClaimValueJson = { ...(value as Record<string, unknown>) };
+    if (typeof next.core_entry_id === "string") {
+      next.core_entry_id = next.core_entry_id.trim();
+    } else {
+      delete next.core_entry_id;
+    }
+    const quotes = sanitizeSupportingContextQuotes(next.supporting_context_quotes);
+    if (quotes) {
+      next.supporting_context_quotes = quotes;
+    } else {
+      delete next.supporting_context_quotes;
+    }
+    return next;
+  }
+
+  return {
+    should_extract: result.should_extract,
+    topic_ref: typeof result.topic_ref === "string" ? result.topic_ref.trim() : null,
+    topic_anchors_json:
+      result.topic_anchors_json && typeof result.topic_anchors_json === "object"
+        ? result.topic_anchors_json
+        : null,
+    decision_axis_key:
+      typeof result.decision_axis_key === "string" ? result.decision_axis_key.trim() as never : null,
+    decision_axis_text:
+      typeof result.decision_axis_text === "string" ? normalizeWhitespace(result.decision_axis_text) : null,
+    decision_axis_instance_id:
+      typeof result.decision_axis_instance_id === "string"
+        ? result.decision_axis_instance_id.trim()
+        : null,
+    claims: result.claims
+      .filter((claim) => claim && typeof claim === "object")
+      .map((claim) => ({
+        claim_field: claim.claim_field,
+        claim_text: normalizeWhitespace(claim.claim_text),
+        claim_value_json: sanitizeClaimValueJson(claim.claim_value_json),
+        evidence_quote: claim.evidence_quote.trim(),
+        confidence: Number(claim.confidence ?? 0),
+      })),
+    overflow_warning: result.overflow_warning === true,
+  };
+}
+
+function parseDecisionJsonBlockDetailed(outputText: string): DecisionJsonParseResult {
+  const blocks = [...outputText.matchAll(/```json\s*([\s\S]*?)```/gi)].map(
+    (match) => match[1] ?? "",
+  );
+  const candidates = blocks.length > 0 ? blocks.toReversed() : [outputText];
+  for (const candidate of candidates) {
+    try {
+      const parsed = JSON.parse(candidate.trim()) as unknown;
+      if (!isDecisionExtractionResult(parsed)) {
+        continue;
+      }
+      return { ok: true, extraction: normalizeExtraction(parsed) };
+    } catch {
+      // continue
+    }
+  }
+  return {
+    ok: false,
+    extraction: {
+      should_extract: false,
+      topic_ref: null,
+      topic_anchors_json: null,
+      decision_axis_key: null,
+      decision_axis_text: null,
+      decision_axis_instance_id: null,
+      claims: [],
+    },
+  };
+}
+
+function coerceLlmOutputText(
+  result: string | { outputText?: string; extraction?: DecisionExtractionResult },
+): string {
+  if (typeof result === "string") {
+    return result;
+  }
+  if (result.extraction) {
+    return JSON.stringify(result.extraction);
+  }
+  return result.outputText ?? "";
 }
 
 async function extractWithLlm(
-  text: string,
+  input: string | DecisionExtractionEnvelope,
   sourceRef: string,
   llmClient: LLMClient,
-): Promise<RawEvent[]> {
-  const request = buildExtractionPrompt(text, sourceRef);
+): Promise<DecisionExtractionResult> {
+  const request = buildExtractionPrompt(input, sourceRef);
   let outputText = "";
   try {
     outputText = coerceLlmOutputText(await llmClient.extractGraphEvents(request));
@@ -249,18 +375,17 @@ async function extractWithLlm(
       `graph extractor produced empty output for ${request.sourcePath}`,
     );
   }
-  const parsed = parseGraphJsonBlockDetailed(outputText);
+  const parsed = parseDecisionJsonBlockDetailed(outputText);
   if (!parsed.ok) {
     throw new GraphExtractorError(
       "extractor_invalid_json",
       `graph extractor output was not valid JSON for ${request.sourcePath}`,
     );
   }
-  const events = validateWorkflowEvents(sourceRef, parsed.events);
   log.info(
-    `canonical.extract.llm source_ref=${request.sourcePath} events=${events.length} precise=${events.every((event) => event.source_ref.includes("#L"))}`,
+    `canonical.extract.llm source_ref=${request.sourcePath} claims=${parsed.extraction.claims.length} should_extract=${parsed.extraction.should_extract}`,
   );
-  return events;
+  return parsed.extraction;
 }
 
 export function setDefaultExtractorClient(client: LLMClient | null): void {
@@ -272,14 +397,14 @@ export function getDefaultExtractorSystemPrompt(): string {
 }
 
 export function getGraphExtractorErrorCode(err: unknown): GraphExtractorErrorCode | null {
-  return isGraphExtractorError(err) ? err.code : null;
+  return err instanceof GraphExtractorError ? err.code : null;
 }
 
 export async function extract(
-  text: string,
+  input: string | DecisionExtractionEnvelope,
   sourceRef: string,
   llmClient?: LLMClient,
-): Promise<RawEvent[]> {
+): Promise<DecisionExtractionResult> {
   const client = llmClient ?? defaultLlmClient;
   if (!client) {
     throw new GraphExtractorError(
@@ -288,7 +413,7 @@ export async function extract(
     );
   }
   try {
-    return await extractWithLlm(text, sourceRef, client);
+    return await extractWithLlm(input, sourceRef, client);
   } catch (err) {
     const extractorError = wrapExtractorError(err);
     log.warn(
@@ -298,10 +423,10 @@ export async function extract(
   }
 }
 
-export function parseGraphJsonBlock(outputText: string): RawEvent[] {
-  return parseGraphJsonBlockDetailed(outputText).events;
+export function parseGraphJsonBlock(outputText: string): DecisionExtractionResult {
+  return parseDecisionJsonBlockDetailed(outputText).extraction;
 }
 
-export function parseGraphJsonBlockWithStatus(outputText: string): GraphJsonParseResult {
-  return parseGraphJsonBlockDetailed(outputText);
+export function parseGraphJsonBlockWithStatus(outputText: string): DecisionJsonParseResult {
+  return parseDecisionJsonBlockDetailed(outputText);
 }

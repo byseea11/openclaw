@@ -58,8 +58,47 @@ function readInstalledDependencyVersion(nodeModulesDir, depName) {
   return typeof version === "string" ? version : null;
 }
 
-function dependencyVersionSatisfied(spec, installedVersion) {
-  return semverSatisfies(installedVersion, spec, { includePrerelease: false });
+function dependencyVersionSatisfied(spec, installedVersion, params = {}) {
+  if (semverSatisfies(installedVersion, spec, { includePrerelease: false })) {
+    return true;
+  }
+  const viaName = params.viaName;
+  if (
+    spec === "^2.0.0" &&
+    params.depName === "@smithy/util-utf8" &&
+    (viaName === "@aws-crypto/sha256-browser" || viaName === "@aws-crypto/util") &&
+    semverSatisfies(installedVersion, "^4.2.2", { includePrerelease: false })
+  ) {
+    // Bedrock's control-plane client currently resolves through the root Smithy
+    // 4.x runtime in this workspace. Accept that already-installed closure so
+    // bundled runtime staging can use the fast root node_modules copy path
+    // instead of falling back to a networked npm install during build.
+    return true;
+  }
+  if (
+    params.depName === "fast-xml-parser" &&
+    viaName === "@aws-sdk/xml-builder" &&
+    spec === "5.5.8" &&
+    installedVersion === "5.5.7"
+  ) {
+    // The root workspace pins fast-xml-parser 5.5.7, while Bedrock's control-plane
+    // closure requests 5.5.8 through @aws-sdk/xml-builder. Treat this narrow patch
+    // drift as compatible for bundled runtime staging so builds can reuse the
+    // already-installed root dependency graph.
+    return true;
+  }
+  if (
+    params.depName === "@aws-sdk/token-providers" &&
+    viaName === "@aws-sdk/credential-provider-sso" &&
+    spec === "3.1026.0" &&
+    installedVersion === "3.1028.0"
+  ) {
+    // The Bedrock discovery closure resolves to the root token-providers package
+    // at 3.1028.0. Allow this exact newer AWS SDK patchline during staging instead
+    // of forcing a fallback npm install.
+    return true;
+  }
+  return false;
 }
 
 const stagedRuntimeDepPruneRules = new Map([
@@ -67,16 +106,44 @@ const stagedRuntimeDepPruneRules = new Map([
   ["@larksuiteoapi/node-sdk", ["types"]],
 ]);
 const runtimeDepsStagingVersion = 2;
+const RUNTIME_DEPS_INSTALL_TIMEOUT_CODE = "RUNTIME_DEPS_INSTALL_TIMEOUT";
+const DEFAULT_RUNTIME_DEPS_INSTALL_TIMEOUT_MS = 30_000;
+
+function parsePositiveInt(value) {
+  if (typeof value !== "string" || value.trim().length === 0) {
+    return null;
+  }
+  const parsed = Number.parseInt(value, 10);
+  return Number.isFinite(parsed) && parsed > 0 ? parsed : null;
+}
+
+function resolveInstallTimeoutMs(params = {}) {
+  if (typeof params.installTimeoutMs === "number" && Number.isFinite(params.installTimeoutMs)) {
+    return Math.max(1, Math.trunc(params.installTimeoutMs));
+  }
+  const envTimeout = parsePositiveInt(
+    params.env?.OPENCLAW_RUNTIME_DEPS_INSTALL_TIMEOUT_MS,
+  );
+  return envTimeout ?? DEFAULT_RUNTIME_DEPS_INSTALL_TIMEOUT_MS;
+}
 
 function collectInstalledRuntimeClosure(rootNodeModulesDir, dependencySpecs) {
   const packageCache = new Map();
   const closure = new Set();
-  const queue = Object.entries(dependencySpecs);
+  const queue = Object.entries(dependencySpecs).map(([depName, spec]) => ({
+    depName,
+    spec,
+    viaName: null,
+  }));
 
   while (queue.length > 0) {
-    const [depName, spec] = queue.shift();
+    const item = queue.shift();
+    const { depName, spec, viaName } = item;
     const installedVersion = readInstalledDependencyVersion(rootNodeModulesDir, depName);
-    if (installedVersion === null || !dependencyVersionSatisfied(spec, installedVersion)) {
+    if (
+      installedVersion === null ||
+      !dependencyVersionSatisfied(spec, installedVersion, { depName, viaName })
+    ) {
       return null;
     }
     if (closure.has(depName)) {
@@ -92,10 +159,10 @@ function collectInstalledRuntimeClosure(rootNodeModulesDir, dependencySpecs) {
     closure.add(depName);
 
     for (const [childName, childSpec] of Object.entries(packageJson.dependencies ?? {})) {
-      queue.push([childName, childSpec]);
+      queue.push({ depName: childName, spec: childSpec, viaName: depName });
     }
     for (const [childName, childSpec] of Object.entries(packageJson.optionalDependencies ?? {})) {
-      queue.push([childName, childSpec]);
+      queue.push({ depName: childName, spec: childSpec, viaName: depName });
     }
   }
 
@@ -251,6 +318,7 @@ function installPluginRuntimeDeps(params) {
   ) {
     return;
   }
+  const installTimeoutMs = resolveInstallTimeoutMs(params);
   const nodeModulesDir = path.join(pluginDir, "node_modules");
   const stampPath = resolveRuntimeDepsStampPath(pluginDir);
   const tempInstallDir = makeTempDir(
@@ -275,8 +343,18 @@ function installPluginRuntimeDeps(params) {
       env: npmRunner.env,
       stdio: "pipe",
       shell: npmRunner.shell,
+      killSignal: "SIGKILL",
+      timeout: installTimeoutMs,
       windowsVerbatimArguments: npmRunner.windowsVerbatimArguments,
     });
+    if (result.error?.code === "ETIMEDOUT") {
+      const error = new Error(
+        `failed to stage bundled runtime deps for ${pluginId}: npm install timed out after ${installTimeoutMs}ms. ` +
+          "This fallback path runs when the root node_modules tree cannot satisfy the bundled plugin's declared runtime dependency versions; align those versions or run the build where npm can reach the registry.",
+      );
+      error.code = RUNTIME_DEPS_INSTALL_TIMEOUT_CODE;
+      throw error;
+    }
     if (result.status !== 0) {
       const output = [result.stderr, result.stdout].filter(Boolean).join("\n").trim();
       throw new Error(
@@ -312,6 +390,9 @@ function installPluginRuntimeDepsWithRetries(params) {
       return;
     } catch (error) {
       lastError = error;
+      if (error?.code === RUNTIME_DEPS_INSTALL_TIMEOUT_CODE) {
+        break;
+      }
       if (attempt === attempts) {
         break;
       }
@@ -325,6 +406,7 @@ export function stageBundledPluginRuntimeDeps(params = {}) {
   const installPluginRuntimeDepsImpl =
     params.installPluginRuntimeDepsImpl ?? installPluginRuntimeDeps;
   const installAttempts = params.installAttempts ?? 3;
+  const installTimeoutMs = resolveInstallTimeoutMs(params);
   for (const pluginDir of listBundledPluginRuntimeDirs(repoRoot)) {
     const pluginId = path.basename(pluginDir);
     const packageJson = sanitizeBundledManifestForRuntimeInstall(pluginDir);
@@ -349,6 +431,7 @@ export function stageBundledPluginRuntimeDeps(params = {}) {
         pluginDir,
         pluginId,
         repoRoot,
+        installTimeoutMs,
       },
     });
   }
