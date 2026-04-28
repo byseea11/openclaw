@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>信息处理的闭环问题</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            color: #333;
+            margin: 20px;
+        }
+        h1 {
+            text-align: center;
+            color: #1e4e89;
+        }
+        .content {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .section {
+            margin-bottom: 20px;
+        }
+        .description {
+            padding: 10px;
+            background-color: #e0f7fa;
+            border-radius: 8px;
+            margin-bottom: 15px;
+        }
+        .cycle-diagram {
+            display: flex;
+            justify-content: center;
+            margin-top: 30px;
+        }
+        .diagram img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+        }
+        .note {
+            margin-top: 20px;
+            font-style: italic;
+            color: #f44336;
+        }
+        /* Styling for the diagram nodes and arrows */
+        .diagram {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            margin-top: 20px;
+        }
+        .node-container {
+            display: flex;
+            justify-content: center;
+            margin-top: 30px;
+        }
+        .node {
+            width: 120px;
+            height: 80px;
+            background-color: #1e4e89;
+            color: #fff;
+            text-align: center;
+            line-height: 80px;
+            border-radius: 8px;
+            margin: 0 20px;
+            position: relative;
+        }
+        .line {
+            width: 2px;
+            background-color: #1e4e89;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        .horizontal-line {
+            height: 2px;
+            width: 150px;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        .circle {
+            width: 200px;
+            height: 200px;
+            border: 2px solid #1e4e89;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 18px;
+            margin-top: 50px;
+        }
+        .arrow {
+            width: 40px;
+            height: 40px;
+            background-color: #f44336;
+            clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+            position: absolute;
+            top: 100px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+    </style>
+</head>
+<body>
+    <h1>信息处理的闭环问题 - OpenClaw 记忆机制</h1>
+
+    <div class="content">
+        <div class="section">
+            <h2>问题描述</h2>
+            <p class="description">OpenClaw 目前的记忆机制存在三个主要问题，它们彼此之间形成一个闭环，导致信息处理的不一致、不可验证和不可更新：</p>
+            <ul>
+                <li><strong>信息分散</strong>：以个人为核心，导致不同的记忆片段孤立在各个地方。</li>
+                <li><strong>抽取不完全</strong>：信息抽取机制不够结构化，可能漏掉关键信息。</li>
+                <li><strong>无法验证与更新</strong>：一旦信息被抽取，无法验证其准确性，也没有自动更新的机制。</li>
+            </ul>
+        </div>
+
+        <div class="section">
+            <h2>问题循环</h2>
+            <p class="description">这三个问题形成了一个自我增强的闭环：</p>
+            <div class="cycle-diagram">
+                <div class="diagram">
+                    <div class="node-container">
+                        <div class="node">信息分散</div>
+                        <div class="line" style="height: 150px;"></div>
+                        <div class="node">抽取不完全</div>
+                        <div class="line" style="height: 150px;"></div>
+                        <div class="node">无法验证</div>
+                    </div>
+                    <div class="circle">
+                        <div>TOPIC</div>
+                    </div>
+                    <div class="node-container">
+                        <div class="node">被分散</div>
+                        <div class="line horizontal-line"></div>
+                        <div class="node">内容不一致</div>
+                    </div>
+                    <div class="arrow"></div>
+                    <div class="node-container">
+                        <div class="node">无法整合</div>
+                        <div class="line" style="height: 150px;"></div>
+                        <div class="node">无法追溯</div>
+                    </div>
+                </div>
+            </div>
+            <p class="note">注：该图展示了信息分散、抽取不完全、无法验证与更新如何相互作用，形成一个恶性循环，最终导致无法追踪和可靠的决策支持。</p>
+        </div>
+    </div>
+</body>
+</html>

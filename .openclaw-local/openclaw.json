@@ -1,0 +1,8 @@
+{
+  gateway: { mode: "local" },
+  agents: {
+    defaults: {
+      model: { primary: "volcengine-plan/ark-code-latest" },
+    },
+  },
+}
