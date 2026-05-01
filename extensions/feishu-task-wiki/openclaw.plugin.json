@@ -1,0 +1,10 @@
+{
+  "id": "feishu-task-wiki",
+  "name": "Feishu Task Wiki",
+  "description": "Task-first routing, binding, and wiki helpers for Feishu/Lark collaboration memory.",
+  "configSchema": {
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {}
+  }
+}

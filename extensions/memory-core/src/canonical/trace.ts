@@ -12,7 +12,7 @@ import type {
   MemoryTranscriptSpanEntry,
   OpenClawConfig,
 } from "openclaw/plugin-sdk/memory-core-host-runtime-core";
-import { resolveGraphIndexConfig } from "./schema.js";
+import { resolveFeishuTaskWikiConfig } from "./schema.js";
 
 const log = createSubsystemLogger("memory");
 export const GRAPH_INDEX_IMPL_TAG = "GRAPH_INDEX_IMPL";
@@ -74,7 +74,7 @@ export function buildGraphTraceId(parts: Array<number | string | null | undefine
 }
 
 function resolveTraceFilePath(cfg: OpenClawConfig | undefined): string {
-  const graphConfig = resolveGraphIndexConfig(cfg);
+  const graphConfig = resolveFeishuTaskWikiConfig(cfg);
   const configuredPath = graphConfig.trace.filePath;
   if (configuredPath) {
     return resolveUserPath(configuredPath);
@@ -135,7 +135,7 @@ export function recordGraphIndexTrace(params: {
   event: TraceInput;
   entries?: MemoryTranscriptSpanEntry[];
 }): void {
-  const graphConfig = resolveGraphIndexConfig(params.cfg);
+  const graphConfig = resolveFeishuTaskWikiConfig(params.cfg);
   const traceId =
     params.event.trace_id ??
     buildGraphTraceId([

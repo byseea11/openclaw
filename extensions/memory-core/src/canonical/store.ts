@@ -7,49 +7,39 @@ import {
 } from "openclaw/plugin-sdk/memory-core-host-engine-foundation";
 import { openMemoryDatabaseAtPath } from "../memory/manager-db.js";
 import { generateUlid } from "./id-v2.js";
-import { runV0ToV1Migration } from "./migrations/v0-to-v1.js";
-import { runV1ToV2Migration } from "./migrations/v1-to-v2.js";
-import { runV2ToV3Migration } from "./migrations/v2-to-v3.js";
-import { runV3ToV4Migration } from "./migrations/v3-to-v4.js";
-import { runV4ToV5Migration } from "./migrations/v4-to-v5.js";
-import { runV5ToV6Migration } from "./migrations/v5-to-v6.js";
-import { runV6ToV7Migration } from "./migrations/v6-to-v7.js";
-import { deriveGraphEdgeMutationsV2, reopenOrCreateEdgeV2 } from "./projector-edges-v2.js";
-import { deriveGraphEntitiesV2 } from "./projector-entities-v2.js";
-import { deriveWorkflowPatchesV2, type WorkflowSlotVersionV2 } from "./projector-workflow-v2.js";
 import {
-  buildDecisionClaimEventFingerprint,
-  buildEventFingerprint,
+  buildEdgeKey,
+  buildTaskSessionEventFingerprint,
   EVENT_TYPE_REGISTRY_SEED,
-  type DecisionStateViewV2,
   type EvidenceRecordV2,
   type EventRecordV2,
   type GraphEdgeV2,
   type GraphEntityV2,
-  type WorkflowStateViewV2,
+  type TaskCurrentStateViewV2,
 } from "./schema-v2.js";
 import {
-  CANONICAL_SCHEMA_SQL,
-  CANONICAL_SCHEMA_VERSION,
   EXTRACTOR_VERSION,
-  GRAPH_PROJECTION_VERSION,
-  GRAPH_METRIC_KEYS,
-  GRAPH_RECALL_TTL_MS,
-  type GraphExportData,
+  FEISHU_TASK_WIKI_SCHEMA_SQL,
+  FEISHU_TASK_WIKI_SCHEMA_VERSION,
+  TASK_WIKI_METRIC_KEYS,
+  TASK_WIKI_PROJECTION_VERSION,
+  TASK_WIKI_RECALL_TTL_MS,
   type GraphHit,
-  type GraphMetricKey,
-  type GraphMetricsSnapshot,
+  type RecentTaskWikiHit,
+  type TaskSessionIngestQueueEntry,
+  type TaskSessionIngestQueueWrite,
+  type TaskSourceSessionState,
+  type TaskWikiExportData,
+  type TaskWikiMetricKey,
+  type TaskWikiMetricsSnapshot,
   parseSourceRef,
-  type ProjectionInboxEntry,
-  type ProjectionInboxWrite,
-  type ProjectionSourceState,
-  type RecentGraphCandidate,
 } from "./schema.js";
 
 const log = createSubsystemLogger("memory");
-const stores = new Map<string, CanonicalStore>();
-type GraphMetricRow = { key?: string; value?: number | string };
-type PendingProjectionSummary = {
+const stores = new Map<string, FeishuTaskWikiStore>();
+
+type MetricRow = { key?: string; value?: number | string };
+type PendingTaskSessionSummary = {
   source_kind: "transcript";
   source_id: string;
   pending_spans: number;
@@ -61,11 +51,159 @@ type PendingProjectionSummary = {
   oldest_created_at: number;
 };
 
-function graphDbPathForAgent(agentId: string): string {
-  return path.join(resolveStateDir(process.env, os.homedir), "memory", `${agentId}.graph.sqlite`);
+type SlotVersion = {
+  event_id: string;
+  event_fingerprint: string;
+  occurred_at: string;
+};
+
+function taskWikiDbPathForAgent(agentId: string): string {
+  return path.join(
+    resolveStateDir(process.env, os.homedir),
+    "memory",
+    `${agentId}.feishu-task-wiki.sqlite`,
+  );
 }
 
-function rowToProjectionState(row: Record<string, unknown>): ProjectionSourceState {
+function asPayloadRecord(value: string): Record<string, unknown> {
+  try {
+    const parsed = JSON.parse(value) as unknown;
+    return parsed && typeof parsed === "object" && !Array.isArray(parsed)
+      ? (parsed as Record<string, unknown>)
+      : {};
+  } catch {
+    return {};
+  }
+}
+
+function parseStringArray(value: unknown): string[] {
+  if (Array.isArray(value)) {
+    return value.filter((entry): entry is string => typeof entry === "string");
+  }
+  if (typeof value !== "string" || !value.trim()) {
+    return [];
+  }
+  try {
+    const parsed = JSON.parse(value) as unknown;
+    return Array.isArray(parsed)
+      ? parsed.filter((entry): entry is string => typeof entry === "string")
+      : [];
+  } catch {
+    return [];
+  }
+}
+
+function parseSlotVersions(value: string): Record<string, SlotVersion> {
+  try {
+    const parsed = JSON.parse(value) as unknown;
+    if (!parsed || typeof parsed !== "object" || Array.isArray(parsed)) {
+      return {};
+    }
+    const result: Record<string, SlotVersion> = {};
+    for (const [slot, raw] of Object.entries(parsed)) {
+      if (!raw || typeof raw !== "object" || Array.isArray(raw)) {
+        continue;
+      }
+      const record = raw as Record<string, unknown>;
+      if (
+        typeof record.event_id === "string" &&
+        typeof record.event_fingerprint === "string" &&
+        typeof record.occurred_at === "string"
+      ) {
+        result[slot] = {
+          event_id: record.event_id,
+          event_fingerprint: record.event_fingerprint,
+          occurred_at: record.occurred_at,
+        };
+      }
+    }
+    return result;
+  } catch {
+    return {};
+  }
+}
+
+function taskRefForEvent(event: EventRecordV2): string | null {
+  const payload = asPayloadRecord(event.payload_json);
+  if (typeof payload.task_ref === "string" && payload.task_ref.startsWith("task:")) {
+    return payload.task_ref;
+  }
+  if (event.subject_ref.startsWith("task:")) {
+    return event.subject_ref;
+  }
+  return null;
+}
+
+function entityTypeForRef(ref: string): GraphEntityV2["entity_type"] {
+  const prefix = ref.split(":", 1)[0] ?? "";
+  switch (prefix) {
+    case "task":
+      return "task";
+    case "person":
+    case "person_name":
+      return "person";
+    case "topic":
+      return "topic";
+    case "thread":
+      return "thread";
+    case "doc":
+      return "doc";
+    case "project":
+      return "project";
+    case "memory_block":
+      return "memory_block";
+    case "session_event":
+    case "event":
+      return "session_event";
+    case "session_wiki":
+      return "session_wiki";
+    case "evidence":
+      return "evidence";
+    case "date":
+      return "date";
+    default:
+      return "topic";
+  }
+}
+
+function canonicalNameForRef(ref: string, payload: Record<string, unknown>, evidence: EvidenceRecordV2): string {
+  if (ref.startsWith("task:")) {
+    return ref.slice(5);
+  }
+  if (ref.startsWith("event:")) {
+    return typeof payload.claim === "string" ? payload.claim : ref;
+  }
+  if (ref.startsWith("evidence:")) {
+    return typeof payload.evidence_quote === "string"
+      ? payload.evidence_quote
+      : evidence.content_text ?? ref;
+  }
+  if (ref.startsWith("date:")) {
+    return ref.slice(5);
+  }
+  return ref.includes(":") ? ref.split(":").slice(1).join(":") : ref;
+}
+
+function relatedRefsForEvent(event: EventRecordV2): string[] {
+  try {
+    const parsed = JSON.parse(event.related_refs_json) as unknown;
+    return Array.isArray(parsed)
+      ? parsed.filter((entry): entry is string => typeof entry === "string")
+      : [];
+  } catch {
+    return [];
+  }
+}
+
+function buildTaskStateSlotVersion(event: EventRecordV2): SlotVersion {
+  return {
+    event_id: event.event_id,
+    event_fingerprint: event.event_fingerprint,
+    occurred_at: event.occurred_at,
+  };
+}
+
+function rowToTaskSourceSessionState(row: Record<string, unknown>): TaskSourceSessionState {
   const status =
     row.status === "dirty" ||
     row.status === "draining" ||
@@ -89,12 +227,14 @@ function rowToProjectionState(row: Record<string, unknown>): ProjectionSourceSta
     projection_version:
       typeof row.projection_version === "string"
         ? row.projection_version
-        : GRAPH_PROJECTION_VERSION,
+        : TASK_WIKI_PROJECTION_VERSION,
     status,
   };
 }
 
-function rowToProjectionInboxEntry(row: Record<string, unknown>): ProjectionInboxEntry {
+function rowToTaskSessionIngestQueueEntry(
+  row: Record<string, unknown>,
+): TaskSessionIngestQueueEntry {
   return {
     id: Number(row.id ?? 0),
     source_kind: "transcript",
@@ -115,25 +255,26 @@ function rowToProjectionInboxEntry(row: Record<string, unknown>): ProjectionInbo
   };
 }
 
-function parseSupportingEventIds(value: unknown): string[] {
-  if (Array.isArray(value)) {
-    return value.filter((entry): entry is string => typeof entry === "string");
-  }
-  if (typeof value !== "string" || !value.trim()) {
-    return [];
-  }
-  try {
-    const parsed = JSON.parse(value) as unknown;
-    return Array.isArray(parsed)
-      ? parsed.filter((entry): entry is string => typeof entry === "string")
-      : [];
-  } catch {
-    return [];
-  }
-}
-
-function parseStringArray(value: unknown): string[] {
-  return [...new Set(parseSupportingEventIds(value))];
+function rowToRecentTaskWikiHit(row: Record<string, unknown>): RecentTaskWikiHit {
+  return {
+    session_key: String(row.session_key),
+    source_ref: String(row.source_ref),
+    path: String(row.path),
+    start_line: Number(row.start_line ?? 0),
+    end_line: Number(row.end_line ?? 0),
+    entity_id: String(row.entity_id),
+    hit_type: row.hit_type === "state" || row.hit_type === "edge" ? row.hit_type : "event",
+    query: typeof row.query === "string" ? row.query : null,
+    first_returned_at: Number(row.first_returned_at ?? 0),
+    last_returned_at: Number(row.last_returned_at ?? 0),
+    expires_at: Number(row.expires_at ?? 0),
+    used_at:
+      typeof row.used_at === "number"
+        ? row.used_at
+        : row.used_at == null
+          ? null
+          : Number(row.used_at),
+  };
 }
 
 function rowToEvidenceV2(row: Record<string, unknown>): EvidenceRecordV2 {
@@ -180,33 +321,10 @@ function rowToEventV2(row: Record<string, unknown>): EventRecordV2 {
   };
 }
 
-function rowToWorkflowStateV2(row: Record<string, unknown>): WorkflowStateViewV2 {
+function rowToTaskCurrentStateV2(row: Record<string, unknown>): TaskCurrentStateViewV2 {
   return {
     task_ref: String(row.task_ref),
-    current_owner_ref: typeof row.current_owner_ref === "string" ? row.current_owner_ref : null,
-    current_stage: typeof row.current_stage === "string" ? row.current_stage : null,
-    current_approval_ref:
-      typeof row.current_approval_ref === "string" ? row.current_approval_ref : null,
-    approval_status: typeof row.approval_status === "string" ? row.approval_status : null,
-    current_blocker_ref:
-      typeof row.current_blocker_ref === "string" ? row.current_blocker_ref : null,
-    next_action_json: typeof row.next_action_json === "string" ? row.next_action_json : "{}",
-    last_event_id: String(row.last_event_id),
-    last_event_time: String(row.last_event_time),
-    slot_versions_json: typeof row.slot_versions_json === "string" ? row.slot_versions_json : "{}",
-    supporting_event_ids:
-      typeof row.supporting_event_ids === "string" ? row.supporting_event_ids : "[]",
-    updated_at: Number(row.updated_at ?? 0),
-  };
-}
-
-function rowToDecisionStateV2(row: Record<string, unknown>): DecisionStateViewV2 {
-  return {
-    topic_ref: String(row.topic_ref),
-    decision_axis_key: String(row.decision_axis_key) as DecisionStateViewV2["decision_axis_key"],
-    decision_axis_text: String(row.decision_axis_text),
-    decision_axis_instance_id:
-      typeof row.decision_axis_instance_id === "string" ? row.decision_axis_instance_id : null,
+    primary_topic_ref: typeof row.primary_topic_ref === "string" ? row.primary_topic_ref : null,
     active_conclusion_event_id:
       typeof row.active_conclusion_event_id === "string" ? row.active_conclusion_event_id : null,
     active_rationale_event_ids_json:
@@ -216,6 +334,22 @@ function rowToDecisionStateV2(row: Record<string, unknown>): DecisionStateViewV2
     active_objection_event_ids_json:
       typeof row.active_objection_event_ids_json === "string"
         ? row.active_objection_event_ids_json
+        : "[]",
+    active_constraint_event_ids_json:
+      typeof row.active_constraint_event_ids_json === "string"
+        ? row.active_constraint_event_ids_json
+        : "[]",
+    active_commitment_event_ids_json:
+      typeof row.active_commitment_event_ids_json === "string"
+        ? row.active_commitment_event_ids_json
+        : "[]",
+    active_status_event_ids_json:
+      typeof row.active_status_event_ids_json === "string"
+        ? row.active_status_event_ids_json
+        : "[]",
+    active_scope_event_ids_json:
+      typeof row.active_scope_event_ids_json === "string"
+        ? row.active_scope_event_ids_json
         : "[]",
     active_stage_event_id:
       typeof row.active_stage_event_id === "string" ? row.active_stage_event_id : null,
@@ -257,172 +391,36 @@ function rowToGraphEdgeV2(row: Record<string, unknown>): GraphEdgeV2 {
   };
 }
 
-function parseSlotVersionsV2(value: string): Record<string, WorkflowSlotVersionV2> {
-  try {
-    const parsed = JSON.parse(value) as unknown;
-    if (!parsed || typeof parsed !== "object" || Array.isArray(parsed)) {
-      return {};
-    }
-    const result: Record<string, WorkflowSlotVersionV2> = {};
-    for (const [slot, raw] of Object.entries(parsed)) {
-      if (!raw || typeof raw !== "object" || Array.isArray(raw)) {
-        continue;
-      }
-      const record = raw as Record<string, unknown>;
-      if (
-        typeof record.event_id === "string" &&
-        typeof record.event_fingerprint === "string" &&
-        typeof record.occurred_at === "string"
-      ) {
-        result[slot] = {
-          event_id: record.event_id,
-          event_fingerprint: record.event_fingerprint,
-          occurred_at: record.occurred_at,
-        };
-      }
-    }
-    return result;
-  } catch {
-    return {};
-  }
-}
-
-function asPayloadRecord(value: string): Record<string, unknown> {
-  try {
-    const parsed = JSON.parse(value) as unknown;
-    return parsed && typeof parsed === "object" && !Array.isArray(parsed)
-      ? (parsed as Record<string, unknown>)
-      : {};
-  } catch {
-    return {};
-  }
-}
-
-function decisionTimePointKey(payload: Record<string, unknown>, fallbackEventId: string): string {
-  const claimValue =
-    payload.claim_value_json && typeof payload.claim_value_json === "object"
-      ? (payload.claim_value_json as Record<string, unknown>)
-      : {};
-  const role = typeof claimValue.role === "string" ? claimValue.role.trim() : "";
-  const date = typeof claimValue.date === "string" ? claimValue.date.trim() : "";
-  if (role) {
-    return `role:${role}`;
-  }
-  if (date) {
-    return `date:${date}`;
-  }
-  return `event:${fallbackEventId}`;
-}
-
-function rowToRecentGraphCandidate(row: Record<string, unknown>): RecentGraphCandidate {
-  return {
-    session_key: String(row.session_key),
-    source_ref: String(row.source_ref),
-    path: String(row.path),
-    start_line: Number(row.start_line ?? 0),
-    end_line: Number(row.end_line ?? 0),
-    entity_id: String(row.entity_id),
-    hit_type: row.hit_type === "state" || row.hit_type === "edge" ? row.hit_type : "event",
-    query: typeof row.query === "string" ? row.query : null,
-    first_returned_at: Number(row.first_returned_at ?? 0),
-    last_returned_at: Number(row.last_returned_at ?? 0),
-    expires_at: Number(row.expires_at ?? 0),
-    used_at:
-      typeof row.used_at === "number"
-        ? row.used_at
-        : row.used_at == null
-          ? null
-          : Number(row.used_at),
-  };
-}
-
-export class CanonicalStore {
+export class FeishuTaskWikiStore {
   readonly dbPath: string;
   private readonly db: DatabaseSync;
 
-  constructor(agentId: string, dbPath = graphDbPathForAgent(agentId)) {
+  constructor(agentId: string, dbPath = taskWikiDbPathForAgent(agentId)) {
     this.dbPath = dbPath;
     this.db = openMemoryDatabaseAtPath(dbPath, false);
-    log.info(`canonical.store.open agent=${agentId} path=${dbPath}`);
+    log.info(`feishu_task_wiki.store.open agent=${agentId} path=${dbPath}`);
     this.ensureSchema();
   }
 
   private ensureSchema(): void {
-    this.db.exec(CANONICAL_SCHEMA_SQL);
-    const currentSchemaVersion = this.getMeta("schema_version");
-    if (currentSchemaVersion === "v0") {
-      runV0ToV1Migration(this.db);
-    }
-    if (currentSchemaVersion === "v0" || currentSchemaVersion === "v1") {
-      runV1ToV2Migration(this.db);
-    }
-    if (
-      currentSchemaVersion === "v0" ||
-      currentSchemaVersion === "v1" ||
-      currentSchemaVersion === "v2"
-    ) {
-      runV2ToV3Migration(this.db);
-    }
-    if (
-      currentSchemaVersion === "v0" ||
-      currentSchemaVersion === "v1" ||
-      currentSchemaVersion === "v2" ||
-      currentSchemaVersion === "v3"
-    ) {
-      runV3ToV4Migration(this.db);
-    }
-    if (
-      currentSchemaVersion === "v0" ||
-      currentSchemaVersion === "v1" ||
-      currentSchemaVersion === "v2" ||
-      currentSchemaVersion === "v3" ||
-      currentSchemaVersion === "v4"
-    ) {
-      runV4ToV5Migration(this.db);
-    }
-    if (
-      currentSchemaVersion === "v0" ||
-      currentSchemaVersion === "v1" ||
-      currentSchemaVersion === "v2" ||
-      currentSchemaVersion === "v3" ||
-      currentSchemaVersion === "v4" ||
-      currentSchemaVersion === "v5"
-    ) {
-      runV5ToV6Migration(this.db);
-    }
-    if (
-      currentSchemaVersion === "v0" ||
-      currentSchemaVersion === "v1" ||
-      currentSchemaVersion === "v2" ||
-      currentSchemaVersion === "v3" ||
-      currentSchemaVersion === "v4" ||
-      currentSchemaVersion === "v5" ||
-      currentSchemaVersion === "v6"
-    ) {
-      runV6ToV7Migration(this.db);
-    }
-    this.setMeta("schema_version", CANONICAL_SCHEMA_VERSION);
+    this.db.exec(FEISHU_TASK_WIKI_SCHEMA_SQL);
+    this.setMeta("schema_version", FEISHU_TASK_WIKI_SCHEMA_VERSION);
     this.setMeta("extractor_version", EXTRACTOR_VERSION);
-    this.setMeta("projection_version", GRAPH_PROJECTION_VERSION);
+    this.setMeta("projection_version", TASK_WIKI_PROJECTION_VERSION);
     const ensureMetric = this.db.prepare(
-      "INSERT OR IGNORE INTO graph_metrics(key, value) VALUES (?, 0)",
+      "INSERT OR IGNORE INTO feishu_task_wiki_metrics(key, value) VALUES (?, 0)",
     );
-    for (const key of GRAPH_METRIC_KEYS) {
+    for (const key of TASK_WIKI_METRIC_KEYS) {
       ensureMetric.run(key);
     }
-    this.seedEventTypeRegistryV2();
-    log.info("canonical.store.schema_ready");
-  }
-
-  private seedEventTypeRegistryV2(): void {
-    const insert = this.db.prepare(
-      `INSERT OR IGNORE INTO event_type_registry(
+    const seed = this.db.prepare(
+      `INSERT OR IGNORE INTO task_event_type_registry(
         event_type, subject_type, object_type, payload_schema_json, description, enabled, created_at
       ) VALUES (?, ?, ?, ?, ?, ?, ?)`,
     );
     const nowMs = Date.now();
     for (const record of EVENT_TYPE_REGISTRY_SEED) {
-      insert.run(
+      seed.run(
         record.event_type,
         record.subject_type,
         record.object_type,
@@ -432,6 +430,7 @@ export class CanonicalStore {
         record.created_at ?? nowMs,
       );
     }
+    log.info("feishu_task_wiki.store.schema_ready");
   }
 
   close(): void {
@@ -452,46 +451,44 @@ export class CanonicalStore {
   reset(): void {
     this.db.exec("BEGIN IMMEDIATE");
     try {
-      this.db.exec("DELETE FROM graph_edges_v2");
-      this.db.exec("DELETE FROM graph_entities_v2");
-      this.db.exec("DELETE FROM decision_state_view_v2");
-      this.db.exec("DELETE FROM workflow_state_view_v2");
-      this.db.exec("DELETE FROM event_records_v2");
-      this.db.exec("DELETE FROM event_type_registry");
-      this.db.exec("DELETE FROM evidence_records");
-      this.db.exec("DELETE FROM recent_graph_hits");
-      this.db.exec("DELETE FROM source_projection_state");
-      this.db.exec("DELETE FROM projection_inbox");
-      this.db.exec("DELETE FROM graph_metrics");
+      this.db.exec("DELETE FROM task_wiki_relations");
+      this.db.exec("DELETE FROM task_wiki_entities");
+      this.db.exec("DELETE FROM task_current_state_view");
+      this.db.exec("DELETE FROM task_session_events");
+      this.db.exec("DELETE FROM task_event_type_registry");
+      this.db.exec("DELETE FROM task_evidence_records");
+      this.db.exec("DELETE FROM recent_task_wiki_hits");
+      this.db.exec("DELETE FROM task_source_session_state");
+      this.db.exec("DELETE FROM task_session_ingest_queue");
+      this.db.exec("DELETE FROM feishu_task_wiki_metrics");
       const ensureMetric = this.db.prepare(
-        "INSERT OR IGNORE INTO graph_metrics(key, value) VALUES (?, 0)",
+        "INSERT OR IGNORE INTO feishu_task_wiki_metrics(key, value) VALUES (?, 0)",
       );
-      for (const key of GRAPH_METRIC_KEYS) {
+      for (const key of TASK_WIKI_METRIC_KEYS) {
         ensureMetric.run(key);
       }
-      this.seedEventTypeRegistryV2();
-      this.setMeta("schema_version", CANONICAL_SCHEMA_VERSION);
+      this.setMeta("schema_version", FEISHU_TASK_WIKI_SCHEMA_VERSION);
       this.setMeta("extractor_version", EXTRACTOR_VERSION);
-      this.setMeta("projection_version", GRAPH_PROJECTION_VERSION);
+      this.setMeta("projection_version", TASK_WIKI_PROJECTION_VERSION);
       this.db.exec("COMMIT");
-    } catch (err) {
+    } catch (error) {
       this.db.exec("ROLLBACK");
-      throw err;
+      throw error;
     }
-    log.info("canonical.store.reset");
+    log.info("feishu_task_wiki.store.reset");
   }
 
-  bumpMetric(key: GraphMetricKey, delta = 1): number {
+  bumpMetric(key: TaskWikiMetricKey, delta = 1): number {
     this.db
       .prepare(
-        `INSERT INTO graph_metrics(key, value)
+        `INSERT INTO feishu_task_wiki_metrics(key, value)
          VALUES (?, ?)
          ON CONFLICT(key) DO UPDATE SET value = value + excluded.value`,
       )
       .run(key, delta);
-    const row = this.db.prepare("SELECT value FROM graph_metrics WHERE key = ?").get(key) as
-      | { value?: number | string }
-      | undefined;
+    const row = this.db
+      .prepare("SELECT value FROM feishu_task_wiki_metrics WHERE key = ?")
+      .get(key) as { value?: number | string } | undefined;
     return Number(row?.value ?? 0);
   }
 
@@ -501,24 +498,19 @@ export class CanonicalStore {
     this.bumpMetric("extractLatencyMsCount", 1);
   }
 
-  getMetrics(): GraphMetricsSnapshot {
-    const rows = this.db.prepare("SELECT key, value FROM graph_metrics").all() as GraphMetricRow[];
-    const base = Object.fromEntries(GRAPH_METRIC_KEYS.map((key) => [key, 0])) as Record<
-      GraphMetricKey,
+  getMetrics(): TaskWikiMetricsSnapshot {
+    const rows = this.db
+      .prepare("SELECT key, value FROM feishu_task_wiki_metrics")
+      .all() as MetricRow[];
+    const base = Object.fromEntries(TASK_WIKI_METRIC_KEYS.map((key) => [key, 0])) as Record<
+      TaskWikiMetricKey,
       number
     >;
-    let legacyHitsUsed: number | null = null;
     for (const row of rows) {
-      const key = typeof row.key === "string" ? (row.key as GraphMetricKey) : null;
+      const key = typeof row.key === "string" ? (row.key as TaskWikiMetricKey) : null;
       if (key && key in base) {
         base[key] = Number(row.value ?? 0);
-      } else if (row.key === "hitsUsed") {
-        legacyHitsUsed = Number(row.value ?? 0);
       }
-    }
-    if (legacyHitsUsed !== null && base.hitsUsedRaw === 0 && base.hitsUsedUniqueRefs === 0) {
-      base.hitsUsedRaw = legacyHitsUsed;
-      base.hitsUsedUniqueRefs = legacyHitsUsed;
     }
     const count = base.extractLatencyMsCount;
     return {
@@ -529,23 +521,23 @@ export class CanonicalStore {
   }
 
   private deleteExpiredRecentHits(nowMs = Date.now()): void {
-    this.db.prepare("DELETE FROM recent_graph_hits WHERE expires_at < ?").run(nowMs);
+    this.db.prepare("DELETE FROM recent_task_wiki_hits WHERE expires_at < ?").run(nowMs);
   }
 
-  enqueueProjectionInbox(entry: ProjectionInboxWrite): boolean {
+  enqueueProjectionInbox(entry: TaskSessionIngestQueueWrite): boolean {
     const insert = this.db.prepare(
-      `INSERT OR IGNORE INTO projection_inbox(
+      `INSERT OR IGNORE INTO task_session_ingest_queue(
         source_kind, source_id, first_entry_id, last_entry_id, entries_json, dirty_reason,
         signal_strength, strong_event, created_at
       ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`,
     );
     const upsertState = this.db.prepare(
-      `INSERT INTO source_projection_state(
+      `INSERT INTO task_source_session_state(
         source_kind, source_id, covered_until_entry_id, dirty_since_entry_id,
         last_projected_at, projection_version, status
       ) VALUES (?, ?, NULL, ?, NULL, ?, 'dirty')
       ON CONFLICT(source_kind, source_id) DO UPDATE SET
-        dirty_since_entry_id = COALESCE(source_projection_state.dirty_since_entry_id, excluded.dirty_since_entry_id),
+        dirty_since_entry_id = COALESCE(task_source_session_state.dirty_since_entry_id, excluded.dirty_since_entry_id),
         projection_version = excluded.projection_version,
         status = 'dirty'`,
     );
@@ -566,38 +558,38 @@ export class CanonicalStore {
         entry.source_kind,
         entry.source_id,
         entry.first_entry_id,
-        GRAPH_PROJECTION_VERSION,
+        TASK_WIKI_PROJECTION_VERSION,
       );
       this.db.exec("COMMIT");
       return result.changes > 0;
-    } catch (err) {
+    } catch (error) {
       this.db.exec("ROLLBACK");
-      throw err;
+      throw error;
     }
   }
 
-  getProjectionState(sourceId: string): ProjectionSourceState | null {
+  getProjectionState(sourceId: string): TaskSourceSessionState | null {
     const row = this.db
       .prepare(
-        `SELECT * FROM source_projection_state
+        `SELECT * FROM task_source_session_state
          WHERE source_kind = 'transcript' AND source_id = ?`,
       )
       .get(sourceId) as Record<string, unknown> | undefined;
-    return row ? rowToProjectionState(row) : null;
+    return row ? rowToTaskSourceSessionState(row) : null;
   }
 
   hasPendingProjection(sourceId?: string): boolean {
     const row = sourceId?.trim()
       ? (this.db
           .prepare(
-            `SELECT 1 AS pending FROM projection_inbox
+            `SELECT 1 AS pending FROM task_session_ingest_queue
              WHERE source_kind = 'transcript' AND source_id = ? AND drained_at IS NULL
              LIMIT 1`,
           )
           .get(sourceId.trim()) as { pending?: number } | undefined)
       : (this.db
           .prepare(
-            `SELECT 1 AS pending FROM projection_inbox
+            `SELECT 1 AS pending FROM task_session_ingest_queue
              WHERE source_kind = 'transcript' AND drained_at IS NULL
              LIMIT 1`,
           )
@@ -605,7 +597,7 @@ export class CanonicalStore {
     return row?.pending === 1;
   }
 
-  listPendingProjectionSummaries(sourceId?: string): PendingProjectionSummary[] {
+  listPendingProjectionSummaries(sourceId?: string): PendingTaskSessionSummary[] {
     const sourceFilter = sourceId?.trim();
     const rows = sourceFilter
       ? (this.db
@@ -620,7 +612,7 @@ export class CanonicalStore {
                MIN(first_entry_id) AS first_entry_id,
                MAX(last_entry_id) AS last_entry_id,
                MIN(created_at) AS oldest_created_at
-             FROM projection_inbox
+             FROM task_session_ingest_queue
              WHERE drained_at IS NULL AND source_kind = 'transcript' AND source_id = ?
              GROUP BY source_kind, source_id
              ORDER BY oldest_created_at ASC`,
@@ -638,7 +630,7 @@ export class CanonicalStore {
                MIN(first_entry_id) AS first_entry_id,
                MAX(last_entry_id) AS last_entry_id,
                MIN(created_at) AS oldest_created_at
-             FROM projection_inbox
+             FROM task_session_ingest_queue
              WHERE drained_at IS NULL AND source_kind = 'transcript'
              GROUP BY source_kind, source_id
              ORDER BY oldest_created_at ASC`,
@@ -657,54 +649,50 @@ export class CanonicalStore {
     }));
   }
 
-  listPendingProjectionInbox(sourceId?: string): ProjectionInboxEntry[] {
+  listPendingProjectionInbox(sourceId?: string): TaskSessionIngestQueueEntry[] {
     const sourceFilter = sourceId?.trim();
     const rows = sourceFilter
       ? (this.db
           .prepare(
-            `SELECT * FROM projection_inbox
+            `SELECT * FROM task_session_ingest_queue
              WHERE drained_at IS NULL AND source_kind = 'transcript' AND source_id = ?
              ORDER BY created_at ASC, id ASC`,
           )
           .all(sourceFilter) as Array<Record<string, unknown>>)
       : (this.db
           .prepare(
-            `SELECT * FROM projection_inbox
+            `SELECT * FROM task_session_ingest_queue
              WHERE drained_at IS NULL AND source_kind = 'transcript'
              ORDER BY created_at ASC, id ASC`,
           )
           .all() as Array<Record<string, unknown>>);
-    return rows.map(rowToProjectionInboxEntry);
+    return rows.map(rowToTaskSessionIngestQueueEntry);
   }
 
   markProjectionSourceDraining(sourceId: string): void {
     this.db
       .prepare(
-        `UPDATE source_projection_state
+        `UPDATE task_source_session_state
          SET status = 'draining'
          WHERE source_kind = 'transcript' AND source_id = ?`,
       )
       .run(sourceId);
   }
 
-  markProjectionDrained(params: {
-    sourceId: string;
-    coveredUntilEntryId: string;
-    nowMs?: number;
-  }): void {
+  markProjectionDrained(params: { sourceId: string; coveredUntilEntryId: string; nowMs?: number }): void {
     const nowMs = Number.isFinite(params.nowMs) ? (params.nowMs as number) : Date.now();
     this.db.exec("BEGIN IMMEDIATE");
     try {
       this.db
         .prepare(
-          `UPDATE projection_inbox
+          `UPDATE task_session_ingest_queue
            SET drained_at = ?
            WHERE source_kind = 'transcript' AND source_id = ? AND drained_at IS NULL`,
         )
         .run(nowMs, params.sourceId);
       this.db
         .prepare(
-          `INSERT INTO source_projection_state(
+          `INSERT INTO task_source_session_state(
             source_kind, source_id, covered_until_entry_id, dirty_since_entry_id,
             last_projected_at, projection_version, status
           ) VALUES ('transcript', ?, ?, NULL, ?, ?, 'clean')
@@ -715,25 +703,25 @@ export class CanonicalStore {
             projection_version = excluded.projection_version,
             status = 'clean'`,
         )
-        .run(params.sourceId, params.coveredUntilEntryId, nowMs, GRAPH_PROJECTION_VERSION);
+        .run(params.sourceId, params.coveredUntilEntryId, nowMs, TASK_WIKI_PROJECTION_VERSION);
       this.db.exec("COMMIT");
-    } catch (err) {
+    } catch (error) {
       this.db.exec("ROLLBACK");
-      throw err;
+      throw error;
     }
   }
 
   markProjectionFailed(sourceId: string): void {
     this.db
       .prepare(
-        `UPDATE source_projection_state
+        `UPDATE task_source_session_state
          SET status = 'failed'
          WHERE source_kind = 'transcript' AND source_id = ?`,
       )
       .run(sourceId);
   }
 
-  recordKgRetryMarker(params: {
+  recordKgRetryMarker(_params: {
     scope: string;
     status: "failed" | "running" | "complete" | "idle";
     error?: string;
@@ -741,15 +729,13 @@ export class CanonicalStore {
     lastEventCreatedAt?: number | null;
     lastEventId?: string | null;
     nowMs?: number;
-  }): void {
-    void params;
-  }
+  }): void {}
 
-  listProjectionStates(): ProjectionSourceState[] {
+  listProjectionStates(): TaskSourceSessionState[] {
     const rows = this.db
-      .prepare("SELECT * FROM source_projection_state ORDER BY source_id ASC")
+      .prepare("SELECT * FROM task_source_session_state ORDER BY source_id ASC")
       .all() as Array<Record<string, unknown>>;
-    return rows.map(rowToProjectionState);
+    return rows.map(rowToTaskSourceSessionState);
   }
 
   recordRecentGraphHits(params: {
@@ -766,10 +752,10 @@ export class CanonicalStore {
     const nowMs = Number.isFinite(params.nowMs) ? (params.nowMs as number) : Date.now();
     const ttlMs = Number.isFinite(params.ttlMs)
       ? Math.max(1, params.ttlMs as number)
-      : GRAPH_RECALL_TTL_MS;
+      : TASK_WIKI_RECALL_TTL_MS;
     this.deleteExpiredRecentHits(nowMs);
     const upsert = this.db.prepare(
-      `INSERT INTO recent_graph_hits(
+      `INSERT INTO recent_task_wiki_hits(
         session_key, source_ref, path, start_line, end_line, entity_id, hit_type, query,
         first_returned_at, last_returned_at, expires_at, used_at
       ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NULL)
@@ -803,9 +789,9 @@ export class CanonicalStore {
         recorded += 1;
       }
       this.db.exec("COMMIT");
-    } catch (err) {
+    } catch (error) {
       this.db.exec("ROLLBACK");
-      throw err;
+      throw error;
     }
     return recorded;
   }
@@ -816,7 +802,7 @@ export class CanonicalStore {
     from?: number;
     lines?: number;
     nowMs?: number;
-  }): RecentGraphCandidate[] {
+  }): RecentTaskWikiHit[] {
     const sessionKey = params.sessionKey.trim();
     if (!sessionKey) {
       return [];
@@ -835,7 +821,7 @@ export class CanonicalStore {
         : startLine + requestedLines - 1;
     const rows = this.db
       .prepare(
-        `SELECT * FROM recent_graph_hits
+        `SELECT * FROM recent_task_wiki_hits
          WHERE session_key = ?
            AND path = ?
            AND expires_at >= ?
@@ -848,7 +834,7 @@ export class CanonicalStore {
     }
     this.db
       .prepare(
-        `UPDATE recent_graph_hits
+        `UPDATE recent_task_wiki_hits
          SET used_at = ?
          WHERE session_key = ?
            AND path = ?
@@ -857,14 +843,14 @@ export class CanonicalStore {
            AND start_line <= ?`,
       )
       .run(nowMs, sessionKey, params.path, nowMs, startLine, endLine);
-    return rows.map(rowToRecentGraphCandidate);
+    return rows.map(rowToRecentTaskWikiHit);
   }
 
   markRecentGraphHitsUsedBySourceRefs(params: {
     sessionKey: string;
     sourceRefs: string[];
     nowMs?: number;
-  }): RecentGraphCandidate[] {
+  }): RecentTaskWikiHit[] {
     const sessionKey = params.sessionKey.trim();
     const sourceRefs = [...new Set(params.sourceRefs.map((value) => value.trim()).filter(Boolean))];
     if (!sessionKey || sourceRefs.length === 0) {
@@ -875,7 +861,7 @@ export class CanonicalStore {
     const placeholders = sourceRefs.map(() => "?").join(", ");
     const rows = this.db
       .prepare(
-        `SELECT * FROM recent_graph_hits
+        `SELECT * FROM recent_task_wiki_hits
          WHERE session_key = ?
            AND expires_at >= ?
            AND source_ref IN (${placeholders})`,
@@ -886,34 +872,34 @@ export class CanonicalStore {
     }
     this.db
       .prepare(
-        `UPDATE recent_graph_hits
+        `UPDATE recent_task_wiki_hits
          SET used_at = ?
          WHERE session_key = ?
            AND expires_at >= ?
            AND source_ref IN (${placeholders})`,
       )
       .run(nowMs, sessionKey, nowMs, ...sourceRefs);
-    return rows.map(rowToRecentGraphCandidate);
+    return rows.map(rowToRecentTaskWikiHit);
   }
 
-  getRecentGraphHits(sessionKey: string, nowMs = Date.now()): RecentGraphCandidate[] {
+  getRecentGraphHits(sessionKey: string, nowMs = Date.now()): RecentTaskWikiHit[] {
     if (!sessionKey.trim()) {
       return [];
     }
     this.deleteExpiredRecentHits(nowMs);
     const rows = this.db
       .prepare(
-        `SELECT * FROM recent_graph_hits
+        `SELECT * FROM recent_task_wiki_hits
          WHERE session_key = ?
          ORDER BY last_returned_at DESC, source_ref ASC`,
       )
       .all(sessionKey) as Array<Record<string, unknown>>;
-    return rows.map(rowToRecentGraphCandidate);
+    return rows.map(rowToRecentTaskWikiHit);
   }
 
   private getEvidenceByFingerprintInTransaction(fingerprint: string): EvidenceRecordV2 | null {
     const row = this.db
-      .prepare("SELECT * FROM evidence_records WHERE evidence_fingerprint = ?")
+      .prepare("SELECT * FROM task_evidence_records WHERE evidence_fingerprint = ?")
       .get(fingerprint) as Record<string, unknown> | undefined;
     return row ? rowToEvidenceV2(row) : null;
   }
@@ -921,33 +907,26 @@ export class CanonicalStore {
   private upsertEvidenceRecordV2InTransaction(evidence: EvidenceRecordV2): EvidenceRecordV2 {
     const existing = this.getEvidenceByFingerprintInTransaction(evidence.evidence_fingerprint);
     if (existing) {
-      const updateValues: Array<string | number | null> = [
-        evidence.message_id,
-        evidence.thread_id,
-        evidence.root_id,
-        evidence.parent_id,
-        evidence.linked_event_ids_json ?? null,
-        evidence.content_json,
-        evidence.content_json,
-        existing.evidence_id,
-      ];
       this.db
         .prepare(
-          `UPDATE evidence_records
+          `UPDATE task_evidence_records
            SET message_id = COALESCE(message_id, ?),
                thread_id = COALESCE(thread_id, ?),
                root_id = COALESCE(root_id, ?),
                parent_id = COALESCE(parent_id, ?),
-               linked_event_ids_json = COALESCE(linked_event_ids_json, ?),
-               content_json = CASE
-                 WHEN content_json = '{}' AND ? <> '{}' THEN ?
-                 ELSE content_json
-               END
+               linked_event_ids_json = COALESCE(linked_event_ids_json, ?)
            WHERE evidence_id = ?`,
         )
-        .run(...updateValues);
+        .run(
+          evidence.message_id,
+          evidence.thread_id,
+          evidence.root_id,
+          evidence.parent_id,
+          evidence.linked_event_ids_json ?? null,
+          existing.evidence_id,
+        );
       const refreshed = this.db
-        .prepare("SELECT * FROM evidence_records WHERE evidence_id = ?")
+        .prepare("SELECT * FROM task_evidence_records WHERE evidence_id = ?")
         .get(existing.evidence_id) as Record<string, unknown>;
       return rowToEvidenceV2(refreshed);
     }
@@ -957,44 +936,43 @@ export class CanonicalStore {
       created_at: evidence.created_at || Date.now(),
       linked_event_ids_json: evidence.linked_event_ids_json ?? null,
     };
-    const insertValues: Array<string | number | null> = [
-      persisted.evidence_id,
-      persisted.evidence_fingerprint,
-      persisted.source_platform,
-      persisted.source_kind,
-      persisted.session_key,
-      persisted.message_id,
-      persisted.chat_id,
-      persisted.chat_type,
-      persisted.thread_id,
-      persisted.root_id,
-      persisted.parent_id,
-      persisted.first_entry_id,
-      persisted.last_entry_id,
-      persisted.content_text,
-      persisted.content_json,
-      persisted.source_locator_json,
-      persisted.occurred_at,
-      persisted.created_at,
-      persisted.linked_event_ids_json ?? null,
-    ];
     this.db
       .prepare(
-        `INSERT INTO evidence_records(
+        `INSERT INTO task_evidence_records(
           evidence_id, evidence_fingerprint, source_platform, source_kind, session_key, message_id,
           chat_id, chat_type, thread_id, root_id, parent_id, first_entry_id, last_entry_id,
           content_text, content_json, source_locator_json, occurred_at, created_at, linked_event_ids_json
         ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
       )
-      .run(...insertValues);
+      .run(
+        persisted.evidence_id,
+        persisted.evidence_fingerprint,
+        persisted.source_platform,
+        persisted.source_kind,
+        persisted.session_key,
+        persisted.message_id,
+        persisted.chat_id,
+        persisted.chat_type,
+        persisted.thread_id,
+        persisted.root_id,
+        persisted.parent_id,
+        persisted.first_entry_id,
+        persisted.last_entry_id,
+        persisted.content_text,
+        persisted.content_json,
+        persisted.source_locator_json,
+        persisted.occurred_at,
+        persisted.created_at,
+        persisted.linked_event_ids_json ?? null,
+      );
     return persisted;
   }
 
   private insertEventsV2InTransaction(events: EventRecordV2[]): EventRecordV2[] {
     const inserted: EventRecordV2[] = [];
-    const lookup = this.db.prepare("SELECT * FROM event_records_v2 WHERE event_fingerprint = ?");
+    const lookup = this.db.prepare("SELECT * FROM task_session_events WHERE event_fingerprint = ?");
     const insert = this.db.prepare(
-      `INSERT INTO event_records_v2(
+      `INSERT INTO task_session_events(
         event_id, event_fingerprint, evidence_id, event_type, subject_ref, actor_ref, object_ref,
         related_refs_json, occurred_at, payload_json, confidence, extraction_version, created_at
       ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
@@ -1030,222 +1008,132 @@ export class CanonicalStore {
     return inserted;
   }
 
-  private getWorkflowStateV2InTransaction(taskRef: string): WorkflowStateViewV2 | null {
+  private getTaskCurrentStateV2InTransaction(taskRef: string): TaskCurrentStateViewV2 | null {
     const row = this.db
-      .prepare("SELECT * FROM workflow_state_view_v2 WHERE task_ref = ?")
+      .prepare("SELECT * FROM task_current_state_view WHERE task_ref = ?")
       .get(taskRef) as Record<string, unknown> | undefined;
-    return row ? rowToWorkflowStateV2(row) : null;
+    return row ? rowToTaskCurrentStateV2(row) : null;
   }
 
-  private upsertWorkflowStateV2InTransaction(events: EventRecordV2[]): WorkflowStateViewV2[] {
-    const patches = deriveWorkflowPatchesV2(events);
-    const grouped = new Map<string, typeof patches>();
-    for (const patch of patches) {
-      const list = grouped.get(patch.task_ref) ?? [];
-      list.push(patch);
-      grouped.set(patch.task_ref, list);
-    }
-    const results: WorkflowStateViewV2[] = [];
-    for (const [taskRef, taskPatches] of grouped.entries()) {
-      let state =
-        this.getWorkflowStateV2InTransaction(taskRef) ??
-        ({
-          task_ref: taskRef,
-          current_owner_ref: null,
-          current_stage: null,
-          current_approval_ref: null,
-          approval_status: null,
-          current_blocker_ref: null,
-          next_action_json: "{}",
-          last_event_id: taskPatches[0].event.event_id,
-          last_event_time: taskPatches[0].event.occurred_at,
-          slot_versions_json: "{}",
-          supporting_event_ids: "[]",
-          updated_at: Date.now(),
-        } satisfies WorkflowStateViewV2);
-      const slotVersions = parseSlotVersionsV2(state.slot_versions_json);
-      const supportingIds = new Set(parseStringArray(state.supporting_event_ids));
-      taskPatches.sort(
-        (left, right) =>
-          left.event.occurred_at.localeCompare(right.event.occurred_at) ||
-          left.event.event_fingerprint.localeCompare(right.event.event_fingerprint),
-      );
-      for (const patch of taskPatches) {
-        supportingIds.add(patch.event.event_id);
-        for (const slot of patch.slots) {
-          const previous = slotVersions[slot];
-          const nextKey = `${patch.event.occurred_at}|${patch.event.event_fingerprint}`;
-          const previousKey = previous
-            ? `${previous.occurred_at}|${previous.event_fingerprint}`
-            : "";
-          if (!previous || nextKey >= previousKey) {
-            (state as Record<string, unknown>)[slot] = patch.set[slot] ?? null;
-            slotVersions[slot] = {
-              event_id: patch.event.event_id,
-              event_fingerprint: patch.event.event_fingerprint,
-              occurred_at: patch.event.occurred_at,
-            };
-          }
-        }
-        const lastKey = `${state.last_event_time}|${state.last_event_id}`;
-        const eventKey = `${patch.event.occurred_at}|${patch.event.event_id}`;
-        if (eventKey >= lastKey) {
-          state.last_event_id = patch.event.event_id;
-          state.last_event_time = patch.event.occurred_at;
-        }
-      }
-      state.slot_versions_json = JSON.stringify(slotVersions);
-      state.supporting_event_ids = JSON.stringify([...supportingIds]);
-      state.updated_at = Date.now();
-      this.db
-        .prepare(
-          `INSERT INTO workflow_state_view_v2(
-            task_ref, current_owner_ref, current_stage, current_approval_ref, approval_status,
-            current_blocker_ref, next_action_json, last_event_id, last_event_time,
-            slot_versions_json, supporting_event_ids, updated_at
-          ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-          ON CONFLICT(task_ref) DO UPDATE SET
-            current_owner_ref = excluded.current_owner_ref,
-            current_stage = excluded.current_stage,
-            current_approval_ref = excluded.current_approval_ref,
-            approval_status = excluded.approval_status,
-            current_blocker_ref = excluded.current_blocker_ref,
-            next_action_json = excluded.next_action_json,
-            last_event_id = excluded.last_event_id,
-            last_event_time = excluded.last_event_time,
-            slot_versions_json = excluded.slot_versions_json,
-            supporting_event_ids = excluded.supporting_event_ids,
-            updated_at = excluded.updated_at`,
-        )
-        .run(
-          state.task_ref,
-          state.current_owner_ref,
-          state.current_stage,
-          state.current_approval_ref,
-          state.approval_status,
-          state.current_blocker_ref,
-          state.next_action_json,
-          state.last_event_id,
-          state.last_event_time,
-          state.slot_versions_json,
-          state.supporting_event_ids,
-          state.updated_at,
-        );
-      results.push(state);
-    }
-    return results;
-  }
-
-  private getDecisionStateV2InTransaction(topicRef: string): DecisionStateViewV2 | null {
-    const row = this.db
-      .prepare("SELECT * FROM decision_state_view_v2 WHERE topic_ref = ?")
-      .get(topicRef) as Record<string, unknown> | undefined;
-    return row ? rowToDecisionStateV2(row) : null;
-  }
-
-  private upsertDecisionStateV2InTransaction(events: EventRecordV2[]): DecisionStateViewV2[] {
-    const decisionEvents = events.filter((event) => event.event_type === "decision_claim_recorded");
+  private upsertTaskCurrentStateV2InTransaction(events: EventRecordV2[]): TaskCurrentStateViewV2[] {
     const grouped = new Map<string, EventRecordV2[]>();
-    for (const event of decisionEvents) {
-      const list = grouped.get(event.subject_ref) ?? [];
+    for (const event of events) {
+      const taskRef = taskRefForEvent(event);
+      if (!taskRef) {
+        continue;
+      }
+      const list = grouped.get(taskRef) ?? [];
       list.push(event);
-      grouped.set(event.subject_ref, list);
+      grouped.set(taskRef, list);
     }
-    const results: DecisionStateViewV2[] = [];
-    for (const [topicRef, topicEvents] of grouped.entries()) {
-      topicEvents.sort(
+    const results: TaskCurrentStateViewV2[] = [];
+    for (const [taskRef, taskEvents] of grouped.entries()) {
+      taskEvents.sort(
         (left, right) =>
           left.occurred_at.localeCompare(right.occurred_at) ||
           left.event_fingerprint.localeCompare(right.event_fingerprint),
       );
-      const firstPayload = asPayloadRecord(topicEvents[0]?.payload_json ?? "{}");
-      let state: DecisionStateViewV2 =
-        this.getDecisionStateV2InTransaction(topicRef) ??
+      const firstPayload = asPayloadRecord(taskEvents[0]?.payload_json ?? "{}");
+      const state =
+        this.getTaskCurrentStateV2InTransaction(taskRef) ??
         ({
-          topic_ref: topicRef,
-          decision_axis_key: String(
-            firstPayload.decision_axis_key ?? "general_decision",
-          ) as DecisionStateViewV2["decision_axis_key"],
-          decision_axis_text: String(firstPayload.decision_axis_text ?? "General decision"),
-          decision_axis_instance_id:
-            typeof firstPayload.decision_axis_instance_id === "string"
-              ? firstPayload.decision_axis_instance_id
-              : null,
+          task_ref: taskRef,
+          primary_topic_ref:
+            typeof firstPayload.topic_ref === "string" ? firstPayload.topic_ref : null,
           active_conclusion_event_id: null,
           active_rationale_event_ids_json: "[]",
           active_objection_event_ids_json: "[]",
+          active_constraint_event_ids_json: "[]",
+          active_commitment_event_ids_json: "[]",
+          active_status_event_ids_json: "[]",
+          active_scope_event_ids_json: "[]",
           active_stage_event_id: null,
           active_time_point_event_ids_json: "[]",
           slot_versions_json: "{}",
-          last_event_id: topicEvents[0].event_id,
+          last_event_id: taskEvents[0].event_id,
           updated_at: Date.now(),
-        } satisfies DecisionStateViewV2);
-      const slotVersions = parseSlotVersionsV2(state.slot_versions_json);
-      const rationaleIds = new Set(parseStringArray(state.active_rationale_event_ids_json));
-      const objectionIds = new Set(parseStringArray(state.active_objection_event_ids_json));
-      const timePointIds = new Map<string, string>();
-      for (const existingEventId of parseStringArray(state.active_time_point_event_ids_json)) {
-        const existingEvent = this.getEventByIdV2(existingEventId);
-        if (!existingEvent) {
-          continue;
-        }
-        const existingPayload = asPayloadRecord(existingEvent.payload_json);
-        timePointIds.set(decisionTimePointKey(existingPayload, existingEventId), existingEventId);
-      }
-      for (const event of topicEvents) {
+        } satisfies TaskCurrentStateViewV2);
+      const slotVersions = parseSlotVersions(state.slot_versions_json);
+      const rationales = new Set(parseStringArray(state.active_rationale_event_ids_json));
+      const objections = new Set(parseStringArray(state.active_objection_event_ids_json));
+      const constraints = new Set(parseStringArray(state.active_constraint_event_ids_json));
+      const commitments = new Set(parseStringArray(state.active_commitment_event_ids_json));
+      const statuses = new Set(parseStringArray(state.active_status_event_ids_json));
+      const scopes = new Set(parseStringArray(state.active_scope_event_ids_json));
+      const timePoints = new Set(parseStringArray(state.active_time_point_event_ids_json));
+      for (const event of taskEvents) {
         const payload = asPayloadRecord(event.payload_json);
-        const field = typeof payload.claim_field === "string" ? payload.claim_field : null;
-        state.decision_axis_key = String(
-          payload.decision_axis_key ?? state.decision_axis_key,
-        ) as DecisionStateViewV2["decision_axis_key"];
-        state.decision_axis_text = String(payload.decision_axis_text ?? state.decision_axis_text);
-        state.decision_axis_instance_id =
-          typeof payload.decision_axis_instance_id === "string"
-            ? payload.decision_axis_instance_id
-            : state.decision_axis_instance_id;
-        if (field === "conclusion") {
-          state.active_conclusion_event_id = event.event_id;
-          slotVersions.conclusion = {
-            event_id: event.event_id,
-            event_fingerprint: event.event_fingerprint,
-            occurred_at: event.occurred_at,
-          };
-        } else if (field === "rationale") {
-          rationaleIds.add(event.event_id);
-        } else if (field === "objection") {
-          objectionIds.add(event.event_id);
-        } else if (field === "stage") {
-          state.active_stage_event_id = event.event_id;
-          slotVersions.stage = {
-            event_id: event.event_id,
-            event_fingerprint: event.event_fingerprint,
-            occurred_at: event.occurred_at,
-          };
-        } else if (field === "time_point") {
-          timePointIds.set(decisionTimePointKey(payload, event.event_id), event.event_id);
+        if (typeof payload.topic_ref === "string" && payload.topic_ref) {
+          state.primary_topic_ref = payload.topic_ref;
+        }
+        switch (event.event_type) {
+          case "conclusion_event":
+            state.active_conclusion_event_id = event.event_id;
+            slotVersions.conclusion = buildTaskStateSlotVersion(event);
+            break;
+          case "rationale_event":
+            rationales.add(event.event_id);
+            break;
+          case "objection_event":
+            objections.add(event.event_id);
+            break;
+          case "constraint_event":
+            constraints.add(event.event_id);
+            slotVersions.constraint = buildTaskStateSlotVersion(event);
+            break;
+          case "commitment_event":
+            commitments.add(event.event_id);
+            slotVersions.commitment = buildTaskStateSlotVersion(event);
+            break;
+          case "status_event":
+            statuses.add(event.event_id);
+            slotVersions.status = buildTaskStateSlotVersion(event);
+            if (typeof payload.stage === "string" && payload.stage.trim()) {
+              state.active_stage_event_id = event.event_id;
+              slotVersions.stage = buildTaskStateSlotVersion(event);
+            }
+            break;
+          case "time_event":
+            timePoints.add(event.event_id);
+            slotVersions.time = buildTaskStateSlotVersion(event);
+            break;
+          case "scope_event":
+            scopes.add(event.event_id);
+            slotVersions.scope = buildTaskStateSlotVersion(event);
+            state.active_stage_event_id = event.event_id;
+            break;
+          default:
+            break;
         }
         state.last_event_id = event.event_id;
       }
-      state.active_rationale_event_ids_json = JSON.stringify([...rationaleIds]);
-      state.active_objection_event_ids_json = JSON.stringify([...objectionIds]);
-      state.active_time_point_event_ids_json = JSON.stringify([...timePointIds.values()]);
+      state.active_rationale_event_ids_json = JSON.stringify([...rationales]);
+      state.active_objection_event_ids_json = JSON.stringify([...objections]);
+      state.active_constraint_event_ids_json = JSON.stringify([...constraints]);
+      state.active_commitment_event_ids_json = JSON.stringify([...commitments]);
+      state.active_status_event_ids_json = JSON.stringify([...statuses]);
+      state.active_scope_event_ids_json = JSON.stringify([...scopes]);
+      state.active_time_point_event_ids_json = JSON.stringify([...timePoints]);
       state.slot_versions_json = JSON.stringify(slotVersions);
       state.updated_at = Date.now();
       this.db
         .prepare(
-          `INSERT INTO decision_state_view_v2(
-            topic_ref, decision_axis_key, decision_axis_text, decision_axis_instance_id,
-            active_conclusion_event_id, active_rationale_event_ids_json, active_objection_event_ids_json,
-            active_stage_event_id, active_time_point_event_ids_json, slot_versions_json,
-            last_event_id, updated_at
-          ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-          ON CONFLICT(topic_ref) DO UPDATE SET
-            decision_axis_key = excluded.decision_axis_key,
-            decision_axis_text = excluded.decision_axis_text,
-            decision_axis_instance_id = excluded.decision_axis_instance_id,
+          `INSERT INTO task_current_state_view(
+            task_ref, primary_topic_ref, active_conclusion_event_id, active_rationale_event_ids_json,
+            active_objection_event_ids_json, active_constraint_event_ids_json,
+            active_commitment_event_ids_json, active_status_event_ids_json,
+            active_scope_event_ids_json, active_stage_event_id,
+            active_time_point_event_ids_json, slot_versions_json, last_event_id, updated_at
+          ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+          ON CONFLICT(task_ref) DO UPDATE SET
+            primary_topic_ref = excluded.primary_topic_ref,
             active_conclusion_event_id = excluded.active_conclusion_event_id,
             active_rationale_event_ids_json = excluded.active_rationale_event_ids_json,
             active_objection_event_ids_json = excluded.active_objection_event_ids_json,
+            active_constraint_event_ids_json = excluded.active_constraint_event_ids_json,
+            active_commitment_event_ids_json = excluded.active_commitment_event_ids_json,
+            active_status_event_ids_json = excluded.active_status_event_ids_json,
+            active_scope_event_ids_json = excluded.active_scope_event_ids_json,
             active_stage_event_id = excluded.active_stage_event_id,
             active_time_point_event_ids_json = excluded.active_time_point_event_ids_json,
             slot_versions_json = excluded.slot_versions_json,
@@ -1253,13 +1141,15 @@ export class CanonicalStore {
             updated_at = excluded.updated_at`,
         )
         .run(
-          state.topic_ref,
-          state.decision_axis_key,
-          state.decision_axis_text,
-          state.decision_axis_instance_id,
+          state.task_ref,
+          state.primary_topic_ref,
           state.active_conclusion_event_id,
           state.active_rationale_event_ids_json,
           state.active_objection_event_ids_json,
+          state.active_constraint_event_ids_json,
+          state.active_commitment_event_ids_json,
+          state.active_status_event_ids_json,
+          state.active_scope_event_ids_json,
           state.active_stage_event_id,
           state.active_time_point_event_ids_json,
           state.slot_versions_json,
@@ -1282,7 +1172,7 @@ export class CanonicalStore {
       idsByEvidence.set(event.evidence_id, set);
     }
     const update = this.db.prepare(
-      `UPDATE evidence_records SET linked_event_ids_json = ? WHERE evidence_id = ?`,
+      `UPDATE task_evidence_records SET linked_event_ids_json = ? WHERE evidence_id = ?`,
     );
     const refreshed: EvidenceRecordV2[] = [];
     for (const evidence of evidenceRows) {
@@ -1291,20 +1181,58 @@ export class CanonicalStore {
         update.run(JSON.stringify([...linked]), evidence.evidence_id);
       }
       const row = this.db
-        .prepare("SELECT * FROM evidence_records WHERE evidence_id = ?")
+        .prepare("SELECT * FROM task_evidence_records WHERE evidence_id = ?")
         .get(evidence.evidence_id) as Record<string, unknown>;
       refreshed.push(rowToEvidenceV2(row));
     }
     return refreshed;
   }
 
-  private upsertGraphEntitiesV2InTransaction(
+  private upsertTaskWikiEntitiesInTransaction(
     evidence: EvidenceRecordV2,
     events: EventRecordV2[],
   ): GraphEntityV2[] {
-    const entities = deriveGraphEntitiesV2(evidence, events);
+    const entities = new Map<string, GraphEntityV2>();
+    for (const event of events) {
+      const payload = asPayloadRecord(event.payload_json);
+      const refs = new Set<string>([
+        event.subject_ref,
+        `event:${event.event_id}`,
+        `evidence:${evidence.evidence_id}`,
+        ...relatedRefsForEvent(event),
+      ]);
+      if (event.actor_ref) {
+        refs.add(event.actor_ref);
+      }
+      if (event.object_ref) {
+        refs.add(event.object_ref);
+      }
+      const claimValue =
+        payload.claim_value && typeof payload.claim_value === "object"
+          ? (payload.claim_value as Record<string, unknown>)
+          : payload.claim_value_json && typeof payload.claim_value_json === "object"
+            ? (payload.claim_value_json as Record<string, unknown>)
+            : {};
+      if (typeof claimValue.date === "string" && claimValue.date.trim()) {
+        refs.add(`date:${claimValue.date.trim()}`);
+      }
+      for (const ref of refs) {
+        const current = entities.get(ref);
+        entities.set(ref, {
+          entity_ref: ref,
+          entity_type: entityTypeForRef(ref),
+          canonical_name:
+            current?.canonical_name ?? canonicalNameForRef(ref, payload, evidence),
+          alias_json: current?.alias_json ?? "[]",
+          first_seen_at: current?.first_seen_at ?? event.occurred_at,
+          last_seen_at: event.occurred_at,
+          last_evidence_id: evidence.evidence_id,
+          updated_at: Date.now(),
+        });
+      }
+    }
     const upsert = this.db.prepare(
-      `INSERT INTO graph_entities_v2(
+      `INSERT INTO task_wiki_entities(
         entity_ref, entity_type, canonical_name, alias_json, first_seen_at, last_seen_at,
         last_evidence_id, updated_at
       ) VALUES (?, ?, ?, ?, ?, ?, ?, ?)
@@ -1312,12 +1240,12 @@ export class CanonicalStore {
         entity_type = excluded.entity_type,
         canonical_name = excluded.canonical_name,
         alias_json = excluded.alias_json,
-        first_seen_at = MIN(graph_entities_v2.first_seen_at, excluded.first_seen_at),
-        last_seen_at = MAX(graph_entities_v2.last_seen_at, excluded.last_seen_at),
+        first_seen_at = MIN(task_wiki_entities.first_seen_at, excluded.first_seen_at),
+        last_seen_at = MAX(task_wiki_entities.last_seen_at, excluded.last_seen_at),
         last_evidence_id = excluded.last_evidence_id,
         updated_at = excluded.updated_at`,
     );
-    for (const entity of entities) {
+    for (const entity of entities.values()) {
       upsert.run(
         entity.entity_ref,
         entity.entity_type,
@@ -1329,75 +1257,131 @@ export class CanonicalStore {
         entity.updated_at,
       );
     }
-    return entities;
+    return [...entities.values()];
   }
 
-  private upsertGraphEdgesV2InTransaction(events: EventRecordV2[]): GraphEdgeV2[] {
-    const mutations = deriveGraphEdgeMutationsV2(events);
-    if (mutations.closes.length > 0) {
-      const close = this.db.prepare(
-        `UPDATE graph_edges_v2
-         SET active = 0, valid_to = ?, updated_at = ?
-         WHERE src_ref = ? AND edge_type = ? AND active = 1
-           AND (? IS NULL OR dst_ref = ?)`,
-      );
-      for (const mutation of mutations.closes) {
-        close.run(
-          mutation.closed_at,
-          Date.now(),
-          mutation.src_ref,
-          mutation.edge_type,
-          mutation.dst_ref ?? null,
-          mutation.dst_ref ?? null,
-        );
+  private upsertTaskWikiRelationsInTransaction(events: EventRecordV2[]): GraphEdgeV2[] {
+    const closes: Array<{ src_ref: string; edge_type: GraphEdgeV2["edge_type"]; closed_at: string }> = [];
+    const pending = new Map<string, GraphEdgeV2>();
+    for (const event of events) {
+      const taskRef = taskRefForEvent(event);
+      if (!taskRef) {
+        continue;
+      }
+      const claimRef = `event:${event.event_id}`;
+      const evidenceRef = `evidence:${event.evidence_id}`;
+      const push = (srcRef: string, edgeType: GraphEdgeV2["edge_type"], dstRef: string) => {
+        const edgeKey = buildEdgeKey({ srcRef, edgeType, dstRef });
+        pending.set(edgeKey, {
+          edge_id: "",
+          edge_key: edgeKey,
+          src_ref: srcRef,
+          edge_type: edgeType,
+          dst_ref: dstRef,
+          derived_from_event_id: event.event_id,
+          active: 1,
+          valid_from: event.occurred_at,
+          valid_to: null,
+          updated_at: Date.now(),
+        });
+      };
+      switch (event.event_type) {
+        case "conclusion_event":
+          closes.push({ src_ref: taskRef, edge_type: "has_active_conclusion", closed_at: event.occurred_at });
+          push(taskRef, "has_active_conclusion", claimRef);
+          break;
+        case "rationale_event":
+          push(taskRef, "has_active_rationale", claimRef);
+          break;
+        case "objection_event":
+          push(taskRef, "has_active_objection", claimRef);
+          break;
+        case "constraint_event":
+          push(taskRef, "has_active_constraint", claimRef);
+          break;
+        case "commitment_event":
+          push(taskRef, "has_active_commitment", claimRef);
+          break;
+        case "status_event":
+          push(taskRef, "has_active_status", claimRef);
+          break;
+        case "scope_event":
+          closes.push({ src_ref: taskRef, edge_type: "has_active_scope", closed_at: event.occurred_at });
+          push(taskRef, "has_active_scope", claimRef);
+          break;
+        case "time_event":
+          push(taskRef, "has_active_time_point", claimRef);
+          break;
+        default:
+          break;
+      }
+      push(claimRef, "supported_by", evidenceRef);
+      const payload = asPayloadRecord(event.payload_json);
+      const claimValue =
+        payload.claim_value && typeof payload.claim_value === "object"
+          ? (payload.claim_value as Record<string, unknown>)
+          : payload.claim_value_json && typeof payload.claim_value_json === "object"
+            ? (payload.claim_value_json as Record<string, unknown>)
+            : {};
+      if (typeof claimValue.date === "string" && claimValue.date.trim()) {
+        push(taskRef, "related_time", `date:${claimValue.date.trim()}`);
       }
     }
-    const persisted: GraphEdgeV2[] = [];
-    const lookup = this.db.prepare("SELECT * FROM graph_edges_v2 WHERE edge_key = ?");
+    if (closes.length > 0) {
+      const close = this.db.prepare(
+        `UPDATE task_wiki_relations
+         SET active = 0, valid_to = ?, updated_at = ?
+         WHERE src_ref = ? AND edge_type = ? AND active = 1`,
+      );
+      for (const mutation of closes) {
+        close.run(mutation.closed_at, Date.now(), mutation.src_ref, mutation.edge_type);
+      }
+    }
+    const lookup = this.db.prepare("SELECT * FROM task_wiki_relations WHERE edge_key = ?");
     const insert = this.db.prepare(
-      `INSERT INTO graph_edges_v2(
+      `INSERT INTO task_wiki_relations(
         edge_id, edge_key, src_ref, edge_type, dst_ref, derived_from_event_id, active,
         valid_from, valid_to, updated_at
       ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
     );
     const update = this.db.prepare(
-      `UPDATE graph_edges_v2
+      `UPDATE task_wiki_relations
        SET src_ref = ?, edge_type = ?, dst_ref = ?, derived_from_event_id = ?, active = ?,
            valid_from = ?, valid_to = ?, updated_at = ?
        WHERE edge_key = ?`,
     );
-    for (const mutation of mutations.upserts) {
-      const existingRow = lookup.get(mutation.edge_key) as Record<string, unknown> | undefined;
+    const persisted: GraphEdgeV2[] = [];
+    for (const relation of pending.values()) {
+      const existingRow = lookup.get(relation.edge_key) as Record<string, unknown> | undefined;
       const existing = existingRow ? rowToGraphEdgeV2(existingRow) : null;
-      const next = reopenOrCreateEdgeV2({ existing, upsert: mutation });
-      const edgeId = existing?.edge_id || generateUlid();
+      const edgeId = existing?.edge_id ?? generateUlid();
       if (existing) {
         update.run(
-          next.src_ref,
-          next.edge_type,
-          next.dst_ref,
-          next.derived_from_event_id,
-          next.active,
-          next.valid_from,
-          next.valid_to,
-          next.updated_at,
-          next.edge_key,
+          relation.src_ref,
+          relation.edge_type,
+          relation.dst_ref,
+          relation.derived_from_event_id,
+          relation.active,
+          relation.valid_from,
+          relation.valid_to,
+          relation.updated_at,
+          relation.edge_key,
         );
       } else {
         insert.run(
           edgeId,
-          next.edge_key,
-          next.src_ref,
-          next.edge_type,
-          next.dst_ref,
-          next.derived_from_event_id,
-          next.active,
-          next.valid_from,
-          next.valid_to,
-          next.updated_at,
+          relation.edge_key,
+          relation.src_ref,
+          relation.edge_type,
+          relation.dst_ref,
+          relation.derived_from_event_id,
+          relation.active,
+          relation.valid_from,
+          relation.valid_to,
+          relation.updated_at,
         );
       }
-      persisted.push({ ...next, edge_id: edgeId });
+      persisted.push({ ...relation, edge_id: edgeId });
     }
     return persisted;
   }
@@ -1408,8 +1392,7 @@ export class CanonicalStore {
   }): Promise<{
     evidence: EvidenceRecordV2[];
     events: EventRecordV2[];
-    states: WorkflowStateViewV2[];
-    decisionStates: DecisionStateViewV2[];
+    taskStates: TaskCurrentStateViewV2[];
     entities: GraphEntityV2[];
     edges: GraphEdgeV2[];
   }> {
@@ -1423,94 +1406,64 @@ export class CanonicalStore {
         evidenceRows.map((row) => [row.evidence_fingerprint, row]),
       );
       const normalizedEvents = params.events.map((event) => {
-        const payloadJson = (() => {
-          try {
-            return JSON.parse(event.payload_json) as unknown;
-          } catch {
-            return {};
-          }
-        })();
+        const payloadJson = asPayloadRecord(event.payload_json);
         const eventEvidence =
           evidenceById.get(event.evidence_id) ??
-          (typeof (payloadJson as Record<string, unknown>).evidence_fingerprint === "string"
-            ? evidenceByFingerprint.get(
-                (payloadJson as Record<string, unknown>).evidence_fingerprint as string,
-              )
+          (typeof payloadJson.evidence_fingerprint === "string"
+            ? evidenceByFingerprint.get(payloadJson.evidence_fingerprint)
             : null) ??
           evidenceRows[0];
+        const taskRef = taskRefForEvent(event) ?? event.subject_ref;
         return {
           ...event,
           evidence_id: eventEvidence.evidence_id,
-          event_fingerprint:
-            event.event_type === "decision_claim_recorded"
-              ? buildDecisionClaimEventFingerprint({
-                  topicRef: event.subject_ref,
-                  decisionAxisKey:
-                    typeof (payloadJson as Record<string, unknown>).decision_axis_key === "string"
-                      ? ((payloadJson as Record<string, unknown>).decision_axis_key as string)
-                      : "general_decision",
-                  decisionAxisInstanceId:
-                    typeof (payloadJson as Record<string, unknown>).decision_axis_instance_id ===
-                    "string"
-                      ? ((payloadJson as Record<string, unknown>)
-                          .decision_axis_instance_id as string)
-                      : null,
-                  claimField:
-                    typeof (payloadJson as Record<string, unknown>).claim_field === "string"
-                      ? ((payloadJson as Record<string, unknown>).claim_field as string)
-                      : "conclusion",
-                  claimText:
-                    typeof (payloadJson as Record<string, unknown>).claim_text === "string"
-                      ? ((payloadJson as Record<string, unknown>).claim_text as string)
-                      : "",
-                  evidenceId: eventEvidence.evidence_id,
-                })
-              : buildEventFingerprint({
-                  evidenceId: eventEvidence.evidence_id,
-                  eventType: event.event_type,
-                  subjectRef: event.subject_ref,
-                  objectRef: event.object_ref,
-                  occurredAt: event.occurred_at,
-                  payloadJson,
-                }),
+          event_fingerprint: buildTaskSessionEventFingerprint({
+            taskRef,
+            eventType: event.event_type,
+            claimText:
+              typeof payloadJson.claim === "string"
+                ? payloadJson.claim
+                : typeof payloadJson.claim_text === "string"
+                  ? payloadJson.claim_text
+                  : "",
+            evidenceId: eventEvidence.evidence_id,
+          }),
         };
       });
       const events = this.insertEventsV2InTransaction(normalizedEvents);
       const linkedEvidence = this.updateEvidenceLinkedEventIdsInTransaction(evidenceRows, events);
       const entities = linkedEvidence.flatMap((evidence) =>
-        this.upsertGraphEntitiesV2InTransaction(
+        this.upsertTaskWikiEntitiesInTransaction(
           evidence,
           events.filter((event) => event.evidence_id === evidence.evidence_id),
         ),
       );
-      const states = this.upsertWorkflowStateV2InTransaction(events);
-      const decisionStates = this.upsertDecisionStateV2InTransaction(events);
-      const edges = this.upsertGraphEdgesV2InTransaction(events);
+      const taskStates = this.upsertTaskCurrentStateV2InTransaction(events);
+      const edges = this.upsertTaskWikiRelationsInTransaction(events);
       this.db.exec("COMMIT");
       return {
         evidence: linkedEvidence,
         events,
-        states,
-        decisionStates,
+        taskStates,
         entities,
         edges,
       };
-    } catch (err) {
+    } catch (error) {
       this.db.exec("ROLLBACK");
-      throw err;
+      throw error;
     }
   }
 
   getEvidenceByIdV2(evidenceId: string): EvidenceRecordV2 | null {
     const row = this.db
-      .prepare("SELECT * FROM evidence_records WHERE evidence_id = ?")
+      .prepare("SELECT * FROM task_evidence_records WHERE evidence_id = ?")
       .get(evidenceId) as Record<string, unknown> | undefined;
     return row ? rowToEvidenceV2(row) : null;
   }
 
   getEventByIdV2(eventId: string): EventRecordV2 | null {
     const row = this.db
-      .prepare("SELECT * FROM event_records_v2 WHERE event_id = ?")
+      .prepare("SELECT * FROM task_session_events WHERE event_id = ?")
       .get(eventId) as Record<string, unknown> | undefined;
     return row ? rowToEventV2(row) : null;
   }
@@ -1522,120 +1475,26 @@ export class CanonicalStore {
     }
     const placeholders = unique.map(() => "?").join(", ");
     const rows = this.db
-      .prepare(`SELECT * FROM event_records_v2 WHERE event_id IN (${placeholders})`)
+      .prepare(`SELECT * FROM task_session_events WHERE event_id IN (${placeholders})`)
       .all(...unique) as Array<Record<string, unknown>>;
     return rows.map(rowToEventV2);
   }
 
-  getWorkflowStateV2(taskRef: string): WorkflowStateViewV2 | null {
-    return this.getWorkflowStateV2InTransaction(taskRef);
+  getTaskCurrentStateV2(taskRef: string): TaskCurrentStateViewV2 | null {
+    return this.getTaskCurrentStateV2InTransaction(taskRef);
   }
 
-  getDecisionStateV2(topicRef: string): DecisionStateViewV2 | null {
-    return this.getDecisionStateV2InTransaction(topicRef);
-  }
-
-  findDecisionStatesByAnchor(params: {
-    anchorType: "task" | "thread" | "doc" | "project";
-    anchorRef: string;
-    decisionAxisKey?: string | null;
-    limit?: number;
-  }): DecisionStateViewV2[] {
-    const suffix = `${params.anchorType}:${params.anchorRef}:`;
-    const axisFilter = params.decisionAxisKey?.trim();
-    const rows = axisFilter
-      ? (this.db
-          .prepare(
-            `SELECT * FROM decision_state_view_v2
-             WHERE topic_ref LIKE ? AND decision_axis_key = ?
-             ORDER BY updated_at DESC, topic_ref ASC
-             LIMIT ?`,
-          )
-          .all(
-            `topic:${suffix}%`,
-            axisFilter,
-            Math.max(1, params.limit ?? 10),
-          ) as Array<Record<string, unknown>>)
-      : (this.db
-          .prepare(
-            `SELECT * FROM decision_state_view_v2
-             WHERE topic_ref LIKE ?
-             ORDER BY updated_at DESC, topic_ref ASC
-             LIMIT ?`,
-          )
-          .all(`topic:${suffix}%`, Math.max(1, params.limit ?? 10)) as Array<
-          Record<string, unknown>
-        >);
-    return rows.map(rowToDecisionStateV2);
-  }
-
-  listDecisionEventsForTopic(params: {
-    topicRef: string;
-    decisionAxisKey?: string | null;
-    decisionAxisInstanceId?: string | null;
-    limit?: number;
-  }): EventRecordV2[] {
+  listTaskStatesV2(): TaskCurrentStateViewV2[] {
     const rows = this.db
-      .prepare(
-        `SELECT * FROM event_records_v2
-         WHERE subject_ref = ?
-           AND event_type = 'decision_claim_recorded'
-         ORDER BY occurred_at ASC, created_at ASC
-         LIMIT ?`,
-      )
-      .all(params.topicRef, Math.max(1, params.limit ?? 100)) as Array<Record<string, unknown>>;
-    return rows
-      .map(rowToEventV2)
-      .filter((event) => {
-        const payload = asPayloadRecord(event.payload_json);
-        if (
-          params.decisionAxisKey &&
-          payload.decision_axis_key !== params.decisionAxisKey
-        ) {
-          return false;
-        }
-        if (
-          params.decisionAxisInstanceId &&
-          payload.decision_axis_instance_id !== params.decisionAxisInstanceId
-        ) {
-          return false;
-        }
-        return true;
-      });
-  }
-
-  listWorkflowStatesV2(filters?: {
-    ownerRef?: string;
-    stage?: string;
-    approvalStatus?: string;
-  }): WorkflowStateViewV2[] {
-    const clauses: string[] = [];
-    const values: string[] = [];
-    if (filters?.ownerRef) {
-      clauses.push("current_owner_ref = ?");
-      values.push(filters.ownerRef);
-    }
-    if (filters?.stage) {
-      clauses.push("current_stage = ?");
-      values.push(filters.stage);
-    }
-    if (filters?.approvalStatus) {
-      clauses.push("approval_status = ?");
-      values.push(filters.approvalStatus);
-    }
-    const where = clauses.length > 0 ? `WHERE ${clauses.join(" AND ")}` : "";
-    const rows = this.db
-      .prepare(
-        `SELECT * FROM workflow_state_view_v2 ${where} ORDER BY updated_at DESC, task_ref ASC`,
-      )
-      .all(...values) as Array<Record<string, unknown>>;
-    return rows.map(rowToWorkflowStateV2);
+      .prepare("SELECT * FROM task_current_state_view ORDER BY updated_at DESC, task_ref ASC")
+      .all() as Array<Record<string, unknown>>;
+    return rows.map(rowToTaskCurrentStateV2);
   }
 
   listEventsForRefV2(ref: string, limit = 50): EventRecordV2[] {
     const rows = this.db
       .prepare(
-        `SELECT * FROM event_records_v2
+        `SELECT * FROM task_session_events
          WHERE subject_ref = ?
             OR object_ref = ?
             OR related_refs_json LIKE ?
@@ -1649,7 +1508,7 @@ export class CanonicalStore {
   listActiveEdgesForRefV2(ref: string): GraphEdgeV2[] {
     const rows = this.db
       .prepare(
-        `SELECT * FROM graph_edges_v2
+        `SELECT * FROM task_wiki_relations
          WHERE active = 1 AND (src_ref = ? OR dst_ref = ?)
          ORDER BY edge_type ASC, src_ref ASC, dst_ref ASC`,
       )
@@ -1664,7 +1523,7 @@ export class CanonicalStore {
     }
     const exactRows = this.db
       .prepare(
-        `SELECT * FROM graph_entities_v2
+        `SELECT * FROM task_wiki_entities
          WHERE entity_ref = ? OR canonical_name = ?
          ORDER BY last_seen_at DESC, entity_ref ASC
          LIMIT ?`,
@@ -1675,7 +1534,7 @@ export class CanonicalStore {
     }
     const fuzzyRows = this.db
       .prepare(
-        `SELECT * FROM graph_entities_v2
+        `SELECT * FROM task_wiki_entities
          WHERE canonical_name LIKE ? OR alias_json LIKE ? OR entity_ref LIKE ?
          ORDER BY last_seen_at DESC, entity_ref ASC
          LIMIT ?`,
@@ -1687,77 +1546,67 @@ export class CanonicalStore {
   }
 
   getStatus() {
-    const evidenceV2Row = this.db
-      .prepare("SELECT COUNT(*) AS count FROM evidence_records")
+    const evidenceRow = this.db
+      .prepare("SELECT COUNT(*) AS count FROM task_evidence_records")
       .get() as { count?: number };
-    const eventsV2Row = this.db.prepare("SELECT COUNT(*) AS count FROM event_records_v2").get() as {
-      count?: number;
-    };
-    const entitiesV2Row = this.db
-      .prepare("SELECT COUNT(*) AS count FROM graph_entities_v2")
+    const eventRow = this.db
+      .prepare("SELECT COUNT(*) AS count FROM task_session_events")
       .get() as { count?: number };
-    const edgesV2Row = this.db.prepare("SELECT COUNT(*) AS count FROM graph_edges_v2").get() as {
-      count?: number;
-    };
-    const workflowV2Row = this.db
-      .prepare("SELECT COUNT(*) AS count FROM workflow_state_view_v2")
+    const entityRow = this.db
+      .prepare("SELECT COUNT(*) AS count FROM task_wiki_entities")
       .get() as { count?: number };
-    const decisionStateV2Row = this.db
-      .prepare("SELECT COUNT(*) AS count FROM decision_state_view_v2")
+    const edgeRow = this.db
+      .prepare("SELECT COUNT(*) AS count FROM task_wiki_relations")
       .get() as { count?: number };
-    const pendingProjectionRow = this.db
+    const taskStateRow = this.db
+      .prepare("SELECT COUNT(*) AS count FROM task_current_state_view")
+      .get() as { count?: number };
+    const pendingRow = this.db
       .prepare(
-        `SELECT COUNT(*) AS count FROM projection_inbox
+        `SELECT COUNT(*) AS count FROM task_session_ingest_queue
          WHERE source_kind = 'transcript' AND drained_at IS NULL`,
       )
       .get() as { count?: number } | undefined;
     return {
       dbPath: this.dbPath,
-      eventsTotal: eventsV2Row.count ?? 0,
-      entitiesTotal: workflowV2Row.count ?? 0,
-      canonicalEntitiesTotal: entitiesV2Row.count ?? 0,
-      graphEdgesTotal: edgesV2Row.count ?? 0,
-      workflowStatesTotal: workflowV2Row.count ?? 0,
-      evidenceRecordsV2Total: evidenceV2Row.count ?? 0,
-      eventRecordsV2Total: eventsV2Row.count ?? 0,
-      graphEntitiesV2Total: entitiesV2Row.count ?? 0,
-      graphEdgesV2Total: edgesV2Row.count ?? 0,
-      workflowStatesV2Total: workflowV2Row.count ?? 0,
-      decisionStatesV2Total: decisionStateV2Row.count ?? 0,
-      schemaVersion: this.getMeta("schema_version") ?? CANONICAL_SCHEMA_VERSION,
+      eventsTotal: eventRow.count ?? 0,
+      entitiesTotal: entityRow.count ?? 0,
+      taskStatesTotal: taskStateRow.count ?? 0,
+      evidenceRecordsTotal: evidenceRow.count ?? 0,
+      taskSessionEventsTotal: eventRow.count ?? 0,
+      taskWikiEntitiesTotal: entityRow.count ?? 0,
+      taskWikiRelationsTotal: edgeRow.count ?? 0,
+      schemaVersion: this.getMeta("schema_version") ?? FEISHU_TASK_WIKI_SCHEMA_VERSION,
       extractorVersion: this.getMeta("extractor_version") ?? EXTRACTOR_VERSION,
-      projectionVersion: this.getMeta("projection_version") ?? GRAPH_PROJECTION_VERSION,
-      pendingProjectionSpans: pendingProjectionRow?.count ?? 0,
+      projectionVersion: this.getMeta("projection_version") ?? TASK_WIKI_PROJECTION_VERSION,
+      pendingTaskSessionSpans: pendingRow?.count ?? 0,
       metrics: this.getMetrics(),
     };
   }
 
-  async exportData(): Promise<GraphExportData> {
+  async exportData(): Promise<TaskWikiExportData> {
     const evidenceRows = this.db
-      .prepare("SELECT * FROM evidence_records ORDER BY created_at ASC, evidence_id ASC")
+      .prepare("SELECT * FROM task_evidence_records ORDER BY created_at ASC, evidence_id ASC")
       .all() as Array<Record<string, unknown>>;
     const eventRows = this.db
       .prepare(
-        "SELECT * FROM event_records_v2 ORDER BY occurred_at ASC, created_at ASC, event_id ASC",
+        "SELECT * FROM task_session_events ORDER BY occurred_at ASC, created_at ASC, event_id ASC",
       )
       .all() as Array<Record<string, unknown>>;
-    const workflowRows = this.db
-      .prepare("SELECT * FROM workflow_state_view_v2 ORDER BY task_ref ASC")
-      .all() as Array<Record<string, unknown>>;
-    const decisionStateRows = this.db
-      .prepare("SELECT * FROM decision_state_view_v2 ORDER BY topic_ref ASC")
+    const taskStateRows = this.db
+      .prepare("SELECT * FROM task_current_state_view ORDER BY task_ref ASC")
       .all() as Array<Record<string, unknown>>;
     const entityRows = this.db
-      .prepare("SELECT * FROM graph_entities_v2 ORDER BY entity_ref ASC")
+      .prepare("SELECT * FROM task_wiki_entities ORDER BY entity_ref ASC")
       .all() as Array<Record<string, unknown>>;
     const edgeRows = this.db
-      .prepare("SELECT * FROM graph_edges_v2 ORDER BY src_ref ASC, edge_type ASC, dst_ref ASC")
+      .prepare("SELECT * FROM task_wiki_relations ORDER BY src_ref ASC, edge_type ASC, dst_ref ASC")
       .all() as Array<Record<string, unknown>>;
     return {
       evidence: evidenceRows.map(rowToEvidenceV2),
       events: eventRows.map(rowToEventV2),
-      workflowStates: workflowRows.map(rowToWorkflowStateV2),
-      decisionStates: decisionStateRows.map(rowToDecisionStateV2),
+      workflowStates: taskStateRows.map(rowToTaskCurrentStateV2),
+      decisionStates: [],
       entities: entityRows.map(rowToGraphEntityV2),
       edges: edgeRows.map(rowToGraphEdgeV2),
       metrics: this.getMetrics(),
@@ -1767,35 +1616,42 @@ export class CanonicalStore {
   async exportJsonl(): Promise<string> {
     const exported = await this.exportData();
     return [
-      ...exported.evidence.map((row) => JSON.stringify({ type: "evidence_v2", ...row })),
-      ...exported.events.map((row) => JSON.stringify({ type: "event_v2", ...row })),
+      ...exported.evidence.map((row) => JSON.stringify({ type: "task_evidence_record", ...row })),
+      ...exported.events.map((row) => JSON.stringify({ type: "task_session_event", ...row })),
       ...exported.workflowStates.map((row) =>
-        JSON.stringify({ type: "workflow_state_v2", ...row }),
+        JSON.stringify({ type: "task_current_state", ...row }),
       ),
-      ...exported.decisionStates.map((row) =>
-        JSON.stringify({ type: "decision_state_v2", ...row }),
-      ),
-      ...exported.entities.map((row) => JSON.stringify({ type: "graph_entity_v2", ...row })),
-      ...exported.edges.map((row) => JSON.stringify({ type: "graph_edge_v2", ...row })),
+      ...exported.entities.map((row) => JSON.stringify({ type: "task_wiki_entity", ...row })),
+      ...exported.edges.map((row) => JSON.stringify({ type: "task_wiki_relation", ...row })),
     ].join("\n");
   }
 }
 
-export function getCanonicalStore(agentId: string): CanonicalStore {
+export const CanonicalStore = FeishuTaskWikiStore;
+
+export function getFeishuTaskWikiStore(agentId: string): FeishuTaskWikiStore {
   const cached = stores.get(agentId);
   if (cached) {
     return cached;
   }
-  const store = new CanonicalStore(agentId);
+  const store = new FeishuTaskWikiStore(agentId);
   stores.set(agentId, store);
   return store;
 }
 
-export async function closeAllCanonicalStores(): Promise<void> {
+export function getCanonicalStore(agentId: string): FeishuTaskWikiStore {
+  return getFeishuTaskWikiStore(agentId);
+}
+
+export async function closeAllFeishuTaskWikiStores(): Promise<void> {
   const count = stores.size;
   for (const store of stores.values()) {
     store.close();
   }
   stores.clear();
-  log.info(`canonical.store.close_all count=${count}`);
+  log.info(`feishu_task_wiki.store.close_all count=${count}`);
+}
+
+export async function closeAllCanonicalStores(): Promise<void> {
+  await closeAllFeishuTaskWikiStores();
 }

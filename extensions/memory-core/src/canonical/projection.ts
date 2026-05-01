@@ -15,7 +15,10 @@ import {
   type DecisionPromptEntry,
 } from "./extractor.js";
 import { isGraphExtractorSessionKey } from "./extractor.runtime.js";
-import { type ProjectionInboxEntry, resolveGraphIndexConfig } from "./schema.js";
+import {
+  type TaskSessionIngestQueueEntry,
+  resolveFeishuTaskWikiConfig,
+} from "./schema.js";
 import { getCanonicalStore } from "./store.js";
 import { buildGraphTraceId, recordGraphIndexTrace } from "./trace.js";
 
@@ -418,18 +421,8 @@ function summarizeCurrentStateContext(params: {
   store: ReturnType<typeof getCanonicalStore>;
   anchors: DecisionExtractionEnvelope["anchors"];
 }): DecisionCurrentStateContext | null {
-  const lookups: Array<{ anchorType: "task" | "thread" | "doc" | "project"; anchorRef: string }> = [
-    ...params.anchors.task_refs.map((ref) => ({ anchorType: "task" as const, anchorRef: ref.replace(/^task:/, "") })),
-    ...params.anchors.thread_ids.map((ref) => ({ anchorType: "thread" as const, anchorRef: ref })),
-    ...params.anchors.doc_refs.map((ref) => ({ anchorType: "doc" as const, anchorRef: ref.replace(/^doc:/, "") })),
-    ...params.anchors.project_names.map((ref) => ({ anchorType: "project" as const, anchorRef: ref })),
-  ];
-  for (const lookup of lookups) {
-    const state = params.store.findDecisionStatesByAnchor({
-      anchorType: lookup.anchorType,
-      anchorRef: lookup.anchorRef,
-      limit: 1,
-    })[0];
+  for (const taskRef of params.anchors.task_refs) {
+    const state = params.store.getTaskCurrentStateV2(taskRef);
     if (!state) {
       continue;
     }
@@ -449,10 +442,11 @@ function summarizeCurrentStateContext(params: {
         .map((event) => (event ? payloadClaimText(event.payload_json) : null))
         .filter((value): value is string => Boolean(value));
     return {
-      topic_ref: state.topic_ref,
-      decision_axis_key: state.decision_axis_key,
+      topic_ref: state.primary_topic_ref,
+      decision_axis_key: null,
       active_conclusion: state.active_conclusion_event_id
-        ? (payloadClaimText(eventsById.get(state.active_conclusion_event_id)?.payload_json ?? "") ?? null)
+        ? (payloadClaimText(eventsById.get(state.active_conclusion_event_id)?.payload_json ?? "") ??
+            null)
         : null,
       active_time_points: claimTexts(parseStringArrayJson(state.active_time_point_event_ids_json)),
       active_rationales: claimTexts(parseStringArrayJson(state.active_rationale_event_ids_json)),
@@ -612,7 +606,7 @@ function buildExtractionChunks(params: {
   );
 }
 
-function parseInboxEntries(rows: ProjectionInboxEntry[]): MemoryTranscriptSpanEntry[] {
+function parseInboxEntries(rows: TaskSessionIngestQueueEntry[]): MemoryTranscriptSpanEntry[] {
   const entriesById = new Map<string, MemoryTranscriptSpanEntry>();
   for (const row of rows) {
     try {
@@ -647,7 +641,7 @@ function parseInboxEntries(rows: ProjectionInboxEntry[]): MemoryTranscriptSpanEn
   return [...entriesById.values()];
 }
 
-function parseInboxEntryGroups(rows: ProjectionInboxEntry[]): MemoryTranscriptSpanEntry[][] {
+function parseInboxEntryGroups(rows: TaskSessionIngestQueueEntry[]): MemoryTranscriptSpanEntry[][] {
   return rows
     .map((row) => {
       try {
@@ -780,7 +774,7 @@ function shouldDrainForAccumulation(params: {
 }
 
 export const handleGraphAfterTurn: MemoryAfterTurnObserver = async (params) => {
-  const graphConfig = resolveGraphIndexConfig(params.cfg);
+  const graphConfig = resolveFeishuTaskWikiConfig(params.cfg);
   if (!graphConfig.enabled || params.entries.length === 0) {
     return;
   }
@@ -865,12 +859,12 @@ export const handleGraphAfterTurn: MemoryAfterTurnObserver = async (params) => {
         steps: ["detectTranscriptSignals", "enqueueProjectionInbox", "scheduleIdleDrain"],
       },
       tables: {
-        projection_inbox: {
+        task_session_ingest_queue: {
           inserted,
           pending_before: beforeSummary?.pending_spans ?? 0,
           pending_after: afterSummary?.pending_spans ?? 0,
         },
-        source_projection_state: {
+        task_source_session_state: {
           status_before: beforeState?.status ?? "missing",
           status_after: afterState?.status ?? "missing",
           dirty_since_entry_id: afterState?.dirty_since_entry_id ?? null,
@@ -922,7 +916,7 @@ export const handleGraphBeforeCompaction: MemoryBeforeCompactionObserver = async
   if (!params.cfg) {
     return;
   }
-  const graphConfig = resolveGraphIndexConfig(params.cfg);
+  const graphConfig = resolveFeishuTaskWikiConfig(params.cfg);
   if (!graphConfig.enabled || params.entries.length === 0) {
     return;
   }
@@ -988,7 +982,7 @@ export async function drainPendingGraphUpdates(params: {
   sourceId?: string;
   reason: DrainReason;
 }): Promise<{ drainedSources: number; parsedEvents: number; persistedEvents: number }> {
-  const graphConfig = resolveGraphIndexConfig(params.cfg);
+  const graphConfig = resolveFeishuTaskWikiConfig(params.cfg);
   if (!graphConfig.enabled) {
     return { drainedSources: 0, parsedEvents: 0, persistedEvents: 0 };
   }
@@ -1176,8 +1170,8 @@ export async function drainPendingGraphUpdates(params: {
                 persisted: persisted.evidence.length,
                 evidence_ids: persisted.evidence.map((row) => row.evidence_id),
               },
-              event_records_v2: {
-                table: "event_records_v2",
+              task_session_events: {
+                table: "task_session_events",
                 persisted: persisted.events.length,
                 canonical_records_json: persisted.events.map((record) => ({
                   event_id: record.event_id,
@@ -1192,7 +1186,7 @@ export async function drainPendingGraphUpdates(params: {
             },
             call: {
               function: "persistSemanticBatchV2",
-              steps: ["canonicalizeV2", "evidence_records", "event_records_v2"],
+              steps: ["canonicalizeV2", "task_evidence_records", "task_session_events"],
             },
           },
         });
@@ -1210,27 +1204,27 @@ export async function drainPendingGraphUpdates(params: {
               last: coveredUntilEntryId,
             },
             tables: {
-              graph_entities_v2: {
-                table: "graph_entities_v2",
+              task_wiki_entities: {
+                table: "task_wiki_entities",
                 persisted: persisted.entities.length,
                 entities: persisted.entities,
               },
-              graph_edges_v2: {
-                table: "graph_edges_v2",
+              task_wiki_relations: {
+                table: "task_wiki_relations",
                 persisted: persisted.edges.length,
                 edges: persisted.edges,
               },
             },
             call: {
               function: "persistSemanticBatchV2",
-              steps: ["graph_entities_v2", "graph_edges_v2"],
+              steps: ["task_wiki_entities", "task_wiki_relations"],
             },
           },
         });
         recordGraphIndexTrace({
           cfg: params.cfg,
           message: "canonical.projection.entity_states_merged",
-          summary: `source=${summary.source_id} states=${persisted.decisionStates.length}`,
+          summary: `source=${summary.source_id} states=${persisted.taskStates.length}`,
           event: {
             trace_id: traceId,
             stage: "entity_states_merged",
@@ -1241,15 +1235,15 @@ export async function drainPendingGraphUpdates(params: {
               last: coveredUntilEntryId,
             },
             tables: {
-              decision_state_view_v2: {
-                table: "decision_state_view_v2",
-                merged: persisted.decisionStates.length,
-                next_states: persisted.decisionStates,
+              task_current_state_view: {
+                table: "task_current_state_view",
+                merged: persisted.taskStates.length,
+                next_states: persisted.taskStates,
               },
             },
             call: {
               function: "persistSemanticBatchV2",
-              steps: ["decision_state_view_v2 upsert"],
+              steps: ["task_current_state_view upsert"],
             },
           },
         });
@@ -1269,7 +1263,7 @@ export async function drainPendingGraphUpdates(params: {
               last: coveredUntilEntryId,
             },
             tables: {
-              event_records_v2: {
+              task_session_events: {
                 persisted: 0,
               },
               evidence_records: {
@@ -1296,10 +1290,10 @@ export async function drainPendingGraphUpdates(params: {
             last: coveredUntilEntryId,
           },
           tables: {
-            projection_inbox: {
+            task_session_ingest_queue: {
               drained: rows.length,
             },
-            source_projection_state: {
+            task_source_session_state: {
               status_before: stateBeforeDrain?.status ?? "missing",
               status_after: stateAfterDrain?.status ?? "missing",
               covered_until_entry_id: stateAfterDrain?.covered_until_entry_id ?? null,

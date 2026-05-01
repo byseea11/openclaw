@@ -1,9 +1,9 @@
 import type { OpenClawConfig } from "openclaw/plugin-sdk/memory-core-host-runtime-core";
 
-export const EXTRACTOR_VERSION = "v3-2026.04-decision-memory-v1";
-export const CANONICAL_SCHEMA_VERSION = "v7";
-export const GRAPH_PROJECTION_VERSION = "v1-2026.04";
-export const GRAPH_RECALL_TTL_MS = 30 * 60 * 1000;
+export const EXTRACTOR_VERSION = "v4-2026.05-feishu-task-wiki-v1";
+export const FEISHU_TASK_WIKI_SCHEMA_VERSION = "v8";
+export const TASK_WIKI_PROJECTION_VERSION = "v1-2026.05";
+export const TASK_WIKI_RECALL_TTL_MS = 30 * 60 * 1000;
 
 export const STRONG_GRAPH_RELATIONS = [
   "assigned_to",
@@ -21,7 +21,7 @@ export type StrongGraphRelation = (typeof STRONG_GRAPH_RELATIONS)[number];
 export type WeakGraphRelation = (typeof WEAK_GRAPH_RELATIONS)[number];
 export type GraphRelation = StrongGraphRelation | WeakGraphRelation;
 
-export type GraphMetricKey =
+export type TaskWikiMetricKey =
   | "hitsReturned"
   | "hitsUsedRaw"
   | "hitsUsedUniqueRefs"
@@ -32,7 +32,7 @@ export type GraphMetricKey =
   | "extractLatencyMsSum"
   | "extractLatencyMsCount";
 
-export type GraphMetricsSnapshot = Record<GraphMetricKey, number> & {
+export type TaskWikiMetricsSnapshot = Record<TaskWikiMetricKey, number> & {
   /**
    * V0 compatibility alias. M0-fix semantics are unique source_ref usage.
    */
@@ -306,20 +306,20 @@ export type GraphHit = {
   score: number;
 };
 
-export type GraphIndexConfig = {
+export type FeishuTaskWikiConfig = {
   enabled: boolean;
   bootstrapOnStart: boolean;
-  trace: GraphIndexTraceConfig;
+  trace: FeishuTaskWikiTraceConfig;
 };
 
-export type GraphIndexTraceConfig = {
+export type FeishuTaskWikiTraceConfig = {
   enabled: boolean;
   filePath: string | null;
   includeEntryPreview: boolean;
   maxPreviewChars: number;
 };
 
-export type ProjectionSourceState = {
+export type TaskSourceSessionState = {
   source_kind: "transcript";
   source_id: string;
   covered_until_entry_id: string | null;
@@ -329,7 +329,7 @@ export type ProjectionSourceState = {
   status: "clean" | "dirty" | "draining" | "failed";
 };
 
-export type ProjectionInboxEntry = {
+export type TaskSessionIngestQueueEntry = {
   id: number;
   source_kind: "transcript";
   source_id: string;
@@ -343,9 +343,9 @@ export type ProjectionInboxEntry = {
   drained_at: number | null;
 };
 
-export type ProjectionInboxWrite = Omit<ProjectionInboxEntry, "id" | "drained_at">;
+export type TaskSessionIngestQueueWrite = Omit<TaskSessionIngestQueueEntry, "id" | "drained_at">;
 
-export type RecentGraphCandidate = {
+export type RecentTaskWikiHit = {
   session_key: string;
   source_ref: string;
   path: string;
@@ -360,14 +360,14 @@ export type RecentGraphCandidate = {
   used_at: number | null;
 };
 
-export type GraphExportData = {
+export type TaskWikiExportData = {
   evidence: Array<Record<string, unknown>>;
   events: Array<Record<string, unknown>>;
   workflowStates: Array<Record<string, unknown>>;
   decisionStates: Array<Record<string, unknown>>;
   entities: Array<Record<string, unknown>>;
   edges: Array<Record<string, unknown>>;
-  metrics: GraphMetricsSnapshot;
+  metrics: TaskWikiMetricsSnapshot;
 };
 
 export type SourceRefValidationResult =
@@ -390,7 +390,7 @@ export type SourceRefValidationResult =
       totalLines?: number;
     };
 
-export const GRAPH_METRIC_KEYS: GraphMetricKey[] = [
+export const TASK_WIKI_METRIC_KEYS: TaskWikiMetricKey[] = [
   "hitsReturned",
   "hitsUsedRaw",
   "hitsUsedUniqueRefs",
@@ -402,18 +402,18 @@ export const GRAPH_METRIC_KEYS: GraphMetricKey[] = [
   "extractLatencyMsCount",
 ];
 
-export const CANONICAL_SCHEMA_SQL = `
+export const FEISHU_TASK_WIKI_SCHEMA_SQL = `
 CREATE TABLE IF NOT EXISTS meta (
   key TEXT PRIMARY KEY,
   value TEXT NOT NULL
 );
 
-CREATE TABLE IF NOT EXISTS graph_metrics (
+CREATE TABLE IF NOT EXISTS feishu_task_wiki_metrics (
   key TEXT PRIMARY KEY,
   value REAL NOT NULL DEFAULT 0
 );
 
-CREATE TABLE IF NOT EXISTS recent_graph_hits (
+CREATE TABLE IF NOT EXISTS recent_task_wiki_hits (
   session_key       TEXT NOT NULL,
   source_ref        TEXT NOT NULL,
   path              TEXT NOT NULL,
@@ -429,12 +429,33 @@ CREATE TABLE IF NOT EXISTS recent_graph_hits (
   PRIMARY KEY(session_key, source_ref, path, start_line, end_line, hit_type)
 );
 
-CREATE INDEX IF NOT EXISTS idx_recent_graph_hits_session
-  ON recent_graph_hits(session_key, expires_at);
-CREATE INDEX IF NOT EXISTS idx_recent_graph_hits_path
-  ON recent_graph_hits(session_key, path, start_line, end_line);
+CREATE INDEX IF NOT EXISTS idx_recent_task_wiki_hits_session
+  ON recent_task_wiki_hits(session_key, expires_at);
+CREATE INDEX IF NOT EXISTS idx_recent_task_wiki_hits_path
+  ON recent_task_wiki_hits(session_key, path, start_line, end_line);
 
-CREATE TABLE IF NOT EXISTS source_projection_state (
+CREATE TABLE IF NOT EXISTS task_binding (
+  task_id                  TEXT NOT NULL,
+  source_type              TEXT NOT NULL,
+  source_id                TEXT NOT NULL,
+  chat_id                  TEXT,
+  thread_id                TEXT,
+  root_id                  TEXT,
+  doc_id                   TEXT,
+  binding_status           TEXT NOT NULL DEFAULT 'active',
+  created_at               INTEGER NOT NULL,
+  updated_at               INTEGER NOT NULL,
+  PRIMARY KEY (task_id, source_type, source_id)
+);
+
+CREATE INDEX IF NOT EXISTS idx_task_binding_source
+  ON task_binding(source_type, source_id, binding_status);
+CREATE INDEX IF NOT EXISTS idx_task_binding_thread
+  ON task_binding(thread_id, root_id, binding_status);
+CREATE INDEX IF NOT EXISTS idx_task_binding_chat
+  ON task_binding(chat_id, binding_status);
+
+CREATE TABLE IF NOT EXISTS task_source_session_state (
   source_kind              TEXT NOT NULL,
   source_id                TEXT NOT NULL,
   covered_until_entry_id   TEXT,
@@ -445,10 +466,10 @@ CREATE TABLE IF NOT EXISTS source_projection_state (
   PRIMARY KEY (source_kind, source_id)
 );
 
-CREATE INDEX IF NOT EXISTS idx_projection_state_status
-  ON source_projection_state(status, source_kind);
+CREATE INDEX IF NOT EXISTS idx_task_source_session_state_status
+  ON task_source_session_state(status, source_kind);
 
-CREATE TABLE IF NOT EXISTS projection_inbox (
+CREATE TABLE IF NOT EXISTS task_session_ingest_queue (
   id              INTEGER PRIMARY KEY AUTOINCREMENT,
   source_kind     TEXT NOT NULL,
   source_id       TEXT NOT NULL,
@@ -463,10 +484,10 @@ CREATE TABLE IF NOT EXISTS projection_inbox (
   UNIQUE(source_kind, source_id, first_entry_id, last_entry_id)
 );
 
-CREATE INDEX IF NOT EXISTS idx_projection_inbox_pending
-  ON projection_inbox(source_kind, source_id, drained_at, created_at);
+CREATE INDEX IF NOT EXISTS idx_task_session_ingest_queue_pending
+  ON task_session_ingest_queue(source_kind, source_id, drained_at, created_at);
 
-CREATE TABLE IF NOT EXISTS evidence_records (
+CREATE TABLE IF NOT EXISTS task_evidence_records (
   evidence_id          TEXT PRIMARY KEY,
   evidence_fingerprint TEXT NOT NULL UNIQUE,
   source_platform      TEXT NOT NULL,
@@ -488,14 +509,14 @@ CREATE TABLE IF NOT EXISTS evidence_records (
   linked_event_ids_json TEXT
 );
 
-CREATE INDEX IF NOT EXISTS idx_evidence_records_session
-  ON evidence_records(session_key, created_at);
-CREATE INDEX IF NOT EXISTS idx_evidence_records_message
-  ON evidence_records(message_id);
-CREATE INDEX IF NOT EXISTS idx_evidence_records_thread
-  ON evidence_records(thread_id, created_at);
+CREATE INDEX IF NOT EXISTS idx_task_evidence_records_session
+  ON task_evidence_records(session_key, created_at);
+CREATE INDEX IF NOT EXISTS idx_task_evidence_records_message
+  ON task_evidence_records(message_id);
+CREATE INDEX IF NOT EXISTS idx_task_evidence_records_thread
+  ON task_evidence_records(thread_id, created_at);
 
-CREATE TABLE IF NOT EXISTS event_type_registry (
+CREATE TABLE IF NOT EXISTS task_event_type_registry (
   event_type          TEXT PRIMARY KEY,
   subject_type        TEXT NOT NULL,
   object_type         TEXT,
@@ -505,7 +526,7 @@ CREATE TABLE IF NOT EXISTS event_type_registry (
   created_at          INTEGER NOT NULL
 );
 
-CREATE TABLE IF NOT EXISTS event_records_v2 (
+CREATE TABLE IF NOT EXISTS task_session_events (
   event_id            TEXT PRIMARY KEY,
   event_fingerprint   TEXT NOT NULL UNIQUE,
   evidence_id         TEXT NOT NULL,
@@ -519,68 +540,43 @@ CREATE TABLE IF NOT EXISTS event_records_v2 (
   confidence          REAL NOT NULL DEFAULT 0.5,
   extraction_version  TEXT NOT NULL,
   created_at          INTEGER NOT NULL,
-  FOREIGN KEY(evidence_id) REFERENCES evidence_records(evidence_id),
-  FOREIGN KEY(event_type) REFERENCES event_type_registry(event_type)
+  FOREIGN KEY(evidence_id) REFERENCES task_evidence_records(evidence_id),
+  FOREIGN KEY(event_type) REFERENCES task_event_type_registry(event_type)
 );
 
-CREATE INDEX IF NOT EXISTS idx_event_records_v2_subject
-  ON event_records_v2(subject_ref, occurred_at);
-CREATE INDEX IF NOT EXISTS idx_event_records_v2_object
-  ON event_records_v2(object_ref, occurred_at);
-CREATE INDEX IF NOT EXISTS idx_event_records_v2_type
-  ON event_records_v2(event_type, occurred_at);
-CREATE INDEX IF NOT EXISTS idx_event_records_v2_evidence
-  ON event_records_v2(evidence_id);
+CREATE INDEX IF NOT EXISTS idx_task_session_events_subject
+  ON task_session_events(subject_ref, occurred_at);
+CREATE INDEX IF NOT EXISTS idx_task_session_events_object
+  ON task_session_events(object_ref, occurred_at);
+CREATE INDEX IF NOT EXISTS idx_task_session_events_type
+  ON task_session_events(event_type, occurred_at);
+CREATE INDEX IF NOT EXISTS idx_task_session_events_evidence
+  ON task_session_events(evidence_id);
 
-CREATE TABLE IF NOT EXISTS decision_state_view_v2 (
-  topic_ref                        TEXT PRIMARY KEY,
-  decision_axis_key                TEXT NOT NULL,
-  decision_axis_text               TEXT NOT NULL,
-  decision_axis_instance_id        TEXT,
+CREATE TABLE IF NOT EXISTS task_current_state_view (
+  task_ref                         TEXT PRIMARY KEY,
+  primary_topic_ref                TEXT,
   active_conclusion_event_id       TEXT,
   active_rationale_event_ids_json  TEXT NOT NULL DEFAULT '[]',
   active_objection_event_ids_json  TEXT NOT NULL DEFAULT '[]',
+  active_constraint_event_ids_json TEXT NOT NULL DEFAULT '[]',
+  active_commitment_event_ids_json TEXT NOT NULL DEFAULT '[]',
+  active_status_event_ids_json     TEXT NOT NULL DEFAULT '[]',
+  active_scope_event_ids_json      TEXT NOT NULL DEFAULT '[]',
   active_stage_event_id            TEXT,
   active_time_point_event_ids_json TEXT NOT NULL DEFAULT '[]',
   slot_versions_json               TEXT NOT NULL DEFAULT '{}',
   last_event_id                    TEXT NOT NULL,
   updated_at                       INTEGER NOT NULL,
-  FOREIGN KEY(active_conclusion_event_id) REFERENCES event_records_v2(event_id),
-  FOREIGN KEY(active_stage_event_id) REFERENCES event_records_v2(event_id),
-  FOREIGN KEY(last_event_id) REFERENCES event_records_v2(event_id)
+  FOREIGN KEY(active_conclusion_event_id) REFERENCES task_session_events(event_id),
+  FOREIGN KEY(active_stage_event_id) REFERENCES task_session_events(event_id),
+  FOREIGN KEY(last_event_id) REFERENCES task_session_events(event_id)
 );
 
-CREATE INDEX IF NOT EXISTS idx_decision_state_v2_axis
-  ON decision_state_view_v2(decision_axis_key, updated_at);
-CREATE INDEX IF NOT EXISTS idx_decision_state_v2_instance
-  ON decision_state_view_v2(decision_axis_instance_id, updated_at);
+CREATE INDEX IF NOT EXISTS idx_task_current_state_view_topic
+  ON task_current_state_view(primary_topic_ref, updated_at);
 
-CREATE TABLE IF NOT EXISTS workflow_state_view_v2 (
-  task_ref              TEXT PRIMARY KEY,
-  current_owner_ref     TEXT,
-  current_stage         TEXT,
-  current_approval_ref  TEXT,
-  approval_status       TEXT,
-  current_blocker_ref   TEXT,
-  next_action_json      TEXT NOT NULL DEFAULT '{}',
-  last_event_id         TEXT NOT NULL,
-  last_event_time       TEXT NOT NULL,
-  slot_versions_json    TEXT NOT NULL DEFAULT '{}',
-  supporting_event_ids  TEXT NOT NULL DEFAULT '[]',
-  updated_at            INTEGER NOT NULL,
-  FOREIGN KEY(last_event_id) REFERENCES event_records_v2(event_id)
-);
-
-CREATE INDEX IF NOT EXISTS idx_workflow_state_v2_owner
-  ON workflow_state_view_v2(current_owner_ref, updated_at);
-CREATE INDEX IF NOT EXISTS idx_workflow_state_v2_stage
-  ON workflow_state_view_v2(current_stage, updated_at);
-CREATE INDEX IF NOT EXISTS idx_workflow_state_v2_approval
-  ON workflow_state_view_v2(approval_status, updated_at);
-CREATE INDEX IF NOT EXISTS idx_workflow_state_v2_blocker
-  ON workflow_state_view_v2(current_blocker_ref, updated_at);
-
-CREATE TABLE IF NOT EXISTS graph_entities_v2 (
+CREATE TABLE IF NOT EXISTS task_wiki_entities (
   entity_ref         TEXT PRIMARY KEY,
   entity_type        TEXT NOT NULL,
   canonical_name     TEXT NOT NULL,
@@ -591,12 +587,12 @@ CREATE TABLE IF NOT EXISTS graph_entities_v2 (
   updated_at         INTEGER NOT NULL
 );
 
-CREATE INDEX IF NOT EXISTS idx_graph_entities_v2_type_name
-  ON graph_entities_v2(entity_type, canonical_name);
-CREATE INDEX IF NOT EXISTS idx_graph_entities_v2_last_seen
-  ON graph_entities_v2(last_seen_at);
+CREATE INDEX IF NOT EXISTS idx_task_wiki_entities_type_name
+  ON task_wiki_entities(entity_type, canonical_name);
+CREATE INDEX IF NOT EXISTS idx_task_wiki_entities_last_seen
+  ON task_wiki_entities(last_seen_at);
 
-CREATE TABLE IF NOT EXISTS graph_edges_v2 (
+CREATE TABLE IF NOT EXISTS task_wiki_relations (
   edge_id                TEXT PRIMARY KEY,
   edge_key               TEXT NOT NULL UNIQUE,
   src_ref                TEXT NOT NULL,
@@ -607,15 +603,15 @@ CREATE TABLE IF NOT EXISTS graph_edges_v2 (
   valid_from             TEXT NOT NULL,
   valid_to               TEXT,
   updated_at             INTEGER NOT NULL,
-  FOREIGN KEY(derived_from_event_id) REFERENCES event_records_v2(event_id)
+  FOREIGN KEY(derived_from_event_id) REFERENCES task_session_events(event_id)
 );
 
-CREATE INDEX IF NOT EXISTS idx_graph_edges_v2_src
-  ON graph_edges_v2(src_ref, edge_type, active);
-CREATE INDEX IF NOT EXISTS idx_graph_edges_v2_dst
-  ON graph_edges_v2(dst_ref, edge_type, active);
-CREATE INDEX IF NOT EXISTS idx_graph_edges_v2_event
-  ON graph_edges_v2(derived_from_event_id);
+CREATE INDEX IF NOT EXISTS idx_task_wiki_relations_src
+  ON task_wiki_relations(src_ref, edge_type, active);
+CREATE INDEX IF NOT EXISTS idx_task_wiki_relations_dst
+  ON task_wiki_relations(dst_ref, edge_type, active);
+CREATE INDEX IF NOT EXISTS idx_task_wiki_relations_event
+  ON task_wiki_relations(derived_from_event_id);
 `;
 
 function asRecord(value: unknown): Record<string, unknown> | undefined {
@@ -638,16 +634,16 @@ function normalizePositiveInteger(value: unknown, fallback: number): number {
     : fallback;
 }
 
-export function resolveGraphIndexConfig(cfg?: OpenClawConfig): GraphIndexConfig {
+export function resolveFeishuTaskWikiConfig(cfg?: OpenClawConfig): FeishuTaskWikiConfig {
   const plugins = asRecord(cfg?.plugins);
   const entries = asRecord(plugins?.entries);
   const memoryEntry = asRecord(entries?.["memory-core"]);
   const pluginConfig = asRecord(memoryEntry?.config);
-  const graphIndex = asRecord(pluginConfig?.graphIndex);
-  const trace = asRecord(graphIndex?.trace);
+  const taskWiki = asRecord(pluginConfig?.feishuTaskWiki);
+  const trace = asRecord(taskWiki?.trace);
   return {
-    enabled: normalizeBoolean(graphIndex?.enabled, false),
-    bootstrapOnStart: normalizeBoolean(graphIndex?.bootstrapOnStart, true),
+    enabled: normalizeBoolean(taskWiki?.enabled, false),
+    bootstrapOnStart: normalizeBoolean(taskWiki?.bootstrapOnStart, true),
     trace: {
       enabled: normalizeBoolean(trace?.enabled, false),
       filePath: normalizeString(trace?.filePath, null),
@@ -657,12 +653,12 @@ export function resolveGraphIndexConfig(cfg?: OpenClawConfig): GraphIndexConfig 
   };
 }
 
-export function describeGraphIndexConfig(cfg?: OpenClawConfig) {
+export function describeFeishuTaskWikiConfig(cfg?: OpenClawConfig) {
   return {
-    ...resolveGraphIndexConfig(cfg),
-    schemaVersion: CANONICAL_SCHEMA_VERSION,
+    ...resolveFeishuTaskWikiConfig(cfg),
+    schemaVersion: FEISHU_TASK_WIKI_SCHEMA_VERSION,
     extractorVersion: EXTRACTOR_VERSION,
-    projectionVersion: GRAPH_PROJECTION_VERSION,
+    projectionVersion: TASK_WIKI_PROJECTION_VERSION,
   };
 }
 

@@ -1654,3 +1654,53 @@ task_wiki.md 负责呈现当前任务状态。
 ```text
 event 负责可信，Memory Block 负责组织，index 负责定位，task_wiki 负责当前状态。
 ```
+
+# 19. 评估
+
+怎么评估你的 Task Wiki 系统？
+分四层评估。
+第一是 event 抽取质量，看 claim support rate、atomicity pass rate 和字段完整率。
+第二是 Memory Block 组织质量，看分组准确率和 slot 填充准确率。
+第三是问答质量，看 hit rate、faithfulness、citation accuracy 和 unsupported claim rate。
+第四是业务指标，看用户是否减少重复询问、是否更快找到历史决策、人工纠错率是否下降。
+
+## 5.4 Event 类型
+
+第一版 event 使用 8 类。
+
+这 8 类不是 Wiki 模块，而是可验证事实类型。
+
+```text
+1. conclusion_event：结论 / 口径 / 决定
+2. rationale_event：理由 / 依据
+3. objection_event：异议 / 担忧 / 反对意见
+4. constraint_event：约束 / 边界 / 禁止项
+5. commitment_event：承诺 / 行动项
+6. status_event：状态事实
+7. time_event：时间点 / 截止日期 / 里程碑
+8. scope_event：范围 / 阶段 / 适用对象
+```
+
+```text
+1. 是否有 session_event 没有被对应 session_wiki.md 引用
+2. 是否有 session_wiki.md 没有 Evidence References
+3. 是否有旧结论被新 event 覆盖但还显示为 active
+4. 是否有开放异议长期未解决
+5. 是否有行动项过期
+6. 是否有 session 被删除但 event 仍在支撑 Wiki
+7. 是否有 claim 强度超过 quote
+8. 是否有同一 topic 下的结论冲突
+9. 是否有孤立 session_wiki.md 或孤立 Memory Block
+10. 是否缺少必要交叉引用
+```
+
+## 6.6 Verification 原则
+
+```text
+Evidence-first：先找 quote，再生成 claim。
+Core-triggered：只有 Core 能触发 event，Context 只消歧。
+Claim minimality：一条 event 只表达一个事实。
+Modality preservation：保留原文强度，例如“暂定”不能写成“确认”。
+No slot hallucination：字段缺失就填 null，不补。
+Typed verification：不同 event 类型使用不同校验规则。
+```

@@ -1,0 +1,16 @@
+{
+  "name": "@openclaw/feishu-task-wiki",
+  "version": "2026.5.1",
+  "private": true,
+  "description": "OpenClaw Feishu task-first binding and wiki routing helpers",
+  "type": "module",
+  "dependencies": {},
+  "devDependencies": {
+    "@openclaw/plugin-sdk": "workspace:*"
+  },
+  "openclaw": {
+    "extensions": [
+      "./index.ts"
+    ]
+  }
+}

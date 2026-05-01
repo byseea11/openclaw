@@ -9,14 +9,15 @@ import {
 import { graphHitToMemorySearchResult, type GraphMemorySearchResult } from "./prompt.js";
 import { searchGraphV2 } from "./query-v2.js";
 import {
-  describeGraphIndexConfig,
+  describeFeishuTaskWikiConfig,
   EXTRACTOR_VERSION,
-  GRAPH_PROJECTION_VERSION,
-  GRAPH_METRIC_KEYS,
-  type GraphMetricsSnapshot,
-  resolveGraphIndexConfig,
+  TASK_WIKI_METRIC_KEYS,
+  TASK_WIKI_PROJECTION_VERSION,
+  type FeishuTaskWikiConfig as GraphIndexConfig,
+  type TaskWikiMetricsSnapshot,
+  resolveFeishuTaskWikiConfig,
 } from "./schema.js";
-import { getCanonicalStore } from "./store.js";
+import { getFeishuTaskWikiStore } from "./store.js";
 import { buildGraphTraceId, recordGraphIndexTrace } from "./trace.js";
 import {
   markGraphHitsUsedFromAssistantTexts,
@@ -26,9 +27,9 @@ import {
 
 const log = createSubsystemLogger("memory");
 
-function emptyGraphMetrics(): GraphMetricsSnapshot {
-  const base = Object.fromEntries(GRAPH_METRIC_KEYS.map((key) => [key, 0])) as Record<
-    (typeof GRAPH_METRIC_KEYS)[number],
+function emptyGraphMetrics(): TaskWikiMetricsSnapshot {
+  const base = Object.fromEntries(TASK_WIKI_METRIC_KEYS.map((key) => [key, 0])) as Record<
+    (typeof TASK_WIKI_METRIC_KEYS)[number],
     number
   >;
   return {
@@ -63,14 +64,21 @@ export {
   recordReturnedGraphHits,
 } from "./usage.js";
 export {
-  describeGraphIndexConfig,
+  describeFeishuTaskWikiConfig,
   EXTRACTOR_VERSION,
-  resolveGraphIndexConfig,
+  resolveFeishuTaskWikiConfig,
   type GraphHit,
-  type GraphIndexConfig,
+  type FeishuTaskWikiConfig as GraphIndexConfig,
   type RawEvent,
 } from "./schema.js";
-export { CanonicalStore, closeAllCanonicalStores, getCanonicalStore } from "./store.js";
+export {
+  CanonicalStore,
+  FeishuTaskWikiStore,
+  closeAllCanonicalStores,
+  closeAllFeishuTaskWikiStores,
+  getCanonicalStore,
+  getFeishuTaskWikiStore,
+} from "./store.js";
 
 export async function maybeBootstrapCanonicalIndex(params: {
   cfg: OpenClawConfig;
@@ -80,17 +88,17 @@ export async function maybeBootstrapCanonicalIndex(params: {
   progress?: (update: { completed: number; total: number; label?: string }) => void;
 }) {
   try {
-    const graphConfig = resolveGraphIndexConfig(params.cfg);
+    const graphConfig = resolveFeishuTaskWikiConfig(params.cfg);
     if (!graphConfig.enabled || !graphConfig.bootstrapOnStart || !params.workspaceDir) {
       return null;
     }
-    const store = getCanonicalStore(params.agentId);
+    const store = getFeishuTaskWikiStore(params.agentId);
     const status = store.getStatus();
     const shouldBootstrap =
       params.force ||
-      status.schemaVersion !== describeGraphIndexConfig(params.cfg).schemaVersion ||
+      status.schemaVersion !== describeFeishuTaskWikiConfig(params.cfg).schemaVersion ||
       status.extractorVersion !== EXTRACTOR_VERSION ||
-      status.projectionVersion !== GRAPH_PROJECTION_VERSION;
+      status.projectionVersion !== TASK_WIKI_PROJECTION_VERSION;
     if (!shouldBootstrap) {
       return null;
     }
@@ -120,11 +128,11 @@ export async function searchGraphForMemoryTool(params: {
   results: GraphMemorySearchResult[];
 }> {
   try {
-    const graphConfig = resolveGraphIndexConfig(params.cfg);
+    const graphConfig = resolveFeishuTaskWikiConfig(params.cfg);
     if (!graphConfig.enabled) {
       return { enabled: false, hits: 0, renderedHits: 0, results: [] };
     }
-    const store = getCanonicalStore(params.agentId);
+    const store = getFeishuTaskWikiStore(params.agentId);
     if (store.hasPendingProjection(params.sessionKey)) {
       const summary = store.listPendingProjectionSummaries(params.sessionKey)[0];
       recordGraphIndexTrace({
@@ -236,15 +244,15 @@ export async function searchGraphForMemoryTool(params: {
 
 export function getCanonicalStatus(params: { cfg?: OpenClawConfig; agentId: string }) {
   try {
-    const store = getCanonicalStore(params.agentId);
+    const store = getFeishuTaskWikiStore(params.agentId);
     return {
-      ...describeGraphIndexConfig(params.cfg),
+      ...describeFeishuTaskWikiConfig(params.cfg),
       ...store.getStatus(),
     };
   } catch (err) {
     log.warn(`[canonical] status.fallback error=${String(err)}`);
     return {
-      ...describeGraphIndexConfig(params.cfg),
+      ...describeFeishuTaskWikiConfig(params.cfg),
       dbPath: "",
       eventsTotal: 0,
       entitiesTotal: 0,

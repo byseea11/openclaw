@@ -53,16 +53,16 @@ function graphType(result: MemorySearchResultWithCorpus): string | null {
 
 function evidencePriority(queryClass: QueryClass, result: MemorySearchResultWithCorpus): number {
   const type = graphType(result);
-  if (queryClass === "decision_card") {
+  if (queryClass === "task_memory_card") {
     return type === "state" ? 0 : type === "event" ? 1 : result.corpus === "memory" ? 2 : 3;
   }
-  if (queryClass === "state") {
+  if (queryClass === "task_state") {
     return type === "state" ? 0 : type === "event" ? 1 : result.corpus === "memory" ? 2 : 3;
   }
-  if (queryClass === "why") {
+  if (queryClass === "task_why") {
     return type === "event" ? 0 : type === "state" ? 1 : result.corpus === "memory" ? 2 : 3;
   }
-  if (queryClass === "timeline") {
+  if (queryClass === "task_timeline") {
     return type === "event" ? 0 : result.corpus === "memory" ? 1 : type === "state" ? 2 : 3;
   }
   return type === "edge" ? 0 : type === "state" ? 1 : result.corpus === "memory" ? 2 : 3;

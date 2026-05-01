@@ -1,13 +1,14 @@
 import { canonicalJson, normalizeName, sha1, sha256 } from "./id-v2.js";
 
 export const V2_EVENT_TYPES = [
-  "owner_changed",
-  "stage_changed",
-  "approval_status_updated",
-  "blocked",
-  "unblocked",
-  "next_action_set",
-  "decision_claim_recorded",
+  "conclusion_event",
+  "rationale_event",
+  "objection_event",
+  "constraint_event",
+  "commitment_event",
+  "status_event",
+  "time_event",
+  "scope_event",
 ] as const;
 
 export type V2EventType = (typeof V2_EVENT_TYPES)[number];
@@ -66,46 +67,16 @@ export type EventRecordV2 = {
   created_at: number;
 };
 
-export type WorkflowStateViewV2 = {
+export type TaskCurrentStateViewV2 = {
   task_ref: string;
-  current_owner_ref: string | null;
-  current_stage: string | null;
-  current_approval_ref: string | null;
-  approval_status: string | null;
-  current_blocker_ref: string | null;
-  next_action_json: string;
-  last_event_id: string;
-  last_event_time: string;
-  slot_versions_json: string;
-  supporting_event_ids: string;
-  updated_at: number;
-};
-
-export type DecisionClaimFieldV2 =
-  | "conclusion"
-  | "rationale"
-  | "objection"
-  | "stage"
-  | "time_point";
-
-export type DecisionAxisKeyV2 =
-  | "release_date"
-  | "solution_choice"
-  | "gray_release_plan"
-  | "dependency_readiness"
-  | "external_communication"
-  | "project_stage"
-  | "risk_handling"
-  | "general_decision";
-
-export type DecisionStateViewV2 = {
-  topic_ref: string;
-  decision_axis_key: DecisionAxisKeyV2;
-  decision_axis_text: string;
-  decision_axis_instance_id: string | null;
+  primary_topic_ref: string | null;
   active_conclusion_event_id: string | null;
   active_rationale_event_ids_json: string;
   active_objection_event_ids_json: string;
+  active_constraint_event_ids_json: string;
+  active_commitment_event_ids_json: string;
+  active_status_event_ids_json: string;
+  active_scope_event_ids_json: string;
   active_stage_event_id: string | null;
   active_time_point_event_ids_json: string;
   slot_versions_json: string;
@@ -117,17 +88,16 @@ export type GraphEntityV2 = {
   entity_ref: string;
   entity_type:
     | "task"
-    | "approval"
     | "person"
-    | "blocker"
     | "topic"
     | "thread"
     | "doc"
     | "project"
-    | "claim"
+    | "memory_block"
+    | "session_event"
+    | "session_wiki"
     | "evidence"
-    | "date"
-    | "stage";
+    | "date";
   canonical_name: string;
   alias_json: string;
   first_seen_at: string;
@@ -141,20 +111,19 @@ export type GraphEdgeV2 = {
   edge_key: string;
   src_ref: string;
   edge_type:
-    | "assigned_to"
-    | "has_approval"
-    | "blocked_by"
-    | "next_action_owner"
-    | "related_to"
     | "anchored_by_task"
     | "anchored_by_thread"
     | "anchored_by_doc"
     | "anchored_by_project"
-    | "has_active_conclusion_claim"
-    | "has_active_rationale_claim"
-    | "has_active_objection_claim"
-    | "has_active_stage_claim"
-    | "has_active_time_point_claim"
+    | "has_active_conclusion"
+    | "has_active_rationale"
+    | "has_active_objection"
+    | "has_active_constraint"
+    | "has_active_commitment"
+    | "has_active_status"
+    | "has_active_scope"
+    | "has_active_stage"
+    | "has_active_time_point"
     | "supported_by"
     | "related_time"
     | "supersedes";
@@ -166,103 +135,122 @@ export type GraphEdgeV2 = {
   updated_at: number;
 };
 
-export type QueryClassV2 = "state" | "why" | "timeline" | "list_relation" | "decision_card";
+export type QueryClassV2 = "task_state" | "task_why" | "task_timeline" | "list_relation" | "task_memory_card";
 
 export const EVENT_TYPE_REGISTRY_SEED: EventTypeRegistryRecord[] = [
   {
-    event_type: "owner_changed",
+    event_type: "conclusion_event",
     subject_type: "task",
-    object_type: "person",
+    object_type: "topic",
     payload_schema_json: canonicalJson({
-      old_owner_ref: "string?",
-      new_owner_ref: "string",
-      reason: "string?",
-    }),
-    description: "Task ownership changed.",
-    enabled: 1,
-    created_at: 0,
-  },
-  {
-    event_type: "stage_changed",
-    subject_type: "task",
-    object_type: null,
-    payload_schema_json: canonicalJson({
-      old_stage: "string?",
-      new_stage: "string",
-      reason: "string?",
-    }),
-    description: "Task stage changed.",
-    enabled: 1,
-    created_at: 0,
-  },
-  {
-    event_type: "approval_status_updated",
-    subject_type: "task",
-    object_type: "approval",
-    payload_schema_json: canonicalJson({
-      approval_ref: "string",
-      approval_status: "string",
-      reason: "string?",
-    }),
-    description: "Approval status updated for a task.",
-    enabled: 1,
-    created_at: 0,
-  },
-  {
-    event_type: "blocked",
-    subject_type: "task",
-    object_type: "blocker",
-    payload_schema_json: canonicalJson({
-      blocker_ref: "string",
-      blocker_reason: "string?",
-    }),
-    description: "Task became blocked.",
-    enabled: 1,
-    created_at: 0,
-  },
-  {
-    event_type: "unblocked",
-    subject_type: "task",
-    object_type: "blocker",
-    payload_schema_json: canonicalJson({
-      blocker_ref: "string?",
-      blocker_reason: "string?",
-      resumed_stage: "string?",
-    }),
-    description: "Task is no longer blocked.",
-    enabled: 1,
-    created_at: 0,
-  },
-  {
-    event_type: "next_action_set",
-    subject_type: "task",
-    object_type: "person",
-    payload_schema_json: canonicalJson({
-      assignee_ref: "string?",
-      action_text: "string",
-      due_at: "string?",
-    }),
-    description: "Next action was assigned or updated.",
-    enabled: 1,
-    created_at: 0,
-  },
-  {
-    event_type: "decision_claim_recorded",
-    subject_type: "topic",
-    object_type: null,
-    payload_schema_json: canonicalJson({
-      topic_ref: "string",
-      topic_anchors_json: "object",
-      decision_axis_key: "string",
-      decision_axis_text: "string",
-      decision_axis_instance_id: "string?",
-      claim_field: "string",
-      claim_text: "string",
-      claim_value_json: "object?",
+      claim: "string",
+      target: "string?",
+      conclusion: "string?",
       evidence_quote: "string",
-      confidence: "number",
     }),
-    description: "A quote-grounded atomic decision claim.",
+    description: "A quote-grounded task conclusion or current communication caliber.",
+    enabled: 1,
+    created_at: 0,
+  },
+  {
+    event_type: "rationale_event",
+    subject_type: "task",
+    object_type: null,
+    payload_schema_json: canonicalJson({
+      claim: "string",
+      reason: "string",
+      reason_for: "string?",
+      evidence_quote: "string",
+    }),
+    description: "A quote-grounded rationale or basis for a task decision.",
+    enabled: 1,
+    created_at: 0,
+  },
+  {
+    event_type: "objection_event",
+    subject_type: "task",
+    object_type: "topic",
+    payload_schema_json: canonicalJson({
+      claim: "string",
+      objection: "string",
+      objector: "string?",
+      target: "string?",
+      evidence_quote: "string",
+    }),
+    description: "A quote-grounded objection, concern, or counter-position.",
+    enabled: 1,
+    created_at: 0,
+  },
+  {
+    event_type: "constraint_event",
+    subject_type: "task",
+    object_type: "topic",
+    payload_schema_json: canonicalJson({
+      claim: "string",
+      constraint: "string",
+      target: "string?",
+      evidence_quote: "string",
+    }),
+    description: "A quote-grounded constraint, boundary, or do-not-commit rule.",
+    enabled: 1,
+    created_at: 0,
+  },
+  {
+    event_type: "commitment_event",
+    subject_type: "task",
+    object_type: "person",
+    payload_schema_json: canonicalJson({
+      claim: "string",
+      owner: "string",
+      action: "string",
+      deadline: "string?",
+      evidence_quote: "string",
+    }),
+    description: "A quote-grounded action commitment.",
+    enabled: 1,
+    created_at: 0,
+  },
+  {
+    event_type: "status_event",
+    subject_type: "task",
+    object_type: null,
+    payload_schema_json: canonicalJson({
+      claim: "string",
+      target: "string",
+      status: "string",
+      evidence_quote: "string",
+    }),
+    description: "A quote-grounded task or dependency status fact.",
+    enabled: 1,
+    created_at: 0,
+  },
+  {
+    event_type: "time_event",
+    subject_type: "task",
+    object_type: null,
+    payload_schema_json: canonicalJson({
+      claim: "string",
+      time_target: "string",
+      time_value: "string",
+      certainty: "string?",
+      evidence_quote: "string",
+    }),
+    description: "A quote-grounded date, deadline, or milestone fact.",
+    enabled: 1,
+    created_at: 0,
+  },
+  {
+    event_type: "scope_event",
+    subject_type: "task",
+    object_type: null,
+    payload_schema_json: canonicalJson({
+      claim: "string",
+      scope_target: "string",
+      included: "array?",
+      excluded: "array?",
+      evidence_quote: "string",
+    }),
+    description: "A quote-grounded scope, rollout range, or stage boundary.",
     enabled: 1,
     created_at: 0,
   },
@@ -322,20 +310,16 @@ export function buildEventFingerprint(params: {
   );
 }
 
-export function buildDecisionClaimEventFingerprint(params: {
-  topicRef: string;
-  decisionAxisKey: string;
-  decisionAxisInstanceId?: string | null;
-  claimField: string;
+export function buildTaskSessionEventFingerprint(params: {
+  taskRef: string;
+  eventType: V2EventType;
   claimText: string;
   evidenceId: string;
 }): string {
   return sha256(
     [
-      params.topicRef,
-      params.decisionAxisKey,
-      params.decisionAxisInstanceId ?? "",
-      params.claimField,
+      params.taskRef,
+      params.eventType,
       params.claimText,
       params.evidenceId,
     ].join("|"),

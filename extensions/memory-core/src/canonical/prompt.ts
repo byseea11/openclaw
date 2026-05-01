@@ -31,18 +31,27 @@ function optionalLine(label: string, value: unknown): string | null {
 
 export function renderGraphHit(hit: GraphHit): string {
   const structured = hit.snippet_structured;
-  if (hit.type === "state" && structured.query_kind === "decision_card") {
+  if (hit.type === "state" && structured.query_kind === "task_memory_card") {
     const rationales = Array.isArray(structured.rationales)
       ? structured.rationales.filter((value): value is string => typeof value === "string")
       : [];
     const objections = Array.isArray(structured.objections)
       ? structured.objections.filter((value): value is string => typeof value === "string")
       : [];
-    const stageClaims = Array.isArray(structured.stage_claims)
-      ? structured.stage_claims.filter((value): value is string => typeof value === "string")
+    const constraints = Array.isArray(structured.constraints)
+      ? structured.constraints.filter((value): value is string => typeof value === "string")
+      : [];
+    const statuses = Array.isArray(structured.statuses)
+      ? structured.statuses.filter((value): value is string => typeof value === "string")
+      : [];
+    const scopeClaims = Array.isArray(structured.scope_claims)
+      ? structured.scope_claims.filter((value): value is string => typeof value === "string")
       : [];
     const timePoints = Array.isArray(structured.time_point_claims)
       ? structured.time_point_claims.filter((value): value is string => typeof value === "string")
+      : [];
+    const commitments = Array.isArray(structured.commitments)
+      ? structured.commitments.filter((value): value is string => typeof value === "string")
       : [];
     const evidenceRefs = Array.isArray(structured.evidence_refs)
       ? structured.evidence_refs
@@ -54,14 +63,17 @@ export function renderGraphHit(hit: GraphHit): string {
           .filter((value): value is Record<string, unknown> => Boolean(value))
       : [];
     return [
-      "[Graph decision_card]",
-      optionalLine("topic", structured.topic_ref),
-      optionalLine("axis", structured.decision_axis_text ?? structured.decision_axis_key),
+      "[Task memory card]",
+      optionalLine("task", structured.task_ref),
+      optionalLine("topic", structured.primary_topic_ref),
       optionalLine("current_conclusion", structured.current_conclusion),
-      stageClaims.length > 0 ? `stage: ${stageClaims.join(" | ")}` : null,
+      statuses.length > 0 ? `status: ${statuses.join(" | ")}` : null,
+      scopeClaims.length > 0 ? `scope: ${scopeClaims.join(" | ")}` : null,
       timePoints.length > 0 ? `time_points: ${timePoints.join(" | ")}` : null,
       rationales.length > 0 ? `rationales: ${rationales.join(" | ")}` : null,
       objections.length > 0 ? `objections: ${objections.join(" | ")}` : null,
+      constraints.length > 0 ? `constraints: ${constraints.join(" | ")}` : null,
+      commitments.length > 0 ? `commitments: ${commitments.join(" | ")}` : null,
       evidenceRefs.length > 0
         ? `evidence: ${evidenceRefs
             .map((value) =>

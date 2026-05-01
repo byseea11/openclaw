@@ -138,7 +138,7 @@ describe("memory_search unavailable payloads", () => {
             firstEntryId: "e1",
             lastEntryId: "e1",
             occurredAt,
-            contentText: "task_123 blocked",
+            contentText: "FEISHU-231 blocked",
             contentJson: {},
           }),
           source_platform: "transcript",
@@ -152,7 +152,7 @@ describe("memory_search unavailable payloads", () => {
           parent_id: null,
           first_entry_id: "e1",
           last_entry_id: "e1",
-          content_text: "task_123 blocked",
+          content_text: "FEISHU-231 blocked",
           content_json: "{}",
           source_locator_json: JSON.stringify({ source_ref: "transcripts/test.txt#L1-L1" }),
           occurred_at: occurredAt,
@@ -163,20 +163,28 @@ describe("memory_search unavailable payloads", () => {
             event_id: generateUlid(),
             event_fingerprint: buildEventFingerprint({
               evidenceId,
-              eventType: "blocked",
-              subjectRef: "task:task_123",
+              eventType: "constraint_event",
+              subjectRef: "task:FEISHU-231",
               objectRef: "blocker:test",
               occurredAt,
-              payloadJson: { blocker_ref: "blocker:test" },
+              payloadJson: {
+                task_ref: "task:FEISHU-231",
+                claim: "FEISHU-231 blocked",
+                constraint: "blocker:test",
+              },
             }),
             evidence_id: evidenceId,
-            event_type: "blocked",
-            subject_ref: "task:task_123",
+            event_type: "constraint_event",
+            subject_ref: "task:FEISHU-231",
             actor_ref: "person_name:alice",
             object_ref: "blocker:test",
             related_refs_json: JSON.stringify(["person_name:alice", "blocker:test"]),
             occurred_at: occurredAt,
-            payload_json: JSON.stringify({ blocker_ref: "blocker:test" }),
+            payload_json: JSON.stringify({
+              task_ref: "task:FEISHU-231",
+              claim: "FEISHU-231 blocked",
+              constraint: "blocker:test",
+            }),
             confidence: 0.9,
             extraction_version: "v-test",
             created_at: Date.now(),
@@ -191,7 +199,7 @@ describe("memory_search unavailable payloads", () => {
             entries: {
               "memory-core": {
                 config: {
-                  graphIndex: {
+                  feishuTaskWiki: {
                     enabled: true,
                   },
                 },
@@ -201,7 +209,7 @@ describe("memory_search unavailable payloads", () => {
         },
         agentSessionKey: "agent:main:test:graph",
       });
-      const result = await tool.execute("graph", { query: "task_123" });
+      const result = await tool.execute("graph", { query: "FEISHU-231" });
       const details = result.details as {
         results: Array<{ corpus?: string; snippet: string; graphMeta?: unknown }>;
         debug?: { graph?: { hits: number; renderedHits: number } };
@@ -221,7 +229,7 @@ describe("memory_search unavailable payloads", () => {
           snippet: expect.stringContaining("[Graph state]"),
           graphMeta: {
             type: "state",
-            entity_id: "task:task_123",
+            entity_id: "task:FEISHU-231",
           },
         }),
       );

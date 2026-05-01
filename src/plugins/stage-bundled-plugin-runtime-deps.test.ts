@@ -357,7 +357,7 @@ describe("stageBundledPluginRuntimeDeps", () => {
         installAttempts: 3,
         installPluginRuntimeDepsImpl() {
           attempts += 1;
-          const error = new Error("timed out");
+          const error = new Error("timed out") as Error & { code?: string };
           error.code = "RUNTIME_DEPS_INSTALL_TIMEOUT";
           throw error;
         },

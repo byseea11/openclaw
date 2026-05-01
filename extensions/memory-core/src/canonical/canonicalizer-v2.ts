@@ -6,22 +6,22 @@ import {
   sha1,
 } from "./id-v2.js";
 import {
-  buildDecisionClaimEventFingerprint,
+  buildTaskSessionEventFingerprint,
   buildEvidenceFingerprint,
-  type DecisionClaimFieldV2,
   type EvidenceRecordV2,
   type EventRecordV2,
 } from "./schema-v2.js";
 import {
   EXTRACTOR_VERSION,
   type DecisionAxisKey,
+  type DecisionClaimField,
   type DecisionClaimValueJson,
   type DecisionExtractionResult,
   type ExtractedDecisionClaim,
   type DecisionSupportingContextQuote,
 } from "./schema.js";
 
-const CLAIM_FIELD_SET = new Set<DecisionClaimFieldV2>([
+const CLAIM_FIELD_SET = new Set<DecisionClaimField>([
   "conclusion",
   "rationale",
   "objection",
@@ -398,6 +398,23 @@ function eventObjectRefForClaim(
   return null;
 }
 
+function taskEventTypeForClaimField(
+  claimField: DecisionClaimField,
+): EventRecordV2["event_type"] {
+  switch (claimField) {
+    case "conclusion":
+      return "conclusion_event";
+    case "rationale":
+      return "rationale_event";
+    case "objection":
+      return "objection_event";
+    case "stage":
+      return "scope_event";
+    case "time_point":
+      return "time_event";
+  }
+}
+
 function relatedRefsForClaim(
   anchor: TopicAnchorSelection,
   claim: ExtractedDecisionClaim,
@@ -429,7 +446,7 @@ function sourceLocatorJson(params: {
   firstEntryId?: string | null;
   lastEntryId?: string | null;
   evidenceQuote: string;
-  claimField: DecisionClaimFieldV2;
+  claimField: DecisionClaimField;
 }): string {
   return canonicalJson({
     source_id: params.sourceId,
@@ -486,9 +503,9 @@ function asDecisionAxisKey(value: string | null): DecisionAxisKey | null {
   return value as DecisionAxisKey;
 }
 
-function asClaimField(value: string): DecisionClaimFieldV2 | null {
-  return CLAIM_FIELD_SET.has(value as DecisionClaimFieldV2)
-    ? (value as DecisionClaimFieldV2)
+function asClaimField(value: string): DecisionClaimField | null {
+  return CLAIM_FIELD_SET.has(value as DecisionClaimField)
+    ? (value as DecisionClaimField)
     : null;
 }
 
@@ -508,6 +525,10 @@ export function canonicalizeV2(params: CanonicalizeV2Params): CanonicalizeV2Resu
     normalizeTopicAnchors(extraction.topic_anchors_json),
     params.text,
   );
+  const taskRef = (normalizedAnchors.task_refs as string[])[0] ?? null;
+  if (!taskRef) {
+    return { evidence: [], events: [], overflowWarning: false };
+  }
   const anchor = selectCanonicalAnchor(normalizedAnchors);
   if (!anchor) {
     return { evidence: [], events: [], overflowWarning: false };
@@ -648,15 +669,14 @@ export function canonicalizeV2(params: CanonicalizeV2Params): CanonicalizeV2Resu
     };
     evidence.push(evidenceRow);
 
+    const eventType = taskEventTypeForClaimField(claim.claim_field);
     const payloadJson = {
+      task_ref: taskRef,
       topic_ref: topic.topicRef,
       topic_anchors_json: normalizedAnchors,
-      decision_axis_key: decisionAxisKey,
-      decision_axis_text: decisionAxisText,
-      decision_axis_instance_id: topic.decisionAxisInstanceId,
-      claim_field: claim.claim_field,
-      claim_text: claim.claim_text,
-      claim_value_json: {
+      slot_key: claim.claim_field,
+      claim: claim.claim_text,
+      claim_value: {
         ...(claim.claim_value_json ?? {}),
         core_entry_id: claim.resolved_core_entry_id,
         supporting_context_quotes: claim.supporting_context_quotes.map((quote) => ({
@@ -673,25 +693,21 @@ export function canonicalizeV2(params: CanonicalizeV2Params): CanonicalizeV2Resu
     events.push({
       event_id: `event:${shortHash(
         [
-          topic.topicRef,
-          decisionAxisKey,
-          topic.decisionAxisInstanceId ?? "",
-          claim.claim_field,
+          taskRef,
+          eventType,
           claim.claim_text,
           evidenceId,
         ].join("|"),
       )}`,
-      event_fingerprint: buildDecisionClaimEventFingerprint({
-        topicRef: topic.topicRef,
-        decisionAxisKey,
-        decisionAxisInstanceId: topic.decisionAxisInstanceId,
-        claimField: claim.claim_field,
+      event_fingerprint: buildTaskSessionEventFingerprint({
+        taskRef,
+        eventType,
         claimText: claim.claim_text,
         evidenceId,
       }),
       evidence_id: evidenceId,
-      event_type: "decision_claim_recorded",
-      subject_ref: topic.topicRef,
+      event_type: eventType,
+      subject_ref: taskRef,
       actor_ref: null,
       object_ref: objectRef,
       related_refs_json: canonicalJson(relatedRefsForClaim(anchor, claim)),

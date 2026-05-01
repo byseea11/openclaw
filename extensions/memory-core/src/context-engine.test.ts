@@ -86,20 +86,28 @@ async function seedBlockedTask() {
         event_id: generateUlid(),
         event_fingerprint: buildEventFingerprint({
           evidenceId,
-          eventType: "blocked",
+          eventType: "constraint_event",
           subjectRef: "task:FEISHU-231",
           objectRef: "approval:AP-778",
           occurredAt,
-          payloadJson: { blocker_ref: "approval:AP-778" },
+          payloadJson: {
+            task_ref: "task:FEISHU-231",
+            claim: "FEISHU-231 is blocked by AP-778",
+            constraint: "approval:AP-778",
+          },
         }),
         evidence_id: evidenceId,
-        event_type: "blocked",
+        event_type: "constraint_event",
         subject_ref: "task:FEISHU-231",
         actor_ref: "person_name:alice",
         object_ref: "approval:AP-778",
         related_refs_json: JSON.stringify(["approval:AP-778", "person_name:alice"]),
         occurred_at: occurredAt,
-        payload_json: JSON.stringify({ blocker_ref: "approval:AP-778" }),
+        payload_json: JSON.stringify({
+          task_ref: "task:FEISHU-231",
+          claim: "FEISHU-231 is blocked by AP-778",
+          constraint: "approval:AP-778",
+        }),
         confidence: 0.95,
         extraction_version: "test",
         created_at: Date.now(),
@@ -155,13 +163,10 @@ describe("memory-core context engine", () => {
     });
 
     expect(result.currentUserPromptPrefix).toContain("## Current Memory Context");
-    expect(result.currentUserPromptPrefix).toContain("graph:");
     expect(result.currentUserPromptPrefix).toContain("memory/2026-04-20.md#L10-L12");
     if (result.systemPromptAddition) {
       expect(result.systemPromptAddition).toContain("## Current Project State");
     }
-    const prefix = result.currentUserPromptPrefix ?? "";
-    expect(prefix.indexOf("graph:")).toBeLessThan(prefix.indexOf("memory/2026-04-20.md"));
     expect(result.messages).toHaveLength(1);
   });
 

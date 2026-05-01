@@ -10,7 +10,7 @@ import {
   getCanonicalStatus,
   getCanonicalStore,
   graphHitToMemorySearchResult,
-  resolveGraphIndexConfig,
+  resolveFeishuTaskWikiConfig,
   searchGraphV2,
 } from "./canonical/index.js";
 import {
@@ -1258,7 +1258,7 @@ export async function runMemoryGraphStatus(opts: MemoryGraphCommandOptions) {
     defaultRuntime.writeJson({ agentId, ...status });
     return;
   }
-  const graphConfig = resolveGraphIndexConfig(cfg);
+  const graphConfig = resolveFeishuTaskWikiConfig(cfg);
   const rich = isRich();
   const heading = (text: string) => colorize(rich, theme.heading, text);
   const muted = (text: string) => colorize(rich, theme.muted, text);
