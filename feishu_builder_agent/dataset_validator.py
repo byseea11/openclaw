@@ -3,6 +3,7 @@ from __future__ import annotations
 from typing import Any
 
 from .schemas import (
+    validate_actor_registry,
     validate_case_seed,
     validate_case_world,
     validate_characters,
@@ -23,6 +24,7 @@ def build_dataset_validation_report(
     case_seed: dict[str, Any],
     case_world: dict[str, Any],
     characters: dict[str, Any],
+    actor_registry: dict[str, Any],
     conversation_plan: dict[str, Any],
     target_state: dict[str, Any],
     command_plan: list[dict[str, Any]],
@@ -35,8 +37,10 @@ def build_dataset_validation_report(
     seed = validate_case_seed(case_seed)
     validate_case_world(case_world)
     validated_characters = validate_characters(characters)
+    validated_actor_registry = validate_actor_registry(actor_registry)
     allowed_refs = {item["person_id"] for item in validated_characters["characters"]}
     character_by_ref = {item["person_id"]: item for item in validated_characters["characters"]}
+    actor_by_ref = {item["person_id"]: item for item in validated_actor_registry["actors"]}
     plan = validate_conversation_plan(conversation_plan, allowed_actor_refs=allowed_refs)
     target = validate_target_state(target_state)
     commands = validate_command_plan(command_plan, allowed_actor_refs=allowed_refs)
@@ -74,16 +78,24 @@ def build_dataset_validation_report(
             errors.append(
                 f"collected_message {message['turn_id']} simulated_speaker.open_id must match characters.json simulated_open_id"
             )
+        actor = actor_by_ref.get(command_row["speaker_ref"])
+        if actor and message["simulated_speaker"]["open_id"] != actor["simulated_open_id"]:
+            errors.append(
+                f"collected_message {message['turn_id']} simulated_speaker.open_id must match actor_registry simulated_open_id"
+            )
         if message["speaker_resolution_mode"] == "conflict_prefix_vs_command_plan":
             errors.append(f"collected_message {message['turn_id']} has a prefix/command_plan speaker conflict")
     for event in events:
-        if event["turn_id"] not in message_turn_ids:
-            errors.append(f"gold event {event['event_id']} references missing turn_id {event['turn_id']}")
-        if event["evidence_turn_id"] not in message_ids:
-            errors.append(f"gold event {event['event_id']} references missing evidence_turn_id {event['evidence_turn_id']}")
-        matching_message = next((item for item in messages if item["turn_id"] == event["turn_id"]), None)
-        if matching_message and event["normalized_actor_id"] != matching_message["normalized_actor_id"]:
+        gold_meta = event["gold_meta"]
+        if gold_meta["turn_id"] not in message_turn_ids:
+            errors.append(f"gold event {event['event_id']} references missing turn_id {gold_meta['turn_id']}")
+        if gold_meta["evidence_turn_id"] not in message_ids:
+            errors.append(f"gold event {event['event_id']} references missing evidence_turn_id {gold_meta['evidence_turn_id']}")
+        matching_message = next((item for item in messages if item["turn_id"] == gold_meta["turn_id"]), None)
+        if matching_message and gold_meta["normalized_actor_id"] != matching_message["normalized_actor_id"]:
             errors.append(f"gold event {event['event_id']} normalized_actor_id must match collected_messages")
+        if matching_message and event["core_entry_id"] != matching_message["message_id"]:
+            errors.append(f"gold event {event['event_id']} core_entry_id must match collected_messages.message_id")
     block_event_ids = {event_id for block in blocks["blocks"] for event_id in block["supporting_event_ids"]}
     known_event_ids = {event["event_id"] for event in events}
     if not block_event_ids.issubset(known_event_ids):
@@ -113,6 +125,7 @@ def build_dataset_validation_report(
         for item in validated_characters["characters"]
     }
     checks["simulated_open_ids"] = len(ingress_open_ids)
+    checks["actor_registry_size"] = len(validated_actor_registry["actors"])
     return validate_dataset_validation_report(
         {
             "case_id": seed["case_id"],

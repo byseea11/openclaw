@@ -1,11 +1,11 @@
 {
-  "case_dir": "amem_docs/ds/feishu_im_dataset_v2/cases/case_feishu_231_example",
+  "case_dir": "amem_docs/ds/feishu_im_dataset_v2/cases/case_feishu_20260505172044256_example",
   "llm_mode": "deterministic",
   "generation_modes": {
     "target_gold": "deterministic"
   },
   "target_state": {
-    "case_id": "case_feishu_231_example",
+    "case_id": "case_feishu_20260505172044256_example",
     "expected_topics": [
       "release_date",
       "blocker_readiness",

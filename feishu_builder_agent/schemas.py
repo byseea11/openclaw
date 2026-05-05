@@ -23,6 +23,13 @@ def _optional_string(value: Any) -> str:
     return str(value or "").strip()
 
 
+def _optional_chinese_string(value: Any, field: str) -> str:
+    text = _optional_string(value)
+    if text and not _CJK_RE.search(text):
+        raise ValidationError(f"{field} must contain Chinese text")
+    return text
+
+
 def _require_chinese_string(value: Any, field: str) -> str:
     text = _require_string(value, field)
     if not _CJK_RE.search(text):
@@ -89,14 +96,21 @@ def _validate_complexity_profile(value: Any, field: str) -> dict[str, int]:
 
 
 def validate_case_spec(payload: dict[str, Any]) -> dict[str, Any]:
-    departments = [_require_chinese_string(item, "departments[]") for item in _require_list(payload.get("departments"), "departments")]
+    departments = [
+        _require_chinese_string(item, "department_hints[]")
+        for item in _require_list(payload.get("department_hints") or payload.get("departments") or [], "department_hints")
+    ]
     return {
         "case_id": _require_string(payload.get("case_id"), "case_id"),
         "task_id": _require_string(payload.get("task_id"), "task_id"),
-        "title": _require_chinese_string(payload.get("title"), "title"),
-        "company_type": _require_chinese_string(payload.get("company_type"), "company_type"),
+        "title": _optional_chinese_string(payload.get("title"), "title"),
+        "company_type": _optional_chinese_string(payload.get("company_type"), "company_type"),
         "departments": departments,
-        "main_goal": _require_chinese_string(payload.get("main_goal"), "main_goal"),
+        "department_hints": departments,
+        "scenario_profile": _optional_string(payload.get("scenario_profile")) or "enterprise_release_coordination",
+        "title_hint": _optional_chinese_string(payload.get("title_hint"), "title_hint"),
+        "main_goal_hint": _optional_chinese_string(payload.get("main_goal_hint"), "main_goal_hint"),
+        "main_goal": _optional_chinese_string(payload.get("main_goal"), "main_goal"),
         "difficulty": str(payload.get("difficulty") or "medium").strip() or "medium",
         "seed": int(payload.get("seed") or 0),
     }
@@ -111,6 +125,7 @@ def validate_case_seed(payload: dict[str, Any]) -> dict[str, Any]:
         "domain": _require_string(payload.get("domain") or "enterprise_product_launch", "case_seed.domain"),
         "company_type": _require_chinese_string(payload.get("company_type"), "case_seed.company_type"),
         "departments": departments,
+        "scenario_profile": _optional_string(payload.get("scenario_profile")) or "enterprise_release_coordination",
         "main_goal": _require_chinese_string(payload.get("main_goal"), "case_seed.main_goal"),
         "difficulty": str(payload.get("difficulty") or "medium").strip() or "medium",
         "seed": int(payload.get("seed") or 0),
@@ -200,6 +215,75 @@ def validate_characters(payload: dict[str, Any]) -> dict[str, Any]:
             }
         )
     return {"case_id": case_id, "characters": normalized}
+
+
+def validate_actor_registry(payload: dict[str, Any]) -> dict[str, Any]:
+    case_id = _require_string(payload.get("case_id"), "actor_registry.case_id")
+    actors = _require_list(payload.get("actors"), "actor_registry.actors")
+    normalized: list[dict[str, Any]] = []
+    seen_person_ids: set[str] = set()
+    for actor in actors:
+        actor_obj = _require_dict(actor, "actor_registry.actors[]")
+        person_id = _require_string(actor_obj.get("person_id"), "actor_registry.person_id")
+        if person_id in seen_person_ids:
+            raise ValidationError(f"duplicate actor_registry.person_id: {person_id}")
+        seen_person_ids.add(person_id)
+        normalized.append(
+            {
+                "person_id": person_id,
+                "simulated_open_id": _require_simulated_open_id(
+                    actor_obj.get("simulated_open_id") or _default_simulated_open_id(person_id),
+                    person_id,
+                    f"{person_id}.simulated_open_id",
+                ),
+                "name": _require_chinese_string(actor_obj.get("name"), f"{person_id}.name"),
+                "department": _require_chinese_string(actor_obj.get("department"), f"{person_id}.department"),
+                "role": _require_chinese_string(actor_obj.get("role"), f"{person_id}.role"),
+                "default_channels": _require_string_list(actor_obj.get("default_channels") or ["main_chat"], f"{person_id}.default_channels"),
+            }
+        )
+    return {"case_id": case_id, "actors": normalized}
+
+
+def validate_case_profile_catalog(payload: dict[str, Any]) -> dict[str, Any]:
+    root = _require_dict(payload, "case_profile_catalog")
+    scenario_profiles = _require_dict(root.get("scenario_profiles"), "case_profile_catalog.scenario_profiles")
+    normalized_profiles: dict[str, Any] = {}
+    for profile_id, raw_profile in scenario_profiles.items():
+        profile = _require_dict(raw_profile, f"case_profile_catalog.scenario_profiles.{profile_id}")
+        default_complexity = _require_dict(
+            profile.get("default_complexity_profile_by_difficulty"),
+            f"{profile_id}.default_complexity_profile_by_difficulty",
+        )
+        normalized_profiles[_require_string(profile_id, "case_profile_catalog.profile_id")] = {
+            "domain": _require_string(profile.get("domain"), f"{profile_id}.domain"),
+            "company_type_options": _require_string_list(profile.get("company_type_options"), f"{profile_id}.company_type_options"),
+            "department_pool": _require_string_list(profile.get("department_pool"), f"{profile_id}.department_pool"),
+            "must_include_departments": _require_string_list(profile.get("must_include_departments"), f"{profile_id}.must_include_departments"),
+            "department_count_by_difficulty": {
+                "easy": _require_int((profile.get("department_count_by_difficulty") or {}).get("easy", 5), f"{profile_id}.department_count_by_difficulty.easy", minimum=1),
+                "medium": _require_int((profile.get("department_count_by_difficulty") or {}).get("medium", 7), f"{profile_id}.department_count_by_difficulty.medium", minimum=1),
+                "hard": _require_int((profile.get("department_count_by_difficulty") or {}).get("hard", 8), f"{profile_id}.department_count_by_difficulty.hard", minimum=1),
+            },
+            "initiative_labels": [_require_chinese_string(item, f"{profile_id}.initiative_labels[]") for item in _require_list(profile.get("initiative_labels"), f"{profile_id}.initiative_labels")],
+            "delivery_motions": [_require_chinese_string(item, f"{profile_id}.delivery_motions[]") for item in _require_list(profile.get("delivery_motions"), f"{profile_id}.delivery_motions")],
+            "target_window_options": [_require_chinese_string(item, f"{profile_id}.target_window_options[]") for item in _require_list(profile.get("target_window_options"), f"{profile_id}.target_window_options")],
+            "title_templates": _require_string_list(profile.get("title_templates"), f"{profile_id}.title_templates"),
+            "main_goal_templates": [_require_chinese_string(item, f"{profile_id}.main_goal_templates[]") for item in _require_list(profile.get("main_goal_templates"), f"{profile_id}.main_goal_templates")],
+            "stakeholder_templates": _require_dict(profile.get("stakeholder_templates"), f"{profile_id}.stakeholder_templates"),
+            "conflict_axis_templates": [_require_chinese_string(item, f"{profile_id}.conflict_axis_templates[]") for item in _require_list(profile.get("conflict_axis_templates"), f"{profile_id}.conflict_axis_templates")],
+            "hidden_constraint_templates": [_require_chinese_string(item, f"{profile_id}.hidden_constraint_templates[]") for item in _require_list(profile.get("hidden_constraint_templates"), f"{profile_id}.hidden_constraint_templates")],
+            "reversal_point_templates": [_require_chinese_string(item, f"{profile_id}.reversal_point_templates[]") for item in _require_list(profile.get("reversal_point_templates"), f"{profile_id}.reversal_point_templates")],
+            "topic_templates": _require_list(profile.get("topic_templates"), f"{profile_id}.topic_templates"),
+            "session_layout_templates": _require_list(profile.get("session_layout_templates"), f"{profile_id}.session_layout_templates"),
+            "character_role_templates": _require_dict(profile.get("character_role_templates"), f"{profile_id}.character_role_templates"),
+            "default_complexity_profile_by_difficulty": {
+                "easy": _validate_complexity_profile(default_complexity.get("easy"), f"{profile_id}.default_complexity_profile_by_difficulty.easy"),
+                "medium": _validate_complexity_profile(default_complexity.get("medium"), f"{profile_id}.default_complexity_profile_by_difficulty.medium"),
+                "hard": _validate_complexity_profile(default_complexity.get("hard"), f"{profile_id}.default_complexity_profile_by_difficulty.hard"),
+            },
+        }
+    return {"scenario_profiles": normalized_profiles}
 
 
 def validate_conversation_plan(payload: dict[str, Any], *, allowed_actor_refs: set[str] | None = None) -> dict[str, Any]:
@@ -443,6 +527,16 @@ def validate_collected_messages(rows: list[dict[str, Any]], *, allowed_actor_ref
 
 
 def validate_expected_events(rows: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    required_fields_by_type = {
+        "conclusion_event": ["conclusion", "target"],
+        "rationale_event": ["reason"],
+        "objection_event": ["objection", "objector", "target"],
+        "constraint_event": ["constraint", "target"],
+        "commitment_event": ["owner", "action"],
+        "status_event": ["status", "target"],
+        "time_event": ["time_target", "time_value", "certainty"],
+        "scope_event": ["scope_target"],
+    }
     normalized: list[dict[str, Any]] = []
     event_ids: set[str] = set()
     for row in rows:
@@ -451,18 +545,63 @@ def validate_expected_events(rows: list[dict[str, Any]]) -> list[dict[str, Any]]
         if event_id in event_ids:
             raise ValidationError(f"duplicate expected_events.event_id: {event_id}")
         event_ids.add(event_id)
+        event_type = _require_string(row_obj.get("event_type"), f"{event_id}.event_type")
+        source = _require_dict(row_obj.get("source"), f"{event_id}.source")
+        verification = _require_dict(row_obj.get("verification"), f"{event_id}.verification")
+        gold_meta = _require_dict(row_obj.get("gold_meta"), f"{event_id}.gold_meta")
+        context_quotes = _require_list(row_obj.get("context_quotes") or [], f"{event_id}.context_quotes")
+        normalized_context_quotes = []
+        for quote in context_quotes:
+            quote_obj = _require_dict(quote, f"{event_id}.context_quotes[]")
+            normalized_context_quotes.append(
+                {
+                    "entry_id": _require_string(quote_obj.get("entry_id"), f"{event_id}.context_quotes.entry_id"),
+                    "quote": _require_chinese_string(quote_obj.get("quote"), f"{event_id}.context_quotes.quote"),
+                    "role": _require_string(quote_obj.get("role"), f"{event_id}.context_quotes.role"),
+                }
+            )
+        base_row = {
+            "event_id": event_id,
+            "task_ref": _require_string(row_obj.get("task_ref"), f"{event_id}.task_ref"),
+            "source_session_id": _require_string(row_obj.get("source_session_id"), f"{event_id}.source_session_id"),
+            "ingest_version": _require_int(row_obj.get("ingest_version"), f"{event_id}.ingest_version", minimum=1),
+            "event_type": event_type,
+            "claim": _require_chinese_string(row_obj.get("claim"), f"{event_id}.claim"),
+            "core_entry_id": _require_string(row_obj.get("core_entry_id"), f"{event_id}.core_entry_id"),
+            "evidence_quote": _require_chinese_string(row_obj.get("evidence_quote"), f"{event_id}.evidence_quote"),
+            "context_quotes": normalized_context_quotes,
+            "participants": _require_string_list(row_obj.get("participants") or [], f"{event_id}.participants"),
+            "event_time": _require_string(row_obj.get("event_time"), f"{event_id}.event_time"),
+            "source": {
+                "source_type": _require_string(source.get("source_type"), f"{event_id}.source.source_type"),
+                "source_id": _require_string(source.get("source_id"), f"{event_id}.source.source_id"),
+                "chat_id": _optional_string(source.get("chat_id")) or None,
+                "thread_id": _optional_string(source.get("thread_id")) or None,
+                "root_id": _optional_string(source.get("root_id")) or None,
+                "locator": _optional_string(source.get("locator")) or None,
+            },
+            "confidence": float(row_obj.get("confidence") or 1.0),
+            "verification": {
+                "core_quote_found": bool(verification.get("core_quote_found")),
+                "claim_supported_by_quote": bool(verification.get("claim_supported_by_quote")),
+                "context_only_generation": bool(verification.get("context_only_generation")),
+                "single_atomic_claim": bool(verification.get("single_atomic_claim")),
+                "required_fields_complete": bool(verification.get("required_fields_complete")),
+                "no_unsupported_inference": bool(verification.get("no_unsupported_inference")),
+                "verdict": _require_string(verification.get("verdict"), f"{event_id}.verification.verdict"),
+            },
+            "gold_meta": {
+                "topic_key": _require_string(gold_meta.get("topic_key"), f"{event_id}.gold_meta.topic_key"),
+                "turn_id": _require_string(gold_meta.get("turn_id"), f"{event_id}.gold_meta.turn_id"),
+                "normalized_actor_id": _require_string(gold_meta.get("normalized_actor_id"), f"{event_id}.gold_meta.normalized_actor_id"),
+                "evidence_turn_id": _require_string(gold_meta.get("evidence_turn_id"), f"{event_id}.gold_meta.evidence_turn_id"),
+                "expected_lifecycle": _require_string(gold_meta.get("expected_lifecycle") or "active", f"{event_id}.gold_meta.expected_lifecycle"),
+            },
+        }
+        for field in required_fields_by_type.get(event_type, []):
+            base_row[field] = _require_chinese_string(row_obj.get(field), f"{event_id}.{field}")
         normalized.append(
-            {
-                "event_id": event_id,
-                "event_type": _require_string(row_obj.get("event_type"), f"{event_id}.event_type"),
-                "topic_key": _require_string(row_obj.get("topic_key"), f"{event_id}.topic_key"),
-                "turn_id": _require_string(row_obj.get("turn_id"), f"{event_id}.turn_id"),
-                "source_session_id": _require_string(row_obj.get("source_session_id"), f"{event_id}.source_session_id"),
-                "normalized_actor_id": _require_string(row_obj.get("normalized_actor_id"), f"{event_id}.normalized_actor_id"),
-                "claim": _require_chinese_string(row_obj.get("claim"), f"{event_id}.claim"),
-                "evidence_turn_id": _require_string(row_obj.get("evidence_turn_id"), f"{event_id}.evidence_turn_id"),
-                "expected_lifecycle": _require_string(row_obj.get("expected_lifecycle") or "active", f"{event_id}.expected_lifecycle"),
-            }
+            base_row
         )
     return normalized
 

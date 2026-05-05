@@ -2,6 +2,7 @@ from __future__ import annotations
 
 from typing import Any
 
+from .case_profiles import build_session_layouts, sample_topic_templates
 from .llm_client import JsonLLMClient
 from .schemas import (
     ValidationError,
@@ -19,6 +20,101 @@ def _first_actor(roster: list[dict[str, Any]], department: str) -> str:
     return roster[0]["person_id"]
 
 
+def _render_template(template: str, context: dict[str, Any]) -> str:
+    return str(template).format(**context)
+
+
+def _topic_context(case_seed: dict[str, Any], topic: dict[str, Any]) -> dict[str, Any]:
+    departments = list(case_seed["departments"])
+    return {
+        "task_id": case_seed["task_id"],
+        "title": case_seed["title"],
+        "main_goal": case_seed["main_goal"],
+        "target_window": "五月上旬",
+        "next_window": "5 月 10 日",
+        "focus_department": departments[0] if departments else "产品",
+        "secondary_department": departments[1] if len(departments) > 1 else (departments[0] if departments else "研发"),
+        "topic_title": topic["topic_title"],
+    }
+
+
+def _build_turns(
+    *,
+    case_seed: dict[str, Any],
+    roster: list[dict[str, Any]],
+    selected_topics: list[dict[str, Any]],
+) -> list[dict[str, Any]]:
+    per_topic_turns: list[list[dict[str, Any]]] = []
+    topic_turn_ids: dict[str, list[str]] = {}
+    for topic in selected_topics:
+        turns_for_topic: list[dict[str, Any]] = []
+        context = _topic_context(case_seed, topic)
+        for index, template in enumerate(topic.get("turn_templates", []), start=1):
+            turn_id = f"turn_{topic['topic_key']}_{index:02d}"
+            topic_turn_ids.setdefault(topic["topic_key"], []).append(turn_id)
+            turns_for_topic.append(
+                {
+                    "turn_id": turn_id,
+                    "session_id": template["session_id"],
+                    "speaker_ref": _first_actor(roster, template["speaker_department"]),
+                    "topic_key": topic["topic_key"],
+                    "turn_purpose": template["turn_purpose"],
+                    "supports_event_types": template["supports_event_types"],
+                    "references_previous_turns": topic_turn_ids[topic["topic_key"]][:-1][-1:] if len(topic_turn_ids[topic["topic_key"]]) > 1 else [],
+                    "state_transition": template["state_transition"],
+                    "semantic_payload": _render_template(template["semantic_payload_template"], context),
+                }
+            )
+        per_topic_turns.append(turns_for_topic)
+    merged: list[dict[str, Any]] = []
+    max_turn_count = max((len(item) for item in per_topic_turns), default=0)
+    for round_index in range(max_turn_count):
+        for topic_turns in per_topic_turns:
+            if round_index < len(topic_turns):
+                merged.append(topic_turns[round_index])
+    for index, turn in enumerate(merged, start=1):
+        turn["sequence_no"] = index
+    return merged
+
+
+def _build_sessions(
+    *,
+    case_seed: dict[str, Any],
+    selected_topics: list[dict[str, Any]],
+    turns: list[dict[str, Any]],
+) -> list[dict[str, Any]]:
+    layouts = build_session_layouts(task_id=case_seed["task_id"], profile_id=case_seed.get("scenario_profile"))
+    first_turn_by_topic: dict[str, str] = {}
+    for turn in turns:
+        first_turn_by_topic.setdefault(turn["topic_key"], turn["turn_id"])
+    session_topic_keys: dict[str, list[str]] = {}
+    session_counts: dict[str, int] = {}
+    for turn in turns:
+        session_topic_keys.setdefault(turn["session_id"], [])
+        if turn["topic_key"] not in session_topic_keys[turn["session_id"]]:
+            session_topic_keys[turn["session_id"]].append(turn["topic_key"])
+        session_counts[turn["session_id"]] = session_counts.get(turn["session_id"], 0) + 1
+    normalized_sessions: list[dict[str, Any]] = []
+    for layout in layouts:
+        root_topic_key = str(layout.get("root_topic_key") or "").strip()
+        normalized_sessions.append(
+            {
+                "session_id": layout["session_id"],
+                "source_type": layout["source_type"],
+                "source_ref": layout["source_ref"],
+                "chat_ref": layout["chat_ref"],
+                "title": layout["title"],
+                "topic_keys": session_topic_keys.get(
+                    layout["session_id"],
+                    [item["topic_key"] for item in selected_topics],
+                ),
+                "planned_turn_count": session_counts.get(layout["session_id"], 0),
+                "root_turn_id": first_turn_by_topic.get(root_topic_key) if root_topic_key else None,
+            }
+        )
+    return normalized_sessions
+
+
 def _fallback_conversation_plan(
     case_seed: dict[str, Any],
     case_world: dict[str, Any],
@@ -28,311 +124,26 @@ def _fallback_conversation_plan(
     world = validate_case_world(case_world)
     validated_characters = validate_characters(characters)
     roster = validated_characters["characters"]
-    release_topic = "release_date"
-    blocker_topic = "blocker_readiness"
-    messaging_topic = "external_messaging"
-    rollback_topic = "rollback_readiness"
-    turns = [
-        {
-            "turn_id": "turn_001",
-            "sequence_no": 1,
-            "session_id": "session_main_chat",
-            "speaker_ref": _first_actor(roster, "客户成功"),
-            "topic_key": messaging_topic,
-            "turn_purpose": "同步客户和业务侧的时间压力，推动团队尽快给出口径。",
-            "supports_event_types": ["status_event", "time_event"],
-            "references_previous_turns": [],
-            "state_transition": "把外部催促正式带入主群讨论。",
-            "semantic_payload": f"客户已经开始追问 {seed['task_id']} 的上线窗口，主群需要给出能向外同步的回应。",
-        },
-        {
-            "turn_id": "turn_002",
-            "sequence_no": 2,
-            "session_id": "session_main_chat",
-            "speaker_ref": _first_actor(roster, "产品"),
-            "topic_key": release_topic,
-            "turn_purpose": "提出一个偏乐观的内部目标日期，但声明还不是外部承诺。",
-            "supports_event_types": ["conclusion_event", "time_event", "scope_event"],
-            "references_previous_turns": ["turn_001"],
-            "state_transition": "建立了第一个内部目标日期基线。",
-            "semantic_payload": "当前先按 5 月 5 日内部目标推进，但这个日期还不能直接对外承诺。",
-        },
-        {
-            "turn_id": "turn_003",
-            "sequence_no": 3,
-            "session_id": "session_main_chat",
-            "speaker_ref": _first_actor(roster, "销售"),
-            "topic_key": messaging_topic,
-            "turn_purpose": "要求形成可对外同步的明确窗口。",
-            "supports_event_types": ["commitment_event", "objection_event"],
-            "references_previous_turns": ["turn_001", "turn_002"],
-            "state_transition": "对外承诺压力从背景变成显式要求。",
-            "semantic_payload": "销售希望今天就形成面向客户的同步口径，不然商务承诺会继续失焦。",
-        },
-        {
-            "turn_id": "turn_004",
-            "sequence_no": 4,
-            "session_id": "session_launch_window_thread",
-            "speaker_ref": _first_actor(roster, "研发"),
-            "topic_key": blocker_topic,
-            "turn_purpose": "在 thread 里补充真正的技术 blocker。",
-            "supports_event_types": ["status_event", "constraint_event", "rationale_event"],
-            "references_previous_turns": ["turn_002"],
-            "state_transition": "把抽象风险收紧成具体 blocker。",
-            "semantic_payload": "真正的 blocker 是数据迁移窗口还没锁定，代码本身不是最慢项。",
-        },
-        {
-            "turn_id": "turn_005",
-            "sequence_no": 5,
-            "session_id": "session_launch_window_thread",
-            "speaker_ref": _first_actor(roster, "运维"),
-            "topic_key": rollback_topic,
-            "turn_purpose": "补充上线窗口和回滚演练都还没准备好。",
-            "supports_event_types": ["constraint_event", "time_event", "status_event"],
-            "references_previous_turns": ["turn_004"],
-            "state_transition": "上线窗口不确定性进一步放大。",
-            "semantic_payload": "上线窗口还没最终确认，回滚演练也没有完成，现在说死日期风险太高。",
-        },
-        {
-            "turn_id": "turn_006",
-            "sequence_no": 6,
-            "session_id": "session_launch_window_thread",
-            "speaker_ref": _first_actor(roster, "安全"),
-            "topic_key": blocker_topic,
-            "turn_purpose": "引入安全评审门槛，限制过早承诺。",
-            "supports_event_types": ["constraint_event", "objection_event"],
-            "references_previous_turns": ["turn_004", "turn_005"],
-            "state_transition": "技术阻塞之外再增加合规门槛。",
-            "semantic_payload": "高风险能力在安全评审前不应进入客户承诺口径。",
-        },
-        {
-            "turn_id": "turn_007",
-            "sequence_no": 7,
-            "session_id": "session_main_chat",
-            "speaker_ref": _first_actor(roster, "产品"),
-            "topic_key": messaging_topic,
-            "turn_purpose": "把 thread 结论回带到主群，收紧对外口径。",
-            "supports_event_types": ["conclusion_event", "scope_event"],
-            "references_previous_turns": ["turn_004", "turn_005", "turn_006"],
-            "state_transition": "主群口径从可报日期收缩为内部目标。",
-            "semantic_payload": "请先不要把 5 月 5 日当成已确认时间对外同步，当前只能说还在评估窗口。",
-        },
-        {
-            "turn_id": "turn_008",
-            "sequence_no": 8,
-            "session_id": "session_customer_sync_chat",
-            "speaker_ref": _first_actor(roster, "客户成功"),
-            "topic_key": messaging_topic,
-            "turn_purpose": "在客户同步群里转述主群收紧后的状态。",
-            "supports_event_types": ["status_event", "commitment_event"],
-            "references_previous_turns": ["turn_007"],
-            "state_transition": "跨 source 开始传播新的主口径。",
-            "semantic_payload": "客户同步口径暂时只能说发布日期窗口仍在确认，今天会给出下一次更新时间。",
-        },
-        {
-            "turn_id": "turn_009",
-            "sequence_no": 9,
-            "session_id": "session_customer_sync_chat",
-            "speaker_ref": _first_actor(roster, "管理"),
-            "topic_key": messaging_topic,
-            "turn_purpose": "明确对外措辞，避免继续放大承诺。",
-            "supports_event_types": ["conclusion_event", "scope_event"],
-            "references_previous_turns": ["turn_008"],
-            "state_transition": "客户沟通文本从日期承诺转成条件式窗口。",
-            "semantic_payload": "统一对外只说目标窗口仍在评估，不给单点日期。",
-        },
-        {
-            "turn_id": "turn_010",
-            "sequence_no": 10,
-            "session_id": "session_launch_window_thread",
-            "speaker_ref": _first_actor(roster, "研发"),
-            "topic_key": release_topic,
-            "turn_purpose": "给出带条件的替代日期。",
-            "supports_event_types": ["rationale_event", "time_event", "status_event"],
-            "references_previous_turns": ["turn_004", "turn_005", "turn_006"],
-            "state_transition": "为后续 supersession 准备新日期依据。",
-            "semantic_payload": "如果迁移窗口在 5 月 7 日前锁定，内部更合理的目标会变成 5 月 10 日。",
-        },
-        {
-            "turn_id": "turn_011",
-            "sequence_no": 11,
-            "session_id": "session_main_chat",
-            "speaker_ref": _first_actor(roster, "测试"),
-            "topic_key": blocker_topic,
-            "turn_purpose": "补充测试侧未完成项，增加当前不可承诺的证据。",
-            "supports_event_types": ["objection_event", "status_event"],
-            "references_previous_turns": ["turn_010"],
-            "state_transition": "技术 blocker 扩展为质量 blocker。",
-            "semantic_payload": "回归队列还没清完，测试这边也不支持直接锁 5 月 5 日。",
-        },
-        {
-            "turn_id": "turn_012",
-            "sequence_no": 12,
-            "session_id": "session_customer_sync_chat",
-            "speaker_ref": _first_actor(roster, "销售"),
-            "topic_key": messaging_topic,
-            "turn_purpose": "要求一版可复制的客户沟通话术。",
-            "supports_event_types": ["commitment_event"],
-            "references_previous_turns": ["turn_009", "turn_011"],
-            "state_transition": "客户同步从原则口径推进到可执行话术。",
-            "semantic_payload": "需要一版可以直接发给客户的说明，不然前线还是会自己补日期。",
-        },
-        {
-            "turn_id": "turn_013",
-            "sequence_no": 13,
-            "session_id": "session_main_chat",
-            "speaker_ref": _first_actor(roster, "运维"),
-            "topic_key": rollback_topic,
-            "turn_purpose": "承诺何时完成回滚演练。",
-            "supports_event_types": ["commitment_event", "time_event"],
-            "references_previous_turns": ["turn_005"],
-            "state_transition": "风险从纯阻塞变成带时间约束的待办。",
-            "semantic_payload": "运维承诺周三前完成回滚演练，并在当晚回写结果。",
-        },
-        {
-            "turn_id": "turn_014",
-            "sequence_no": 14,
-            "session_id": "session_launch_window_thread",
-            "speaker_ref": _first_actor(roster, "研发"),
-            "topic_key": release_topic,
-            "turn_purpose": "正式 supersede 原先的乐观目标日期。",
-            "supports_event_types": ["conclusion_event", "time_event", "status_event"],
-            "references_previous_turns": ["turn_002", "turn_010"],
-            "state_transition": "内部目标日期从 5 月 5 日切换到 5 月 10 日。",
-            "semantic_payload": "基于当前依赖情况，原来的 5 月 5 日内部目标应改成 5 月 10 日。",
-        },
-        {
-            "turn_id": "turn_015",
-            "sequence_no": 15,
-            "session_id": "session_main_chat",
-            "speaker_ref": _first_actor(roster, "产品"),
-            "topic_key": release_topic,
-            "turn_purpose": "把 thread 中新的日期回写到主群 current state。",
-            "supports_event_types": ["conclusion_event", "time_event", "scope_event"],
-            "references_previous_turns": ["turn_014"],
-            "state_transition": "主群当前内部目标日期完成 supersession。",
-            "semantic_payload": "内部目标先同步更新为 5 月 10 日，但仍不是客户承诺日期。",
-        },
-        {
-            "turn_id": "turn_016",
-            "sequence_no": 16,
-            "session_id": "session_customer_sync_chat",
-            "speaker_ref": _first_actor(roster, "客户成功"),
-            "topic_key": messaging_topic,
-            "turn_purpose": "输出一版对外同步文案。",
-            "supports_event_types": ["commitment_event", "scope_event"],
-            "references_previous_turns": ["turn_012", "turn_015"],
-            "state_transition": "客户同步群形成可执行话术草案。",
-            "semantic_payload": "客户侧统一说法调整为：目标窗口仍在确认，下一次明确更新时间是本周四晚。",
-        },
-        {
-            "turn_id": "turn_017",
-            "sequence_no": 17,
-            "session_id": "session_main_chat",
-            "speaker_ref": _first_actor(roster, "管理"),
-            "topic_key": messaging_topic,
-            "turn_purpose": "确认当前对外上限，只能给窗口不能给日期。",
-            "supports_event_types": ["constraint_event", "conclusion_event"],
-            "references_previous_turns": ["turn_016"],
-            "state_transition": "当前态收敛为窗口口径而非日期口径。",
-            "semantic_payload": "在回滚演练和安全评审完成前，对外只能给窗口，不能给具体日期。",
-        },
-        {
-            "turn_id": "turn_018",
-            "sequence_no": 18,
-            "session_id": "session_launch_window_thread",
-            "speaker_ref": _first_actor(roster, "测试"),
-            "topic_key": blocker_topic,
-            "turn_purpose": "更新 blocker 解决进度。",
-            "supports_event_types": ["status_event"],
-            "references_previous_turns": ["turn_011"],
-            "state_transition": "部分 blocker 进入已缓解状态。",
-            "semantic_payload": "回归高优问题已经收敛，测试 blocker 从红色降到黄色。",
-        },
-        {
-            "turn_id": "turn_019",
-            "sequence_no": 19,
-            "session_id": "session_main_chat",
-            "speaker_ref": _first_actor(roster, "产品"),
-            "topic_key": messaging_topic,
-            "turn_purpose": "回写当前主群的客户侧措辞边界。",
-            "supports_event_types": ["status_event", "scope_event"],
-            "references_previous_turns": ["turn_017", "turn_018"],
-            "state_transition": "对外口径保持窗口，不因 blocker 缓解立即改成日期。",
-            "semantic_payload": "即便测试进度改善，客户侧说法也继续保持窗口而不是日期。",
-        },
-        {
-            "turn_id": "turn_020",
-            "sequence_no": 20,
-            "session_id": "session_customer_sync_chat",
-            "speaker_ref": _first_actor(roster, "销售"),
-            "topic_key": messaging_topic,
-            "turn_purpose": "确认前线将执行新口径。",
-            "supports_event_types": ["conclusion_event", "status_event"],
-            "references_previous_turns": ["turn_016", "turn_019"],
-            "state_transition": "跨 source 的最终当前态收敛。",
-            "semantic_payload": "销售确认前线统一使用窗口口径，不再单独补具体日期。",
-        },
-    ]
+    selected_topics = sample_topic_templates(
+        seed=int(seed["seed"]),
+        difficulty=seed["difficulty"],
+        profile_id=seed.get("scenario_profile"),
+    )
+    turns = _build_turns(case_seed=seed, roster=roster, selected_topics=selected_topics)
+    sessions = _build_sessions(case_seed=seed, selected_topics=selected_topics, turns=turns)
     return {
         "case_id": seed["case_id"],
         "task_id": world["task_id"],
         "topic_registry": [
             {
-                "topic_key": release_topic,
-                "topic_title": "发布时间口径",
-                "desired_event_types": ["conclusion_event", "time_event", "status_event"],
-                "state_transitions": ["内部目标建立", "目标日期改写", "当前内部日期收敛"],
-            },
-            {
-                "topic_key": blocker_topic,
-                "topic_title": "关键 blocker 状态",
-                "desired_event_types": ["status_event", "constraint_event", "objection_event"],
-                "state_transitions": ["发现 blocker", "增加门槛", "风险缓解"],
-            },
-            {
-                "topic_key": messaging_topic,
-                "topic_title": "对外沟通口径",
-                "desired_event_types": ["conclusion_event", "scope_event", "commitment_event"],
-                "state_transitions": ["日期口径被收紧", "形成窗口话术", "跨 source 收敛"],
-            },
-            {
-                "topic_key": rollback_topic,
-                "topic_title": "回滚与上线准备",
-                "desired_event_types": ["constraint_event", "commitment_event", "time_event"],
-                "state_transitions": ["准备不足", "承诺补齐", "等待验证"],
-            },
+                "topic_key": item["topic_key"],
+                "topic_title": item["topic_title"],
+                "desired_event_types": item["desired_event_types"],
+                "state_transitions": item["state_transitions"],
+            }
+            for item in selected_topics
         ],
-        "sessions": [
-            {
-                "session_id": "session_main_chat",
-                "source_type": "chat",
-                "source_ref": "main_chat",
-                "chat_ref": "main_chat",
-                "title": f"{world['task_id']} 主项目群",
-                "topic_keys": [release_topic, messaging_topic, blocker_topic, rollback_topic],
-                "planned_turn_count": 9,
-            },
-            {
-                "session_id": "session_launch_window_thread",
-                "source_type": "thread",
-                "source_ref": "launch_window_thread",
-                "chat_ref": "main_chat",
-                "title": "上线窗口 thread",
-                "topic_keys": [release_topic, blocker_topic, rollback_topic],
-                "planned_turn_count": 6,
-                "root_turn_id": "turn_002",
-            },
-            {
-                "session_id": "session_customer_sync_chat",
-                "source_type": "chat",
-                "source_ref": "customer_sync_chat",
-                "chat_ref": "customer_sync_chat",
-                "title": "客户同步群",
-                "topic_keys": [messaging_topic, release_topic],
-                "planned_turn_count": 5,
-            },
-        ],
+        "sessions": sessions,
         "turns": turns,
     }
 
@@ -362,7 +173,7 @@ def generate_conversation_plan_with_mode(
     )
     user_prompt = (
         f"Case seed:\n{seed}\nCase world:\n{world}\nCharacters:\n{validated_characters}\n"
-        "请生成一个多轮、多 source 的飞书协作计划。必须至少覆盖一个日期 supersession、"
+        "请基于已有 topic/session 结构生成一个多轮、多 source 的飞书协作计划。必须至少覆盖一个日期 supersession、"
         "一个 thread 内 blocker 讨论、一个跨 source 的口径修正。"
         "turns must reference valid speaker_ref and topic_key values."
     )

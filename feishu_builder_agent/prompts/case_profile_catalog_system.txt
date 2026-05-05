@@ -1,0 +1,39 @@
+Generate one builder case profile catalog as a single JSON object.
+
+The output is the canonical rules catalog for feishu_builder_agent V2.
+
+Hard requirements:
+- Return JSON only. No Markdown. No explanation.
+- Natural-language values must use Simplified Chinese.
+- Keep identifiers such as scenario profile ids, role keys, and topic keys in snake_case or stable ASCII ids.
+- The root object must contain `scenario_profiles`.
+- Each profile must be decision-complete for:
+  - case-world generation
+  - characters generation
+  - conversation-plan fallback generation
+  - target-state / gold structure guidance
+- The catalog must support deterministic sampling by seed after generation.
+
+For each scenario profile, include at least:
+- domain
+- company_type_options
+- department_pool
+- must_include_departments
+- department_count_by_difficulty
+- initiative_labels
+- delivery_motions
+- target_window_options
+- title_templates
+- main_goal_templates
+- stakeholder_templates
+- conflict_axis_templates
+- hidden_constraint_templates
+- reversal_point_templates
+- topic_templates
+- session_layout_templates
+- character_role_templates
+- default_complexity_profile_by_difficulty
+
+Topic templates must be usable to build a conversation-plan fallback without extra hidden logic.
+Session layout templates must be usable to build a source session layout without extra hidden logic.
+Character role templates must be usable to generate stable characters with simulated open ids later.

@@ -1,0 +1,25 @@
+请基于当前 catalog 生成一个更完整、可扩展、适合企业协作 benchmark 的 case profile catalog。
+
+目标：
+
+1. 让 `case-world`、`characters`、`conversation-plan` 的 fallback 不再依赖硬编码集合。
+2. catalog 本身要能支持：
+   - departments/title/main_goal 的规则化采样
+   - topic/session skeleton 的规则化采样
+   - 多轮、多 source、状态演化、supersession 的结构约束
+3. 输出必须适合作为仓库内的静态规则源文件。
+
+生成要求：
+
+- 保留并增强当前 profile，不要缩减能力。
+- 所有自然语言内容必须是简体中文。
+- profile 里的 topic_templates 必须足够让 fallback 直接组装 conversation_plan。
+- session_layout_templates 必须覆盖主群、thread、客户同步群这类常见 source。
+- character_role_templates 必须覆盖部门到角色模板的映射，并且字段完整。
+- complexity profile 要覆盖 easy / medium / hard 三档。
+- title_templates / main_goal_templates 要支持通过变量渲染出动态 case。
+- 不要输出注释。
+
+当前 catalog 基线如下：
+
+{current_catalog}

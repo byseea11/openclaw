@@ -6,7 +6,7 @@ import shlex
 from datetime import datetime, timezone
 from typing import Any
 
-from .schemas import validate_case_spec, validate_collected_messages, validate_execution_result
+from .schemas import validate_actor_registry, validate_case_spec, validate_collected_messages, validate_execution_result
 
 
 _PREFIX_RE = re.compile(r"^【[^/】]+/[^】]+】\s*")
@@ -84,9 +84,14 @@ def adapt_fetch_records(
     execution_result: dict[str, Any],
     fetch_records: list[dict[str, Any]],
     collected_messages: list[dict[str, Any]] | None = None,
+    actor_registry: dict[str, Any] | None = None,
 ) -> tuple[list[dict[str, Any]], dict[str, Any]]:
     spec = validate_case_spec(case_spec)
     result = validate_execution_result(execution_result)
+    allowed_open_ids = {
+        item["simulated_open_id"]
+        for item in validate_actor_registry(actor_registry or {"case_id": spec["case_id"], "actors": []})["actors"]
+    }
     thread_id_to_chat_id: dict[str, str] = {
         str(key): str(value) for key, value in (result.get("thread_id_to_chat_id") or {}).items()
     }
@@ -160,6 +165,10 @@ def adapt_fetch_records(
                 normalized_actor_id = str(collected_row.get("normalized_actor_id") or "").strip()
                 simulated_speaker = dict(collected_row.get("simulated_speaker") or {})
                 synthetic_sender_open_id = str(simulated_speaker.get("open_id") or "").strip()
+                if allowed_open_ids and synthetic_sender_open_id and synthetic_sender_open_id not in allowed_open_ids:
+                    warnings.append(
+                        f"message {message_id} uses simulated open_id {synthetic_sender_open_id} missing from actor_registry"
+                    )
                 if synthetic_sender_open_id:
                     simulated_sender_applied += 1
             event = {

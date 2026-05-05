@@ -1,0 +1,141 @@
+{
+  "case_id": "case_feishu_20260505172044256_example",
+  "blocks": [
+    {
+      "block_id": "block:release_date",
+      "topic_key": "release_date",
+      "topic_title": "发布时间口径",
+      "supporting_event_ids": [
+        "gold_event_step_004_conclusion_event",
+        "gold_event_step_004_time_event",
+        "gold_event_step_004_scope_event",
+        "gold_event_step_012_rationale_event",
+        "gold_event_step_012_time_event",
+        "gold_event_step_012_status_event",
+        "gold_event_step_016_conclusion_event",
+        "gold_event_step_016_time_event",
+        "gold_event_step_016_status_event",
+        "gold_event_step_017_conclusion_event",
+        "gold_event_step_017_time_event",
+        "gold_event_step_017_scope_event"
+      ],
+      "slot_event_map": {
+        "conclusion": [
+          "gold_event_step_004_conclusion_event",
+          "gold_event_step_016_conclusion_event",
+          "gold_event_step_017_conclusion_event"
+        ],
+        "status": [
+          "gold_event_step_012_status_event",
+          "gold_event_step_016_status_event"
+        ],
+        "time": [
+          "gold_event_step_004_time_event",
+          "gold_event_step_012_time_event",
+          "gold_event_step_016_time_event",
+          "gold_event_step_017_time_event"
+        ]
+      }
+    },
+    {
+      "block_id": "block:blocker_readiness",
+      "topic_key": "blocker_readiness",
+      "topic_title": "关键 blocker 状态",
+      "supporting_event_ids": [
+        "gold_event_step_006_status_event",
+        "gold_event_step_006_constraint_event",
+        "gold_event_step_006_rationale_event",
+        "gold_event_step_008_constraint_event",
+        "gold_event_step_008_objection_event",
+        "gold_event_step_013_objection_event",
+        "gold_event_step_013_status_event",
+        "gold_event_step_020_status_event"
+      ],
+      "slot_event_map": {
+        "constraint": [
+          "gold_event_step_006_constraint_event",
+          "gold_event_step_008_constraint_event"
+        ],
+        "objection": [
+          "gold_event_step_008_objection_event",
+          "gold_event_step_013_objection_event"
+        ],
+        "status": [
+          "gold_event_step_006_status_event",
+          "gold_event_step_013_status_event",
+          "gold_event_step_020_status_event"
+        ]
+      }
+    },
+    {
+      "block_id": "block:external_messaging",
+      "topic_key": "external_messaging",
+      "topic_title": "对外沟通口径",
+      "supporting_event_ids": [
+        "gold_event_step_003_status_event",
+        "gold_event_step_003_time_event",
+        "gold_event_step_005_commitment_event",
+        "gold_event_step_005_objection_event",
+        "gold_event_step_009_conclusion_event",
+        "gold_event_step_009_scope_event",
+        "gold_event_step_010_status_event",
+        "gold_event_step_010_commitment_event",
+        "gold_event_step_011_conclusion_event",
+        "gold_event_step_011_scope_event",
+        "gold_event_step_014_commitment_event",
+        "gold_event_step_018_commitment_event",
+        "gold_event_step_018_scope_event",
+        "gold_event_step_019_constraint_event",
+        "gold_event_step_019_conclusion_event",
+        "gold_event_step_021_status_event",
+        "gold_event_step_021_scope_event",
+        "gold_event_step_022_conclusion_event",
+        "gold_event_step_022_status_event"
+      ],
+      "slot_event_map": {
+        "commitment": [
+          "gold_event_step_005_commitment_event",
+          "gold_event_step_010_commitment_event",
+          "gold_event_step_014_commitment_event",
+          "gold_event_step_018_commitment_event"
+        ],
+        "conclusion": [
+          "gold_event_step_009_conclusion_event",
+          "gold_event_step_011_conclusion_event",
+          "gold_event_step_019_conclusion_event",
+          "gold_event_step_022_conclusion_event"
+        ],
+        "scope": [
+          "gold_event_step_009_scope_event",
+          "gold_event_step_011_scope_event",
+          "gold_event_step_018_scope_event",
+          "gold_event_step_021_scope_event"
+        ]
+      }
+    },
+    {
+      "block_id": "block:rollback_readiness",
+      "topic_key": "rollback_readiness",
+      "topic_title": "回滚与上线准备",
+      "supporting_event_ids": [
+        "gold_event_step_007_constraint_event",
+        "gold_event_step_007_time_event",
+        "gold_event_step_007_status_event",
+        "gold_event_step_015_commitment_event",
+        "gold_event_step_015_time_event"
+      ],
+      "slot_event_map": {
+        "commitment": [
+          "gold_event_step_015_commitment_event"
+        ],
+        "constraint": [
+          "gold_event_step_007_constraint_event"
+        ],
+        "time": [
+          "gold_event_step_007_time_event",
+          "gold_event_step_015_time_event"
+        ]
+      }
+    }
+  ]
+}

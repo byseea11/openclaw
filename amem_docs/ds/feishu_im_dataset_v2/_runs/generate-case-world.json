@@ -1,25 +1,25 @@
 {
-  "case_dir": "amem_docs/ds/feishu_im_dataset_v2/cases/case_feishu_231_example",
+  "case_dir": "amem_docs/ds/feishu_im_dataset_v2/cases/case_feishu_20260505172044256_example",
   "dataset_manifest": {
     "dataset_version": "v2",
     "builder_version": "v2",
     "case_count": 1,
     "case_ids": [
-      "case_feishu_231_example"
+      "case_feishu_20260505172044256_example"
     ],
-    "created_at": "2026-05-05T06:02:34Z",
+    "created_at": "2026-05-05T09:21:02Z",
     "default_operator_mode": {
       "operator_identity": "user",
       "delivery_mode": "prefixed_single_operator"
     }
   },
-  "llm_mode": "fallback",
+  "llm_mode": "live",
   "generation_modes": {
-    "case_world": "fallback"
+    "case_world": "live"
   },
   "case_spec": {
-    "case_id": "case_feishu_231_example",
-    "task_id": "FEISHU-231",
+    "case_id": "case_feishu_20260505172044256_example",
+    "task_id": "FEISHU-20260505172044256",
     "title": "企业级发布窗口协调推进",
     "company_type": "企业级 SaaS",
     "departments": [
@@ -30,13 +30,13 @@
       "客户成功",
       "安全"
     ],
-    "main_goal": "围绕 FEISHU-231 形成真实的跨部门协作讨论，并推动五月上旬上线决策收敛",
+    "main_goal": "围绕 FEISHU-20260505172044256 形成真实的跨部门协作讨论，并推动五月上旬上线决策收敛",
     "difficulty": "medium",
-    "seed": 231
+    "seed": 172044256
   },
   "case_seed": {
-    "case_id": "case_feishu_231_example",
-    "task_id": "FEISHU-231",
+    "case_id": "case_feishu_20260505172044256_example",
+    "task_id": "FEISHU-20260505172044256",
     "title": "企业级发布窗口协调推进",
     "domain": "enterprise_product_launch",
     "company_type": "企业级 SaaS",
@@ -48,9 +48,9 @@
       "客户成功",
       "安全"
     ],
-    "main_goal": "围绕 FEISHU-231 形成真实的跨部门协作讨论，并推动五月上旬上线决策收敛",
+    "main_goal": "围绕 FEISHU-20260505172044256 形成真实的跨部门协作讨论，并推动五月上旬上线决策收敛",
     "difficulty": "medium",
-    "seed": 231,
+    "seed": 172044256,
     "complexity_profile": {
       "session_count_target": 3,
       "source_session_count_target": 3,
@@ -64,34 +64,42 @@
     }
   },
   "case_world": {
-    "case_id": "case_feishu_231_example",
-    "task_id": "FEISHU-231",
+    "case_id": "case_feishu_20260505172044256_example",
+    "task_id": "FEISHU-20260505172044256",
     "title": "企业级发布窗口协调推进",
     "domain": "enterprise_product_launch",
     "company_type": "企业级 SaaS",
-    "main_goal": "围绕 FEISHU-231 形成真实的跨部门协作讨论，并推动五月上旬上线决策收敛",
-    "organization_background": "企业级发布窗口协调推进 所在团队是一个 企业级 SaaS 组织，产品、研发、运维、销售、客户成功、安全 需要在同一飞书协作链路里持续对齐决策、风险和对外口径。",
-    "external_pressure": "业务侧正在围绕 FEISHU-231 向客户和内部管理层同步预期，如果短时间内拿不出一致结论，就会影响 围绕 FEISHU-231 形成真实的跨部门协作讨论，并推动五月上旬上线决策收敛 的可信度。",
+    "main_goal": "围绕 FEISHU-20260505172044256 形成真实的跨部门协作讨论，并推动五月上旬上线决策收敛",
+    "organization_background": "公司是一家面向大型企业的 SaaS 服务商，产品线包括协作平台、数据分析和安全套件。当前处于季度末冲刺阶段，多个部门并行推进各自的关键里程碑。产品团队负责新功能规划，研发团队负责开发与测试，运维团队负责部署与稳定性，销售团队承诺客户交付时间，客户成功团队关注客户满意度，安全团队负责合规与漏洞扫描。各部门 KPI 存在天然冲突：产品追求功能丰富度，研发追求代码质量与按时交付，运维追求系统稳定性，销售追求合同签约，客户成功追求客户留存，安全追求零风险。",
+    "external_pressure": "1. 重要客户 A 已书面要求 5 月 15 日前上线新功能，否则将考虑终止合作。2. 竞争对手 B 刚发布了类似功能，市场部要求尽快跟进。3. 公司董事会要求本季度营收增长 20%，销售团队急需新功能作为卖点。4. 安全合规审计将于 5 月 20 日开始，所有上线功能必须通过安全审查。",
     "stakeholders": [
-      "产品团队需要维持目标与范围的一致性。",
-      "研发与测试团队需要确认真实可交付性。",
-      "安全与运维团队需要把风险门槛说清楚。",
-      "销售与客户成功团队需要一个能对外同步的窗口口径。"
+      "{'role': '产品经理', 'name': '张明', 'department': '产品', 'position': '高级产品经理', 'core_interest': '确保新功能完整上线，满足客户需求，提升产品竞争力', 'pain_point': '研发进度延迟，安全团队要求额外修改，销售过度承诺'}",
+      "{'role': '研发负责人', 'name': '李华', 'department': '研发', 'position': '技术总监', 'core_interest': '保证代码质量，避免上线后出现严重 bug', 'pain_point': '需求频繁变更，测试时间不足，安全扫描发现高危漏洞'}",
+      "{'role': '运维负责人', 'name': '王强', 'department': '运维', 'position': '运维经理', 'core_interest': '系统稳定性，避免发布导致线上事故', 'pain_point': '发布窗口紧张，回滚方案不完善，监控告警尚未覆盖新功能'}",
+      "{'role': '销售总监', 'name': '赵丽', 'department': '销售', 'position': '销售总监', 'core_interest': '按时交付客户承诺，完成季度销售目标', 'pain_point': '客户 A 施压，销售团队已向其他客户承诺上线日期'}",
+      "{'role': '客户成功经理', 'name': '陈晓', 'department': '客户成功', 'position': '客户成功经理', 'core_interest': '客户满意度，避免因功能延迟导致客户流失', 'pain_point': '客户 A 已表达不满，其他客户也在关注新功能进展'}",
+      "{'role': '安全负责人', 'name': '刘洋', 'department': '安全', 'position': '安全架构师', 'core_interest': '确保无高危漏洞，通过合规审计', 'pain_point': '研发未及时修复漏洞，安全审查流程被压缩'}"
     ],
     "conflict_axes": [
-      "内部目标日期是否可以被当成对外承诺。",
-      "关键 blocker 和评审门槛是否已经满足上线条件。",
-      "上线窗口、回滚预案与客户承诺之间如何取舍。"
+      "产品 vs 研发：功能完整度 vs 代码质量与进度",
+      "销售 vs 研发：客户承诺日期 vs 实际开发周期",
+      "运维 vs 产品：稳定性 vs 新功能上线速度",
+      "安全 vs 所有部门：安全合规 vs 快速交付",
+      "客户成功 vs 销售：客户真实需求 vs 销售过度承诺"
     ],
     "hidden_constraints": [
-      "数据迁移窗口需要依赖外部团队确认。",
-      "高风险能力必须通过安全评审后才能进入对外表述。",
-      "回滚演练未完成前，运维不愿意锁定最终上线窗口。"
+      "研发团队实际已超负荷，但负责人不愿公开承认以避免资源被砍",
+      "销售总监私下已向客户 A 承诺 5 月 10 日上线，但未告知其他部门",
+      "安全团队发现的高危漏洞实际上在另一个项目中已存在，但未上报",
+      "运维团队即将进行数据中心迁移，可能影响发布窗口",
+      "产品经理计划在发布后立即休假，希望尽快上线"
     ],
     "reversal_points": [
-      "原本乐观的目标日期会在后续讨论中被修正。",
-      "某个 thread 内形成的技术判断会影响主群口径。",
-      "对外表述会从明确日期收缩成条件式窗口。"
+      "研发负责人最初坚持 5 月 20 日上线，但在得知客户 A 威胁后改为 5 月 15 日",
+      "安全负责人最初要求修复所有漏洞，后妥协允许带低风险漏洞上线",
+      "销售总监最初承诺 5 月 10 日，后因研发压力改为 5 月 15 日",
+      "运维负责人最初反对任何非紧急发布，后同意在 5 月 14 日窗口发布",
+      "产品经理最初要求完整功能，后同意分阶段上线"
     ],
     "complexity_profile": {
       "session_count_target": 3,

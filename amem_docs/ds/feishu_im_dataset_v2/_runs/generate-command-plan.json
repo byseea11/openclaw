@@ -1,12 +1,12 @@
 {
-  "case_dir": "amem_docs/ds/feishu_im_dataset_v2/cases/case_feishu_231_example",
+  "case_dir": "amem_docs/ds/feishu_im_dataset_v2/cases/case_feishu_20260505172044256_example",
   "llm_mode": "fallback",
   "generation_modes": {
     "command_plan": "fallback"
   },
   "command_plan": [
     {
-      "case_id": "case_feishu_231_example",
+      "case_id": "case_feishu_20260505172044256_example",
       "step_id": "step_001",
       "sequence_no": 1,
       "action_type": "create_chat",
@@ -22,30 +22,30 @@
       "supports_event_types": [],
       "depends_on_step_ids": [],
       "gold_intent_refs": [],
-      "expected_effect": "创建群聊 FEISHU-231 主项目群",
+      "expected_effect": "创建群聊 FEISHU-20260505172044256 主项目群",
       "state_transition": "建立协作载体",
-      "semantic_payload": "为 FEISHU-231 建立飞书会话容器",
+      "semantic_payload": "为 FEISHU-20260505172044256 建立飞书会话容器",
       "root_turn_id": null,
       "root_message_ref": null,
       "output_ref": "main_chat",
       "params": {
         "chat_ref": "main_chat",
-        "name": "FEISHU-231 主项目群",
+        "name": "FEISHU-20260505172044256 主项目群",
         "members": [
-          "customer_success_05",
-          "engineering_04",
-          "frontend_08",
-          "management_03",
-          "operations_02",
-          "qa_06",
-          "sales_07",
-          "security_01"
+          "customer_success_04",
+          "engineering_08",
+          "frontend_05",
+          "management_01",
+          "operations_07",
+          "qa_02",
+          "sales_03",
+          "security_06"
         ]
       },
-      "lark_cli_command": "lark-cli im +chat-create --name \"FEISHU-231 主项目群\" --as user"
+      "lark_cli_command": "lark-cli im +chat-create --name \"FEISHU-20260505172044256 主项目群\" --as user"
     },
     {
-      "case_id": "case_feishu_231_example",
+      "case_id": "case_feishu_20260505172044256_example",
       "step_id": "step_002",
       "sequence_no": 2,
       "action_type": "create_chat",
@@ -63,7 +63,7 @@
       "gold_intent_refs": [],
       "expected_effect": "创建群聊 客户同步群",
       "state_transition": "建立协作载体",
-      "semantic_payload": "为 FEISHU-231 建立飞书会话容器",
+      "semantic_payload": "为 FEISHU-20260505172044256 建立飞书会话容器",
       "root_turn_id": null,
       "root_message_ref": null,
       "output_ref": "customer_sync_chat",
@@ -71,20 +71,20 @@
         "chat_ref": "customer_sync_chat",
         "name": "客户同步群",
         "members": [
-          "customer_success_05",
-          "engineering_04",
-          "frontend_08",
-          "management_03",
-          "operations_02",
-          "qa_06",
-          "sales_07",
-          "security_01"
+          "customer_success_04",
+          "engineering_08",
+          "frontend_05",
+          "management_01",
+          "operations_07",
+          "qa_02",
+          "sales_03",
+          "security_06"
         ]
       },
       "lark_cli_command": "lark-cli im +chat-create --name \"客户同步群\" --as user"
     },
     {
-      "case_id": "case_feishu_231_example",
+      "case_id": "case_feishu_20260505172044256_example",
       "step_id": "step_003",
       "sequence_no": 3,
       "action_type": "send_message",
@@ -95,8 +95,8 @@
       "chat_ref": "main_chat",
       "topic_key": "external_messaging",
       "turn_purpose": "同步客户和业务侧的时间压力，推动团队尽快给出口径。",
-      "speaker_role": "安全评审",
-      "speaker_ref": "security_01",
+      "speaker_role": "技术负责人",
+      "speaker_ref": "management_01",
       "supports_event_types": [
         "status_event",
         "time_event"
@@ -111,19 +111,19 @@
       ],
       "expected_effect": "围绕 external_messaging 推进一条新的协作消息",
       "state_transition": "把外部催促正式带入主群讨论。",
-      "semantic_payload": "客户已经开始追问 FEISHU-231 的上线窗口，主群需要给出能向外同步的回应。",
+      "semantic_payload": "客户已经开始追问 FEISHU-20260505172044256 的上线窗口，主群需要给出能向外同步的回应。",
       "root_turn_id": null,
       "root_message_ref": null,
       "output_ref": "msg_turn_001",
       "params": {
         "chat_ref": "main_chat",
-        "sender_ref": "security_01",
-        "content_text": "【安全/林晨】客户已经开始追问 FEISHU-231 的上线窗口，主群需要给出能向外同步的回应。"
+        "sender_ref": "management_01",
+        "content_text": "【管理/罗天】客户已经开始追问 FEISHU-20260505172044256 的上线窗口，主群需要给出能向外同步的回应。"
       },
-      "lark_cli_command": "lark-cli im +messages-send --chat-id $main_chat --text \"【安全/林晨】客户已经开始追问 FEISHU-231 的上线窗口，主群需要给出能向外同步的回应。\" --as user"
+      "lark_cli_command": "lark-cli im +messages-send --chat-id $main_chat --text \"【管理/罗天】客户已经开始追问 FEISHU-20260505172044256 的上线窗口，主群需要给出能向外同步的回应。\" --as user"
     },
     {
-      "case_id": "case_feishu_231_example",
+      "case_id": "case_feishu_20260505172044256_example",
       "step_id": "step_004",
       "sequence_no": 4,
       "action_type": "send_message",
@@ -134,8 +134,8 @@
       "chat_ref": "main_chat",
       "topic_key": "release_date",
       "turn_purpose": "提出一个偏乐观的内部目标日期，但声明还不是外部承诺。",
-      "speaker_role": "安全评审",
-      "speaker_ref": "security_01",
+      "speaker_role": "技术负责人",
+      "speaker_ref": "management_01",
       "supports_event_types": [
         "conclusion_event",
         "time_event",
@@ -157,13 +157,13 @@
       "output_ref": "msg_turn_002",
       "params": {
         "chat_ref": "main_chat",
-        "sender_ref": "security_01",
-        "content_text": "【安全/林晨】当前先按 5 月 5 日内部目标推进，但这个日期还不能直接对外承诺。"
+        "sender_ref": "management_01",
+        "content_text": "【管理/罗天】当前先按 5 月 5 日内部目标推进，但这个日期还不能直接对外承诺。"
       },
-      "lark_cli_command": "lark-cli im +messages-send --chat-id $main_chat --text \"【安全/林晨】当前先按 5 月 5 日内部目标推进，但这个日期还不能直接对外承诺。\" --as user"
+      "lark_cli_command": "lark-cli im +messages-send --chat-id $main_chat --text \"【管理/罗天】当前先按 5 月 5 日内部目标推进，但这个日期还不能直接对外承诺。\" --as user"
     },
     {
-      "case_id": "case_feishu_231_example",
+      "case_id": "case_feishu_20260505172044256_example",
       "step_id": "step_005",
       "sequence_no": 5,
       "action_type": "send_message",
@@ -175,7 +175,7 @@
       "topic_key": "external_messaging",
       "turn_purpose": "要求形成可对外同步的明确窗口。",
       "speaker_role": "客户经理",
-      "speaker_ref": "sales_07",
+      "speaker_ref": "sales_03",
       "supports_event_types": [
         "commitment_event",
         "objection_event"
@@ -196,13 +196,13 @@
       "output_ref": "msg_turn_003",
       "params": {
         "chat_ref": "main_chat",
-        "sender_ref": "sales_07",
-        "content_text": "【销售/罗天】销售希望今天就形成面向客户的同步口径，不然商务承诺会继续失焦。"
+        "sender_ref": "sales_03",
+        "content_text": "【销售/秦怡】销售希望今天就形成面向客户的同步口径，不然商务承诺会继续失焦。"
       },
-      "lark_cli_command": "lark-cli im +messages-send --chat-id $main_chat --text \"【销售/罗天】销售希望今天就形成面向客户的同步口径，不然商务承诺会继续失焦。\" --as user"
+      "lark_cli_command": "lark-cli im +messages-send --chat-id $main_chat --text \"【销售/秦怡】销售希望今天就形成面向客户的同步口径，不然商务承诺会继续失焦。\" --as user"
     },
     {
-      "case_id": "case_feishu_231_example",
+      "case_id": "case_feishu_20260505172044256_example",
       "step_id": "step_006",
       "sequence_no": 6,
       "action_type": "reply_in_thread",
@@ -214,7 +214,7 @@
       "topic_key": "blocker_readiness",
       "turn_purpose": "在 thread 里补充真正的技术 blocker。",
       "speaker_role": "后端负责人",
-      "speaker_ref": "engineering_04",
+      "speaker_ref": "engineering_08",
       "supports_event_types": [
         "status_event",
         "constraint_event",
@@ -237,14 +237,14 @@
       "output_ref": "msg_turn_004",
       "params": {
         "chat_ref": "main_chat",
-        "sender_ref": "engineering_04",
+        "sender_ref": "engineering_08",
         "content_text": "【研发/赵敏】真正的 blocker 是数据迁移窗口还没锁定，代码本身不是最慢项。",
         "root_message_ref": "msg_turn_002"
       },
       "lark_cli_command": "lark-cli im +messages-reply --message-id $msg_turn_002 --text \"【研发/赵敏】真正的 blocker 是数据迁移窗口还没锁定，代码本身不是最慢项。\" --reply-in-thread --as user"
     },
     {
-      "case_id": "case_feishu_231_example",
+      "case_id": "case_feishu_20260505172044256_example",
       "step_id": "step_007",
       "sequence_no": 7,
       "action_type": "reply_in_thread",
@@ -256,7 +256,7 @@
       "topic_key": "rollback_readiness",
       "turn_purpose": "补充上线窗口和回滚演练都还没准备好。",
       "speaker_role": "SRE 负责人",
-      "speaker_ref": "operations_02",
+      "speaker_ref": "operations_07",
       "supports_event_types": [
         "constraint_event",
         "time_event",
@@ -279,14 +279,14 @@
       "output_ref": "msg_turn_005",
       "params": {
         "chat_ref": "main_chat",
-        "sender_ref": "operations_02",
+        "sender_ref": "operations_07",
         "content_text": "【运维/周宇】上线窗口还没最终确认，回滚演练也没有完成，现在说死日期风险太高。",
         "root_message_ref": "msg_turn_002"
       },
       "lark_cli_command": "lark-cli im +messages-reply --message-id $msg_turn_002 --text \"【运维/周宇】上线窗口还没最终确认，回滚演练也没有完成，现在说死日期风险太高。\" --reply-in-thread --as user"
     },
     {
-      "case_id": "case_feishu_231_example",
+      "case_id": "case_feishu_20260505172044256_example",
       "step_id": "step_008",
       "sequence_no": 8,
       "action_type": "reply_in_thread",
@@ -298,7 +298,7 @@
       "topic_key": "blocker_readiness",
       "turn_purpose": "引入安全评审门槛，限制过早承诺。",
       "speaker_role": "安全评审",
-      "speaker_ref": "security_01",
+      "speaker_ref": "security_06",
       "supports_event_types": [
         "constraint_event",
         "objection_event"
@@ -320,14 +320,14 @@
       "output_ref": "msg_turn_006",
       "params": {
         "chat_ref": "main_chat",
-        "sender_ref": "security_01",
-        "content_text": "【安全/林晨】高风险能力在安全评审前不应进入客户承诺口径。",
+        "sender_ref": "security_06",
+        "content_text": "【安全/何然】高风险能力在安全评审前不应进入客户承诺口径。",
         "root_message_ref": "msg_turn_002"
       },
-      "lark_cli_command": "lark-cli im +messages-reply --message-id $msg_turn_002 --text \"【安全/林晨】高风险能力在安全评审前不应进入客户承诺口径。\" --reply-in-thread --as user"
+      "lark_cli_command": "lark-cli im +messages-reply --message-id $msg_turn_002 --text \"【安全/何然】高风险能力在安全评审前不应进入客户承诺口径。\" --reply-in-thread --as user"
     },
     {
-      "case_id": "case_feishu_231_example",
+      "case_id": "case_feishu_20260505172044256_example",
       "step_id": "step_009",
       "sequence_no": 9,
       "action_type": "send_message",
@@ -338,8 +338,8 @@
       "chat_ref": "main_chat",
       "topic_key": "external_messaging",
       "turn_purpose": "把 thread 结论回带到主群，收紧对外口径。",
-      "speaker_role": "安全评审",
-      "speaker_ref": "security_01",
+      "speaker_role": "技术负责人",
+      "speaker_ref": "management_01",
       "supports_event_types": [
         "conclusion_event",
         "scope_event"
@@ -360,13 +360,13 @@
       "output_ref": "msg_turn_007",
       "params": {
         "chat_ref": "main_chat",
-        "sender_ref": "security_01",
-        "content_text": "【安全/林晨】请先不要把 5 月 5 日当成已确认时间对外同步，当前只能说还在评估窗口。"
+        "sender_ref": "management_01",
+        "content_text": "【管理/罗天】请先不要把 5 月 5 日当成已确认时间对外同步，当前只能说还在评估窗口。"
       },
-      "lark_cli_command": "lark-cli im +messages-send --chat-id $main_chat --text \"【安全/林晨】请先不要把 5 月 5 日当成已确认时间对外同步，当前只能说还在评估窗口。\" --as user"
+      "lark_cli_command": "lark-cli im +messages-send --chat-id $main_chat --text \"【管理/罗天】请先不要把 5 月 5 日当成已确认时间对外同步，当前只能说还在评估窗口。\" --as user"
     },
     {
-      "case_id": "case_feishu_231_example",
+      "case_id": "case_feishu_20260505172044256_example",
       "step_id": "step_010",
       "sequence_no": 10,
       "action_type": "send_message",
@@ -377,8 +377,8 @@
       "chat_ref": "customer_sync_chat",
       "topic_key": "external_messaging",
       "turn_purpose": "在客户同步群里转述主群收紧后的状态。",
-      "speaker_role": "安全评审",
-      "speaker_ref": "security_01",
+      "speaker_role": "技术负责人",
+      "speaker_ref": "management_01",
       "supports_event_types": [
         "status_event",
         "commitment_event"
@@ -399,13 +399,13 @@
       "output_ref": "msg_turn_008",
       "params": {
         "chat_ref": "customer_sync_chat",
-        "sender_ref": "security_01",
-        "content_text": "【安全/林晨】客户同步口径暂时只能说发布日期窗口仍在确认，今天会给出下一次更新时间。"
+        "sender_ref": "management_01",
+        "content_text": "【管理/罗天】客户同步口径暂时只能说发布日期窗口仍在确认，今天会给出下一次更新时间。"
       },
-      "lark_cli_command": "lark-cli im +messages-send --chat-id $customer_sync_chat --text \"【安全/林晨】客户同步口径暂时只能说发布日期窗口仍在确认，今天会给出下一次更新时间。\" --as user"
+      "lark_cli_command": "lark-cli im +messages-send --chat-id $customer_sync_chat --text \"【管理/罗天】客户同步口径暂时只能说发布日期窗口仍在确认，今天会给出下一次更新时间。\" --as user"
     },
     {
-      "case_id": "case_feishu_231_example",
+      "case_id": "case_feishu_20260505172044256_example",
       "step_id": "step_011",
       "sequence_no": 11,
       "action_type": "send_message",
@@ -417,7 +417,7 @@
       "topic_key": "external_messaging",
       "turn_purpose": "明确对外措辞，避免继续放大承诺。",
       "speaker_role": "技术负责人",
-      "speaker_ref": "management_03",
+      "speaker_ref": "management_01",
       "supports_event_types": [
         "conclusion_event",
         "scope_event"
@@ -438,13 +438,13 @@
       "output_ref": "msg_turn_009",
       "params": {
         "chat_ref": "customer_sync_chat",
-        "sender_ref": "management_03",
-        "content_text": "【管理/王源】统一对外只说目标窗口仍在评估，不给单点日期。"
+        "sender_ref": "management_01",
+        "content_text": "【管理/罗天】统一对外只说目标窗口仍在评估，不给单点日期。"
       },
-      "lark_cli_command": "lark-cli im +messages-send --chat-id $customer_sync_chat --text \"【管理/王源】统一对外只说目标窗口仍在评估，不给单点日期。\" --as user"
+      "lark_cli_command": "lark-cli im +messages-send --chat-id $customer_sync_chat --text \"【管理/罗天】统一对外只说目标窗口仍在评估，不给单点日期。\" --as user"
     },
     {
-      "case_id": "case_feishu_231_example",
+      "case_id": "case_feishu_20260505172044256_example",
       "step_id": "step_012",
       "sequence_no": 12,
       "action_type": "reply_in_thread",
@@ -456,7 +456,7 @@
       "topic_key": "release_date",
       "turn_purpose": "给出带条件的替代日期。",
       "speaker_role": "后端负责人",
-      "speaker_ref": "engineering_04",
+      "speaker_ref": "engineering_08",
       "supports_event_types": [
         "rationale_event",
         "time_event",
@@ -479,14 +479,14 @@
       "output_ref": "msg_turn_010",
       "params": {
         "chat_ref": "main_chat",
-        "sender_ref": "engineering_04",
+        "sender_ref": "engineering_08",
         "content_text": "【研发/赵敏】如果迁移窗口在 5 月 7 日前锁定，内部更合理的目标会变成 5 月 10 日。",
         "root_message_ref": "msg_turn_002"
       },
       "lark_cli_command": "lark-cli im +messages-reply --message-id $msg_turn_002 --text \"【研发/赵敏】如果迁移窗口在 5 月 7 日前锁定，内部更合理的目标会变成 5 月 10 日。\" --reply-in-thread --as user"
     },
     {
-      "case_id": "case_feishu_231_example",
+      "case_id": "case_feishu_20260505172044256_example",
       "step_id": "step_013",
       "sequence_no": 13,
       "action_type": "send_message",
@@ -498,7 +498,7 @@
       "topic_key": "blocker_readiness",
       "turn_purpose": "补充测试侧未完成项，增加当前不可承诺的证据。",
       "speaker_role": "测试负责人",
-      "speaker_ref": "qa_06",
+      "speaker_ref": "qa_02",
       "supports_event_types": [
         "objection_event",
         "status_event"
@@ -519,13 +519,13 @@
       "output_ref": "msg_turn_011",
       "params": {
         "chat_ref": "main_chat",
-        "sender_ref": "qa_06",
-        "content_text": "【测试/陈雪】回归队列还没清完，测试这边也不支持直接锁 5 月 5 日。"
+        "sender_ref": "qa_02",
+        "content_text": "【测试/王源】回归队列还没清完，测试这边也不支持直接锁 5 月 5 日。"
       },
-      "lark_cli_command": "lark-cli im +messages-send --chat-id $main_chat --text \"【测试/陈雪】回归队列还没清完，测试这边也不支持直接锁 5 月 5 日。\" --as user"
+      "lark_cli_command": "lark-cli im +messages-send --chat-id $main_chat --text \"【测试/王源】回归队列还没清完，测试这边也不支持直接锁 5 月 5 日。\" --as user"
     },
     {
-      "case_id": "case_feishu_231_example",
+      "case_id": "case_feishu_20260505172044256_example",
       "step_id": "step_014",
       "sequence_no": 14,
       "action_type": "send_message",
@@ -537,7 +537,7 @@
       "topic_key": "external_messaging",
       "turn_purpose": "要求一版可复制的客户沟通话术。",
       "speaker_role": "客户经理",
-      "speaker_ref": "sales_07",
+      "speaker_ref": "sales_03",
       "supports_event_types": [
         "commitment_event"
       ],
@@ -557,13 +557,13 @@
       "output_ref": "msg_turn_012",
       "params": {
         "chat_ref": "customer_sync_chat",
-        "sender_ref": "sales_07",
-        "content_text": "【销售/罗天】需要一版可以直接发给客户的说明，不然前线还是会自己补日期。"
+        "sender_ref": "sales_03",
+        "content_text": "【销售/秦怡】需要一版可以直接发给客户的说明，不然前线还是会自己补日期。"
       },
-      "lark_cli_command": "lark-cli im +messages-send --chat-id $customer_sync_chat --text \"【销售/罗天】需要一版可以直接发给客户的说明，不然前线还是会自己补日期。\" --as user"
+      "lark_cli_command": "lark-cli im +messages-send --chat-id $customer_sync_chat --text \"【销售/秦怡】需要一版可以直接发给客户的说明，不然前线还是会自己补日期。\" --as user"
     },
     {
-      "case_id": "case_feishu_231_example",
+      "case_id": "case_feishu_20260505172044256_example",
       "step_id": "step_015",
       "sequence_no": 15,
       "action_type": "send_message",
@@ -575,7 +575,7 @@
       "topic_key": "rollback_readiness",
       "turn_purpose": "承诺何时完成回滚演练。",
       "speaker_role": "SRE 负责人",
-      "speaker_ref": "operations_02",
+      "speaker_ref": "operations_07",
       "supports_event_types": [
         "commitment_event",
         "time_event"
@@ -596,13 +596,13 @@
       "output_ref": "msg_turn_013",
       "params": {
         "chat_ref": "main_chat",
-        "sender_ref": "operations_02",
+        "sender_ref": "operations_07",
         "content_text": "【运维/周宇】运维承诺周三前完成回滚演练，并在当晚回写结果。"
       },
       "lark_cli_command": "lark-cli im +messages-send --chat-id $main_chat --text \"【运维/周宇】运维承诺周三前完成回滚演练，并在当晚回写结果。\" --as user"
     },
     {
-      "case_id": "case_feishu_231_example",
+      "case_id": "case_feishu_20260505172044256_example",
       "step_id": "step_016",
       "sequence_no": 16,
       "action_type": "reply_in_thread",
@@ -614,7 +614,7 @@
       "topic_key": "release_date",
       "turn_purpose": "正式 supersede 原先的乐观目标日期。",
       "speaker_role": "后端负责人",
-      "speaker_ref": "engineering_04",
+      "speaker_ref": "engineering_08",
       "supports_event_types": [
         "conclusion_event",
         "time_event",
@@ -637,14 +637,14 @@
       "output_ref": "msg_turn_014",
       "params": {
         "chat_ref": "main_chat",
-        "sender_ref": "engineering_04",
+        "sender_ref": "engineering_08",
         "content_text": "【研发/赵敏】基于当前依赖情况，原来的 5 月 5 日内部目标应改成 5 月 10 日。",
         "root_message_ref": "msg_turn_002"
       },
       "lark_cli_command": "lark-cli im +messages-reply --message-id $msg_turn_002 --text \"【研发/赵敏】基于当前依赖情况，原来的 5 月 5 日内部目标应改成 5 月 10 日。\" --reply-in-thread --as user"
     },
     {
-      "case_id": "case_feishu_231_example",
+      "case_id": "case_feishu_20260505172044256_example",
       "step_id": "step_017",
       "sequence_no": 17,
       "action_type": "send_message",
@@ -655,8 +655,8 @@
       "chat_ref": "main_chat",
       "topic_key": "release_date",
       "turn_purpose": "把 thread 中新的日期回写到主群 current state。",
-      "speaker_role": "安全评审",
-      "speaker_ref": "security_01",
+      "speaker_role": "技术负责人",
+      "speaker_ref": "management_01",
       "supports_event_types": [
         "conclusion_event",
         "time_event",
@@ -678,13 +678,13 @@
       "output_ref": "msg_turn_015",
       "params": {
         "chat_ref": "main_chat",
-        "sender_ref": "security_01",
-        "content_text": "【安全/林晨】内部目标先同步更新为 5 月 10 日，但仍不是客户承诺日期。"
+        "sender_ref": "management_01",
+        "content_text": "【管理/罗天】内部目标先同步更新为 5 月 10 日，但仍不是客户承诺日期。"
       },
-      "lark_cli_command": "lark-cli im +messages-send --chat-id $main_chat --text \"【安全/林晨】内部目标先同步更新为 5 月 10 日，但仍不是客户承诺日期。\" --as user"
+      "lark_cli_command": "lark-cli im +messages-send --chat-id $main_chat --text \"【管理/罗天】内部目标先同步更新为 5 月 10 日，但仍不是客户承诺日期。\" --as user"
     },
     {
-      "case_id": "case_feishu_231_example",
+      "case_id": "case_feishu_20260505172044256_example",
       "step_id": "step_018",
       "sequence_no": 18,
       "action_type": "send_message",
@@ -695,8 +695,8 @@
       "chat_ref": "customer_sync_chat",
       "topic_key": "external_messaging",
       "turn_purpose": "输出一版对外同步文案。",
-      "speaker_role": "安全评审",
-      "speaker_ref": "security_01",
+      "speaker_role": "技术负责人",
+      "speaker_ref": "management_01",
       "supports_event_types": [
         "commitment_event",
         "scope_event"
@@ -717,13 +717,13 @@
       "output_ref": "msg_turn_016",
       "params": {
         "chat_ref": "customer_sync_chat",
-        "sender_ref": "security_01",
-        "content_text": "【安全/林晨】客户侧统一说法调整为：目标窗口仍在确认，下一次明确更新时间是本周四晚。"
+        "sender_ref": "management_01",
+        "content_text": "【管理/罗天】客户侧统一说法调整为：目标窗口仍在确认，下一次明确更新时间是本周四晚。"
       },
-      "lark_cli_command": "lark-cli im +messages-send --chat-id $customer_sync_chat --text \"【安全/林晨】客户侧统一说法调整为：目标窗口仍在确认，下一次明确更新时间是本周四晚。\" --as user"
+      "lark_cli_command": "lark-cli im +messages-send --chat-id $customer_sync_chat --text \"【管理/罗天】客户侧统一说法调整为：目标窗口仍在确认，下一次明确更新时间是本周四晚。\" --as user"
     },
     {
-      "case_id": "case_feishu_231_example",
+      "case_id": "case_feishu_20260505172044256_example",
       "step_id": "step_019",
       "sequence_no": 19,
       "action_type": "send_message",
@@ -735,7 +735,7 @@
       "topic_key": "external_messaging",
       "turn_purpose": "确认当前对外上限，只能给窗口不能给日期。",
       "speaker_role": "技术负责人",
-      "speaker_ref": "management_03",
+      "speaker_ref": "management_01",
       "supports_event_types": [
         "constraint_event",
         "conclusion_event"
@@ -756,13 +756,13 @@
       "output_ref": "msg_turn_017",
       "params": {
         "chat_ref": "main_chat",
-        "sender_ref": "management_03",
-        "content_text": "【管理/王源】在回滚演练和安全评审完成前，对外只能给窗口，不能给具体日期。"
+        "sender_ref": "management_01",
+        "content_text": "【管理/罗天】在回滚演练和安全评审完成前，对外只能给窗口，不能给具体日期。"
       },
-      "lark_cli_command": "lark-cli im +messages-send --chat-id $main_chat --text \"【管理/王源】在回滚演练和安全评审完成前，对外只能给窗口，不能给具体日期。\" --as user"
+      "lark_cli_command": "lark-cli im +messages-send --chat-id $main_chat --text \"【管理/罗天】在回滚演练和安全评审完成前，对外只能给窗口，不能给具体日期。\" --as user"
     },
     {
-      "case_id": "case_feishu_231_example",
+      "case_id": "case_feishu_20260505172044256_example",
       "step_id": "step_020",
       "sequence_no": 20,
       "action_type": "reply_in_thread",
@@ -774,7 +774,7 @@
       "topic_key": "blocker_readiness",
       "turn_purpose": "更新 blocker 解决进度。",
       "speaker_role": "测试负责人",
-      "speaker_ref": "qa_06",
+      "speaker_ref": "qa_02",
       "supports_event_types": [
         "status_event"
       ],
@@ -795,14 +795,14 @@
       "output_ref": "msg_turn_018",
       "params": {
         "chat_ref": "main_chat",
-        "sender_ref": "qa_06",
-        "content_text": "【测试/陈雪】回归高优问题已经收敛，测试 blocker 从红色降到黄色。",
+        "sender_ref": "qa_02",
+        "content_text": "【测试/王源】回归高优问题已经收敛，测试 blocker 从红色降到黄色。",
         "root_message_ref": "msg_turn_002"
       },
-      "lark_cli_command": "lark-cli im +messages-reply --message-id $msg_turn_002 --text \"【测试/陈雪】回归高优问题已经收敛，测试 blocker 从红色降到黄色。\" --reply-in-thread --as user"
+      "lark_cli_command": "lark-cli im +messages-reply --message-id $msg_turn_002 --text \"【测试/王源】回归高优问题已经收敛，测试 blocker 从红色降到黄色。\" --reply-in-thread --as user"
     },
     {
-      "case_id": "case_feishu_231_example",
+      "case_id": "case_feishu_20260505172044256_example",
       "step_id": "step_021",
       "sequence_no": 21,
       "action_type": "send_message",
@@ -813,8 +813,8 @@
       "chat_ref": "main_chat",
       "topic_key": "external_messaging",
       "turn_purpose": "回写当前主群的客户侧措辞边界。",
-      "speaker_role": "安全评审",
-      "speaker_ref": "security_01",
+      "speaker_role": "技术负责人",
+      "speaker_ref": "management_01",
       "supports_event_types": [
         "status_event",
         "scope_event"
@@ -835,13 +835,13 @@
       "output_ref": "msg_turn_019",
       "params": {
         "chat_ref": "main_chat",
-        "sender_ref": "security_01",
-        "content_text": "【安全/林晨】即便测试进度改善，客户侧说法也继续保持窗口而不是日期。"
+        "sender_ref": "management_01",
+        "content_text": "【管理/罗天】即便测试进度改善，客户侧说法也继续保持窗口而不是日期。"
       },
-      "lark_cli_command": "lark-cli im +messages-send --chat-id $main_chat --text \"【安全/林晨】即便测试进度改善，客户侧说法也继续保持窗口而不是日期。\" --as user"
+      "lark_cli_command": "lark-cli im +messages-send --chat-id $main_chat --text \"【管理/罗天】即便测试进度改善，客户侧说法也继续保持窗口而不是日期。\" --as user"
     },
     {
-      "case_id": "case_feishu_231_example",
+      "case_id": "case_feishu_20260505172044256_example",
       "step_id": "step_022",
       "sequence_no": 22,
       "action_type": "send_message",
@@ -853,7 +853,7 @@
       "topic_key": "external_messaging",
       "turn_purpose": "确认前线将执行新口径。",
       "speaker_role": "客户经理",
-      "speaker_ref": "sales_07",
+      "speaker_ref": "sales_03",
       "supports_event_types": [
         "conclusion_event",
         "status_event"
@@ -874,13 +874,13 @@
       "output_ref": "msg_turn_020",
       "params": {
         "chat_ref": "customer_sync_chat",
-        "sender_ref": "sales_07",
-        "content_text": "【销售/罗天】销售确认前线统一使用窗口口径，不再单独补具体日期。"
+        "sender_ref": "sales_03",
+        "content_text": "【销售/秦怡】销售确认前线统一使用窗口口径，不再单独补具体日期。"
       },
-      "lark_cli_command": "lark-cli im +messages-send --chat-id $customer_sync_chat --text \"【销售/罗天】销售确认前线统一使用窗口口径，不再单独补具体日期。\" --as user"
+      "lark_cli_command": "lark-cli im +messages-send --chat-id $customer_sync_chat --text \"【销售/秦怡】销售确认前线统一使用窗口口径，不再单独补具体日期。\" --as user"
     },
     {
-      "case_id": "case_feishu_231_example",
+      "case_id": "case_feishu_20260505172044256_example",
       "step_id": "step_023",
       "sequence_no": 23,
       "action_type": "fetch_chat_messages",
@@ -910,7 +910,7 @@
       "lark_cli_command": "lark-cli im +chat-messages-list --chat-id $customer_sync_chat --sort asc --page-size 50 --format json --as user"
     },
     {
-      "case_id": "case_feishu_231_example",
+      "case_id": "case_feishu_20260505172044256_example",
       "step_id": "step_024",
       "sequence_no": 24,
       "action_type": "fetch_chat_messages",
@@ -940,7 +940,7 @@
       "lark_cli_command": "lark-cli im +chat-messages-list --chat-id $main_chat --sort asc --page-size 50 --format json --as user"
     },
     {
-      "case_id": "case_feishu_231_example",
+      "case_id": "case_feishu_20260505172044256_example",
       "step_id": "step_025",
       "sequence_no": 25,
       "action_type": "fetch_thread_messages",
@@ -973,7 +973,7 @@
     }
   ],
   "execution_plan": {
-    "case_id": "case_feishu_231_example",
+    "case_id": "case_feishu_20260505172044256_example",
     "operator_identity": "user",
     "delivery_mode": "prefixed_single_operator",
     "actions": [
@@ -983,16 +983,16 @@
         "depends_on": [],
         "params": {
           "chat_ref": "main_chat",
-          "name": "FEISHU-231 主项目群",
+          "name": "FEISHU-20260505172044256 主项目群",
           "members": [
-            "customer_success_05",
-            "engineering_04",
-            "frontend_08",
-            "management_03",
-            "operations_02",
-            "qa_06",
-            "sales_07",
-            "security_01"
+            "customer_success_04",
+            "engineering_08",
+            "frontend_05",
+            "management_01",
+            "operations_07",
+            "qa_02",
+            "sales_03",
+            "security_06"
           ]
         },
         "output_ref": "main_chat"
@@ -1005,14 +1005,14 @@
           "chat_ref": "customer_sync_chat",
           "name": "客户同步群",
           "members": [
-            "customer_success_05",
-            "engineering_04",
-            "frontend_08",
-            "management_03",
-            "operations_02",
-            "qa_06",
-            "sales_07",
-            "security_01"
+            "customer_success_04",
+            "engineering_08",
+            "frontend_05",
+            "management_01",
+            "operations_07",
+            "qa_02",
+            "sales_03",
+            "security_06"
           ]
         },
         "output_ref": "customer_sync_chat"
@@ -1025,8 +1025,8 @@
         ],
         "params": {
           "chat_ref": "main_chat",
-          "sender_ref": "security_01",
-          "content_text": "【安全/林晨】客户已经开始追问 FEISHU-231 的上线窗口，主群需要给出能向外同步的回应。"
+          "sender_ref": "management_01",
+          "content_text": "【管理/罗天】客户已经开始追问 FEISHU-20260505172044256 的上线窗口，主群需要给出能向外同步的回应。"
         },
         "output_ref": "msg_turn_001"
       },
@@ -1038,8 +1038,8 @@
         ],
         "params": {
           "chat_ref": "main_chat",
-          "sender_ref": "security_01",
-          "content_text": "【安全/林晨】当前先按 5 月 5 日内部目标推进，但这个日期还不能直接对外承诺。"
+          "sender_ref": "management_01",
+          "content_text": "【管理/罗天】当前先按 5 月 5 日内部目标推进，但这个日期还不能直接对外承诺。"
         },
         "output_ref": "msg_turn_002"
       },
@@ -1051,8 +1051,8 @@
         ],
         "params": {
           "chat_ref": "main_chat",
-          "sender_ref": "sales_07",
-          "content_text": "【销售/罗天】销售希望今天就形成面向客户的同步口径，不然商务承诺会继续失焦。"
+          "sender_ref": "sales_03",
+          "content_text": "【销售/秦怡】销售希望今天就形成面向客户的同步口径，不然商务承诺会继续失焦。"
         },
         "output_ref": "msg_turn_003"
       },
@@ -1065,7 +1065,7 @@
         ],
         "params": {
           "chat_ref": "main_chat",
-          "sender_ref": "engineering_04",
+          "sender_ref": "engineering_08",
           "content_text": "【研发/赵敏】真正的 blocker 是数据迁移窗口还没锁定，代码本身不是最慢项。",
           "root_message_ref": "msg_turn_002"
         },
@@ -1080,7 +1080,7 @@
         ],
         "params": {
           "chat_ref": "main_chat",
-          "sender_ref": "operations_02",
+          "sender_ref": "operations_07",
           "content_text": "【运维/周宇】上线窗口还没最终确认，回滚演练也没有完成，现在说死日期风险太高。",
           "root_message_ref": "msg_turn_002"
         },
@@ -1095,8 +1095,8 @@
         ],
         "params": {
           "chat_ref": "main_chat",
-          "sender_ref": "security_01",
-          "content_text": "【安全/林晨】高风险能力在安全评审前不应进入客户承诺口径。",
+          "sender_ref": "security_06",
+          "content_text": "【安全/何然】高风险能力在安全评审前不应进入客户承诺口径。",
           "root_message_ref": "msg_turn_002"
         },
         "output_ref": "msg_turn_006"
@@ -1109,8 +1109,8 @@
         ],
         "params": {
           "chat_ref": "main_chat",
-          "sender_ref": "security_01",
-          "content_text": "【安全/林晨】请先不要把 5 月 5 日当成已确认时间对外同步，当前只能说还在评估窗口。"
+          "sender_ref": "management_01",
+          "content_text": "【管理/罗天】请先不要把 5 月 5 日当成已确认时间对外同步，当前只能说还在评估窗口。"
         },
         "output_ref": "msg_turn_007"
       },
@@ -1122,8 +1122,8 @@
         ],
         "params": {
           "chat_ref": "customer_sync_chat",
-          "sender_ref": "security_01",
-          "content_text": "【安全/林晨】客户同步口径暂时只能说发布日期窗口仍在确认，今天会给出下一次更新时间。"
+          "sender_ref": "management_01",
+          "content_text": "【管理/罗天】客户同步口径暂时只能说发布日期窗口仍在确认，今天会给出下一次更新时间。"
         },
         "output_ref": "msg_turn_008"
       },
@@ -1135,8 +1135,8 @@
         ],
         "params": {
           "chat_ref": "customer_sync_chat",
-          "sender_ref": "management_03",
-          "content_text": "【管理/王源】统一对外只说目标窗口仍在评估，不给单点日期。"
+          "sender_ref": "management_01",
+          "content_text": "【管理/罗天】统一对外只说目标窗口仍在评估，不给单点日期。"
         },
         "output_ref": "msg_turn_009"
       },
@@ -1149,7 +1149,7 @@
         ],
         "params": {
           "chat_ref": "main_chat",
-          "sender_ref": "engineering_04",
+          "sender_ref": "engineering_08",
           "content_text": "【研发/赵敏】如果迁移窗口在 5 月 7 日前锁定，内部更合理的目标会变成 5 月 10 日。",
           "root_message_ref": "msg_turn_002"
         },
@@ -1163,8 +1163,8 @@
         ],
         "params": {
           "chat_ref": "main_chat",
-          "sender_ref": "qa_06",
-          "content_text": "【测试/陈雪】回归队列还没清完，测试这边也不支持直接锁 5 月 5 日。"
+          "sender_ref": "qa_02",
+          "content_text": "【测试/王源】回归队列还没清完，测试这边也不支持直接锁 5 月 5 日。"
         },
         "output_ref": "msg_turn_011"
       },
@@ -1176,8 +1176,8 @@
         ],
         "params": {
           "chat_ref": "customer_sync_chat",
-          "sender_ref": "sales_07",
-          "content_text": "【销售/罗天】需要一版可以直接发给客户的说明，不然前线还是会自己补日期。"
+          "sender_ref": "sales_03",
+          "content_text": "【销售/秦怡】需要一版可以直接发给客户的说明，不然前线还是会自己补日期。"
         },
         "output_ref": "msg_turn_012"
       },
@@ -1189,7 +1189,7 @@
         ],
         "params": {
           "chat_ref": "main_chat",
-          "sender_ref": "operations_02",
+          "sender_ref": "operations_07",
           "content_text": "【运维/周宇】运维承诺周三前完成回滚演练，并在当晚回写结果。"
         },
         "output_ref": "msg_turn_013"
@@ -1203,7 +1203,7 @@
         ],
         "params": {
           "chat_ref": "main_chat",
-          "sender_ref": "engineering_04",
+          "sender_ref": "engineering_08",
           "content_text": "【研发/赵敏】基于当前依赖情况，原来的 5 月 5 日内部目标应改成 5 月 10 日。",
           "root_message_ref": "msg_turn_002"
         },
@@ -1217,8 +1217,8 @@
         ],
         "params": {
           "chat_ref": "main_chat",
-          "sender_ref": "security_01",
-          "content_text": "【安全/林晨】内部目标先同步更新为 5 月 10 日，但仍不是客户承诺日期。"
+          "sender_ref": "management_01",
+          "content_text": "【管理/罗天】内部目标先同步更新为 5 月 10 日，但仍不是客户承诺日期。"
         },
         "output_ref": "msg_turn_015"
       },
@@ -1230,8 +1230,8 @@
         ],
         "params": {
           "chat_ref": "customer_sync_chat",
-          "sender_ref": "security_01",
-          "content_text": "【安全/林晨】客户侧统一说法调整为：目标窗口仍在确认，下一次明确更新时间是本周四晚。"
+          "sender_ref": "management_01",
+          "content_text": "【管理/罗天】客户侧统一说法调整为：目标窗口仍在确认，下一次明确更新时间是本周四晚。"
         },
         "output_ref": "msg_turn_016"
       },
@@ -1243,8 +1243,8 @@
         ],
         "params": {
           "chat_ref": "main_chat",
-          "sender_ref": "management_03",
-          "content_text": "【管理/王源】在回滚演练和安全评审完成前，对外只能给窗口，不能给具体日期。"
+          "sender_ref": "management_01",
+          "content_text": "【管理/罗天】在回滚演练和安全评审完成前，对外只能给窗口，不能给具体日期。"
         },
         "output_ref": "msg_turn_017"
       },
@@ -1257,8 +1257,8 @@
         ],
         "params": {
           "chat_ref": "main_chat",
-          "sender_ref": "qa_06",
-          "content_text": "【测试/陈雪】回归高优问题已经收敛，测试 blocker 从红色降到黄色。",
+          "sender_ref": "qa_02",
+          "content_text": "【测试/王源】回归高优问题已经收敛，测试 blocker 从红色降到黄色。",
           "root_message_ref": "msg_turn_002"
         },
         "output_ref": "msg_turn_018"
@@ -1271,8 +1271,8 @@
         ],
         "params": {
           "chat_ref": "main_chat",
-          "sender_ref": "security_01",
-          "content_text": "【安全/林晨】即便测试进度改善，客户侧说法也继续保持窗口而不是日期。"
+          "sender_ref": "management_01",
+          "content_text": "【管理/罗天】即便测试进度改善，客户侧说法也继续保持窗口而不是日期。"
         },
         "output_ref": "msg_turn_019"
       },
@@ -1284,8 +1284,8 @@
         ],
         "params": {
           "chat_ref": "customer_sync_chat",
-          "sender_ref": "sales_07",
-          "content_text": "【销售/罗天】销售确认前线统一使用窗口口径，不再单独补具体日期。"
+          "sender_ref": "sales_03",
+          "content_text": "【销售/秦怡】销售确认前线统一使用窗口口径，不再单独补具体日期。"
         },
         "output_ref": "msg_turn_020"
       },

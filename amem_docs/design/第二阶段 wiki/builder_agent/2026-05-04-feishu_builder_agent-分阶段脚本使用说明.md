@@ -4,7 +4,15 @@
 
 - 脚本：`amem_docs/scripts/feishu-builder-agent-run.sh`
 - 默认数据根：`amem_docs/ds/feishu_im_dataset_v2`
-- 默认示例 case spec：`amem_docs/dataset_v1/case_specs/feishu_builder_case_example.json`
+- 默认示例 case spec 模板：`feishu_builder_agent/templates/default_case_spec.json`
+
+如果不显式传 `--case-spec`，脚本会基于默认示例自动生成一个新的动态 case spec：
+
+- 自动生成新的 `task_id`
+- 自动生成新的 `case_id`
+- 自动生成新的 `seed`
+
+因此 dataset v2 默认不是每次都覆盖 `case_feishu_231_example`，而是每次新建一个新的 case 目录。
 
 ## 2. 当前 V2 主链
 

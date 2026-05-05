@@ -24,6 +24,33 @@ from feishu_builder_agent.schemas import ValidationError
 
 
 class EndToEndTests(unittest.TestCase):
+    def test_case_world_stage_samples_title_goal_and_departments_from_catalog(self) -> None:
+        with tempfile.TemporaryDirectory() as tmpdir:
+            root = Path(tmpdir)
+            case_spec = {
+                "case_id": "case_catalog_seed",
+                "task_id": "REQ-500",
+                "title": "",
+                "company_type": "",
+                "department_hints": ["法务", "数据"],
+                "scenario_profile": "enterprise_release_coordination",
+                "title_hint": "",
+                "main_goal_hint": "",
+                "main_goal": "",
+                "difficulty": "medium",
+                "seed": 11,
+            }
+            case_spec_path = root / "case_spec.json"
+            write_json(case_spec_path, case_spec)
+            result = generate_case_world_stage(case_spec_path=case_spec_path, dataset_root=root / "dataset")
+            case_seed = result["case_seed"]
+            self.assertTrue(case_seed["title"])
+            self.assertTrue(case_seed["main_goal"])
+            self.assertTrue(case_seed["company_type"])
+            self.assertGreaterEqual(len(case_seed["departments"]), 7)
+            self.assertIn("法务", case_seed["departments"])
+            self.assertIn("数据", case_seed["departments"])
+
     def test_case_world_stage_only_writes_seed_and_world(self) -> None:
         with tempfile.TemporaryDirectory() as tmpdir:
             root = Path(tmpdir)

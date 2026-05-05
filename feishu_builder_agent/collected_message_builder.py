@@ -4,6 +4,7 @@ import re
 from typing import Any
 
 from .schemas import (
+    validate_actor_registry,
     validate_characters,
     validate_collected_messages,
     validate_command_plan,
@@ -39,6 +40,12 @@ def _messages_from_fetch_records(fetch_records: list[dict[str, Any]]) -> dict[st
 
 def _character_map(characters: dict[str, Any]) -> dict[str, dict[str, Any]]:
     return {item["person_id"]: item for item in validate_characters(characters)["characters"]}
+
+
+def _actor_registry_map(actor_registry: dict[str, Any] | None) -> dict[str, dict[str, Any]]:
+    if not actor_registry:
+        return {}
+    return {item["person_id"]: item for item in validate_actor_registry(actor_registry)["actors"]}
 
 
 def _prefix_hint(content_text: str, roster: dict[str, dict[str, Any]]) -> dict[str, str]:
@@ -91,8 +98,11 @@ def build_collected_messages(
     execution_plan: dict[str, Any],
     execution_result: dict[str, Any],
     fetch_records: list[dict[str, Any]],
+    *,
+    actor_registry: dict[str, Any] | None = None,
 ) -> list[dict[str, Any]]:
     roster = _character_map(characters)
+    actor_registry_map = _actor_registry_map(actor_registry)
     command_rows = validate_command_plan(command_plan)
     plan = validate_execution_plan(execution_plan)
     result = validate_execution_result(execution_result)
@@ -117,6 +127,8 @@ def build_collected_messages(
             roster,
             prefix_hint,
         )
+        if row["speaker_ref"] in actor_registry_map:
+            simulated_speaker["open_id"] = actor_registry_map[row["speaker_ref"]]["simulated_open_id"]
         sender = fetched.get("sender") if isinstance(fetched.get("sender"), dict) else {}
         output_rows.append(
             {

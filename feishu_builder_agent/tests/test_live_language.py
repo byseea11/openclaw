@@ -3,7 +3,9 @@ from __future__ import annotations
 import unittest
 from typing import Any
 
+from feishu_builder_agent.case_profiles import sample_case_seed_components
 from feishu_builder_agent.character_generator import generate_characters
+from feishu_builder_agent.case_world_generator import generate_case_world
 from feishu_builder_agent.story_generator import generate_story
 from feishu_builder_agent.timeline_planner import generate_timeline
 
@@ -17,6 +19,22 @@ CASE_SPEC = {
     "main_goal": "围绕五月初上线目标形成统一口径",
     "difficulty": "medium",
     "seed": 9,
+}
+
+
+CASE_SEED = {
+    **CASE_SPEC,
+    "scenario_profile": "enterprise_release_coordination",
+    **sample_case_seed_components(
+        task_id=CASE_SPEC["task_id"],
+        difficulty=CASE_SPEC["difficulty"],
+        seed=CASE_SPEC["seed"],
+        profile_id="enterprise_release_coordination",
+        department_hints=CASE_SPEC["departments"],
+        title_hint=CASE_SPEC["title"],
+        main_goal_hint=CASE_SPEC["main_goal"],
+        company_type_hint=CASE_SPEC["company_type"],
+    ),
 }
 
 
@@ -52,8 +70,11 @@ class LiveLanguageFallbackTests(unittest.TestCase):
 
     def test_characters_fall_back_when_live_output_is_not_chinese(self) -> None:
         story = generate_story(CASE_SPEC)
+        case_world = generate_case_world(CASE_SEED)
         characters = generate_characters(
             CASE_SPEC,
+            CASE_SEED,
+            case_world,
             story,
             llm_client=_EnglishLLM(
                 {
@@ -78,7 +99,8 @@ class LiveLanguageFallbackTests(unittest.TestCase):
 
     def test_timeline_falls_back_when_live_output_is_not_chinese(self) -> None:
         story = generate_story(CASE_SPEC)
-        characters = generate_characters(CASE_SPEC, story)
+        case_world = generate_case_world(CASE_SEED)
+        characters = generate_characters(CASE_SPEC, CASE_SEED, case_world, story)
         timeline = generate_timeline(
             CASE_SPEC,
             story,

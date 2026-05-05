@@ -1,5 +1,5 @@
 {
-  "case_dir": "amem_docs/ds/feishu_im_dataset_v2/cases/case_feishu_231_example",
+  "case_dir": "amem_docs/ds/feishu_im_dataset_v2/cases/case_feishu_20260505172044256_example",
   "llm_mode": "deterministic",
   "generation_modes": {
     "collect": "deterministic"
@@ -9,9 +9,9 @@
       "record_id": "fetch-step_023",
       "domain": "im",
       "kind": "chat_messages_fetch",
-      "captured_at": "2026-05-05T07:20:17Z",
+      "captured_at": "2026-05-05T09:39:37Z",
       "identity": "user",
-      "command": "lark-cli im +chat-messages-list --chat-id oc_0864449792c12588a5040c6a60334a75 --sort asc --page-size 50 --format json --as user",
+      "command": "lark-cli im +chat-messages-list --chat-id oc_6d792fe5f09454d821fc84785a7a6f5b --sort asc --page-size 50 --format json --as user",
       "response": {
         "ok": true,
         "identity": "user",
@@ -20,9 +20,9 @@
           "messages": [
             {
               "content": "Welcome to {group_type}",
-              "create_time": "2026-05-05 14:50",
+              "create_time": "2026-05-05 17:38",
               "deleted": false,
-              "message_id": "om_x100b50ad7d639cb0c378a13ff07a4dc",
+              "message_id": "om_x100b50afe6ee28a4c3c643ff0b77c33",
               "msg_type": "system",
               "sender": {
                 "id": "",
@@ -34,9 +34,9 @@
             },
             {
               "content": "许祝愿 started the group chat.",
-              "create_time": "2026-05-05 14:50",
+              "create_time": "2026-05-05 17:38",
               "deleted": false,
-              "message_id": "om_x100b50ad7d62a4a0c3919ac9ece0aa1",
+              "message_id": "om_x100b50afe6e934a4c3cd2eec4c89115",
               "msg_type": "system",
               "sender": {
                 "id": "",
@@ -47,10 +47,10 @@
               "updated": false
             },
             {
-              "content": "【安全/林晨】客户同步口径暂时只能说发布日期窗口仍在确认，今天会给出下一次更新时间。",
-              "create_time": "2026-05-05 14:50",
+              "content": "【管理/罗天】客户同步口径暂时只能说发布日期窗口仍在确认，今天会给出下一次更新时间。",
+              "create_time": "2026-05-05 17:38",
               "deleted": false,
-              "message_id": "om_x100b50ad7afdf8b0c4e46a41faf99b9",
+              "message_id": "om_x100b50afe62788a8c32c35562aa62f2",
               "msg_type": "text",
               "sender": {
                 "id": "ou_7488779f2769b648358fca04a3e1919f",
@@ -62,10 +62,10 @@
               "updated": false
             },
             {
-              "content": "【管理/王源】统一对外只说目标窗口仍在评估，不给单点日期。",
-              "create_time": "2026-05-05 14:50",
+              "content": "【管理/罗天】统一对外只说目标窗口仍在评估，不给单点日期。",
+              "create_time": "2026-05-05 17:38",
               "deleted": false,
-              "message_id": "om_x100b50ad7af100a4c4f7a43f66bc408",
+              "message_id": "om_x100b50afe63838acc4d024e5c4c9656",
               "msg_type": "text",
               "sender": {
                 "id": "ou_7488779f2769b648358fca04a3e1919f",
@@ -77,10 +77,10 @@
               "updated": false
             },
             {
-              "content": "【销售/罗天】需要一版可以直接发给客户的说明，不然前线还是会自己补日期。",
-              "create_time": "2026-05-05 14:50",
+              "content": "【销售/秦怡】需要一版可以直接发给客户的说明，不然前线还是会自己补日期。",
+              "create_time": "2026-05-05 17:38",
               "deleted": false,
-              "message_id": "om_x100b50ad7a8a28a0c2dc7d3efdcf873",
+              "message_id": "om_x100b50afe7cf24acc3955ca383c3faa",
               "msg_type": "text",
               "sender": {
                 "id": "ou_7488779f2769b648358fca04a3e1919f",
@@ -92,10 +92,10 @@
               "updated": false
             },
             {
-              "content": "【安全/林晨】客户侧统一说法调整为：目标窗口仍在确认，下一次明确更新时间是本周四晚。",
-              "create_time": "2026-05-05 14:50",
+              "content": "【管理/罗天】客户侧统一说法调整为：目标窗口仍在确认，下一次明确更新时间是本周四晚。",
+              "create_time": "2026-05-05 17:38",
               "deleted": false,
-              "message_id": "om_x100b50ad7a9efca0c43dd658d0b7a4a",
+              "message_id": "om_x100b50afe7c3d8b0c43c3618171cec4",
               "msg_type": "text",
               "sender": {
                 "id": "ou_7488779f2769b648358fca04a3e1919f",
@@ -107,10 +107,10 @@
               "updated": false
             },
             {
-              "content": "【销售/罗天】销售确认前线统一使用窗口口径，不再单独补具体日期。",
-              "create_time": "2026-05-05 14:50",
+              "content": "【销售/秦怡】销售确认前线统一使用窗口口径，不再单独补具体日期。",
+              "create_time": "2026-05-05 17:38",
               "deleted": false,
-              "message_id": "om_x100b50ad7a92b8acc3cc9fe0ad474f2",
+              "message_id": "om_x100b50afe7d144a8c3cc7e0f4d01e0f",
               "msg_type": "text",
               "sender": {
                 "id": "ou_7488779f2769b648358fca04a3e1919f",
@@ -140,9 +140,9 @@
       "record_id": "fetch-step_024",
       "domain": "im",
       "kind": "chat_messages_fetch",
-      "captured_at": "2026-05-05T07:20:18Z",
+      "captured_at": "2026-05-05T09:39:38Z",
       "identity": "user",
-      "command": "lark-cli im +chat-messages-list --chat-id oc_5b4e3cb2fb47f71a2f99fb7f911deb5b --sort asc --page-size 50 --format json --as user",
+      "command": "lark-cli im +chat-messages-list --chat-id oc_8f2d78d241055ad28c1e7eb8eb1503e0 --sort asc --page-size 50 --format json --as user",
       "response": {
         "ok": true,
         "identity": "user",
@@ -151,9 +151,9 @@
           "messages": [
             {
               "content": "Welcome to {group_type}",
-              "create_time": "2026-05-05 14:50",
+              "create_time": "2026-05-05 17:38",
               "deleted": false,
-              "message_id": "om_x100b50ad7d54c4b4c4c536d65a027d2",
+              "message_id": "om_x100b50afe6ddb8acc3f52b93d02bd1a",
               "msg_type": "system",
               "sender": {
                 "id": "",
@@ -165,9 +165,9 @@
             },
             {
               "content": "许祝愿 started the group chat.",
-              "create_time": "2026-05-05 14:50",
+              "create_time": "2026-05-05 17:38",
               "deleted": false,
-              "message_id": "om_x100b50ad7d57cca4c371ff84762111d",
+              "message_id": "om_x100b50afe6dcdca0c4ac7392c6cbe09",
               "msg_type": "system",
               "sender": {
                 "id": "",
@@ -178,10 +178,10 @@
               "updated": false
             },
             {
-              "content": "【安全/林晨】客户已经开始追问 FEISHU-231 的上线窗口，主群需要给出能向外同步的回应。",
-              "create_time": "2026-05-05 14:50",
+              "content": "【管理/罗天】客户已经开始追问 FEISHU-20260505172044256 的上线窗口，主群需要给出能向外同步的回应。",
+              "create_time": "2026-05-05 17:38",
               "deleted": false,
-              "message_id": "om_x100b50ad7d72c8acc3f9cb2d40b4e70",
+              "message_id": "om_x100b50afe6f8e4a0c4c63605dfc88d1",
               "msg_type": "text",
               "sender": {
                 "id": "ou_7488779f2769b648358fca04a3e1919f",
@@ -193,10 +193,10 @@
               "updated": false
             },
             {
-              "content": "【安全/林晨】当前先按 5 月 5 日内部目标推进，但这个日期还不能直接对外承诺。",
-              "create_time": "2026-05-05 14:50",
+              "content": "【管理/罗天】当前先按 5 月 5 日内部目标推进，但这个日期还不能直接对外承诺。",
+              "create_time": "2026-05-05 17:38",
               "deleted": false,
-              "message_id": "om_x100b50ad7d07fca8c22d27efdef67b5",
+              "message_id": "om_x100b50afe68920b0c21ded0f054cbdc",
               "msg_type": "text",
               "sender": {
                 "id": "ou_7488779f2769b648358fca04a3e1919f",
@@ -205,13 +205,13 @@
                 "sender_type": "user",
                 "tenant_key": "1abd20e084069b82"
               },
-              "thread_id": "omt_1a9c1bf5810f9b8e",
+              "thread_id": "omt_1a9c324d6cce1b8d",
               "thread_replies": [
                 {
                   "content": "【研发/赵敏】真正的 blocker 是数据迁移窗口还没锁定，代码本身不是最慢项。",
-                  "create_time": "2026-05-05 14:50",
+                  "create_time": "2026-05-05 17:38",
                   "deleted": false,
-                  "message_id": "om_x100b50ad7ab7a4b4c2b1742ad26442d",
+                  "message_id": "om_x100b50afe7f5b8a4c36c23d5a626fc6",
                   "msg_type": "text",
                   "sender": {
                     "id": "ou_7488779f2769b648358fca04a3e1919f",
@@ -220,14 +220,14 @@
                     "sender_type": "user",
                     "tenant_key": "1abd20e084069b82"
                   },
-                  "thread_id": "omt_1a9c1bf5810f9b8e",
+                  "thread_id": "omt_1a9c324d6cce1b8d",
                   "updated": false
                 },
                 {
                   "content": "【运维/周宇】上线窗口还没最终确认，回滚演练也没有完成，现在说死日期风险太高。",
-                  "create_time": "2026-05-05 14:50",
+                  "create_time": "2026-05-05 17:38",
                   "deleted": false,
-                  "message_id": "om_x100b50ad7a4b48acc4fe47bc63d9659",
+                  "message_id": "om_x100b50afe78938a0c37eb4247fbc9cc",
                   "msg_type": "text",
                   "sender": {
                     "id": "ou_7488779f2769b648358fca04a3e1919f",
@@ -236,14 +236,14 @@
                     "sender_type": "user",
                     "tenant_key": "1abd20e084069b82"
                   },
-                  "thread_id": "omt_1a9c1bf5810f9b8e",
+                  "thread_id": "omt_1a9c324d6cce1b8d",
                   "updated": false
                 },
                 {
-                  "content": "【安全/林晨】高风险能力在安全评审前不应进入客户承诺口径。",
-                  "create_time": "2026-05-05 14:50",
+                  "content": "【安全/何然】高风险能力在安全评审前不应进入客户承诺口径。",
+                  "create_time": "2026-05-05 17:38",
                   "deleted": false,
-                  "message_id": "om_x100b50ad7a5fd0a8c21c20c4817cde4",
+                  "message_id": "om_x100b50afe79de0acc3b9e601da0810d",
                   "msg_type": "text",
                   "sender": {
                     "id": "ou_7488779f2769b648358fca04a3e1919f",
@@ -252,14 +252,14 @@
                     "sender_type": "user",
                     "tenant_key": "1abd20e084069b82"
                   },
-                  "thread_id": "omt_1a9c1bf5810f9b8e",
+                  "thread_id": "omt_1a9c324d6cce1b8d",
                   "updated": false
                 },
                 {
                   "content": "【研发/赵敏】如果迁移窗口在 5 月 7 日前锁定，内部更合理的目标会变成 5 月 10 日。",
-                  "create_time": "2026-05-05 14:50",
+                  "create_time": "2026-05-05 17:38",
                   "deleted": false,
-                  "message_id": "om_x100b50ad7a513ca4c140ac990b63f91",
+                  "message_id": "om_x100b50afe790dca8c14a4ffc4c8d461",
                   "msg_type": "text",
                   "sender": {
                     "id": "ou_7488779f2769b648358fca04a3e1919f",
@@ -268,14 +268,14 @@
                     "sender_type": "user",
                     "tenant_key": "1abd20e084069b82"
                   },
-                  "thread_id": "omt_1a9c1bf5810f9b8e",
+                  "thread_id": "omt_1a9c324d6cce1b8d",
                   "updated": false
                 },
                 {
                   "content": "【研发/赵敏】基于当前依赖情况，原来的 5 月 5 日内部目标应改成 5 月 10 日。",
-                  "create_time": "2026-05-05 14:50",
+                  "create_time": "2026-05-05 17:38",
                   "deleted": false,
-                  "message_id": "om_x100b50ad7a6ae0a4c426cab96329149",
+                  "message_id": "om_x100b50afe7a504a0c2edeec947d9d8a",
                   "msg_type": "text",
                   "sender": {
                     "id": "ou_7488779f2769b648358fca04a3e1919f",
@@ -284,14 +284,14 @@
                     "sender_type": "user",
                     "tenant_key": "1abd20e084069b82"
                   },
-                  "thread_id": "omt_1a9c1bf5810f9b8e",
+                  "thread_id": "omt_1a9c324d6cce1b8d",
                   "updated": false
                 },
                 {
-                  "content": "【测试/陈雪】回归高优问题已经收敛，测试 blocker 从红色降到黄色。",
-                  "create_time": "2026-05-05 14:50",
+                  "content": "【测试/王源】回归高优问题已经收敛，测试 blocker 从红色降到黄色。",
+                  "create_time": "2026-05-05 17:38",
                   "deleted": false,
-                  "message_id": "om_x100b50ad7a7ff0b8c3cc7b692f81979",
+                  "message_id": "om_x100b50afe7b948a0c2ae36243f933c3",
                   "msg_type": "text",
                   "sender": {
                     "id": "ou_7488779f2769b648358fca04a3e1919f",
@@ -300,17 +300,17 @@
                     "sender_type": "user",
                     "tenant_key": "1abd20e084069b82"
                   },
-                  "thread_id": "omt_1a9c1bf5810f9b8e",
+                  "thread_id": "omt_1a9c324d6cce1b8d",
                   "updated": false
                 }
               ],
               "updated": true
             },
             {
-              "content": "【销售/罗天】销售希望今天就形成面向客户的同步口径，不然商务承诺会继续失焦。",
-              "create_time": "2026-05-05 14:50",
+              "content": "【销售/秦怡】销售希望今天就形成面向客户的同步口径，不然商务承诺会继续失焦。",
+              "create_time": "2026-05-05 17:38",
               "deleted": false,
-              "message_id": "om_x100b50ad7d1930a4c339b4a8a53c8e8",
+              "message_id": "om_x100b50afe691b4b0c3129a8057bb772",
               "msg_type": "text",
               "sender": {
                 "id": "ou_7488779f2769b648358fca04a3e1919f",
@@ -322,10 +322,10 @@
               "updated": false
             },
             {
-              "content": "【安全/林晨】请先不要把 5 月 5 日当成已确认时间对外同步，当前只能说还在评估窗口。",
-              "create_time": "2026-05-05 14:50",
+              "content": "【管理/罗天】请先不要把 5 月 5 日当成已确认时间对外同步，当前只能说还在评估窗口。",
+              "create_time": "2026-05-05 17:38",
               "deleted": false,
-              "message_id": "om_x100b50ad7d12b0a0c143a296bc73200",
+              "message_id": "om_x100b50afe6a4b4a4c2bc2ecc0cf365a",
               "msg_type": "text",
               "sender": {
                 "id": "ou_7488779f2769b648358fca04a3e1919f",
@@ -337,10 +337,10 @@
               "updated": false
             },
             {
-              "content": "【测试/陈雪】回归队列还没清完，测试这边也不支持直接锁 5 月 5 日。",
-              "create_time": "2026-05-05 14:50",
+              "content": "【测试/王源】回归队列还没清完，测试这边也不支持直接锁 5 月 5 日。",
+              "create_time": "2026-05-05 17:38",
               "deleted": false,
-              "message_id": "om_x100b50ad7d27e4a0c2e90ca07900529",
+              "message_id": "om_x100b50afe6b178b0c2dea828d1c81a1",
               "msg_type": "text",
               "sender": {
                 "id": "ou_7488779f2769b648358fca04a3e1919f",
@@ -353,9 +353,9 @@
             },
             {
               "content": "【运维/周宇】运维承诺周三前完成回滚演练，并在当晚回写结果。",
-              "create_time": "2026-05-05 14:50",
+              "create_time": "2026-05-05 17:38",
               "deleted": false,
-              "message_id": "om_x100b50ad7d3860a8c216df0873757a7",
+              "message_id": "om_x100b50afe65840b4c45824100bf628c",
               "msg_type": "text",
               "sender": {
                 "id": "ou_7488779f2769b648358fca04a3e1919f",
@@ -367,10 +367,10 @@
               "updated": false
             },
             {
-              "content": "【安全/林晨】内部目标先同步更新为 5 月 10 日，但仍不是客户承诺日期。",
-              "create_time": "2026-05-05 14:50",
+              "content": "【管理/罗天】内部目标先同步更新为 5 月 10 日，但仍不是客户承诺日期。",
+              "create_time": "2026-05-05 17:38",
               "deleted": false,
-              "message_id": "om_x100b50ad7acd48b4c22754fe1a68de6",
+              "message_id": "om_x100b50afe665b4a8c4a3609478d2447",
               "msg_type": "text",
               "sender": {
                 "id": "ou_7488779f2769b648358fca04a3e1919f",
@@ -382,10 +382,10 @@
               "updated": false
             },
             {
-              "content": "【管理/王源】在回滚演练和安全评审完成前，对外只能给窗口，不能给具体日期。",
-              "create_time": "2026-05-05 14:50",
+              "content": "【管理/罗天】在回滚演练和安全评审完成前，对外只能给窗口，不能给具体日期。",
+              "create_time": "2026-05-05 17:38",
               "deleted": false,
-              "message_id": "om_x100b50ad7ac6a4a4c45dc56fae11fcb",
+              "message_id": "om_x100b50afe67ad4a4c114f92c8af752e",
               "msg_type": "text",
               "sender": {
                 "id": "ou_7488779f2769b648358fca04a3e1919f",
@@ -397,10 +397,10 @@
               "updated": false
             },
             {
-              "content": "【安全/林晨】即便测试进度改善，客户侧说法也继续保持窗口而不是日期。",
-              "create_time": "2026-05-05 14:50",
+              "content": "【管理/罗天】即便测试进度改善，客户侧说法也继续保持窗口而不是日期。",
+              "create_time": "2026-05-05 17:38",
               "deleted": false,
-              "message_id": "om_x100b50ad7adaa0b4c4aed79e97890df",
+              "message_id": "om_x100b50afe60704a0c2b4fc5aef4f5ba",
               "msg_type": "text",
               "sender": {
                 "id": "ou_7488779f2769b648358fca04a3e1919f",
@@ -430,9 +430,9 @@
       "record_id": "fetch-step_025",
       "domain": "im",
       "kind": "thread_messages_fetch",
-      "captured_at": "2026-05-05T07:20:19Z",
+      "captured_at": "2026-05-05T09:39:39Z",
       "identity": "user",
-      "command": "lark-cli im +threads-messages-list --thread om_x100b50ad7d07fca8c22d27efdef67b5 --sort asc --page-size 50 --format json --as user",
+      "command": "lark-cli im +threads-messages-list --thread om_x100b50afe68920b0c21ded0f054cbdc --sort asc --page-size 50 --format json --as user",
       "response": {
         "ok": true,
         "identity": "user",
@@ -441,9 +441,9 @@
           "messages": [
             {
               "content": "【研发/赵敏】真正的 blocker 是数据迁移窗口还没锁定，代码本身不是最慢项。",
-              "create_time": "2026-05-05 14:50",
+              "create_time": "2026-05-05 17:38",
               "deleted": false,
-              "message_id": "om_x100b50ad7ab7a4b4c2b1742ad26442d",
+              "message_id": "om_x100b50afe7f5b8a4c36c23d5a626fc6",
               "msg_type": "text",
               "sender": {
                 "id": "ou_7488779f2769b648358fca04a3e1919f",
@@ -452,14 +452,14 @@
                 "sender_type": "user",
                 "tenant_key": "1abd20e084069b82"
               },
-              "thread_id": "omt_1a9c1bf5810f9b8e",
+              "thread_id": "omt_1a9c324d6cce1b8d",
               "updated": false
             },
             {
               "content": "【运维/周宇】上线窗口还没最终确认，回滚演练也没有完成，现在说死日期风险太高。",
-              "create_time": "2026-05-05 14:50",
+              "create_time": "2026-05-05 17:38",
               "deleted": false,
-              "message_id": "om_x100b50ad7a4b48acc4fe47bc63d9659",
+              "message_id": "om_x100b50afe78938a0c37eb4247fbc9cc",
               "msg_type": "text",
               "sender": {
                 "id": "ou_7488779f2769b648358fca04a3e1919f",
@@ -468,14 +468,14 @@
                 "sender_type": "user",
                 "tenant_key": "1abd20e084069b82"
               },
-              "thread_id": "omt_1a9c1bf5810f9b8e",
+              "thread_id": "omt_1a9c324d6cce1b8d",
               "updated": false
             },
             {
-              "content": "【安全/林晨】高风险能力在安全评审前不应进入客户承诺口径。",
-              "create_time": "2026-05-05 14:50",
+              "content": "【安全/何然】高风险能力在安全评审前不应进入客户承诺口径。",
+              "create_time": "2026-05-05 17:38",
               "deleted": false,
-              "message_id": "om_x100b50ad7a5fd0a8c21c20c4817cde4",
+              "message_id": "om_x100b50afe79de0acc3b9e601da0810d",
               "msg_type": "text",
               "sender": {
                 "id": "ou_7488779f2769b648358fca04a3e1919f",
@@ -484,14 +484,14 @@
                 "sender_type": "user",
                 "tenant_key": "1abd20e084069b82"
               },
-              "thread_id": "omt_1a9c1bf5810f9b8e",
+              "thread_id": "omt_1a9c324d6cce1b8d",
               "updated": false
             },
             {
               "content": "【研发/赵敏】如果迁移窗口在 5 月 7 日前锁定，内部更合理的目标会变成 5 月 10 日。",
-              "create_time": "2026-05-05 14:50",
+              "create_time": "2026-05-05 17:38",
               "deleted": false,
-              "message_id": "om_x100b50ad7a513ca4c140ac990b63f91",
+              "message_id": "om_x100b50afe790dca8c14a4ffc4c8d461",
               "msg_type": "text",
               "sender": {
                 "id": "ou_7488779f2769b648358fca04a3e1919f",
@@ -500,14 +500,14 @@
                 "sender_type": "user",
                 "tenant_key": "1abd20e084069b82"
               },
-              "thread_id": "omt_1a9c1bf5810f9b8e",
+              "thread_id": "omt_1a9c324d6cce1b8d",
               "updated": false
             },
             {
               "content": "【研发/赵敏】基于当前依赖情况，原来的 5 月 5 日内部目标应改成 5 月 10 日。",
-              "create_time": "2026-05-05 14:50",
+              "create_time": "2026-05-05 17:38",
               "deleted": false,
-              "message_id": "om_x100b50ad7a6ae0a4c426cab96329149",
+              "message_id": "om_x100b50afe7a504a0c2edeec947d9d8a",
               "msg_type": "text",
               "sender": {
                 "id": "ou_7488779f2769b648358fca04a3e1919f",
@@ -516,14 +516,14 @@
                 "sender_type": "user",
                 "tenant_key": "1abd20e084069b82"
               },
-              "thread_id": "omt_1a9c1bf5810f9b8e",
+              "thread_id": "omt_1a9c324d6cce1b8d",
               "updated": false
             },
             {
-              "content": "【测试/陈雪】回归高优问题已经收敛，测试 blocker 从红色降到黄色。",
-              "create_time": "2026-05-05 14:50",
+              "content": "【测试/王源】回归高优问题已经收敛，测试 blocker 从红色降到黄色。",
+              "create_time": "2026-05-05 17:38",
               "deleted": false,
-              "message_id": "om_x100b50ad7a7ff0b8c3cc7b692f81979",
+              "message_id": "om_x100b50afe7b948a0c2ae36243f933c3",
               "msg_type": "text",
               "sender": {
                 "id": "ou_7488779f2769b648358fca04a3e1919f",
@@ -532,12 +532,12 @@
                 "sender_type": "user",
                 "tenant_key": "1abd20e084069b82"
               },
-              "thread_id": "omt_1a9c1bf5810f9b8e",
+              "thread_id": "omt_1a9c324d6cce1b8d",
               "updated": false
             }
           ],
           "page_token": "",
-          "thread_id": "omt_1a9c1bf5810f9b8e",
+          "thread_id": "omt_1a9c324d6cce1b8d",
           "total": 6
         },
         "_notice": {
@@ -560,7 +560,7 @@
       "source_type": "chat",
       "source_ref": "main_chat",
       "chat_ref": "main_chat",
-      "speaker_ref": "security_01",
+      "speaker_ref": "management_01",
       "topic_key": "external_messaging",
       "turn_purpose": "同步客户和业务侧的时间压力，推动团队尽快给出口径。",
       "supports_event_types": [
@@ -569,10 +569,10 @@
       ],
       "references_previous_turns": [],
       "state_transition": "把外部催促正式带入主群讨论。",
-      "semantic_payload": "客户已经开始追问 FEISHU-231 的上线窗口，主群需要给出能向外同步的回应。",
+      "semantic_payload": "客户已经开始追问 FEISHU-20260505172044256 的上线窗口，主群需要给出能向外同步的回应。",
       "root_turn_id": null,
-      "content_text": "【安全/林晨】客户已经开始追问 FEISHU-231 的上线窗口，主群需要给出能向外同步的回应。",
-      "message_id": "om_x100b50ad7d72c8acc3f9cb2d40b4e70",
+      "content_text": "【管理/罗天】客户已经开始追问 FEISHU-20260505172044256 的上线窗口，主群需要给出能向外同步的回应。",
+      "message_id": "om_x100b50afe6f8e4a0c4c63605dfc88d1",
       "collect_source": "fetch_records",
       "actual_sender": {
         "open_id": "ou_7488779f2769b648358fca04a3e1919f",
@@ -580,18 +580,19 @@
         "sender_type": "user"
       },
       "simulated_speaker": {
-        "speaker_ref": "security_01",
-        "name": "林晨",
-        "department": "安全",
-        "role": "安全评审",
-        "stance": "安全 侧会围绕自己的职责对 FEISHU-231 提出明确立场。"
+        "speaker_ref": "management_01",
+        "open_id": "ou_sim_management_01",
+        "name": "罗天",
+        "department": "管理",
+        "role": "技术负责人",
+        "stance": "管理 侧会围绕自己的职责对 FEISHU-20260505172044256 提出明确立场。"
       },
-      "normalized_actor_id": "security_01",
+      "normalized_actor_id": "management_01",
       "speaker_resolution_mode": "command_plan+prefix",
       "prefix_speaker_hint": {
-        "speaker_ref": "security_01",
-        "name": "林晨",
-        "department": "安全"
+        "speaker_ref": "management_01",
+        "name": "罗天",
+        "department": "管理"
       }
     },
     {
@@ -601,7 +602,7 @@
       "source_type": "chat",
       "source_ref": "main_chat",
       "chat_ref": "main_chat",
-      "speaker_ref": "security_01",
+      "speaker_ref": "management_01",
       "topic_key": "release_date",
       "turn_purpose": "提出一个偏乐观的内部目标日期，但声明还不是外部承诺。",
       "supports_event_types": [
@@ -613,8 +614,8 @@
       "state_transition": "建立了第一个内部目标日期基线。",
       "semantic_payload": "当前先按 5 月 5 日内部目标推进，但这个日期还不能直接对外承诺。",
       "root_turn_id": null,
-      "content_text": "【安全/林晨】当前先按 5 月 5 日内部目标推进，但这个日期还不能直接对外承诺。",
-      "message_id": "om_x100b50ad7d07fca8c22d27efdef67b5",
+      "content_text": "【管理/罗天】当前先按 5 月 5 日内部目标推进，但这个日期还不能直接对外承诺。",
+      "message_id": "om_x100b50afe68920b0c21ded0f054cbdc",
       "collect_source": "fetch_records",
       "actual_sender": {
         "open_id": "ou_7488779f2769b648358fca04a3e1919f",
@@ -622,18 +623,19 @@
         "sender_type": "user"
       },
       "simulated_speaker": {
-        "speaker_ref": "security_01",
-        "name": "林晨",
-        "department": "安全",
-        "role": "安全评审",
-        "stance": "安全 侧会围绕自己的职责对 FEISHU-231 提出明确立场。"
+        "speaker_ref": "management_01",
+        "open_id": "ou_sim_management_01",
+        "name": "罗天",
+        "department": "管理",
+        "role": "技术负责人",
+        "stance": "管理 侧会围绕自己的职责对 FEISHU-20260505172044256 提出明确立场。"
       },
-      "normalized_actor_id": "security_01",
+      "normalized_actor_id": "management_01",
       "speaker_resolution_mode": "command_plan+prefix",
       "prefix_speaker_hint": {
-        "speaker_ref": "security_01",
-        "name": "林晨",
-        "department": "安全"
+        "speaker_ref": "management_01",
+        "name": "罗天",
+        "department": "管理"
       }
     },
     {
@@ -643,7 +645,7 @@
       "source_type": "chat",
       "source_ref": "main_chat",
       "chat_ref": "main_chat",
-      "speaker_ref": "sales_07",
+      "speaker_ref": "sales_03",
       "topic_key": "external_messaging",
       "turn_purpose": "要求形成可对外同步的明确窗口。",
       "supports_event_types": [
@@ -654,8 +656,8 @@
       "state_transition": "对外承诺压力从背景变成显式要求。",
       "semantic_payload": "销售希望今天就形成面向客户的同步口径，不然商务承诺会继续失焦。",
       "root_turn_id": null,
-      "content_text": "【销售/罗天】销售希望今天就形成面向客户的同步口径，不然商务承诺会继续失焦。",
-      "message_id": "om_x100b50ad7d1930a4c339b4a8a53c8e8",
+      "content_text": "【销售/秦怡】销售希望今天就形成面向客户的同步口径，不然商务承诺会继续失焦。",
+      "message_id": "om_x100b50afe691b4b0c3129a8057bb772",
       "collect_source": "fetch_records",
       "actual_sender": {
         "open_id": "ou_7488779f2769b648358fca04a3e1919f",
@@ -663,17 +665,18 @@
         "sender_type": "user"
       },
       "simulated_speaker": {
-        "speaker_ref": "sales_07",
-        "name": "罗天",
+        "speaker_ref": "sales_03",
+        "open_id": "ou_sim_sales_03",
+        "name": "秦怡",
         "department": "销售",
         "role": "客户经理",
-        "stance": "销售 侧会围绕自己的职责对 FEISHU-231 提出明确立场。"
+        "stance": "销售 侧会围绕自己的职责对 FEISHU-20260505172044256 提出明确立场。"
       },
-      "normalized_actor_id": "sales_07",
+      "normalized_actor_id": "sales_03",
       "speaker_resolution_mode": "command_plan+prefix",
       "prefix_speaker_hint": {
-        "speaker_ref": "sales_07",
-        "name": "罗天",
+        "speaker_ref": "sales_03",
+        "name": "秦怡",
         "department": "销售"
       }
     },
@@ -684,7 +687,7 @@
       "source_type": "thread",
       "source_ref": "launch_window_thread",
       "chat_ref": "main_chat",
-      "speaker_ref": "engineering_04",
+      "speaker_ref": "engineering_08",
       "topic_key": "blocker_readiness",
       "turn_purpose": "在 thread 里补充真正的技术 blocker。",
       "supports_event_types": [
@@ -697,7 +700,7 @@
       "semantic_payload": "真正的 blocker 是数据迁移窗口还没锁定，代码本身不是最慢项。",
       "root_turn_id": "turn_002",
       "content_text": "【研发/赵敏】真正的 blocker 是数据迁移窗口还没锁定，代码本身不是最慢项。",
-      "message_id": "om_x100b50ad7ab7a4b4c2b1742ad26442d",
+      "message_id": "om_x100b50afe7f5b8a4c36c23d5a626fc6",
       "collect_source": "fetch_records",
       "actual_sender": {
         "open_id": "ou_7488779f2769b648358fca04a3e1919f",
@@ -705,16 +708,17 @@
         "sender_type": "user"
       },
       "simulated_speaker": {
-        "speaker_ref": "engineering_04",
+        "speaker_ref": "engineering_08",
+        "open_id": "ou_sim_engineering_08",
         "name": "赵敏",
         "department": "研发",
         "role": "后端负责人",
-        "stance": "研发 侧会围绕自己的职责对 FEISHU-231 提出明确立场。"
+        "stance": "研发 侧会围绕自己的职责对 FEISHU-20260505172044256 提出明确立场。"
       },
-      "normalized_actor_id": "engineering_04",
+      "normalized_actor_id": "engineering_08",
       "speaker_resolution_mode": "command_plan+prefix",
       "prefix_speaker_hint": {
-        "speaker_ref": "engineering_04",
+        "speaker_ref": "engineering_08",
         "name": "赵敏",
         "department": "研发"
       }
@@ -726,7 +730,7 @@
       "source_type": "thread",
       "source_ref": "launch_window_thread",
       "chat_ref": "main_chat",
-      "speaker_ref": "operations_02",
+      "speaker_ref": "operations_07",
       "topic_key": "rollback_readiness",
       "turn_purpose": "补充上线窗口和回滚演练都还没准备好。",
       "supports_event_types": [
@@ -739,7 +743,7 @@
       "semantic_payload": "上线窗口还没最终确认，回滚演练也没有完成，现在说死日期风险太高。",
       "root_turn_id": "turn_002",
       "content_text": "【运维/周宇】上线窗口还没最终确认，回滚演练也没有完成，现在说死日期风险太高。",
-      "message_id": "om_x100b50ad7a4b48acc4fe47bc63d9659",
+      "message_id": "om_x100b50afe78938a0c37eb4247fbc9cc",
       "collect_source": "fetch_records",
       "actual_sender": {
         "open_id": "ou_7488779f2769b648358fca04a3e1919f",
@@ -747,16 +751,17 @@
         "sender_type": "user"
       },
       "simulated_speaker": {
-        "speaker_ref": "operations_02",
+        "speaker_ref": "operations_07",
+        "open_id": "ou_sim_operations_07",
         "name": "周宇",
         "department": "运维",
         "role": "SRE 负责人",
-        "stance": "运维 侧会围绕自己的职责对 FEISHU-231 提出明确立场。"
+        "stance": "运维 侧会围绕自己的职责对 FEISHU-20260505172044256 提出明确立场。"
       },
-      "normalized_actor_id": "operations_02",
+      "normalized_actor_id": "operations_07",
       "speaker_resolution_mode": "command_plan+prefix",
       "prefix_speaker_hint": {
-        "speaker_ref": "operations_02",
+        "speaker_ref": "operations_07",
         "name": "周宇",
         "department": "运维"
       }
@@ -768,7 +773,7 @@
       "source_type": "thread",
       "source_ref": "launch_window_thread",
       "chat_ref": "main_chat",
-      "speaker_ref": "security_01",
+      "speaker_ref": "security_06",
       "topic_key": "blocker_readiness",
       "turn_purpose": "引入安全评审门槛，限制过早承诺。",
       "supports_event_types": [
@@ -779,8 +784,8 @@
       "state_transition": "技术阻塞之外再增加合规门槛。",
       "semantic_payload": "高风险能力在安全评审前不应进入客户承诺口径。",
       "root_turn_id": "turn_002",
-      "content_text": "【安全/林晨】高风险能力在安全评审前不应进入客户承诺口径。",
-      "message_id": "om_x100b50ad7a5fd0a8c21c20c4817cde4",
+      "content_text": "【安全/何然】高风险能力在安全评审前不应进入客户承诺口径。",
+      "message_id": "om_x100b50afe79de0acc3b9e601da0810d",
       "collect_source": "fetch_records",
       "actual_sender": {
         "open_id": "ou_7488779f2769b648358fca04a3e1919f",
@@ -788,17 +793,18 @@
         "sender_type": "user"
       },
       "simulated_speaker": {
-        "speaker_ref": "security_01",
-        "name": "林晨",
+        "speaker_ref": "security_06",
+        "open_id": "ou_sim_security_06",
+        "name": "何然",
         "department": "安全",
         "role": "安全评审",
-        "stance": "安全 侧会围绕自己的职责对 FEISHU-231 提出明确立场。"
+        "stance": "安全 侧会围绕自己的职责对 FEISHU-20260505172044256 提出明确立场。"
       },
-      "normalized_actor_id": "security_01",
+      "normalized_actor_id": "security_06",
       "speaker_resolution_mode": "command_plan+prefix",
       "prefix_speaker_hint": {
-        "speaker_ref": "security_01",
-        "name": "林晨",
+        "speaker_ref": "security_06",
+        "name": "何然",
         "department": "安全"
       }
     },
@@ -809,7 +815,7 @@
       "source_type": "chat",
       "source_ref": "main_chat",
       "chat_ref": "main_chat",
-      "speaker_ref": "security_01",
+      "speaker_ref": "management_01",
       "topic_key": "external_messaging",
       "turn_purpose": "把 thread 结论回带到主群，收紧对外口径。",
       "supports_event_types": [
@@ -820,8 +826,8 @@
       "state_transition": "主群口径从可报日期收缩为内部目标。",
       "semantic_payload": "请先不要把 5 月 5 日当成已确认时间对外同步，当前只能说还在评估窗口。",
       "root_turn_id": null,
-      "content_text": "【安全/林晨】请先不要把 5 月 5 日当成已确认时间对外同步，当前只能说还在评估窗口。",
-      "message_id": "om_x100b50ad7d12b0a0c143a296bc73200",
+      "content_text": "【管理/罗天】请先不要把 5 月 5 日当成已确认时间对外同步，当前只能说还在评估窗口。",
+      "message_id": "om_x100b50afe6a4b4a4c2bc2ecc0cf365a",
       "collect_source": "fetch_records",
       "actual_sender": {
         "open_id": "ou_7488779f2769b648358fca04a3e1919f",
@@ -829,18 +835,19 @@
         "sender_type": "user"
       },
       "simulated_speaker": {
-        "speaker_ref": "security_01",
-        "name": "林晨",
-        "department": "安全",
-        "role": "安全评审",
-        "stance": "安全 侧会围绕自己的职责对 FEISHU-231 提出明确立场。"
+        "speaker_ref": "management_01",
+        "open_id": "ou_sim_management_01",
+        "name": "罗天",
+        "department": "管理",
+        "role": "技术负责人",
+        "stance": "管理 侧会围绕自己的职责对 FEISHU-20260505172044256 提出明确立场。"
       },
-      "normalized_actor_id": "security_01",
+      "normalized_actor_id": "management_01",
       "speaker_resolution_mode": "command_plan+prefix",
       "prefix_speaker_hint": {
-        "speaker_ref": "security_01",
-        "name": "林晨",
-        "department": "安全"
+        "speaker_ref": "management_01",
+        "name": "罗天",
+        "department": "管理"
       }
     },
     {
@@ -850,7 +857,7 @@
       "source_type": "chat",
       "source_ref": "customer_sync_chat",
       "chat_ref": "customer_sync_chat",
-      "speaker_ref": "security_01",
+      "speaker_ref": "management_01",
       "topic_key": "external_messaging",
       "turn_purpose": "在客户同步群里转述主群收紧后的状态。",
       "supports_event_types": [
@@ -861,8 +868,8 @@
       "state_transition": "跨 source 开始传播新的主口径。",
       "semantic_payload": "客户同步口径暂时只能说发布日期窗口仍在确认，今天会给出下一次更新时间。",
       "root_turn_id": null,
-      "content_text": "【安全/林晨】客户同步口径暂时只能说发布日期窗口仍在确认，今天会给出下一次更新时间。",
-      "message_id": "om_x100b50ad7afdf8b0c4e46a41faf99b9",
+      "content_text": "【管理/罗天】客户同步口径暂时只能说发布日期窗口仍在确认，今天会给出下一次更新时间。",
+      "message_id": "om_x100b50afe62788a8c32c35562aa62f2",
       "collect_source": "fetch_records",
       "actual_sender": {
         "open_id": "ou_7488779f2769b648358fca04a3e1919f",
@@ -870,18 +877,19 @@
         "sender_type": "user"
       },
       "simulated_speaker": {
-        "speaker_ref": "security_01",
-        "name": "林晨",
-        "department": "安全",
-        "role": "安全评审",
-        "stance": "安全 侧会围绕自己的职责对 FEISHU-231 提出明确立场。"
+        "speaker_ref": "management_01",
+        "open_id": "ou_sim_management_01",
+        "name": "罗天",
+        "department": "管理",
+        "role": "技术负责人",
+        "stance": "管理 侧会围绕自己的职责对 FEISHU-20260505172044256 提出明确立场。"
       },
-      "normalized_actor_id": "security_01",
+      "normalized_actor_id": "management_01",
       "speaker_resolution_mode": "command_plan+prefix",
       "prefix_speaker_hint": {
-        "speaker_ref": "security_01",
-        "name": "林晨",
-        "department": "安全"
+        "speaker_ref": "management_01",
+        "name": "罗天",
+        "department": "管理"
       }
     },
     {
@@ -891,7 +899,7 @@
       "source_type": "chat",
       "source_ref": "customer_sync_chat",
       "chat_ref": "customer_sync_chat",
-      "speaker_ref": "management_03",
+      "speaker_ref": "management_01",
       "topic_key": "external_messaging",
       "turn_purpose": "明确对外措辞，避免继续放大承诺。",
       "supports_event_types": [
@@ -902,8 +910,8 @@
       "state_transition": "客户沟通文本从日期承诺转成条件式窗口。",
       "semantic_payload": "统一对外只说目标窗口仍在评估，不给单点日期。",
       "root_turn_id": null,
-      "content_text": "【管理/王源】统一对外只说目标窗口仍在评估，不给单点日期。",
-      "message_id": "om_x100b50ad7af100a4c4f7a43f66bc408",
+      "content_text": "【管理/罗天】统一对外只说目标窗口仍在评估，不给单点日期。",
+      "message_id": "om_x100b50afe63838acc4d024e5c4c9656",
       "collect_source": "fetch_records",
       "actual_sender": {
         "open_id": "ou_7488779f2769b648358fca04a3e1919f",
@@ -911,17 +919,18 @@
         "sender_type": "user"
       },
       "simulated_speaker": {
-        "speaker_ref": "management_03",
-        "name": "王源",
+        "speaker_ref": "management_01",
+        "open_id": "ou_sim_management_01",
+        "name": "罗天",
         "department": "管理",
         "role": "技术负责人",
-        "stance": "管理 侧会围绕自己的职责对 FEISHU-231 提出明确立场。"
+        "stance": "管理 侧会围绕自己的职责对 FEISHU-20260505172044256 提出明确立场。"
       },
-      "normalized_actor_id": "management_03",
+      "normalized_actor_id": "management_01",
       "speaker_resolution_mode": "command_plan+prefix",
       "prefix_speaker_hint": {
-        "speaker_ref": "management_03",
-        "name": "王源",
+        "speaker_ref": "management_01",
+        "name": "罗天",
         "department": "管理"
       }
     },
@@ -932,7 +941,7 @@
       "source_type": "thread",
       "source_ref": "launch_window_thread",
       "chat_ref": "main_chat",
-      "speaker_ref": "engineering_04",
+      "speaker_ref": "engineering_08",
       "topic_key": "release_date",
       "turn_purpose": "给出带条件的替代日期。",
       "supports_event_types": [
@@ -945,7 +954,7 @@
       "semantic_payload": "如果迁移窗口在 5 月 7 日前锁定，内部更合理的目标会变成 5 月 10 日。",
       "root_turn_id": "turn_002",
       "content_text": "【研发/赵敏】如果迁移窗口在 5 月 7 日前锁定，内部更合理的目标会变成 5 月 10 日。",
-      "message_id": "om_x100b50ad7a513ca4c140ac990b63f91",
+      "message_id": "om_x100b50afe790dca8c14a4ffc4c8d461",
       "collect_source": "fetch_records",
       "actual_sender": {
         "open_id": "ou_7488779f2769b648358fca04a3e1919f",
@@ -953,16 +962,17 @@
         "sender_type": "user"
       },
       "simulated_speaker": {
-        "speaker_ref": "engineering_04",
+        "speaker_ref": "engineering_08",
+        "open_id": "ou_sim_engineering_08",
         "name": "赵敏",
         "department": "研发",
         "role": "后端负责人",
-        "stance": "研发 侧会围绕自己的职责对 FEISHU-231 提出明确立场。"
+        "stance": "研发 侧会围绕自己的职责对 FEISHU-20260505172044256 提出明确立场。"
       },
-      "normalized_actor_id": "engineering_04",
+      "normalized_actor_id": "engineering_08",
       "speaker_resolution_mode": "command_plan+prefix",
       "prefix_speaker_hint": {
-        "speaker_ref": "engineering_04",
+        "speaker_ref": "engineering_08",
         "name": "赵敏",
         "department": "研发"
       }
@@ -974,7 +984,7 @@
       "source_type": "chat",
       "source_ref": "main_chat",
       "chat_ref": "main_chat",
-      "speaker_ref": "qa_06",
+      "speaker_ref": "qa_02",
       "topic_key": "blocker_readiness",
       "turn_purpose": "补充测试侧未完成项，增加当前不可承诺的证据。",
       "supports_event_types": [
@@ -985,8 +995,8 @@
       "state_transition": "技术 blocker 扩展为质量 blocker。",
       "semantic_payload": "回归队列还没清完，测试这边也不支持直接锁 5 月 5 日。",
       "root_turn_id": null,
-      "content_text": "【测试/陈雪】回归队列还没清完，测试这边也不支持直接锁 5 月 5 日。",
-      "message_id": "om_x100b50ad7d27e4a0c2e90ca07900529",
+      "content_text": "【测试/王源】回归队列还没清完，测试这边也不支持直接锁 5 月 5 日。",
+      "message_id": "om_x100b50afe6b178b0c2dea828d1c81a1",
       "collect_source": "fetch_records",
       "actual_sender": {
         "open_id": "ou_7488779f2769b648358fca04a3e1919f",
@@ -994,17 +1004,18 @@
         "sender_type": "user"
       },
       "simulated_speaker": {
-        "speaker_ref": "qa_06",
-        "name": "陈雪",
+        "speaker_ref": "qa_02",
+        "open_id": "ou_sim_qa_02",
+        "name": "王源",
         "department": "测试",
         "role": "测试负责人",
-        "stance": "测试 侧会围绕自己的职责对 FEISHU-231 提出明确立场。"
+        "stance": "测试 侧会围绕自己的职责对 FEISHU-20260505172044256 提出明确立场。"
       },
-      "normalized_actor_id": "qa_06",
+      "normalized_actor_id": "qa_02",
       "speaker_resolution_mode": "command_plan+prefix",
       "prefix_speaker_hint": {
-        "speaker_ref": "qa_06",
-        "name": "陈雪",
+        "speaker_ref": "qa_02",
+        "name": "王源",
         "department": "测试"
       }
     },
@@ -1015,7 +1026,7 @@
       "source_type": "chat",
       "source_ref": "customer_sync_chat",
       "chat_ref": "customer_sync_chat",
-      "speaker_ref": "sales_07",
+      "speaker_ref": "sales_03",
       "topic_key": "external_messaging",
       "turn_purpose": "要求一版可复制的客户沟通话术。",
       "supports_event_types": [
@@ -1025,8 +1036,8 @@
       "state_transition": "客户同步从原则口径推进到可执行话术。",
       "semantic_payload": "需要一版可以直接发给客户的说明，不然前线还是会自己补日期。",
       "root_turn_id": null,
-      "content_text": "【销售/罗天】需要一版可以直接发给客户的说明，不然前线还是会自己补日期。",
-      "message_id": "om_x100b50ad7a8a28a0c2dc7d3efdcf873",
+      "content_text": "【销售/秦怡】需要一版可以直接发给客户的说明，不然前线还是会自己补日期。",
+      "message_id": "om_x100b50afe7cf24acc3955ca383c3faa",
       "collect_source": "fetch_records",
       "actual_sender": {
         "open_id": "ou_7488779f2769b648358fca04a3e1919f",
@@ -1034,17 +1045,18 @@
         "sender_type": "user"
       },
       "simulated_speaker": {
-        "speaker_ref": "sales_07",
-        "name": "罗天",
+        "speaker_ref": "sales_03",
+        "open_id": "ou_sim_sales_03",
+        "name": "秦怡",
         "department": "销售",
         "role": "客户经理",
-        "stance": "销售 侧会围绕自己的职责对 FEISHU-231 提出明确立场。"
+        "stance": "销售 侧会围绕自己的职责对 FEISHU-20260505172044256 提出明确立场。"
       },
-      "normalized_actor_id": "sales_07",
+      "normalized_actor_id": "sales_03",
       "speaker_resolution_mode": "command_plan+prefix",
       "prefix_speaker_hint": {
-        "speaker_ref": "sales_07",
-        "name": "罗天",
+        "speaker_ref": "sales_03",
+        "name": "秦怡",
         "department": "销售"
       }
     },
@@ -1055,7 +1067,7 @@
       "source_type": "chat",
       "source_ref": "main_chat",
       "chat_ref": "main_chat",
-      "speaker_ref": "operations_02",
+      "speaker_ref": "operations_07",
       "topic_key": "rollback_readiness",
       "turn_purpose": "承诺何时完成回滚演练。",
       "supports_event_types": [
@@ -1067,7 +1079,7 @@
       "semantic_payload": "运维承诺周三前完成回滚演练，并在当晚回写结果。",
       "root_turn_id": null,
       "content_text": "【运维/周宇】运维承诺周三前完成回滚演练，并在当晚回写结果。",
-      "message_id": "om_x100b50ad7d3860a8c216df0873757a7",
+      "message_id": "om_x100b50afe65840b4c45824100bf628c",
       "collect_source": "fetch_records",
       "actual_sender": {
         "open_id": "ou_7488779f2769b648358fca04a3e1919f",
@@ -1075,16 +1087,17 @@
         "sender_type": "user"
       },
       "simulated_speaker": {
-        "speaker_ref": "operations_02",
+        "speaker_ref": "operations_07",
+        "open_id": "ou_sim_operations_07",
         "name": "周宇",
         "department": "运维",
         "role": "SRE 负责人",
-        "stance": "运维 侧会围绕自己的职责对 FEISHU-231 提出明确立场。"
+        "stance": "运维 侧会围绕自己的职责对 FEISHU-20260505172044256 提出明确立场。"
       },
-      "normalized_actor_id": "operations_02",
+      "normalized_actor_id": "operations_07",
       "speaker_resolution_mode": "command_plan+prefix",
       "prefix_speaker_hint": {
-        "speaker_ref": "operations_02",
+        "speaker_ref": "operations_07",
         "name": "周宇",
         "department": "运维"
       }
@@ -1096,7 +1109,7 @@
       "source_type": "thread",
       "source_ref": "launch_window_thread",
       "chat_ref": "main_chat",
-      "speaker_ref": "engineering_04",
+      "speaker_ref": "engineering_08",
       "topic_key": "release_date",
       "turn_purpose": "正式 supersede 原先的乐观目标日期。",
       "supports_event_types": [
@@ -1109,7 +1122,7 @@
       "semantic_payload": "基于当前依赖情况，原来的 5 月 5 日内部目标应改成 5 月 10 日。",
       "root_turn_id": "turn_002",
       "content_text": "【研发/赵敏】基于当前依赖情况，原来的 5 月 5 日内部目标应改成 5 月 10 日。",
-      "message_id": "om_x100b50ad7a6ae0a4c426cab96329149",
+      "message_id": "om_x100b50afe7a504a0c2edeec947d9d8a",
       "collect_source": "fetch_records",
       "actual_sender": {
         "open_id": "ou_7488779f2769b648358fca04a3e1919f",
@@ -1117,16 +1130,17 @@
         "sender_type": "user"
       },
       "simulated_speaker": {
-        "speaker_ref": "engineering_04",
+        "speaker_ref": "engineering_08",
+        "open_id": "ou_sim_engineering_08",
         "name": "赵敏",
         "department": "研发",
         "role": "后端负责人",
-        "stance": "研发 侧会围绕自己的职责对 FEISHU-231 提出明确立场。"
+        "stance": "研发 侧会围绕自己的职责对 FEISHU-20260505172044256 提出明确立场。"
       },
-      "normalized_actor_id": "engineering_04",
+      "normalized_actor_id": "engineering_08",
       "speaker_resolution_mode": "command_plan+prefix",
       "prefix_speaker_hint": {
-        "speaker_ref": "engineering_04",
+        "speaker_ref": "engineering_08",
         "name": "赵敏",
         "department": "研发"
       }
@@ -1138,7 +1152,7 @@
       "source_type": "chat",
       "source_ref": "main_chat",
       "chat_ref": "main_chat",
-      "speaker_ref": "security_01",
+      "speaker_ref": "management_01",
       "topic_key": "release_date",
       "turn_purpose": "把 thread 中新的日期回写到主群 current state。",
       "supports_event_types": [
@@ -1150,8 +1164,8 @@
       "state_transition": "主群当前内部目标日期完成 supersession。",
       "semantic_payload": "内部目标先同步更新为 5 月 10 日，但仍不是客户承诺日期。",
       "root_turn_id": null,
-      "content_text": "【安全/林晨】内部目标先同步更新为 5 月 10 日，但仍不是客户承诺日期。",
-      "message_id": "om_x100b50ad7acd48b4c22754fe1a68de6",
+      "content_text": "【管理/罗天】内部目标先同步更新为 5 月 10 日，但仍不是客户承诺日期。",
+      "message_id": "om_x100b50afe665b4a8c4a3609478d2447",
       "collect_source": "fetch_records",
       "actual_sender": {
         "open_id": "ou_7488779f2769b648358fca04a3e1919f",
@@ -1159,18 +1173,19 @@
         "sender_type": "user"
       },
       "simulated_speaker": {
-        "speaker_ref": "security_01",
-        "name": "林晨",
-        "department": "安全",
-        "role": "安全评审",
-        "stance": "安全 侧会围绕自己的职责对 FEISHU-231 提出明确立场。"
+        "speaker_ref": "management_01",
+        "open_id": "ou_sim_management_01",
+        "name": "罗天",
+        "department": "管理",
+        "role": "技术负责人",
+        "stance": "管理 侧会围绕自己的职责对 FEISHU-20260505172044256 提出明确立场。"
       },
-      "normalized_actor_id": "security_01",
+      "normalized_actor_id": "management_01",
       "speaker_resolution_mode": "command_plan+prefix",
       "prefix_speaker_hint": {
-        "speaker_ref": "security_01",
-        "name": "林晨",
-        "department": "安全"
+        "speaker_ref": "management_01",
+        "name": "罗天",
+        "department": "管理"
       }
     },
     {
@@ -1180,7 +1195,7 @@
       "source_type": "chat",
       "source_ref": "customer_sync_chat",
       "chat_ref": "customer_sync_chat",
-      "speaker_ref": "security_01",
+      "speaker_ref": "management_01",
       "topic_key": "external_messaging",
       "turn_purpose": "输出一版对外同步文案。",
       "supports_event_types": [
@@ -1191,8 +1206,8 @@
       "state_transition": "客户同步群形成可执行话术草案。",
       "semantic_payload": "客户侧统一说法调整为：目标窗口仍在确认，下一次明确更新时间是本周四晚。",
       "root_turn_id": null,
-      "content_text": "【安全/林晨】客户侧统一说法调整为：目标窗口仍在确认，下一次明确更新时间是本周四晚。",
-      "message_id": "om_x100b50ad7a9efca0c43dd658d0b7a4a",
+      "content_text": "【管理/罗天】客户侧统一说法调整为：目标窗口仍在确认，下一次明确更新时间是本周四晚。",
+      "message_id": "om_x100b50afe7c3d8b0c43c3618171cec4",
       "collect_source": "fetch_records",
       "actual_sender": {
         "open_id": "ou_7488779f2769b648358fca04a3e1919f",
@@ -1200,18 +1215,19 @@
         "sender_type": "user"
       },
       "simulated_speaker": {
-        "speaker_ref": "security_01",
-        "name": "林晨",
-        "department": "安全",
-        "role": "安全评审",
-        "stance": "安全 侧会围绕自己的职责对 FEISHU-231 提出明确立场。"
+        "speaker_ref": "management_01",
+        "open_id": "ou_sim_management_01",
+        "name": "罗天",
+        "department": "管理",
+        "role": "技术负责人",
+        "stance": "管理 侧会围绕自己的职责对 FEISHU-20260505172044256 提出明确立场。"
       },
-      "normalized_actor_id": "security_01",
+      "normalized_actor_id": "management_01",
       "speaker_resolution_mode": "command_plan+prefix",
       "prefix_speaker_hint": {
-        "speaker_ref": "security_01",
-        "name": "林晨",
-        "department": "安全"
+        "speaker_ref": "management_01",
+        "name": "罗天",
+        "department": "管理"
       }
     },
     {
@@ -1221,7 +1237,7 @@
       "source_type": "chat",
       "source_ref": "main_chat",
       "chat_ref": "main_chat",
-      "speaker_ref": "management_03",
+      "speaker_ref": "management_01",
       "topic_key": "external_messaging",
       "turn_purpose": "确认当前对外上限，只能给窗口不能给日期。",
       "supports_event_types": [
@@ -1232,8 +1248,8 @@
       "state_transition": "当前态收敛为窗口口径而非日期口径。",
       "semantic_payload": "在回滚演练和安全评审完成前，对外只能给窗口，不能给具体日期。",
       "root_turn_id": null,
-      "content_text": "【管理/王源】在回滚演练和安全评审完成前，对外只能给窗口，不能给具体日期。",
-      "message_id": "om_x100b50ad7ac6a4a4c45dc56fae11fcb",
+      "content_text": "【管理/罗天】在回滚演练和安全评审完成前，对外只能给窗口，不能给具体日期。",
+      "message_id": "om_x100b50afe67ad4a4c114f92c8af752e",
       "collect_source": "fetch_records",
       "actual_sender": {
         "open_id": "ou_7488779f2769b648358fca04a3e1919f",
@@ -1241,17 +1257,18 @@
         "sender_type": "user"
       },
       "simulated_speaker": {
-        "speaker_ref": "management_03",
-        "name": "王源",
+        "speaker_ref": "management_01",
+        "open_id": "ou_sim_management_01",
+        "name": "罗天",
         "department": "管理",
         "role": "技术负责人",
-        "stance": "管理 侧会围绕自己的职责对 FEISHU-231 提出明确立场。"
+        "stance": "管理 侧会围绕自己的职责对 FEISHU-20260505172044256 提出明确立场。"
       },
-      "normalized_actor_id": "management_03",
+      "normalized_actor_id": "management_01",
       "speaker_resolution_mode": "command_plan+prefix",
       "prefix_speaker_hint": {
-        "speaker_ref": "management_03",
-        "name": "王源",
+        "speaker_ref": "management_01",
+        "name": "罗天",
         "department": "管理"
       }
     },
@@ -1262,7 +1279,7 @@
       "source_type": "thread",
       "source_ref": "launch_window_thread",
       "chat_ref": "main_chat",
-      "speaker_ref": "qa_06",
+      "speaker_ref": "qa_02",
       "topic_key": "blocker_readiness",
       "turn_purpose": "更新 blocker 解决进度。",
       "supports_event_types": [
@@ -1272,8 +1289,8 @@
       "state_transition": "部分 blocker 进入已缓解状态。",
       "semantic_payload": "回归高优问题已经收敛，测试 blocker 从红色降到黄色。",
       "root_turn_id": "turn_002",
-      "content_text": "【测试/陈雪】回归高优问题已经收敛，测试 blocker 从红色降到黄色。",
-      "message_id": "om_x100b50ad7a7ff0b8c3cc7b692f81979",
+      "content_text": "【测试/王源】回归高优问题已经收敛，测试 blocker 从红色降到黄色。",
+      "message_id": "om_x100b50afe7b948a0c2ae36243f933c3",
       "collect_source": "fetch_records",
       "actual_sender": {
         "open_id": "ou_7488779f2769b648358fca04a3e1919f",
@@ -1281,17 +1298,18 @@
         "sender_type": "user"
       },
       "simulated_speaker": {
-        "speaker_ref": "qa_06",
-        "name": "陈雪",
+        "speaker_ref": "qa_02",
+        "open_id": "ou_sim_qa_02",
+        "name": "王源",
         "department": "测试",
         "role": "测试负责人",
-        "stance": "测试 侧会围绕自己的职责对 FEISHU-231 提出明确立场。"
+        "stance": "测试 侧会围绕自己的职责对 FEISHU-20260505172044256 提出明确立场。"
       },
-      "normalized_actor_id": "qa_06",
+      "normalized_actor_id": "qa_02",
       "speaker_resolution_mode": "command_plan+prefix",
       "prefix_speaker_hint": {
-        "speaker_ref": "qa_06",
-        "name": "陈雪",
+        "speaker_ref": "qa_02",
+        "name": "王源",
         "department": "测试"
       }
     },
@@ -1302,7 +1320,7 @@
       "source_type": "chat",
       "source_ref": "main_chat",
       "chat_ref": "main_chat",
-      "speaker_ref": "security_01",
+      "speaker_ref": "management_01",
       "topic_key": "external_messaging",
       "turn_purpose": "回写当前主群的客户侧措辞边界。",
       "supports_event_types": [
@@ -1313,8 +1331,8 @@
       "state_transition": "对外口径保持窗口，不因 blocker 缓解立即改成日期。",
       "semantic_payload": "即便测试进度改善，客户侧说法也继续保持窗口而不是日期。",
       "root_turn_id": null,
-      "content_text": "【安全/林晨】即便测试进度改善，客户侧说法也继续保持窗口而不是日期。",
-      "message_id": "om_x100b50ad7adaa0b4c4aed79e97890df",
+      "content_text": "【管理/罗天】即便测试进度改善，客户侧说法也继续保持窗口而不是日期。",
+      "message_id": "om_x100b50afe60704a0c2b4fc5aef4f5ba",
       "collect_source": "fetch_records",
       "actual_sender": {
         "open_id": "ou_7488779f2769b648358fca04a3e1919f",
@@ -1322,18 +1340,19 @@
         "sender_type": "user"
       },
       "simulated_speaker": {
-        "speaker_ref": "security_01",
-        "name": "林晨",
-        "department": "安全",
-        "role": "安全评审",
-        "stance": "安全 侧会围绕自己的职责对 FEISHU-231 提出明确立场。"
+        "speaker_ref": "management_01",
+        "open_id": "ou_sim_management_01",
+        "name": "罗天",
+        "department": "管理",
+        "role": "技术负责人",
+        "stance": "管理 侧会围绕自己的职责对 FEISHU-20260505172044256 提出明确立场。"
       },
-      "normalized_actor_id": "security_01",
+      "normalized_actor_id": "management_01",
       "speaker_resolution_mode": "command_plan+prefix",
       "prefix_speaker_hint": {
-        "speaker_ref": "security_01",
-        "name": "林晨",
-        "department": "安全"
+        "speaker_ref": "management_01",
+        "name": "罗天",
+        "department": "管理"
       }
     },
     {
@@ -1343,7 +1362,7 @@
       "source_type": "chat",
       "source_ref": "customer_sync_chat",
       "chat_ref": "customer_sync_chat",
-      "speaker_ref": "sales_07",
+      "speaker_ref": "sales_03",
       "topic_key": "external_messaging",
       "turn_purpose": "确认前线将执行新口径。",
       "supports_event_types": [
@@ -1354,8 +1373,8 @@
       "state_transition": "跨 source 的最终当前态收敛。",
       "semantic_payload": "销售确认前线统一使用窗口口径，不再单独补具体日期。",
       "root_turn_id": null,
-      "content_text": "【销售/罗天】销售确认前线统一使用窗口口径，不再单独补具体日期。",
-      "message_id": "om_x100b50ad7a92b8acc3cc9fe0ad474f2",
+      "content_text": "【销售/秦怡】销售确认前线统一使用窗口口径，不再单独补具体日期。",
+      "message_id": "om_x100b50afe7d144a8c3cc7e0f4d01e0f",
       "collect_source": "fetch_records",
       "actual_sender": {
         "open_id": "ou_7488779f2769b648358fca04a3e1919f",
@@ -1363,17 +1382,18 @@
         "sender_type": "user"
       },
       "simulated_speaker": {
-        "speaker_ref": "sales_07",
-        "name": "罗天",
+        "speaker_ref": "sales_03",
+        "open_id": "ou_sim_sales_03",
+        "name": "秦怡",
         "department": "销售",
         "role": "客户经理",
-        "stance": "销售 侧会围绕自己的职责对 FEISHU-231 提出明确立场。"
+        "stance": "销售 侧会围绕自己的职责对 FEISHU-20260505172044256 提出明确立场。"
       },
-      "normalized_actor_id": "sales_07",
+      "normalized_actor_id": "sales_03",
       "speaker_resolution_mode": "command_plan+prefix",
       "prefix_speaker_hint": {
-        "speaker_ref": "sales_07",
-        "name": "罗天",
+        "speaker_ref": "sales_03",
+        "name": "秦怡",
         "department": "销售"
       }
     }

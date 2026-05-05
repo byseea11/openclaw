@@ -1,0 +1,351 @@
+{
+  "case_id": "case_feishu_20260505172044256_example",
+  "operator_identity": "user",
+  "delivery_mode": "prefixed_single_operator",
+  "actions": [
+    {
+      "action_id": "step_001",
+      "action_type": "create_chat",
+      "depends_on": [],
+      "params": {
+        "chat_ref": "main_chat",
+        "name": "FEISHU-20260505172044256 主项目群",
+        "members": [
+          "customer_success_04",
+          "engineering_08",
+          "frontend_05",
+          "management_01",
+          "operations_07",
+          "qa_02",
+          "sales_03",
+          "security_06"
+        ]
+      },
+      "output_ref": "main_chat"
+    },
+    {
+      "action_id": "step_002",
+      "action_type": "create_chat",
+      "depends_on": [],
+      "params": {
+        "chat_ref": "customer_sync_chat",
+        "name": "客户同步群",
+        "members": [
+          "customer_success_04",
+          "engineering_08",
+          "frontend_05",
+          "management_01",
+          "operations_07",
+          "qa_02",
+          "sales_03",
+          "security_06"
+        ]
+      },
+      "output_ref": "customer_sync_chat"
+    },
+    {
+      "action_id": "step_003",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_001"
+      ],
+      "params": {
+        "chat_ref": "main_chat",
+        "sender_ref": "management_01",
+        "content_text": "【管理/罗天】客户已经开始追问 FEISHU-20260505172044256 的上线窗口，主群需要给出能向外同步的回应。"
+      },
+      "output_ref": "msg_turn_001"
+    },
+    {
+      "action_id": "step_004",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_001"
+      ],
+      "params": {
+        "chat_ref": "main_chat",
+        "sender_ref": "management_01",
+        "content_text": "【管理/罗天】当前先按 5 月 5 日内部目标推进，但这个日期还不能直接对外承诺。"
+      },
+      "output_ref": "msg_turn_002"
+    },
+    {
+      "action_id": "step_005",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_001"
+      ],
+      "params": {
+        "chat_ref": "main_chat",
+        "sender_ref": "sales_03",
+        "content_text": "【销售/秦怡】销售希望今天就形成面向客户的同步口径，不然商务承诺会继续失焦。"
+      },
+      "output_ref": "msg_turn_003"
+    },
+    {
+      "action_id": "step_006",
+      "action_type": "reply_in_thread",
+      "depends_on": [
+        "step_001",
+        "step_004"
+      ],
+      "params": {
+        "chat_ref": "main_chat",
+        "sender_ref": "engineering_08",
+        "content_text": "【研发/赵敏】真正的 blocker 是数据迁移窗口还没锁定，代码本身不是最慢项。",
+        "root_message_ref": "msg_turn_002"
+      },
+      "output_ref": "msg_turn_004"
+    },
+    {
+      "action_id": "step_007",
+      "action_type": "reply_in_thread",
+      "depends_on": [
+        "step_001",
+        "step_004"
+      ],
+      "params": {
+        "chat_ref": "main_chat",
+        "sender_ref": "operations_07",
+        "content_text": "【运维/周宇】上线窗口还没最终确认，回滚演练也没有完成，现在说死日期风险太高。",
+        "root_message_ref": "msg_turn_002"
+      },
+      "output_ref": "msg_turn_005"
+    },
+    {
+      "action_id": "step_008",
+      "action_type": "reply_in_thread",
+      "depends_on": [
+        "step_001",
+        "step_004"
+      ],
+      "params": {
+        "chat_ref": "main_chat",
+        "sender_ref": "security_06",
+        "content_text": "【安全/何然】高风险能力在安全评审前不应进入客户承诺口径。",
+        "root_message_ref": "msg_turn_002"
+      },
+      "output_ref": "msg_turn_006"
+    },
+    {
+      "action_id": "step_009",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_001"
+      ],
+      "params": {
+        "chat_ref": "main_chat",
+        "sender_ref": "management_01",
+        "content_text": "【管理/罗天】请先不要把 5 月 5 日当成已确认时间对外同步，当前只能说还在评估窗口。"
+      },
+      "output_ref": "msg_turn_007"
+    },
+    {
+      "action_id": "step_010",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_002"
+      ],
+      "params": {
+        "chat_ref": "customer_sync_chat",
+        "sender_ref": "management_01",
+        "content_text": "【管理/罗天】客户同步口径暂时只能说发布日期窗口仍在确认，今天会给出下一次更新时间。"
+      },
+      "output_ref": "msg_turn_008"
+    },
+    {
+      "action_id": "step_011",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_002"
+      ],
+      "params": {
+        "chat_ref": "customer_sync_chat",
+        "sender_ref": "management_01",
+        "content_text": "【管理/罗天】统一对外只说目标窗口仍在评估，不给单点日期。"
+      },
+      "output_ref": "msg_turn_009"
+    },
+    {
+      "action_id": "step_012",
+      "action_type": "reply_in_thread",
+      "depends_on": [
+        "step_001",
+        "step_004"
+      ],
+      "params": {
+        "chat_ref": "main_chat",
+        "sender_ref": "engineering_08",
+        "content_text": "【研发/赵敏】如果迁移窗口在 5 月 7 日前锁定，内部更合理的目标会变成 5 月 10 日。",
+        "root_message_ref": "msg_turn_002"
+      },
+      "output_ref": "msg_turn_010"
+    },
+    {
+      "action_id": "step_013",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_001"
+      ],
+      "params": {
+        "chat_ref": "main_chat",
+        "sender_ref": "qa_02",
+        "content_text": "【测试/王源】回归队列还没清完，测试这边也不支持直接锁 5 月 5 日。"
+      },
+      "output_ref": "msg_turn_011"
+    },
+    {
+      "action_id": "step_014",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_002"
+      ],
+      "params": {
+        "chat_ref": "customer_sync_chat",
+        "sender_ref": "sales_03",
+        "content_text": "【销售/秦怡】需要一版可以直接发给客户的说明，不然前线还是会自己补日期。"
+      },
+      "output_ref": "msg_turn_012"
+    },
+    {
+      "action_id": "step_015",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_001"
+      ],
+      "params": {
+        "chat_ref": "main_chat",
+        "sender_ref": "operations_07",
+        "content_text": "【运维/周宇】运维承诺周三前完成回滚演练，并在当晚回写结果。"
+      },
+      "output_ref": "msg_turn_013"
+    },
+    {
+      "action_id": "step_016",
+      "action_type": "reply_in_thread",
+      "depends_on": [
+        "step_001",
+        "step_004"
+      ],
+      "params": {
+        "chat_ref": "main_chat",
+        "sender_ref": "engineering_08",
+        "content_text": "【研发/赵敏】基于当前依赖情况，原来的 5 月 5 日内部目标应改成 5 月 10 日。",
+        "root_message_ref": "msg_turn_002"
+      },
+      "output_ref": "msg_turn_014"
+    },
+    {
+      "action_id": "step_017",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_001"
+      ],
+      "params": {
+        "chat_ref": "main_chat",
+        "sender_ref": "management_01",
+        "content_text": "【管理/罗天】内部目标先同步更新为 5 月 10 日，但仍不是客户承诺日期。"
+      },
+      "output_ref": "msg_turn_015"
+    },
+    {
+      "action_id": "step_018",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_002"
+      ],
+      "params": {
+        "chat_ref": "customer_sync_chat",
+        "sender_ref": "management_01",
+        "content_text": "【管理/罗天】客户侧统一说法调整为：目标窗口仍在确认，下一次明确更新时间是本周四晚。"
+      },
+      "output_ref": "msg_turn_016"
+    },
+    {
+      "action_id": "step_019",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_001"
+      ],
+      "params": {
+        "chat_ref": "main_chat",
+        "sender_ref": "management_01",
+        "content_text": "【管理/罗天】在回滚演练和安全评审完成前，对外只能给窗口，不能给具体日期。"
+      },
+      "output_ref": "msg_turn_017"
+    },
+    {
+      "action_id": "step_020",
+      "action_type": "reply_in_thread",
+      "depends_on": [
+        "step_001",
+        "step_004"
+      ],
+      "params": {
+        "chat_ref": "main_chat",
+        "sender_ref": "qa_02",
+        "content_text": "【测试/王源】回归高优问题已经收敛，测试 blocker 从红色降到黄色。",
+        "root_message_ref": "msg_turn_002"
+      },
+      "output_ref": "msg_turn_018"
+    },
+    {
+      "action_id": "step_021",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_001"
+      ],
+      "params": {
+        "chat_ref": "main_chat",
+        "sender_ref": "management_01",
+        "content_text": "【管理/罗天】即便测试进度改善，客户侧说法也继续保持窗口而不是日期。"
+      },
+      "output_ref": "msg_turn_019"
+    },
+    {
+      "action_id": "step_022",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_002"
+      ],
+      "params": {
+        "chat_ref": "customer_sync_chat",
+        "sender_ref": "sales_03",
+        "content_text": "【销售/秦怡】销售确认前线统一使用窗口口径，不再单独补具体日期。"
+      },
+      "output_ref": "msg_turn_020"
+    },
+    {
+      "action_id": "step_023",
+      "action_type": "fetch_chat_messages",
+      "depends_on": [
+        "step_002"
+      ],
+      "params": {
+        "chat_ref": "customer_sync_chat"
+      }
+    },
+    {
+      "action_id": "step_024",
+      "action_type": "fetch_chat_messages",
+      "depends_on": [
+        "step_001"
+      ],
+      "params": {
+        "chat_ref": "main_chat"
+      }
+    },
+    {
+      "action_id": "step_025",
+      "action_type": "fetch_thread_messages",
+      "depends_on": [
+        "step_001",
+        "step_004"
+      ],
+      "params": {
+        "chat_ref": "main_chat",
+        "root_message_ref": "msg_turn_002"
+      }
+    }
+  ]
+}
