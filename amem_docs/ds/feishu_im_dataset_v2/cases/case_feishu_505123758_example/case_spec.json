@@ -1,0 +1,19 @@
+{
+  "case_id": "case_feishu_505123758_example",
+  "task_id": "FEISHU-505123758",
+  "title": "",
+  "company_type": "",
+  "department_hints": [
+    "产品",
+    "研发",
+    "测试",
+    "运维",
+    "安全"
+  ],
+  "scenario_profile": "enterprise_release_coordination",
+  "title_hint": "企业级多部门协作发布流程，涉及版本评审、安全合规检查、灰度发布与回滚机制",
+  "main_goal_hint": "协调产品、研发、测试、运维、安全五个部门完成一次高风险版本的发布，确保在满足安全合规的前提下，实现零故障上线",
+  "main_goal": "",
+  "difficulty": "hard",
+  "seed": 505123758
+}

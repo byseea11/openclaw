@@ -2,82 +2,68 @@
 
 ## 1. 当前定位
 
-`feishu_builder_agent` 当前是一个面向 Task Wiki 评测的数据集构建器。
+`feishu_builder_agent` 当前的目标不是生成一段“故事文本”，而是生成一份可以：
 
-它的目标不是简单“编几条飞书消息”，而是稳定产出一整套可执行、可回收、可评测、可 replay 的企业协作 case。
+- 先定义一个可控的协作案例
+- 再真实执行到飞书
+- 再真实 collect 回来
+- 再转换成 `openclaw-lark` 能直接消费的 replay 输入
+- 最后作为 Task Wiki Layer 1/2/3 的评测样本
 
-当前它要同时满足四件事：
+的完整数据构建链。
 
-1. 生成真实可执行的飞书动作链
-2. 拉回真实飞书消息与 source metadata
-3. 生成对齐 Layer 2 / Layer 3 的 gold
-4. 生成 OpenClaw 可消费的 ingress 产物
+当前实现是纯 V2，不保留旧 catalog/template 主路径。
 
-当前默认数据根目录：
+## 2. 当前阶段链
 
-- `amem_docs/ds/feishu_im_dataset_v2`
-
-当前默认执行模式：
-
-- `operator_identity = "user"`
-- `delivery_mode = "prefixed_single_operator"`
-
-也就是说：
-
-- 真实飞书里仍由一个真实用户发消息
-- 多角色语义通过 builder 的 `characters / actor_registry / collect / adapt` 这一套链路抬升出来
-
----
-
-## 2. 当前主链
-
-当前公开阶段链是：
+当前公开阶段：
 
 ```text
-case_spec
-  -> case-world
-  -> characters
-  -> plan
-  -> target-gold
-  -> command-plan
-  -> execute
-  -> collect
-  -> gold
-  -> validate
-  -> adapt
-  -> full
+spec-generation
+-> case-world
+-> characters
+-> plan
+-> target-gold
+-> command-plan
+-> execute
+-> collect
+-> gold
+-> validate
+-> adapt
+-> full
 ```
 
-这条链的真实含义是：
+阶段职责：
 
-- 先定义 case 的结构目标
-- 再定义角色与会话计划
-- 再编译成可执行飞书动作
-- 再执行并回收真实消息
-- 再把 target state 绑定到真实 evidence
+1. `spec-generation`
+   生成最小 `case_spec.json`。
+2. `case-world`
+   把最小 spec 扩写成真实企业协作世界。
+3. `characters`
+   生成角色画像与模拟 open_id 映射。
+4. `plan`
+   生成多 session、多 topic、多轮对话计划。
+5. `target-gold`
+   先定义评测目标。
+6. `command-plan`
+   生成要执行的飞书动作。
+7. `execute`
+   真实调用 `lark-cli` 执行动作。
+8. `collect`
+   拉取真实消息并做角色身份抬升。
+9. `gold`
+   把 target gold 绑定到真实证据。
+10. `validate`
+   做跨阶段一致性审计。
+11. `adapt`
+   生成 `openclaw-lark` 可直接消费的 ingress。
 
-所以当前 V2 已经不是旧思路：
+## 3. 单个 case 目录
+
+当前单个 case 目录结构：
 
 ```text
-story -> timeline -> realized_messages -> execution_plan
-```
-
-而是：
-
-```text
-catalog -> case_seed/world -> characters -> conversation_plan
--> target_state -> command_plan -> execution_plan
--> execute -> collect -> gold -> validate -> adapt
-```
-
----
-
-## 3. 当前关键输入输出
-
-一个 case 当前的关键目录结构是：
-
-```text
-cases/<case_id>/
+amem_docs/ds/feishu_im_dataset_v2/cases/<case_id>/
   case_spec.json
   input/
     case_seed.json
@@ -104,626 +90,660 @@ cases/<case_id>/
   build_report.json
 ```
 
-### 3.1 `case_spec.json`
+## 4. 核心数据对象
 
-这是单个 case 的入口 spec。
+### 4.1 `case_spec.json`
 
-当前它不是规则库本体，而只是最小入口，负责：
+这是最小输入，不是世界对象。
 
-- `scenario_profile`
-- `difficulty`
-- `seed`
-- 可选 hints
-  - `department_hints`
-  - `title_hint`
-  - `main_goal_hint`
+当前固定结构：
 
-### 3.2 `input/case_seed.json`
+```json
+{
+  "case_id": "case_feishu_505121846_example",
+  "task_id": "FEISHU-505121846",
+  "title": "",
+  "company_type": "",
+  "department_hints": ["产品", "研发", "安全", "运维"],
+  "scenario_profile": "enterprise_release_coordination",
+  "title_hint": "FEISHU-505121846 发布窗口协调",
+  "main_goal_hint": "围绕 FEISHU-505121846 形成真实、可执行的跨部门协作口径",
+  "main_goal": "",
+  "difficulty": "medium",
+  "seed": 505121846
+}
+```
 
-这是规则采样后的最小种子对象。
+约束：
 
-它已经不是“用户原始输入”，而是 builder 运行后得到的 resolved seed。
+- `difficulty` 是控制项，不允许模型改写。
+- `seed` 是控制项，不允许模型改写。
+- `title`、`company_type`、`main_goal` 在这一层通常保持空。
+- `department_hints`、`title_hint`、`main_goal_hint` 是后续 world expansion 的提示。
+- `case_id` 会被系统规范化成 `case_feishu_<digits>_example`
+- `task_id` 会被系统规范化成 `FEISHU-<digits>`
 
-至少包含：
+这意味着即使模型返回：
+
+```json
+{
+  "case_id": "CASE-001",
+  "task_id": "TASK-001"
+}
+```
+
+最终也会被统一收成：
+
+```json
+{
+  "case_id": "case_feishu_001_example",
+  "task_id": "FEISHU-001"
+}
+```
+
+### 4.2 `case_seed.json`
+
+这是控制层快照。
+
+它从 `case_spec.json` 派生，只保留后续运行需要的控制参数：
 
 - `case_id`
 - `task_id`
-- `title`
-- `domain`
-- `company_type`
-- `departments`
 - `scenario_profile`
-- `main_goal`
 - `difficulty`
 - `seed`
+- `department_hints`
+- `title_hint`
+- `main_goal_hint`
+- `company_type_hint`
 - `complexity_profile`
 
-### 3.3 `input/case_world.json`
+### 4.3 `case_world.json`
 
-定义 case 的组织背景和冲突世界观，至少包括：
+这是当前 builder 的 canonical world。
 
+后续：
+
+- `characters`
+- `plan`
+- `story`
+- `timeline`
+- `target-gold`
+
+都只读它，不再去读 resolved `case_spec`。
+
+当前字段：
+
+- `title`
+- `company_type`
+- `departments`
+- `main_goal`
 - `organization_background`
 - `external_pressure`
 - `stakeholders`
 - `conflict_axes`
 - `hidden_constraints`
 - `reversal_points`
+- `selected_topics`
+- `complexity_profile`
 
-### 3.4 `input/characters.json`
+### 4.4 `characters.json`
 
-定义角色画像，至少包括：
+这是角色画像。
+
+每个角色至少包含：
 
 - `person_id`
-- `simulated_open_id`
 - `name`
 - `department`
 - `role`
-- `responsibility`
-- `communication_style`
-- `conflict_bias`
 - `stance`
 - `risk_preference`
 - `information_access_level`
 - `default_channels`
+- `simulated_open_id`
 
-### 3.5 `input/actor_registry.json`
+规则固定：
 
-这是运行时角色映射表。
+```text
+simulated_open_id = ou_sim_<person_id>
+```
 
-后续：
+### 4.5 `actor_registry.json`
+
+这是运行时身份映射表。
+
+它由 `characters.json` 派生，后续：
 
 - `collect`
-- `adapt`
+- `gold`
 - `validate`
+- `adapt`
 
-都只应该消费这张表，不应该再自行拼角色工号。
+都消费它，而不是自己临时拼角色身份。
 
-### 3.6 `input/conversation_plan.json`
+### 4.6 `conversation_plan.json`
 
-这是会话结构层，至少包括：
+这是多 session、多 topic、多轮会话计划。
+
+当前主要字段：
 
 - `topic_registry`
 - `sessions`
 - `turns`
 
-它决定：
+它定义了：
 
-- 哪些 topic 会出现
-- 会落在哪些 source session
-- 哪些状态会发生 supersession / cross-source revision
+- 有哪些 topic
+- topic 在哪些 session 中推进
+- 每轮是谁说
+- 这轮支持哪类 event
+- 哪些轮次会触发状态演化
 
-### 3.7 `gold/target_state.json`
+### 4.7 `command_plan.jsonl`
 
-这是 target gold。
+这是逻辑动作层。
 
-它先定义：
+每条记录表示一个“准备执行的飞书动作”。
 
-- 预期 topics
-- 预期 block targets
-- 预期 current state targets
-- required event coverage
-- required state transitions
-- required cross-source revisions
-
-### 3.8 `input/command_plan.jsonl`
-
-这是 V2 当前的核心动作对象。
-
-每条记录至少包括：
+当前记录至少包含：
 
 - `step_id`
-- `action_type`
-- `session_id`
 - `source_type`
-- `source_ref`
 - `channel_scope`
-- `chat_ref`
 - `topic_key`
 - `turn_purpose`
-- `speaker_role`
 - `speaker_ref`
-- `supports_event_types`
+- `lark_cli_command`
+- `expected_effect`
 - `depends_on_step_ids`
 - `gold_intent_refs`
-- `expected_effect`
-- `state_transition`
-- `semantic_payload`
-- `params`
-- `lark_cli_command`
 
-### 3.9 `execution_plan.json`
+### 4.8 `execution_plan.json`
 
-这是运行层动作计划，供执行器直接消费。
+这是运行层。
 
-### 3.10 `data/collected_messages.jsonl`
+它把 `command_plan.jsonl` 编译成执行器可以直接消费的结构化动作计划。
 
-这是 evidence-bound gold 的直接输入。
+### 4.9 `collected_messages.jsonl`
 
-它保留了两层身份：
+这是 collect 后的 canonical 评测层数据。
+
+每条记录同时保留：
 
 - `actual_sender`
 - `simulated_speaker`
-
-以及：
-
 - `normalized_actor_id`
-- `speaker_resolution_mode`
 
-### 3.11 `gold/expected_events.jsonl`
+这层的作用是把“真实单用户执行”和“多角色 benchmark 语义”分开。
 
-这是最终 gold 的事件层。
+### 4.10 `openclaw_message_ingress.jsonl`
 
-当前目标是尽量对齐 Layer 2 `session_event`，至少包括：
+这是 replay 层输入。
 
-- `event_id`
-- `task_ref`
-- `source_session_id`
-- `ingest_version`
-- `event_type`
-- `claim`
-- `core_entry_id`
-- `evidence_quote`
-- `context_quotes`
-- `participants`
-- `event_time`
-- `source`
-- typed event fields
-- `verification`
-- `gold_meta`
+它只保留 `openclaw-lark` 真正消费的标准 Feishu 字段。
 
-### 3.12 `openclaw_message_ingress.jsonl`
+关键点：
 
-这是给 `openclaw-lark` replay 的最终输入。
+- `simulated_open_id` 会映射到 `sender.sender_id.open_id`
+- 文本前缀 `【部门/姓名】` 会被剥掉
+- 不再保留 `actual_sender`、`simulated_speaker` 这类 builder 内部扩展字段
 
-它只保留标准 Feishu 事件字段，不保留 builder 自己的扩展顶层字段。
+## 5. 配置入口
 
-多角色模拟通过标准字段传入：
+当前可改的数量和复杂度配置集中在：
 
-- `sender.sender_id.open_id = simulated_open_id`
+- `feishu_builder_agent/builder_settings.yml`
 
----
+虽然扩展名是 `.yml`，但当前内容使用 JSON 语法。原因是仓库没有引入 `PyYAML`，而 YAML 1.2 兼容 JSON。
 
-## 4. 规则库与 prompt 边界
+当前这里控制：
 
-### 4.1 规则库
-
-当前唯一规则库是：
-
-- `feishu_builder_agent/templates/case_profile_catalog.json`
-
-它不是运行时生成的 case 产物，而是仓库内静态规则源。
-
-当前至少定义：
-
-- `scenario_profiles`
+- `default_difficulty`
 - `department_pool`
-- `must_include_departments`
-- `department_count_by_difficulty`
-- `title_templates`
-- `main_goal_templates`
-- `stakeholder_templates`
-- `conflict_axis_templates`
-- `hidden_constraint_templates`
-- `reversal_point_templates`
-- `topic_templates`
-- `session_layout_templates`
-- `character_role_templates`
-- `default_complexity_profile_by_difficulty`
+- `department_count`
+- `topic_count`
+- `character_count_min`
+- `character_count_max`
+- `session_blueprint`
+- `complexity_profile`
 
-### 4.2 catalog 生成
+例如如果要提高 `hard` 的复杂度，改这里：
 
-当前也支持通过 LLM 生成或刷新 catalog：
+- 增加 `department_count`
+- 增加 `topic_count`
+- 增加 `session_blueprint`
+- 提高 `message_count_target`
+- 提高 `state_transition_target`
 
-- 命令：
-  - `python3 -m feishu_builder_agent.cli generate-case-profile-catalog`
+规则优先级：
 
-模型配置来自：
+1. 命令行显式传 `--difficulty hard`
+2. `case_spec.json` 中已有 `difficulty`
+3. `feishu_builder_agent/builder_settings.yml` 中的 `defaults.default_difficulty`
 
-- `.env`
+当前所有 builder prompt 统一集中在：
 
-例如：
+- `feishu_builder_agent/prompt_templates.py`
 
-- `OPENAI_API_KEY`
-- `OPENAI_API_BASE_URL`
-- `FEISHU_BUILDER_MODEL`
+其中：
 
-### 4.3 prompt 文件
+- `spec-generation`
+- `case-world`
+- `characters`
+- `plan`
 
-catalog 生成 prompt 不放在 `.env`，而放在：
+这四个结构层阶段会直接把 `builder_settings.yml` 的难度约束注入 live prompt，包括：
 
-- `feishu_builder_agent/prompts/case_profile_catalog_system.txt`
-- `feishu_builder_agent/prompts/case_profile_catalog_user.txt`
+- `department_pool`
+- `department_count`
+- `topic_count`
+- `character_count_min / max`
+- `session_count_target`
+- `message_count_target`
+- `thread_reply_depth_target`
+- `state_transition_target`
 
-这是为了把：
+其余阶段也已经迁移到同一个 prompt 模块，但当前主要是集中维护语义展开 prompt，没有额外引入新的 yml 结构字段。
 
-- 配置
-- 内容
-- 规则源
+## 6. 当前命名规则
 
-三者分开。
+当前 case 命名不再信任模型自由输出，统一由系统规范化。
 
----
+规则：
 
-## 5. 核心模块与职责
-
-### 5.1 `case_profiles.py`
-
-职责：
-
-- 读取 catalog
-- 提供 deterministic sampling helper
-- 为 `case-world / characters / conversation-plan` 提供统一规则入口
-
-核心函数：
-
-- `load_case_profile_catalog()`
-- `resolve_case_profile()`
-- `sample_case_seed_components()`
-- `sample_case_world_components()`
-- `resolve_character_role_templates()`
-- `sample_topic_templates()`
-- `build_session_layouts()`
-
-伪代码：
-
-```python
-def sample_case_seed_components(task_id, difficulty, seed, profile_id, hints):
-    profile = resolve_case_profile(profile_id)
-    departments = sample_departments(profile, difficulty, seed, hints)
-    company_type = choose(profile.company_type_options, seed)
-    initiative_label = choose(profile.initiative_labels, seed)
-    delivery_motion = choose(profile.delivery_motions, seed)
-    target_window = choose(profile.target_window_options, seed)
-
-    context = {
-        "task_id": task_id,
-        "focus_department": departments[0],
-        "secondary_department": departments[1],
-        "target_window": target_window,
-        ...
-    }
-
-    title = render(choice(profile.title_templates, seed), context)
-    main_goal = render(choice(profile.main_goal_templates, seed), context)
-    complexity_profile = profile.default_complexity_profile_by_difficulty[difficulty]
-
-    return {
-        "domain": profile.domain,
-        "company_type": company_type,
-        "departments": departments,
-        "title": title,
-        "main_goal": main_goal,
-        "complexity_profile": complexity_profile,
-    }
+```text
+task_id   = FEISHU-<digits>
+case_id   = case_feishu_<digits>_example
+open_id   = ou_sim_<person_id>
 ```
 
-### 5.2 `case_world_generator.py`
+这样做的原因：
 
-职责：
+- 目录名必须稳定
+- 运行日志和产物路径必须可预测
+- 避免模型输出 `CASE-001`、`case_001`、`task_001` 这种脏命名
 
-- 把 `case_seed` 变成完整 `case_world`
+## 7. LLM 与 fallback 的边界
 
-边界：
+当前 builder 所有主要阶段都采用同一策略：
 
-- 规则层决定 stakeholders/conflicts/constraints/reversals 的骨架
-- LLM 只负责展开语言，不允许越权改结构
+- 优先尝试 LLM
+- 如果模型请求失败、结构不合法、后处理失败，则回退 fallback
 
-伪代码：
+`llm_mode` 的语义：
 
-```python
-def generate_case_world_with_mode(case_seed, llm_client):
-    sampled = sample_case_world_components(case_seed)
+- `live`
+  模型输出被采纳
+- `fallback`
+  最终没有采纳模型输出
+- `mixed`
+  多个阶段混合
 
-    fallback_world = {
-        "stakeholders": sampled.stakeholders,
-        "conflict_axes": sampled.conflict_axes,
-        "hidden_constraints": sampled.hidden_constraints,
-        "reversal_points": sampled.reversal_points,
-        ...
-    }
+重要点：
 
-    if llm_client is None:
-        return fallback_world, "fallback"
+日志里出现：
 
-    prompt = build_world_prompt(case_seed, sampled)
-    try:
-        live_world = llm_client.generate_json(prompt)
-        return validate_case_world(live_world), "live"
-    except:
-        return fallback_world, "fallback"
+```text
+[llm] 模型请求成功返回 JSON 内容
 ```
 
-### 5.3 `character_generator.py`
+并不代表最终一定使用了模型结果。
 
-职责：
+如果后续校验失败，仍然会切到 fallback。
 
-- 基于 sampled departments 和 catalog 的角色模板生成角色画像
-- 生成稳定的 `person_id` / `simulated_open_id`
-- 产出 `actor_registry`
+当前 `spec-generation` 已经会明确输出回退原因，例如：
 
-伪代码：
+```text
+模型输出未通过 case_spec 校验，回退 fallback。reason=department_hints must be a list
+```
+
+## 8. 各阶段伪代码
+
+### 8.1 `spec-generation`
 
 ```python
-def fallback_characters(case_seed):
-    templates = resolve_character_role_templates(
-        profile_id=case_seed.scenario_profile,
-        departments=case_seed.departments
+def generate_case_spec(scenario_profile, difficulty, seed, user_hint):
+    normalized_seed = normalize_seed(seed)
+    fallback_task_id = f"FEISHU-{normalized_seed}"
+    fallback_case_id = f"case_feishu_{normalized_seed}_example"
+    fallback = {
+        "case_id": fallback_case_id,
+        "task_id": fallback_task_id,
+        "department_hints": select_departments_from_hint(user_hint),
+        "title_hint": user_hint or f"{fallback_task_id} 发布窗口协调",
+        "main_goal_hint": user_hint or f"围绕 {fallback_task_id} 形成真实、可执行的跨部门协作口径",
+        "scenario_profile": scenario_profile,
+        "difficulty": difficulty,
+        "seed": normalized_seed,
+        "title": "",
+        "company_type": "",
+        "main_goal": "",
+    }
+
+    if llm_unavailable():
+        return validate_case_spec(fallback), "fallback"
+
+    payload = llm_generate_json(...)
+    normalized_task_id = normalize_task_id(payload["task_id"], normalized_seed)
+    normalized_case_id = normalize_case_id(payload["case_id"], normalized_task_id)
+    normalized_departments = normalize_department_hints(payload["department_hints"])
+    merged = merge(payload, fallback)
+    merged["task_id"] = normalized_task_id
+    merged["case_id"] = normalized_case_id
+    merged["department_hints"] = normalized_departments
+    return validate_case_spec(merged), "live"
+```
+
+### 8.2 `case-world`
+
+```python
+def generate_case_world(case_seed):
+    difficulty_settings = resolve_difficulty_settings(case_seed["difficulty"])
+    fallback_departments = select_departments(
+        pool=builder_settings.department_pool,
+        hints=case_seed["department_hints"],
+        count=difficulty_settings["department_count"],
+        seed=case_seed["seed"],
     )
 
-    role_pool = flatten(templates for sampled departments)
-    if len(role_pool) < 8:
-        role_pool += extra_templates_from_profile_pool()
+    fallback = {
+        "case_id": case_seed["case_id"],
+        "task_id": case_seed["task_id"],
+        "title": case_seed["title_hint"] or f"{task_id} 发布窗口协调推进",
+        "company_type": case_seed["company_type_hint"] or "企业级 SaaS 公司",
+        "departments": fallback_departments,
+        "main_goal": case_seed["main_goal_hint"] or default_goal(task_id),
+        "organization_background": ...,
+        "external_pressure": ...,
+        "stakeholders": ...,
+        "conflict_axes": ...,
+        "hidden_constraints": ...,
+        "reversal_points": ...,
+        "selected_topics": build_topic_templates(...),
+        "complexity_profile": case_seed["complexity_profile"],
+    }
 
-    characters = []
-    for index, (department, template) in enumerate(role_pool):
-        person_id = build_person_id(template.role_key, index)
-        characters.append({
-            "person_id": person_id,
-            "simulated_open_id": f"ou_sim_{person_id}",
-            "department": department,
-            ...
-        })
-    return characters
+    if llm_unavailable():
+        return validate_case_world(fallback), "fallback"
+
+    payload = llm_expand_world(...)
+    merged = merge(payload, fallback)
+    return validate_case_world(merged), "live"
 ```
 
-### 5.4 `conversation_plan_generator.py`
-
-职责：
-
-- 从 catalog 的 topic/session 模板组装 fallback conversation skeleton
-- 让 fallback 不再依赖整块硬编码 turns
-
-当前真实做法：
-
-- 从 `topic_templates` 采样 topics
-- 从 `session_layout_templates` 组装 sessions
-- 按 topic 的 `turn_templates` 生成 turn skeleton
-- 再把不同 topic 的 turns 交错合并成一条多轮会话
-
-伪代码：
+### 8.3 `characters`
 
 ```python
-def fallback_conversation_plan(case_seed, characters):
-    topics = sample_topic_templates(seed, difficulty, profile_id)
-    turns_per_topic = []
-    for topic in topics:
-        context = build_topic_context(case_seed, topic)
-        topic_turns = []
-        for template in topic.turn_templates:
-            topic_turns.append({
-                "session_id": template.session_id,
-                "speaker_ref": first_actor_in_department(template.speaker_department),
-                "topic_key": topic.topic_key,
-                "supports_event_types": template.supports_event_types,
-                "semantic_payload": render(template.semantic_payload_template, context),
-                ...
-            })
-        turns_per_topic.append(topic_turns)
+def generate_characters(case_world):
+    if llm_available():
+        payload = llm_generate_characters(case_world)
+        normalized = validate_characters(payload)
+    else:
+        normalized = build_fallback_characters(case_world.departments)
 
-    turns = interleave(turns_per_topic)
-    sessions = build_sessions_from_layouts_and_turns()
+    for actor in normalized["characters"]:
+        actor["simulated_open_id"] = f"ou_sim_{actor['person_id']}"
 
+    actor_registry = build_actor_registry(normalized)
+    return normalized, actor_registry
+```
+
+### 8.4 `plan`
+
+```python
+def generate_conversation_plan(case_world, characters):
+    story = generate_story(case_world, characters)
+    timeline = generate_timeline(case_world, story, characters)
+
+    if llm_available():
+        payload = llm_generate_plan(case_world, characters)
+        plan = validate_conversation_plan(payload)
+    else:
+        plan = build_fallback_plan(
+            selected_topics=case_world.selected_topics,
+            session_blueprint=difficulty_settings.session_blueprint,
+            characters=characters,
+        )
+
+    assert plan_has_at_least_3_sessions(plan)
+    assert plan_has_at_least_3_topics(plan)
+    assert plan_has_at_least_18_turns(plan)
+    return plan
+```
+
+### 8.5 `target-gold`
+
+```python
+def generate_target_gold(conversation_plan):
     return {
-        "topic_registry": topics,
-        "sessions": sessions,
-        "turns": turns,
+        "case_id": conversation_plan["case_id"],
+        "expected_topics": derive_topics(conversation_plan),
+        "expected_block_targets": derive_block_targets(conversation_plan),
+        "expected_current_state_targets": derive_current_state_targets(conversation_plan),
+        "required_event_coverage": derive_event_coverage(conversation_plan),
     }
 ```
 
-### 5.5 `command_plan_generator.py`
-
-职责：
-
-- 把 `conversation_plan + target_state + characters` 编译成可执行动作
-
-当前 action family 包括：
-
-- `create_chat`
-- `send_message`
-- `reply_in_thread`
-- `fetch_chat_messages`
-- `fetch_thread_messages`
-
-伪代码：
+### 8.6 `command-plan`
 
 ```python
-def fallback_command_plan(plan, target_state, characters):
-    create create_chat steps for every unique chat_ref
-
-    for turn in conversation_plan.turns:
-        if session.source_type == "thread":
-            action_type = "reply_in_thread"
-            root_message_ref = root turn output ref
-        else:
-            action_type = "send_message"
-
-        command_plan.append({
-            "speaker_ref": turn.speaker_ref,
-            "content_text": prefixed_message(character, turn.semantic_payload),
-            "depends_on_step_ids": [...],
-            "gold_intent_refs": refs_from_target_state(topic),
-            ...
-        })
-
-    add fetch_chat_messages for used chats
-    add fetch_thread_messages for thread sessions
-```
-
-### 5.6 `executor.py`
-
-职责：
-
-- 执行 `execution_plan.json`
-- 与真实 `lark-cli` 交互
-
-当前关键点：
-
-- `create_chat`、`send_message`、`reply_in_thread` 真正调用 `lark-cli`
-- 资源 id 会写回 `execution_result.json`
-- 后续 `collect` / `adapt` 会依赖这些映射补全 `chat_id / message_id / thread_id`
-
-### 5.7 `collector.py` + `collected_message_builder.py`
-
-职责：
-
-- 从真实执行结果中拉回飞书 fetch 记录
-- 把真实单用户 sender 抬升成 benchmark 的多角色语义
-
-关键输出：
-
-- `lark_fetch_records.jsonl`
-- `data/collected_messages.jsonl`
-
-当前双层身份语义：
-
-- `actual_sender`
-  - 真实飞书 sender
-- `simulated_speaker`
-  - 来自 `characters.json / actor_registry.json`
-
-伪代码：
-
-```python
-def build_collected_messages(characters, actor_registry, command_plan, execution_result, fetch_records):
-    for each collected message:
-        match it back to command_plan step
-        keep actual sender from fetch result
-        resolve simulated_speaker from speaker_ref
-        overwrite simulated open_id from actor_registry
-        emit normalized_actor_id and speaker_resolution_mode
-```
-
-### 5.8 `gold_generator.py`
-
-职责：
-
-- 生成 evidence-bound gold
-
-当前策略：
-
-- `target_state` 先定义 topic/block/current-state 目标
-- `collected_messages` 提供真实证据
-- `expected_events` 尽量对齐 Layer 2 `session_event`
-- `expected_memory_blocks` 和 `expected_current_state` 从 gold events 再聚合
-
-伪代码：
-
-```python
-def generate_gold_artifacts(target_state, conversation_plan, collected_messages, llm_client):
-    if llm_client exists:
-        draft_events = llm_generate_events(target_state, conversation_plan, collected_messages)
-        events = validate_expected_events(draft_events)
+def generate_command_plan(case_seed, conversation_plan, characters, target_state):
+    if llm_available():
+        payload = llm_generate_command_plan(...)
+        rows = validate_command_plan(payload)
     else:
-        events = deterministic_events_from_messages(...)
+        rows = build_fallback_command_plan(...)
 
-    blocks = aggregate_events_into_blocks(events, target_state)
-    current_state = aggregate_blocks_into_current_state(blocks)
-    return events, blocks, current_state
+    execution_plan = build_execution_plan_from_command_plan(rows)
+    return rows, execution_plan
 ```
 
-### 5.9 `dataset_validator.py`
+### 8.7 `execute`
 
-职责：
+```python
+def execute_case(case_dir, dry_run=False):
+    plan = read_json("execution_plan.json")
+    resume_result = read_json_if_exists("execution_result.json")
+    if resume_result and resume_result["status"] != "success":
+        resume_result = None
+    result = execute_plan(plan, dry_run=dry_run, resume_result=resume_result)
+    write_json("execution_result.json", result)
+    return result
+```
 
-- 做跨阶段一致性审计
+### 8.8 `collect`
 
-它不只是 schema 校验，而是检查：
+```python
+def collect_case(case_dir):
+    actor_registry = read_json("input/actor_registry.json")
+    command_plan = read_jsonl("input/command_plan.jsonl")
+    execution_plan = read_json("execution_plan.json")
+    execution_result = read_json("execution_result.json")
 
-- `command_plan` 是否覆盖 `conversation_plan`
-- `collected_messages` 是否和 `characters / actor_registry` 对齐
-- `gold` 是否真的能回到 evidence
-- complexity gate 是否达标
+    fetch_records = collect_fetch_records(execution_plan, execution_result)
+    collected_messages = build_collected_messages(
+        command_plan=command_plan,
+        fetch_records=fetch_records,
+        actor_registry=actor_registry,
+    )
 
-### 5.10 `adapter.py`
+    # 每条消息保留 actual_sender，同时映射 simulated_speaker
+    write_jsonl("lark_fetch_records.jsonl", fetch_records)
+    write_jsonl("data/collected_messages.jsonl", collected_messages)
+```
 
-职责：
+### 8.9 `gold`
 
-- 把 builder 的 collected evidence 转成 OpenClaw ingest 事件
+```python
+def generate_gold(case_dir):
+    target_state = read_json("gold/target_state.json")
+    conversation_plan = read_json("input/conversation_plan.json")
+    collected_messages = read_jsonl("data/collected_messages.jsonl")
 
-重要边界：
+    events = generate_expected_events(
+        target_state=target_state,
+        conversation_plan=conversation_plan,
+        collected_messages=collected_messages,
+    )
+    blocks = build_expected_memory_blocks(events)
+    current_state = build_expected_current_state(events)
 
-- `actual_sender` / `simulated_speaker` 不会直接出现在最终 ingress 顶层
-- 最终 `openclaw_message_ingress.jsonl` 只保留标准 Feishu 事件字段
-- 模拟身份通过：
-  - `sender.sender_id.open_id = simulated_open_id`
+    write_jsonl("gold/expected_events.jsonl", events)
+    write_json("gold/expected_memory_blocks.json", blocks)
+    write_json("gold/expected_current_state.json", current_state)
+```
 
----
+### 8.10 `validate`
 
-## 6. 当前 CLI 与脚本
+```python
+def validate_case(case_dir):
+    complexity_report = build_complexity_report(...)
+    dataset_validation_report = build_dataset_validation_report(...)
 
-Python CLI 入口：
+    # 这里不重跑上游生成
+    # 这里只审计：
+    # - plan 是否完整
+    # - command-plan 是否覆盖
+    # - collect 是否成功
+    # - gold 是否能回到真实 evidence
+    # - ingress open_id 是否能回溯到 actor_registry
 
-- `feishu_builder_agent/cli.py`
+    write_json("checks/conversation_complexity_report.json", complexity_report)
+    write_json("checks/dataset_validation_report.json", dataset_validation_report)
+```
 
-主要命令：
+### 8.11 `adapt`
 
-- `generate-case-profile-catalog`
-- `generate-case-world`
-- `generate-characters`
-- `generate-conversation-plan`
-- `generate-target-gold`
-- `generate-command-plan`
-- `execute-case`
-- `collect-case`
-- `generate-gold`
-- `validate-case`
-- `adapt-case`
-- `compile-case`
-- `build-case`
+```python
+def adapt_case(case_dir):
+    case_seed = read_json("input/case_seed.json")
+    actor_registry = read_json("input/actor_registry.json")
+    fetch_records = read_jsonl("lark_fetch_records.jsonl")
+    collected_messages = read_jsonl("data/collected_messages.jsonl")
+    execution_result = read_json("execution_result.json")
 
-脚本入口：
+    ingress = adapt_fetch_records(
+        case_seed=case_seed,
+        actor_registry=actor_registry,
+        fetch_records=fetch_records,
+        collected_messages=collected_messages,
+        execution_result=execution_result,
+    )
+
+    # 最终写入 openclaw-lark 标准字段
+    # sender.sender_id.open_id = simulated_open_id
+    write_jsonl("openclaw_message_ingress.jsonl", ingress)
+```
+
+## 9. `CASE-001` 这类目录为什么会出现
+
+根因是：
+
+- 早期 `spec-generation` 允许模型直接决定 `case_id`
+- 模型可能输出 `CASE-001`
+- `cli.py` 会直接用 `case_spec.case_id` 创建目录
+- 所以落盘成了 `cases/CASE-001/`
+
+当前实现已经修正：
+
+- `task_id` 统一规范化
+- `case_id` 统一规范化
+- `case_spec` 校验也要求：
+  - `case_id` 必须是 lower snake case，并以 `case_` 开头
+  - `task_id` 必须是大写短横线形式，例如 `FEISHU-231`
+
+## 10. 当前仍保留的内部 helper
+
+当前仍保留：
+
+- `feishu_builder_agent/story_generator.py`
+- `feishu_builder_agent/timeline_planner.py`
+
+但它们只是内部 helper，不是公开阶段，也不是 canonical 数据层。
+
+规则：
+
+- 它们只能读 `case_world.json`
+- 不能再回头要求 `case_spec.json` 已被“补全”
+
+## 11. 当前哪些地方需要改
+
+如果你后续要继续调 builder，优先改这几个位置：
+
+1. 案例生成方向
+   - `feishu_builder_agent/spec_generator.py`
+2. 世界复杂度和数量控制
+   - `feishu_builder_agent/builder_settings.yml`
+3. world fallback 语义
+   - `feishu_builder_agent/case_world_generator.py`
+4. 角色画像 fallback
+   - `feishu_builder_agent/character_generator.py`
+5. 多轮计划 fallback
+   - `feishu_builder_agent/conversation_plan_generator.py`
+6. gold 对齐
+   - `feishu_builder_agent/gold_generator.py`
+   - `feishu_builder_agent/target_gold_generator.py`
+7. replay 到 `openclaw-lark`
+   - `feishu_builder_agent/adapter.py`
+
+## 12. 当前真实实现边界
+
+当前已经做到：
+
+- spec-first
+- case-world canonical
+- characters 产出模拟 open_id
+- command-plan 先于 execute
+- collect 后保留真实 sender 和模拟角色
+- adapt 最终写标准 Feishu sender 字段
+
+当前还不是最终形态的点：
+
+- live LLM 输出仍依赖外部网络环境
+- `gold/expected_events.jsonl` 虽然已经靠近 Layer 2，但仍然是 builder 自己的 gold 产物，不是直接运行 Layer 2 extractor 的结果
+- `story` / `timeline` 还保留为内部 helper，后续可以继续瘦身
+
+## 13. 脚本入口
+
+当前推荐统一使用：
 
 - `amem_docs/scripts/feishu-builder-agent-run.sh`
 
-它负责：
+最常用的命令：
 
-- 生成动态 case spec
-- 保存最近一次动态 case 的指针
-- 按阶段驱动 builder CLI
-- 落 `_runs/*.json` 和 `*.stderr.log`
+```bash
+amem_docs/scripts/feishu-builder-agent-run.sh --phase spec
+amem_docs/scripts/feishu-builder-agent-run.sh --phase case-world
+amem_docs/scripts/feishu-builder-agent-run.sh --phase full
+```
 
----
+如果不显式传 `--case-spec`：
 
-## 7. 当前已知边界
+- `spec` 会先生成新的 `case_spec.json`
+- `case-world` 和 `full` 也会先补这一步
 
-### 7.1 LLM 与 fallback
+中间阶段默认接最近一次生成的 case：
 
-在当前环境里，如果模型请求失败，builder 会自动回退到 fallback 结构。
+```bash
+amem_docs/scripts/feishu-builder-agent-run.sh --phase characters
+amem_docs/scripts/feishu-builder-agent-run.sh --phase plan
+amem_docs/scripts/feishu-builder-agent-run.sh --phase command-plan
+```
 
-这意味着：
+## 14. 结论
 
-- 结构层仍然可以稳定生成
-- 但自然语言丰富度会下降
+当前 builder 的主心智应该固定成三句话：
 
-### 7.2 catalog 已经数据化，但还不是“自演化系统”
+1. `case_spec.json` 是最小控制输入，不是世界对象。
+2. `case_world.json` 是后续所有生成阶段的 canonical world。
+3. `openclaw_message_ingress.jsonl` 是最终给 `openclaw-lark` 的标准 Feishu replay 输入。
 
-现在 catalog 已经：
+后续如果要继续扩复杂度，优先调：
 
-- 独立成静态规则源
-- 支持通过 DeepSeek/`.env` 生成器刷新
+- `spec_generator.py`
+- `builder_settings.yml`
+- `case_world_generator.py`
+- `conversation_plan_generator.py`
 
-但它仍然不是：
-
-- 自动学习型规则库
-- 多 profile 自动扩展系统
-
-它当前仍然需要人来决定：
-
-- 要不要生成新版本
-- 要不要接受新 catalog
-
-### 7.3 gold 还在继续向 Layer 2 完全对齐
-
-当前 `expected_events.jsonl` 已经尽量对齐 Layer 2，但这层还值得继续收：
-
-- typed field 更完整
-- verification 语义更贴近真实 Layer 2
-- 与 extractor/verifier 的字段命名继续收紧
-
----
-
-## 8. 一句话总结
-
-当前 `feishu_builder_agent` V2 已经不是一个简单的“消息模板编译器”，而是一套：
-
-> 先由 catalog 定义结构，再由 LLM 细化语言，再执行真实飞书动作，最后把目标状态绑定回真实证据的 benchmark 构建链。
+不要再回到“把更多 resolved 字段塞进 `case_spec.json`”这条路。

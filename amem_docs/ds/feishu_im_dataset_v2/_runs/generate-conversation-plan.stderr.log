@@ -1,9 +1,0 @@
-[feishu_builder][2026-05-05T09:22:20Z][plan] 开始生成 conversation_plan，输入目录=amem_docs/ds/feishu_im_dataset_v2/cases/case_feishu_20260505172044256_example
-[feishu_builder][2026-05-05T09:22:20Z][llm] 已加载 OPENAI 兼容配置 model=deepseek-chat base_url=https://api.deepseek.com/v1
-[feishu_builder][2026-05-05T09:22:20Z][llm] 开始请求模型 model=deepseek-chat timeout=300.0s max_tokens=4096
-[feishu_builder][2026-05-05T09:22:25Z][llm] 模型请求成功返回 JSON 内容
-[feishu_builder][2026-05-05T09:22:25Z][llm] 开始请求模型 model=deepseek-chat timeout=300.0s max_tokens=4096
-[feishu_builder][2026-05-05T09:22:39Z][llm] 模型请求成功返回 JSON 内容
-[feishu_builder][2026-05-05T09:22:39Z][llm] 开始请求模型 model=deepseek-chat timeout=300.0s max_tokens=4096
-[feishu_builder][2026-05-05T09:23:12Z][llm] 模型请求成功返回 JSON 内容
-[feishu_builder][2026-05-05T09:23:12Z][plan] 完成并写入 input/conversation_plan.json

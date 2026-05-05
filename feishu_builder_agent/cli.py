@@ -9,8 +9,7 @@ from typing import Any
 from .actor_registry import build_actor_registry
 from .adapter import adapt_fetch_records
 from .build_report import build_case_report
-from .catalog_generator import generate_case_profile_catalog_with_mode
-from .case_profiles import sample_case_seed_components
+from .builder_settings import resolve_default_difficulty
 from .case_world_generator import generate_case_world_with_mode
 from .character_generator import generate_characters_with_mode
 from .collected_message_builder import build_collected_messages
@@ -27,6 +26,7 @@ from .llm_client import DisabledLLMClient, build_llm_client_from_env
 from .logging_utils import builder_log
 from .plan_mapper import build_execution_plan_from_command_plan
 from .schemas import ValidationError, validate_case_seed, validate_case_spec
+from .spec_generator import build_complexity_profile, generate_case_spec_with_mode, normalize_seed
 from .story_generator import generate_story_with_mode
 from .target_gold_generator import generate_target_state
 from .timeline_planner import generate_timeline_with_mode
@@ -72,29 +72,19 @@ def _aggregate_llm_mode(generation_modes: dict[str, str]) -> str:
 
 def _derive_case_seed(case_spec: dict[str, Any]) -> dict[str, Any]:
     spec = validate_case_spec(case_spec)
-    sampled = sample_case_seed_components(
-        task_id=spec["task_id"],
-        difficulty=spec["difficulty"],
-        seed=spec["seed"],
-        profile_id=spec.get("scenario_profile"),
-        department_hints=spec["department_hints"],
-        title_hint=spec["title_hint"] or spec["title"],
-        main_goal_hint=spec["main_goal_hint"] or spec["main_goal"],
-        company_type_hint=spec["company_type"],
-    )
     return validate_case_seed(
         {
             "case_id": spec["case_id"],
             "task_id": spec["task_id"],
-            "title": sampled["title"],
-            "domain": sampled["domain"],
-            "company_type": sampled["company_type"],
-            "departments": sampled["departments"],
+            "domain": "enterprise_product_launch",
+            "company_type_hint": spec["company_type"],
+            "department_hints": spec["department_hints"],
             "scenario_profile": spec.get("scenario_profile") or "enterprise_release_coordination",
-            "main_goal": sampled["main_goal"],
+            "title_hint": spec["title_hint"] or spec["title"],
+            "main_goal_hint": spec["main_goal_hint"] or spec["main_goal"],
             "difficulty": spec["difficulty"],
             "seed": spec["seed"],
-            "complexity_profile": sampled["complexity_profile"],
+            "complexity_profile": build_complexity_profile(spec["difficulty"]),
         }
     )
 
@@ -137,26 +127,40 @@ def _read_required_jsonl(case_path: Path, relative_path: str, *, stage: str, rec
     return read_jsonl(target)
 
 
-def generate_case_profile_catalog_stage(*, output_path: str | Path | None = None) -> dict[str, Any]:
-    from .case_profiles import CATALOG_PATH, load_case_profile_catalog
-
+def generate_case_spec_stage(
+    *,
+    dataset_root: str | Path = DATASET_ROOT,
+    scenario_profile: str = "enterprise_release_coordination",
+    difficulty: str = "medium",
+    seed: int | None = None,
+    user_hint: str = "",
+) -> dict[str, Any]:
     llm_client = build_llm_client_from_env()
     active_llm_client = None if isinstance(llm_client, DisabledLLMClient) else llm_client
-    if active_llm_client is None:
-        raise ValidationError("generate-case-profile-catalog requires a live LLM client from .env")
-    target = Path(output_path) if output_path else CATALOG_PATH
-    builder_log("catalog", f"开始生成 case profile catalog，输出路径={target}")
-    current_catalog = load_case_profile_catalog()
-    generated_catalog, llm_mode = generate_case_profile_catalog_with_mode(
-        llm_client=active_llm_client,
-        current_catalog=current_catalog,
+    normalized_seed = normalize_seed(seed)
+    builder_log(
+        "spec",
+        f"开始生成 case_spec，scenario_profile={scenario_profile} difficulty={difficulty} seed={normalized_seed}",
     )
-    write_json(target, generated_catalog)
-    builder_log("catalog", "完成并写入 case profile catalog")
+    case_spec, llm_mode = generate_case_spec_with_mode(
+        scenario_profile=scenario_profile,
+        difficulty=difficulty,
+        seed=normalized_seed,
+        user_hint=user_hint,
+        llm_client=active_llm_client,
+    )
+    output_dir = case_dir(dataset_root, case_spec["case_id"])
+    target = output_dir / "case_spec.json"
+    write_json(target, case_spec)
+    manifest = _update_dataset_manifest(dataset_root)
+    builder_log("spec", f"完成并写入 case_spec.json case_id={case_spec['case_id']}")
     return {
-        "output_path": str(target),
+        "case_dir": str(output_dir),
+        "case_spec_path": str(target),
         "llm_mode": llm_mode,
-        "catalog": generated_catalog,
+        "generation_modes": {"spec": llm_mode},
+        "dataset_manifest": manifest,
+        "case_spec": case_spec,
     }
 
 
@@ -165,16 +169,7 @@ def generate_case_world_stage(*, case_spec_path: str | Path, dataset_root: str |
     case_spec, output_dir, active_llm_client = _prepare_case_generation(case_spec_path=case_spec_path, dataset_root=dataset_root)
     builder_log("case-world", f"case_id={case_spec['case_id']} 输出目录={output_dir}")
     case_seed = _derive_case_seed(case_spec)
-    resolved_case_spec = {
-        **case_spec,
-        "title": case_seed["title"],
-        "company_type": case_seed["company_type"],
-        "departments": case_seed["departments"],
-        "department_hints": case_spec["department_hints"],
-        "main_goal": case_seed["main_goal"],
-    }
     case_world, case_world_mode = generate_case_world_with_mode(case_seed, llm_client=active_llm_client)
-    write_json(output_dir / "case_spec.json", resolved_case_spec)
     write_json(output_dir / "input" / "case_seed.json", case_seed)
     write_json(output_dir / "input" / "case_world.json", case_world)
     manifest = _update_dataset_manifest(dataset_root)
@@ -184,28 +179,40 @@ def generate_case_world_stage(*, case_spec_path: str | Path, dataset_root: str |
         "dataset_manifest": manifest,
         "llm_mode": case_world_mode,
         "generation_modes": {"case_world": case_world_mode},
-        "case_spec": resolved_case_spec,
+        "case_spec": case_spec,
         "case_seed": case_seed,
         "case_world": case_world,
     }
 
 
+def _ensure_case_spec_path(
+    *,
+    case_spec_path: str | Path | None,
+    dataset_root: str | Path,
+    scenario_profile: str,
+    difficulty: str,
+    seed: int | None,
+    user_hint: str,
+) -> str:
+    if case_spec_path:
+        return str(case_spec_path)
+    generated = generate_case_spec_stage(
+        dataset_root=dataset_root,
+        scenario_profile=scenario_profile,
+        difficulty=difficulty,
+        seed=seed,
+        user_hint=user_hint,
+    )
+    return str(generated["case_spec_path"])
+
+
 def generate_characters_stage(*, case_dir_path: str | Path) -> dict[str, Any]:
     case_path = _require_case_dir(case_dir_path)
     builder_log("characters", f"开始生成 characters，输入目录={case_path}")
-    case_spec = _read_required_json(case_path, "case_spec.json", stage="characters", recommended_phase="case-world")
-    case_seed = _read_required_json(case_path, "input/case_seed.json", stage="characters", recommended_phase="case-world")
     case_world = _read_required_json(case_path, "input/case_world.json", stage="characters", recommended_phase="case-world")
     llm_client = build_llm_client_from_env()
     active_llm_client = None if isinstance(llm_client, DisabledLLMClient) else llm_client
-    story, _story_mode = generate_story_with_mode(case_spec, llm_client=active_llm_client)
-    characters, characters_mode = generate_characters_with_mode(
-        case_spec,
-        case_seed,
-        case_world,
-        story,
-        llm_client=active_llm_client,
-    )
+    characters, characters_mode = generate_characters_with_mode(case_world, llm_client=active_llm_client)
     actor_registry = build_actor_registry(characters)
     write_json(case_path / "input" / "characters.json", characters)
     write_json(case_path / "input" / "actor_registry.json", actor_registry)
@@ -222,20 +229,13 @@ def generate_characters_stage(*, case_dir_path: str | Path) -> dict[str, Any]:
 def generate_conversation_plan_stage(*, case_dir_path: str | Path) -> dict[str, Any]:
     case_path = _require_case_dir(case_dir_path)
     builder_log("plan", f"开始生成 conversation_plan，输入目录={case_path}")
-    case_spec = _read_required_json(case_path, "case_spec.json", stage="plan", recommended_phase="case-world")
-    case_seed = _read_required_json(case_path, "input/case_seed.json", stage="plan", recommended_phase="case-world")
     case_world = _read_required_json(case_path, "input/case_world.json", stage="plan", recommended_phase="case-world")
     characters = _read_required_json(case_path, "input/characters.json", stage="plan", recommended_phase="characters")
     llm_client = build_llm_client_from_env()
     active_llm_client = None if isinstance(llm_client, DisabledLLMClient) else llm_client
-    story, story_mode = generate_story_with_mode(case_spec, llm_client=active_llm_client)
-    _timeline, timeline_mode = generate_timeline_with_mode(case_spec, story, characters, llm_client=active_llm_client)
-    conversation_plan, conversation_plan_mode = generate_conversation_plan_with_mode(
-        case_seed,
-        case_world,
-        characters,
-        llm_client=active_llm_client,
-    )
+    story, story_mode = generate_story_with_mode(case_world, characters, llm_client=active_llm_client)
+    _timeline, timeline_mode = generate_timeline_with_mode(case_world, story, characters, llm_client=active_llm_client)
+    conversation_plan, conversation_plan_mode = generate_conversation_plan_with_mode(case_world, characters, llm_client=active_llm_client)
     write_json(case_path / "input" / "conversation_plan.json", conversation_plan)
     llm_mode = _aggregate_llm_mode(
         {
@@ -249,7 +249,7 @@ def generate_conversation_plan_stage(*, case_dir_path: str | Path) -> dict[str, 
         "case_dir": str(case_path),
         "llm_mode": llm_mode,
         "generation_modes": {"conversation_plan": conversation_plan_mode},
-        "case_seed": case_seed,
+        "case_world": case_world,
         "characters": characters,
         "conversation_plan": conversation_plan,
     }
@@ -299,9 +299,25 @@ def generate_command_plan_stage(*, case_dir_path: str | Path) -> dict[str, Any]:
     }
 
 
-def compile_case(*, case_spec_path: str | Path, dataset_root: str | Path = DATASET_ROOT) -> dict[str, Any]:
-    builder_log("compile", f"开始编译 V2 case，读取 case spec: {case_spec_path}")
-    case_world_result = generate_case_world_stage(case_spec_path=case_spec_path, dataset_root=dataset_root)
+def compile_case(
+    *,
+    case_spec_path: str | Path | None = None,
+    dataset_root: str | Path = DATASET_ROOT,
+    scenario_profile: str = "enterprise_release_coordination",
+    difficulty: str = "medium",
+    seed: int | None = None,
+    user_hint: str = "",
+) -> dict[str, Any]:
+    resolved_case_spec_path = _ensure_case_spec_path(
+        case_spec_path=case_spec_path,
+        dataset_root=dataset_root,
+        scenario_profile=scenario_profile,
+        difficulty=difficulty,
+        seed=seed,
+        user_hint=user_hint,
+    )
+    builder_log("compile", f"开始编译 V2 case，读取 case spec: {resolved_case_spec_path}")
+    case_world_result = generate_case_world_stage(case_spec_path=resolved_case_spec_path, dataset_root=dataset_root)
     case_path = Path(case_world_result["case_dir"])
     characters_result = generate_characters_stage(case_dir_path=case_path)
     plan_result = generate_conversation_plan_stage(case_dir_path=case_path)
@@ -443,14 +459,14 @@ def validate_case_stage(*, case_dir_path: str | Path) -> dict[str, Any]:
 def adapt_case(*, case_dir_path: str | Path) -> dict[str, Any]:
     case_path = _require_case_dir(case_dir_path)
     builder_log("adapt", f"开始生成 ingress / report case_dir={case_path}")
-    case_spec = _read_required_json(case_path, "case_spec.json", stage="adapt", recommended_phase="case-world")
+    case_seed = _read_required_json(case_path, "input/case_seed.json", stage="adapt", recommended_phase="case-world")
     characters = _read_required_json(case_path, "input/characters.json", stage="adapt", recommended_phase="characters")
     actor_registry = _read_required_json(case_path, "input/actor_registry.json", stage="adapt", recommended_phase="characters")
     execution_result = _read_required_json(case_path, "execution_result.json", stage="adapt", recommended_phase="execute")
     fetch_records = _read_required_jsonl(case_path, "lark_fetch_records.jsonl", stage="adapt", recommended_phase="collect")
     collected_messages = _read_required_jsonl(case_path, "data/collected_messages.jsonl", stage="adapt", recommended_phase="collect")
     ingress_events, adapter_report = adapt_fetch_records(
-        case_spec,
+        case_seed,
         execution_result,
         fetch_records,
         collected_messages=collected_messages,
@@ -476,7 +492,7 @@ def adapt_case(*, case_dir_path: str | Path) -> dict[str, Any]:
     conversation_plan = _read_required_json(case_path, "input/conversation_plan.json", stage="adapt", recommended_phase="plan")
     plan = _read_required_json(case_path, "execution_plan.json", stage="adapt", recommended_phase="command-plan")
     report = build_case_report(
-        case_id=case_spec["case_id"],
+        case_id=case_seed["case_id"],
         operator_identity=execution_result["operator_identity"],
         delivery_mode=execution_result["delivery_mode"],
         preflight=execution_result.get("preflight") or {},
@@ -494,9 +510,25 @@ def adapt_case(*, case_dir_path: str | Path) -> dict[str, Any]:
     return {"adapter_report": adapter_report, "build_report": report}
 
 
-def build_case(*, case_spec_path: str | Path, dataset_root: str | Path = DATASET_ROOT, dry_run: bool = False) -> dict[str, Any]:
-    builder_log("build", f"开始执行 full build case_spec={case_spec_path} dry_run={dry_run}")
-    compiled = compile_case(case_spec_path=case_spec_path, dataset_root=dataset_root)
+def build_case(
+    *,
+    case_spec_path: str | Path | None = None,
+    dataset_root: str | Path = DATASET_ROOT,
+    dry_run: bool = False,
+    scenario_profile: str = "enterprise_release_coordination",
+    difficulty: str = "medium",
+    seed: int | None = None,
+    user_hint: str = "",
+) -> dict[str, Any]:
+    builder_log("build", f"开始执行 full build case_spec={case_spec_path or '<generated>'} dry_run={dry_run}")
+    compiled = compile_case(
+        case_spec_path=case_spec_path,
+        dataset_root=dataset_root,
+        scenario_profile=scenario_profile,
+        difficulty=difficulty,
+        seed=seed,
+        user_hint=user_hint,
+    )
     output_dir = Path(compiled["case_dir"])
     execution_result = execute_case(case_dir_path=output_dir, dry_run=dry_run)
     if dry_run:
@@ -519,19 +551,32 @@ def build_case(*, case_spec_path: str | Path, dataset_root: str | Path = DATASET
 
 
 def build_parser() -> argparse.ArgumentParser:
+    default_difficulty = resolve_default_difficulty()
     parser = argparse.ArgumentParser(description="Build Feishu IM dataset cases.")
     subparsers = parser.add_subparsers(dest="command", required=True)
 
+    spec_parser = subparsers.add_parser("generate-case-spec")
+    spec_parser.add_argument("--dataset-root", default=DATASET_ROOT)
+    spec_parser.add_argument("--scenario-profile", default="enterprise_release_coordination")
+    spec_parser.add_argument("--difficulty", default=default_difficulty)
+    spec_parser.add_argument("--seed", type=int)
+    spec_parser.add_argument("--user-hint", default="")
+
     compile_parser = subparsers.add_parser("compile-case")
-    compile_parser.add_argument("--case-spec", required=True)
+    compile_parser.add_argument("--case-spec")
     compile_parser.add_argument("--dataset-root", default=DATASET_ROOT)
+    compile_parser.add_argument("--scenario-profile", default="enterprise_release_coordination")
+    compile_parser.add_argument("--difficulty", default=default_difficulty)
+    compile_parser.add_argument("--seed", type=int)
+    compile_parser.add_argument("--user-hint", default="")
 
     case_world_parser = subparsers.add_parser("generate-case-world")
-    case_world_parser.add_argument("--case-spec", required=True)
+    case_world_parser.add_argument("--case-spec")
     case_world_parser.add_argument("--dataset-root", default=DATASET_ROOT)
-
-    catalog_parser = subparsers.add_parser("generate-case-profile-catalog")
-    catalog_parser.add_argument("--output")
+    case_world_parser.add_argument("--scenario-profile", default="enterprise_release_coordination")
+    case_world_parser.add_argument("--difficulty", default=default_difficulty)
+    case_world_parser.add_argument("--seed", type=int)
+    case_world_parser.add_argument("--user-hint", default="")
 
     characters_parser = subparsers.add_parser("generate-characters")
     characters_parser.add_argument("--case-dir", required=True)
@@ -562,20 +607,45 @@ def build_parser() -> argparse.ArgumentParser:
     adapt_parser.add_argument("--case-dir", required=True)
 
     build_parser_cmd = subparsers.add_parser("build-case")
-    build_parser_cmd.add_argument("--case-spec", required=True)
+    build_parser_cmd.add_argument("--case-spec")
     build_parser_cmd.add_argument("--dataset-root", default=DATASET_ROOT)
     build_parser_cmd.add_argument("--dry-run", action="store_true")
+    build_parser_cmd.add_argument("--scenario-profile", default="enterprise_release_coordination")
+    build_parser_cmd.add_argument("--difficulty", default=default_difficulty)
+    build_parser_cmd.add_argument("--seed", type=int)
+    build_parser_cmd.add_argument("--user-hint", default="")
     return parser
 
 
 def main() -> None:
     args = build_parser().parse_args()
-    if args.command == "compile-case":
-        result = compile_case(case_spec_path=args.case_spec, dataset_root=args.dataset_root)
+    if args.command == "generate-case-spec":
+        result = generate_case_spec_stage(
+            dataset_root=args.dataset_root,
+            scenario_profile=args.scenario_profile,
+            difficulty=args.difficulty,
+            seed=args.seed,
+            user_hint=args.user_hint,
+        )
+    elif args.command == "compile-case":
+        result = compile_case(
+            case_spec_path=args.case_spec,
+            dataset_root=args.dataset_root,
+            scenario_profile=args.scenario_profile,
+            difficulty=args.difficulty,
+            seed=args.seed,
+            user_hint=args.user_hint,
+        )
     elif args.command == "generate-case-world":
-        result = generate_case_world_stage(case_spec_path=args.case_spec, dataset_root=args.dataset_root)
-    elif args.command == "generate-case-profile-catalog":
-        result = generate_case_profile_catalog_stage(output_path=args.output)
+        resolved_case_spec_path = _ensure_case_spec_path(
+            case_spec_path=args.case_spec,
+            dataset_root=args.dataset_root,
+            scenario_profile=args.scenario_profile,
+            difficulty=args.difficulty,
+            seed=args.seed,
+            user_hint=args.user_hint,
+        )
+        result = generate_case_world_stage(case_spec_path=resolved_case_spec_path, dataset_root=args.dataset_root)
     elif args.command == "generate-characters":
         result = generate_characters_stage(case_dir_path=args.case_dir)
     elif args.command == "generate-conversation-plan":
@@ -595,7 +665,15 @@ def main() -> None:
     elif args.command == "adapt-case":
         result = adapt_case(case_dir_path=args.case_dir)
     else:
-        result = build_case(case_spec_path=args.case_spec, dataset_root=args.dataset_root, dry_run=args.dry_run)
+        result = build_case(
+            case_spec_path=args.case_spec,
+            dataset_root=args.dataset_root,
+            dry_run=args.dry_run,
+            scenario_profile=args.scenario_profile,
+            difficulty=args.difficulty,
+            seed=args.seed,
+            user_hint=args.user_hint,
+        )
     print(json.dumps(result, ensure_ascii=False, indent=2))
 
 

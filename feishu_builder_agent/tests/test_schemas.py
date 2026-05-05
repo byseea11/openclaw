@@ -5,7 +5,6 @@ import unittest
 from feishu_builder_agent.schemas import (
     ValidationError,
     validate_case_spec,
-    validate_case_profile_catalog,
     validate_characters,
     validate_execution_plan,
     validate_target_state,
@@ -43,9 +42,26 @@ class SchemaTests(unittest.TestCase):
                     "task_id": "REQ-1",
                     "title": "Enterprise rollout",
                     "company_type": "B2B SaaS",
-                    "departments": ["产品", "研发", "安全", "运维", "销售", "客户成功"],
+                    "department_hints": ["产品", "研发", "安全", "运维", "销售", "客户成功"],
                     "main_goal": "推动五月初上线",
                     "difficulty": "medium",
+                    "seed": 1,
+                }
+            )
+
+    def test_case_spec_rejects_unknown_difficulty(self) -> None:
+        with self.assertRaises(ValidationError):
+            validate_case_spec(
+                {
+                    "case_id": "case_feishu_1_example",
+                    "task_id": "FEISHU-1",
+                    "title": "",
+                    "company_type": "",
+                    "department_hints": ["产品", "研发"],
+                    "title_hint": "测试难度校验",
+                    "main_goal_hint": "验证未知难度会直接报错",
+                    "main_goal": "",
+                    "difficulty": "unknown",
                     "seed": 1,
                 }
             )
@@ -164,70 +180,6 @@ class SchemaTests(unittest.TestCase):
                     ],
                 }
             )
-
-    def test_case_profile_catalog_accepts_current_shape(self) -> None:
-        payload = validate_case_profile_catalog(
-            {
-                "scenario_profiles": {
-                    "enterprise_release_coordination": {
-                        "domain": "enterprise_product_launch",
-                        "company_type_options": ["企业级 SaaS"],
-                        "department_pool": ["产品", "研发", "测试", "运维"],
-                        "must_include_departments": ["产品", "研发"],
-                        "department_count_by_difficulty": {"easy": 5, "medium": 7, "hard": 8},
-                        "initiative_labels": ["发布窗口"],
-                        "delivery_motions": ["协调推进"],
-                        "target_window_options": ["五月上旬"],
-                        "title_templates": ["{task_id} 发布窗口协调推进"],
-                        "main_goal_templates": ["围绕 {task_id} 推动五月上旬上线决策收敛"],
-                        "stakeholder_templates": {"产品": "产品团队需要统一口径。"},
-                        "conflict_axis_templates": ["内部目标日期是否可以被当成对外承诺。"],
-                        "hidden_constraint_templates": ["回滚演练未完成前，运维不愿意锁定最终上线窗口。"],
-                        "reversal_point_templates": ["原本乐观的目标日期会在后续讨论中被修正。"],
-                        "topic_templates": [],
-                        "session_layout_templates": [],
-                        "character_role_templates": {},
-                        "default_complexity_profile_by_difficulty": {
-                            "easy": {
-                                "session_count_target": 3,
-                                "source_session_count_target": 3,
-                                "message_count_target": 18,
-                                "topic_count_target": 3,
-                                "thread_reply_depth_target": 3,
-                                "state_transition_target": 4,
-                                "supersession_target": 1,
-                                "cross_source_revision_target": 1,
-                                "event_family_target": 5,
-                            },
-                            "medium": {
-                                "session_count_target": 3,
-                                "source_session_count_target": 3,
-                                "message_count_target": 20,
-                                "topic_count_target": 4,
-                                "thread_reply_depth_target": 5,
-                                "state_transition_target": 8,
-                                "supersession_target": 1,
-                                "cross_source_revision_target": 2,
-                                "event_family_target": 6,
-                            },
-                            "hard": {
-                                "session_count_target": 4,
-                                "source_session_count_target": 4,
-                                "message_count_target": 24,
-                                "topic_count_target": 5,
-                                "thread_reply_depth_target": 6,
-                                "state_transition_target": 10,
-                                "supersession_target": 2,
-                                "cross_source_revision_target": 2,
-                                "event_family_target": 7,
-                            },
-                        },
-                    }
-                }
-            }
-        )
-        self.assertIn("enterprise_release_coordination", payload["scenario_profiles"])
-
 
 if __name__ == "__main__":
     unittest.main()

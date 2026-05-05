@@ -1,0 +1,100 @@
+{
+  "defaults": {
+    "default_difficulty": "hard",
+    "department_pool": [
+      "产品",
+      "研发",
+      "架构",
+      "安全",
+      "合规",
+      "风控",
+      "运维",
+      "站点可靠性工程",
+      "数据平台",
+      "销售",
+      "市场",
+      "客户成功",
+      "测试",
+      "法务",
+      "数据",
+      "财务",
+      "采购",
+      "商务",
+      "客服",
+      "运营",
+      "人力",
+      "项目管理办公室"
+    ]
+  },
+  "difficulty_profiles": {
+    "easy": {
+      "department_count": 5,
+      "topic_count": 3,
+      "character_count_min": 6,
+      "character_count_max": 8,
+      "session_blueprint": [
+        "session_main_chat",
+        "session_launch_window_thread",
+        "session_customer_sync_chat"
+      ],
+      "complexity_profile": {
+        "session_count_target": 3,
+        "source_session_count_target": 3,
+        "message_count_target": 18,
+        "topic_count_target": 3,
+        "thread_reply_depth_target": 3,
+        "state_transition_target": 4,
+        "supersession_target": 1,
+        "cross_source_revision_target": 1,
+        "event_family_target": 5
+      }
+    },
+    "medium": {
+      "department_count": 7,
+      "topic_count": 4,
+      "character_count_min": 8,
+      "character_count_max": 10,
+      "session_blueprint": [
+        "session_main_chat",
+        "session_launch_window_thread",
+        "session_customer_sync_chat",
+        "session_risk_review_thread"
+      ],
+      "complexity_profile": {
+        "session_count_target": 4,
+        "source_session_count_target": 3,
+        "message_count_target": 22,
+        "topic_count_target": 4,
+        "thread_reply_depth_target": 4,
+        "state_transition_target": 5,
+        "supersession_target": 1,
+        "cross_source_revision_target": 1,
+        "event_family_target": 6
+      }
+    },
+    "hard": {
+      "department_count": 10,
+      "topic_count": 5,
+      "character_count_min": 10,
+      "character_count_max": 12,
+      "session_blueprint": [
+        "session_main_chat",
+        "session_launch_window_thread",
+        "session_customer_sync_chat",
+        "session_risk_review_thread",
+        "session_exec_sync_chat"
+      ],
+      "complexity_profile": {
+        "session_count_target": 5,
+        "source_session_count_target": 4,
+        "message_count_target": 28,
+        "topic_count_target": 5,
+        "thread_reply_depth_target": 5,
+        "state_transition_target": 6,
+        "supersession_target": 2,
+        "cross_source_revision_target": 2,
+        "event_family_target": 7
+      }
+    }
+  }
+}

@@ -3,6 +3,7 @@ from __future__ import annotations
 from typing import Any
 
 from .llm_client import JsonLLMClient
+from .prompt_templates import build_utterance_plan_prompts
 from .schemas import ValidationError, validate_characters, validate_conversation_plan, validate_target_state, validate_utterance_plan
 
 
@@ -53,18 +54,10 @@ def generate_utterance_plan_with_mode(
     roster_ids = {item["person_id"] for item in validated_characters["characters"]}
     if llm_client is None:
         return validate_utterance_plan(_fallback_utterance_plan(validated_plan), allowed_actor_refs=roster_ids), "fallback"
-    system_prompt = (
-        "Transform an enterprise conversation plan into an utterance plan as JSON. "
-        "Return only a JSON object with one key named rows. "
-        "Each row must contain turn_id, sequence_no, session_id, source_type, source_ref, chat_ref, speaker_ref, "
-        "topic_key, turn_purpose, supports_event_types, references_previous_turns, semantic_payload, root_turn_id. "
-        "Do not change the number of turns."
-    )
-    user_prompt = (
-        f"Conversation plan:\n{validated_plan}\nCharacters:\n{validated_characters}\n"
-        f"Target state:\n{validated_target_state}\n"
-        "请把 turns 变成可以直接用于消息 realization 的 utterance rows。"
-        "不要新增或删除 turn，只允许补全 source 和 root_turn_id 等执行所需字段。"
+    system_prompt, user_prompt = build_utterance_plan_prompts(
+        validated_plan=validated_plan,
+        validated_characters=validated_characters,
+        validated_target_state=validated_target_state,
     )
     try:
         payload = llm_client.generate_json(system_prompt=system_prompt, user_prompt=user_prompt)

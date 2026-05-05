@@ -1,14 +1,16 @@
-Story、character 和 timeline 的 prompt 在接入 live LLM 后统一放在这里。
+Builder 的 live LLM prompt 目前以内联方式维护在各个生成器中：
 
-V1 的强约束：
+- `spec_generator.py`
+- `case_world_generator.py`
+- `character_generator.py`
+- `conversation_plan_generator.py`
+- `command_plan_generator.py`
+- `gold_generator.py`
 
-- 数据集的自然语言内容必须使用简体中文
-- 允许保留英文的只有内部标识字段，例如 `case_id`、`task_id`、`person_id`
-- 任何 story / characters / timeline / message content 的自然语言字段如果不是中文，都应当被视为无效输出并在 schema 校验阶段拒绝
+约束：
 
-补充：
-
-- `case_profile_catalog_system.txt` / `case_profile_catalog_user.txt`
-  - 用于通过 `.env` 中的 OpenAI 兼容配置（例如 DeepSeek）生成或扩展 `case_profile_catalog.json`
-  - prompt 本身不放进 `.env`
-  - `.env` 只负责模型凭证、base_url、model、timeout、max_tokens
+- 所有自然语言输出必须使用简体中文。
+- `case_spec` 是最小控制对象，只允许生成 hints 和控制字段，不直接承载完整世界。
+- `case_world` 才是正式企业世界对象。
+- prompt 不放进 `.env`。
+- `.env` 只负责模型凭证、`base_url`、`model`、`timeout`、`max_tokens` 等调用配置。

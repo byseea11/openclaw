@@ -5,6 +5,8 @@ from typing import Any
 
 from .schemas import validate_case_seed, validate_collected_messages, validate_complexity_report, validate_conversation_plan
 
+SUPERSESSION_KEYWORDS = ("更新为", "改为", "修正为", "收紧为", "supersede")
+
 
 def build_complexity_report(
     case_seed: dict[str, Any],
@@ -39,7 +41,11 @@ def build_complexity_report(
         event_types.update(row["supports_event_types"])
         if row["state_transition"]:
             state_transition_count += 1
-        if "改" in row["semantic_payload"] or "supersede" in row["semantic_payload"] or "更新为" in row["semantic_payload"]:
+        if row.get("is_supersession") is True or str(row.get("supersedes_turn_id") or "").strip():
+            supersession_count += 1
+        elif any(keyword in str(row.get("state_transition") or "") for keyword in SUPERSESSION_KEYWORDS):
+            supersession_count += 1
+        elif any(keyword in str(row.get("semantic_payload") or "") for keyword in SUPERSESSION_KEYWORDS):
             supersession_count += 1
         if row["source_type"] == "thread":
             thread_counts[row["source_ref"]] += 1

@@ -9,6 +9,7 @@ from feishu_builder_agent.cli import (
     adapt_case,
     compile_case,
     execute_case,
+    generate_case_spec_stage,
     generate_case_world_stage,
     generate_characters_stage,
     generate_command_plan_stage,
@@ -24,11 +25,30 @@ from feishu_builder_agent.schemas import ValidationError
 
 
 class EndToEndTests(unittest.TestCase):
-    def test_case_world_stage_samples_title_goal_and_departments_from_catalog(self) -> None:
+    def test_generate_case_spec_stage_creates_minimal_spec(self) -> None:
+        with tempfile.TemporaryDirectory() as tmpdir:
+            root = Path(tmpdir)
+            result = generate_case_spec_stage(
+                dataset_root=root / "dataset",
+                scenario_profile="enterprise_release_coordination",
+                difficulty="medium",
+                seed=11,
+                user_hint="需要重点覆盖安全、研发和客户同步压力",
+            )
+            case_spec = result["case_spec"]
+            self.assertEqual(case_spec["difficulty"], "medium")
+            self.assertEqual(case_spec["seed"], 11)
+            self.assertEqual(case_spec["title"], "")
+            self.assertEqual(case_spec["company_type"], "")
+            self.assertEqual(case_spec["main_goal"], "")
+            self.assertTrue(case_spec["department_hints"])
+            self.assertTrue((Path(result["case_dir"]) / "case_spec.json").exists())
+
+    def test_case_world_stage_generates_title_goal_and_departments_from_minimal_spec(self) -> None:
         with tempfile.TemporaryDirectory() as tmpdir:
             root = Path(tmpdir)
             case_spec = {
-                "case_id": "case_catalog_seed",
+                "case_id": "case_spec_first",
                 "task_id": "REQ-500",
                 "title": "",
                 "company_type": "",
@@ -44,12 +64,16 @@ class EndToEndTests(unittest.TestCase):
             write_json(case_spec_path, case_spec)
             result = generate_case_world_stage(case_spec_path=case_spec_path, dataset_root=root / "dataset")
             case_seed = result["case_seed"]
-            self.assertTrue(case_seed["title"])
-            self.assertTrue(case_seed["main_goal"])
-            self.assertTrue(case_seed["company_type"])
-            self.assertGreaterEqual(len(case_seed["departments"]), 7)
-            self.assertIn("法务", case_seed["departments"])
-            self.assertIn("数据", case_seed["departments"])
+            case_world = result["case_world"]
+            self.assertFalse(case_seed["title_hint"])
+            self.assertFalse(case_seed["main_goal_hint"])
+            self.assertEqual(case_seed["department_hints"], ["法务", "数据"])
+            self.assertTrue(case_world["title"])
+            self.assertTrue(case_world["main_goal"])
+            self.assertTrue(case_world["company_type"])
+            self.assertGreaterEqual(len(case_world["departments"]), 6)
+            self.assertIn("法务", case_world["departments"])
+            self.assertIn("数据", case_world["departments"])
 
     def test_case_world_stage_only_writes_seed_and_world(self) -> None:
         with tempfile.TemporaryDirectory() as tmpdir:
@@ -57,10 +81,13 @@ class EndToEndTests(unittest.TestCase):
             case_spec = {
                 "case_id": "case_stage_only",
                 "task_id": "REQ-232",
-                "title": "阶段拆分验证",
-                "company_type": "企业级 SaaS",
-                "departments": ["产品", "研发", "安全", "运维", "销售", "客户成功"],
-                "main_goal": "验证 case-world 阶段不会偷偷生成后续产物",
+                "title": "",
+                "company_type": "",
+                "department_hints": ["产品", "研发", "安全", "运维", "销售", "客户成功"],
+                "scenario_profile": "enterprise_release_coordination",
+                "title_hint": "阶段拆分验证",
+                "main_goal_hint": "验证 case-world 阶段不会偷偷生成后续产物",
+                "main_goal": "",
                 "difficulty": "medium",
                 "seed": 9,
             }
@@ -70,6 +97,7 @@ class EndToEndTests(unittest.TestCase):
             case_dir = Path(result["case_dir"])
             self.assertTrue((case_dir / "input" / "case_seed.json").exists())
             self.assertTrue((case_dir / "input" / "case_world.json").exists())
+            self.assertFalse((case_dir / "case_spec.json").exists())
             self.assertFalse((case_dir / "input" / "conversation_plan.json").exists())
             self.assertFalse((case_dir / "input" / "utterance_plan.jsonl").exists())
             self.assertFalse((case_dir / "data" / "realized_messages.jsonl").exists())
@@ -80,10 +108,13 @@ class EndToEndTests(unittest.TestCase):
             case_spec = {
                 "case_id": "case_missing_prereq",
                 "task_id": "REQ-233",
-                "title": "严格前置校验",
-                "company_type": "企业级 SaaS",
-                "departments": ["产品", "研发", "安全", "运维", "销售", "客户成功"],
-                "main_goal": "验证 realize 缺少前置时会报清晰错误",
+                "title": "",
+                "company_type": "",
+                "department_hints": ["产品", "研发", "安全", "运维", "销售", "客户成功"],
+                "scenario_profile": "enterprise_release_coordination",
+                "title_hint": "严格前置校验",
+                "main_goal_hint": "验证 realize 缺少前置时会报清晰错误",
+                "main_goal": "",
                 "difficulty": "medium",
                 "seed": 10,
             }
@@ -104,10 +135,13 @@ class EndToEndTests(unittest.TestCase):
             case_spec = {
                 "case_id": "case_smoke",
                 "task_id": "REQ-231",
-                "title": "企业级 SSO 上线推进",
-                "company_type": "企业级 SaaS",
-                "departments": ["产品", "研发", "安全", "运维", "销售", "客户成功"],
-                "main_goal": "评估并推动五月上旬完成上线",
+                "title": "",
+                "company_type": "",
+                "department_hints": ["产品", "研发", "安全", "运维", "销售", "客户成功"],
+                "scenario_profile": "enterprise_release_coordination",
+                "title_hint": "企业级 SSO 上线推进",
+                "main_goal_hint": "评估并推动五月上旬完成上线",
+                "main_goal": "",
                 "difficulty": "medium",
                 "seed": 3,
             }
@@ -235,10 +269,13 @@ class EndToEndTests(unittest.TestCase):
             case_spec = {
                 "case_id": "case_openid_mismatch",
                 "task_id": "REQ-234",
-                "title": "模拟工号校验",
-                "company_type": "企业级 SaaS",
-                "departments": ["产品", "研发", "安全", "运维", "销售", "客户成功"],
-                "main_goal": "验证 validate 会检查 simulated_open_id 是否来自角色映射表",
+                "title": "",
+                "company_type": "",
+                "department_hints": ["产品", "研发", "安全", "运维", "销售", "客户成功"],
+                "scenario_profile": "enterprise_release_coordination",
+                "title_hint": "模拟工号校验",
+                "main_goal_hint": "验证 validate 会检查 simulated_open_id 是否来自角色映射表",
+                "main_goal": "",
                 "difficulty": "medium",
                 "seed": 4,
             }

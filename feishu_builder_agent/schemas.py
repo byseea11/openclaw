@@ -4,12 +4,16 @@ import re
 from dataclasses import dataclass
 from typing import Any
 
+from .builder_settings import load_builder_settings, resolve_difficulty_settings
+
 
 class ValidationError(ValueError):
     """Raised when a builder artifact does not match the expected schema."""
 
 
 _CJK_RE = re.compile(r"[\u3400-\u4dbf\u4e00-\u9fff\uf900-\ufaff]")
+_CASE_ID_RE = re.compile(r"^case_[a-z0-9_]+$")
+_TASK_ID_RE = re.compile(r"^[A-Z][A-Z0-9_]*-[0-9A-Za-z]+$")
 
 
 def _require_string(value: Any, field: str) -> str:
@@ -96,38 +100,54 @@ def _validate_complexity_profile(value: Any, field: str) -> dict[str, int]:
 
 
 def validate_case_spec(payload: dict[str, Any]) -> dict[str, Any]:
+    allowed_difficulties = set(load_builder_settings()["difficulty_profiles"].keys())
     departments = [
         _require_chinese_string(item, "department_hints[]")
-        for item in _require_list(payload.get("department_hints") or payload.get("departments") or [], "department_hints")
+        for item in _require_list(payload.get("department_hints") or [], "department_hints")
     ]
+    case_id = _require_string(payload.get("case_id"), "case_id")
+    if not _CASE_ID_RE.fullmatch(case_id):
+        raise ValidationError("case_id must use lower_snake_case and start with case_")
+    task_id = _require_string(payload.get("task_id"), "task_id")
+    if not _TASK_ID_RE.fullmatch(task_id):
+        raise ValidationError("task_id must use UPPER-SLUG form like FEISHU-231")
+    difficulty = str(payload.get("difficulty") or "medium").strip() or "medium"
+    if difficulty not in allowed_difficulties:
+        raise ValidationError(f"difficulty must be one of: {', '.join(sorted(allowed_difficulties))}")
     return {
-        "case_id": _require_string(payload.get("case_id"), "case_id"),
-        "task_id": _require_string(payload.get("task_id"), "task_id"),
+        "case_id": case_id,
+        "task_id": task_id,
         "title": _optional_chinese_string(payload.get("title"), "title"),
         "company_type": _optional_chinese_string(payload.get("company_type"), "company_type"),
-        "departments": departments,
         "department_hints": departments,
         "scenario_profile": _optional_string(payload.get("scenario_profile")) or "enterprise_release_coordination",
         "title_hint": _optional_chinese_string(payload.get("title_hint"), "title_hint"),
         "main_goal_hint": _optional_chinese_string(payload.get("main_goal_hint"), "main_goal_hint"),
         "main_goal": _optional_chinese_string(payload.get("main_goal"), "main_goal"),
-        "difficulty": str(payload.get("difficulty") or "medium").strip() or "medium",
+        "difficulty": difficulty,
         "seed": int(payload.get("seed") or 0),
     }
 
 
 def validate_case_seed(payload: dict[str, Any]) -> dict[str, Any]:
-    departments = [_require_chinese_string(item, "case_seed.departments[]") for item in _require_list(payload.get("departments"), "case_seed.departments")]
+    allowed_difficulties = set(load_builder_settings()["difficulty_profiles"].keys())
+    department_hints = [
+        _require_chinese_string(item, "case_seed.department_hints[]")
+        for item in _require_list(payload.get("department_hints") or [], "case_seed.department_hints")
+    ]
+    difficulty = str(payload.get("difficulty") or "medium").strip() or "medium"
+    if difficulty not in allowed_difficulties:
+        raise ValidationError(f"case_seed.difficulty must be one of: {', '.join(sorted(allowed_difficulties))}")
     return {
         "case_id": _require_string(payload.get("case_id"), "case_seed.case_id"),
         "task_id": _require_string(payload.get("task_id"), "case_seed.task_id"),
-        "title": _require_chinese_string(payload.get("title"), "case_seed.title"),
         "domain": _require_string(payload.get("domain") or "enterprise_product_launch", "case_seed.domain"),
-        "company_type": _require_chinese_string(payload.get("company_type"), "case_seed.company_type"),
-        "departments": departments,
+        "company_type_hint": _optional_chinese_string(payload.get("company_type_hint"), "case_seed.company_type_hint"),
+        "department_hints": department_hints,
         "scenario_profile": _optional_string(payload.get("scenario_profile")) or "enterprise_release_coordination",
-        "main_goal": _require_chinese_string(payload.get("main_goal"), "case_seed.main_goal"),
-        "difficulty": str(payload.get("difficulty") or "medium").strip() or "medium",
+        "title_hint": _optional_chinese_string(payload.get("title_hint"), "case_seed.title_hint"),
+        "main_goal_hint": _optional_chinese_string(payload.get("main_goal_hint"), "case_seed.main_goal_hint"),
+        "difficulty": difficulty,
         "seed": int(payload.get("seed") or 0),
         "complexity_profile": _validate_complexity_profile(
             payload.get("complexity_profile")
@@ -148,12 +168,76 @@ def validate_case_seed(payload: dict[str, Any]) -> dict[str, Any]:
 
 
 def validate_case_world(payload: dict[str, Any]) -> dict[str, Any]:
+    allowed_difficulties = set(load_builder_settings()["difficulty_profiles"].keys())
+    selected_topics = _require_list(payload.get("selected_topics"), "case_world.selected_topics")
+    normalized_topics: list[dict[str, Any]] = []
+    for topic in selected_topics:
+        topic_obj = _require_dict(topic, "case_world.selected_topics[]")
+        topic_key = _require_string(topic_obj.get("topic_key"), "case_world.selected_topics.topic_key")
+        turn_templates = _require_list(topic_obj.get("turn_templates"), f"{topic_key}.turn_templates")
+        normalized_topics.append(
+            {
+                "topic_key": topic_key,
+                "topic_title": _require_chinese_string(topic_obj.get("topic_title"), f"{topic_key}.topic_title"),
+                "desired_event_types": _require_string_list(topic_obj.get("desired_event_types"), f"{topic_key}.desired_event_types"),
+                "state_transitions": [
+                    _require_chinese_string(item, f"{topic_key}.state_transitions[]")
+                    for item in _require_list(topic_obj.get("state_transitions"), f"{topic_key}.state_transitions")
+                ],
+                "turn_templates": [
+                    {
+                        "session_id": _require_string(turn.get("session_id"), f"{topic_key}.turn_templates[].session_id"),
+                        "speaker_department": _require_chinese_string(
+                            turn.get("speaker_department"),
+                            f"{topic_key}.turn_templates[].speaker_department",
+                        ),
+                        "turn_purpose": _require_chinese_string(
+                            turn.get("turn_purpose"),
+                            f"{topic_key}.turn_templates[].turn_purpose",
+                        ),
+                        "supports_event_types": _require_string_list(
+                            turn.get("supports_event_types"),
+                            f"{topic_key}.turn_templates[].supports_event_types",
+                        ),
+                        "state_transition": _require_chinese_string(
+                            turn.get("state_transition"),
+                            f"{topic_key}.turn_templates[].state_transition",
+                        ),
+                        "semantic_payload_template": _require_chinese_string(
+                            turn.get("semantic_payload_template"),
+                            f"{topic_key}.turn_templates[].semantic_payload_template",
+                        ),
+                    }
+                    for turn in turn_templates
+                ],
+            }
+        )
+    difficulty = str(payload.get("difficulty") or "medium").strip() or "medium"
+    if difficulty not in allowed_difficulties:
+        raise ValidationError(f"case_world.difficulty must be one of: {', '.join(sorted(allowed_difficulties))}")
+    difficulty_settings = resolve_difficulty_settings(difficulty)
+    departments = [
+        _require_chinese_string(item, "case_world.departments[]")
+        for item in _require_list(payload.get("departments"), "case_world.departments")
+    ]
+    if len(departments) < int(difficulty_settings["department_count"]):
+        raise ValidationError(
+            f"case_world.departments must contain at least {difficulty_settings['department_count']} items for difficulty={difficulty}"
+        )
+    if len(normalized_topics) < int(difficulty_settings["topic_count"]):
+        raise ValidationError(
+            f"case_world.selected_topics must contain at least {difficulty_settings['topic_count']} topics for difficulty={difficulty}"
+        )
     return {
         "case_id": _require_string(payload.get("case_id"), "case_world.case_id"),
         "task_id": _require_string(payload.get("task_id"), "case_world.task_id"),
+        "scenario_profile": _optional_string(payload.get("scenario_profile")) or "enterprise_release_coordination",
+        "difficulty": difficulty,
+        "seed": _require_int(payload.get("seed"), "case_world.seed", minimum=0),
         "title": _require_chinese_string(payload.get("title"), "case_world.title"),
         "domain": _require_string(payload.get("domain"), "case_world.domain"),
         "company_type": _require_chinese_string(payload.get("company_type"), "case_world.company_type"),
+        "departments": departments,
         "main_goal": _require_chinese_string(payload.get("main_goal"), "case_world.main_goal"),
         "organization_background": _require_chinese_string(payload.get("organization_background"), "case_world.organization_background"),
         "external_pressure": _require_chinese_string(payload.get("external_pressure"), "case_world.external_pressure"),
@@ -161,6 +245,7 @@ def validate_case_world(payload: dict[str, Any]) -> dict[str, Any]:
         "conflict_axes": [_require_chinese_string(item, "case_world.conflict_axes[]") for item in _require_list(payload.get("conflict_axes"), "case_world.conflict_axes")],
         "hidden_constraints": [_require_chinese_string(item, "case_world.hidden_constraints[]") for item in _require_list(payload.get("hidden_constraints"), "case_world.hidden_constraints")],
         "reversal_points": [_require_chinese_string(item, "case_world.reversal_points[]") for item in _require_list(payload.get("reversal_points"), "case_world.reversal_points")],
+        "selected_topics": normalized_topics,
         "complexity_profile": _validate_complexity_profile(payload.get("complexity_profile"), "case_world.complexity_profile"),
     }
 
@@ -183,8 +268,12 @@ def validate_story(payload: dict[str, Any]) -> dict[str, Any]:
 def validate_characters(payload: dict[str, Any]) -> dict[str, Any]:
     case_id = _require_string(payload.get("case_id"), "characters.case_id")
     characters = _require_list(payload.get("characters"), "characters.characters")
-    if not 6 <= len(characters) <= 10:
-        raise ValidationError("characters.characters must contain 6 to 10 roles")
+    settings = load_builder_settings()
+    difficulty_profiles = settings["difficulty_profiles"]
+    min_allowed = min(profile["character_count_min"] for profile in difficulty_profiles.values())
+    max_allowed = max(profile["character_count_max"] for profile in difficulty_profiles.values())
+    if not min_allowed <= len(characters) <= max_allowed:
+        raise ValidationError(f"characters.characters must contain {min_allowed} to {max_allowed} roles")
     normalized: list[dict[str, str]] = []
     seen_ids: set[str] = set()
     for character in characters:
@@ -243,47 +332,6 @@ def validate_actor_registry(payload: dict[str, Any]) -> dict[str, Any]:
             }
         )
     return {"case_id": case_id, "actors": normalized}
-
-
-def validate_case_profile_catalog(payload: dict[str, Any]) -> dict[str, Any]:
-    root = _require_dict(payload, "case_profile_catalog")
-    scenario_profiles = _require_dict(root.get("scenario_profiles"), "case_profile_catalog.scenario_profiles")
-    normalized_profiles: dict[str, Any] = {}
-    for profile_id, raw_profile in scenario_profiles.items():
-        profile = _require_dict(raw_profile, f"case_profile_catalog.scenario_profiles.{profile_id}")
-        default_complexity = _require_dict(
-            profile.get("default_complexity_profile_by_difficulty"),
-            f"{profile_id}.default_complexity_profile_by_difficulty",
-        )
-        normalized_profiles[_require_string(profile_id, "case_profile_catalog.profile_id")] = {
-            "domain": _require_string(profile.get("domain"), f"{profile_id}.domain"),
-            "company_type_options": _require_string_list(profile.get("company_type_options"), f"{profile_id}.company_type_options"),
-            "department_pool": _require_string_list(profile.get("department_pool"), f"{profile_id}.department_pool"),
-            "must_include_departments": _require_string_list(profile.get("must_include_departments"), f"{profile_id}.must_include_departments"),
-            "department_count_by_difficulty": {
-                "easy": _require_int((profile.get("department_count_by_difficulty") or {}).get("easy", 5), f"{profile_id}.department_count_by_difficulty.easy", minimum=1),
-                "medium": _require_int((profile.get("department_count_by_difficulty") or {}).get("medium", 7), f"{profile_id}.department_count_by_difficulty.medium", minimum=1),
-                "hard": _require_int((profile.get("department_count_by_difficulty") or {}).get("hard", 8), f"{profile_id}.department_count_by_difficulty.hard", minimum=1),
-            },
-            "initiative_labels": [_require_chinese_string(item, f"{profile_id}.initiative_labels[]") for item in _require_list(profile.get("initiative_labels"), f"{profile_id}.initiative_labels")],
-            "delivery_motions": [_require_chinese_string(item, f"{profile_id}.delivery_motions[]") for item in _require_list(profile.get("delivery_motions"), f"{profile_id}.delivery_motions")],
-            "target_window_options": [_require_chinese_string(item, f"{profile_id}.target_window_options[]") for item in _require_list(profile.get("target_window_options"), f"{profile_id}.target_window_options")],
-            "title_templates": _require_string_list(profile.get("title_templates"), f"{profile_id}.title_templates"),
-            "main_goal_templates": [_require_chinese_string(item, f"{profile_id}.main_goal_templates[]") for item in _require_list(profile.get("main_goal_templates"), f"{profile_id}.main_goal_templates")],
-            "stakeholder_templates": _require_dict(profile.get("stakeholder_templates"), f"{profile_id}.stakeholder_templates"),
-            "conflict_axis_templates": [_require_chinese_string(item, f"{profile_id}.conflict_axis_templates[]") for item in _require_list(profile.get("conflict_axis_templates"), f"{profile_id}.conflict_axis_templates")],
-            "hidden_constraint_templates": [_require_chinese_string(item, f"{profile_id}.hidden_constraint_templates[]") for item in _require_list(profile.get("hidden_constraint_templates"), f"{profile_id}.hidden_constraint_templates")],
-            "reversal_point_templates": [_require_chinese_string(item, f"{profile_id}.reversal_point_templates[]") for item in _require_list(profile.get("reversal_point_templates"), f"{profile_id}.reversal_point_templates")],
-            "topic_templates": _require_list(profile.get("topic_templates"), f"{profile_id}.topic_templates"),
-            "session_layout_templates": _require_list(profile.get("session_layout_templates"), f"{profile_id}.session_layout_templates"),
-            "character_role_templates": _require_dict(profile.get("character_role_templates"), f"{profile_id}.character_role_templates"),
-            "default_complexity_profile_by_difficulty": {
-                "easy": _validate_complexity_profile(default_complexity.get("easy"), f"{profile_id}.default_complexity_profile_by_difficulty.easy"),
-                "medium": _validate_complexity_profile(default_complexity.get("medium"), f"{profile_id}.default_complexity_profile_by_difficulty.medium"),
-                "hard": _validate_complexity_profile(default_complexity.get("hard"), f"{profile_id}.default_complexity_profile_by_difficulty.hard"),
-            },
-        }
-    return {"scenario_profiles": normalized_profiles}
 
 
 def validate_conversation_plan(payload: dict[str, Any], *, allowed_actor_refs: set[str] | None = None) -> dict[str, Any]:

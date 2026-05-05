@@ -7,6 +7,7 @@ from datetime import datetime, timezone
 from typing import Any
 
 from .llm_client import JsonLLMClient
+from .prompt_templates import build_gold_event_prompts
 from .schemas import (
     ValidationError,
     validate_collected_messages,
@@ -240,21 +241,7 @@ def _generate_expected_events_with_llm(
     llm_client: JsonLLMClient,
 ) -> list[dict[str, Any]]:
     payload = _build_llm_prompt_payload(target_state, conversation_plan, collected_messages)
-    system_prompt = (
-        "You generate gold expected session_event records for a Feishu Task Wiki benchmark. "
-        "Return one JSON object with key 'events'. Each event must match the Layer 2 session_event shape. "
-        "Allowed event_type values are conclusion_event, rationale_event, objection_event, constraint_event, "
-        "commitment_event, status_event, time_event, scope_event. "
-        "Every event must contain event_id, task_ref, source_session_id, ingest_version, event_type, claim, "
-        "core_entry_id, evidence_quote, context_quotes, participants, event_time, source, confidence, verification, gold_meta. "
-        "Also include the required typed fields for each event_type. "
-        "Use Simplified Chinese for natural-language fields. Do not invent facts beyond the provided collected_messages."
-    )
-    user_prompt = (
-        "请把下面的 benchmark payload 转成 Layer 2 对齐的 gold expected_events。"
-        "每条 event 必须能够回到 collected_messages 中对应的 turn/message 证据。"
-        f"\n\nPayload:\n{payload}"
-    )
+    system_prompt, user_prompt = build_gold_event_prompts(payload=payload)
     result = llm_client.generate_json(system_prompt=system_prompt, user_prompt=user_prompt)
     return validate_expected_events(list(result.get("events") or []))
 

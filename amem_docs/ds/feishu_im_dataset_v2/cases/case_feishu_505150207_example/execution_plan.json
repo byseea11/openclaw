@@ -1,0 +1,410 @@
+{
+  "case_id": "case_feishu_505150207_example",
+  "operator_identity": "user",
+  "delivery_mode": "prefixed_single_operator",
+  "actions": [
+    {
+      "action_id": "step_001",
+      "action_type": "create_chat",
+      "depends_on": [],
+      "params": {
+        "chat_ref": "main_chat",
+        "name": "主群协调",
+        "members": [
+          "architect_01",
+          "compliance_lead_01",
+          "data_platform_lead_01",
+          "dev_lead_01",
+          "ops_lead_01",
+          "product_lead_01",
+          "product_manager_01",
+          "risk_control_lead_01",
+          "security_lead_01",
+          "sre_lead_01"
+        ]
+      },
+      "output_ref": "main_chat"
+    },
+    {
+      "action_id": "step_002",
+      "action_type": "create_chat",
+      "depends_on": [],
+      "params": {
+        "chat_ref": "customer_sync_chat",
+        "name": "客户同步群",
+        "members": [
+          "architect_01",
+          "compliance_lead_01",
+          "data_platform_lead_01",
+          "dev_lead_01",
+          "ops_lead_01",
+          "product_lead_01",
+          "product_manager_01",
+          "risk_control_lead_01",
+          "security_lead_01",
+          "sre_lead_01"
+        ]
+      },
+      "output_ref": "customer_sync_chat"
+    },
+    {
+      "action_id": "step_003",
+      "action_type": "create_chat",
+      "depends_on": [],
+      "params": {
+        "chat_ref": "exec_sync_chat",
+        "name": "补充聊天会话",
+        "members": [
+          "architect_01",
+          "compliance_lead_01",
+          "data_platform_lead_01",
+          "dev_lead_01",
+          "ops_lead_01",
+          "product_lead_01",
+          "product_manager_01",
+          "risk_control_lead_01",
+          "security_lead_01",
+          "sre_lead_01"
+        ]
+      },
+      "output_ref": "exec_sync_chat"
+    },
+    {
+      "action_id": "step_004",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_001"
+      ],
+      "params": {
+        "chat_ref": "main_chat",
+        "sender_ref": "product_lead_01",
+        "content_text": "【产品/张明】FEISHU-505150207 当前先按五月上旬作为内部目标推进，但还没有对外锁死具体发布日期。"
+      },
+      "output_ref": "msg_turn_release_window_01"
+    },
+    {
+      "action_id": "step_005",
+      "action_type": "reply_in_thread",
+      "depends_on": [
+        "step_001",
+        "step_004"
+      ],
+      "params": {
+        "chat_ref": "main_chat",
+        "sender_ref": "dev_lead_01",
+        "content_text": "【研发/李强】目前最大的 blocker 不是代码，而是数据迁移窗口和切换方案还没有最终确认。",
+        "root_message_ref": "msg_turn_release_window_01"
+      },
+      "output_ref": "msg_turn_readiness_blockers_01"
+    },
+    {
+      "action_id": "step_006",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_002"
+      ],
+      "params": {
+        "chat_ref": "customer_sync_chat",
+        "sender_ref": "compliance_lead_01",
+        "content_text": "【合规/陈静】客户已经把这个能力排进内部计划，我们需要明确本周能否给出公开说法。"
+      },
+      "output_ref": "msg_turn_external_messaging_01"
+    },
+    {
+      "action_id": "step_007",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_001"
+      ],
+      "params": {
+        "chat_ref": "main_chat",
+        "sender_ref": "architect_01",
+        "content_text": "【架构/王磊】如果没有最终的风险验收清单，现在推进上线窗口只会放大后续回滚概率。"
+      },
+      "output_ref": "msg_turn_risk_controls_01"
+    },
+    {
+      "action_id": "step_008",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_003"
+      ],
+      "params": {
+        "chat_ref": "exec_sync_chat",
+        "sender_ref": "product_lead_01",
+        "content_text": "【产品/张明】当前对管理层的同步先聚焦风险收敛和放行条件，不直接给确定发布日期。"
+      },
+      "output_ref": "msg_turn_executive_sync_01"
+    },
+    {
+      "action_id": "step_009",
+      "action_type": "reply_in_thread",
+      "depends_on": [
+        "step_001",
+        "step_004"
+      ],
+      "params": {
+        "chat_ref": "main_chat",
+        "sender_ref": "dev_lead_01",
+        "content_text": "【研发/李强】研发侧判断真正的关键依赖还没锁定，现在直接对外承诺日期风险过高。",
+        "root_message_ref": "msg_turn_release_window_01"
+      },
+      "output_ref": "msg_turn_release_window_02"
+    },
+    {
+      "action_id": "step_010",
+      "action_type": "reply_in_thread",
+      "depends_on": [
+        "step_001",
+        "step_004"
+      ],
+      "params": {
+        "chat_ref": "main_chat",
+        "sender_ref": "architect_01",
+        "content_text": "【架构/王磊】安全评审还缺最后一轮结论，在结果出来前相关高风险能力不能直接开放。",
+        "root_message_ref": "msg_turn_release_window_01"
+      },
+      "output_ref": "msg_turn_readiness_blockers_02"
+    },
+    {
+      "action_id": "step_011",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_002"
+      ],
+      "params": {
+        "chat_ref": "customer_sync_chat",
+        "sender_ref": "risk_control_lead_01",
+        "content_text": "【风控/刘洋】如果现在给得过满，后面改口会直接影响客户侧对项目稳定性的判断。"
+      },
+      "output_ref": "msg_turn_external_messaging_02"
+    },
+    {
+      "action_id": "step_012",
+      "action_type": "reply_in_thread",
+      "depends_on": [
+        "step_001",
+        "step_004"
+      ],
+      "params": {
+        "chat_ref": "main_chat",
+        "sender_ref": "security_lead_01",
+        "content_text": "【安全/赵敏】运维希望把回滚触发条件和恢复时间目标都写清楚，否则演练结果没有办法作为放行依据。",
+        "root_message_ref": "msg_turn_release_window_01"
+      },
+      "output_ref": "msg_turn_risk_controls_02"
+    },
+    {
+      "action_id": "step_013",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_003"
+      ],
+      "params": {
+        "chat_ref": "exec_sync_chat",
+        "sender_ref": "security_lead_01",
+        "content_text": "【安全/赵敏】需要同步说明当前仍取决于迁移窗口、回滚演练和最终风险验收三个条件。"
+      },
+      "output_ref": "msg_turn_executive_sync_02"
+    },
+    {
+      "action_id": "step_014",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_001"
+      ],
+      "params": {
+        "chat_ref": "main_chat",
+        "sender_ref": "security_lead_01",
+        "content_text": "【安全/赵敏】运维侧建议先不要把五月上旬当成确定承诺，至少要等回滚准备确认后再同步。"
+      },
+      "output_ref": "msg_turn_release_window_03"
+    },
+    {
+      "action_id": "step_015",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_001"
+      ],
+      "params": {
+        "chat_ref": "main_chat",
+        "sender_ref": "security_lead_01",
+        "content_text": "【安全/赵敏】回滚演练还没有完成闭环，这也是当前不建议锁定窗口的重要原因。"
+      },
+      "output_ref": "msg_turn_readiness_blockers_03"
+    },
+    {
+      "action_id": "step_016",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_001"
+      ],
+      "params": {
+        "chat_ref": "main_chat",
+        "sender_ref": "product_lead_01",
+        "content_text": "【产品/张明】对外统一先说当前仍在完成最后的上线准备，预计窗口待确认，不给具体日历日期。"
+      },
+      "output_ref": "msg_turn_external_messaging_03"
+    },
+    {
+      "action_id": "step_017",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_001"
+      ],
+      "params": {
+        "chat_ref": "main_chat",
+        "sender_ref": "dev_lead_01",
+        "content_text": "【研发/李强】研发会在下一个工作日把迁移方案、监控预案和回滚条件整理成一版供大家评审。"
+      },
+      "output_ref": "msg_turn_risk_controls_03"
+    },
+    {
+      "action_id": "step_018",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_001"
+      ],
+      "params": {
+        "chat_ref": "main_chat",
+        "sender_ref": "product_lead_01",
+        "content_text": "【产品/张明】管理层同步也统一使用条件式表述，不再带具体乐观日期。"
+      },
+      "output_ref": "msg_turn_executive_sync_03"
+    },
+    {
+      "action_id": "step_019",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_002"
+      ],
+      "params": {
+        "chat_ref": "customer_sync_chat",
+        "sender_ref": "compliance_lead_01",
+        "content_text": "【合规/陈静】客户侧已经在追问上线时间，我们需要给一个保守但可执行的同步口径。"
+      },
+      "output_ref": "msg_turn_release_window_04"
+    },
+    {
+      "action_id": "step_020",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_001"
+      ],
+      "params": {
+        "chat_ref": "main_chat",
+        "sender_ref": "dev_lead_01",
+        "content_text": "【研发/李强】研发会在本周内补齐迁移方案细节，并和运维一起把窗口确认条件列清楚。"
+      },
+      "output_ref": "msg_turn_readiness_blockers_04"
+    },
+    {
+      "action_id": "step_021",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_002"
+      ],
+      "params": {
+        "chat_ref": "customer_sync_chat",
+        "sender_ref": "compliance_lead_01",
+        "content_text": "【合规/陈静】那我对客户统一说现在还在做最后校验，具体时间等内部确认后第一时间同步。"
+      },
+      "output_ref": "msg_turn_external_messaging_04"
+    },
+    {
+      "action_id": "step_022",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_003"
+      ],
+      "params": {
+        "chat_ref": "exec_sync_chat",
+        "sender_ref": "product_lead_01",
+        "content_text": "【产品/张明】最终是否放行以风险材料补齐和演练通过为准，在这之前所有对外说法都保持保守。"
+      },
+      "output_ref": "msg_turn_risk_controls_04"
+    },
+    {
+      "action_id": "step_023",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_001"
+      ],
+      "params": {
+        "chat_ref": "main_chat",
+        "sender_ref": "product_lead_01",
+        "content_text": "【产品/张明】当前统一口径先收敛为暂不承诺具体日期，等关键依赖确认后再重开上线窗口讨论。"
+      },
+      "output_ref": "msg_turn_release_window_05"
+    },
+    {
+      "action_id": "step_024",
+      "action_type": "reply_in_thread",
+      "depends_on": [
+        "step_001",
+        "step_004"
+      ],
+      "params": {
+        "chat_ref": "main_chat",
+        "sender_ref": "security_lead_01",
+        "content_text": "【安全/赵敏】当前 blocker 已经收敛成三项，等迁移窗口、回滚演练和安全结论都明确后再给最终上线建议。",
+        "root_message_ref": "msg_turn_release_window_01"
+      },
+      "output_ref": "msg_turn_readiness_blockers_05"
+    },
+    {
+      "action_id": "step_025",
+      "action_type": "fetch_chat_messages",
+      "depends_on": [
+        "step_002"
+      ],
+      "params": {
+        "chat_ref": "customer_sync_chat"
+      }
+    },
+    {
+      "action_id": "step_026",
+      "action_type": "fetch_chat_messages",
+      "depends_on": [
+        "step_003"
+      ],
+      "params": {
+        "chat_ref": "exec_sync_chat"
+      }
+    },
+    {
+      "action_id": "step_027",
+      "action_type": "fetch_chat_messages",
+      "depends_on": [
+        "step_001"
+      ],
+      "params": {
+        "chat_ref": "main_chat"
+      }
+    },
+    {
+      "action_id": "step_028",
+      "action_type": "fetch_thread_messages",
+      "depends_on": [
+        "step_001",
+        "step_004"
+      ],
+      "params": {
+        "chat_ref": "main_chat",
+        "root_message_ref": "msg_turn_release_window_01"
+      }
+    },
+    {
+      "action_id": "step_029",
+      "action_type": "fetch_thread_messages",
+      "depends_on": [
+        "step_001",
+        "step_004"
+      ],
+      "params": {
+        "chat_ref": "main_chat",
+        "root_message_ref": "msg_turn_release_window_01"
+      }
+    }
+  ]
+}

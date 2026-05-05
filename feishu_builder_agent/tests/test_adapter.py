@@ -7,15 +7,28 @@ from feishu_builder_agent.adapter import adapt_fetch_records
 
 class AdapterTests(unittest.TestCase):
     def test_adapter_fills_chat_id_and_maps_to_simulated_speaker(self) -> None:
-        case_spec = {
+        case_seed = {
             "case_id": "case-1",
             "task_id": "REQ-1",
-            "title": "项目标题",
-            "company_type": "企业软件",
-            "departments": ["产品", "研发", "安全", "运维", "销售", "客户成功"],
-            "main_goal": "推进本周内形成上线口径",
+            "domain": "enterprise_product_launch",
+            "company_type_hint": "企业软件",
+            "department_hints": ["产品", "研发", "安全", "运维", "销售", "客户成功"],
+            "scenario_profile": "enterprise_release_coordination",
+            "title_hint": "项目标题",
+            "main_goal_hint": "推进本周内形成上线口径",
             "difficulty": "medium",
             "seed": 1,
+            "complexity_profile": {
+                "session_count_target": 3,
+                "source_session_count_target": 3,
+                "message_count_target": 18,
+                "topic_count_target": 3,
+                "thread_reply_depth_target": 3,
+                "state_transition_target": 4,
+                "supersession_target": 1,
+                "cross_source_revision_target": 1,
+                "event_family_target": 5,
+            },
         }
         execution_result = {
             "case_id": "case-1",
@@ -74,7 +87,7 @@ class AdapterTests(unittest.TestCase):
                     "open_id": "ou_sim_ops_01",
                     "name": "周宇",
                     "department": "运维",
-                    "role": "SRE 负责人",
+                    "role": "站点可靠性工程负责人",
                     "stance": "明确反对过早对外承诺日期。",
                 },
                 "normalized_actor_id": "ops_01",
@@ -82,7 +95,7 @@ class AdapterTests(unittest.TestCase):
                 "prefix_speaker_hint": {"speaker_ref": "ops_01", "name": "周宇", "department": "运维"},
             }
         ]
-        events, report = adapt_fetch_records(case_spec, execution_result, fetch_records, collected_messages)
+        events, report = adapt_fetch_records(case_seed, execution_result, fetch_records, collected_messages)
         self.assertEqual(len(events), 1)
         event = events[0]
         self.assertEqual(event["message"]["chat_id"], "oc_1")
@@ -97,15 +110,28 @@ class AdapterTests(unittest.TestCase):
         self.assertEqual(report["output_events"], 1)
 
     def test_adapter_can_fill_chat_id_from_created_resources_or_fetch_command(self) -> None:
-        case_spec = {
+        case_seed = {
             "case_id": "case-1",
             "task_id": "REQ-1",
-            "title": "项目标题",
-            "company_type": "企业软件",
-            "departments": ["产品", "研发", "安全", "运维", "销售", "客户成功"],
-            "main_goal": "推进本周内形成上线口径",
+            "domain": "enterprise_product_launch",
+            "company_type_hint": "企业软件",
+            "department_hints": ["产品", "研发", "安全", "运维", "销售", "客户成功"],
+            "scenario_profile": "enterprise_release_coordination",
+            "title_hint": "项目标题",
+            "main_goal_hint": "推进本周内形成上线口径",
             "difficulty": "medium",
             "seed": 1,
+            "complexity_profile": {
+                "session_count_target": 3,
+                "source_session_count_target": 3,
+                "message_count_target": 18,
+                "topic_count_target": 3,
+                "thread_reply_depth_target": 3,
+                "state_transition_target": 4,
+                "supersession_target": 1,
+                "cross_source_revision_target": 1,
+                "event_family_target": 5,
+            },
         }
         execution_result = {
             "case_id": "case-1",
@@ -149,7 +175,7 @@ class AdapterTests(unittest.TestCase):
                 },
             }
         ]
-        events, report = adapt_fetch_records(case_spec, execution_result, fetch_records)
+        events, report = adapt_fetch_records(case_seed, execution_result, fetch_records)
         self.assertEqual(len(events), 2)
         self.assertEqual(events[0]["message"]["chat_id"], "oc_1")
         self.assertEqual(events[1]["message"]["chat_id"], "oc_1")

@@ -3,6 +3,7 @@ from __future__ import annotations
 from typing import Any
 
 from .llm_client import JsonLLMClient
+from .prompt_templates import build_command_plan_prompts
 from .schemas import (
     ValidationError,
     validate_case_seed,
@@ -268,27 +269,11 @@ def generate_command_plan_with_mode(
     allowed_refs = {item["person_id"] for item in validated_characters["characters"]}
     if llm_client is None:
         return _fallback_command_plan(seed, validated_plan, validated_characters, validated_target), "fallback"
-    system_prompt = (
-        "Generate an executable Feishu command plan as JSON. "
-        "Return only a JSON object with a key named rows. "
-        "Each row must represent one logical lark-cli action and must contain: "
-        "step_id, sequence_no, action_type, session_id, source_type, source_ref, channel_scope, chat_ref, "
-        "topic_key, turn_purpose, speaker_role, speaker_ref, supports_event_types, depends_on_step_ids, "
-        "gold_intent_refs, expected_effect, state_transition, semantic_payload, root_turn_id, root_message_ref, "
-        "output_ref, params, lark_cli_command. "
-        "Allowed action_type values are create_chat, send_message, reply_in_thread, fetch_chat_messages, fetch_thread_messages. "
-        "Do not invent new sessions or turns."
-    )
-    user_prompt = (
-        f"Case seed:\n{seed}\n\n"
-        f"Conversation plan:\n{validated_plan}\n\n"
-        f"Characters:\n{validated_characters}\n\n"
-        f"Target state:\n{validated_target}\n\n"
-        "请生成完整的 command_plan。重点要求：\n"
-        "1. 主群和 thread 的依赖关系要正确。\n"
-        "2. message/reply 动作里的 content_text 必须是自然中文，并保留角色前缀。\n"
-        "3. fetch 动作用于后续 collect/gold，不要省略。\n"
-        "4. lark_cli_command 使用符号化引用即可，例如 $main_chat、$msg_turn_001。"
+    system_prompt, user_prompt = build_command_plan_prompts(
+        seed=seed,
+        validated_plan=validated_plan,
+        validated_characters=validated_characters,
+        validated_target=validated_target,
     )
     try:
         payload = llm_client.generate_json(system_prompt=system_prompt, user_prompt=user_prompt)

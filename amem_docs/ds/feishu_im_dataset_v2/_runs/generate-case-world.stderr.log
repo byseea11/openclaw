@@ -1,6 +1,0 @@
-[feishu_builder][2026-05-05T09:20:44Z][case-world] 开始生成 case_world，读取 case spec: amem_docs/ds/feishu_im_dataset_v2/_generated_case_specs/case_feishu_20260505172044256_example.json
-[feishu_builder][2026-05-05T09:20:44Z][llm] 已加载 OPENAI 兼容配置 model=deepseek-chat base_url=https://api.deepseek.com/v1
-[feishu_builder][2026-05-05T09:20:44Z][case-world] case_id=case_feishu_20260505172044256_example 输出目录=amem_docs/ds/feishu_im_dataset_v2/cases/case_feishu_20260505172044256_example
-[feishu_builder][2026-05-05T09:20:44Z][llm] 开始请求模型 model=deepseek-chat timeout=300.0s max_tokens=4096
-[feishu_builder][2026-05-05T09:21:02Z][llm] 模型请求成功返回 JSON 内容
-[feishu_builder][2026-05-05T09:21:02Z][case-world] 完成并写入 input/case_seed.json 与 input/case_world.json

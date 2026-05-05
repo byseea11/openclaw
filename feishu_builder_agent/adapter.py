@@ -6,7 +6,7 @@ import shlex
 from datetime import datetime, timezone
 from typing import Any
 
-from .schemas import validate_actor_registry, validate_case_spec, validate_collected_messages, validate_execution_result
+from .schemas import validate_actor_registry, validate_case_seed, validate_collected_messages, validate_execution_result
 
 
 _PREFIX_RE = re.compile(r"^【[^/】]+/[^】]+】\s*")
@@ -80,17 +80,17 @@ def _strip_prefixed_speaker(text: Any) -> str:
 
 
 def adapt_fetch_records(
-    case_spec: dict[str, Any],
+    case_seed: dict[str, Any],
     execution_result: dict[str, Any],
     fetch_records: list[dict[str, Any]],
     collected_messages: list[dict[str, Any]] | None = None,
     actor_registry: dict[str, Any] | None = None,
 ) -> tuple[list[dict[str, Any]], dict[str, Any]]:
-    spec = validate_case_spec(case_spec)
+    seed = validate_case_seed(case_seed)
     result = validate_execution_result(execution_result)
     allowed_open_ids = {
         item["simulated_open_id"]
-        for item in validate_actor_registry(actor_registry or {"case_id": spec["case_id"], "actors": []})["actors"]
+        for item in validate_actor_registry(actor_registry or {"case_id": seed["case_id"], "actors": []})["actors"]
     }
     thread_id_to_chat_id: dict[str, str] = {
         str(key): str(value) for key, value in (result.get("thread_id_to_chat_id") or {}).items()
@@ -172,8 +172,8 @@ def adapt_fetch_records(
                 if synthetic_sender_open_id:
                     simulated_sender_applied += 1
             event = {
-                "case_id": spec["case_id"],
-                "task_id": spec["task_id"],
+                "case_id": seed["case_id"],
+                "task_id": seed["task_id"],
                 "event_type": "im.message.receive_v1",
                 "sender": {
                     "sender_id": {"open_id": synthetic_sender_open_id or actual_sender["open_id"]},
@@ -195,7 +195,7 @@ def adapt_fetch_records(
             events.append(event)
     events.sort(key=lambda item: (_parse_time_ms(item["message"]["create_time"]), item["message"]["message_id"]))
     report = {
-        "case_id": spec["case_id"],
+        "case_id": seed["case_id"],
         "input_fetch_records": len(fetch_records),
         "input_messages": input_messages,
         "output_events": len(events),

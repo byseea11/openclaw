@@ -3,6 +3,7 @@ from __future__ import annotations
 from typing import Any
 
 from .llm_client import JsonLLMClient
+from .prompt_templates import build_message_realizer_prompts
 from .schemas import ValidationError, validate_characters, validate_realized_messages, validate_utterance_plan
 
 
@@ -47,16 +48,9 @@ def realize_messages_with_mode(
     live_success_count = 0
     for row in validated_rows:
         character = roster[row["speaker_ref"]]
-        system_prompt = (
-            "Rewrite one enterprise IM turn as a single natural Chinese message. "
-            "Return only a JSON object with one key named content_text. "
-            "Keep it concise, realistic, and suitable for a Feishu group or thread. "
-            "Do not remove the factual meaning."
-        )
-        user_prompt = (
-            f"角色信息：{character}\n"
-            f"Turn plan：{row}\n"
-            "请输出一条简洁、真实、适合飞书群聊的中文消息，保留角色前缀。"
+        system_prompt, user_prompt = build_message_realizer_prompts(
+            character=character,
+            row=row,
         )
         try:
             payload = llm_client.generate_json(system_prompt=system_prompt, user_prompt=user_prompt)

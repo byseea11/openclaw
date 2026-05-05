@@ -1,0 +1,1616 @@
+{
+  "case_id": "case_feishu_505124755_example",
+  "status": "success",
+  "operator_identity": "user",
+  "delivery_mode": "prefixed_single_operator",
+  "created_resources": {
+    "main_chat": {
+      "chat_id": "oc_b0ae69c17e0ede7c180329afb06a99c5"
+    },
+    "customer_sync_chat": {
+      "chat_id": "oc_4967d293efb805035023b70af9b97daf"
+    },
+    "exec_sync_chat": {
+      "chat_id": "oc_67db7ab50c785a24ba4e0bfa775809af"
+    },
+    "msg_turn_release_window_01": {
+      "message_id": "om_x100b50aa34ac70a0c3d52877e76a39e",
+      "chat_id": "oc_b0ae69c17e0ede7c180329afb06a99c5"
+    },
+    "msg_turn_risk_controls_01": {
+      "message_id": "om_x100b50aa34a0a0acc4c4da5700ff009",
+      "chat_id": "oc_b0ae69c17e0ede7c180329afb06a99c5"
+    },
+    "msg_turn_release_window_03": {
+      "message_id": "om_x100b50aa34b4e8a0c3bfc6b01ee73f9",
+      "chat_id": "oc_b0ae69c17e0ede7c180329afb06a99c5"
+    },
+    "msg_turn_readiness_blockers_03": {
+      "message_id": "om_x100b50aa3449b538c35ead5dd965174",
+      "chat_id": "oc_b0ae69c17e0ede7c180329afb06a99c5"
+    },
+    "msg_turn_external_messaging_03": {
+      "message_id": "om_x100b50aa345da8a4c10ebf26ddc2feb",
+      "chat_id": "oc_b0ae69c17e0ede7c180329afb06a99c5"
+    },
+    "msg_turn_risk_controls_03": {
+      "message_id": "om_x100b50aa345704a4c211394ff0691df",
+      "chat_id": "oc_b0ae69c17e0ede7c180329afb06a99c5"
+    },
+    "msg_turn_executive_sync_03": {
+      "message_id": "om_x100b50aa346baca0c218a3aae00a22c",
+      "chat_id": "oc_b0ae69c17e0ede7c180329afb06a99c5"
+    },
+    "msg_turn_readiness_blockers_04": {
+      "message_id": "om_x100b50aa347f48a8c3303ba60ed7547",
+      "chat_id": "oc_b0ae69c17e0ede7c180329afb06a99c5"
+    },
+    "msg_turn_release_window_05": {
+      "message_id": "om_x100b50aa3470cca4c3557ae5a09b8f2",
+      "chat_id": "oc_b0ae69c17e0ede7c180329afb06a99c5"
+    },
+    "msg_turn_external_messaging_01": {
+      "message_id": "om_x100b50aa341bb4a0c4939d57063533c",
+      "chat_id": "oc_4967d293efb805035023b70af9b97daf"
+    },
+    "msg_turn_external_messaging_02": {
+      "message_id": "om_x100b50aa342c4884c4de8b5842bdf7c",
+      "chat_id": "oc_4967d293efb805035023b70af9b97daf"
+    },
+    "msg_turn_release_window_04": {
+      "message_id": "om_x100b50aa3421f0a8c4293d81ff3b135",
+      "chat_id": "oc_4967d293efb805035023b70af9b97daf"
+    },
+    "msg_turn_external_messaging_04": {
+      "message_id": "om_x100b50aa343bfcacc3ba0ab75fceb60",
+      "chat_id": "oc_4967d293efb805035023b70af9b97daf"
+    },
+    "msg_turn_executive_sync_01": {
+      "message_id": "om_x100b50aa35c090a4c4217d1a0938f53",
+      "chat_id": "oc_67db7ab50c785a24ba4e0bfa775809af"
+    },
+    "msg_turn_executive_sync_02": {
+      "message_id": "om_x100b50aa35d550a4c4e9d554be69535",
+      "chat_id": "oc_67db7ab50c785a24ba4e0bfa775809af"
+    },
+    "msg_turn_risk_controls_04": {
+      "message_id": "om_x100b50aa35e910a4c21fb170a21b882",
+      "chat_id": "oc_67db7ab50c785a24ba4e0bfa775809af"
+    },
+    "msg_turn_readiness_blockers_01": {
+      "message_id": "om_x100b50aa35f6b8a8c32417e749381d4",
+      "thread_id": "om_x100b50aa35f6b8a8c32417e749381d4",
+      "chat_id": "oc_b0ae69c17e0ede7c180329afb06a99c5"
+    },
+    "msg_turn_release_window_02": {
+      "message_id": "om_x100b50aa358a10a4c2a11ad5a310169",
+      "thread_id": "om_x100b50aa358a10a4c2a11ad5a310169",
+      "chat_id": "oc_b0ae69c17e0ede7c180329afb06a99c5"
+    },
+    "msg_turn_readiness_blockers_02": {
+      "message_id": "om_x100b50aa359e7ca4c49d8a732fd8b0a",
+      "thread_id": "om_x100b50aa359e7ca4c49d8a732fd8b0a",
+      "chat_id": "oc_b0ae69c17e0ede7c180329afb06a99c5"
+    },
+    "msg_turn_risk_controls_02": {
+      "message_id": "om_x100b50aa35a72ca8c31b4a8fdd50035",
+      "thread_id": "om_x100b50aa35a72ca8c31b4a8fdd50035",
+      "chat_id": "oc_b0ae69c17e0ede7c180329afb06a99c5"
+    },
+    "msg_turn_readiness_blockers_05": {
+      "message_id": "om_x100b50aa35ba30a4c3b07d6f5cdabfc",
+      "thread_id": "om_x100b50aa35ba30a4c3b07d6f5cdabfc",
+      "chat_id": "oc_b0ae69c17e0ede7c180329afb06a99c5"
+    }
+  },
+  "thread_id_to_chat_id": {
+    "om_x100b50aa35f6b8a8c32417e749381d4": "oc_b0ae69c17e0ede7c180329afb06a99c5",
+    "om_x100b50aa358a10a4c2a11ad5a310169": "oc_b0ae69c17e0ede7c180329afb06a99c5",
+    "om_x100b50aa359e7ca4c49d8a732fd8b0a": "oc_b0ae69c17e0ede7c180329afb06a99c5",
+    "om_x100b50aa35a72ca8c31b4a8fdd50035": "oc_b0ae69c17e0ede7c180329afb06a99c5",
+    "om_x100b50aa35ba30a4c3b07d6f5cdabfc": "oc_b0ae69c17e0ede7c180329afb06a99c5"
+  },
+  "action_status": [
+    {
+      "action_id": "step_001",
+      "status": "success",
+      "command": [
+        "lark-cli",
+        "im",
+        "+chat-create",
+        "--name",
+        "主群协调",
+        "--as",
+        "user"
+      ],
+      "stdout": {
+        "ok": true,
+        "identity": "user",
+        "data": {
+          "chat_id": "oc_b0ae69c17e0ede7c180329afb06a99c5",
+          "chat_type": "private",
+          "external": false,
+          "name": "主群协调",
+          "owner_id": "ou_7488779f2769b648358fca04a3e1919f",
+          "share_link": "https://applink.feishu.cn/client/chat/chatter/add_by_link?link_token=d02i3270-9a62-47a1-bc39-bcef03c40c69"
+        },
+        "_notice": {
+          "update": {
+            "current": "1.0.19",
+            "latest": "1.0.23",
+            "message": "lark-cli 1.0.23 available, current 1.0.19"
+          }
+        }
+      },
+      "stderr": "",
+      "returncode": 0
+    },
+    {
+      "action_id": "step_002",
+      "status": "success",
+      "command": [
+        "lark-cli",
+        "im",
+        "+chat-create",
+        "--name",
+        "客户同步群",
+        "--as",
+        "user"
+      ],
+      "stdout": {
+        "ok": true,
+        "identity": "user",
+        "data": {
+          "chat_id": "oc_4967d293efb805035023b70af9b97daf",
+          "chat_type": "private",
+          "external": false,
+          "name": "客户同步群",
+          "owner_id": "ou_7488779f2769b648358fca04a3e1919f",
+          "share_link": "https://applink.feishu.cn/client/chat/chatter/add_by_link?link_token=ccdhb437-4205-4450-89c2-4e774ed90637"
+        },
+        "_notice": {
+          "update": {
+            "current": "1.0.19",
+            "latest": "1.0.23",
+            "message": "lark-cli 1.0.23 available, current 1.0.19"
+          }
+        }
+      },
+      "stderr": "",
+      "returncode": 0
+    },
+    {
+      "action_id": "step_003",
+      "status": "success",
+      "command": [
+        "lark-cli",
+        "im",
+        "+chat-create",
+        "--name",
+        "补充聊天会话",
+        "--as",
+        "user"
+      ],
+      "stdout": {
+        "ok": true,
+        "identity": "user",
+        "data": {
+          "chat_id": "oc_67db7ab50c785a24ba4e0bfa775809af",
+          "chat_type": "private",
+          "external": false,
+          "name": "补充聊天会话",
+          "owner_id": "ou_7488779f2769b648358fca04a3e1919f",
+          "share_link": "https://applink.feishu.cn/client/chat/chatter/add_by_link?link_token=1caoe798-8ada-4568-9e3b-273f6467a71c"
+        },
+        "_notice": {
+          "update": {
+            "current": "1.0.19",
+            "latest": "1.0.23",
+            "message": "lark-cli 1.0.23 available, current 1.0.19"
+          }
+        }
+      },
+      "stderr": "",
+      "returncode": 0
+    },
+    {
+      "action_id": "step_004",
+      "status": "success",
+      "command": [
+        "lark-cli",
+        "im",
+        "+messages-send",
+        "--chat-id",
+        "oc_b0ae69c17e0ede7c180329afb06a99c5",
+        "--text",
+        "【产品/高骏】FEISHU-505124755 当前先按五月上旬作为内部目标推进，但还没有对外锁死具体发布日期。",
+        "--as",
+        "user"
+      ],
+      "stdout": {
+        "ok": true,
+        "identity": "user",
+        "data": {
+          "chat_id": "oc_b0ae69c17e0ede7c180329afb06a99c5",
+          "create_time": "2026-05-05 20:50:46",
+          "message_id": "om_x100b50aa34ac70a0c3d52877e76a39e"
+        },
+        "_notice": {
+          "update": {
+            "current": "1.0.19",
+            "latest": "1.0.23",
+            "message": "lark-cli 1.0.23 available, current 1.0.19"
+          }
+        }
+      },
+      "stderr": "",
+      "returncode": 0
+    },
+    {
+      "action_id": "step_007",
+      "status": "success",
+      "command": [
+        "lark-cli",
+        "im",
+        "+messages-send",
+        "--chat-id",
+        "oc_b0ae69c17e0ede7c180329afb06a99c5",
+        "--text",
+        "【测试/许薇】如果没有最终的风险验收清单，现在推进上线窗口只会放大后续回滚概率。",
+        "--as",
+        "user"
+      ],
+      "stdout": {
+        "ok": true,
+        "identity": "user",
+        "data": {
+          "chat_id": "oc_b0ae69c17e0ede7c180329afb06a99c5",
+          "create_time": "2026-05-05 20:50:46",
+          "message_id": "om_x100b50aa34a0a0acc4c4da5700ff009"
+        },
+        "_notice": {
+          "update": {
+            "current": "1.0.19",
+            "latest": "1.0.23",
+            "message": "lark-cli 1.0.23 available, current 1.0.19"
+          }
+        }
+      },
+      "stderr": "",
+      "returncode": 0
+    },
+    {
+      "action_id": "step_014",
+      "status": "success",
+      "command": [
+        "lark-cli",
+        "im",
+        "+messages-send",
+        "--chat-id",
+        "oc_b0ae69c17e0ede7c180329afb06a99c5",
+        "--text",
+        "【运维/韩朔】运维侧建议先不要把五月上旬当成确定承诺，至少要等回滚准备确认后再同步。",
+        "--as",
+        "user"
+      ],
+      "stdout": {
+        "ok": true,
+        "identity": "user",
+        "data": {
+          "chat_id": "oc_b0ae69c17e0ede7c180329afb06a99c5",
+          "create_time": "2026-05-05 20:50:47",
+          "message_id": "om_x100b50aa34b4e8a0c3bfc6b01ee73f9"
+        },
+        "_notice": {
+          "update": {
+            "current": "1.0.19",
+            "latest": "1.0.23",
+            "message": "lark-cli 1.0.23 available, current 1.0.19"
+          }
+        }
+      },
+      "stderr": "",
+      "returncode": 0
+    },
+    {
+      "action_id": "step_015",
+      "status": "success",
+      "command": [
+        "lark-cli",
+        "im",
+        "+messages-send",
+        "--chat-id",
+        "oc_b0ae69c17e0ede7c180329afb06a99c5",
+        "--text",
+        "【运维/韩朔】回滚演练还没有完成闭环，这也是当前不建议锁定窗口的重要原因。",
+        "--as",
+        "user"
+      ],
+      "stdout": {
+        "ok": true,
+        "identity": "user",
+        "data": {
+          "chat_id": "oc_b0ae69c17e0ede7c180329afb06a99c5",
+          "create_time": "2026-05-05 20:50:48",
+          "message_id": "om_x100b50aa3449b538c35ead5dd965174"
+        },
+        "_notice": {
+          "update": {
+            "current": "1.0.19",
+            "latest": "1.0.23",
+            "message": "lark-cli 1.0.23 available, current 1.0.19"
+          }
+        }
+      },
+      "stderr": "",
+      "returncode": 0
+    },
+    {
+      "action_id": "step_016",
+      "status": "success",
+      "command": [
+        "lark-cli",
+        "im",
+        "+messages-send",
+        "--chat-id",
+        "oc_b0ae69c17e0ede7c180329afb06a99c5",
+        "--text",
+        "【产品/高骏】对外统一先说当前仍在完成最后的上线准备，预计窗口待确认，不给具体日历日期。",
+        "--as",
+        "user"
+      ],
+      "stdout": {
+        "ok": true,
+        "identity": "user",
+        "data": {
+          "chat_id": "oc_b0ae69c17e0ede7c180329afb06a99c5",
+          "create_time": "2026-05-05 20:50:49",
+          "message_id": "om_x100b50aa345da8a4c10ebf26ddc2feb"
+        },
+        "_notice": {
+          "update": {
+            "current": "1.0.19",
+            "latest": "1.0.23",
+            "message": "lark-cli 1.0.23 available, current 1.0.19"
+          }
+        }
+      },
+      "stderr": "",
+      "returncode": 0
+    },
+    {
+      "action_id": "step_017",
+      "status": "success",
+      "command": [
+        "lark-cli",
+        "im",
+        "+messages-send",
+        "--chat-id",
+        "oc_b0ae69c17e0ede7c180329afb06a99c5",
+        "--text",
+        "【研发/王源】研发会在下一个工作日把迁移方案、监控预案和回滚条件整理成一版供大家评审。",
+        "--as",
+        "user"
+      ],
+      "stdout": {
+        "ok": true,
+        "identity": "user",
+        "data": {
+          "chat_id": "oc_b0ae69c17e0ede7c180329afb06a99c5",
+          "create_time": "2026-05-05 20:50:49",
+          "message_id": "om_x100b50aa345704a4c211394ff0691df"
+        },
+        "_notice": {
+          "update": {
+            "current": "1.0.19",
+            "latest": "1.0.23",
+            "message": "lark-cli 1.0.23 available, current 1.0.19"
+          }
+        }
+      },
+      "stderr": "",
+      "returncode": 0
+    },
+    {
+      "action_id": "step_018",
+      "status": "success",
+      "command": [
+        "lark-cli",
+        "im",
+        "+messages-send",
+        "--chat-id",
+        "oc_b0ae69c17e0ede7c180329afb06a99c5",
+        "--text",
+        "【产品/高骏】管理层同步也统一使用条件式表述，不再带具体乐观日期。",
+        "--as",
+        "user"
+      ],
+      "stdout": {
+        "ok": true,
+        "identity": "user",
+        "data": {
+          "chat_id": "oc_b0ae69c17e0ede7c180329afb06a99c5",
+          "create_time": "2026-05-05 20:50:50",
+          "message_id": "om_x100b50aa346baca0c218a3aae00a22c"
+        },
+        "_notice": {
+          "update": {
+            "current": "1.0.19",
+            "latest": "1.0.23",
+            "message": "lark-cli 1.0.23 available, current 1.0.19"
+          }
+        }
+      },
+      "stderr": "",
+      "returncode": 0
+    },
+    {
+      "action_id": "step_020",
+      "status": "success",
+      "command": [
+        "lark-cli",
+        "im",
+        "+messages-send",
+        "--chat-id",
+        "oc_b0ae69c17e0ede7c180329afb06a99c5",
+        "--text",
+        "【研发/王源】研发会在本周内补齐迁移方案细节，并和运维一起把窗口确认条件列清楚。",
+        "--as",
+        "user"
+      ],
+      "stdout": {
+        "ok": true,
+        "identity": "user",
+        "data": {
+          "chat_id": "oc_b0ae69c17e0ede7c180329afb06a99c5",
+          "create_time": "2026-05-05 20:50:51",
+          "message_id": "om_x100b50aa347f48a8c3303ba60ed7547"
+        },
+        "_notice": {
+          "update": {
+            "current": "1.0.19",
+            "latest": "1.0.23",
+            "message": "lark-cli 1.0.23 available, current 1.0.19"
+          }
+        }
+      },
+      "stderr": "",
+      "returncode": 0
+    },
+    {
+      "action_id": "step_023",
+      "status": "success",
+      "command": [
+        "lark-cli",
+        "im",
+        "+messages-send",
+        "--chat-id",
+        "oc_b0ae69c17e0ede7c180329afb06a99c5",
+        "--text",
+        "【产品/高骏】当前统一口径先收敛为暂不承诺具体日期，等关键依赖确认后再重开上线窗口讨论。",
+        "--as",
+        "user"
+      ],
+      "stdout": {
+        "ok": true,
+        "identity": "user",
+        "data": {
+          "chat_id": "oc_b0ae69c17e0ede7c180329afb06a99c5",
+          "create_time": "2026-05-05 20:50:51",
+          "message_id": "om_x100b50aa3470cca4c3557ae5a09b8f2"
+        },
+        "_notice": {
+          "update": {
+            "current": "1.0.19",
+            "latest": "1.0.23",
+            "message": "lark-cli 1.0.23 available, current 1.0.19"
+          }
+        }
+      },
+      "stderr": "",
+      "returncode": 0
+    },
+    {
+      "action_id": "step_027",
+      "status": "success",
+      "command": [
+        "lark-cli",
+        "im",
+        "+chat-messages-list",
+        "--chat-id",
+        "oc_b0ae69c17e0ede7c180329afb06a99c5",
+        "--sort",
+        "asc",
+        "--page-size",
+        "50",
+        "--format",
+        "json",
+        "--as",
+        "user"
+      ],
+      "stdout": {
+        "ok": true,
+        "identity": "user",
+        "data": {
+          "has_more": false,
+          "messages": [
+            {
+              "content": "Welcome to {group_type}",
+              "create_time": "2026-05-05 20:50",
+              "deleted": false,
+              "message_id": "om_x100b50aa34d670a8c4e588579286258",
+              "msg_type": "system",
+              "sender": {
+                "id": "",
+                "id_type": "",
+                "sender_type": "",
+                "tenant_key": ""
+              },
+              "updated": false
+            },
+            {
+              "content": "许祝愿 started the group chat.",
+              "create_time": "2026-05-05 20:50",
+              "deleted": false,
+              "message_id": "om_x100b50aa34d098a0c212571582035c6",
+              "msg_type": "system",
+              "sender": {
+                "id": "",
+                "id_type": "",
+                "sender_type": "",
+                "tenant_key": ""
+              },
+              "updated": false
+            },
+            {
+              "content": "【产品/高骏】FEISHU-505124755 当前先按五月上旬作为内部目标推进，但还没有对外锁死具体发布日期。",
+              "create_time": "2026-05-05 20:50",
+              "deleted": false,
+              "message_id": "om_x100b50aa34ac70a0c3d52877e76a39e",
+              "msg_type": "text",
+              "sender": {
+                "id": "ou_7488779f2769b648358fca04a3e1919f",
+                "id_type": "open_id",
+                "name": "许祝愿",
+                "sender_type": "user",
+                "tenant_key": "1abd20e084069b82"
+              },
+              "updated": false
+            },
+            {
+              "content": "【测试/许薇】如果没有最终的风险验收清单，现在推进上线窗口只会放大后续回滚概率。",
+              "create_time": "2026-05-05 20:50",
+              "deleted": false,
+              "message_id": "om_x100b50aa34a0a0acc4c4da5700ff009",
+              "msg_type": "text",
+              "sender": {
+                "id": "ou_7488779f2769b648358fca04a3e1919f",
+                "id_type": "open_id",
+                "name": "许祝愿",
+                "sender_type": "user",
+                "tenant_key": "1abd20e084069b82"
+              },
+              "updated": false
+            },
+            {
+              "content": "【运维/韩朔】运维侧建议先不要把五月上旬当成确定承诺，至少要等回滚准备确认后再同步。",
+              "create_time": "2026-05-05 20:50",
+              "deleted": false,
+              "message_id": "om_x100b50aa34b4e8a0c3bfc6b01ee73f9",
+              "msg_type": "text",
+              "sender": {
+                "id": "ou_7488779f2769b648358fca04a3e1919f",
+                "id_type": "open_id",
+                "name": "许祝愿",
+                "sender_type": "user",
+                "tenant_key": "1abd20e084069b82"
+              },
+              "updated": false
+            },
+            {
+              "content": "【运维/韩朔】回滚演练还没有完成闭环，这也是当前不建议锁定窗口的重要原因。",
+              "create_time": "2026-05-05 20:50",
+              "deleted": false,
+              "message_id": "om_x100b50aa3449b538c35ead5dd965174",
+              "msg_type": "text",
+              "sender": {
+                "id": "ou_7488779f2769b648358fca04a3e1919f",
+                "id_type": "open_id",
+                "name": "许祝愿",
+                "sender_type": "user",
+                "tenant_key": "1abd20e084069b82"
+              },
+              "updated": false
+            },
+            {
+              "content": "【产品/高骏】对外统一先说当前仍在完成最后的上线准备，预计窗口待确认，不给具体日历日期。",
+              "create_time": "2026-05-05 20:50",
+              "deleted": false,
+              "message_id": "om_x100b50aa345da8a4c10ebf26ddc2feb",
+              "msg_type": "text",
+              "sender": {
+                "id": "ou_7488779f2769b648358fca04a3e1919f",
+                "id_type": "open_id",
+                "name": "许祝愿",
+                "sender_type": "user",
+                "tenant_key": "1abd20e084069b82"
+              },
+              "updated": false
+            },
+            {
+              "content": "【研发/王源】研发会在下一个工作日把迁移方案、监控预案和回滚条件整理成一版供大家评审。",
+              "create_time": "2026-05-05 20:50",
+              "deleted": false,
+              "message_id": "om_x100b50aa345704a4c211394ff0691df",
+              "msg_type": "text",
+              "sender": {
+                "id": "ou_7488779f2769b648358fca04a3e1919f",
+                "id_type": "open_id",
+                "name": "许祝愿",
+                "sender_type": "user",
+                "tenant_key": "1abd20e084069b82"
+              },
+              "updated": false
+            },
+            {
+              "content": "【产品/高骏】管理层同步也统一使用条件式表述，不再带具体乐观日期。",
+              "create_time": "2026-05-05 20:50",
+              "deleted": false,
+              "message_id": "om_x100b50aa346baca0c218a3aae00a22c",
+              "msg_type": "text",
+              "sender": {
+                "id": "ou_7488779f2769b648358fca04a3e1919f",
+                "id_type": "open_id",
+                "name": "许祝愿",
+                "sender_type": "user",
+                "tenant_key": "1abd20e084069b82"
+              },
+              "updated": false
+            },
+            {
+              "content": "【研发/王源】研发会在本周内补齐迁移方案细节，并和运维一起把窗口确认条件列清楚。",
+              "create_time": "2026-05-05 20:50",
+              "deleted": false,
+              "message_id": "om_x100b50aa347f48a8c3303ba60ed7547",
+              "msg_type": "text",
+              "sender": {
+                "id": "ou_7488779f2769b648358fca04a3e1919f",
+                "id_type": "open_id",
+                "name": "许祝愿",
+                "sender_type": "user",
+                "tenant_key": "1abd20e084069b82"
+              },
+              "updated": false
+            },
+            {
+              "content": "【产品/高骏】当前统一口径先收敛为暂不承诺具体日期，等关键依赖确认后再重开上线窗口讨论。",
+              "create_time": "2026-05-05 20:50",
+              "deleted": false,
+              "message_id": "om_x100b50aa3470cca4c3557ae5a09b8f2",
+              "msg_type": "text",
+              "sender": {
+                "id": "ou_7488779f2769b648358fca04a3e1919f",
+                "id_type": "open_id",
+                "name": "许祝愿",
+                "sender_type": "user",
+                "tenant_key": "1abd20e084069b82"
+              },
+              "updated": false
+            }
+          ],
+          "page_token": "",
+          "total": 11
+        },
+        "_notice": {
+          "update": {
+            "current": "1.0.19",
+            "latest": "1.0.23",
+            "message": "lark-cli 1.0.23 available, current 1.0.19"
+          }
+        }
+      },
+      "stderr": "",
+      "returncode": 0
+    },
+    {
+      "action_id": "step_006",
+      "status": "success",
+      "command": [
+        "lark-cli",
+        "im",
+        "+messages-send",
+        "--chat-id",
+        "oc_4967d293efb805035023b70af9b97daf",
+        "--text",
+        "【安全/苏禾】客户已经把这个能力排进内部计划，我们需要明确本周能否给出公开说法。",
+        "--as",
+        "user"
+      ],
+      "stdout": {
+        "ok": true,
+        "identity": "user",
+        "data": {
+          "chat_id": "oc_4967d293efb805035023b70af9b97daf",
+          "create_time": "2026-05-05 20:50:53",
+          "message_id": "om_x100b50aa341bb4a0c4939d57063533c"
+        },
+        "_notice": {
+          "update": {
+            "current": "1.0.19",
+            "latest": "1.0.23",
+            "message": "lark-cli 1.0.23 available, current 1.0.19"
+          }
+        }
+      },
+      "stderr": "",
+      "returncode": 0
+    },
+    {
+      "action_id": "step_011",
+      "status": "success",
+      "command": [
+        "lark-cli",
+        "im",
+        "+messages-send",
+        "--chat-id",
+        "oc_4967d293efb805035023b70af9b97daf",
+        "--text",
+        "【架构/秦怡】如果现在给得过满，后面改口会直接影响客户侧对项目稳定性的判断。",
+        "--as",
+        "user"
+      ],
+      "stdout": {
+        "ok": true,
+        "identity": "user",
+        "data": {
+          "chat_id": "oc_4967d293efb805035023b70af9b97daf",
+          "create_time": "2026-05-05 20:50:54",
+          "message_id": "om_x100b50aa342c4884c4de8b5842bdf7c"
+        },
+        "_notice": {
+          "update": {
+            "current": "1.0.19",
+            "latest": "1.0.23",
+            "message": "lark-cli 1.0.23 available, current 1.0.19"
+          }
+        }
+      },
+      "stderr": "",
+      "returncode": 0
+    },
+    {
+      "action_id": "step_019",
+      "status": "success",
+      "command": [
+        "lark-cli",
+        "im",
+        "+messages-send",
+        "--chat-id",
+        "oc_4967d293efb805035023b70af9b97daf",
+        "--text",
+        "【安全/苏禾】客户侧已经在追问上线时间，我们需要给一个保守但可执行的同步口径。",
+        "--as",
+        "user"
+      ],
+      "stdout": {
+        "ok": true,
+        "identity": "user",
+        "data": {
+          "chat_id": "oc_4967d293efb805035023b70af9b97daf",
+          "create_time": "2026-05-05 20:50:54",
+          "message_id": "om_x100b50aa3421f0a8c4293d81ff3b135"
+        },
+        "_notice": {
+          "update": {
+            "current": "1.0.19",
+            "latest": "1.0.23",
+            "message": "lark-cli 1.0.23 available, current 1.0.19"
+          }
+        }
+      },
+      "stderr": "",
+      "returncode": 0
+    },
+    {
+      "action_id": "step_021",
+      "status": "success",
+      "command": [
+        "lark-cli",
+        "im",
+        "+messages-send",
+        "--chat-id",
+        "oc_4967d293efb805035023b70af9b97daf",
+        "--text",
+        "【安全/苏禾】那我对客户统一说现在还在做最后校验，具体时间等内部确认后第一时间同步。",
+        "--as",
+        "user"
+      ],
+      "stdout": {
+        "ok": true,
+        "identity": "user",
+        "data": {
+          "chat_id": "oc_4967d293efb805035023b70af9b97daf",
+          "create_time": "2026-05-05 20:50:55",
+          "message_id": "om_x100b50aa343bfcacc3ba0ab75fceb60"
+        },
+        "_notice": {
+          "update": {
+            "current": "1.0.19",
+            "latest": "1.0.23",
+            "message": "lark-cli 1.0.23 available, current 1.0.19"
+          }
+        }
+      },
+      "stderr": "",
+      "returncode": 0
+    },
+    {
+      "action_id": "step_025",
+      "status": "success",
+      "command": [
+        "lark-cli",
+        "im",
+        "+chat-messages-list",
+        "--chat-id",
+        "oc_4967d293efb805035023b70af9b97daf",
+        "--sort",
+        "asc",
+        "--page-size",
+        "50",
+        "--format",
+        "json",
+        "--as",
+        "user"
+      ],
+      "stdout": {
+        "ok": true,
+        "identity": "user",
+        "data": {
+          "has_more": false,
+          "messages": [
+            {
+              "content": "Welcome to {group_type}",
+              "create_time": "2026-05-05 20:50",
+              "deleted": false,
+              "message_id": "om_x100b50aa34ffd8a8c3a8da7693345b7",
+              "msg_type": "system",
+              "sender": {
+                "id": "",
+                "id_type": "",
+                "sender_type": "",
+                "tenant_key": ""
+              },
+              "updated": false
+            },
+            {
+              "content": "许祝愿 started the group chat.",
+              "create_time": "2026-05-05 20:50",
+              "deleted": false,
+              "message_id": "om_x100b50aa34fed0a4c3721a7b2c5e0e0",
+              "msg_type": "system",
+              "sender": {
+                "id": "",
+                "id_type": "",
+                "sender_type": "",
+                "tenant_key": ""
+              },
+              "updated": false
+            },
+            {
+              "content": "【安全/苏禾】客户已经把这个能力排进内部计划，我们需要明确本周能否给出公开说法。",
+              "create_time": "2026-05-05 20:50",
+              "deleted": false,
+              "message_id": "om_x100b50aa341bb4a0c4939d57063533c",
+              "msg_type": "text",
+              "sender": {
+                "id": "ou_7488779f2769b648358fca04a3e1919f",
+                "id_type": "open_id",
+                "name": "许祝愿",
+                "sender_type": "user",
+                "tenant_key": "1abd20e084069b82"
+              },
+              "updated": false
+            },
+            {
+              "content": "【架构/秦怡】如果现在给得过满，后面改口会直接影响客户侧对项目稳定性的判断。",
+              "create_time": "2026-05-05 20:50",
+              "deleted": false,
+              "message_id": "om_x100b50aa342c4884c4de8b5842bdf7c",
+              "msg_type": "text",
+              "sender": {
+                "id": "ou_7488779f2769b648358fca04a3e1919f",
+                "id_type": "open_id",
+                "name": "许祝愿",
+                "sender_type": "user",
+                "tenant_key": "1abd20e084069b82"
+              },
+              "updated": false
+            },
+            {
+              "content": "【安全/苏禾】客户侧已经在追问上线时间，我们需要给一个保守但可执行的同步口径。",
+              "create_time": "2026-05-05 20:50",
+              "deleted": false,
+              "message_id": "om_x100b50aa3421f0a8c4293d81ff3b135",
+              "msg_type": "text",
+              "sender": {
+                "id": "ou_7488779f2769b648358fca04a3e1919f",
+                "id_type": "open_id",
+                "name": "许祝愿",
+                "sender_type": "user",
+                "tenant_key": "1abd20e084069b82"
+              },
+              "updated": false
+            },
+            {
+              "content": "【安全/苏禾】那我对客户统一说现在还在做最后校验，具体时间等内部确认后第一时间同步。",
+              "create_time": "2026-05-05 20:50",
+              "deleted": false,
+              "message_id": "om_x100b50aa343bfcacc3ba0ab75fceb60",
+              "msg_type": "text",
+              "sender": {
+                "id": "ou_7488779f2769b648358fca04a3e1919f",
+                "id_type": "open_id",
+                "name": "许祝愿",
+                "sender_type": "user",
+                "tenant_key": "1abd20e084069b82"
+              },
+              "updated": false
+            }
+          ],
+          "page_token": "",
+          "total": 6
+        },
+        "_notice": {
+          "update": {
+            "current": "1.0.19",
+            "latest": "1.0.23",
+            "message": "lark-cli 1.0.23 available, current 1.0.19"
+          }
+        }
+      },
+      "stderr": "",
+      "returncode": 0
+    },
+    {
+      "action_id": "step_008",
+      "status": "success",
+      "command": [
+        "lark-cli",
+        "im",
+        "+messages-send",
+        "--chat-id",
+        "oc_67db7ab50c785a24ba4e0bfa775809af",
+        "--text",
+        "【产品/高骏】当前对管理层的同步先聚焦风险收敛和放行条件，不直接给确定发布日期。",
+        "--as",
+        "user"
+      ],
+      "stdout": {
+        "ok": true,
+        "identity": "user",
+        "data": {
+          "chat_id": "oc_67db7ab50c785a24ba4e0bfa775809af",
+          "create_time": "2026-05-05 20:50:56",
+          "message_id": "om_x100b50aa35c090a4c4217d1a0938f53"
+        },
+        "_notice": {
+          "update": {
+            "current": "1.0.19",
+            "latest": "1.0.23",
+            "message": "lark-cli 1.0.23 available, current 1.0.19"
+          }
+        }
+      },
+      "stderr": "",
+      "returncode": 0
+    },
+    {
+      "action_id": "step_013",
+      "status": "success",
+      "command": [
+        "lark-cli",
+        "im",
+        "+messages-send",
+        "--chat-id",
+        "oc_67db7ab50c785a24ba4e0bfa775809af",
+        "--text",
+        "【运维/韩朔】需要同步说明当前仍取决于迁移窗口、回滚演练和最终风险验收三个条件。",
+        "--as",
+        "user"
+      ],
+      "stdout": {
+        "ok": true,
+        "identity": "user",
+        "data": {
+          "chat_id": "oc_67db7ab50c785a24ba4e0bfa775809af",
+          "create_time": "2026-05-05 20:50:57",
+          "message_id": "om_x100b50aa35d550a4c4e9d554be69535"
+        },
+        "_notice": {
+          "update": {
+            "current": "1.0.19",
+            "latest": "1.0.23",
+            "message": "lark-cli 1.0.23 available, current 1.0.19"
+          }
+        }
+      },
+      "stderr": "",
+      "returncode": 0
+    },
+    {
+      "action_id": "step_022",
+      "status": "success",
+      "command": [
+        "lark-cli",
+        "im",
+        "+messages-send",
+        "--chat-id",
+        "oc_67db7ab50c785a24ba4e0bfa775809af",
+        "--text",
+        "【产品/高骏】最终是否放行以风险材料补齐和演练通过为准，在这之前所有对外说法都保持保守。",
+        "--as",
+        "user"
+      ],
+      "stdout": {
+        "ok": true,
+        "identity": "user",
+        "data": {
+          "chat_id": "oc_67db7ab50c785a24ba4e0bfa775809af",
+          "create_time": "2026-05-05 20:50:58",
+          "message_id": "om_x100b50aa35e910a4c21fb170a21b882"
+        },
+        "_notice": {
+          "update": {
+            "current": "1.0.19",
+            "latest": "1.0.23",
+            "message": "lark-cli 1.0.23 available, current 1.0.19"
+          }
+        }
+      },
+      "stderr": "",
+      "returncode": 0
+    },
+    {
+      "action_id": "step_026",
+      "status": "success",
+      "command": [
+        "lark-cli",
+        "im",
+        "+chat-messages-list",
+        "--chat-id",
+        "oc_67db7ab50c785a24ba4e0bfa775809af",
+        "--sort",
+        "asc",
+        "--page-size",
+        "50",
+        "--format",
+        "json",
+        "--as",
+        "user"
+      ],
+      "stdout": {
+        "ok": true,
+        "identity": "user",
+        "data": {
+          "has_more": false,
+          "messages": [
+            {
+              "content": "Welcome to {group_type}",
+              "create_time": "2026-05-05 20:50",
+              "deleted": false,
+              "message_id": "om_x100b50aa3488d0b4c4e6cd78f9cd747",
+              "msg_type": "system",
+              "sender": {
+                "id": "",
+                "id_type": "",
+                "sender_type": "",
+                "tenant_key": ""
+              },
+              "updated": false
+            },
+            {
+              "content": "许祝愿 started the group chat.",
+              "create_time": "2026-05-05 20:50",
+              "deleted": false,
+              "message_id": "om_x100b50aa348bc0a4c395cab1232f099",
+              "msg_type": "system",
+              "sender": {
+                "id": "",
+                "id_type": "",
+                "sender_type": "",
+                "tenant_key": ""
+              },
+              "updated": false
+            },
+            {
+              "content": "【产品/高骏】当前对管理层的同步先聚焦风险收敛和放行条件，不直接给确定发布日期。",
+              "create_time": "2026-05-05 20:50",
+              "deleted": false,
+              "message_id": "om_x100b50aa35c090a4c4217d1a0938f53",
+              "msg_type": "text",
+              "sender": {
+                "id": "ou_7488779f2769b648358fca04a3e1919f",
+                "id_type": "open_id",
+                "name": "许祝愿",
+                "sender_type": "user",
+                "tenant_key": "1abd20e084069b82"
+              },
+              "updated": false
+            },
+            {
+              "content": "【运维/韩朔】需要同步说明当前仍取决于迁移窗口、回滚演练和最终风险验收三个条件。",
+              "create_time": "2026-05-05 20:50",
+              "deleted": false,
+              "message_id": "om_x100b50aa35d550a4c4e9d554be69535",
+              "msg_type": "text",
+              "sender": {
+                "id": "ou_7488779f2769b648358fca04a3e1919f",
+                "id_type": "open_id",
+                "name": "许祝愿",
+                "sender_type": "user",
+                "tenant_key": "1abd20e084069b82"
+              },
+              "updated": false
+            },
+            {
+              "content": "【产品/高骏】最终是否放行以风险材料补齐和演练通过为准，在这之前所有对外说法都保持保守。",
+              "create_time": "2026-05-05 20:50",
+              "deleted": false,
+              "message_id": "om_x100b50aa35e910a4c21fb170a21b882",
+              "msg_type": "text",
+              "sender": {
+                "id": "ou_7488779f2769b648358fca04a3e1919f",
+                "id_type": "open_id",
+                "name": "许祝愿",
+                "sender_type": "user",
+                "tenant_key": "1abd20e084069b82"
+              },
+              "updated": false
+            }
+          ],
+          "page_token": "",
+          "total": 5
+        },
+        "_notice": {
+          "update": {
+            "current": "1.0.19",
+            "latest": "1.0.23",
+            "message": "lark-cli 1.0.23 available, current 1.0.19"
+          }
+        }
+      },
+      "stderr": "",
+      "returncode": 0
+    },
+    {
+      "action_id": "step_005",
+      "status": "success",
+      "command": [
+        "lark-cli",
+        "im",
+        "+messages-reply",
+        "--message-id",
+        "om_x100b50aa34ac70a0c3d52877e76a39e",
+        "--text",
+        "【研发/王源】目前最大的 blocker 不是代码，而是数据迁移窗口和切换方案还没有最终确认。",
+        "--reply-in-thread",
+        "--as",
+        "user"
+      ],
+      "stdout": {
+        "ok": true,
+        "identity": "user",
+        "data": {
+          "chat_id": "oc_b0ae69c17e0ede7c180329afb06a99c5",
+          "create_time": "2026-05-05 20:50:59",
+          "message_id": "om_x100b50aa35f6b8a8c32417e749381d4"
+        },
+        "_notice": {
+          "update": {
+            "current": "1.0.19",
+            "latest": "1.0.23",
+            "message": "lark-cli 1.0.23 available, current 1.0.19"
+          }
+        }
+      },
+      "stderr": "",
+      "returncode": 0
+    },
+    {
+      "action_id": "step_009",
+      "status": "success",
+      "command": [
+        "lark-cli",
+        "im",
+        "+messages-reply",
+        "--message-id",
+        "om_x100b50aa34ac70a0c3d52877e76a39e",
+        "--text",
+        "【研发/王源】研发侧判断真正的关键依赖还没锁定，现在直接对外承诺日期风险过高。",
+        "--reply-in-thread",
+        "--as",
+        "user"
+      ],
+      "stdout": {
+        "ok": true,
+        "identity": "user",
+        "data": {
+          "chat_id": "oc_b0ae69c17e0ede7c180329afb06a99c5",
+          "create_time": "2026-05-05 20:51:00",
+          "message_id": "om_x100b50aa358a10a4c2a11ad5a310169"
+        },
+        "_notice": {
+          "update": {
+            "current": "1.0.19",
+            "latest": "1.0.23",
+            "message": "lark-cli 1.0.23 available, current 1.0.19"
+          }
+        }
+      },
+      "stderr": "",
+      "returncode": 0
+    },
+    {
+      "action_id": "step_010",
+      "status": "success",
+      "command": [
+        "lark-cli",
+        "im",
+        "+messages-reply",
+        "--message-id",
+        "om_x100b50aa34ac70a0c3d52877e76a39e",
+        "--text",
+        "【测试/许薇】安全评审还缺最后一轮结论，在结果出来前相关高风险能力不能直接开放。",
+        "--reply-in-thread",
+        "--as",
+        "user"
+      ],
+      "stdout": {
+        "ok": true,
+        "identity": "user",
+        "data": {
+          "chat_id": "oc_b0ae69c17e0ede7c180329afb06a99c5",
+          "create_time": "2026-05-05 20:51:01",
+          "message_id": "om_x100b50aa359e7ca4c49d8a732fd8b0a"
+        },
+        "_notice": {
+          "update": {
+            "current": "1.0.19",
+            "latest": "1.0.23",
+            "message": "lark-cli 1.0.23 available, current 1.0.19"
+          }
+        }
+      },
+      "stderr": "",
+      "returncode": 0
+    },
+    {
+      "action_id": "step_012",
+      "status": "success",
+      "command": [
+        "lark-cli",
+        "im",
+        "+messages-reply",
+        "--message-id",
+        "om_x100b50aa34ac70a0c3d52877e76a39e",
+        "--text",
+        "【运维/韩朔】运维希望把回滚触发条件和恢复时间目标都写清楚，否则演练结果没有办法作为放行依据。",
+        "--reply-in-thread",
+        "--as",
+        "user"
+      ],
+      "stdout": {
+        "ok": true,
+        "identity": "user",
+        "data": {
+          "chat_id": "oc_b0ae69c17e0ede7c180329afb06a99c5",
+          "create_time": "2026-05-05 20:51:02",
+          "message_id": "om_x100b50aa35a72ca8c31b4a8fdd50035"
+        },
+        "_notice": {
+          "update": {
+            "current": "1.0.19",
+            "latest": "1.0.23",
+            "message": "lark-cli 1.0.23 available, current 1.0.19"
+          }
+        }
+      },
+      "stderr": "",
+      "returncode": 0
+    },
+    {
+      "action_id": "step_024",
+      "status": "success",
+      "command": [
+        "lark-cli",
+        "im",
+        "+messages-reply",
+        "--message-id",
+        "om_x100b50aa34ac70a0c3d52877e76a39e",
+        "--text",
+        "【运维/韩朔】当前 blocker 已经收敛成三项，等迁移窗口、回滚演练和安全结论都明确后再给最终上线建议。",
+        "--reply-in-thread",
+        "--as",
+        "user"
+      ],
+      "stdout": {
+        "ok": true,
+        "identity": "user",
+        "data": {
+          "chat_id": "oc_b0ae69c17e0ede7c180329afb06a99c5",
+          "create_time": "2026-05-05 20:51:03",
+          "message_id": "om_x100b50aa35ba30a4c3b07d6f5cdabfc"
+        },
+        "_notice": {
+          "update": {
+            "current": "1.0.19",
+            "latest": "1.0.23",
+            "message": "lark-cli 1.0.23 available, current 1.0.19"
+          }
+        }
+      },
+      "stderr": "",
+      "returncode": 0
+    },
+    {
+      "action_id": "step_028",
+      "status": "success",
+      "command": [
+        "lark-cli",
+        "im",
+        "+threads-messages-list",
+        "--thread",
+        "om_x100b50aa34ac70a0c3d52877e76a39e",
+        "--sort",
+        "asc",
+        "--page-size",
+        "50",
+        "--format",
+        "json",
+        "--as",
+        "user"
+      ],
+      "stdout": {
+        "ok": true,
+        "identity": "user",
+        "data": {
+          "has_more": false,
+          "messages": [
+            {
+              "content": "【研发/王源】目前最大的 blocker 不是代码，而是数据迁移窗口和切换方案还没有最终确认。",
+              "create_time": "2026-05-05 20:50",
+              "deleted": false,
+              "message_id": "om_x100b50aa35f6b8a8c32417e749381d4",
+              "msg_type": "text",
+              "sender": {
+                "id": "ou_7488779f2769b648358fca04a3e1919f",
+                "id_type": "open_id",
+                "name": "许祝愿",
+                "sender_type": "user",
+                "tenant_key": "1abd20e084069b82"
+              },
+              "thread_id": "omt_1a9c6f6f39cf1b91",
+              "updated": false
+            },
+            {
+              "content": "【研发/王源】研发侧判断真正的关键依赖还没锁定，现在直接对外承诺日期风险过高。",
+              "create_time": "2026-05-05 20:51",
+              "deleted": false,
+              "message_id": "om_x100b50aa358a10a4c2a11ad5a310169",
+              "msg_type": "text",
+              "sender": {
+                "id": "ou_7488779f2769b648358fca04a3e1919f",
+                "id_type": "open_id",
+                "name": "许祝愿",
+                "sender_type": "user",
+                "tenant_key": "1abd20e084069b82"
+              },
+              "thread_id": "omt_1a9c6f6f39cf1b91",
+              "updated": false
+            },
+            {
+              "content": "【测试/许薇】安全评审还缺最后一轮结论，在结果出来前相关高风险能力不能直接开放。",
+              "create_time": "2026-05-05 20:51",
+              "deleted": false,
+              "message_id": "om_x100b50aa359e7ca4c49d8a732fd8b0a",
+              "msg_type": "text",
+              "sender": {
+                "id": "ou_7488779f2769b648358fca04a3e1919f",
+                "id_type": "open_id",
+                "name": "许祝愿",
+                "sender_type": "user",
+                "tenant_key": "1abd20e084069b82"
+              },
+              "thread_id": "omt_1a9c6f6f39cf1b91",
+              "updated": false
+            },
+            {
+              "content": "【运维/韩朔】运维希望把回滚触发条件和恢复时间目标都写清楚，否则演练结果没有办法作为放行依据。",
+              "create_time": "2026-05-05 20:51",
+              "deleted": false,
+              "message_id": "om_x100b50aa35a72ca8c31b4a8fdd50035",
+              "msg_type": "text",
+              "sender": {
+                "id": "ou_7488779f2769b648358fca04a3e1919f",
+                "id_type": "open_id",
+                "name": "许祝愿",
+                "sender_type": "user",
+                "tenant_key": "1abd20e084069b82"
+              },
+              "thread_id": "omt_1a9c6f6f39cf1b91",
+              "updated": false
+            },
+            {
+              "content": "【运维/韩朔】当前 blocker 已经收敛成三项，等迁移窗口、回滚演练和安全结论都明确后再给最终上线建议。",
+              "create_time": "2026-05-05 20:51",
+              "deleted": false,
+              "message_id": "om_x100b50aa35ba30a4c3b07d6f5cdabfc",
+              "msg_type": "text",
+              "sender": {
+                "id": "ou_7488779f2769b648358fca04a3e1919f",
+                "id_type": "open_id",
+                "name": "许祝愿",
+                "sender_type": "user",
+                "tenant_key": "1abd20e084069b82"
+              },
+              "thread_id": "omt_1a9c6f6f39cf1b91",
+              "updated": false
+            }
+          ],
+          "page_token": "",
+          "thread_id": "omt_1a9c6f6f39cf1b91",
+          "total": 5
+        },
+        "_notice": {
+          "update": {
+            "current": "1.0.19",
+            "latest": "1.0.23",
+            "message": "lark-cli 1.0.23 available, current 1.0.19"
+          }
+        }
+      },
+      "stderr": "",
+      "returncode": 0
+    },
+    {
+      "action_id": "step_029",
+      "status": "success",
+      "command": [
+        "lark-cli",
+        "im",
+        "+threads-messages-list",
+        "--thread",
+        "om_x100b50aa34ac70a0c3d52877e76a39e",
+        "--sort",
+        "asc",
+        "--page-size",
+        "50",
+        "--format",
+        "json",
+        "--as",
+        "user"
+      ],
+      "stdout": {
+        "ok": true,
+        "identity": "user",
+        "data": {
+          "has_more": false,
+          "messages": [
+            {
+              "content": "【研发/王源】目前最大的 blocker 不是代码，而是数据迁移窗口和切换方案还没有最终确认。",
+              "create_time": "2026-05-05 20:50",
+              "deleted": false,
+              "message_id": "om_x100b50aa35f6b8a8c32417e749381d4",
+              "msg_type": "text",
+              "sender": {
+                "id": "ou_7488779f2769b648358fca04a3e1919f",
+                "id_type": "open_id",
+                "name": "许祝愿",
+                "sender_type": "user",
+                "tenant_key": "1abd20e084069b82"
+              },
+              "thread_id": "omt_1a9c6f6f39cf1b91",
+              "updated": false
+            },
+            {
+              "content": "【研发/王源】研发侧判断真正的关键依赖还没锁定，现在直接对外承诺日期风险过高。",
+              "create_time": "2026-05-05 20:51",
+              "deleted": false,
+              "message_id": "om_x100b50aa358a10a4c2a11ad5a310169",
+              "msg_type": "text",
+              "sender": {
+                "id": "ou_7488779f2769b648358fca04a3e1919f",
+                "id_type": "open_id",
+                "name": "许祝愿",
+                "sender_type": "user",
+                "tenant_key": "1abd20e084069b82"
+              },
+              "thread_id": "omt_1a9c6f6f39cf1b91",
+              "updated": false
+            },
+            {
+              "content": "【测试/许薇】安全评审还缺最后一轮结论，在结果出来前相关高风险能力不能直接开放。",
+              "create_time": "2026-05-05 20:51",
+              "deleted": false,
+              "message_id": "om_x100b50aa359e7ca4c49d8a732fd8b0a",
+              "msg_type": "text",
+              "sender": {
+                "id": "ou_7488779f2769b648358fca04a3e1919f",
+                "id_type": "open_id",
+                "name": "许祝愿",
+                "sender_type": "user",
+                "tenant_key": "1abd20e084069b82"
+              },
+              "thread_id": "omt_1a9c6f6f39cf1b91",
+              "updated": false
+            },
+            {
+              "content": "【运维/韩朔】运维希望把回滚触发条件和恢复时间目标都写清楚，否则演练结果没有办法作为放行依据。",
+              "create_time": "2026-05-05 20:51",
+              "deleted": false,
+              "message_id": "om_x100b50aa35a72ca8c31b4a8fdd50035",
+              "msg_type": "text",
+              "sender": {
+                "id": "ou_7488779f2769b648358fca04a3e1919f",
+                "id_type": "open_id",
+                "name": "许祝愿",
+                "sender_type": "user",
+                "tenant_key": "1abd20e084069b82"
+              },
+              "thread_id": "omt_1a9c6f6f39cf1b91",
+              "updated": false
+            },
+            {
+              "content": "【运维/韩朔】当前 blocker 已经收敛成三项，等迁移窗口、回滚演练和安全结论都明确后再给最终上线建议。",
+              "create_time": "2026-05-05 20:51",
+              "deleted": false,
+              "message_id": "om_x100b50aa35ba30a4c3b07d6f5cdabfc",
+              "msg_type": "text",
+              "sender": {
+                "id": "ou_7488779f2769b648358fca04a3e1919f",
+                "id_type": "open_id",
+                "name": "许祝愿",
+                "sender_type": "user",
+                "tenant_key": "1abd20e084069b82"
+              },
+              "thread_id": "omt_1a9c6f6f39cf1b91",
+              "updated": false
+            }
+          ],
+          "page_token": "",
+          "thread_id": "omt_1a9c6f6f39cf1b91",
+          "total": 5
+        },
+        "_notice": {
+          "update": {
+            "current": "1.0.19",
+            "latest": "1.0.23",
+            "message": "lark-cli 1.0.23 available, current 1.0.19"
+          }
+        }
+      },
+      "stderr": "",
+      "returncode": 0
+    }
+  ],
+  "preflight": {
+    "lark_cli_available": true,
+    "operator_identity": "user",
+    "auth_ok": true,
+    "im_capabilities_ok": true,
+    "warnings": [],
+    "auth_status": {
+      "appId": "cli_a96614f041b8dcb2",
+      "brand": "feishu",
+      "defaultAs": "auto",
+      "expiresAt": "2026-05-05T18:35:11+08:00",
+      "grantedAt": "2026-04-28T19:32:46+08:00",
+      "identity": "user",
+      "refreshExpiresAt": "2026-05-12T16:35:11+08:00",
+      "scope": "approval:instance:read approval:instance:write approval:task:read approval:task:write attendance:task:readonly auth:user.id:read base:app:copy base:app:create base:app:read base:app:update base:dashboard:create base:dashboard:delete base:dashboard:read base:dashboard:update base:field:create base:field:delete base:field:read base:field:update base:form:create base:form:delete base:form:read base:form:update base:history:read base:record:create base:record:delete base:record:read base:record:update base:role:create base:role:delete base:role:read base:role:update base:table:create base:table:delete base:table:read base:table:update base:view:read base:view:write_only base:workflow:create base:workflow:delete base:workflow:read base:workflow:update base:workspace:list board:whiteboard:node:create board:whiteboard:node:delete board:whiteboard:node:read calendar:calendar.event:create calendar:calendar.event:delete calendar:calendar.event:read calendar:calendar.event:reply calendar:calendar.event:update calendar:calendar.free_busy:read calendar:calendar:create calendar:calendar:delete calendar:calendar:read calendar:calendar:update contact:user.base:readonly contact:user.basic_profile:readonly contact:user:search docs:document.comment:create docs:document.comment:delete docs:document.comment:read docs:document.comment:update docs:document.comment:write_only docs:document.content:read docs:document.media:download docs:document.media:upload docs:document:copy docs:document:export docs:document:import docs:event:subscribe docs:permission.member:apply docs:permission.member:auth docs:permission.member:create docs:permission.member:transfer docx:document:create docx:document:readonly docx:document:write_only drive:drive.metadata:readonly drive:file:download drive:file:upload drive:file:view_record:readonly im:chat.members:read im:chat.members:write_only im:chat:create_by_user im:chat:read im:chat:update im:message im:message.group_msg:get_as_user im:message.p2p_msg:get_as_user im:message.pins:read im:message.pins:write_only im:message.reactions:read im:message.reactions:write_only im:message.send_as_user im:message:readonly im:message:recall mail:event mail:user_mailbox.event.mail_address:read mail:user_mailbox.folder:read mail:user_mailbox.folder:write mail:user_mailbox.mail_contact:read mail:user_mailbox.mail_contact:write mail:user_mailbox.message.address:read mail:user_mailbox.message.body:read mail:user_mailbox.message.subject:read mail:user_mailbox.message:modify mail:user_mailbox.message:readonly mail:user_mailbox.message:send mail:user_mailbox.rule:read mail:user_mailbox.rule:write mail:user_mailbox:readonly minutes:minutes.basic:read minutes:minutes.media:export minutes:minutes.search:read okr:okr.content:readonly okr:okr.content:writeonly okr:okr.period:readonly okr:okr.setting:read search:docs:read search:message sheets:spreadsheet.meta:read sheets:spreadsheet.meta:write_only sheets:spreadsheet:create sheets:spreadsheet:read sheets:spreadsheet:write_only slides:presentation:create slides:presentation:read slides:presentation:update slides:presentation:write_only space:document:delete space:document:move space:document:retrieve space:document:shortcut space:folder:create task:comment:write task:task:read task:task:write task:tasklist:read task:tasklist:write vc:meeting.meetingevent:read vc:meeting.search:read vc:note:read vc:record:readonly wiki:member:create wiki:member:retrieve wiki:member:update wiki:node:copy wiki:node:create wiki:node:move wiki:node:read wiki:node:retrieve wiki:node:update wiki:space:read wiki:space:retrieve wiki:space:write_only wiki:wiki:readonly offline_access",
+      "tokenStatus": "needs_refresh",
+      "userName": "许祝愿",
+      "userOpenId": "ou_7488779f2769b648358fca04a3e1919f"
+    }
+  }
+}

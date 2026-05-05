@@ -5,15 +5,22 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 REPO_ROOT="$(cd "${SCRIPT_DIR}/../.." && pwd)"
 cd "${REPO_ROOT}"
 
-DEFAULT_CASE_SPEC="feishu_builder_agent/templates/default_case_spec.json"
 PHASE="full"
-CASE_SPEC="${DEFAULT_CASE_SPEC}"
+CASE_SPEC=""
 CASE_SPEC_EXPLICIT=0
 DATASET_ROOT="amem_docs/ds/feishu_im_dataset_v2"
 CASE_DIR=""
 DRY_RUN=0
 SKIP_AUTH=0
 FRESH_RUN=1
+SCENARIO_PROFILE="enterprise_release_coordination"
+DIFFICULTY="$(python3 - <<'PY'
+from feishu_builder_agent.builder_settings import resolve_default_difficulty
+print(resolve_default_difficulty())
+PY
+)"
+SEED=""
+USER_HINT=""
 
 usage() {
   cat <<'EOF'
@@ -21,12 +28,17 @@ usage() {
   amem_docs/scripts/feishu-builder-agent-run.sh [options]
 
 默认行为：
-  如果没有显式传入 --case-spec，脚本会基于默认示例自动生成一个新的动态 case spec，
+  如果没有显式传入 --case-spec，脚本会先运行 spec-generation 生成一个新的动态 case_spec，
   每次都会得到新的 case_id / task_id / seed，然后再运行完整的 feishu_builder_agent V2 主流程：
-    case-world -> characters -> plan -> target-gold -> command-plan
+    spec -> case-world -> characters -> plan -> target-gold -> command-plan
     -> execute -> collect -> gold -> validate -> adapt
 
 阶段说明：
+  --phase spec
+      先生成最小 case_spec。
+      适合先检查：scenario_profile、difficulty、seed 对应的案例方向，以及 department_hints / title_hint / main_goal_hint 是否合理。
+      跑完建议查看：case_spec.json
+
   --phase case-world
       从 case_spec 生成 case_seed / case_world。
       适合先检查：这个案例的业务背景、冲突轴、复杂度方向是否合理。
@@ -89,38 +101,45 @@ usage() {
                          如果显式传入，脚本会按这个固定 spec 运行，不再自动生成动态 case。
   --dataset-root <path>   数据集输出根目录，默认：amem_docs/ds/feishu_im_dataset_v2
   --case-dir <path>       已存在的 case 目录；如果能从 case-spec 推导出来，可以不传
+  --scenario-profile <id> spec-generation 使用的场景类型，默认：enterprise_release_coordination
+  --difficulty <level>    spec-generation 使用的复杂度；不传则读取 feishu_builder_agent/builder_settings.yml 中的 default_difficulty
+  --seed <int>            可选固定随机种子；不传则自动生成
+  --user-hint <text>      spec-generation 时传给 LLM 的补充提示
   --dry-run               在 execute/full 阶段使用 dry-run
   --skip-auth             跳过 lark-cli 登录态预检查
   --resume                复用已有产物，不先清理旧文件
   -h, --help              显示帮助
 
 示例：
-  1. 不传 case-spec，自动生成一个新的动态案例，然后只先确认 case 世界观和复杂度方向是否合理：
+  1. 不传 case-spec，先生成一个新的最小 spec，确认它的 hints 是否合理：
+     amem_docs/scripts/feishu-builder-agent-run.sh --phase spec
+
+  2. 不传 case-spec，自动生成一个新的动态案例，然后只先确认 case 世界观和复杂度方向是否合理：
      amem_docs/scripts/feishu-builder-agent-run.sh --phase case-world
 
-  2. 已经有 case_world 了，只想继续补角色画像：
+  3. 已经有 case_world 了，只想继续补角色画像：
      amem_docs/scripts/feishu-builder-agent-run.sh --phase characters
      这一步也会刷新每个角色的 simulated_open_id（模拟工号）映射。
      如果你前一步刚用动态 case 跑过 case-world，这里会默认接上最近一次生成的 case 目录。
 
-  3. 想固定使用你自己写好的 spec，而不是自动生成动态 case：
+  4. 想固定使用你自己写好的 spec，而不是自动生成动态 case：
      amem_docs/scripts/feishu-builder-agent-run.sh --phase full --case-spec path/to/your_case_spec.json
 
-  4. 已经有对话计划了，只想重新生成可执行的 lark-cli 动作计划：
+  5. 已经有对话计划了，只想重新生成可执行的 lark-cli 动作计划：
      amem_docs/scripts/feishu-builder-agent-run.sh --phase command-plan
      如果当前目录下有多个 case，也可以显式传 --case-dir 指向某一个固定 case。
 
-  5. 已经执行过飞书动作，只想重新 collect 真实消息并重建 gold：
+  6. 已经执行过飞书动作，只想重新 collect 真实消息并重建 gold：
      amem_docs/scripts/feishu-builder-agent-run.sh --phase collect
      amem_docs/scripts/feishu-builder-agent-run.sh --phase gold
 
-  6. 只做最终一致性审计，不重跑任何上游生成：
+  7. 只做最终一致性审计，不重跑任何上游生成：
      amem_docs/scripts/feishu-builder-agent-run.sh --phase validate
 
-  7. 从头到尾跑一遍完整链路，并自动生成新的动态 case：
+  8. 从头到尾跑一遍完整链路，并自动生成新的动态 case：
      amem_docs/scripts/feishu-builder-agent-run.sh --phase full
 
-  8. 只做 dry-run，不真的发飞书消息：
+  9. 只做 dry-run，不真的发飞书消息：
      amem_docs/scripts/feishu-builder-agent-run.sh --phase full --dry-run --skip-auth
 EOF
 }
@@ -138,6 +157,22 @@ while [[ $# -gt 0 ]]; do
       ;;
     --dataset-root)
       DATASET_ROOT="${2:?missing value for --dataset-root}"
+      shift 2
+      ;;
+    --scenario-profile)
+      SCENARIO_PROFILE="${2:?missing value for --scenario-profile}"
+      shift 2
+      ;;
+    --difficulty)
+      DIFFICULTY="${2:?missing value for --difficulty}"
+      shift 2
+      ;;
+    --seed)
+      SEED="${2:?missing value for --seed}"
+      shift 2
+      ;;
+    --user-hint)
+      USER_HINT="${2:?missing value for --user-hint}"
       shift 2
       ;;
     --case-dir)
@@ -177,41 +212,6 @@ require_cmd() {
 
 require_cmd python3
 
-prepare_dynamic_case_spec() {
-  local base_case_spec="$1"
-  local dataset_root_path="$2"
-  python3 - <<'PY' "${base_case_spec}" "${dataset_root_path}"
-from __future__ import annotations
-
-import json
-import random
-import re
-import sys
-from datetime import datetime
-from pathlib import Path
-
-base_case_spec = Path(sys.argv[1])
-dataset_root = Path(sys.argv[2])
-payload = json.loads(base_case_spec.read_text(encoding="utf-8"))
-now = datetime.now()
-stamp = now.strftime("%Y%m%d%H%M%S")
-suffix = f"{random.randint(100, 999)}"
-task_id = f"FEISHU-{stamp}{suffix}"
-case_id = f"case_feishu_{stamp}{suffix}_example"
-
-payload["task_id"] = task_id
-payload["case_id"] = case_id
-payload["seed"] = int(f"{stamp[-6:]}{suffix}")
-payload["main_goal"] = re.sub(r"FEISHU-\d+", task_id, str(payload.get("main_goal") or ""))
-
-spec_dir = dataset_root / "_generated_case_specs"
-spec_dir.mkdir(parents=True, exist_ok=True)
-output_path = spec_dir / f"{case_id}.json"
-output_path.write_text(json.dumps(payload, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
-print(output_path)
-PY
-}
-
 derive_case_dir_from_case_spec() {
   local case_spec_path="$1"
   local dataset_root_path="$2"
@@ -230,7 +230,7 @@ PY
 }
 
 case "${PHASE}" in
-  case-world|characters|plan|target-gold|command-plan|gold|validate|execute|collect|adapt|full)
+  spec|case-world|characters|plan|target-gold|command-plan|gold|validate|execute|collect|adapt|full)
     ;;
   *)
     echo "不支持的阶段：${PHASE}" >&2
@@ -238,17 +238,6 @@ case "${PHASE}" in
     exit 1
     ;;
 esac
-
-if [[ "${PHASE}" == "case-world" || "${PHASE}" == "full" ]]; then
-  if [[ "${CASE_SPEC_EXPLICIT}" -ne 1 && "${CASE_SPEC}" == "${DEFAULT_CASE_SPEC}" ]]; then
-    CASE_SPEC="$(prepare_dynamic_case_spec "${DEFAULT_CASE_SPEC}" "${DATASET_ROOT}")"
-    echo "[动态 case] 已基于默认示例生成新的 case spec：${CASE_SPEC}"
-  fi
-  if [[ ! -f "${CASE_SPEC}" ]]; then
-    echo "未找到 case spec：${CASE_SPEC}" >&2
-    exit 1
-  fi
-fi
 
 mkdir -p "${DATASET_ROOT}"
 RUN_LOG_DIR="${DATASET_ROOT}/_runs"
@@ -262,6 +251,12 @@ load_latest_case_dir() {
   fi
 }
 
+load_latest_case_spec() {
+  if [[ -f "${LAST_CASE_SPEC_FILE}" ]]; then
+    cat "${LAST_CASE_SPEC_FILE}"
+  fi
+}
+
 persist_latest_case_refs() {
   local case_dir_path="$1"
   local case_spec_path="$2"
@@ -271,7 +266,11 @@ persist_latest_case_refs() {
   fi
 }
 
-if [[ -z "${CASE_DIR}" && -f "${CASE_SPEC}" && ( "${CASE_SPEC_EXPLICIT}" -eq 1 || "${PHASE}" == "case-world" || "${PHASE}" == "full" ) ]]; then
+if [[ -z "${CASE_SPEC}" && "${CASE_SPEC_EXPLICIT}" -ne 1 && ( "${PHASE}" == "case-world" || "${PHASE}" == "full" ) ]]; then
+  CASE_SPEC="$(load_latest_case_spec)"
+fi
+
+if [[ -z "${CASE_DIR}" && -n "${CASE_SPEC}" && -f "${CASE_SPEC}" && ( "${CASE_SPEC_EXPLICIT}" -eq 1 || "${PHASE}" == "spec" || "${PHASE}" == "case-world" || "${PHASE}" == "full" ) ]]; then
   CASE_DIR="$(derive_case_dir_from_case_spec "${CASE_SPEC}" "${DATASET_ROOT}")"
 fi
 
@@ -300,6 +299,9 @@ fi
 clean_case_outputs() {
   local case_spec_path="$1"
   local dataset_root_path="$2"
+  if [[ -z "${case_spec_path}" || ! -f "${case_spec_path}" ]]; then
+    return 0
+  fi
   python3 - <<'PY' "${case_spec_path}" "${dataset_root_path}"
 from __future__ import annotations
 
@@ -396,7 +398,7 @@ if [[ "${FRESH_RUN}" -eq 1 && ( "${PHASE}" == "case-world" || "${PHASE}" == "ful
   clean_case_outputs "${CASE_SPEC}" "${DATASET_ROOT}"
 fi
 
-if [[ -n "${CASE_SPEC}" && ( "${PHASE}" == "case-world" || "${PHASE}" == "full" ) ]]; then
+if [[ -n "${CASE_SPEC}" && ( "${PHASE}" == "spec" || "${PHASE}" == "case-world" || "${PHASE}" == "full" ) ]]; then
   echo "[目标 spec] case_spec=${CASE_SPEC}"
 fi
 if [[ -n "${CASE_DIR}" ]]; then
@@ -404,7 +406,47 @@ if [[ -n "${CASE_DIR}" ]]; then
 fi
 
 case "${PHASE}" in
+  spec)
+    RUN_LOG="${RUN_LOG_DIR}/generate-case-spec.json"
+    ARGS=(python3 -m feishu_builder_agent.cli generate-case-spec --dataset-root "${DATASET_ROOT}" --scenario-profile "${SCENARIO_PROFILE}" --difficulty "${DIFFICULTY}" --user-hint "${USER_HINT}")
+    if [[ -n "${SEED}" ]]; then
+      ARGS+=(--seed "${SEED}")
+    fi
+    run_python_json "generate-case-spec.json" "${ARGS[@]}"
+    CASE_SPEC="$(python3 - <<'PY' "${RUN_LOG}"
+from __future__ import annotations
+import json, sys
+print(json.loads(open(sys.argv[1], encoding='utf-8').read())["case_spec_path"])
+PY
+)"
+    CASE_DIR="$(python3 - <<'PY' "${RUN_LOG}"
+from __future__ import annotations
+import json, sys
+print(json.loads(open(sys.argv[1], encoding='utf-8').read())["case_dir"])
+PY
+)"
+    persist_latest_case_refs "${CASE_DIR}" "${CASE_SPEC}"
+    ;;
   case-world)
+    if [[ -z "${CASE_SPEC}" || ! -f "${CASE_SPEC}" ]]; then
+      SPEC_ARGS=(python3 -m feishu_builder_agent.cli generate-case-spec --dataset-root "${DATASET_ROOT}" --scenario-profile "${SCENARIO_PROFILE}" --difficulty "${DIFFICULTY}" --user-hint "${USER_HINT}")
+      if [[ -n "${SEED}" ]]; then
+        SPEC_ARGS+=(--seed "${SEED}")
+      fi
+      run_python_json "generate-case-spec.json" "${SPEC_ARGS[@]}"
+      CASE_SPEC="$(python3 - <<'PY' "${RUN_LOG_DIR}/generate-case-spec.json"
+from __future__ import annotations
+import json, sys
+print(json.loads(open(sys.argv[1], encoding='utf-8').read())["case_spec_path"])
+PY
+)"
+      CASE_DIR="$(python3 - <<'PY' "${RUN_LOG_DIR}/generate-case-spec.json"
+from __future__ import annotations
+import json, sys
+print(json.loads(open(sys.argv[1], encoding='utf-8').read())["case_dir"])
+PY
+)"
+    fi
     RUN_LOG="${RUN_LOG_DIR}/generate-case-world.json"
     run_python_json "generate-case-world.json" python3 -m feishu_builder_agent.cli generate-case-world --case-spec "${CASE_SPEC}" --dataset-root "${DATASET_ROOT}"
     persist_latest_case_refs "${CASE_DIR}" "${CASE_SPEC}"
@@ -460,6 +502,25 @@ case "${PHASE}" in
     persist_latest_case_refs "${CASE_DIR}" ""
     ;;
   full)
+    if [[ -z "${CASE_SPEC}" || ! -f "${CASE_SPEC}" ]]; then
+      SPEC_ARGS=(python3 -m feishu_builder_agent.cli generate-case-spec --dataset-root "${DATASET_ROOT}" --scenario-profile "${SCENARIO_PROFILE}" --difficulty "${DIFFICULTY}" --user-hint "${USER_HINT}")
+      if [[ -n "${SEED}" ]]; then
+        SPEC_ARGS+=(--seed "${SEED}")
+      fi
+      run_python_json "generate-case-spec.json" "${SPEC_ARGS[@]}"
+      CASE_SPEC="$(python3 - <<'PY' "${RUN_LOG_DIR}/generate-case-spec.json"
+from __future__ import annotations
+import json, sys
+print(json.loads(open(sys.argv[1], encoding='utf-8').read())["case_spec_path"])
+PY
+)"
+      CASE_DIR="$(python3 - <<'PY' "${RUN_LOG_DIR}/generate-case-spec.json"
+from __future__ import annotations
+import json, sys
+print(json.loads(open(sys.argv[1], encoding='utf-8').read())["case_dir"])
+PY
+)"
+    fi
     RUN_LOG="${RUN_LOG_DIR}/build-case.json"
     ARGS=(python3 -m feishu_builder_agent.cli build-case --case-spec "${CASE_SPEC}" --dataset-root "${DATASET_ROOT}")
     if [[ "${DRY_RUN}" -eq 1 ]]; then
