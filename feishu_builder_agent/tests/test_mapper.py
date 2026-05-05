@@ -4,12 +4,12 @@ import unittest
 
 from feishu_builder_agent.case_world_generator import generate_case_world
 from feishu_builder_agent.character_generator import generate_characters
+from feishu_builder_agent.command_plan_generator import generate_command_plan
 from feishu_builder_agent.conversation_plan_generator import generate_conversation_plan
-from feishu_builder_agent.message_realizer import realize_messages
-from feishu_builder_agent.plan_mapper import build_execution_plan, build_execution_plan_from_realized_messages
+from feishu_builder_agent.plan_mapper import build_execution_plan, build_execution_plan_from_command_plan
 from feishu_builder_agent.story_generator import generate_story
+from feishu_builder_agent.target_gold_generator import generate_target_state
 from feishu_builder_agent.timeline_planner import generate_timeline
-from feishu_builder_agent.utterance_generator import generate_utterance_plan
 
 
 CASE_SPEC = {
@@ -78,9 +78,24 @@ class MapperTests(unittest.TestCase):
             case_world,
             characters,
         )
-        utterance_plan = generate_utterance_plan(conversation_plan, characters)
-        realized_messages = realize_messages(utterance_plan, characters)
-        plan = build_execution_plan_from_realized_messages(characters, conversation_plan, realized_messages)
+        case_seed = {
+            **CASE_SPEC,
+            "domain": "enterprise_product_launch",
+            "complexity_profile": {
+                "session_count_target": 3,
+                "source_session_count_target": 3,
+                "message_count_target": 18,
+                "topic_count_target": 3,
+                "thread_reply_depth_target": 3,
+                "state_transition_target": 4,
+                "supersession_target": 1,
+                "cross_source_revision_target": 1,
+                "event_family_target": 5,
+            },
+        }
+        target_state = generate_target_state(conversation_plan)
+        command_plan = generate_command_plan(case_seed, conversation_plan, characters, target_state=target_state)
+        plan = build_execution_plan_from_command_plan(command_plan)
         create_chat_actions = [action for action in plan["actions"] if action["action_type"] == "create_chat"]
         thread_actions = [action for action in plan["actions"] if action["action_type"] == "reply_in_thread"]
         self.assertGreaterEqual(len(create_chat_actions), 2)

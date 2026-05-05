@@ -4,6 +4,7 @@ from typing import Any
 
 from .schemas import (
     validate_characters,
+    validate_command_plan,
     validate_conversation_plan,
     validate_execution_plan,
     validate_realized_messages,
@@ -145,6 +146,30 @@ def build_execution_plan_from_realized_messages(
         "actions": actions,
     }
     return validate_execution_plan(plan, allowed_sender_refs=set(roster.keys()))
+
+
+def build_execution_plan_from_command_plan(command_plan: list[dict[str, Any]]) -> dict[str, Any]:
+    validated_rows = validate_command_plan(command_plan)
+    case_id = validated_rows[0]["case_id"] if validated_rows else "unknown_case"
+    actions: list[dict[str, Any]] = []
+    for row in validated_rows:
+        action = {
+            "action_id": row["step_id"],
+            "action_type": row["action_type"],
+            "depends_on": row["depends_on_step_ids"],
+            "params": row["params"],
+        }
+        output_ref = str(row.get("output_ref") or "").strip()
+        if output_ref:
+            action["output_ref"] = output_ref
+        actions.append(action)
+    plan = {
+        "case_id": case_id,
+        "operator_identity": "user",
+        "delivery_mode": "prefixed_single_operator",
+        "actions": actions,
+    }
+    return validate_execution_plan(plan)
 
 
 def build_execution_plan(story: dict[str, Any], characters: dict[str, Any], timeline: dict[str, Any]) -> dict[str, Any]:

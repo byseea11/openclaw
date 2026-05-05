@@ -5,7 +5,7 @@
   "case_ids": [
     "case_feishu_231_example"
   ],
-  "created_at": "2026-05-05T03:17:29Z",
+  "created_at": "2026-05-05T06:03:57Z",
   "default_operator_mode": {
     "operator_identity": "user",
     "delivery_mode": "prefixed_single_operator"

@@ -3,17 +3,17 @@ from __future__ import annotations
 from collections import defaultdict
 from typing import Any
 
-from .schemas import validate_case_seed, validate_complexity_report, validate_conversation_plan, validate_realized_messages
+from .schemas import validate_case_seed, validate_collected_messages, validate_complexity_report, validate_conversation_plan
 
 
 def build_complexity_report(
     case_seed: dict[str, Any],
     conversation_plan: dict[str, Any],
-    realized_messages: list[dict[str, Any]],
+    collected_messages: list[dict[str, Any]],
 ) -> dict[str, Any]:
     seed = validate_case_seed(case_seed)
     plan = validate_conversation_plan(conversation_plan)
-    messages = validate_realized_messages(realized_messages)
+    messages = validate_collected_messages(collected_messages)
     thresholds = {
         "session_count": seed["complexity_profile"]["session_count_target"],
         "source_session_count": seed["complexity_profile"]["source_session_count_target"],

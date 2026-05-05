@@ -19,11 +19,28 @@ def _require_string(value: Any, field: str) -> str:
     return text
 
 
+def _optional_string(value: Any) -> str:
+    return str(value or "").strip()
+
+
 def _require_chinese_string(value: Any, field: str) -> str:
     text = _require_string(value, field)
     if not _CJK_RE.search(text):
         raise ValidationError(f"{field} must contain Chinese text")
     return text
+
+
+def _default_simulated_open_id(person_id: str) -> str:
+    safe_id = re.sub(r"[^a-zA-Z0-9_]+", "_", person_id).strip("_").lower()
+    return f"ou_sim_{safe_id}"
+
+
+def _require_simulated_open_id(value: Any, person_id: str, field: str) -> str:
+    open_id = _require_string(value, field)
+    expected = _default_simulated_open_id(person_id)
+    if open_id != expected:
+        raise ValidationError(f"{field} must equal {expected}")
+    return open_id
 
 
 def _require_list(value: Any, field: str) -> list[Any]:
@@ -168,6 +185,11 @@ def validate_characters(payload: dict[str, Any]) -> dict[str, Any]:
                 "name": _require_chinese_string(character.get("name"), f"{person_id}.name"),
                 "department": _require_chinese_string(character.get("department"), f"{person_id}.department"),
                 "role": _require_chinese_string(character.get("role"), f"{person_id}.role"),
+                "simulated_open_id": _require_simulated_open_id(
+                    character.get("simulated_open_id") or _default_simulated_open_id(person_id),
+                    person_id,
+                    f"{person_id}.simulated_open_id",
+                ),
                 "responsibility": _require_chinese_string(character.get("responsibility"), f"{person_id}.responsibility"),
                 "communication_style": _require_chinese_string(character.get("communication_style"), f"{person_id}.communication_style"),
                 "conflict_bias": _require_chinese_string(character.get("conflict_bias"), f"{person_id}.conflict_bias"),
@@ -304,12 +326,118 @@ def validate_utterance_plan(rows: list[dict[str, Any]], *, allowed_actor_refs: s
     return sorted(normalized, key=lambda item: (item["sequence_no"], item["turn_id"]))
 
 
+def validate_command_plan(rows: list[dict[str, Any]], *, allowed_actor_refs: set[str] | None = None) -> list[dict[str, Any]]:
+    normalized: list[dict[str, Any]] = []
+    step_ids: set[str] = set()
+    output_refs: set[str] = set()
+    for row in rows:
+        row_obj = _require_dict(row, "command_plan[]")
+        step_id = _require_string(row_obj.get("step_id"), "command_plan.step_id")
+        if step_id in step_ids:
+            raise ValidationError(f"duplicate command_plan.step_id: {step_id}")
+        step_ids.add(step_id)
+        action_type = _require_string(row_obj.get("action_type"), f"{step_id}.action_type")
+        if action_type not in {"create_chat", "send_message", "reply_in_thread", "fetch_chat_messages", "fetch_thread_messages"}:
+            raise ValidationError(f"{step_id}.action_type is not supported: {action_type}")
+        speaker_ref = str(row_obj.get("speaker_ref") or "").strip()
+        if speaker_ref and allowed_actor_refs is not None and speaker_ref not in allowed_actor_refs:
+            raise ValidationError(f"{step_id}.speaker_ref must exist in characters.json")
+        output_ref = str(row_obj.get("output_ref") or "").strip() or None
+        if output_ref:
+            if output_ref in output_refs:
+                raise ValidationError(f"duplicate command_plan.output_ref: {output_ref}")
+            output_refs.add(output_ref)
+        params = _require_dict(row_obj.get("params"), f"{step_id}.params")
+        content_text = str(params.get("content_text") or "").strip()
+        if action_type in {"send_message", "reply_in_thread"} and not _CJK_RE.search(content_text):
+            raise ValidationError(f"{step_id}.params.content_text must contain Chinese text")
+        normalized.append(
+            {
+                "case_id": _require_string(row_obj.get("case_id"), f"{step_id}.case_id"),
+                "step_id": step_id,
+                "sequence_no": _require_int(row_obj.get("sequence_no"), f"{step_id}.sequence_no", minimum=1),
+                "action_type": action_type,
+                "session_id": _require_string(row_obj.get("session_id"), f"{step_id}.session_id"),
+                "source_type": _require_string(row_obj.get("source_type"), f"{step_id}.source_type"),
+                "source_ref": _require_string(row_obj.get("source_ref"), f"{step_id}.source_ref"),
+                "channel_scope": _require_string(row_obj.get("channel_scope"), f"{step_id}.channel_scope"),
+                "chat_ref": _require_string(row_obj.get("chat_ref"), f"{step_id}.chat_ref"),
+                "topic_key": _require_string(row_obj.get("topic_key"), f"{step_id}.topic_key"),
+                "turn_purpose": _require_chinese_string(row_obj.get("turn_purpose"), f"{step_id}.turn_purpose"),
+                "speaker_role": _require_string(row_obj.get("speaker_role") or "system", f"{step_id}.speaker_role"),
+                "speaker_ref": speaker_ref,
+                "supports_event_types": _require_string_list(row_obj.get("supports_event_types") or [], f"{step_id}.supports_event_types"),
+                "depends_on_step_ids": [str(item).strip() for item in _require_list(row_obj.get("depends_on_step_ids") or [], f"{step_id}.depends_on_step_ids") if str(item).strip()],
+                "gold_intent_refs": _require_string_list(row_obj.get("gold_intent_refs") or [], f"{step_id}.gold_intent_refs"),
+                "expected_effect": _require_chinese_string(row_obj.get("expected_effect"), f"{step_id}.expected_effect"),
+                "state_transition": _require_chinese_string(row_obj.get("state_transition"), f"{step_id}.state_transition"),
+                "semantic_payload": _require_chinese_string(row_obj.get("semantic_payload"), f"{step_id}.semantic_payload"),
+                "root_turn_id": str(row_obj.get("root_turn_id") or "").strip() or None,
+                "root_message_ref": str(row_obj.get("root_message_ref") or "").strip() or None,
+                "output_ref": output_ref,
+                "params": params,
+                "lark_cli_command": _require_string(row_obj.get("lark_cli_command"), f"{step_id}.lark_cli_command"),
+            }
+        )
+    step_id_set = {row["step_id"] for row in normalized}
+    output_ref_set = {row["output_ref"] for row in normalized if row.get("output_ref")}
+    for row in normalized:
+        for dep in row["depends_on_step_ids"]:
+            if dep not in step_id_set:
+                raise ValidationError(f"{row['step_id']}.depends_on_step_ids references unknown step_id: {dep}")
+        if row["action_type"] == "reply_in_thread":
+            root_message_ref = str(row.get("root_message_ref") or "").strip()
+            if not root_message_ref:
+                raise ValidationError(f"{row['step_id']}.root_message_ref is required for reply_in_thread")
+            if root_message_ref not in output_ref_set:
+                raise ValidationError(f"{row['step_id']}.root_message_ref must reference an earlier output_ref")
+    return sorted(normalized, key=lambda item: (item["sequence_no"], item["step_id"]))
+
+
 def validate_realized_messages(rows: list[dict[str, Any]], *, allowed_actor_refs: set[str] | None = None) -> list[dict[str, Any]]:
     normalized = validate_utterance_plan(rows, allowed_actor_refs=allowed_actor_refs)
     output: list[dict[str, Any]] = []
     for row in normalized:
         payload = dict(row)
         payload["content_text"] = _require_chinese_string((next(item for item in rows if str(item.get("turn_id")) == row["turn_id"])).get("content_text"), f"{row['turn_id']}.content_text")
+        output.append(payload)
+    return output
+
+
+def validate_collected_messages(rows: list[dict[str, Any]], *, allowed_actor_refs: set[str] | None = None) -> list[dict[str, Any]]:
+    normalized = validate_realized_messages(rows, allowed_actor_refs=allowed_actor_refs)
+    output: list[dict[str, Any]] = []
+    for row in normalized:
+        original = next(item for item in rows if str(item.get("turn_id")) == row["turn_id"])
+        payload = dict(row)
+        payload["message_id"] = _require_string(original.get("message_id"), f"{row['turn_id']}.message_id")
+        payload["collect_source"] = _require_string(original.get("collect_source") or "fetch_records", f"{row['turn_id']}.collect_source")
+        actual_sender = _require_dict(original.get("actual_sender") or {}, f"{row['turn_id']}.actual_sender")
+        simulated_speaker = _require_dict(original.get("simulated_speaker") or {}, f"{row['turn_id']}.simulated_speaker")
+        prefix_speaker_hint = _require_dict(original.get("prefix_speaker_hint") or {}, f"{row['turn_id']}.prefix_speaker_hint")
+        payload["actual_sender"] = {
+            "open_id": _optional_string(actual_sender.get("open_id")),
+            "name": _optional_string(actual_sender.get("name")),
+            "sender_type": _require_string(actual_sender.get("sender_type") or "user", f"{row['turn_id']}.actual_sender.sender_type"),
+        }
+        payload["simulated_speaker"] = {
+            "speaker_ref": _require_string(simulated_speaker.get("speaker_ref"), f"{row['turn_id']}.simulated_speaker.speaker_ref"),
+            "open_id": _require_string(simulated_speaker.get("open_id"), f"{row['turn_id']}.simulated_speaker.open_id"),
+            "name": _require_chinese_string(simulated_speaker.get("name"), f"{row['turn_id']}.simulated_speaker.name"),
+            "department": _require_chinese_string(simulated_speaker.get("department"), f"{row['turn_id']}.simulated_speaker.department"),
+            "role": _require_chinese_string(simulated_speaker.get("role"), f"{row['turn_id']}.simulated_speaker.role"),
+            "stance": _require_chinese_string(simulated_speaker.get("stance"), f"{row['turn_id']}.simulated_speaker.stance"),
+        }
+        payload["normalized_actor_id"] = _require_string(original.get("normalized_actor_id"), f"{row['turn_id']}.normalized_actor_id")
+        payload["speaker_resolution_mode"] = _require_string(
+            original.get("speaker_resolution_mode") or "command_plan_only",
+            f"{row['turn_id']}.speaker_resolution_mode",
+        )
+        payload["prefix_speaker_hint"] = {
+            "speaker_ref": _optional_string(prefix_speaker_hint.get("speaker_ref")),
+            "name": _optional_string(prefix_speaker_hint.get("name")),
+            "department": _optional_string(prefix_speaker_hint.get("department")),
+        }
         output.append(payload)
     return output
 
@@ -328,7 +456,9 @@ def validate_expected_events(rows: list[dict[str, Any]]) -> list[dict[str, Any]]
                 "event_id": event_id,
                 "event_type": _require_string(row_obj.get("event_type"), f"{event_id}.event_type"),
                 "topic_key": _require_string(row_obj.get("topic_key"), f"{event_id}.topic_key"),
+                "turn_id": _require_string(row_obj.get("turn_id"), f"{event_id}.turn_id"),
                 "source_session_id": _require_string(row_obj.get("source_session_id"), f"{event_id}.source_session_id"),
+                "normalized_actor_id": _require_string(row_obj.get("normalized_actor_id"), f"{event_id}.normalized_actor_id"),
                 "claim": _require_chinese_string(row_obj.get("claim"), f"{event_id}.claim"),
                 "evidence_turn_id": _require_string(row_obj.get("evidence_turn_id"), f"{event_id}.evidence_turn_id"),
                 "expected_lifecycle": _require_string(row_obj.get("expected_lifecycle") or "active", f"{event_id}.expected_lifecycle"),
@@ -355,6 +485,44 @@ def validate_expected_memory_blocks(payload: dict[str, Any]) -> dict[str, Any]:
             }
         )
     return {"case_id": case_id, "blocks": normalized}
+
+
+def validate_target_state(payload: dict[str, Any]) -> dict[str, Any]:
+    case_id = _require_string(payload.get("case_id"), "target_state.case_id")
+    expected_topics = _require_string_list(payload.get("expected_topics"), "target_state.expected_topics")
+    block_targets = _require_list(payload.get("expected_block_targets"), "target_state.expected_block_targets")
+    current_targets = _require_list(payload.get("expected_current_state_targets"), "target_state.expected_current_state_targets")
+    normalized_block_targets: list[dict[str, Any]] = []
+    for item in block_targets:
+        item_obj = _require_dict(item, "target_state.expected_block_targets[]")
+        normalized_block_targets.append(
+            {
+                "topic_key": _require_string(item_obj.get("topic_key"), "target_state.block_target.topic_key"),
+                "topic_title": _require_chinese_string(item_obj.get("topic_title"), "target_state.block_target.topic_title"),
+                "slots": _require_string_list(item_obj.get("slots"), "target_state.block_target.slots"),
+            }
+        )
+    normalized_current_targets: list[dict[str, Any]] = []
+    for item in current_targets:
+        item_obj = _require_dict(item, "target_state.expected_current_state_targets[]")
+        normalized_current_targets.append(
+            {
+                "topic_key": _require_string(item_obj.get("topic_key"), "target_state.current_target.topic_key"),
+                "slot": _require_string(item_obj.get("slot"), "target_state.current_target.slot"),
+                "claim_hint": _require_chinese_string(item_obj.get("claim_hint"), "target_state.current_target.claim_hint"),
+            }
+        )
+    return {
+        "case_id": case_id,
+        "expected_topics": expected_topics,
+        "expected_block_targets": normalized_block_targets,
+        "expected_current_state_targets": normalized_current_targets,
+        "required_event_coverage": _require_string_list(payload.get("required_event_coverage"), "target_state.required_event_coverage"),
+        "required_state_transitions": _require_string_list(payload.get("required_state_transitions"), "target_state.required_state_transitions"),
+        "required_cross_source_revisions": _require_string_list(
+            payload.get("required_cross_source_revisions"), "target_state.required_cross_source_revisions"
+        ),
+    }
 
 
 def validate_expected_current_state(payload: dict[str, Any]) -> dict[str, Any]:
@@ -525,7 +693,7 @@ def validate_build_report(payload: dict[str, Any]) -> dict[str, Any]:
         "num_characters",
         "num_topics",
         "num_source_sessions",
-        "num_realized_turns",
+        "num_collected_messages",
         "num_planned_actions",
         "num_executed_actions",
         "num_lark_messages_collected",

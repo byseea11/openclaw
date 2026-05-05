@@ -1,0 +1,2 @@
+[feishu_builder][2026-05-05T06:45:21Z][execute] 开始执行 execution_plan case_dir=amem_docs/ds/feishu_im_dataset_v2/cases/case_feishu_231_example dry_run=False
+[feishu_builder][2026-05-05T06:45:24Z][execute] execution_result 已写入 status=failed

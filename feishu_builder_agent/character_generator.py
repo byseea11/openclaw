@@ -36,6 +36,10 @@ def _to_person_id(role_key: str, index: int) -> str:
     return f"{role_key}_{index + 1:02d}"
 
 
+def _to_simulated_open_id(person_id: str) -> str:
+    return f"ou_sim_{person_id}"
+
+
 def _fallback_characters(spec: dict[str, Any]) -> dict[str, Any]:
     spec = validate_case_spec(spec)
     rng = random.Random(spec["seed"])
@@ -51,6 +55,7 @@ def _fallback_characters(spec: dict[str, Any]) -> dict[str, Any]:
         characters.append(
             {
                 "person_id": _to_person_id(role_key, index),
+                "simulated_open_id": _to_simulated_open_id(_to_person_id(role_key, index)),
                 "name": name,
                 "department": department,
                 "role": role,
@@ -89,15 +94,16 @@ def generate_characters_with_mode(
     system_prompt = (
         "Generate a concise role roster for one enterprise software delivery case. "
         "Return only JSON with keys: case_id, characters. characters must be an array of 6 to 10 objects. "
-        "Each object must contain person_id, name, department, role, responsibility, communication_style, conflict_bias, "
+        "Each object must contain person_id, simulated_open_id, name, department, role, responsibility, communication_style, conflict_bias, "
         "stance, risk_preference, information_access_level, default_channels. "
         "All natural-language strings must be written in Simplified Chinese. "
-        "Only person_id may remain snake_case."
+        "Only person_id and simulated_open_id may remain snake_case."
     )
     user_prompt = (
         f"Case spec:\n{spec}\nStory:\n{validated_story}\n"
         "请生成 6 到 10 个覆盖至少 5 个部门的角色。所有自然语言字段必须使用简体中文，字段尽量简短。"
-        "person_id must be stable snake_case strings. default_channels should be string arrays such as "
+        "person_id must be stable snake_case strings. simulated_open_id must look like a synthetic Feishu open_id such as "
+        "'ou_sim_security_01'. default_channels should be string arrays such as "
         "['main_chat', 'launch_window_thread', 'customer_sync_chat']."
     )
     try:

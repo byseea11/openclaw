@@ -3,7 +3,7 @@ from __future__ import annotations
 from typing import Any
 
 from .llm_client import JsonLLMClient
-from .schemas import ValidationError, validate_characters, validate_conversation_plan, validate_utterance_plan
+from .schemas import ValidationError, validate_characters, validate_conversation_plan, validate_target_state, validate_utterance_plan
 
 
 def _session_map(conversation_plan: dict[str, Any]) -> dict[str, dict[str, Any]]:
@@ -41,6 +41,7 @@ def generate_utterance_plan_with_mode(
     conversation_plan: dict[str, Any],
     characters: dict[str, Any],
     *,
+    target_state: dict[str, Any] | None = None,
     llm_client: JsonLLMClient | None = None,
 ) -> tuple[list[dict[str, Any]], str]:
     validated_plan = validate_conversation_plan(
@@ -48,6 +49,7 @@ def generate_utterance_plan_with_mode(
         allowed_actor_refs={item["person_id"] for item in validate_characters(characters)["characters"]},
     )
     validated_characters = validate_characters(characters)
+    validated_target_state = validate_target_state(target_state) if target_state is not None else None
     roster_ids = {item["person_id"] for item in validated_characters["characters"]}
     if llm_client is None:
         return validate_utterance_plan(_fallback_utterance_plan(validated_plan), allowed_actor_refs=roster_ids), "fallback"
@@ -60,6 +62,7 @@ def generate_utterance_plan_with_mode(
     )
     user_prompt = (
         f"Conversation plan:\n{validated_plan}\nCharacters:\n{validated_characters}\n"
+        f"Target state:\n{validated_target_state}\n"
         "请把 turns 变成可以直接用于消息 realization 的 utterance rows。"
         "不要新增或删除 turn，只允许补全 source 和 root_turn_id 等执行所需字段。"
     )
@@ -75,7 +78,13 @@ def generate_utterance_plan(
     conversation_plan: dict[str, Any],
     characters: dict[str, Any],
     *,
+    target_state: dict[str, Any] | None = None,
     llm_client: JsonLLMClient | None = None,
 ) -> list[dict[str, Any]]:
-    rows, _mode = generate_utterance_plan_with_mode(conversation_plan, characters, llm_client=llm_client)
+    rows, _mode = generate_utterance_plan_with_mode(
+        conversation_plan,
+        characters,
+        target_state=target_state,
+        llm_client=llm_client,
+    )
     return rows

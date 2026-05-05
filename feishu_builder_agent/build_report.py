@@ -30,7 +30,9 @@ def build_case_report(
         "num_characters": len(characters.get("characters", [])),
         "num_topics": len(conversation_plan.get("topic_registry", [])),
         "num_source_sessions": len(conversation_plan.get("sessions", [])),
-        "num_realized_turns": len(conversation_plan.get("turns", [])),
+        "num_collected_messages": sum(
+            len(((record.get("response") or {}).get("data") or {}).get("messages") or []) for record in fetch_records
+        ),
         "num_planned_actions": len(execution_plan.get("actions", [])),
         "num_executed_actions": len(execution_result.get("action_status", [])),
         "num_lark_messages_collected": sum(

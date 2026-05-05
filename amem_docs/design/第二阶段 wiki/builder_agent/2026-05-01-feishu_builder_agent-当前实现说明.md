@@ -2,112 +2,99 @@
 
 ## 1. 当前定位
 
-`feishu_builder_agent` 当前已经按 **纯 V2 口径**运行。
+`feishu_builder_agent` 当前已经是 **纯 V2 Builder**。
 
-它现在不是“固定 case 的 IM 编译器”，而是一个面向 Task Wiki 的企业协作数据集构建器，负责同时产出：
+它现在不是“先写几条消息，再顺手拼一个 execution plan”的旧式 case 编译器，而是一个围绕 Task Wiki 评测目标构建的企业协作数据集生成器，负责同时产出：
 
-1. 可控的 V2 case 输入对象
-2. 可执行的飞书 IM 执行动作
-3. 可供 OpenClaw 消费的 ingress 数据
-4. 可供评测的 gold / checks 产物
+1. V2 case 输入对象
+2. 可执行的飞书动作计划
+3. 真实飞书消息回收产物
+4. 可追溯的 gold / checks
+5. 可供 OpenClaw 消费的 ingress / report
 
-当前默认输出根目录是：
+默认数据根目录：
 
 - `amem_docs/ds/feishu_im_dataset_v2`
 
-当前默认执行模式仍然保持：
+默认执行模式仍然是：
 
 - `operator_identity = "user"`
 - `delivery_mode = "prefixed_single_operator"`
 
 也就是：
 
-- 飞书里真正发消息的是同一个真实用户
+- 真实飞书里仍由同一个用户发消息
 - 多角色差异通过消息前缀表达
-- 但 case 世界观、会话计划、gold current state 都已经是 V2 对象
+- 但 case world、conversation plan、target gold、command plan、collected evidence 都已经是 V2 对象
 
-## 2. 当前目录结构
+## 2. 当前公开主链
 
-当前实现目录如下：
-
-```text
-feishu_builder_agent/
-  __init__.py
-  cli.py
-  config.py
-  schemas.py
-  io_utils.py
-  llm_client.py
-  case_world_generator.py
-  story_generator.py
-  character_generator.py
-  timeline_planner.py
-  conversation_plan_generator.py
-  utterance_generator.py
-  message_realizer.py
-  complexity_validator.py
-  gold_generator.py
-  dataset_validator.py
-  plan_mapper.py
-  executor.py
-  collector.py
-  adapter.py
-  build_report.py
-  prompts/
-  templates/
-  tests/
-```
-
-其中关键分层已经是：
-
-- 生成层：
-  - `case_world_generator.py`
-  - `character_generator.py`
-  - `conversation_plan_generator.py`
-  - `utterance_generator.py`
-  - `message_realizer.py`
-- 校验层：
-  - `schemas.py`
-  - `complexity_validator.py`
-  - `gold_generator.py`
-  - `dataset_validator.py`
-- 执行层：
-  - `plan_mapper.py`
-  - `executor.py`
-  - `collector.py`
-  - `adapter.py`
-
-## 3. 当前主流程
-
-当前 Builder 的主流程是：
+当前 Builder 的真实公开阶段链是：
 
 ```text
-case_spec.json
-  -> case_seed.json
-  -> case_world.json
-  -> characters.json
-  -> conversation_plan.json
-  -> utterance_plan.jsonl
-  -> realized_messages.jsonl
-  -> expected_events / expected_memory_blocks / expected_current_state
-  -> conversation_complexity_report / dataset_validation_report
-  -> execution_plan.json
-  -> execute-case
+case_spec
+  -> case-world
+  -> characters
+  -> plan
+  -> target-gold
+  -> command-plan
+  -> execute
   -> collect
-  -> adapt-case
+  -> gold
+  -> validate
+  -> adapt
+  -> full
 ```
 
-当前 `compile-case` 的职责已经是：
+其中关键语义是：
 
-1. 生成 V2 输入对象
-2. 生成 V2 gold 与 checks
-3. 再把 `realized_messages` 映射成 `execution_plan.json`
+- `target-gold`
+  - 先定义这个 case 期望形成什么 topic / block / current state
+- `command-plan`
+  - 先生成真正要执行的 `lark-cli` 动作
+- `collect`
+  - 再拉回真实飞书消息
+- `gold`
+  - 最后把 target state 绑定到真实 evidence
 
-也就是说，`execution_plan.json` 现在是 **V2 运行飞书链路所需的执行对象**，不是为了保留旧目录结构而存在的兼容残留。
+因此，当前主链已经不是过去那种旧式链路：
 
-## 4. 当前 case 产物结构
+```text
+conversation_plan -> utterance_plan -> realized_messages -> execution_plan
+```
 
-一个 case 当前会落到：
+而是：
+
+```text
+conversation_plan -> target_state -> command_plan -> execution_plan -> execute -> collect -> evidence-bound gold
+```
+
+## 3. 当前关键文件
+
+当前实现里最关键的几层文件是：
+
+- 生成层
+  - `feishu_builder_agent/case_world_generator.py`
+  - `feishu_builder_agent/character_generator.py`
+  - `feishu_builder_agent/conversation_plan_generator.py`
+  - `feishu_builder_agent/command_plan_generator.py`
+  - `feishu_builder_agent/target_gold_generator.py`
+- 运行层
+  - `feishu_builder_agent/plan_mapper.py`
+  - `feishu_builder_agent/executor.py`
+  - `feishu_builder_agent/collector.py`
+  - `feishu_builder_agent/collected_message_builder.py`
+- 评测层
+  - `feishu_builder_agent/gold_generator.py`
+  - `feishu_builder_agent/complexity_validator.py`
+  - `feishu_builder_agent/dataset_validator.py`
+- 入口层
+  - `feishu_builder_agent/cli.py`
+  - `amem_docs/scripts/feishu-builder-agent-run.sh`
+
+## 4. 当前 case 目录结构
+
+一个 case 当前落盘为：
 
 ```text
 amem_docs/ds/feishu_im_dataset_v2/
@@ -120,13 +107,14 @@ amem_docs/ds/feishu_im_dataset_v2/
         case_world.json
         characters.json
         conversation_plan.json
-        utterance_plan.jsonl
-      data/
-        realized_messages.jsonl
+        command_plan.jsonl
       gold/
+        target_state.json
         expected_events.jsonl
         expected_memory_blocks.json
         expected_current_state.json
+      data/
+        collected_messages.jsonl
       checks/
         conversation_complexity_report.json
         dataset_validation_report.json
@@ -138,210 +126,291 @@ amem_docs/ds/feishu_im_dataset_v2/
       build_report.json
 ```
 
-当前不会再默认额外落这些旧层文件：
-
-- `story.json`
-- `characters.json`
-- `conflict_timeline.json`
-
-如果后续需要保留它们，应该作为调试辅助对象重新定义，而不是再当成默认主契约。
-
-## 5. 当前关键对象
+## 5. 当前 canonical 中间对象
 
 ### 5.1 `input/case_seed.json`
 
 最小输入种子，定义：
 
-- `case_id`
-- `task_id`
-- `domain`
-- `company_type`
-- `departments`
-- `main_goal`
-- `difficulty`
-- `seed`
-- `complexity_profile`
+- case 基本身份
+- main goal
+- complexity profile
 
 ### 5.2 `input/case_world.json`
 
-定义这个 case 的企业协作世界观，至少包含：
+定义：
 
 - 组织背景
 - 外部压力
-- stakeholders
 - conflict axes
 - hidden constraints
 - reversal points
 
 ### 5.3 `input/characters.json`
 
-角色对象已经不是简单 roster，至少包含：
+角色对象至少包含：
 
 - `person_id`
+- `simulated_open_id`
 - `name`
 - `department`
 - `role`
-- `responsibility`
-- `communication_style`
-- `conflict_bias`
-- `stance`
-- `risk_preference`
-- `information_access_level`
-- `default_channels`
+- role / responsibility
+- stance
+- risk_preference
+- information_access_level
+- default_channels
+
+其中：
+
+- `person_id` 是角色稳定主键
+- `simulated_open_id` 是这套 benchmark 的模拟工号
+- 当前规则固定为：`simulated_open_id = ou_sim_<person_id>`
+- 后续 `collect` 和 `adapt` 只能从这里读取模拟身份映射，不能再临时拼接 synthetic sender id
 
 ### 5.4 `input/conversation_plan.json`
 
-当前 V2 的核心对象，定义：
+定义：
 
-- `topic_registry`
-- `sessions`
-- `turns`
+- topic_registry
+- sessions
+- turns
 
-它决定：
+它回答的是：
 
-- 有几个 source session
-- 每个 topic 如何跨群 / thread 推进
-- 哪些 turn 会触发 supersession
-- 哪些 turn 会带出 blocker / objection / commitment / status update
+- 这个 case 准备怎么展开
+- 会在哪些 source session 里推进
+- 哪些 topic 会发生 supersession / cross-source revision
 
-### 5.5 `input/utterance_plan.jsonl`
+### 5.5 `gold/target_state.json`
 
-把 conversation plan 收成每轮消息的结构化计划，每行至少有：
+这是 target gold。
 
-- `turn_id`
-- `sequence_no`
-- `session_id`
-- `source_type`
-- `source_ref`
-- `chat_ref`
-- `speaker_ref`
+它先定义：
+
+- 预期 topic
+- 预期 Memory Block
+- 预期 current state
+- required event coverage
+- required state transitions
+- required cross-source revisions
+
+### 5.6 `input/command_plan.jsonl`
+
+这是当前 V2 的核心执行对象。
+
+每条记录表示一个逻辑飞书动作，至少包含：
+
+- `step_id`
+- `action_type`
+- `channel_scope`
 - `topic_key`
 - `turn_purpose`
-- `supports_event_types`
-- `references_previous_turns`
-- `state_transition`
-- `semantic_payload`
-- `root_turn_id`
+- `speaker_role`
+- `lark_cli_command`
+- `expected_effect`
+- `depends_on_step_ids`
+- `gold_intent_refs`
 
-### 5.6 `data/realized_messages.jsonl`
+也就是说：
 
-在 utterance plan 的基础上生成真实飞书消息文本。
+- V2 先生成“要执行什么飞书动作”
+- 再由程序编译成 `execution_plan.json`
+- 而不是先生成消息文本再反推执行计划
 
-这是后续：
+### 5.7 `execution_plan.json`
 
-- gold evidence
-- execution plan
-- lark-cli execute
+这是程序真正执行的运行层对象。
 
-的共同输入。
+它把 `command_plan.jsonl` 编译成：
 
-### 5.7 `gold/*`
+- `create_chat`
+- `send_message`
+- `reply_in_thread`
+- `fetch_chat_messages`
+- `fetch_thread_messages`
 
-当前 gold 层包括：
+等实际动作。
 
-- `expected_events.jsonl`
-- `expected_memory_blocks.json`
-- `expected_current_state.json`
+### 5.8 `lark_fetch_records.jsonl`
 
-职责分别是：
+记录 collect 阶段从真实飞书拉回的原始结果。
 
-- 定义期望被抽出的 typed events
-- 定义期望形成的 Memory Blocks
-- 定义最终 task 当前态
+### 5.9 `data/collected_messages.jsonl`
 
-### 5.8 `checks/*`
+这是当前 evidence-bound gold 的直接输入。
 
-当前检查层包括：
+它表示：
 
-- `conversation_complexity_report.json`
-- `dataset_validation_report.json`
+- 哪些 command step 真正变成了消息
+- 最终 message_id 是什么
+- 内容文本是什么
+- 这些内容来自 fetch records 还是 execution result 补全
 
-前者判断复杂度是否达标，后者判断：
+### 5.10 `gold/*`
 
-- schema 是否完整
-- gold 是否能回链到消息
-- 对象间引用是否一致
+当前 final gold 是：
 
-## 6. 执行链路
+- `gold/expected_events.jsonl`
+- `gold/expected_memory_blocks.json`
+- `gold/expected_current_state.json`
 
-当前真实执行链路仍然是：
+它们必须建立在：
 
-1. `execution_plan.json`
-2. `execution_result.json`
-3. `lark_fetch_records.jsonl`
-4. `openclaw_message_ingress.jsonl`
+- `target_state.json`
+- `conversation_plan.json`
+- `collected_messages.jsonl`
 
-它们的职责分别是：
+之上，而不是简单镜像计划层。
 
-- `execution_plan.json`
-  - 把 `realized_messages` 映射成飞书动作
-- `execution_result.json`
-  - 记录真实创建出来的 chat / message / thread 资源
-- `lark_fetch_records.jsonl`
-  - 从飞书拉回的原始消息
-- `openclaw_message_ingress.jsonl`
-  - OpenClaw 可直接消费的 ingress 事件流
+## 6. 当前 `validate` 的真实语义
 
-这里仍然保持 IM-only：
+当前 `validate` 不是“补做 schema 校验”。
 
-- `chat`
-- `thread`
+当前实现里：
 
-`comment / doc` 还没有进入 Builder 的第一批 live 执行面。
+- 每个阶段结束后都会做本阶段本地校验
+- `validate` 阶段只做**跨阶段一致性审计**
 
-## 7. 当前脚本入口
+它重点检查：
 
-当前统一脚本在：
+- `conversation_plan` 是否真的被 `command_plan` 覆盖
+- `command_plan` 是否真的生成了可执行 `execution_plan`
+- `collect` 是否拿回了真实消息
+- `gold` 是否能回到 collected evidence
+- 复杂度是否达标
+- case 是否适合作为评测样本
 
-- `amem_docs/scripts/feishu-builder-agent-run.sh`
+## 7. 真实 FEISHU-231 链路验证
 
-当前支持的阶段已经是：
-
-- `case-world`
-- `plan`
-- `utterance`
-- `realize`
-- `gold`
-- `validate`
-- `compile`
-- `execute`
-- `collect`
-- `adapt`
-- `full`
-
-## 8. 当前已验证状态
-
-当前已经实际验证过：
-
-- Builder 单测：
-  - `feishu_builder_agent/tests/test_e2e.py`
-  - `feishu_builder_agent/tests/test_live_language.py`
-  - `feishu_builder_agent/tests/test_mapper.py`
-  - `feishu_builder_agent/tests/test_schemas.py`
-  - `feishu_builder_agent/tests/test_executor.py`
-  - `feishu_builder_agent/tests/test_adapter.py`
-- `python3 -m compileall feishu_builder_agent`
-- `amem_docs/scripts/feishu-builder-agent-run.sh --phase compile`
-- `amem_docs/scripts/feishu-builder-agent-run.sh --phase validate`
-
-并且当前真实 case 已经成功落到：
+当前已经用真实飞书环境对 `case_feishu_231_example` 跑通过一条完整链路。真实 case 目录在：
 
 - `amem_docs/ds/feishu_im_dataset_v2/cases/case_feishu_231_example`
 
-## 9. 当前边界
+这次真实执行覆盖了：
 
-当前仍然保留的边界有：
+```text
+command-plan
+-> execute
+-> collect
+-> gold
+-> validate
+-> adapt
+```
 
-1. `locomo` 目前只作为复杂度和生成结构参考，还没有接成独立 calibrator。
-2. 当前 gold 还是由规则主导生成，后续可以再加人工 review / edit 流程。
-3. 评测打分层还没继续补完，例如：
-   - baseline 汇总
-   - case scoring
-   - batch evaluation
-4. 当前 live 执行仍然是单 operator + 前缀角色模式，不是多账号 impersonation。
+### 7.1 真实执行结果
 
-## 10. 一句话结论
+`execution_result.json` 当前已经是成功状态：
 
-当前 `feishu_builder_agent` 已经是：
+- `status = success`
+- `25` 个动作全部成功
+- `failed_steps = []`
+- 创建了 2 个真实飞书群：
+  - `main_chat.chat_id = oc_5b4e3cb2fb47f71a2f99fb7f911deb5b`
+  - `customer_sync_chat.chat_id = oc_0864449792c12588a5040c6a60334a75`
 
-> 一个默认落盘到 `amem_docs/ds/feishu_im_dataset_v2`、以 `case_world / conversation_plan / realized_messages / gold / checks` 为主契约、并可继续真实执行飞书链路的纯 V2 Builder。
+这也说明当前执行器已经能正确从真实 `lark-cli` 返回里的嵌套 `data.chat_id` 写回 `created_resources`。
+
+### 7.2 真实 collect 结果
+
+`collect-case` 真实运行后：
+
+- `lark_fetch_records.jsonl` 中共有 `3` 条 fetch 记录
+- `data/collected_messages.jsonl` 中共有 `20` 条 builder 关心的文本消息
+
+当前 `collected_messages.jsonl` 已经不只是“收回消息文本”，而是 builder 后续 gold / validate / replay 的 canonical 输入。每条记录同时保留：
+
+- `actual_sender`
+- `simulated_speaker`
+- `normalized_actor_id`
+- `speaker_resolution_mode`
+- `prefix_speaker_hint`
+
+因此，当前 builder 已经支持：
+
+- 执行层只有 1 个真实用户发消息
+- 评测层再把这些消息稳定切回多角色语义
+
+### 7.3 真实 validate 结果
+
+`validate-case` 当前对这条真实 case 的结果是通过的：
+
+- `checks/conversation_complexity_report.json`
+  - `passed = true`
+- `checks/dataset_validation_report.json`
+  - `passed = true`
+
+当前这条真实 case 的关键指标是：
+
+- `session_count = 3`
+- `source_session_count = 3`
+- `message_count = 20`
+- `topic_count = 4`
+- `thread_reply_depth = 6`
+- `supersession_count = 3`
+- `cross_source_revision_count = 4`
+- `event_family_coverage = 8`
+- `unique_actual_senders = 1`
+- `unique_normalized_actors = 6`
+
+### 7.4 真实 adapt / replay 结果
+
+`adapt-case` 当前也已经恢复正常：
+
+- `adapter_report.output_events = 20`
+- `adapter_report.skipped_messages = 4`
+- `build_report.num_openclaw_ingress_events = 20`
+- `warnings = []`
+
+这里跳过的 `4` 条消息是系统消息，不是异常：
+
+- `Welcome to {group_type}`
+- `started the group chat`
+
+这些 `msg_type != text` 的消息本来就不应该进入 Task Wiki 评测主链。
+
+### 7.5 当前真实中间产物应该重点看什么
+
+如果后面要人工检查这条真实 case，优先看这几类文件：
+
+- 执行层
+  - `execution_plan.json`
+  - `execution_result.json`
+- 证据层
+  - `lark_fetch_records.jsonl`
+  - `data/collected_messages.jsonl`
+- gold 层
+  - `gold/target_state.json`
+  - `gold/expected_events.jsonl`
+  - `gold/expected_memory_blocks.json`
+  - `gold/expected_current_state.json`
+- 审计层
+  - `checks/conversation_complexity_report.json`
+  - `checks/dataset_validation_report.json`
+- replay/report 层
+  - `openclaw_message_ingress.jsonl`
+  - `adapter_report.json`
+  - `build_report.json`
+
+## 8. 当前真实边界
+
+当前已经完成的：
+
+- 纯 V2 数据根
+- 严格分阶段 CLI
+- `target_state` 两层 gold
+- `command_plan -> execution_plan`
+- `collect -> collected_messages`
+- `gold -> expected_*`
+- `validate` 的跨阶段审计语义
+
+当前还没继续做的：
+
+- 批量 case 生成 orchestration
+- `locomo` complexity calibrator
+- 批量 scoring / baseline 对比链
+- 更强的人工 review / gold 修订工作流
+
+一句话总结：
+
+> 当前 `feishu_builder_agent` 已经是一条以 `command_plan` 和 `collected evidence` 为中心的纯 V2 Builder 主链，而不是旧的消息先行编译器。

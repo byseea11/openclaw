@@ -19,21 +19,67 @@ usage() {
   amem_docs/scripts/feishu-builder-agent-run.sh [options]
 
 默认行为：
-  运行完整的 feishu_builder_agent 主流程，并把产物落到 amem_docs/ds：
-    compile -> execute -> collect -> adapt
+  运行完整的 feishu_builder_agent V2 主流程，并把产物落到 amem_docs/ds：
+    case-world -> characters -> plan -> target-gold -> command-plan
+    -> execute -> collect -> gold -> validate -> adapt
 
 阶段说明：
-  --phase case-world  只生成 V2 的 case_seed / case_world
-  --phase plan        只生成 V2 的 conversation_plan
-  --phase utterance   只生成 V2 的 utterance_plan
-  --phase realize     只生成 V2 的 realized_messages
-  --phase gold        只生成 V2 的 gold 期望结果
-  --phase validate    只生成 V2 的 checks 校验结果
-  --phase compile     生成完整 V2 输入对象 + execution_plan
-  --phase execute     只执行 execution_plan.json
-  --phase collect     只拉取 lark_fetch_records.jsonl
-  --phase adapt       只生成 ingress / report 产物
-  --phase full        依次执行 compile + execute + collect + adapt（默认）
+  --phase case-world
+      从 case_spec 生成 case_seed / case_world。
+      适合先检查：这个案例的业务背景、冲突轴、复杂度方向是否合理。
+      跑完建议查看：input/case_world.json
+
+  --phase characters
+      根据 case_world 生成角色画像。
+      这一阶段会同时为每个角色生成稳定的 simulated_open_id，可把它理解成这套 benchmark 的模拟工号。
+      适合先检查：角色职责、立场、风险偏好、信息差是否像真实协作场景，以及模拟工号映射是否稳定。
+      跑完建议查看：input/characters.json
+
+  --phase plan
+      生成 conversation_plan。
+      适合先检查：session / topic / turns / 状态演化是否满足多轮要求。
+      跑完建议查看：input/conversation_plan.json
+
+  --phase target-gold
+      先定义这个 case 期望形成哪些 topic、block、current state。
+      适合先检查：评测目标是否清楚，而不是等执行完再事后总结。
+      跑完建议查看：gold/target_state.json
+
+  --phase command-plan
+      生成真正要执行的 lark-cli 动作计划，并同步写出 execution_plan。
+      适合先检查：每一步飞书动作、依赖关系、主群 / thread 的执行顺序是否正确。
+      跑完建议查看：input/command_plan.jsonl、execution_plan.json
+
+  --phase execute
+      只执行 execution_plan.json，不做消息拉取和 gold 生成。
+      适合先检查：lark-cli 是否能正常把动作发到真实飞书环境。
+      跑完建议查看：execution_result.json
+
+  --phase collect
+      根据 execution_result 拉取真实飞书消息，并整理成 collected_messages。
+      这一阶段会保留真实发送者 actual_sender，并按 characters.json 的 simulated_open_id 抬升成模拟角色身份。
+      适合先检查：真实线上消息是否已经被成功收集回 dataset，以及角色映射是否按预期生效。
+      跑完建议查看：lark_fetch_records.jsonl、data/collected_messages.jsonl
+
+  --phase gold
+      基于 target_state + collected_messages 生成 evidence-bound gold。
+      适合先检查：gold 是否真的绑定到了真实消息证据，而不是只镜像计划。
+      跑完建议查看：gold/expected_events.jsonl、gold/expected_current_state.json
+
+  --phase validate
+      做跨阶段一致性审计，不会重跑上游生成。
+      适合最终检查：计划是否覆盖、执行是否完整、collect/gold 是否可追溯、复杂度是否达标。
+      跑完建议查看：checks/conversation_complexity_report.json、checks/dataset_validation_report.json
+
+  --phase adapt
+      生成 ingress / report / replay 相关产物。
+      这一阶段会把模拟身份写进标准 Feishu sender 字段，让 openclaw-lark 直接消费角色映射后的 open_id。
+      适合接 OpenClaw 主链之前做最后转换。
+      跑完建议查看：openclaw_message_ingress.jsonl、build_report.json
+
+  --phase full
+      从 case_spec 开始跑完整链路。
+      适合真正做一遍 end-to-end 演练。
 
 参数说明：
   --case-spec <path>      case spec JSON 文件路径
@@ -45,12 +91,28 @@ usage() {
   -h, --help              显示帮助
 
 示例：
-  amem_docs/scripts/feishu-builder-agent-run.sh
-  amem_docs/scripts/feishu-builder-agent-run.sh --phase case-world
-  amem_docs/scripts/feishu-builder-agent-run.sh --phase plan
-  amem_docs/scripts/feishu-builder-agent-run.sh --phase compile
-  amem_docs/scripts/feishu-builder-agent-run.sh --phase execute --case-dir amem_docs/ds/feishu_im_dataset_v2/cases/case_feishu_231_example
-  amem_docs/scripts/feishu-builder-agent-run.sh --phase full --dry-run --skip-auth
+  1. 只想先确认 case 世界观和复杂度方向是否合理：
+     amem_docs/scripts/feishu-builder-agent-run.sh --phase case-world
+
+  2. 已经有 case_world 了，只想继续补角色画像：
+     amem_docs/scripts/feishu-builder-agent-run.sh --phase characters --case-dir amem_docs/ds/feishu_im_dataset_v2/cases/case_feishu_231_example
+     这一步也会刷新每个角色的 simulated_open_id（模拟工号）映射。
+
+  3. 已经有对话计划了，只想重新生成可执行的 lark-cli 动作计划：
+     amem_docs/scripts/feishu-builder-agent-run.sh --phase command-plan --case-dir amem_docs/ds/feishu_im_dataset_v2/cases/case_feishu_231_example
+
+  4. 已经执行过飞书动作，只想重新 collect 真实消息并重建 gold：
+     amem_docs/scripts/feishu-builder-agent-run.sh --phase collect --case-dir amem_docs/ds/feishu_im_dataset_v2/cases/case_feishu_231_example
+     amem_docs/scripts/feishu-builder-agent-run.sh --phase gold --case-dir amem_docs/ds/feishu_im_dataset_v2/cases/case_feishu_231_example
+
+  5. 只做最终一致性审计，不重跑任何上游生成：
+     amem_docs/scripts/feishu-builder-agent-run.sh --phase validate --case-dir amem_docs/ds/feishu_im_dataset_v2/cases/case_feishu_231_example
+
+  6. 从头到尾跑一遍完整链路：
+     amem_docs/scripts/feishu-builder-agent-run.sh --phase full
+
+  7. 只做 dry-run，不真的发飞书消息：
+     amem_docs/scripts/feishu-builder-agent-run.sh --phase full --dry-run --skip-auth
 EOF
 }
 
@@ -106,7 +168,7 @@ require_cmd() {
 require_cmd python3
 
 case "${PHASE}" in
-  case-world|plan|utterance|realize|gold|validate|compile|execute|collect|adapt|full)
+  case-world|characters|plan|target-gold|command-plan|gold|validate|execute|collect|adapt|full)
     ;;
   *)
     echo "不支持的阶段：${PHASE}" >&2
@@ -131,14 +193,14 @@ PY
   )"
 fi
 
-if [[ "${PHASE}" == "case-world" || "${PHASE}" == "plan" || "${PHASE}" == "utterance" || "${PHASE}" == "realize" || "${PHASE}" == "gold" || "${PHASE}" == "validate" || "${PHASE}" == "compile" || "${PHASE}" == "full" ]]; then
+if [[ "${PHASE}" == "case-world" || "${PHASE}" == "full" ]]; then
   if [[ ! -f "${CASE_SPEC}" ]]; then
     echo "未找到 case spec：${CASE_SPEC}" >&2
     exit 1
   fi
 fi
 
-if [[ "${PHASE}" == "execute" || "${PHASE}" == "collect" || "${PHASE}" == "adapt" ]]; then
+if [[ "${PHASE}" == "characters" || "${PHASE}" == "plan" || "${PHASE}" == "target-gold" || "${PHASE}" == "command-plan" || "${PHASE}" == "gold" || "${PHASE}" == "validate" || "${PHASE}" == "execute" || "${PHASE}" == "collect" || "${PHASE}" == "adapt" ]]; then
   if [[ -z "${CASE_DIR}" || ! -d "${CASE_DIR}" ]]; then
     echo "未找到 case 目录：${CASE_DIR}" >&2
     exit 1
@@ -182,13 +244,15 @@ for relative in [
     "conflict_timeline.json",
     "input/characters.json",
     "input/conversation_plan.json",
-    "input/utterance_plan.jsonl",
-    "data/realized_messages.jsonl",
+    "gold/target_state.json",
+    "input/command_plan.jsonl",
+    "data/collected_messages.jsonl",
     "gold/expected_events.jsonl",
     "gold/expected_memory_blocks.json",
     "gold/expected_current_state.json",
     "checks/conversation_complexity_report.json",
     "checks/dataset_validation_report.json",
+    "execution_plan.json",
     "execution_result.json",
     "lark_fetch_records.jsonl",
     "openclaw_message_ingress.jsonl",
@@ -205,8 +269,19 @@ run_python_json() {
   local log_name="$1"
   shift
   local run_log="${RUN_LOG_DIR}/${log_name}"
+  local stderr_log="${run_log%.json}.stderr.log"
+  local stderr_pipe
+  local tee_pid
   echo "[执行] $*"
-  "$@" | tee "${run_log}"
+  stderr_pipe="$(mktemp -u "${TMPDIR:-/tmp}/feishu-builder-stderr.XXXXXX")"
+  mkfifo "${stderr_pipe}"
+  tee "${stderr_log}" < "${stderr_pipe}" >&2 &
+  tee_pid=$!
+  "$@" 2> "${stderr_pipe}" | tee "${run_log}"
+  local cmd_status=${PIPESTATUS[0]}
+  wait "${tee_pid}" || true
+  rm -f "${stderr_pipe}"
+  return "${cmd_status}"
 }
 
 print_case_summary() {
@@ -239,44 +314,7 @@ else:
 PY
 }
 
-collect_only() {
-  local case_dir_path="$1"
-  python3 - <<'PY' "${case_dir_path}"
-from __future__ import annotations
-
-from pathlib import Path
-from feishu_builder_agent.collector import collect_fetch_records
-from feishu_builder_agent.io_utils import read_json, write_jsonl
-
-case_dir = Path(__import__("sys").argv[1])
-plan = read_json(case_dir / "execution_plan.json")
-result = read_json(case_dir / "execution_result.json")
-rows = collect_fetch_records(plan, result)
-write_jsonl(case_dir / "lark_fetch_records.jsonl", rows)
-print({
-    "case_dir": str(case_dir),
-    "fetch_records": len(rows),
-    "output": str(case_dir / "lark_fetch_records.jsonl"),
-})
-PY
-}
-
-adapt_only() {
-  local case_dir_path="$1"
-  python3 - <<'PY' "${case_dir_path}"
-from __future__ import annotations
-
-from pathlib import Path
-from feishu_builder_agent.cli import adapt_case
-import json
-
-case_dir = Path(__import__("sys").argv[1])
-result = adapt_case(case_dir_path=case_dir)
-print(json.dumps(result, ensure_ascii=False, indent=2))
-PY
-}
-
-if [[ "${FRESH_RUN}" -eq 1 && ( "${PHASE}" == "case-world" || "${PHASE}" == "plan" || "${PHASE}" == "utterance" || "${PHASE}" == "realize" || "${PHASE}" == "gold" || "${PHASE}" == "validate" || "${PHASE}" == "compile" || "${PHASE}" == "full" ) ]]; then
+if [[ "${FRESH_RUN}" -eq 1 && ( "${PHASE}" == "case-world" || "${PHASE}" == "full" ) ]]; then
   clean_case_outputs "${CASE_SPEC}" "${DATASET_ROOT}"
 fi
 
@@ -285,30 +323,29 @@ case "${PHASE}" in
     RUN_LOG="${RUN_LOG_DIR}/generate-case-world.json"
     run_python_json "generate-case-world.json" python3 -m feishu_builder_agent.cli generate-case-world --case-spec "${CASE_SPEC}" --dataset-root "${DATASET_ROOT}"
     ;;
+  characters)
+    RUN_LOG="${RUN_LOG_DIR}/generate-characters.json"
+    run_python_json "generate-characters.json" python3 -m feishu_builder_agent.cli generate-characters --case-dir "${CASE_DIR}"
+    ;;
   plan)
     RUN_LOG="${RUN_LOG_DIR}/generate-conversation-plan.json"
-    run_python_json "generate-conversation-plan.json" python3 -m feishu_builder_agent.cli generate-conversation-plan --case-spec "${CASE_SPEC}" --dataset-root "${DATASET_ROOT}"
+    run_python_json "generate-conversation-plan.json" python3 -m feishu_builder_agent.cli generate-conversation-plan --case-dir "${CASE_DIR}"
     ;;
-  utterance)
-    RUN_LOG="${RUN_LOG_DIR}/generate-utterances.json"
-    run_python_json "generate-utterances.json" python3 -m feishu_builder_agent.cli generate-utterances --case-spec "${CASE_SPEC}" --dataset-root "${DATASET_ROOT}"
+  target-gold)
+    RUN_LOG="${RUN_LOG_DIR}/generate-target-gold.json"
+    run_python_json "generate-target-gold.json" python3 -m feishu_builder_agent.cli generate-target-gold --case-dir "${CASE_DIR}"
     ;;
-  realize)
-    RUN_LOG="${RUN_LOG_DIR}/realize-messages.json"
-    run_python_json "realize-messages.json" python3 -m feishu_builder_agent.cli realize-messages --case-spec "${CASE_SPEC}" --dataset-root "${DATASET_ROOT}"
+  command-plan)
+    RUN_LOG="${RUN_LOG_DIR}/generate-command-plan.json"
+    run_python_json "generate-command-plan.json" python3 -m feishu_builder_agent.cli generate-command-plan --case-dir "${CASE_DIR}"
     ;;
   gold)
     RUN_LOG="${RUN_LOG_DIR}/generate-gold.json"
-    run_python_json "generate-gold.json" python3 -m feishu_builder_agent.cli generate-gold --case-spec "${CASE_SPEC}" --dataset-root "${DATASET_ROOT}"
+    run_python_json "generate-gold.json" python3 -m feishu_builder_agent.cli generate-gold --case-dir "${CASE_DIR}"
     ;;
   validate)
     RUN_LOG="${RUN_LOG_DIR}/validate-case.json"
-    run_python_json "validate-case.json" python3 -m feishu_builder_agent.cli validate-case --case-spec "${CASE_SPEC}" --dataset-root "${DATASET_ROOT}"
-    ;;
-  compile)
-    RUN_LOG="${RUN_LOG_DIR}/compile-case.json"
-    run_python_json "compile-case.json" python3 -m feishu_builder_agent.cli compile-case --case-spec "${CASE_SPEC}" --dataset-root "${DATASET_ROOT}"
-    print_case_summary "${RUN_LOG}"
+    run_python_json "validate-case.json" python3 -m feishu_builder_agent.cli validate-case --case-dir "${CASE_DIR}"
     ;;
   execute)
     RUN_LOG="${RUN_LOG_DIR}/execute-case.json"
@@ -321,13 +358,11 @@ case "${PHASE}" in
     ;;
   collect)
     RUN_LOG="${RUN_LOG_DIR}/collect-case.json"
-    echo "[执行] 正在从 ${CASE_DIR} 拉取 fetch records"
-    collect_only "${CASE_DIR}" | tee "${RUN_LOG}"
+    run_python_json "collect-case.json" python3 -m feishu_builder_agent.cli collect-case --case-dir "${CASE_DIR}"
     ;;
   adapt)
     RUN_LOG="${RUN_LOG_DIR}/adapt-case.json"
-    echo "[执行] 正在从 ${CASE_DIR} 生成适配后的 ingress / report 产物"
-    adapt_only "${CASE_DIR}" | tee "${RUN_LOG}"
+    run_python_json "adapt-case.json" python3 -m feishu_builder_agent.cli adapt-case --case-dir "${CASE_DIR}"
     ;;
   full)
     RUN_LOG="${RUN_LOG_DIR}/build-case.json"

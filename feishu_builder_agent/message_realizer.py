@@ -44,6 +44,7 @@ def realize_messages_with_mode(
             realized.append({**row, "content_text": _fallback_content_text(row, character)})
         return validate_realized_messages(realized, allowed_actor_refs=set(roster.keys())), "fallback"
     realized_rows: list[dict[str, Any]] = []
+    live_success_count = 0
     for row in validated_rows:
         character = roster[row["speaker_ref"]]
         system_prompt = (
@@ -63,9 +64,11 @@ def realize_messages_with_mode(
             if not content_text:
                 raise ValidationError("content_text must be non-empty")
             realized_rows.append({**row, "content_text": content_text})
+            live_success_count += 1
         except (Exception, ValidationError):
             realized_rows.append({**row, "content_text": _fallback_content_text(row, character)})
-    return validate_realized_messages(realized_rows, allowed_actor_refs=set(roster.keys())), "live" if llm_client else "fallback"
+    mode = "live" if live_success_count == len(validated_rows) else "mixed" if live_success_count > 0 else "fallback"
+    return validate_realized_messages(realized_rows, allowed_actor_refs=set(roster.keys())), mode
 
 
 def realize_messages(

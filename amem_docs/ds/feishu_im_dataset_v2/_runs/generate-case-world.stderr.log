@@ -1,0 +1,6 @@
+[feishu_builder][2026-05-05T06:02:34Z][case-world] 开始生成 case_world，读取 case spec: amem_docs/dataset_v1/case_specs/feishu_builder_case_example.json
+[feishu_builder][2026-05-05T06:02:34Z][llm] 已加载 OPENAI 兼容配置 model=deepseek-chat base_url=https://api.deepseek.com/v1
+[feishu_builder][2026-05-05T06:02:34Z][case-world] case_id=case_feishu_231_example 输出目录=amem_docs/ds/feishu_im_dataset_v2/cases/case_feishu_231_example
+[feishu_builder][2026-05-05T06:02:34Z][llm] 开始请求模型 model=deepseek-chat timeout=300.0s max_tokens=4096
+[feishu_builder][2026-05-05T06:02:34Z][llm] 模型请求网络失败: <urlopen error [Errno 8] nodename nor servname provided, or not known>
+[feishu_builder][2026-05-05T06:02:34Z][case-world] 完成并写入 input/case_seed.json 与 input/case_world.json

@@ -1,0 +1,79 @@
+[feishu_builder][2026-05-05T05:38:34Z][compile] 开始编译 V2 case，读取 case spec: amem_docs/dataset_v1/case_specs/feishu_builder_case_example.json
+[feishu_builder][2026-05-05T05:38:34Z][case-world] 开始生成 case_world，读取 case spec: amem_docs/dataset_v1/case_specs/feishu_builder_case_example.json
+[feishu_builder][2026-05-05T05:38:34Z][llm] 已加载 OPENAI 兼容配置 model=deepseek-chat base_url=https://api.deepseek.com/v1
+[feishu_builder][2026-05-05T05:38:34Z][case-world] case_id=case_feishu_231_example 输出目录=amem_docs/ds/feishu_im_dataset_v2/cases/case_feishu_231_example
+[feishu_builder][2026-05-05T05:38:34Z][llm] 开始请求模型 model=deepseek-chat timeout=300.0s max_tokens=4096
+[feishu_builder][2026-05-05T05:38:46Z][llm] 模型请求成功返回 JSON 内容
+[feishu_builder][2026-05-05T05:38:46Z][case-world] 完成并写入 input/case_seed.json, input/case_world.json mode=live
+[feishu_builder][2026-05-05T05:38:46Z][characters] 开始生成 characters，输入目录=amem_docs/ds/feishu_im_dataset_v2/cases/case_feishu_231_example
+[feishu_builder][2026-05-05T05:38:46Z][llm] 已加载 OPENAI 兼容配置 model=deepseek-chat base_url=https://api.deepseek.com/v1
+[feishu_builder][2026-05-05T05:38:46Z][llm] 开始请求模型 model=deepseek-chat timeout=300.0s max_tokens=4096
+[feishu_builder][2026-05-05T05:38:51Z][llm] 模型请求成功返回 JSON 内容
+[feishu_builder][2026-05-05T05:38:51Z][llm] 开始请求模型 model=deepseek-chat timeout=300.0s max_tokens=4096
+[feishu_builder][2026-05-05T05:39:02Z][llm] 模型请求成功返回 JSON 内容
+[feishu_builder][2026-05-05T05:39:02Z][characters] 完成并写入 input/characters.json mode=live
+[feishu_builder][2026-05-05T05:39:02Z][plan] 开始生成 conversation_plan，输入目录=amem_docs/ds/feishu_im_dataset_v2/cases/case_feishu_231_example
+[feishu_builder][2026-05-05T05:39:02Z][llm] 已加载 OPENAI 兼容配置 model=deepseek-chat base_url=https://api.deepseek.com/v1
+[feishu_builder][2026-05-05T05:39:02Z][llm] 开始请求模型 model=deepseek-chat timeout=300.0s max_tokens=4096
+[feishu_builder][2026-05-05T05:39:07Z][llm] 模型请求成功返回 JSON 内容
+[feishu_builder][2026-05-05T05:39:07Z][llm] 开始请求模型 model=deepseek-chat timeout=300.0s max_tokens=4096
+[feishu_builder][2026-05-05T05:39:17Z][llm] 模型请求成功返回 JSON 内容
+[feishu_builder][2026-05-05T05:39:17Z][llm] 开始请求模型 model=deepseek-chat timeout=300.0s max_tokens=4096
+[feishu_builder][2026-05-05T05:39:48Z][llm] 模型请求成功返回 JSON 内容
+[feishu_builder][2026-05-05T05:39:48Z][plan] 完成并写入 input/conversation_plan.json mode=mixed
+[feishu_builder][2026-05-05T05:39:48Z][target-gold] 开始生成 target_state，输入目录=amem_docs/ds/feishu_im_dataset_v2/cases/case_feishu_231_example
+[feishu_builder][2026-05-05T05:39:48Z][target-gold] 完成并写入 gold/target_state.json mode=deterministic
+[feishu_builder][2026-05-05T05:39:48Z][utterance] 开始生成 utterance_plan，输入目录=amem_docs/ds/feishu_im_dataset_v2/cases/case_feishu_231_example
+[feishu_builder][2026-05-05T05:39:48Z][llm] 已加载 OPENAI 兼容配置 model=deepseek-chat base_url=https://api.deepseek.com/v1
+[feishu_builder][2026-05-05T05:39:48Z][llm] 开始请求模型 model=deepseek-chat timeout=300.0s max_tokens=4096
+[feishu_builder][2026-05-05T05:40:32Z][llm] 模型请求成功返回 JSON 内容
+[feishu_builder][2026-05-05T05:40:32Z][utterance] 完成并写入 input/utterance_plan.jsonl mode=fallback
+[feishu_builder][2026-05-05T05:40:32Z][realize] 开始生成 realized_messages，输入目录=amem_docs/ds/feishu_im_dataset_v2/cases/case_feishu_231_example
+[feishu_builder][2026-05-05T05:40:32Z][llm] 已加载 OPENAI 兼容配置 model=deepseek-chat base_url=https://api.deepseek.com/v1
+[feishu_builder][2026-05-05T05:40:32Z][llm] 开始请求模型 model=deepseek-chat timeout=300.0s max_tokens=4096
+[feishu_builder][2026-05-05T05:40:33Z][llm] 模型请求成功返回 JSON 内容
+[feishu_builder][2026-05-05T05:40:33Z][llm] 开始请求模型 model=deepseek-chat timeout=300.0s max_tokens=4096
+[feishu_builder][2026-05-05T05:40:35Z][llm] 模型请求成功返回 JSON 内容
+[feishu_builder][2026-05-05T05:40:35Z][llm] 开始请求模型 model=deepseek-chat timeout=300.0s max_tokens=4096
+[feishu_builder][2026-05-05T05:40:36Z][llm] 模型请求成功返回 JSON 内容
+[feishu_builder][2026-05-05T05:40:36Z][llm] 开始请求模型 model=deepseek-chat timeout=300.0s max_tokens=4096
+[feishu_builder][2026-05-05T05:40:37Z][llm] 模型请求成功返回 JSON 内容
+[feishu_builder][2026-05-05T05:40:37Z][llm] 开始请求模型 model=deepseek-chat timeout=300.0s max_tokens=4096
+[feishu_builder][2026-05-05T05:40:37Z][llm] 模型请求成功返回 JSON 内容
+[feishu_builder][2026-05-05T05:40:37Z][llm] 开始请求模型 model=deepseek-chat timeout=300.0s max_tokens=4096
+[feishu_builder][2026-05-05T05:40:38Z][llm] 模型请求成功返回 JSON 内容
+[feishu_builder][2026-05-05T05:40:38Z][llm] 开始请求模型 model=deepseek-chat timeout=300.0s max_tokens=4096
+[feishu_builder][2026-05-05T05:40:39Z][llm] 模型请求成功返回 JSON 内容
+[feishu_builder][2026-05-05T05:40:39Z][llm] 开始请求模型 model=deepseek-chat timeout=300.0s max_tokens=4096
+[feishu_builder][2026-05-05T05:40:40Z][llm] 模型请求成功返回 JSON 内容
+[feishu_builder][2026-05-05T05:40:40Z][llm] 开始请求模型 model=deepseek-chat timeout=300.0s max_tokens=4096
+[feishu_builder][2026-05-05T05:40:42Z][llm] 模型请求成功返回 JSON 内容
+[feishu_builder][2026-05-05T05:40:42Z][llm] 开始请求模型 model=deepseek-chat timeout=300.0s max_tokens=4096
+[feishu_builder][2026-05-05T05:40:43Z][llm] 模型请求成功返回 JSON 内容
+[feishu_builder][2026-05-05T05:40:43Z][llm] 开始请求模型 model=deepseek-chat timeout=300.0s max_tokens=4096
+[feishu_builder][2026-05-05T05:40:44Z][llm] 模型请求成功返回 JSON 内容
+[feishu_builder][2026-05-05T05:40:44Z][llm] 开始请求模型 model=deepseek-chat timeout=300.0s max_tokens=4096
+[feishu_builder][2026-05-05T05:40:46Z][llm] 模型请求成功返回 JSON 内容
+[feishu_builder][2026-05-05T05:40:46Z][llm] 开始请求模型 model=deepseek-chat timeout=300.0s max_tokens=4096
+[feishu_builder][2026-05-05T05:40:47Z][llm] 模型请求成功返回 JSON 内容
+[feishu_builder][2026-05-05T05:40:47Z][llm] 开始请求模型 model=deepseek-chat timeout=300.0s max_tokens=4096
+[feishu_builder][2026-05-05T05:40:49Z][llm] 模型请求成功返回 JSON 内容
+[feishu_builder][2026-05-05T05:40:49Z][llm] 开始请求模型 model=deepseek-chat timeout=300.0s max_tokens=4096
+[feishu_builder][2026-05-05T05:40:50Z][llm] 模型请求成功返回 JSON 内容
+[feishu_builder][2026-05-05T05:40:50Z][llm] 开始请求模型 model=deepseek-chat timeout=300.0s max_tokens=4096
+[feishu_builder][2026-05-05T05:40:51Z][llm] 模型请求成功返回 JSON 内容
+[feishu_builder][2026-05-05T05:40:51Z][llm] 开始请求模型 model=deepseek-chat timeout=300.0s max_tokens=4096
+[feishu_builder][2026-05-05T05:40:52Z][llm] 模型请求成功返回 JSON 内容
+[feishu_builder][2026-05-05T05:40:52Z][llm] 开始请求模型 model=deepseek-chat timeout=300.0s max_tokens=4096
+[feishu_builder][2026-05-05T05:40:53Z][llm] 模型请求成功返回 JSON 内容
+[feishu_builder][2026-05-05T05:40:53Z][llm] 开始请求模型 model=deepseek-chat timeout=300.0s max_tokens=4096
+[feishu_builder][2026-05-05T05:40:54Z][llm] 模型请求成功返回 JSON 内容
+[feishu_builder][2026-05-05T05:40:54Z][llm] 开始请求模型 model=deepseek-chat timeout=300.0s max_tokens=4096
+[feishu_builder][2026-05-05T05:40:55Z][llm] 模型请求成功返回 JSON 内容
+[feishu_builder][2026-05-05T05:40:55Z][realize] 完成并写入 data/realized_messages.jsonl mode=mixed
+[feishu_builder][2026-05-05T05:40:55Z][gold] 开始生成 evidence-bound gold，输入目录=amem_docs/ds/feishu_im_dataset_v2/cases/case_feishu_231_example
+[feishu_builder][2026-05-05T05:40:55Z][gold] 完成并写入 gold/expected_events.jsonl, gold/expected_memory_blocks.json, gold/expected_current_state.json mode=deterministic
+[feishu_builder][2026-05-05T05:40:55Z][validate] 开始校验已有产物，输入目录=amem_docs/ds/feishu_im_dataset_v2/cases/case_feishu_231_example
+[feishu_builder][2026-05-05T05:40:55Z][validate] 完成并写入 checks/conversation_complexity_report.json, checks/dataset_validation_report.json passed=True
+[feishu_builder][2026-05-05T05:40:55Z][compile] 把 realized_messages 映射成 execution_plan
+[feishu_builder][2026-05-05T05:40:55Z][compile] execution_plan 已写入 actions=25

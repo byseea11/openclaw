@@ -23,6 +23,24 @@ def _safe_json(text: str) -> Any:
         return {"stdout": text.strip()}
 
 
+def _extract_string_field(payload: Any, *keys: str) -> str:
+    if isinstance(payload, dict):
+        for key in keys:
+            value = payload.get(key)
+            if isinstance(value, str) and value.strip():
+                return value.strip()
+        for value in payload.values():
+            found = _extract_string_field(value, *keys)
+            if found:
+                return found
+    if isinstance(payload, list):
+        for item in payload:
+            found = _extract_string_field(item, *keys)
+            if found:
+                return found
+    return ""
+
+
 def preflight(*, lark_cli_bin: str = "lark-cli", runner: Runner | None = None, operator_identity: str = "user") -> dict[str, Any]:
     available = shutil.which(lark_cli_bin) is not None
     result: dict[str, Any] = {
@@ -82,7 +100,16 @@ def _action_command(
     params = action["params"]
     action_type = action["action_type"]
     if action_type == "create_chat":
-        return [lark_cli_bin, "im", "+chat-create", "--name", str(params["name"]), "--as", operator_identity]
+        command = [lark_cli_bin, "im", "+chat-create", "--name", str(params["name"])]
+        users = [
+            str(item).strip()
+            for item in (params.get("users") or [])
+            if str(item).strip().startswith("ou_")
+        ]
+        if users:
+            command.extend(["--users", ",".join(users), "--type", "public"])
+        command.extend(["--as", operator_identity])
+        return command
     if action_type == "send_message":
         chat_ref = str(params["chat_ref"])
         chat_id = created_resources.get(chat_ref, {}).get("chat_id", chat_ref)
@@ -218,12 +245,12 @@ def execute_plan(
         if status == "success" and output_ref:
             resource: dict[str, Any] = {}
             if action["action_type"] == "create_chat":
-                resource["chat_id"] = parsed.get("chat_id") or parsed.get("id") or output_ref
+                resource["chat_id"] = _extract_string_field(parsed, "chat_id", "chatId", "id") or output_ref
             elif action["action_type"] in {"send_message", "reply_in_thread"}:
                 message_id = _extract_message_id(parsed) or output_ref
                 resource["message_id"] = message_id
                 if action["action_type"] == "reply_in_thread":
-                    resource["thread_id"] = parsed.get("thread_id") or message_id
+                    resource["thread_id"] = _extract_string_field(parsed, "thread_id", "threadId") or message_id
                 chat_ref = str(action["params"].get("chat_ref") or "")
                 chat_id = created_resources.get(chat_ref, {}).get("chat_id")
                 if chat_id:

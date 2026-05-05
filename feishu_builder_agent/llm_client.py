@@ -7,6 +7,8 @@ from pathlib import Path
 from typing import Any, Protocol
 from urllib import error, request
 
+from .logging_utils import builder_log
+
 
 class JsonLLMClient(Protocol):
     def generate_json(self, *, system_prompt: str, user_prompt: str) -> dict[str, Any]:
@@ -78,6 +80,10 @@ class OpenAICompatibleLLMClient:
     max_tokens: int = 1200
 
     def _request(self, payload: dict[str, Any]) -> dict[str, Any]:
+        builder_log(
+            "llm",
+            f"开始请求模型 model={self.model} timeout={self.timeout_seconds}s max_tokens={self.max_tokens}",
+        )
         req = request.Request(
             _normalize_chat_completions_url(self.base_url),
             data=json.dumps(payload).encode("utf-8"),
@@ -92,8 +98,10 @@ class OpenAICompatibleLLMClient:
                 raw = response.read().decode("utf-8", errors="replace")
         except error.HTTPError as exc:
             raw = exc.read().decode("utf-8", errors="replace")
+            builder_log("llm", f"模型请求返回 HTTP {exc.code}")
             raise RuntimeError(f"LLM HTTP {exc.code}: {raw}") from exc
         except error.URLError as exc:
+            builder_log("llm", f"模型请求网络失败: {exc}")
             raise RuntimeError(f"LLM request failed: {exc}") from exc
         payload_json = json.loads(raw)
         choices = payload_json.get("choices")
@@ -107,6 +115,7 @@ class OpenAICompatibleLLMClient:
                 if isinstance(item, dict) and item.get("type") == "text":
                     parts.append(str(item.get("text") or ""))
             content = "".join(parts)
+        builder_log("llm", "模型请求成功返回 JSON 内容")
         return _parse_json_object(str(content or ""))
 
     def generate_json(self, *, system_prompt: str, user_prompt: str) -> dict[str, Any]:
@@ -126,6 +135,7 @@ class OpenAICompatibleLLMClient:
             text = str(exc)
             if "response_format.type" not in text and "json_object" not in text:
                 raise
+            builder_log("llm", "当前模型不支持 json_object，准备回退到普通 JSON 提示词模式")
         fallback_payload = {
             "model": self.model,
             "temperature": 0.2,
@@ -154,7 +164,9 @@ def build_llm_client_from_env() -> JsonLLMClient:
     timeout_seconds = float(str(env.get("FEISHU_BUILDER_TIMEOUT_SECONDS") or "120").strip() or "120")
     max_tokens = int(str(env.get("FEISHU_BUILDER_MAX_TOKENS") or "1200").strip() or "1200")
     if not api_key or not base_url or not model:
+        builder_log("llm", "未检测到可用的 OPENAI 兼容配置，当前将使用 fallback 生成链")
         return DisabledLLMClient("OPENAI-compatible builder model is not configured")
+    builder_log("llm", f"已加载 OPENAI 兼容配置 model={model} base_url={base_url}")
     return OpenAICompatibleLLMClient(
         api_key=api_key,
         base_url=base_url,
