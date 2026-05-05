@@ -2,6 +2,15 @@
   "id": "feishu-task-wiki",
   "name": "Feishu Task Wiki",
   "description": "Task-first routing, binding, and wiki helpers for Feishu/Lark collaboration memory.",
+  "channels": ["feishu-task-wiki"],
+  "channelEnvVars": {
+    "feishu-task-wiki": [
+      "FEISHU_APP_ID",
+      "FEISHU_APP_SECRET",
+      "FEISHU_VERIFICATION_TOKEN",
+      "FEISHU_ENCRYPT_KEY"
+    ]
+  },
   "configSchema": {
     "type": "object",
     "additionalProperties": false,

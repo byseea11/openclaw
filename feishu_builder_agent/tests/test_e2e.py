@@ -28,11 +28,19 @@ class EndToEndTests(unittest.TestCase):
             case_spec_path = root / "case_spec.json"
             write_json(case_spec_path, case_spec)
             compiled = compile_case(case_spec_path=case_spec_path, dataset_root=root / "dataset")
-            self.assertEqual(compiled["llm_mode"], "fallback")
-            self.assertEqual(
-                compiled["generation_modes"],
-                {"story": "fallback", "characters": "fallback", "timeline": "fallback"},
-            )
+            self.assertIn(compiled["llm_mode"], {"fallback", "mixed", "live"})
+            self.assertIn("case_world", compiled["generation_modes"])
+            self.assertIn("conversation_plan", compiled["generation_modes"])
+            self.assertIn("message_realizer", compiled["generation_modes"])
+            self.assertTrue((Path(compiled["case_dir"]) / "input" / "case_seed.json").exists())
+            self.assertTrue((Path(compiled["case_dir"]) / "input" / "case_world.json").exists())
+            self.assertTrue((Path(compiled["case_dir"]) / "input" / "conversation_plan.json").exists())
+            self.assertTrue((Path(compiled["case_dir"]) / "input" / "utterance_plan.jsonl").exists())
+            self.assertTrue((Path(compiled["case_dir"]) / "data" / "realized_messages.jsonl").exists())
+            self.assertTrue((Path(compiled["case_dir"]) / "gold" / "expected_events.jsonl").exists())
+            self.assertTrue((Path(compiled["case_dir"]) / "checks" / "conversation_complexity_report.json").exists())
+            self.assertTrue(compiled["complexity_report"]["passed"])
+            self.assertTrue(compiled["dataset_validation_report"]["passed"])
             case_dir = Path(compiled["case_dir"])
             write_json(
                 case_dir / "execution_result.json",

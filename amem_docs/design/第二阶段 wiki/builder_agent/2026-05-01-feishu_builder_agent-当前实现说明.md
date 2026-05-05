@@ -2,25 +2,29 @@
 
 ## 1. 当前定位
 
-`feishu_builder_agent` 当前实现的是一个 **独立的 Python 离线数据集构建器**。
+`feishu_builder_agent` 当前已经按 **纯 V2 口径**运行。
 
-它的目标不是直接参与 OpenClaw 在线对话，而是把一个企业协作 case 编译成：
+它现在不是“固定 case 的 IM 编译器”，而是一个面向 Task Wiki 的企业协作数据集构建器，负责同时产出：
 
-1. 一组结构化的故事、角色、冲突时间线
-2. 一组可以通过 `lark-cli` 真实执行的 IM 动作
-3. 一批从飞书真实拉回的 raw message records
-4. 一批可以被 OpenClaw 消费的 message ingress 事件
+1. 可控的 V2 case 输入对象
+2. 可执行的飞书 IM 执行动作
+3. 可供 OpenClaw 消费的 ingress 数据
+4. 可供评测的 gold / checks 产物
 
-当前它的边界非常明确：
+当前默认输出根目录是：
 
-- 严格 IM-only
-- 一个 case 一个目录
-- 不兼容旧 `eval_old`
-- 不产出 query set / golden answer
-- 主要面向飞书群聊 / thread 消息数据集构建
-- 当前默认执行模式是：
-  - `operator_identity = "user"`
-  - `delivery_mode = "prefixed_single_operator"`
+- `amem_docs/ds/feishu_im_dataset_v2`
+
+当前默认执行模式仍然保持：
+
+- `operator_identity = "user"`
+- `delivery_mode = "prefixed_single_operator"`
+
+也就是：
+
+- 飞书里真正发消息的是同一个真实用户
+- 多角色差异通过消息前缀表达
+- 但 case 世界观、会话计划、gold current state 都已经是 V2 对象
 
 ## 2. 当前目录结构
 
@@ -34,9 +38,16 @@ feishu_builder_agent/
   schemas.py
   io_utils.py
   llm_client.py
+  case_world_generator.py
   story_generator.py
   character_generator.py
   timeline_planner.py
+  conversation_plan_generator.py
+  utterance_generator.py
+  message_realizer.py
+  complexity_validator.py
+  gold_generator.py
+  dataset_validator.py
   plan_mapper.py
   executor.py
   collector.py
@@ -47,54 +58,78 @@ feishu_builder_agent/
   tests/
 ```
 
-这套结构已经可以独立运行，不依赖 OpenClaw 主链内部模块。
+其中关键分层已经是：
 
-## 3. 当前实现的整体流程
+- 生成层：
+  - `case_world_generator.py`
+  - `character_generator.py`
+  - `conversation_plan_generator.py`
+  - `utterance_generator.py`
+  - `message_realizer.py`
+- 校验层：
+  - `schemas.py`
+  - `complexity_validator.py`
+  - `gold_generator.py`
+  - `dataset_validator.py`
+- 执行层：
+  - `plan_mapper.py`
+  - `executor.py`
+  - `collector.py`
+  - `adapter.py`
+
+## 3. 当前主流程
 
 当前 Builder 的主流程是：
 
 ```text
 case_spec.json
-  -> compile-case
+  -> case_seed.json
+  -> case_world.json
+  -> characters.json
+  -> conversation_plan.json
+  -> utterance_plan.jsonl
+  -> realized_messages.jsonl
+  -> expected_events / expected_memory_blocks / expected_current_state
+  -> conversation_complexity_report / dataset_validation_report
+  -> execution_plan.json
   -> execute-case
+  -> collect
   -> adapt-case
-  -> build_report.json
 ```
 
-对应到代码：
+当前 `compile-case` 的职责已经是：
 
-- `feishu_builder_agent/cli.py`
-  - 对外入口
-- `feishu_builder_agent/story_generator.py`
-  - 生成 `story.json`
-- `feishu_builder_agent/character_generator.py`
-  - 生成 `characters.json`
-- `feishu_builder_agent/timeline_planner.py`
-  - 生成 `conflict_timeline.json`
-- `feishu_builder_agent/plan_mapper.py`
-  - 生成 `execution_plan.json`
-- `feishu_builder_agent/executor.py`
-  - 真实执行飞书动作
-- `feishu_builder_agent/collector.py`
-  - 拉取 raw message records
-- `feishu_builder_agent/adapter.py`
-  - 转成 OpenClaw ingress
-- `feishu_builder_agent/build_report.py`
-  - 输出最后的构建报告
+1. 生成 V2 输入对象
+2. 生成 V2 gold 与 checks
+3. 再把 `realized_messages` 映射成 `execution_plan.json`
+
+也就是说，`execution_plan.json` 现在是 **V2 运行飞书链路所需的执行对象**，不是为了保留旧目录结构而存在的兼容残留。
 
 ## 4. 当前 case 产物结构
 
 一个 case 当前会落到：
 
 ```text
-feishu_im_dataset_v1/
+amem_docs/ds/feishu_im_dataset_v2/
   dataset_manifest.json
   cases/
     <case_id>/
       case_spec.json
-      story.json
-      characters.json
-      conflict_timeline.json
+      input/
+        case_seed.json
+        case_world.json
+        characters.json
+        conversation_plan.json
+        utterance_plan.jsonl
+      data/
+        realized_messages.jsonl
+      gold/
+        expected_events.jsonl
+        expected_memory_blocks.json
+        expected_current_state.json
+      checks/
+        conversation_complexity_report.json
+        dataset_validation_report.json
       execution_plan.json
       execution_result.json
       lark_fetch_records.jsonl
@@ -103,78 +138,44 @@ feishu_im_dataset_v1/
       build_report.json
 ```
 
-这些文件的职责分别是：
+当前不会再默认额外落这些旧层文件：
 
-- `case_spec.json`
-  - 用户输入的最小 case 定义
 - `story.json`
-  - 业务背景和冲突故事
 - `characters.json`
-  - 角色 roster
 - `conflict_timeline.json`
-  - 可追踪的冲突时间线
-- `execution_plan.json`
-  - 确定性执行计划
-- `execution_result.json`
-  - 真实执行结果和资源映射
-- `lark_fetch_records.jsonl`
-  - 飞书 raw fetch records
-- `openclaw_message_ingress.jsonl`
-  - OpenClaw 可消费的事件流
-- `adapter_report.json`
-  - adapter 过程统计
-- `build_report.json`
-  - case 级最终报告
 
-## 5. Compile 阶段：目前已经实现了什么
+如果后续需要保留它们，应该作为调试辅助对象重新定义，而不是再当成默认主契约。
 
-### 5.1 `case_spec.json`
+## 5. 当前关键对象
 
-当前 `case_spec` 至少包含：
+### 5.1 `input/case_seed.json`
+
+最小输入种子，定义：
 
 - `case_id`
 - `task_id`
-- `title`
+- `domain`
 - `company_type`
 - `departments`
 - `main_goal`
 - `difficulty`
 - `seed`
+- `complexity_profile`
 
-当前校验逻辑在 `feishu_builder_agent/schemas.py`。
+### 5.2 `input/case_world.json`
 
-### 5.2 `story.json`
+定义这个 case 的企业协作世界观，至少包含：
 
-由 `feishu_builder_agent/story_generator.py` 生成。
+- 组织背景
+- 外部压力
+- stakeholders
+- conflict axes
+- hidden constraints
+- reversal points
 
-当前支持两种来源：
+### 5.3 `input/characters.json`
 
-- live LLM
-- fallback scaffold
-
-输出字段固定为：
-
-- `case_id`
-- `task_id`
-- `title`
-- `background`
-- `business_pressure`
-- `project_goal`
-- `initial_assumption`
-- `main_conflicts`
-- `in_scope`
-- `out_of_scope`
-
-### 5.3 `characters.json`
-
-由 `feishu_builder_agent/character_generator.py` 生成。
-
-当前支持：
-
-- live LLM
-- fallback roster
-
-每个角色至少有：
+角色对象已经不是简单 roster，至少包含：
 
 - `person_id`
 - `name`
@@ -183,530 +184,164 @@ feishu_im_dataset_v1/
 - `responsibility`
 - `communication_style`
 - `conflict_bias`
+- `stance`
+- `risk_preference`
+- `information_access_level`
+- `default_channels`
 
-注意：
+### 5.4 `input/conversation_plan.json`
 
-- `person_id` 是内部稳定 id，可以是英文 snake_case
-- `name / department / role / responsibility` 等自然语言字段必须是中文
+当前 V2 的核心对象，定义：
 
-### 5.4 `conflict_timeline.json`
+- `topic_registry`
+- `sessions`
+- `turns`
 
-由 `feishu_builder_agent/timeline_planner.py` 生成。
+它决定：
 
-当前每个 timeline event 固定包含：
+- 有几个 source session
+- 每个 topic 如何跨群 / thread 推进
+- 哪些 turn 会触发 supersession
+- 哪些 turn 会带出 blocker / objection / commitment / status update
 
-- `timeline_id`
-- `time_order`
-- `event_type`
-- `description`
-- `actor_refs`
-- `affected_topic`
-- `state_effect`
-- `should_surface_in_message`
+### 5.5 `input/utterance_plan.jsonl`
 
-当前 fallback timeline 是围绕：
+把 conversation plan 收成每轮消息的结构化计划，每行至少有：
 
-- 早期目标
-- blocker
-- 风险 / 约束
-- 对外口径修正
+- `turn_id`
+- `sequence_no`
+- `session_id`
+- `source_type`
+- `source_ref`
+- `chat_ref`
+- `speaker_ref`
+- `topic_key`
+- `turn_purpose`
+- `supports_event_types`
+- `references_previous_turns`
+- `state_transition`
+- `semantic_payload`
+- `root_turn_id`
 
-来构造的。
+### 5.6 `data/realized_messages.jsonl`
 
-### 5.5 `execution_plan.json`
+在 utterance plan 的基础上生成真实飞书消息文本。
 
-由 `feishu_builder_agent/plan_mapper.py` 生成。
+这是后续：
 
-这里有两个很关键的实现约束：
+- gold evidence
+- execution plan
+- lark-cli execute
 
-1. **当前 plan 是确定性产物，不由 LLM 直接生成**
-2. **mapper 不创造新事实，只把 timeline 里的事实映射成消息动作**
+的共同输入。
 
-当前 plan action types 只有：
+### 5.7 `gold/*`
 
-- `create_chat`
-- `send_message`
-- `reply_in_thread`
-- `fetch_chat_messages`
-- `fetch_thread_messages`
+当前 gold 层包括：
 
-这保证了 Builder 当前还是非常收敛的 IM-only 实现。
+- `expected_events.jsonl`
+- `expected_memory_blocks.json`
+- `expected_current_state.json`
 
-## 6. 执行身份模型：当前实际怎么做
+职责分别是：
 
-当前 Builder 不是多账号 impersonation，而是：
+- 定义期望被抽出的 typed events
+- 定义期望形成的 Memory Blocks
+- 定义最终 task 当前态
 
-- 一个真实 operator
-- 通过消息前缀表达不同角色
+### 5.8 `checks/*`
 
-当前默认固定：
+当前检查层包括：
 
-- `operator_identity = "user"`
-- `delivery_mode = "prefixed_single_operator"`
+- `conversation_complexity_report.json`
+- `dataset_validation_report.json`
 
-这意味着：
+前者判断复杂度是否达标，后者判断：
 
-- 飞书里真正发消息的是同一个真实用户身份
-- 角色差异通过消息文本表达，例如：
-  - `【产品/林晨】`
-  - `【研发/周宇】`
-  - `【安全/陈雪】`
+- schema 是否完整
+- gold 是否能回链到消息
+- 对象间引用是否一致
 
-对应实现主要在：
+## 6. 执行链路
 
-- `feishu_builder_agent/plan_mapper.py`
-- `feishu_builder_agent/executor.py`
+当前真实执行链路仍然是：
 
-## 7. 中文数据集约束：当前已经做成硬限制
+1. `execution_plan.json`
+2. `execution_result.json`
+3. `lark_fetch_records.jsonl`
+4. `openclaw_message_ingress.jsonl`
 
-这是当前 Builder 的一个**最强约束**：
+它们的职责分别是：
 
-> 最终产出的数据集自然语言内容必须是简体中文。
-
-这不是单纯 prompt 提醒，而是三层硬约束：
-
-### 7.1 Prompt 层
-
-在：
-
-- `feishu_builder_agent/story_generator.py`
-- `feishu_builder_agent/character_generator.py`
-- `feishu_builder_agent/timeline_planner.py`
-
-里，live LLM prompt 已经明确要求：
-
-- 所有自然语言字段必须使用简体中文
-
-### 7.2 Schema 层
-
-在 `feishu_builder_agent/schemas.py` 里，已经对这些字段做了中文校验：
-
-- `case_spec.title/company_type/departments/main_goal`
-- `story` 自然语言字段
-- `characters` 的中文显示字段
-- `timeline.description/affected_topic/state_effect`
-- `execution_plan` 中：
-  - `create_chat.name`
-  - `send_message.content_text`
-  - `reply_in_thread.content_text`
-
-也就是说，只要这些字段不是中文，就会被视为无效输出。
-
-### 7.3 Fallback 层
-
-即使 live LLM 连通成功，如果返回：
-
-- 英文自然语言
-- 或结构非法
-
-当前也不会把这份结果直接写进数据集，而是会自动回退到中文 fallback。
-
-这已经在以下模块实现：
-
-- `feishu_builder_agent/story_generator.py`
-- `feishu_builder_agent/character_generator.py`
-- `feishu_builder_agent/timeline_planner.py`
-
-## 8. Live / Fallback 模式：当前已经可见
-
-当前 `compile-case` 返回值里，已经增加了更细的生成模式标记。
-
-现在除了原有结果，还会返回：
-
-```json
-{
-  "llm_mode": "live | mixed | fallback",
-  "generation_modes": {
-    "story": "live | fallback",
-    "characters": "live | fallback",
-    "timeline": "live | fallback"
-  }
-}
-```
-
-语义是：
-
-- `story`
-  - 本段最终产物来自 live 还是 fallback
-- `characters`
-  - 本段最终产物来自 live 还是 fallback
-- `timeline`
-  - 本段最终产物来自 live 还是 fallback
-- `llm_mode`
-  - 上面三段的聚合值
-
-这个实现现在在：
-
-- `feishu_builder_agent/story_generator.py`
-- `feishu_builder_agent/character_generator.py`
-- `feishu_builder_agent/timeline_planner.py`
-- `feishu_builder_agent/cli.py`
-
-## 9. Executor：当前已经实现了什么
-
-执行逻辑在 `feishu_builder_agent/executor.py`。
-
-当前已经具备：
-
-- `preflight`
-  - 检查 `lark-cli` 是否可用
-  - 检查 `auth status`
-- action 拓扑排序
-- `output_ref -> real resource id` 映射
-- `thread_id_to_chat_id` 映射
-- `dry-run`
-- `resume`
-
-当前真实命令构造已经覆盖：
-
-- `lark-cli im +chat-create`
-- `lark-cli im +messages-send`
-- `lark-cli im +messages-reply`
-- `lark-cli im +chat-messages-list`
-- `lark-cli im +threads-messages-list`
-
-当前 `execution_result.json` 里会保留：
-
-- `created_resources`
-- `thread_id_to_chat_id`
-- `action_status`
-- `preflight`
-
-## 10. Collector：当前已经实现了什么
-
-Collector 在 `feishu_builder_agent/collector.py`。
-
-当前职责非常收敛：
-
-- 只读取：
-  - `execution_plan.json`
-  - `execution_result.json`
-- 只执行 fetch 类型 action
-- 把结果写成 `lark_fetch_records.jsonl`
-
-当前每条 fetch record 会记录：
-
-- `record_id`
-- `domain`
-- `kind`
-- `captured_at`
-- `identity`
-- `command`
-- `response`
-- `stderr`
-- `returncode`
-
-当前 Collector 仍然保持 raw 导向，不在这一层做 OpenClaw ingress 适配。
-
-## 11. Adapter：当前已经实现了什么
-
-Adapter 在 `feishu_builder_agent/adapter.py`。
-
-它当前只做一件事：
-
-> 把 `lark_fetch_records.jsonl` 中的 raw messages 适配成 OpenClaw 可消费的 message ingress 事件。
-
-### 11.1 当前输入
-
-Adapter 当前输入固定为：
-
-- `case_spec.json`
+- `execution_plan.json`
+  - 把 `realized_messages` 映射成飞书动作
 - `execution_result.json`
+  - 记录真实创建出来的 chat / message / thread 资源
 - `lark_fetch_records.jsonl`
-
-### 11.2 当前输出
-
-当前输出：
-
+  - 从飞书拉回的原始消息
 - `openclaw_message_ingress.jsonl`
-- `adapter_report.json`
+  - OpenClaw 可直接消费的 ingress 事件流
 
-### 11.3 当前适配规则
+这里仍然保持 IM-only：
 
-当前已经实现的规则包括：
+- `chat`
+- `thread`
 
-- 只处理 `msg_type == "text"` 的消息
-- `deleted=true` 跳过
-- `thread_id` 优先使用消息自身字段
-- 如果 thread fetch 的消息没有 `thread_id`，会保留 `root_id` fallback
-- 如果 `chat_id` 缺失，会尝试从 `execution_result.thread_id_to_chat_id` 补齐
-- `content` 会包装成 JSON string：
+`comment / doc` 还没有进入 Builder 的第一批 live 执行面。
 
-```json
-{"text":"..."}
-```
+## 7. 当前脚本入口
 
-- `create_time` 会被转换成毫秒时间戳字符串
-- 输出顺序会按时间和 `message_id` 排序，尽量保持稳定回放顺序
+当前统一脚本在：
 
-## 12. 非常重要：后续修改时要对齐哪个 runtime
+- `amem_docs/scripts/feishu-builder-agent-run.sh`
 
-这个点必须明确写死：
+当前支持的阶段已经是：
 
-> 后续 Builder 的 Feishu ingress 形态，**需要对齐的是当前机器上实际安装并运行的 Lark 插件**，也就是：
+- `case-world`
+- `plan`
+- `utterance`
+- `realize`
+- `gold`
+- `validate`
+- `compile`
+- `execute`
+- `collect`
+- `adapt`
+- `full`
 
-`/Users/byseea/.openclaw/extensions/openclaw-lark/src/channel`
+## 8. 当前已验证状态
 
-而不是仓库里其他可能存在的旧实现、参考实现，或者未来可能发生变化的未安装源码副本。
+当前已经实际验证过：
 
-这件事非常重要，因为后续如果你继续修改 Builder 的 adapter 或 runtime 对齐逻辑，真正影响线上行为的是：
+- Builder 单测：
+  - `feishu_builder_agent/tests/test_e2e.py`
+  - `feishu_builder_agent/tests/test_live_language.py`
+  - `feishu_builder_agent/tests/test_mapper.py`
+  - `feishu_builder_agent/tests/test_schemas.py`
+  - `feishu_builder_agent/tests/test_executor.py`
+  - `feishu_builder_agent/tests/test_adapter.py`
+- `python3 -m compileall feishu_builder_agent`
+- `amem_docs/scripts/feishu-builder-agent-run.sh --phase compile`
+- `amem_docs/scripts/feishu-builder-agent-run.sh --phase validate`
 
-- 已安装插件
-- 当前用户环境里正在被 OpenClaw 实际加载的插件
+并且当前真实 case 已经成功落到：
 
-不是仓库里某个名字相近的目录。
+- `amem_docs/ds/feishu_im_dataset_v2/cases/case_feishu_231_example`
 
-## 13. Adapter 目前参考的是哪些文件
+## 9. 当前边界
 
-这部分要写得非常清楚。
+当前仍然保留的边界有：
 
-### 13.1 主参考：`src/channel/event-handlers.js`
+1. `locomo` 目前只作为复杂度和生成结构参考，还没有接成独立 calibrator。
+2. 当前 gold 还是由规则主导生成，后续可以再加人工 review / edit 流程。
+3. 评测打分层还没继续补完，例如：
+   - baseline 汇总
+   - case scoring
+   - batch evaluation
+4. 当前 live 执行仍然是单 operator + 前缀角色模式，不是多账号 impersonation。
 
-当前最直接的 channel 入口参考是：
+## 10. 一句话结论
 
-`/Users/byseea/.openclaw/extensions/openclaw-lark/src/channel/event-handlers.js`
+当前 `feishu_builder_agent` 已经是：
 
-Builder adapter 当前对齐它的几点是：
-
-- channel 事件从 `event.message.*` 读取消息元数据
-- queue 侧在 topic / thread 场景下，会优先看：
-  - `thread_id`
-  - 如果没有，再用 `root_id` fallback
-- `handleMessageEvent()` 里对 reply/topic 的说明非常关键：
-  - 在 topic 群里，reply event 可能只有 `root_id`，没有 `thread_id`
-  - 这就是 Builder adapter 当前保留 `root_id` fallback 的直接原因
-
-也就是说，Builder adapter 的这条逻辑：
-
-- `thread_id` 优先
-- `root_id` fallback
-
-主要就是参考这个文件。
-
-### 13.2 重要补充：`src/channel/chat-queue.js`
-
-另一个必须一起看的文件是：
-
-`/Users/byseea/.openclaw/extensions/openclaw-lark/src/channel/chat-queue.js`
-
-这个文件决定了 runtime queue key 的语义：
-
-- base key 是：
-  - `<accountId>:<chatId>`
-- 如果有 thread，再拼：
-  - `:thread:<threadId>`
-
-这意味着：
-
-- 当前 live runtime 本质上还是 `chat + thread` 维度串行
-- 后续如果要做 task-first session routing，就一定会碰到这里
-
-虽然这个文件不是 Adapter 直接消费 message schema 的地方，但它决定了：
-
-- thread 语义到底怎么参与运行时会话边界
-
-所以后续 Builder 想进一步和 runtime 对齐，不能只看 event-handlers，还必须看这个文件。
-
-### 13.3 实际下游消费：`src/messaging/inbound/handler.js`
-
-虽然你特别强调的是 `src/channel`，这一点完全对，我也同意后续主对齐对象应该先看 `src/channel`。
-
-但还要明确一个事实：
-
-真正把 inbound event 往 agent dispatch 推下去的，是：
-
-`/Users/byseea/.openclaw/extensions/openclaw-lark/src/messaging/inbound/handler.js`
-
-这个文件不是 `src/channel` 目录下，但它是当前 message ingress 的真实下游消费方。
-
-当前 Builder adapter 里这些字段设计，也是在兼顾这个文件的处理方式：
-
-- `sender.sender_id.open_id`
-- `message.message_id`
-- `message.chat_id`
-- `message.chat_type`
-- `message.thread_id`
-- `message.root_id`
-- `message.content`
-- `message.create_time`
-
-所以现在可以这么理解：
-
-- **主对齐入口**
-  - `/Users/byseea/.openclaw/extensions/openclaw-lark/src/channel/event-handlers.js`
-- **thread / queue 语义参考**
-  - `/Users/byseea/.openclaw/extensions/openclaw-lark/src/channel/chat-queue.js`
-- **真正的下游消费管道**
-  - `/Users/byseea/.openclaw/extensions/openclaw-lark/src/messaging/inbound/handler.js`
-
-如果只问“Adapter 当前最直接参考的是哪个文件”，答案应该是：
-
-> **首先是 `event-handlers.js`，其次要结合 `handler.js` 看下游实际消费字段。**
-
-## 14. 当前实现和 live runtime 之间的距离
-
-当前 Builder 已经能构造出一个合理的 ingress 事件流，但它和 live runtime 仍然有一些距离：
-
-### 14.1 已经对齐的部分
-
-- `message_id`
-- `chat_id`
-- `thread_id`
-- `root_id`
-- `chat_type`
-- `content`
-- `create_time`
-- `sender.sender_id.open_id`
-
-### 14.2 还没有完全覆盖的部分
-
-- comments / docs / wiki comment 类型事件
-- reactions
-- interactive card actions
-- richer media payload
-- mentions 结构
-- quote / parent message 更细粒度语义
-- 多种 sender enrichment 细节
-
-所以当前 Adapter 可以认为是：
-
-- **面向 IM 文本消息的最小可用适配器**
-- 不是完整覆盖 live Lark channel 全部入站能力的适配器
-
-## 15. 当前测试覆盖
-
-当前 `feishu_builder_agent/tests/` 已经覆盖：
-
-- `test_schemas.py`
-  - schema 校验
-- `test_mapper.py`
-  - deterministic mapper
-- `test_executor.py`
-  - dry-run / resume
-- `test_adapter.py`
-  - `chat_id` 补齐、`root_id` fallback、`content` 包装
-- `test_e2e.py`
-  - compile + adapt smoke
-- `test_live_language.py`
-  - live LLM 输出非中文时自动 fallback
-
-这意味着当前 Builder 的核心主链已经具备一条最小闭环测试：
-
-- compile
-- plan
-- execute skeleton
-- collect
-- adapt
-
-## 16. 当前可以继续改进的地方
-
-这一部分是后续最值得继续做的增强点。
-
-### 16.1 进一步对齐 live `openclaw-lark`
-
-这是最重要的一点。
-
-当前 Adapter 已经开始参考 live runtime，但还不够彻底。后续应该继续对齐：
-
-- `/Users/byseea/.openclaw/extensions/openclaw-lark/src/channel/event-handlers.js`
-- `/Users/byseea/.openclaw/extensions/openclaw-lark/src/channel/chat-queue.js`
-- `/Users/byseea/.openclaw/extensions/openclaw-lark/src/messaging/inbound/handler.js`
-
-尤其是：
-
-- thread/topic 事件的真实形态
-- quote / parent / mentions 的结构
-- sender enrichment 之后的字段语义
-
-### 16.2 Adapter 需要更明确区分“当前参考层级”
-
-后续建议把 Adapter 内部注释写得更明确：
-
-- 哪些字段是参考 `event-handlers.js`
-- 哪些字段是为了兼容 `handler.js`
-- 哪些字段是 Builder 自己的保守补齐逻辑
-
-这样以后维护时不会误以为所有字段都来自同一个 runtime 文件。
-
-### 16.3 `execution_result` 可以记录更多 trace
-
-当前已经有：
-
-- `created_resources`
-- `thread_id_to_chat_id`
-- `action_status`
-
-后续可以补：
-
-- 每个 `output_ref` 对应的真实命令摘要
-- root message 到 thread 的更明确映射
-- action 执行耗时
-- 更细的 preflight 结果
-
-### 16.4 `build_report.json` 还可以更细
-
-当前 report 偏统计。
-
-后续可以继续补：
-
-- `generation_modes`
-- 每段是否 live/fallback
-- collect 阶段命中的 chat/thread 数量
-- adapter 跳过消息的分类统计
-
-### 16.5 timeline 到 message 的模板还比较少
-
-当前 mapper 还是比较偏 V1 骨架：
-
-- 主要是少量 event_type
-- 少量中文模板
-
-后续可以继续扩：
-
-- 更多冲突类型
-- 更多表达风格
-- 主群消息 / thread 回复的更多模板分层
-
-### 16.6 真实多账号模式还没做
-
-当前 Builder 默认仍然是：
-
-- 单一真实 operator
-- 消息前缀扮演角色
-
-这很稳，但也有明显局限：
-
-- 不是真正的多账号协作轨迹
-- sender 真实性有限
-
-如果后面需要更像真实企业协作，下一步可以考虑：
-
-- 多账号真实发送
-- 更真实的 sender/source 组织方式
-
-### 16.7 当前还没有把 task-first runtime session 接进去
-
-Builder 现在解决的是数据集构建问题，不是 runtime task wiki routing。
-
-后续如果要和 Task Wiki 主线继续贴合，还需要进一步考虑：
-
-- 怎样让构造出来的 dataset 更自然地服务 task-first runtime session
-- 怎样把 task binding、source boundary、thread boundary 一起组织起来
-
-## 17. 一句话总结
-
-当前 `feishu_builder_agent` 已经完成的是：
-
-- 一个 **可运行的、IM-only、中文强约束、支持 live/fallback、能生成 OpenClaw ingress 的离线 Builder 骨架**
-
-当前最重要的后续方向是：
-
-- **继续对齐当前机器上实际安装的 `openclaw-lark` runtime，而不是只看仓库内的参考实现**
-
-特别是后续再改 Adapter 时，优先看的文件应该是：
-
-- `/Users/byseea/.openclaw/extensions/openclaw-lark/src/channel/event-handlers.js`
-- `/Users/byseea/.openclaw/extensions/openclaw-lark/src/channel/chat-queue.js`
-- `/Users/byseea/.openclaw/extensions/openclaw-lark/src/messaging/inbound/handler.js`
-
-这三处基本决定了 Builder 产出的 ingress 事件，未来应该怎样继续收口到 live runtime 的真实消费方式上。
+> 一个默认落盘到 `amem_docs/ds/feishu_im_dataset_v2`、以 `case_world / conversation_plan / realized_messages / gold / checks` 为主契约、并可继续真实执行飞书链路的纯 V2 Builder。

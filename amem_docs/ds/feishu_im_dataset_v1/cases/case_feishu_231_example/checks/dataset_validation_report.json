@@ -1,0 +1,14 @@
+{
+  "case_id": "case_feishu_231_example",
+  "passed": true,
+  "errors": [],
+  "checks": {
+    "characters_count": 8,
+    "planned_sessions": 3,
+    "planned_turns": 20,
+    "realized_messages": 20,
+    "gold_events": 44,
+    "memory_blocks": 4,
+    "current_state_items": 20
+  }
+}

@@ -4,7 +4,7 @@ from dataclasses import dataclass
 from pathlib import Path
 
 
-DATASET_ROOT = "feishu_im_dataset_v1"
+DATASET_ROOT = "amem_docs/ds/feishu_im_dataset_v2"
 
 
 @dataclass(frozen=True)

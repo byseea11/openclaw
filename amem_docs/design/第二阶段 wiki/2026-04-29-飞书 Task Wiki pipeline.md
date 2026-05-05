@@ -67,41 +67,49 @@ Task 是项目记忆的核心组织单位。
 
 ## 1.2 Session File
 
-Session File 是围绕某个 task 的一次可摄入协作上下文文件。
+在当前 V1 语义中，`Session File` 更准确地说是 **source session**：它是围绕某个 task、某个绑定 source 的稳定记忆容器，而不是“每次 ingest 新建一个全新 session”。
 
 它同时承担两种角色：
 
 ```text
-1. source：事实来源
-2. ingest unit：一次摄入和抽取的处理单位
+1. source：事实来源容器
+2. ingest unit carrier：承载后续多次 ingest 的稳定容器
 ```
 
-因此，本系统不再单独区分 Raw Source 和 Session File。
+因此，本系统不再单独区分 Raw Source 和 Session File；但要区分：
+
+```text
+source session：稳定来源容器
+ingest：该 source session 上的一次新增摄入和抽取
+```
 
 Session File 可以来自：
 
 ```text
-- 某个 thread 中围绕 task 的关键讨论片段
-- 某篇飞书文档的一个版本或关键段落
+- 某个 chat
+- 某个 thread
+- 某篇飞书文档
 - 某次会议纪要
 - 某个任务评论窗口
-- 某个群聊中围绕 task 的连续片段
 - 某条审批记录
 - 某条多维表格记录
 ```
 
-Session File 不是完整群聊，也不是完整文档，而是经过 task 绑定和重要性过滤后形成的处理单位。
+它不是完整群聊或完整文档的无差别镜像，而是经过 task 绑定后形成的稳定 source session。
+
+在 V1 中，id 语义拆成两层：
 
 ```text
-session_id ≠ thread_id
-session_id = task_id + source_id + ingest_window / version
+source_session_id = task_id + source_scope
+ingest_version = 该 source session 下的第 N 次摄入
 ```
 
 示例：
 
 ```text
 task_id: FEISHU-231
-session_id: FEISHU-231__thread_abc__2026-04-27
+source_session_id: FEISHU-231__thread_abc
+ingest_version: 3
 source_type: chat_thread
 ```
 
@@ -113,7 +121,7 @@ Evidence Span 是从 session file 中筛选出的候选证据包。
 
 它不是完整 session，而是为 event 抽取组织出来的局部上下文。
 
-一个 Evidence Span 包含：
+一个 Evidence Span 包含概念上的三层：
 
 ```text
 1. Core
@@ -142,6 +150,19 @@ Context 只负责消歧。
 Current State Context 不能作为证据。
 ```
 
+但在当前 Layer 2 V1 的正式实现约束中，只把 `Core + Context` 作为输入 contract；`Current State Context` 暂不进入第二层主实现。
+
+在工程实现上，当前 V1 进一步把 Core 拆成两类：
+
+```text
+trigger_entries：
+真正允许触发 candidate_event 的本次新增内容。
+
+support_entries：
+只用于补充 thread/comment 的 root 和必要近邻语义，
+不能单独触发正式 event。
+```
+
 ---
 
 ## 1.4 candidate_event
@@ -156,7 +177,13 @@ candidate_event 是从 Evidence Span 的 Core 中抽取出来的候选事件。
 把一段自然语言拆成一个或多个最小事实断言，等待验证。
 ```
 
-candidate_event 可以因为字段缺失、指代未完全解析、claim 支撑不足等原因被标记为：
+V1 中，candidate_event 的物理输出文件是：
+
+```text
+candidate_events.jsonl
+```
+
+其中保存尚未成为正式 session_event 的候选项，可以因为字段缺失、指代未完全解析、claim 支撑不足等原因被标记为：
 
 ```text
 candidate / needs_review / rejected
@@ -188,6 +215,14 @@ session_event 不表示 Wiki 更新操作。
 ```
 
 这些都是 Wiki 层消费 session_event 后做的事情。
+
+V1 中，session_event 的物理输出文件是：
+
+```text
+session_events.jsonl
+```
+
+它只保存 `verified` 的正式事件，供第三层 Wiki 消费。
 
 session_event 只回答一个问题：
 
@@ -298,7 +333,7 @@ KI Slot 是 Memory Block 内部的结构化栏目。
 检索路径是：
 
 ```text
-index.md → Memory Block → session_wiki.md → event_ref → events.jsonl → evidence_quote → session.md
+index.md → Memory Block → session_wiki.md → event_ref → session_events.jsonl → evidence_quote → session.md
 ```
 
 ---
@@ -364,14 +399,16 @@ task_memory/
         session.md
         metadata.yaml
         evidence_spans.jsonl
-        events.jsonl
+        candidate_events.jsonl
+        session_events.jsonl
         session_wiki.md
 
       2026-04-28_doc_xyz/
         session.md
         metadata.yaml
         evidence_spans.jsonl
-        events.jsonl
+        candidate_events.jsonl
+        session_events.jsonl
         session_wiki.md
 
     views/                    # 可选：二级综合视图，不是主存储
@@ -392,7 +429,7 @@ task_memory/
 原因是：
 
 ```text
-1. session_event 物理上归属于 sessions/{session_id}/events.jsonl
+1. session_event 物理上归属于 sessions/{source_session_id}/session_events.jsonl
 2. event_id 全局唯一
 3. 每个 session file 都有自己的 session_wiki.md
 4. index.md 主要索引 Memory Block，并保留其所属 session
@@ -416,7 +453,7 @@ task_wiki.md:
 面向用户阅读的任务当前状态总览，由多个 Memory Block 汇总生成。
 
 sessions/*/session.md:
-本次摄入的 session file，也就是事实来源文件。
+当前 source session 的热工作视图，不是永远展开的全量原文页。
 
 sessions/*/metadata.yaml:
 该 session 的来源、时间范围、参与人、source hash、绑定 task 等元数据。
@@ -424,8 +461,15 @@ sessions/*/metadata.yaml:
 sessions/*/evidence_spans.jsonl:
 从 session.md 中筛出的 Evidence Span。
 
-sessions/*/events.jsonl:
-该 session 中抽取并验证后的 session_event。event_id 全局唯一。
+sessions/*/candidate_events.jsonl:
+该 session 中尚未成为正式 session_event 的候选事件，包含 `candidate / needs_review / rejected` 等状态。
+
+sessions/*/session_events.jsonl:
+该 session 中通过 verification 的正式 session_event。event_id 全局唯一。
+
+sessions/*/pending_ingests.jsonl:
+该 source session 的原始 ingest ledger。无 event 的 ingest 也保留在这里，
+但状态会写成 `processed_no_event`，不会进入 verifier queue。
 
 sessions/*/session_wiki.md:
 该 session 对 task 的一手记忆页，是基础 Wiki Page。
@@ -483,9 +527,9 @@ lint/*.md:
 
 ## 4.1 目标
 
-将已绑定 `task_id` 的协作内容整理成一次可摄入的 session file。
+将已绑定 `task_id` 的协作内容整理进一个稳定的 source session，并在这个 session 上持续追加 ingest。
 
-Session File 是事实来源，也是后续 event 抽取的基本处理单位。
+Session File 是事实来源容器；每次 ingest 才是后续 event 抽取的直接处理单位。
 
 ---
 
@@ -496,18 +540,20 @@ Session File 是事实来源，也是后续 event 抽取的基本处理单位。
 Session File 应该是：
 
 ```text
-围绕某个 task 的一次重要协作上下文文件。
+围绕某个 task、某个绑定 source 的稳定 source session 容器。
 ```
 
 它可以通过以下方式形成：
 
 ```text
-- 按 thread 形成 session file
-- 按文档版本形成 session file
-- 按会议纪要形成 session file
-- 按任务评论窗口形成 session file
-- 按一段连续的 task 相关群聊形成 session file
+- 按 chat 形成 source session
+- 按 thread 形成 source session
+- 按文档形成 source session
+- 按会议纪要形成 source session
+- 按任务评论窗口形成 source session
 ```
+
+后续新内容进入时，不是新建无关 session，而是在对应 source session 下追加新的 ingest_version。
 
 ---
 
@@ -516,7 +562,8 @@ Session File 应该是：
 每个 session file 至少包含：
 
 ```text
-- session_id
+- source_session_id
+- ingest_version
 - task_id
 - source_type
 - source_id
@@ -526,6 +573,13 @@ Session File 应该是：
 - ingest_time
 - source_url
 - source_hash / version
+```
+
+其中：
+
+```text
+source_session_id = task_id + source_scope
+ingest_version = 该 source session 下递增的摄入版本
 ```
 
 ---
@@ -554,7 +608,7 @@ event 不能是“模型觉得应该是这样”，而必须能回答：
 
 ## 5.2 Evidence Span
 
-一个 Evidence Span 包含：
+一个 Evidence Span 包含概念上的三层：
 
 ```text
 1. Core
@@ -568,6 +622,37 @@ event 不能是“模型觉得应该是这样”，而必须能回答：
 Core：唯一可以触发新 event。
 Context：只用于解释指代，不得单独生成 event。
 Current State Context：只能帮助理解当前状态，不能作为证据。
+```
+
+当前 Layer 2 V1 的正式输入 contract 只使用：
+
+```text
+Core + Context
+```
+
+`Current State Context` 暂不进入第二层主实现。
+
+V1 的 source-specific Core 规则直接写死为：
+
+```text
+chat：
+本次 ingest 新进入的 task 相关消息集合。
+
+thread：
+root message + 本次新增 reply。
+
+comment：
+root comment + 本次新增 reply/comment。
+
+doc：
+本次变更片段或当前锚定片段。
+```
+
+补充约束：
+
+```text
+chat 和 thread 都可以绑定到同一个 task，
+但它们是不同 source session，不互相覆盖。
 ```
 
 ---
@@ -963,9 +1048,9 @@ verification 结果分为三类：
 
 ```text
 verified：
-证据直接支撑，可以写入 events.jsonl，成为 session_event。
+证据直接支撑，可以写入 session_events.jsonl，成为 session_event。
 
-candidate：
+needs_review：
 信息有价值，但 target / owner / relation 等字段不完整，需要后续确认。
 
 rejected：
@@ -991,10 +1076,21 @@ Typed verification：不同 event 类型使用不同校验规则。
 
 ## 7.1 存储位置
 
-每个 session 保存自己的 verified events：
+每个 session 保存两层事件产物：
 
 ```text
-sessions/{session_id}/events.jsonl
+sessions/{source_session_id}/candidate_events.jsonl
+sessions/{source_session_id}/session_events.jsonl
+```
+
+其中：
+
+```text
+candidate_events.jsonl：
+保存候选层，包含 candidate / needs_review / rejected。
+
+session_events.jsonl：
+只保存 verified 的正式 session_event。
 ```
 
 不需要额外维护 `event_index.jsonl`。
@@ -1003,7 +1099,7 @@ sessions/{session_id}/events.jsonl
 
 ```text
 1. event_id 全局唯一，可以直接引用
-2. session_event 的完整内容保存在所属 session/events.jsonl 中
+2. session_event 的完整内容保存在所属 source session 的 session_events.jsonl 中
 3. session_wiki.md 直接记录 event_refs
 4. index.md 只需要索引 Memory Block，而不是索引全部 event
 5. task_wiki.md 由 Memory Block 汇总，不直接依赖 event_index
@@ -1020,7 +1116,7 @@ sessions/{session_id}/events.jsonl
 ```json
 {
   "event_id": "evt_01HXYZ...",
-  "event_path": "sessions/2026-04-27_thread_abc/events.jsonl",
+  "event_path": "sessions/FEISHU-231__thread_abc/3/session_events.jsonl",
   "claim": "5 月 5 日不能作为确定的对外承诺日期"
 }
 ```
@@ -1054,7 +1150,7 @@ session_wiki.md
 
 ## 8.3 Memory Block 生成规则
 
-session_event 写入 `events.jsonl` 后，需要在生成 session_wiki.md 时按语义进行分组。
+session_event 写入 `session_events.jsonl` 后，需要在生成 session_wiki.md 时按语义进行分组。
 
 分组依据可以包括：
 
@@ -1109,8 +1205,8 @@ session_event 写入 `events.jsonl` 后，需要在生成 session_wiki.md 时按
 - 对外口径：5 月上旬。
 
 #### Evidence References
-- evt_001 → sessions/2026-04-27_thread_abc/events.jsonl
-- evt_002 → sessions/2026-04-27_thread_abc/events.jsonl
+- evt_001 → sessions/FEISHU-231__thread_abc/3/session_events.jsonl
+- evt_002 → sessions/FEISHU-231__thread_abc/3/session_events.jsonl
 
 ---
 
@@ -1126,7 +1222,7 @@ session_event 写入 `events.jsonl` 后，需要在生成 session_wiki.md 时按
 - 对外不能承诺具体日期。
 
 #### Evidence References
-- evt_003 → sessions/2026-04-27_thread_abc/events.jsonl
+- evt_003 → sessions/FEISHU-231__thread_abc/3/session_events.jsonl
 
 ---
 
@@ -1143,7 +1239,7 @@ session_event 写入 `events.jsonl` 后，需要在生成 session_wiki.md 时按
 - 待处理。
 
 #### Evidence References
-- evt_004 → sessions/2026-04-27_thread_abc/events.jsonl
+- evt_004 → sessions/FEISHU-231__thread_abc/3/session_events.jsonl
 ```
 
 ---
@@ -1229,7 +1325,7 @@ index 中每个 Memory Block 只需要保留轻量信息：
 - 一句话摘要
 ```
 
-完整证据、event 列表和长摘要应保留在 `session_wiki.md`、`events.jsonl` 和 `session.md` 中。
+完整证据、event 列表和长摘要应保留在 `session_wiki.md`、`candidate_events.jsonl / session_events.jsonl` 和 `session.md` 中。
 
 ---
 
@@ -1287,7 +1383,7 @@ Query
   → Memory Block
   → session_wiki.md
   → Event Reference
-  → events.jsonl
+  → session_events.jsonl
   → evidence_quote
   → session.md
 ```
@@ -1357,10 +1453,10 @@ Query
 
 ```text
 new raw content
-  → update or create session
+  → update or create source session
   → extract candidate_events
   → verify events
-  → append to events.jsonl
+  → append to candidate_events.jsonl / session_events.jsonl
   → locate affected Memory Blocks
   → update session_wiki.md
   → update index.md
@@ -1528,12 +1624,14 @@ lint/overdue_commitments.md
 
 ```text
 1. 确认 source 已绑定 task_id
-2. 形成 session file
-3. 筛选 Evidence Span
-4. 区分 Core / Context / Current State Context
-5. 从 Core 抽取 candidate_event
-6. 执行 verification
-7. verified event 写入 events.jsonl，成为 session_event
+2. 形成 source session
+3. 在对应 source session 下追加新的 ingest_version
+4. 筛选 Evidence Span
+5. 区分 trigger_entries / support_entries / Context
+6. 从 trigger_entries 抽取 candidate_event
+7. 没有 candidate 的 ingest 直接记为 processed_no_event
+8. 只有 ready_for_verification 的 candidate 才进入 verification
+9. verified event 写入 session_events.jsonl，成为 session_event
 ```
 
 ---
@@ -1541,13 +1639,15 @@ lint/overdue_commitments.md
 ## 16.2 Storage
 
 ```text
-1. Session File 作为事实来源保存
-2. Session File 版本化保存
-3. session_event 写入 sessions/{session_id}/events.jsonl
-4. session_wiki.md 引用 session_event
-5. index.md 索引 Memory Block
-6. task_wiki.md 作为总览页可增量刷新
-7. views/*.md 作为可选派生视图
+1. source session 作为稳定事实来源容器保存
+2. 每次 ingest 以 ingest_version 追加保存到 pending_ingests.jsonl
+3. candidate_event 写入 candidate_events.jsonl
+4. verified session_event 写入 session_events.jsonl
+5. session.md 作为热工作视图做 compaction，不承担全量归档职责
+6. session_wiki.md 引用 session_event
+7. index.md 索引 Memory Block
+8. task_wiki.md 作为总览页可增量刷新
+9. views/*.md 作为可选派生视图
 ```
 
 ---
@@ -1559,7 +1659,7 @@ lint/overdue_commitments.md
 2. 读取 index.md
 3. 找到相关 Memory Block
 4. 从 Memory Block 找到 Evidence References
-5. 根据 event_id / event_path 找到 events.jsonl
+5. 根据 event_id / event_path 找到 session_events.jsonl
 6. 读取 evidence_quote
 7. 必要时回到 session.md
 ```
@@ -1569,10 +1669,10 @@ lint/overdue_commitments.md
 ## 16.4 Update
 
 ```text
-1. 新 session 被摄入
+1. 已有 source session 收到新 ingest
 2. 抽取 candidate_event
 3. verification 后生成 session_event
-4. 写入 events.jsonl
+4. 分别写入 candidate_events.jsonl 和 session_events.jsonl
 5. 生成或更新该 session 的 session_wiki.md
 6. 在 session_wiki.md 中生成或更新 Memory Block
 7. 更新 index.md 中的 Memory Block 索引
@@ -1601,9 +1701,12 @@ lint/overdue_commitments.md
 
 ```text
 session.md
-保存原始 message / doc / meeting 内容。
+保存该 source session 的热工作视图。它会保留 root、最近热 ingest、以及被 candidate/session event 引用过的 entry，但不会无限膨胀成全量页。
 
-events.jsonl
+candidate_events.jsonl
+保存候选层 event，包含未正式通过 verification 的项。
+
+session_events.jsonl
 保存 verified session_events。
 
 session_wiki.md
@@ -1630,7 +1733,7 @@ task_wiki.md / index.md
   → Memory Block
   → KI Slot
   → event_ref
-  → events.jsonl
+  → session_events.jsonl
   → evidence_quote
   → session.md
 ```

@@ -4,13 +4,52 @@
   "private": true,
   "description": "OpenClaw Feishu task-first binding and wiki routing helpers",
   "type": "module",
-  "dependencies": {},
+  "main": "./index.ts",
+  "dependencies": {
+    "@larksuiteoapi/node-sdk": "^1.60.0",
+    "@sinclair/typebox": "0.34.48",
+    "image-size": "^2.0.2",
+    "yaml": "^2.8.3",
+    "zod": "^4.3.6"
+  },
   "devDependencies": {
-    "@openclaw/plugin-sdk": "workspace:*"
+    "@openclaw/plugin-sdk": "workspace:*",
+    "openclaw": "workspace:*"
   },
   "openclaw": {
     "extensions": [
       "./index.ts"
-    ]
+    ],
+    "channel": {
+      "id": "feishu-task-wiki",
+      "label": "Feishu Task Wiki",
+      "selectionLabel": "Lark/Feishu Task Wiki (飞书)",
+      "docsPath": "/channels/feishu",
+      "docsLabel": "feishu",
+      "blurb": "飞书/Lark channel with task-first runtime session routing.",
+      "aliases": [
+        "lark-task-wiki"
+      ],
+      "order": 36
+    },
+    "install": {
+      "npmSpec": "@openclaw/feishu-task-wiki",
+      "localPath": "extensions/feishu-task-wiki",
+      "defaultChoice": "local"
+    }
+  },
+  "files": [
+    "**/*"
+  ],
+  "engines": {
+    "node": ">=22"
+  },
+  "peerDependencies": {
+    "openclaw": ">=2026.3.22"
+  },
+  "peerDependenciesMeta": {
+    "openclaw": {
+      "optional": true
+    }
   }
 }

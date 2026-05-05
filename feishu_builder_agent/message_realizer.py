@@ -1,0 +1,78 @@
+from __future__ import annotations
+
+from typing import Any
+
+from .llm_client import JsonLLMClient
+from .schemas import ValidationError, validate_characters, validate_realized_messages, validate_utterance_plan
+
+
+def _character_map(characters: dict[str, Any]) -> dict[str, dict[str, Any]]:
+    return {item["person_id"]: item for item in validate_characters(characters)["characters"]}
+
+
+def _prefixed_message(character: dict[str, Any], text: str) -> str:
+    return f"【{character['department']}/{character['name']}】{text}".strip()
+
+
+def _fallback_content_text(row: dict[str, Any], character: dict[str, Any]) -> str:
+    payload = row["semantic_payload"]
+    purpose = row["turn_purpose"]
+    if row["topic_key"] == "release_date":
+        return _prefixed_message(character, f"{payload} 这也是我们当前需要统一的发布时间口径。")
+    if row["topic_key"] == "blocker_readiness":
+        return _prefixed_message(character, f"{payload} 先把 blocker 讲清楚，再决定后面的承诺。")
+    if row["topic_key"] == "rollback_readiness":
+        return _prefixed_message(character, f"{payload} 回滚和上线准备不到位的话，日期就不能说死。")
+    if row["topic_key"] == "external_messaging":
+        return _prefixed_message(character, f"{payload} 这个口径请前线和主群保持一致。")
+    return _prefixed_message(character, f"{payload} {purpose}")
+
+
+def realize_messages_with_mode(
+    utterance_plan: list[dict[str, Any]],
+    characters: dict[str, Any],
+    *,
+    llm_client: JsonLLMClient | None = None,
+) -> tuple[list[dict[str, Any]], str]:
+    validated_characters = validate_characters(characters)
+    roster = _character_map(validated_characters)
+    validated_rows = validate_utterance_plan(utterance_plan, allowed_actor_refs=set(roster.keys()))
+    if llm_client is None:
+        realized = []
+        for row in validated_rows:
+            character = roster[row["speaker_ref"]]
+            realized.append({**row, "content_text": _fallback_content_text(row, character)})
+        return validate_realized_messages(realized, allowed_actor_refs=set(roster.keys())), "fallback"
+    realized_rows: list[dict[str, Any]] = []
+    for row in validated_rows:
+        character = roster[row["speaker_ref"]]
+        system_prompt = (
+            "Rewrite one enterprise IM turn as a single natural Chinese message. "
+            "Return only a JSON object with one key named content_text. "
+            "Keep it concise, realistic, and suitable for a Feishu group or thread. "
+            "Do not remove the factual meaning."
+        )
+        user_prompt = (
+            f"角色信息：{character}\n"
+            f"Turn plan：{row}\n"
+            "请输出一条简洁、真实、适合飞书群聊的中文消息，保留角色前缀。"
+        )
+        try:
+            payload = llm_client.generate_json(system_prompt=system_prompt, user_prompt=user_prompt)
+            content_text = str(payload.get("content_text") or "").strip()
+            if not content_text:
+                raise ValidationError("content_text must be non-empty")
+            realized_rows.append({**row, "content_text": content_text})
+        except (Exception, ValidationError):
+            realized_rows.append({**row, "content_text": _fallback_content_text(row, character)})
+    return validate_realized_messages(realized_rows, allowed_actor_refs=set(roster.keys())), "live" if llm_client else "fallback"
+
+
+def realize_messages(
+    utterance_plan: list[dict[str, Any]],
+    characters: dict[str, Any],
+    *,
+    llm_client: JsonLLMClient | None = None,
+) -> list[dict[str, Any]]:
+    rows, _mode = realize_messages_with_mode(utterance_plan, characters, llm_client=llm_client)
+    return rows

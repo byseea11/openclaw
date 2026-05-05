@@ -2,7 +2,14 @@ from __future__ import annotations
 
 from typing import Any
 
-from .schemas import validate_characters, validate_execution_plan, validate_story, validate_timeline
+from .schemas import (
+    validate_characters,
+    validate_conversation_plan,
+    validate_execution_plan,
+    validate_realized_messages,
+    validate_story,
+    validate_timeline,
+)
 
 
 def _character_map(characters: dict[str, Any]) -> dict[str, dict[str, str]]:
@@ -28,6 +35,116 @@ def _message_from_event(event: dict[str, Any], actor: dict[str, str]) -> str:
     if event_type == "external_messaging_fix":
         return _prefixed_message(actor, "请不要再把这个目标日期当成已确认时间对外同步，外部口径需要收紧。")
     return _prefixed_message(actor, event["description"])
+
+
+def build_execution_plan_from_realized_messages(
+    characters: dict[str, Any],
+    conversation_plan: dict[str, Any],
+    realized_messages: list[dict[str, Any]],
+) -> dict[str, Any]:
+    validated_characters = validate_characters(characters)
+    validated_plan = validate_conversation_plan(
+        conversation_plan,
+        allowed_actor_refs={item["person_id"] for item in validated_characters["characters"]},
+    )
+    validated_messages = validate_realized_messages(
+        realized_messages,
+        allowed_actor_refs={item["person_id"] for item in validated_characters["characters"]},
+    )
+    roster = _character_map(validated_characters)
+    case_id = validated_plan["case_id"]
+    sessions = {session["session_id"]: session for session in validated_plan["sessions"]}
+    unique_chat_refs: list[str] = []
+    for session in validated_plan["sessions"]:
+        chat_ref = session["chat_ref"]
+        if chat_ref not in unique_chat_refs:
+            unique_chat_refs.append(chat_ref)
+    actions: list[dict[str, Any]] = []
+    chat_create_action_ids: dict[str, str] = {}
+    for index, chat_ref in enumerate(unique_chat_refs, start=1):
+        chat_create_action_ids[chat_ref] = f"act_{index:03d}"
+        actions.append(
+            {
+                "action_id": f"act_{index:03d}",
+                "action_type": "create_chat",
+                "params": {
+                    "chat_ref": chat_ref,
+                    "name": next(
+                        (session["title"] for session in validated_plan["sessions"] if session["chat_ref"] == chat_ref),
+                        chat_ref,
+                    ),
+                    "members": sorted(roster.keys()),
+                },
+                "output_ref": chat_ref,
+            }
+        )
+    action_index = len(actions) + 1
+    turn_action_refs: dict[str, str] = {}
+    thread_sessions: list[dict[str, Any]] = []
+    chat_refs_used_in_messages: set[str] = set()
+    for message in validated_messages:
+        session = sessions[message["session_id"]]
+        actor = roster[message["speaker_ref"]]
+        output_ref = f"msg_{message['turn_id']}"
+        chat_ref = session["chat_ref"]
+        chat_refs_used_in_messages.add(chat_ref)
+        depends_on = [chat_create_action_ids[chat_ref]]
+        action_type = "send_message"
+        params = {
+            "chat_ref": chat_ref,
+            "sender_ref": actor["person_id"],
+            "content_text": message["content_text"],
+        }
+        if session["source_type"] == "thread":
+            action_type = "reply_in_thread"
+            root_turn_id = session.get("root_turn_id")
+            if not root_turn_id or root_turn_id not in turn_action_refs:
+                raise ValueError(f"thread session {session['session_id']} is missing a valid root_turn_id action dependency")
+            depends_on.append(turn_action_refs[root_turn_id])
+            params["root_message_ref"] = f"msg_{root_turn_id}"
+            if session not in thread_sessions:
+                thread_sessions.append(session)
+        actions.append(
+            {
+                "action_id": f"act_{action_index:03d}",
+                "action_type": action_type,
+                "depends_on": depends_on,
+                "params": params,
+                "output_ref": output_ref,
+            }
+        )
+        turn_action_refs[message["turn_id"]] = f"act_{action_index:03d}"
+        action_index += 1
+    for chat_ref in unique_chat_refs:
+        if chat_ref not in chat_refs_used_in_messages:
+            continue
+        actions.append(
+            {
+                "action_id": f"act_{action_index:03d}",
+                "action_type": "fetch_chat_messages",
+                "depends_on": [chat_create_action_ids[chat_ref]],
+                "params": {"chat_ref": chat_ref},
+            }
+        )
+        action_index += 1
+    for session in thread_sessions:
+        root_turn_id = str(session.get("root_turn_id") or "").strip()
+        actions.append(
+            {
+                "action_id": f"act_{action_index:03d}",
+                "action_type": "fetch_thread_messages",
+                "depends_on": [chat_create_action_ids[session["chat_ref"]], turn_action_refs[root_turn_id]],
+                "params": {"chat_ref": session["chat_ref"], "root_message_ref": f"msg_{root_turn_id}"},
+            }
+        )
+        action_index += 1
+    plan = {
+        "case_id": case_id,
+        "operator_identity": "user",
+        "delivery_mode": "prefixed_single_operator",
+        "actions": actions,
+    }
+    return validate_execution_plan(plan, allowed_sender_refs=set(roster.keys()))
 
 
 def build_execution_plan(story: dict[str, Any], characters: dict[str, Any], timeline: dict[str, Any]) -> dict[str, Any]:

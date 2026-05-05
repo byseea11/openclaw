@@ -1,5 +1,10 @@
-"""Feishu Builder Agent (V1)."""
+"""Feishu Builder Agent (V2)."""
 
-from .cli import main
+
+def main() -> None:
+    from .cli import main as cli_main
+
+    cli_main()
+
 
 __all__ = ["main"]

@@ -1,0 +1,133 @@
+{
+  "case_id": "case_feishu_231_example",
+  "characters": [
+    {
+      "person_id": "security_01",
+      "name": "林晨",
+      "department": "安全",
+      "role": "安全评审",
+      "responsibility": "负责权限、审计和合规影响评估。",
+      "communication_style": "直接、规则优先。",
+      "conflict_bias": "会拒绝未经评审的风险。",
+      "stance": "安全 侧会围绕自己的职责对 FEISHU-231 提出明确立场。",
+      "risk_preference": "低风险偏好",
+      "information_access_level": "掌握本职能关键事实",
+      "default_channels": [
+        "main_chat",
+        "launch_window_thread"
+      ]
+    },
+    {
+      "person_id": "operations_02",
+      "name": "周宇",
+      "department": "运维",
+      "role": "SRE 负责人",
+      "responsibility": "负责上线窗口和回滚准备。",
+      "communication_style": "偏运营、较保守。",
+      "conflict_bias": "会指出发布窗口风险。",
+      "stance": "运维 侧会围绕自己的职责对 FEISHU-231 提出明确立场。",
+      "risk_preference": "低风险偏好",
+      "information_access_level": "掌握本职能关键事实",
+      "default_channels": [
+        "main_chat",
+        "launch_window_thread"
+      ]
+    },
+    {
+      "person_id": "management_03",
+      "name": "王源",
+      "department": "管理",
+      "role": "技术负责人",
+      "responsibility": "平衡权衡取舍和决策质量。",
+      "communication_style": "冷静、善于综合。",
+      "conflict_bias": "会追问更清晰的责任归属。",
+      "stance": "管理 侧会围绕自己的职责对 FEISHU-231 提出明确立场。",
+      "risk_preference": "低风险偏好",
+      "information_access_level": "掌握跨部门上下游信息",
+      "default_channels": [
+        "main_chat",
+        "launch_window_thread"
+      ]
+    },
+    {
+      "person_id": "engineering_04",
+      "name": "赵敏",
+      "department": "研发",
+      "role": "后端负责人",
+      "responsibility": "评估后端工作量和隐藏依赖。",
+      "communication_style": "技术导向、风险敏感。",
+      "conflict_bias": "会指出集成和时序风险。",
+      "stance": "研发 侧会围绕自己的职责对 FEISHU-231 提出明确立场。",
+      "risk_preference": "低风险偏好",
+      "information_access_level": "掌握本职能关键事实",
+      "default_channels": [
+        "main_chat",
+        "launch_window_thread"
+      ]
+    },
+    {
+      "person_id": "customer_success_05",
+      "name": "高骏",
+      "department": "客服成功",
+      "role": "客户成功经理",
+      "responsibility": "承接客户诉求和时间压力。",
+      "communication_style": "升级导向、以客户为中心。",
+      "conflict_bias": "会放大客户侧紧迫感。",
+      "stance": "客服成功 侧会围绕自己的职责对 FEISHU-231 提出明确立场。",
+      "risk_preference": "低风险偏好",
+      "information_access_level": "掌握本职能关键事实",
+      "default_channels": [
+        "main_chat",
+        "launch_window_thread"
+      ]
+    },
+    {
+      "person_id": "qa_06",
+      "name": "陈雪",
+      "department": "测试",
+      "role": "测试负责人",
+      "responsibility": "负责验证范围和发布信心。",
+      "communication_style": "系统化、重证据。",
+      "conflict_bias": "会阻止质量不确定的上线。",
+      "stance": "测试 侧会围绕自己的职责对 FEISHU-231 提出明确立场。",
+      "risk_preference": "低风险偏好",
+      "information_access_level": "掌握本职能关键事实",
+      "default_channels": [
+        "main_chat",
+        "launch_window_thread"
+      ]
+    },
+    {
+      "person_id": "sales_07",
+      "name": "罗天",
+      "department": "销售",
+      "role": "客户经理",
+      "responsibility": "推动形成面向客户的承诺。",
+      "communication_style": "紧迫、结果导向。",
+      "conflict_bias": "容易把节奏推向更激进承诺。",
+      "stance": "销售 侧会围绕自己的职责对 FEISHU-231 提出明确立场。",
+      "risk_preference": "中等风险偏好",
+      "information_access_level": "掌握本职能关键事实",
+      "default_channels": [
+        "main_chat",
+        "customer_sync_chat"
+      ]
+    },
+    {
+      "person_id": "frontend_08",
+      "name": "秦怡",
+      "department": "前端",
+      "role": "前端负责人",
+      "responsibility": "负责界面范围和交付顺序。",
+      "communication_style": "务实、表达具体。",
+      "conflict_bias": "会反对范围不清的需求。",
+      "stance": "前端 侧会围绕自己的职责对 FEISHU-231 提出明确立场。",
+      "risk_preference": "低风险偏好",
+      "information_access_level": "掌握本职能关键事实",
+      "default_channels": [
+        "main_chat",
+        "launch_window_thread"
+      ]
+    }
+  ]
+}

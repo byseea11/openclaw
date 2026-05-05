@@ -1,0 +1,10 @@
+{
+  "case_id": "case_feishu_231_example",
+  "task_id": "FEISHU-231",
+  "title": "企业级发布窗口协调推进",
+  "company_type": "企业级 SaaS",
+  "departments": ["产品", "研发", "运维", "销售", "客户成功", "安全"],
+  "main_goal": "围绕 FEISHU-231 形成真实的跨部门协作讨论，并推动五月上旬上线决策收敛",
+  "difficulty": "medium",
+  "seed": 231
+}

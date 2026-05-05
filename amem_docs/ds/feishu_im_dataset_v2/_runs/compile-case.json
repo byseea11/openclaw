@@ -1,0 +1,2705 @@
+{
+  "case_dir": "amem_docs/ds/feishu_im_dataset_v2/cases/case_feishu_231_example",
+  "dataset_manifest": {
+    "dataset_version": "v2",
+    "builder_version": "v2",
+    "case_count": 1,
+    "case_ids": [
+      "case_feishu_231_example"
+    ],
+    "created_at": "2026-05-05T03:17:29Z",
+    "default_operator_mode": {
+      "operator_identity": "user",
+      "delivery_mode": "prefixed_single_operator"
+    }
+  },
+  "llm_mode": "mixed",
+  "generation_modes": {
+    "case_world": "fallback",
+    "story": "fallback",
+    "characters": "fallback",
+    "timeline": "fallback",
+    "conversation_plan": "fallback",
+    "utterance_plan": "fallback",
+    "message_realizer": "live"
+  },
+  "case_spec": {
+    "case_id": "case_feishu_231_example",
+    "task_id": "FEISHU-231",
+    "title": "企业级发布窗口协调推进",
+    "company_type": "企业级 SaaS",
+    "departments": [
+      "产品",
+      "研发",
+      "运维",
+      "销售",
+      "客户成功",
+      "安全"
+    ],
+    "main_goal": "围绕 FEISHU-231 形成真实的跨部门协作讨论，并推动五月上旬上线决策收敛",
+    "difficulty": "medium",
+    "seed": 231
+  },
+  "case_seed": {
+    "case_id": "case_feishu_231_example",
+    "task_id": "FEISHU-231",
+    "title": "企业级发布窗口协调推进",
+    "domain": "enterprise_product_launch",
+    "company_type": "企业级 SaaS",
+    "departments": [
+      "产品",
+      "研发",
+      "运维",
+      "销售",
+      "客户成功",
+      "安全"
+    ],
+    "main_goal": "围绕 FEISHU-231 形成真实的跨部门协作讨论，并推动五月上旬上线决策收敛",
+    "difficulty": "medium",
+    "seed": 231,
+    "complexity_profile": {
+      "session_count_target": 3,
+      "source_session_count_target": 3,
+      "message_count_target": 20,
+      "topic_count_target": 4,
+      "thread_reply_depth_target": 5,
+      "state_transition_target": 8,
+      "supersession_target": 1,
+      "cross_source_revision_target": 2,
+      "event_family_target": 6
+    }
+  },
+  "case_world": {
+    "case_id": "case_feishu_231_example",
+    "task_id": "FEISHU-231",
+    "title": "企业级发布窗口协调推进",
+    "domain": "enterprise_product_launch",
+    "company_type": "企业级 SaaS",
+    "main_goal": "围绕 FEISHU-231 形成真实的跨部门协作讨论，并推动五月上旬上线决策收敛",
+    "organization_background": "企业级发布窗口协调推进 所在团队是一个 企业级 SaaS 组织，产品、研发、运维、销售、客户成功、安全 需要在同一飞书协作链路里持续对齐决策、风险和对外口径。",
+    "external_pressure": "业务侧正在围绕 FEISHU-231 向客户和内部管理层同步预期，如果短时间内拿不出一致结论，就会影响 围绕 FEISHU-231 形成真实的跨部门协作讨论，并推动五月上旬上线决策收敛 的可信度。",
+    "stakeholders": [
+      "产品团队需要维持目标与范围的一致性。",
+      "研发与测试团队需要确认真实可交付性。",
+      "安全与运维团队需要把风险门槛说清楚。",
+      "销售与客户成功团队需要一个能对外同步的窗口口径。"
+    ],
+    "conflict_axes": [
+      "内部目标日期是否可以被当成对外承诺。",
+      "关键 blocker 和评审门槛是否已经满足上线条件。",
+      "上线窗口、回滚预案与客户承诺之间如何取舍。"
+    ],
+    "hidden_constraints": [
+      "数据迁移窗口需要依赖外部团队确认。",
+      "高风险能力必须通过安全评审后才能进入对外表述。",
+      "回滚演练未完成前，运维不愿意锁定最终上线窗口。"
+    ],
+    "reversal_points": [
+      "原本乐观的目标日期会在后续讨论中被修正。",
+      "某个 thread 内形成的技术判断会影响主群口径。",
+      "对外表述会从明确日期收缩成条件式窗口。"
+    ],
+    "complexity_profile": {
+      "session_count_target": 3,
+      "source_session_count_target": 3,
+      "message_count_target": 20,
+      "topic_count_target": 4,
+      "thread_reply_depth_target": 5,
+      "state_transition_target": 8,
+      "supersession_target": 1,
+      "cross_source_revision_target": 2,
+      "event_family_target": 6
+    }
+  },
+  "characters": {
+    "case_id": "case_feishu_231_example",
+    "characters": [
+      {
+        "person_id": "security_01",
+        "name": "林晨",
+        "department": "安全",
+        "role": "安全评审",
+        "responsibility": "负责权限、审计和合规影响评估。",
+        "communication_style": "直接、规则优先。",
+        "conflict_bias": "会拒绝未经评审的风险。",
+        "stance": "安全 侧会围绕自己的职责对 FEISHU-231 提出明确立场。",
+        "risk_preference": "低风险偏好",
+        "information_access_level": "掌握本职能关键事实",
+        "default_channels": [
+          "main_chat",
+          "launch_window_thread"
+        ]
+      },
+      {
+        "person_id": "operations_02",
+        "name": "周宇",
+        "department": "运维",
+        "role": "SRE 负责人",
+        "responsibility": "负责上线窗口和回滚准备。",
+        "communication_style": "偏运营、较保守。",
+        "conflict_bias": "会指出发布窗口风险。",
+        "stance": "运维 侧会围绕自己的职责对 FEISHU-231 提出明确立场。",
+        "risk_preference": "低风险偏好",
+        "information_access_level": "掌握本职能关键事实",
+        "default_channels": [
+          "main_chat",
+          "launch_window_thread"
+        ]
+      },
+      {
+        "person_id": "management_03",
+        "name": "王源",
+        "department": "管理",
+        "role": "技术负责人",
+        "responsibility": "平衡权衡取舍和决策质量。",
+        "communication_style": "冷静、善于综合。",
+        "conflict_bias": "会追问更清晰的责任归属。",
+        "stance": "管理 侧会围绕自己的职责对 FEISHU-231 提出明确立场。",
+        "risk_preference": "低风险偏好",
+        "information_access_level": "掌握跨部门上下游信息",
+        "default_channels": [
+          "main_chat",
+          "launch_window_thread"
+        ]
+      },
+      {
+        "person_id": "engineering_04",
+        "name": "赵敏",
+        "department": "研发",
+        "role": "后端负责人",
+        "responsibility": "评估后端工作量和隐藏依赖。",
+        "communication_style": "技术导向、风险敏感。",
+        "conflict_bias": "会指出集成和时序风险。",
+        "stance": "研发 侧会围绕自己的职责对 FEISHU-231 提出明确立场。",
+        "risk_preference": "低风险偏好",
+        "information_access_level": "掌握本职能关键事实",
+        "default_channels": [
+          "main_chat",
+          "launch_window_thread"
+        ]
+      },
+      {
+        "person_id": "customer_success_05",
+        "name": "高骏",
+        "department": "客服成功",
+        "role": "客户成功经理",
+        "responsibility": "承接客户诉求和时间压力。",
+        "communication_style": "升级导向、以客户为中心。",
+        "conflict_bias": "会放大客户侧紧迫感。",
+        "stance": "客服成功 侧会围绕自己的职责对 FEISHU-231 提出明确立场。",
+        "risk_preference": "低风险偏好",
+        "information_access_level": "掌握本职能关键事实",
+        "default_channels": [
+          "main_chat",
+          "launch_window_thread"
+        ]
+      },
+      {
+        "person_id": "qa_06",
+        "name": "陈雪",
+        "department": "测试",
+        "role": "测试负责人",
+        "responsibility": "负责验证范围和发布信心。",
+        "communication_style": "系统化、重证据。",
+        "conflict_bias": "会阻止质量不确定的上线。",
+        "stance": "测试 侧会围绕自己的职责对 FEISHU-231 提出明确立场。",
+        "risk_preference": "低风险偏好",
+        "information_access_level": "掌握本职能关键事实",
+        "default_channels": [
+          "main_chat",
+          "launch_window_thread"
+        ]
+      },
+      {
+        "person_id": "sales_07",
+        "name": "罗天",
+        "department": "销售",
+        "role": "客户经理",
+        "responsibility": "推动形成面向客户的承诺。",
+        "communication_style": "紧迫、结果导向。",
+        "conflict_bias": "容易把节奏推向更激进承诺。",
+        "stance": "销售 侧会围绕自己的职责对 FEISHU-231 提出明确立场。",
+        "risk_preference": "中等风险偏好",
+        "information_access_level": "掌握本职能关键事实",
+        "default_channels": [
+          "main_chat",
+          "customer_sync_chat"
+        ]
+      },
+      {
+        "person_id": "frontend_08",
+        "name": "秦怡",
+        "department": "前端",
+        "role": "前端负责人",
+        "responsibility": "负责界面范围和交付顺序。",
+        "communication_style": "务实、表达具体。",
+        "conflict_bias": "会反对范围不清的需求。",
+        "stance": "前端 侧会围绕自己的职责对 FEISHU-231 提出明确立场。",
+        "risk_preference": "低风险偏好",
+        "information_access_level": "掌握本职能关键事实",
+        "default_channels": [
+          "main_chat",
+          "launch_window_thread"
+        ]
+      }
+    ]
+  },
+  "conversation_plan": {
+    "case_id": "case_feishu_231_example",
+    "task_id": "FEISHU-231",
+    "topic_registry": [
+      {
+        "topic_key": "release_date",
+        "topic_title": "发布时间口径",
+        "desired_event_types": [
+          "conclusion_event",
+          "time_event",
+          "status_event"
+        ],
+        "state_transitions": [
+          "内部目标建立",
+          "目标日期改写",
+          "当前内部日期收敛"
+        ]
+      },
+      {
+        "topic_key": "blocker_readiness",
+        "topic_title": "关键 blocker 状态",
+        "desired_event_types": [
+          "status_event",
+          "constraint_event",
+          "objection_event"
+        ],
+        "state_transitions": [
+          "发现 blocker",
+          "增加门槛",
+          "风险缓解"
+        ]
+      },
+      {
+        "topic_key": "external_messaging",
+        "topic_title": "对外沟通口径",
+        "desired_event_types": [
+          "conclusion_event",
+          "scope_event",
+          "commitment_event"
+        ],
+        "state_transitions": [
+          "日期口径被收紧",
+          "形成窗口话术",
+          "跨 source 收敛"
+        ]
+      },
+      {
+        "topic_key": "rollback_readiness",
+        "topic_title": "回滚与上线准备",
+        "desired_event_types": [
+          "constraint_event",
+          "commitment_event",
+          "time_event"
+        ],
+        "state_transitions": [
+          "准备不足",
+          "承诺补齐",
+          "等待验证"
+        ]
+      }
+    ],
+    "sessions": [
+      {
+        "session_id": "session_main_chat",
+        "source_type": "chat",
+        "source_ref": "main_chat",
+        "chat_ref": "main_chat",
+        "title": "FEISHU-231 主项目群",
+        "topic_keys": [
+          "release_date",
+          "external_messaging",
+          "blocker_readiness",
+          "rollback_readiness"
+        ],
+        "planned_turn_count": 9,
+        "root_turn_id": null
+      },
+      {
+        "session_id": "session_launch_window_thread",
+        "source_type": "thread",
+        "source_ref": "launch_window_thread",
+        "chat_ref": "main_chat",
+        "title": "上线窗口 thread",
+        "topic_keys": [
+          "release_date",
+          "blocker_readiness",
+          "rollback_readiness"
+        ],
+        "planned_turn_count": 6,
+        "root_turn_id": "turn_002"
+      },
+      {
+        "session_id": "session_customer_sync_chat",
+        "source_type": "chat",
+        "source_ref": "customer_sync_chat",
+        "chat_ref": "customer_sync_chat",
+        "title": "客户同步群",
+        "topic_keys": [
+          "external_messaging",
+          "release_date"
+        ],
+        "planned_turn_count": 5,
+        "root_turn_id": null
+      }
+    ],
+    "turns": [
+      {
+        "turn_id": "turn_001",
+        "sequence_no": 1,
+        "session_id": "session_main_chat",
+        "speaker_ref": "security_01",
+        "topic_key": "external_messaging",
+        "turn_purpose": "同步客户和业务侧的时间压力，推动团队尽快给出口径。",
+        "supports_event_types": [
+          "status_event",
+          "time_event"
+        ],
+        "references_previous_turns": [],
+        "state_transition": "把外部催促正式带入主群讨论。",
+        "semantic_payload": "客户已经开始追问 FEISHU-231 的上线窗口，主群需要给出能向外同步的回应。"
+      },
+      {
+        "turn_id": "turn_002",
+        "sequence_no": 2,
+        "session_id": "session_main_chat",
+        "speaker_ref": "security_01",
+        "topic_key": "release_date",
+        "turn_purpose": "提出一个偏乐观的内部目标日期，但声明还不是外部承诺。",
+        "supports_event_types": [
+          "conclusion_event",
+          "time_event",
+          "scope_event"
+        ],
+        "references_previous_turns": [
+          "turn_001"
+        ],
+        "state_transition": "建立了第一个内部目标日期基线。",
+        "semantic_payload": "当前先按 5 月 5 日内部目标推进，但这个日期还不能直接对外承诺。"
+      },
+      {
+        "turn_id": "turn_003",
+        "sequence_no": 3,
+        "session_id": "session_main_chat",
+        "speaker_ref": "sales_07",
+        "topic_key": "external_messaging",
+        "turn_purpose": "要求形成可对外同步的明确窗口。",
+        "supports_event_types": [
+          "commitment_event",
+          "objection_event"
+        ],
+        "references_previous_turns": [
+          "turn_001",
+          "turn_002"
+        ],
+        "state_transition": "对外承诺压力从背景变成显式要求。",
+        "semantic_payload": "销售希望今天就形成面向客户的同步口径，不然商务承诺会继续失焦。"
+      },
+      {
+        "turn_id": "turn_004",
+        "sequence_no": 4,
+        "session_id": "session_launch_window_thread",
+        "speaker_ref": "engineering_04",
+        "topic_key": "blocker_readiness",
+        "turn_purpose": "在 thread 里补充真正的技术 blocker。",
+        "supports_event_types": [
+          "status_event",
+          "constraint_event",
+          "rationale_event"
+        ],
+        "references_previous_turns": [
+          "turn_002"
+        ],
+        "state_transition": "把抽象风险收紧成具体 blocker。",
+        "semantic_payload": "真正的 blocker 是数据迁移窗口还没锁定，代码本身不是最慢项。"
+      },
+      {
+        "turn_id": "turn_005",
+        "sequence_no": 5,
+        "session_id": "session_launch_window_thread",
+        "speaker_ref": "operations_02",
+        "topic_key": "rollback_readiness",
+        "turn_purpose": "补充上线窗口和回滚演练都还没准备好。",
+        "supports_event_types": [
+          "constraint_event",
+          "time_event",
+          "status_event"
+        ],
+        "references_previous_turns": [
+          "turn_004"
+        ],
+        "state_transition": "上线窗口不确定性进一步放大。",
+        "semantic_payload": "上线窗口还没最终确认，回滚演练也没有完成，现在说死日期风险太高。"
+      },
+      {
+        "turn_id": "turn_006",
+        "sequence_no": 6,
+        "session_id": "session_launch_window_thread",
+        "speaker_ref": "security_01",
+        "topic_key": "blocker_readiness",
+        "turn_purpose": "引入安全评审门槛，限制过早承诺。",
+        "supports_event_types": [
+          "constraint_event",
+          "objection_event"
+        ],
+        "references_previous_turns": [
+          "turn_004",
+          "turn_005"
+        ],
+        "state_transition": "技术阻塞之外再增加合规门槛。",
+        "semantic_payload": "高风险能力在安全评审前不应进入客户承诺口径。"
+      },
+      {
+        "turn_id": "turn_007",
+        "sequence_no": 7,
+        "session_id": "session_main_chat",
+        "speaker_ref": "security_01",
+        "topic_key": "external_messaging",
+        "turn_purpose": "把 thread 结论回带到主群，收紧对外口径。",
+        "supports_event_types": [
+          "conclusion_event",
+          "scope_event"
+        ],
+        "references_previous_turns": [
+          "turn_004",
+          "turn_005",
+          "turn_006"
+        ],
+        "state_transition": "主群口径从可报日期收缩为内部目标。",
+        "semantic_payload": "请先不要把 5 月 5 日当成已确认时间对外同步，当前只能说还在评估窗口。"
+      },
+      {
+        "turn_id": "turn_008",
+        "sequence_no": 8,
+        "session_id": "session_customer_sync_chat",
+        "speaker_ref": "security_01",
+        "topic_key": "external_messaging",
+        "turn_purpose": "在客户同步群里转述主群收紧后的状态。",
+        "supports_event_types": [
+          "status_event",
+          "commitment_event"
+        ],
+        "references_previous_turns": [
+          "turn_007"
+        ],
+        "state_transition": "跨 source 开始传播新的主口径。",
+        "semantic_payload": "客户同步口径暂时只能说发布日期窗口仍在确认，今天会给出下一次更新时间。"
+      },
+      {
+        "turn_id": "turn_009",
+        "sequence_no": 9,
+        "session_id": "session_customer_sync_chat",
+        "speaker_ref": "management_03",
+        "topic_key": "external_messaging",
+        "turn_purpose": "明确对外措辞，避免继续放大承诺。",
+        "supports_event_types": [
+          "conclusion_event",
+          "scope_event"
+        ],
+        "references_previous_turns": [
+          "turn_008"
+        ],
+        "state_transition": "客户沟通文本从日期承诺转成条件式窗口。",
+        "semantic_payload": "统一对外只说目标窗口仍在评估，不给单点日期。"
+      },
+      {
+        "turn_id": "turn_010",
+        "sequence_no": 10,
+        "session_id": "session_launch_window_thread",
+        "speaker_ref": "engineering_04",
+        "topic_key": "release_date",
+        "turn_purpose": "给出带条件的替代日期。",
+        "supports_event_types": [
+          "rationale_event",
+          "time_event",
+          "status_event"
+        ],
+        "references_previous_turns": [
+          "turn_004",
+          "turn_005",
+          "turn_006"
+        ],
+        "state_transition": "为后续 supersession 准备新日期依据。",
+        "semantic_payload": "如果迁移窗口在 5 月 7 日前锁定，内部更合理的目标会变成 5 月 10 日。"
+      },
+      {
+        "turn_id": "turn_011",
+        "sequence_no": 11,
+        "session_id": "session_main_chat",
+        "speaker_ref": "qa_06",
+        "topic_key": "blocker_readiness",
+        "turn_purpose": "补充测试侧未完成项，增加当前不可承诺的证据。",
+        "supports_event_types": [
+          "objection_event",
+          "status_event"
+        ],
+        "references_previous_turns": [
+          "turn_010"
+        ],
+        "state_transition": "技术 blocker 扩展为质量 blocker。",
+        "semantic_payload": "回归队列还没清完，测试这边也不支持直接锁 5 月 5 日。"
+      },
+      {
+        "turn_id": "turn_012",
+        "sequence_no": 12,
+        "session_id": "session_customer_sync_chat",
+        "speaker_ref": "sales_07",
+        "topic_key": "external_messaging",
+        "turn_purpose": "要求一版可复制的客户沟通话术。",
+        "supports_event_types": [
+          "commitment_event"
+        ],
+        "references_previous_turns": [
+          "turn_009",
+          "turn_011"
+        ],
+        "state_transition": "客户同步从原则口径推进到可执行话术。",
+        "semantic_payload": "需要一版可以直接发给客户的说明，不然前线还是会自己补日期。"
+      },
+      {
+        "turn_id": "turn_013",
+        "sequence_no": 13,
+        "session_id": "session_main_chat",
+        "speaker_ref": "operations_02",
+        "topic_key": "rollback_readiness",
+        "turn_purpose": "承诺何时完成回滚演练。",
+        "supports_event_types": [
+          "commitment_event",
+          "time_event"
+        ],
+        "references_previous_turns": [
+          "turn_005"
+        ],
+        "state_transition": "风险从纯阻塞变成带时间约束的待办。",
+        "semantic_payload": "运维承诺周三前完成回滚演练，并在当晚回写结果。"
+      },
+      {
+        "turn_id": "turn_014",
+        "sequence_no": 14,
+        "session_id": "session_launch_window_thread",
+        "speaker_ref": "engineering_04",
+        "topic_key": "release_date",
+        "turn_purpose": "正式 supersede 原先的乐观目标日期。",
+        "supports_event_types": [
+          "conclusion_event",
+          "time_event",
+          "status_event"
+        ],
+        "references_previous_turns": [
+          "turn_002",
+          "turn_010"
+        ],
+        "state_transition": "内部目标日期从 5 月 5 日切换到 5 月 10 日。",
+        "semantic_payload": "基于当前依赖情况，原来的 5 月 5 日内部目标应改成 5 月 10 日。"
+      },
+      {
+        "turn_id": "turn_015",
+        "sequence_no": 15,
+        "session_id": "session_main_chat",
+        "speaker_ref": "security_01",
+        "topic_key": "release_date",
+        "turn_purpose": "把 thread 中新的日期回写到主群 current state。",
+        "supports_event_types": [
+          "conclusion_event",
+          "time_event",
+          "scope_event"
+        ],
+        "references_previous_turns": [
+          "turn_014"
+        ],
+        "state_transition": "主群当前内部目标日期完成 supersession。",
+        "semantic_payload": "内部目标先同步更新为 5 月 10 日，但仍不是客户承诺日期。"
+      },
+      {
+        "turn_id": "turn_016",
+        "sequence_no": 16,
+        "session_id": "session_customer_sync_chat",
+        "speaker_ref": "security_01",
+        "topic_key": "external_messaging",
+        "turn_purpose": "输出一版对外同步文案。",
+        "supports_event_types": [
+          "commitment_event",
+          "scope_event"
+        ],
+        "references_previous_turns": [
+          "turn_012",
+          "turn_015"
+        ],
+        "state_transition": "客户同步群形成可执行话术草案。",
+        "semantic_payload": "客户侧统一说法调整为：目标窗口仍在确认，下一次明确更新时间是本周四晚。"
+      },
+      {
+        "turn_id": "turn_017",
+        "sequence_no": 17,
+        "session_id": "session_main_chat",
+        "speaker_ref": "management_03",
+        "topic_key": "external_messaging",
+        "turn_purpose": "确认当前对外上限，只能给窗口不能给日期。",
+        "supports_event_types": [
+          "constraint_event",
+          "conclusion_event"
+        ],
+        "references_previous_turns": [
+          "turn_016"
+        ],
+        "state_transition": "当前态收敛为窗口口径而非日期口径。",
+        "semantic_payload": "在回滚演练和安全评审完成前，对外只能给窗口，不能给具体日期。"
+      },
+      {
+        "turn_id": "turn_018",
+        "sequence_no": 18,
+        "session_id": "session_launch_window_thread",
+        "speaker_ref": "qa_06",
+        "topic_key": "blocker_readiness",
+        "turn_purpose": "更新 blocker 解决进度。",
+        "supports_event_types": [
+          "status_event"
+        ],
+        "references_previous_turns": [
+          "turn_011"
+        ],
+        "state_transition": "部分 blocker 进入已缓解状态。",
+        "semantic_payload": "回归高优问题已经收敛，测试 blocker 从红色降到黄色。"
+      },
+      {
+        "turn_id": "turn_019",
+        "sequence_no": 19,
+        "session_id": "session_main_chat",
+        "speaker_ref": "security_01",
+        "topic_key": "external_messaging",
+        "turn_purpose": "回写当前主群的客户侧措辞边界。",
+        "supports_event_types": [
+          "status_event",
+          "scope_event"
+        ],
+        "references_previous_turns": [
+          "turn_017",
+          "turn_018"
+        ],
+        "state_transition": "对外口径保持窗口，不因 blocker 缓解立即改成日期。",
+        "semantic_payload": "即便测试进度改善，客户侧说法也继续保持窗口而不是日期。"
+      },
+      {
+        "turn_id": "turn_020",
+        "sequence_no": 20,
+        "session_id": "session_customer_sync_chat",
+        "speaker_ref": "sales_07",
+        "topic_key": "external_messaging",
+        "turn_purpose": "确认前线将执行新口径。",
+        "supports_event_types": [
+          "conclusion_event",
+          "status_event"
+        ],
+        "references_previous_turns": [
+          "turn_016",
+          "turn_019"
+        ],
+        "state_transition": "跨 source 的最终当前态收敛。",
+        "semantic_payload": "销售确认前线统一使用窗口口径，不再单独补具体日期。"
+      }
+    ]
+  },
+  "utterance_plan": [
+    {
+      "turn_id": "turn_001",
+      "sequence_no": 1,
+      "session_id": "session_main_chat",
+      "source_type": "chat",
+      "source_ref": "main_chat",
+      "chat_ref": "main_chat",
+      "speaker_ref": "security_01",
+      "topic_key": "external_messaging",
+      "turn_purpose": "同步客户和业务侧的时间压力，推动团队尽快给出口径。",
+      "supports_event_types": [
+        "status_event",
+        "time_event"
+      ],
+      "references_previous_turns": [],
+      "state_transition": "把外部催促正式带入主群讨论。",
+      "semantic_payload": "客户已经开始追问 FEISHU-231 的上线窗口，主群需要给出能向外同步的回应。",
+      "root_turn_id": null
+    },
+    {
+      "turn_id": "turn_002",
+      "sequence_no": 2,
+      "session_id": "session_main_chat",
+      "source_type": "chat",
+      "source_ref": "main_chat",
+      "chat_ref": "main_chat",
+      "speaker_ref": "security_01",
+      "topic_key": "release_date",
+      "turn_purpose": "提出一个偏乐观的内部目标日期，但声明还不是外部承诺。",
+      "supports_event_types": [
+        "conclusion_event",
+        "time_event",
+        "scope_event"
+      ],
+      "references_previous_turns": [
+        "turn_001"
+      ],
+      "state_transition": "建立了第一个内部目标日期基线。",
+      "semantic_payload": "当前先按 5 月 5 日内部目标推进，但这个日期还不能直接对外承诺。",
+      "root_turn_id": null
+    },
+    {
+      "turn_id": "turn_003",
+      "sequence_no": 3,
+      "session_id": "session_main_chat",
+      "source_type": "chat",
+      "source_ref": "main_chat",
+      "chat_ref": "main_chat",
+      "speaker_ref": "sales_07",
+      "topic_key": "external_messaging",
+      "turn_purpose": "要求形成可对外同步的明确窗口。",
+      "supports_event_types": [
+        "commitment_event",
+        "objection_event"
+      ],
+      "references_previous_turns": [
+        "turn_001",
+        "turn_002"
+      ],
+      "state_transition": "对外承诺压力从背景变成显式要求。",
+      "semantic_payload": "销售希望今天就形成面向客户的同步口径，不然商务承诺会继续失焦。",
+      "root_turn_id": null
+    },
+    {
+      "turn_id": "turn_004",
+      "sequence_no": 4,
+      "session_id": "session_launch_window_thread",
+      "source_type": "thread",
+      "source_ref": "launch_window_thread",
+      "chat_ref": "main_chat",
+      "speaker_ref": "engineering_04",
+      "topic_key": "blocker_readiness",
+      "turn_purpose": "在 thread 里补充真正的技术 blocker。",
+      "supports_event_types": [
+        "status_event",
+        "constraint_event",
+        "rationale_event"
+      ],
+      "references_previous_turns": [
+        "turn_002"
+      ],
+      "state_transition": "把抽象风险收紧成具体 blocker。",
+      "semantic_payload": "真正的 blocker 是数据迁移窗口还没锁定，代码本身不是最慢项。",
+      "root_turn_id": "turn_002"
+    },
+    {
+      "turn_id": "turn_005",
+      "sequence_no": 5,
+      "session_id": "session_launch_window_thread",
+      "source_type": "thread",
+      "source_ref": "launch_window_thread",
+      "chat_ref": "main_chat",
+      "speaker_ref": "operations_02",
+      "topic_key": "rollback_readiness",
+      "turn_purpose": "补充上线窗口和回滚演练都还没准备好。",
+      "supports_event_types": [
+        "constraint_event",
+        "time_event",
+        "status_event"
+      ],
+      "references_previous_turns": [
+        "turn_004"
+      ],
+      "state_transition": "上线窗口不确定性进一步放大。",
+      "semantic_payload": "上线窗口还没最终确认，回滚演练也没有完成，现在说死日期风险太高。",
+      "root_turn_id": "turn_002"
+    },
+    {
+      "turn_id": "turn_006",
+      "sequence_no": 6,
+      "session_id": "session_launch_window_thread",
+      "source_type": "thread",
+      "source_ref": "launch_window_thread",
+      "chat_ref": "main_chat",
+      "speaker_ref": "security_01",
+      "topic_key": "blocker_readiness",
+      "turn_purpose": "引入安全评审门槛，限制过早承诺。",
+      "supports_event_types": [
+        "constraint_event",
+        "objection_event"
+      ],
+      "references_previous_turns": [
+        "turn_004",
+        "turn_005"
+      ],
+      "state_transition": "技术阻塞之外再增加合规门槛。",
+      "semantic_payload": "高风险能力在安全评审前不应进入客户承诺口径。",
+      "root_turn_id": "turn_002"
+    },
+    {
+      "turn_id": "turn_007",
+      "sequence_no": 7,
+      "session_id": "session_main_chat",
+      "source_type": "chat",
+      "source_ref": "main_chat",
+      "chat_ref": "main_chat",
+      "speaker_ref": "security_01",
+      "topic_key": "external_messaging",
+      "turn_purpose": "把 thread 结论回带到主群，收紧对外口径。",
+      "supports_event_types": [
+        "conclusion_event",
+        "scope_event"
+      ],
+      "references_previous_turns": [
+        "turn_004",
+        "turn_005",
+        "turn_006"
+      ],
+      "state_transition": "主群口径从可报日期收缩为内部目标。",
+      "semantic_payload": "请先不要把 5 月 5 日当成已确认时间对外同步，当前只能说还在评估窗口。",
+      "root_turn_id": null
+    },
+    {
+      "turn_id": "turn_008",
+      "sequence_no": 8,
+      "session_id": "session_customer_sync_chat",
+      "source_type": "chat",
+      "source_ref": "customer_sync_chat",
+      "chat_ref": "customer_sync_chat",
+      "speaker_ref": "security_01",
+      "topic_key": "external_messaging",
+      "turn_purpose": "在客户同步群里转述主群收紧后的状态。",
+      "supports_event_types": [
+        "status_event",
+        "commitment_event"
+      ],
+      "references_previous_turns": [
+        "turn_007"
+      ],
+      "state_transition": "跨 source 开始传播新的主口径。",
+      "semantic_payload": "客户同步口径暂时只能说发布日期窗口仍在确认，今天会给出下一次更新时间。",
+      "root_turn_id": null
+    },
+    {
+      "turn_id": "turn_009",
+      "sequence_no": 9,
+      "session_id": "session_customer_sync_chat",
+      "source_type": "chat",
+      "source_ref": "customer_sync_chat",
+      "chat_ref": "customer_sync_chat",
+      "speaker_ref": "management_03",
+      "topic_key": "external_messaging",
+      "turn_purpose": "明确对外措辞，避免继续放大承诺。",
+      "supports_event_types": [
+        "conclusion_event",
+        "scope_event"
+      ],
+      "references_previous_turns": [
+        "turn_008"
+      ],
+      "state_transition": "客户沟通文本从日期承诺转成条件式窗口。",
+      "semantic_payload": "统一对外只说目标窗口仍在评估，不给单点日期。",
+      "root_turn_id": null
+    },
+    {
+      "turn_id": "turn_010",
+      "sequence_no": 10,
+      "session_id": "session_launch_window_thread",
+      "source_type": "thread",
+      "source_ref": "launch_window_thread",
+      "chat_ref": "main_chat",
+      "speaker_ref": "engineering_04",
+      "topic_key": "release_date",
+      "turn_purpose": "给出带条件的替代日期。",
+      "supports_event_types": [
+        "rationale_event",
+        "time_event",
+        "status_event"
+      ],
+      "references_previous_turns": [
+        "turn_004",
+        "turn_005",
+        "turn_006"
+      ],
+      "state_transition": "为后续 supersession 准备新日期依据。",
+      "semantic_payload": "如果迁移窗口在 5 月 7 日前锁定，内部更合理的目标会变成 5 月 10 日。",
+      "root_turn_id": "turn_002"
+    },
+    {
+      "turn_id": "turn_011",
+      "sequence_no": 11,
+      "session_id": "session_main_chat",
+      "source_type": "chat",
+      "source_ref": "main_chat",
+      "chat_ref": "main_chat",
+      "speaker_ref": "qa_06",
+      "topic_key": "blocker_readiness",
+      "turn_purpose": "补充测试侧未完成项，增加当前不可承诺的证据。",
+      "supports_event_types": [
+        "objection_event",
+        "status_event"
+      ],
+      "references_previous_turns": [
+        "turn_010"
+      ],
+      "state_transition": "技术 blocker 扩展为质量 blocker。",
+      "semantic_payload": "回归队列还没清完，测试这边也不支持直接锁 5 月 5 日。",
+      "root_turn_id": null
+    },
+    {
+      "turn_id": "turn_012",
+      "sequence_no": 12,
+      "session_id": "session_customer_sync_chat",
+      "source_type": "chat",
+      "source_ref": "customer_sync_chat",
+      "chat_ref": "customer_sync_chat",
+      "speaker_ref": "sales_07",
+      "topic_key": "external_messaging",
+      "turn_purpose": "要求一版可复制的客户沟通话术。",
+      "supports_event_types": [
+        "commitment_event"
+      ],
+      "references_previous_turns": [
+        "turn_009",
+        "turn_011"
+      ],
+      "state_transition": "客户同步从原则口径推进到可执行话术。",
+      "semantic_payload": "需要一版可以直接发给客户的说明，不然前线还是会自己补日期。",
+      "root_turn_id": null
+    },
+    {
+      "turn_id": "turn_013",
+      "sequence_no": 13,
+      "session_id": "session_main_chat",
+      "source_type": "chat",
+      "source_ref": "main_chat",
+      "chat_ref": "main_chat",
+      "speaker_ref": "operations_02",
+      "topic_key": "rollback_readiness",
+      "turn_purpose": "承诺何时完成回滚演练。",
+      "supports_event_types": [
+        "commitment_event",
+        "time_event"
+      ],
+      "references_previous_turns": [
+        "turn_005"
+      ],
+      "state_transition": "风险从纯阻塞变成带时间约束的待办。",
+      "semantic_payload": "运维承诺周三前完成回滚演练，并在当晚回写结果。",
+      "root_turn_id": null
+    },
+    {
+      "turn_id": "turn_014",
+      "sequence_no": 14,
+      "session_id": "session_launch_window_thread",
+      "source_type": "thread",
+      "source_ref": "launch_window_thread",
+      "chat_ref": "main_chat",
+      "speaker_ref": "engineering_04",
+      "topic_key": "release_date",
+      "turn_purpose": "正式 supersede 原先的乐观目标日期。",
+      "supports_event_types": [
+        "conclusion_event",
+        "time_event",
+        "status_event"
+      ],
+      "references_previous_turns": [
+        "turn_002",
+        "turn_010"
+      ],
+      "state_transition": "内部目标日期从 5 月 5 日切换到 5 月 10 日。",
+      "semantic_payload": "基于当前依赖情况，原来的 5 月 5 日内部目标应改成 5 月 10 日。",
+      "root_turn_id": "turn_002"
+    },
+    {
+      "turn_id": "turn_015",
+      "sequence_no": 15,
+      "session_id": "session_main_chat",
+      "source_type": "chat",
+      "source_ref": "main_chat",
+      "chat_ref": "main_chat",
+      "speaker_ref": "security_01",
+      "topic_key": "release_date",
+      "turn_purpose": "把 thread 中新的日期回写到主群 current state。",
+      "supports_event_types": [
+        "conclusion_event",
+        "time_event",
+        "scope_event"
+      ],
+      "references_previous_turns": [
+        "turn_014"
+      ],
+      "state_transition": "主群当前内部目标日期完成 supersession。",
+      "semantic_payload": "内部目标先同步更新为 5 月 10 日，但仍不是客户承诺日期。",
+      "root_turn_id": null
+    },
+    {
+      "turn_id": "turn_016",
+      "sequence_no": 16,
+      "session_id": "session_customer_sync_chat",
+      "source_type": "chat",
+      "source_ref": "customer_sync_chat",
+      "chat_ref": "customer_sync_chat",
+      "speaker_ref": "security_01",
+      "topic_key": "external_messaging",
+      "turn_purpose": "输出一版对外同步文案。",
+      "supports_event_types": [
+        "commitment_event",
+        "scope_event"
+      ],
+      "references_previous_turns": [
+        "turn_012",
+        "turn_015"
+      ],
+      "state_transition": "客户同步群形成可执行话术草案。",
+      "semantic_payload": "客户侧统一说法调整为：目标窗口仍在确认，下一次明确更新时间是本周四晚。",
+      "root_turn_id": null
+    },
+    {
+      "turn_id": "turn_017",
+      "sequence_no": 17,
+      "session_id": "session_main_chat",
+      "source_type": "chat",
+      "source_ref": "main_chat",
+      "chat_ref": "main_chat",
+      "speaker_ref": "management_03",
+      "topic_key": "external_messaging",
+      "turn_purpose": "确认当前对外上限，只能给窗口不能给日期。",
+      "supports_event_types": [
+        "constraint_event",
+        "conclusion_event"
+      ],
+      "references_previous_turns": [
+        "turn_016"
+      ],
+      "state_transition": "当前态收敛为窗口口径而非日期口径。",
+      "semantic_payload": "在回滚演练和安全评审完成前，对外只能给窗口，不能给具体日期。",
+      "root_turn_id": null
+    },
+    {
+      "turn_id": "turn_018",
+      "sequence_no": 18,
+      "session_id": "session_launch_window_thread",
+      "source_type": "thread",
+      "source_ref": "launch_window_thread",
+      "chat_ref": "main_chat",
+      "speaker_ref": "qa_06",
+      "topic_key": "blocker_readiness",
+      "turn_purpose": "更新 blocker 解决进度。",
+      "supports_event_types": [
+        "status_event"
+      ],
+      "references_previous_turns": [
+        "turn_011"
+      ],
+      "state_transition": "部分 blocker 进入已缓解状态。",
+      "semantic_payload": "回归高优问题已经收敛，测试 blocker 从红色降到黄色。",
+      "root_turn_id": "turn_002"
+    },
+    {
+      "turn_id": "turn_019",
+      "sequence_no": 19,
+      "session_id": "session_main_chat",
+      "source_type": "chat",
+      "source_ref": "main_chat",
+      "chat_ref": "main_chat",
+      "speaker_ref": "security_01",
+      "topic_key": "external_messaging",
+      "turn_purpose": "回写当前主群的客户侧措辞边界。",
+      "supports_event_types": [
+        "status_event",
+        "scope_event"
+      ],
+      "references_previous_turns": [
+        "turn_017",
+        "turn_018"
+      ],
+      "state_transition": "对外口径保持窗口，不因 blocker 缓解立即改成日期。",
+      "semantic_payload": "即便测试进度改善，客户侧说法也继续保持窗口而不是日期。",
+      "root_turn_id": null
+    },
+    {
+      "turn_id": "turn_020",
+      "sequence_no": 20,
+      "session_id": "session_customer_sync_chat",
+      "source_type": "chat",
+      "source_ref": "customer_sync_chat",
+      "chat_ref": "customer_sync_chat",
+      "speaker_ref": "sales_07",
+      "topic_key": "external_messaging",
+      "turn_purpose": "确认前线将执行新口径。",
+      "supports_event_types": [
+        "conclusion_event",
+        "status_event"
+      ],
+      "references_previous_turns": [
+        "turn_016",
+        "turn_019"
+      ],
+      "state_transition": "跨 source 的最终当前态收敛。",
+      "semantic_payload": "销售确认前线统一使用窗口口径，不再单独补具体日期。",
+      "root_turn_id": null
+    }
+  ],
+  "realized_messages": [
+    {
+      "turn_id": "turn_001",
+      "sequence_no": 1,
+      "session_id": "session_main_chat",
+      "source_type": "chat",
+      "source_ref": "main_chat",
+      "chat_ref": "main_chat",
+      "speaker_ref": "security_01",
+      "topic_key": "external_messaging",
+      "turn_purpose": "同步客户和业务侧的时间压力，推动团队尽快给出口径。",
+      "supports_event_types": [
+        "status_event",
+        "time_event"
+      ],
+      "references_previous_turns": [],
+      "state_transition": "把外部催促正式带入主群讨论。",
+      "semantic_payload": "客户已经开始追问 FEISHU-231 的上线窗口，主群需要给出能向外同步的回应。",
+      "root_turn_id": null,
+      "content_text": "【安全/林晨】客户已经开始追问 FEISHU-231 的上线窗口，主群需要给出能向外同步的回应。 这个口径请前线和主群保持一致。"
+    },
+    {
+      "turn_id": "turn_002",
+      "sequence_no": 2,
+      "session_id": "session_main_chat",
+      "source_type": "chat",
+      "source_ref": "main_chat",
+      "chat_ref": "main_chat",
+      "speaker_ref": "security_01",
+      "topic_key": "release_date",
+      "turn_purpose": "提出一个偏乐观的内部目标日期，但声明还不是外部承诺。",
+      "supports_event_types": [
+        "conclusion_event",
+        "time_event",
+        "scope_event"
+      ],
+      "references_previous_turns": [
+        "turn_001"
+      ],
+      "state_transition": "建立了第一个内部目标日期基线。",
+      "semantic_payload": "当前先按 5 月 5 日内部目标推进，但这个日期还不能直接对外承诺。",
+      "root_turn_id": null,
+      "content_text": "【安全/林晨】当前先按 5 月 5 日内部目标推进，但这个日期还不能直接对外承诺。 这也是我们当前需要统一的发布时间口径。"
+    },
+    {
+      "turn_id": "turn_003",
+      "sequence_no": 3,
+      "session_id": "session_main_chat",
+      "source_type": "chat",
+      "source_ref": "main_chat",
+      "chat_ref": "main_chat",
+      "speaker_ref": "sales_07",
+      "topic_key": "external_messaging",
+      "turn_purpose": "要求形成可对外同步的明确窗口。",
+      "supports_event_types": [
+        "commitment_event",
+        "objection_event"
+      ],
+      "references_previous_turns": [
+        "turn_001",
+        "turn_002"
+      ],
+      "state_transition": "对外承诺压力从背景变成显式要求。",
+      "semantic_payload": "销售希望今天就形成面向客户的同步口径，不然商务承诺会继续失焦。",
+      "root_turn_id": null,
+      "content_text": "【销售/罗天】销售希望今天就形成面向客户的同步口径，不然商务承诺会继续失焦。 这个口径请前线和主群保持一致。"
+    },
+    {
+      "turn_id": "turn_004",
+      "sequence_no": 4,
+      "session_id": "session_launch_window_thread",
+      "source_type": "thread",
+      "source_ref": "launch_window_thread",
+      "chat_ref": "main_chat",
+      "speaker_ref": "engineering_04",
+      "topic_key": "blocker_readiness",
+      "turn_purpose": "在 thread 里补充真正的技术 blocker。",
+      "supports_event_types": [
+        "status_event",
+        "constraint_event",
+        "rationale_event"
+      ],
+      "references_previous_turns": [
+        "turn_002"
+      ],
+      "state_transition": "把抽象风险收紧成具体 blocker。",
+      "semantic_payload": "真正的 blocker 是数据迁移窗口还没锁定，代码本身不是最慢项。",
+      "root_turn_id": "turn_002",
+      "content_text": "【研发/赵敏】真正的 blocker 是数据迁移窗口还没锁定，代码本身不是最慢项。 先把 blocker 讲清楚，再决定后面的承诺。"
+    },
+    {
+      "turn_id": "turn_005",
+      "sequence_no": 5,
+      "session_id": "session_launch_window_thread",
+      "source_type": "thread",
+      "source_ref": "launch_window_thread",
+      "chat_ref": "main_chat",
+      "speaker_ref": "operations_02",
+      "topic_key": "rollback_readiness",
+      "turn_purpose": "补充上线窗口和回滚演练都还没准备好。",
+      "supports_event_types": [
+        "constraint_event",
+        "time_event",
+        "status_event"
+      ],
+      "references_previous_turns": [
+        "turn_004"
+      ],
+      "state_transition": "上线窗口不确定性进一步放大。",
+      "semantic_payload": "上线窗口还没最终确认，回滚演练也没有完成，现在说死日期风险太高。",
+      "root_turn_id": "turn_002",
+      "content_text": "【运维/周宇】上线窗口还没最终确认，回滚演练也没有完成，现在说死日期风险太高。 回滚和上线准备不到位的话，日期就不能说死。"
+    },
+    {
+      "turn_id": "turn_006",
+      "sequence_no": 6,
+      "session_id": "session_launch_window_thread",
+      "source_type": "thread",
+      "source_ref": "launch_window_thread",
+      "chat_ref": "main_chat",
+      "speaker_ref": "security_01",
+      "topic_key": "blocker_readiness",
+      "turn_purpose": "引入安全评审门槛，限制过早承诺。",
+      "supports_event_types": [
+        "constraint_event",
+        "objection_event"
+      ],
+      "references_previous_turns": [
+        "turn_004",
+        "turn_005"
+      ],
+      "state_transition": "技术阻塞之外再增加合规门槛。",
+      "semantic_payload": "高风险能力在安全评审前不应进入客户承诺口径。",
+      "root_turn_id": "turn_002",
+      "content_text": "【安全/林晨】高风险能力在安全评审前不应进入客户承诺口径。 先把 blocker 讲清楚，再决定后面的承诺。"
+    },
+    {
+      "turn_id": "turn_007",
+      "sequence_no": 7,
+      "session_id": "session_main_chat",
+      "source_type": "chat",
+      "source_ref": "main_chat",
+      "chat_ref": "main_chat",
+      "speaker_ref": "security_01",
+      "topic_key": "external_messaging",
+      "turn_purpose": "把 thread 结论回带到主群，收紧对外口径。",
+      "supports_event_types": [
+        "conclusion_event",
+        "scope_event"
+      ],
+      "references_previous_turns": [
+        "turn_004",
+        "turn_005",
+        "turn_006"
+      ],
+      "state_transition": "主群口径从可报日期收缩为内部目标。",
+      "semantic_payload": "请先不要把 5 月 5 日当成已确认时间对外同步，当前只能说还在评估窗口。",
+      "root_turn_id": null,
+      "content_text": "【安全/林晨】请先不要把 5 月 5 日当成已确认时间对外同步，当前只能说还在评估窗口。 这个口径请前线和主群保持一致。"
+    },
+    {
+      "turn_id": "turn_008",
+      "sequence_no": 8,
+      "session_id": "session_customer_sync_chat",
+      "source_type": "chat",
+      "source_ref": "customer_sync_chat",
+      "chat_ref": "customer_sync_chat",
+      "speaker_ref": "security_01",
+      "topic_key": "external_messaging",
+      "turn_purpose": "在客户同步群里转述主群收紧后的状态。",
+      "supports_event_types": [
+        "status_event",
+        "commitment_event"
+      ],
+      "references_previous_turns": [
+        "turn_007"
+      ],
+      "state_transition": "跨 source 开始传播新的主口径。",
+      "semantic_payload": "客户同步口径暂时只能说发布日期窗口仍在确认，今天会给出下一次更新时间。",
+      "root_turn_id": null,
+      "content_text": "【安全/林晨】客户同步口径暂时只能说发布日期窗口仍在确认，今天会给出下一次更新时间。 这个口径请前线和主群保持一致。"
+    },
+    {
+      "turn_id": "turn_009",
+      "sequence_no": 9,
+      "session_id": "session_customer_sync_chat",
+      "source_type": "chat",
+      "source_ref": "customer_sync_chat",
+      "chat_ref": "customer_sync_chat",
+      "speaker_ref": "management_03",
+      "topic_key": "external_messaging",
+      "turn_purpose": "明确对外措辞，避免继续放大承诺。",
+      "supports_event_types": [
+        "conclusion_event",
+        "scope_event"
+      ],
+      "references_previous_turns": [
+        "turn_008"
+      ],
+      "state_transition": "客户沟通文本从日期承诺转成条件式窗口。",
+      "semantic_payload": "统一对外只说目标窗口仍在评估，不给单点日期。",
+      "root_turn_id": null,
+      "content_text": "【管理/王源】统一对外只说目标窗口仍在评估，不给单点日期。 这个口径请前线和主群保持一致。"
+    },
+    {
+      "turn_id": "turn_010",
+      "sequence_no": 10,
+      "session_id": "session_launch_window_thread",
+      "source_type": "thread",
+      "source_ref": "launch_window_thread",
+      "chat_ref": "main_chat",
+      "speaker_ref": "engineering_04",
+      "topic_key": "release_date",
+      "turn_purpose": "给出带条件的替代日期。",
+      "supports_event_types": [
+        "rationale_event",
+        "time_event",
+        "status_event"
+      ],
+      "references_previous_turns": [
+        "turn_004",
+        "turn_005",
+        "turn_006"
+      ],
+      "state_transition": "为后续 supersession 准备新日期依据。",
+      "semantic_payload": "如果迁移窗口在 5 月 7 日前锁定，内部更合理的目标会变成 5 月 10 日。",
+      "root_turn_id": "turn_002",
+      "content_text": "【研发/赵敏】如果迁移窗口在 5 月 7 日前锁定，内部更合理的目标会变成 5 月 10 日。 这也是我们当前需要统一的发布时间口径。"
+    },
+    {
+      "turn_id": "turn_011",
+      "sequence_no": 11,
+      "session_id": "session_main_chat",
+      "source_type": "chat",
+      "source_ref": "main_chat",
+      "chat_ref": "main_chat",
+      "speaker_ref": "qa_06",
+      "topic_key": "blocker_readiness",
+      "turn_purpose": "补充测试侧未完成项，增加当前不可承诺的证据。",
+      "supports_event_types": [
+        "objection_event",
+        "status_event"
+      ],
+      "references_previous_turns": [
+        "turn_010"
+      ],
+      "state_transition": "技术 blocker 扩展为质量 blocker。",
+      "semantic_payload": "回归队列还没清完，测试这边也不支持直接锁 5 月 5 日。",
+      "root_turn_id": null,
+      "content_text": "【测试/陈雪】回归队列还没清完，测试这边也不支持直接锁 5 月 5 日。 先把 blocker 讲清楚，再决定后面的承诺。"
+    },
+    {
+      "turn_id": "turn_012",
+      "sequence_no": 12,
+      "session_id": "session_customer_sync_chat",
+      "source_type": "chat",
+      "source_ref": "customer_sync_chat",
+      "chat_ref": "customer_sync_chat",
+      "speaker_ref": "sales_07",
+      "topic_key": "external_messaging",
+      "turn_purpose": "要求一版可复制的客户沟通话术。",
+      "supports_event_types": [
+        "commitment_event"
+      ],
+      "references_previous_turns": [
+        "turn_009",
+        "turn_011"
+      ],
+      "state_transition": "客户同步从原则口径推进到可执行话术。",
+      "semantic_payload": "需要一版可以直接发给客户的说明，不然前线还是会自己补日期。",
+      "root_turn_id": null,
+      "content_text": "【销售/罗天】需要一版可以直接发给客户的说明，不然前线还是会自己补日期。 这个口径请前线和主群保持一致。"
+    },
+    {
+      "turn_id": "turn_013",
+      "sequence_no": 13,
+      "session_id": "session_main_chat",
+      "source_type": "chat",
+      "source_ref": "main_chat",
+      "chat_ref": "main_chat",
+      "speaker_ref": "operations_02",
+      "topic_key": "rollback_readiness",
+      "turn_purpose": "承诺何时完成回滚演练。",
+      "supports_event_types": [
+        "commitment_event",
+        "time_event"
+      ],
+      "references_previous_turns": [
+        "turn_005"
+      ],
+      "state_transition": "风险从纯阻塞变成带时间约束的待办。",
+      "semantic_payload": "运维承诺周三前完成回滚演练，并在当晚回写结果。",
+      "root_turn_id": null,
+      "content_text": "【运维/周宇】运维承诺周三前完成回滚演练，并在当晚回写结果。 回滚和上线准备不到位的话，日期就不能说死。"
+    },
+    {
+      "turn_id": "turn_014",
+      "sequence_no": 14,
+      "session_id": "session_launch_window_thread",
+      "source_type": "thread",
+      "source_ref": "launch_window_thread",
+      "chat_ref": "main_chat",
+      "speaker_ref": "engineering_04",
+      "topic_key": "release_date",
+      "turn_purpose": "正式 supersede 原先的乐观目标日期。",
+      "supports_event_types": [
+        "conclusion_event",
+        "time_event",
+        "status_event"
+      ],
+      "references_previous_turns": [
+        "turn_002",
+        "turn_010"
+      ],
+      "state_transition": "内部目标日期从 5 月 5 日切换到 5 月 10 日。",
+      "semantic_payload": "基于当前依赖情况，原来的 5 月 5 日内部目标应改成 5 月 10 日。",
+      "root_turn_id": "turn_002",
+      "content_text": "【研发/赵敏】基于当前依赖情况，原来的 5 月 5 日内部目标应改成 5 月 10 日。 这也是我们当前需要统一的发布时间口径。"
+    },
+    {
+      "turn_id": "turn_015",
+      "sequence_no": 15,
+      "session_id": "session_main_chat",
+      "source_type": "chat",
+      "source_ref": "main_chat",
+      "chat_ref": "main_chat",
+      "speaker_ref": "security_01",
+      "topic_key": "release_date",
+      "turn_purpose": "把 thread 中新的日期回写到主群 current state。",
+      "supports_event_types": [
+        "conclusion_event",
+        "time_event",
+        "scope_event"
+      ],
+      "references_previous_turns": [
+        "turn_014"
+      ],
+      "state_transition": "主群当前内部目标日期完成 supersession。",
+      "semantic_payload": "内部目标先同步更新为 5 月 10 日，但仍不是客户承诺日期。",
+      "root_turn_id": null,
+      "content_text": "【安全/林晨】内部目标先同步更新为 5 月 10 日，但仍不是客户承诺日期。 这也是我们当前需要统一的发布时间口径。"
+    },
+    {
+      "turn_id": "turn_016",
+      "sequence_no": 16,
+      "session_id": "session_customer_sync_chat",
+      "source_type": "chat",
+      "source_ref": "customer_sync_chat",
+      "chat_ref": "customer_sync_chat",
+      "speaker_ref": "security_01",
+      "topic_key": "external_messaging",
+      "turn_purpose": "输出一版对外同步文案。",
+      "supports_event_types": [
+        "commitment_event",
+        "scope_event"
+      ],
+      "references_previous_turns": [
+        "turn_012",
+        "turn_015"
+      ],
+      "state_transition": "客户同步群形成可执行话术草案。",
+      "semantic_payload": "客户侧统一说法调整为：目标窗口仍在确认，下一次明确更新时间是本周四晚。",
+      "root_turn_id": null,
+      "content_text": "【安全/林晨】客户侧统一说法调整为：目标窗口仍在确认，下一次明确更新时间是本周四晚。 这个口径请前线和主群保持一致。"
+    },
+    {
+      "turn_id": "turn_017",
+      "sequence_no": 17,
+      "session_id": "session_main_chat",
+      "source_type": "chat",
+      "source_ref": "main_chat",
+      "chat_ref": "main_chat",
+      "speaker_ref": "management_03",
+      "topic_key": "external_messaging",
+      "turn_purpose": "确认当前对外上限，只能给窗口不能给日期。",
+      "supports_event_types": [
+        "constraint_event",
+        "conclusion_event"
+      ],
+      "references_previous_turns": [
+        "turn_016"
+      ],
+      "state_transition": "当前态收敛为窗口口径而非日期口径。",
+      "semantic_payload": "在回滚演练和安全评审完成前，对外只能给窗口，不能给具体日期。",
+      "root_turn_id": null,
+      "content_text": "【管理/王源】在回滚演练和安全评审完成前，对外只能给窗口，不能给具体日期。 这个口径请前线和主群保持一致。"
+    },
+    {
+      "turn_id": "turn_018",
+      "sequence_no": 18,
+      "session_id": "session_launch_window_thread",
+      "source_type": "thread",
+      "source_ref": "launch_window_thread",
+      "chat_ref": "main_chat",
+      "speaker_ref": "qa_06",
+      "topic_key": "blocker_readiness",
+      "turn_purpose": "更新 blocker 解决进度。",
+      "supports_event_types": [
+        "status_event"
+      ],
+      "references_previous_turns": [
+        "turn_011"
+      ],
+      "state_transition": "部分 blocker 进入已缓解状态。",
+      "semantic_payload": "回归高优问题已经收敛，测试 blocker 从红色降到黄色。",
+      "root_turn_id": "turn_002",
+      "content_text": "【测试/陈雪】回归高优问题已经收敛，测试 blocker 从红色降到黄色。 先把 blocker 讲清楚，再决定后面的承诺。"
+    },
+    {
+      "turn_id": "turn_019",
+      "sequence_no": 19,
+      "session_id": "session_main_chat",
+      "source_type": "chat",
+      "source_ref": "main_chat",
+      "chat_ref": "main_chat",
+      "speaker_ref": "security_01",
+      "topic_key": "external_messaging",
+      "turn_purpose": "回写当前主群的客户侧措辞边界。",
+      "supports_event_types": [
+        "status_event",
+        "scope_event"
+      ],
+      "references_previous_turns": [
+        "turn_017",
+        "turn_018"
+      ],
+      "state_transition": "对外口径保持窗口，不因 blocker 缓解立即改成日期。",
+      "semantic_payload": "即便测试进度改善，客户侧说法也继续保持窗口而不是日期。",
+      "root_turn_id": null,
+      "content_text": "【安全/林晨】即便测试进度改善，客户侧说法也继续保持窗口而不是日期。 这个口径请前线和主群保持一致。"
+    },
+    {
+      "turn_id": "turn_020",
+      "sequence_no": 20,
+      "session_id": "session_customer_sync_chat",
+      "source_type": "chat",
+      "source_ref": "customer_sync_chat",
+      "chat_ref": "customer_sync_chat",
+      "speaker_ref": "sales_07",
+      "topic_key": "external_messaging",
+      "turn_purpose": "确认前线将执行新口径。",
+      "supports_event_types": [
+        "conclusion_event",
+        "status_event"
+      ],
+      "references_previous_turns": [
+        "turn_016",
+        "turn_019"
+      ],
+      "state_transition": "跨 source 的最终当前态收敛。",
+      "semantic_payload": "销售确认前线统一使用窗口口径，不再单独补具体日期。",
+      "root_turn_id": null,
+      "content_text": "【销售/罗天】销售确认前线统一使用窗口口径，不再单独补具体日期。 这个口径请前线和主群保持一致。"
+    }
+  ],
+  "complexity_report": {
+    "case_id": "case_feishu_231_example",
+    "passed": true,
+    "failed_checks": [],
+    "metrics": {
+      "session_count": 3,
+      "source_session_count": 3,
+      "message_count": 20,
+      "topic_count": 4,
+      "avg_turns_per_topic": 5,
+      "thread_reply_depth": 6,
+      "state_transition_count": 20,
+      "supersession_count": 3,
+      "cross_source_revision_count": 4,
+      "event_family_coverage": 8
+    },
+    "thresholds": {
+      "session_count": 3,
+      "source_session_count": 3,
+      "message_count": 20,
+      "topic_count": 4,
+      "thread_reply_depth": 5,
+      "state_transition_count": 8,
+      "supersession_count": 1,
+      "cross_source_revision_count": 2,
+      "event_family_coverage": 6
+    }
+  },
+  "dataset_validation_report": {
+    "case_id": "case_feishu_231_example",
+    "passed": true,
+    "errors": [],
+    "checks": {
+      "characters_count": 8,
+      "planned_sessions": 3,
+      "planned_turns": 20,
+      "realized_messages": 20,
+      "gold_events": 44,
+      "memory_blocks": 4,
+      "current_state_items": 20
+    }
+  },
+  "gold": {
+    "expected_events": [
+      {
+        "event_id": "gold_event_turn_001_status_event",
+        "event_type": "status_event",
+        "topic_key": "external_messaging",
+        "source_session_id": "chat:main_chat",
+        "claim": "客户已经开始追问 FEISHU-231 的上线窗口，主群需要给出能向外同步的回应。",
+        "evidence_turn_id": "turn_001",
+        "expected_lifecycle": "active"
+      },
+      {
+        "event_id": "gold_event_turn_001_time_event",
+        "event_type": "time_event",
+        "topic_key": "external_messaging",
+        "source_session_id": "chat:main_chat",
+        "claim": "客户已经开始追问 FEISHU-231 的上线窗口，主群需要给出能向外同步的回应。",
+        "evidence_turn_id": "turn_001",
+        "expected_lifecycle": "active"
+      },
+      {
+        "event_id": "gold_event_turn_002_conclusion_event",
+        "event_type": "conclusion_event",
+        "topic_key": "release_date",
+        "source_session_id": "chat:main_chat",
+        "claim": "当前先按 5 月 5 日内部目标推进，但这个日期还不能直接对外承诺。",
+        "evidence_turn_id": "turn_002",
+        "expected_lifecycle": "active"
+      },
+      {
+        "event_id": "gold_event_turn_002_time_event",
+        "event_type": "time_event",
+        "topic_key": "release_date",
+        "source_session_id": "chat:main_chat",
+        "claim": "当前先按 5 月 5 日内部目标推进，但这个日期还不能直接对外承诺。",
+        "evidence_turn_id": "turn_002",
+        "expected_lifecycle": "active"
+      },
+      {
+        "event_id": "gold_event_turn_002_scope_event",
+        "event_type": "scope_event",
+        "topic_key": "release_date",
+        "source_session_id": "chat:main_chat",
+        "claim": "当前先按 5 月 5 日内部目标推进，但这个日期还不能直接对外承诺。",
+        "evidence_turn_id": "turn_002",
+        "expected_lifecycle": "active"
+      },
+      {
+        "event_id": "gold_event_turn_003_commitment_event",
+        "event_type": "commitment_event",
+        "topic_key": "external_messaging",
+        "source_session_id": "chat:main_chat",
+        "claim": "销售希望今天就形成面向客户的同步口径，不然商务承诺会继续失焦。",
+        "evidence_turn_id": "turn_003",
+        "expected_lifecycle": "active"
+      },
+      {
+        "event_id": "gold_event_turn_003_objection_event",
+        "event_type": "objection_event",
+        "topic_key": "external_messaging",
+        "source_session_id": "chat:main_chat",
+        "claim": "销售希望今天就形成面向客户的同步口径，不然商务承诺会继续失焦。",
+        "evidence_turn_id": "turn_003",
+        "expected_lifecycle": "active"
+      },
+      {
+        "event_id": "gold_event_turn_004_status_event",
+        "event_type": "status_event",
+        "topic_key": "blocker_readiness",
+        "source_session_id": "thread:launch_window_thread",
+        "claim": "真正的 blocker 是数据迁移窗口还没锁定，代码本身不是最慢项。",
+        "evidence_turn_id": "turn_004",
+        "expected_lifecycle": "active"
+      },
+      {
+        "event_id": "gold_event_turn_004_constraint_event",
+        "event_type": "constraint_event",
+        "topic_key": "blocker_readiness",
+        "source_session_id": "thread:launch_window_thread",
+        "claim": "真正的 blocker 是数据迁移窗口还没锁定，代码本身不是最慢项。",
+        "evidence_turn_id": "turn_004",
+        "expected_lifecycle": "active"
+      },
+      {
+        "event_id": "gold_event_turn_004_rationale_event",
+        "event_type": "rationale_event",
+        "topic_key": "blocker_readiness",
+        "source_session_id": "thread:launch_window_thread",
+        "claim": "真正的 blocker 是数据迁移窗口还没锁定，代码本身不是最慢项。",
+        "evidence_turn_id": "turn_004",
+        "expected_lifecycle": "active"
+      },
+      {
+        "event_id": "gold_event_turn_005_constraint_event",
+        "event_type": "constraint_event",
+        "topic_key": "rollback_readiness",
+        "source_session_id": "thread:launch_window_thread",
+        "claim": "上线窗口还没最终确认，回滚演练也没有完成，现在说死日期风险太高。",
+        "evidence_turn_id": "turn_005",
+        "expected_lifecycle": "active"
+      },
+      {
+        "event_id": "gold_event_turn_005_time_event",
+        "event_type": "time_event",
+        "topic_key": "rollback_readiness",
+        "source_session_id": "thread:launch_window_thread",
+        "claim": "上线窗口还没最终确认，回滚演练也没有完成，现在说死日期风险太高。",
+        "evidence_turn_id": "turn_005",
+        "expected_lifecycle": "active"
+      },
+      {
+        "event_id": "gold_event_turn_005_status_event",
+        "event_type": "status_event",
+        "topic_key": "rollback_readiness",
+        "source_session_id": "thread:launch_window_thread",
+        "claim": "上线窗口还没最终确认，回滚演练也没有完成，现在说死日期风险太高。",
+        "evidence_turn_id": "turn_005",
+        "expected_lifecycle": "active"
+      },
+      {
+        "event_id": "gold_event_turn_006_constraint_event",
+        "event_type": "constraint_event",
+        "topic_key": "blocker_readiness",
+        "source_session_id": "thread:launch_window_thread",
+        "claim": "高风险能力在安全评审前不应进入客户承诺口径。",
+        "evidence_turn_id": "turn_006",
+        "expected_lifecycle": "active"
+      },
+      {
+        "event_id": "gold_event_turn_006_objection_event",
+        "event_type": "objection_event",
+        "topic_key": "blocker_readiness",
+        "source_session_id": "thread:launch_window_thread",
+        "claim": "高风险能力在安全评审前不应进入客户承诺口径。",
+        "evidence_turn_id": "turn_006",
+        "expected_lifecycle": "active"
+      },
+      {
+        "event_id": "gold_event_turn_007_conclusion_event",
+        "event_type": "conclusion_event",
+        "topic_key": "external_messaging",
+        "source_session_id": "chat:main_chat",
+        "claim": "请先不要把 5 月 5 日当成已确认时间对外同步，当前只能说还在评估窗口。",
+        "evidence_turn_id": "turn_007",
+        "expected_lifecycle": "active"
+      },
+      {
+        "event_id": "gold_event_turn_007_scope_event",
+        "event_type": "scope_event",
+        "topic_key": "external_messaging",
+        "source_session_id": "chat:main_chat",
+        "claim": "请先不要把 5 月 5 日当成已确认时间对外同步，当前只能说还在评估窗口。",
+        "evidence_turn_id": "turn_007",
+        "expected_lifecycle": "active"
+      },
+      {
+        "event_id": "gold_event_turn_008_status_event",
+        "event_type": "status_event",
+        "topic_key": "external_messaging",
+        "source_session_id": "chat:customer_sync_chat",
+        "claim": "客户同步口径暂时只能说发布日期窗口仍在确认，今天会给出下一次更新时间。",
+        "evidence_turn_id": "turn_008",
+        "expected_lifecycle": "active"
+      },
+      {
+        "event_id": "gold_event_turn_008_commitment_event",
+        "event_type": "commitment_event",
+        "topic_key": "external_messaging",
+        "source_session_id": "chat:customer_sync_chat",
+        "claim": "客户同步口径暂时只能说发布日期窗口仍在确认，今天会给出下一次更新时间。",
+        "evidence_turn_id": "turn_008",
+        "expected_lifecycle": "active"
+      },
+      {
+        "event_id": "gold_event_turn_009_conclusion_event",
+        "event_type": "conclusion_event",
+        "topic_key": "external_messaging",
+        "source_session_id": "chat:customer_sync_chat",
+        "claim": "统一对外只说目标窗口仍在评估，不给单点日期。",
+        "evidence_turn_id": "turn_009",
+        "expected_lifecycle": "active"
+      },
+      {
+        "event_id": "gold_event_turn_009_scope_event",
+        "event_type": "scope_event",
+        "topic_key": "external_messaging",
+        "source_session_id": "chat:customer_sync_chat",
+        "claim": "统一对外只说目标窗口仍在评估，不给单点日期。",
+        "evidence_turn_id": "turn_009",
+        "expected_lifecycle": "active"
+      },
+      {
+        "event_id": "gold_event_turn_010_rationale_event",
+        "event_type": "rationale_event",
+        "topic_key": "release_date",
+        "source_session_id": "thread:launch_window_thread",
+        "claim": "如果迁移窗口在 5 月 7 日前锁定，内部更合理的目标会变成 5 月 10 日。",
+        "evidence_turn_id": "turn_010",
+        "expected_lifecycle": "active"
+      },
+      {
+        "event_id": "gold_event_turn_010_time_event",
+        "event_type": "time_event",
+        "topic_key": "release_date",
+        "source_session_id": "thread:launch_window_thread",
+        "claim": "如果迁移窗口在 5 月 7 日前锁定，内部更合理的目标会变成 5 月 10 日。",
+        "evidence_turn_id": "turn_010",
+        "expected_lifecycle": "active"
+      },
+      {
+        "event_id": "gold_event_turn_010_status_event",
+        "event_type": "status_event",
+        "topic_key": "release_date",
+        "source_session_id": "thread:launch_window_thread",
+        "claim": "如果迁移窗口在 5 月 7 日前锁定，内部更合理的目标会变成 5 月 10 日。",
+        "evidence_turn_id": "turn_010",
+        "expected_lifecycle": "active"
+      },
+      {
+        "event_id": "gold_event_turn_011_objection_event",
+        "event_type": "objection_event",
+        "topic_key": "blocker_readiness",
+        "source_session_id": "chat:main_chat",
+        "claim": "回归队列还没清完，测试这边也不支持直接锁 5 月 5 日。",
+        "evidence_turn_id": "turn_011",
+        "expected_lifecycle": "active"
+      },
+      {
+        "event_id": "gold_event_turn_011_status_event",
+        "event_type": "status_event",
+        "topic_key": "blocker_readiness",
+        "source_session_id": "chat:main_chat",
+        "claim": "回归队列还没清完，测试这边也不支持直接锁 5 月 5 日。",
+        "evidence_turn_id": "turn_011",
+        "expected_lifecycle": "active"
+      },
+      {
+        "event_id": "gold_event_turn_012_commitment_event",
+        "event_type": "commitment_event",
+        "topic_key": "external_messaging",
+        "source_session_id": "chat:customer_sync_chat",
+        "claim": "需要一版可以直接发给客户的说明，不然前线还是会自己补日期。",
+        "evidence_turn_id": "turn_012",
+        "expected_lifecycle": "active"
+      },
+      {
+        "event_id": "gold_event_turn_013_commitment_event",
+        "event_type": "commitment_event",
+        "topic_key": "rollback_readiness",
+        "source_session_id": "chat:main_chat",
+        "claim": "运维承诺周三前完成回滚演练，并在当晚回写结果。",
+        "evidence_turn_id": "turn_013",
+        "expected_lifecycle": "active"
+      },
+      {
+        "event_id": "gold_event_turn_013_time_event",
+        "event_type": "time_event",
+        "topic_key": "rollback_readiness",
+        "source_session_id": "chat:main_chat",
+        "claim": "运维承诺周三前完成回滚演练，并在当晚回写结果。",
+        "evidence_turn_id": "turn_013",
+        "expected_lifecycle": "active"
+      },
+      {
+        "event_id": "gold_event_turn_014_conclusion_event",
+        "event_type": "conclusion_event",
+        "topic_key": "release_date",
+        "source_session_id": "thread:launch_window_thread",
+        "claim": "基于当前依赖情况，原来的 5 月 5 日内部目标应改成 5 月 10 日。",
+        "evidence_turn_id": "turn_014",
+        "expected_lifecycle": "active"
+      },
+      {
+        "event_id": "gold_event_turn_014_time_event",
+        "event_type": "time_event",
+        "topic_key": "release_date",
+        "source_session_id": "thread:launch_window_thread",
+        "claim": "基于当前依赖情况，原来的 5 月 5 日内部目标应改成 5 月 10 日。",
+        "evidence_turn_id": "turn_014",
+        "expected_lifecycle": "active"
+      },
+      {
+        "event_id": "gold_event_turn_014_status_event",
+        "event_type": "status_event",
+        "topic_key": "release_date",
+        "source_session_id": "thread:launch_window_thread",
+        "claim": "基于当前依赖情况，原来的 5 月 5 日内部目标应改成 5 月 10 日。",
+        "evidence_turn_id": "turn_014",
+        "expected_lifecycle": "active"
+      },
+      {
+        "event_id": "gold_event_turn_015_conclusion_event",
+        "event_type": "conclusion_event",
+        "topic_key": "release_date",
+        "source_session_id": "chat:main_chat",
+        "claim": "内部目标先同步更新为 5 月 10 日，但仍不是客户承诺日期。",
+        "evidence_turn_id": "turn_015",
+        "expected_lifecycle": "active"
+      },
+      {
+        "event_id": "gold_event_turn_015_time_event",
+        "event_type": "time_event",
+        "topic_key": "release_date",
+        "source_session_id": "chat:main_chat",
+        "claim": "内部目标先同步更新为 5 月 10 日，但仍不是客户承诺日期。",
+        "evidence_turn_id": "turn_015",
+        "expected_lifecycle": "active"
+      },
+      {
+        "event_id": "gold_event_turn_015_scope_event",
+        "event_type": "scope_event",
+        "topic_key": "release_date",
+        "source_session_id": "chat:main_chat",
+        "claim": "内部目标先同步更新为 5 月 10 日，但仍不是客户承诺日期。",
+        "evidence_turn_id": "turn_015",
+        "expected_lifecycle": "active"
+      },
+      {
+        "event_id": "gold_event_turn_016_commitment_event",
+        "event_type": "commitment_event",
+        "topic_key": "external_messaging",
+        "source_session_id": "chat:customer_sync_chat",
+        "claim": "客户侧统一说法调整为：目标窗口仍在确认，下一次明确更新时间是本周四晚。",
+        "evidence_turn_id": "turn_016",
+        "expected_lifecycle": "active"
+      },
+      {
+        "event_id": "gold_event_turn_016_scope_event",
+        "event_type": "scope_event",
+        "topic_key": "external_messaging",
+        "source_session_id": "chat:customer_sync_chat",
+        "claim": "客户侧统一说法调整为：目标窗口仍在确认，下一次明确更新时间是本周四晚。",
+        "evidence_turn_id": "turn_016",
+        "expected_lifecycle": "active"
+      },
+      {
+        "event_id": "gold_event_turn_017_constraint_event",
+        "event_type": "constraint_event",
+        "topic_key": "external_messaging",
+        "source_session_id": "chat:main_chat",
+        "claim": "在回滚演练和安全评审完成前，对外只能给窗口，不能给具体日期。",
+        "evidence_turn_id": "turn_017",
+        "expected_lifecycle": "active"
+      },
+      {
+        "event_id": "gold_event_turn_017_conclusion_event",
+        "event_type": "conclusion_event",
+        "topic_key": "external_messaging",
+        "source_session_id": "chat:main_chat",
+        "claim": "在回滚演练和安全评审完成前，对外只能给窗口，不能给具体日期。",
+        "evidence_turn_id": "turn_017",
+        "expected_lifecycle": "active"
+      },
+      {
+        "event_id": "gold_event_turn_018_status_event",
+        "event_type": "status_event",
+        "topic_key": "blocker_readiness",
+        "source_session_id": "thread:launch_window_thread",
+        "claim": "回归高优问题已经收敛，测试 blocker 从红色降到黄色。",
+        "evidence_turn_id": "turn_018",
+        "expected_lifecycle": "active"
+      },
+      {
+        "event_id": "gold_event_turn_019_status_event",
+        "event_type": "status_event",
+        "topic_key": "external_messaging",
+        "source_session_id": "chat:main_chat",
+        "claim": "即便测试进度改善，客户侧说法也继续保持窗口而不是日期。",
+        "evidence_turn_id": "turn_019",
+        "expected_lifecycle": "active"
+      },
+      {
+        "event_id": "gold_event_turn_019_scope_event",
+        "event_type": "scope_event",
+        "topic_key": "external_messaging",
+        "source_session_id": "chat:main_chat",
+        "claim": "即便测试进度改善，客户侧说法也继续保持窗口而不是日期。",
+        "evidence_turn_id": "turn_019",
+        "expected_lifecycle": "active"
+      },
+      {
+        "event_id": "gold_event_turn_020_conclusion_event",
+        "event_type": "conclusion_event",
+        "topic_key": "external_messaging",
+        "source_session_id": "chat:customer_sync_chat",
+        "claim": "销售确认前线统一使用窗口口径，不再单独补具体日期。",
+        "evidence_turn_id": "turn_020",
+        "expected_lifecycle": "active"
+      },
+      {
+        "event_id": "gold_event_turn_020_status_event",
+        "event_type": "status_event",
+        "topic_key": "external_messaging",
+        "source_session_id": "chat:customer_sync_chat",
+        "claim": "销售确认前线统一使用窗口口径，不再单独补具体日期。",
+        "evidence_turn_id": "turn_020",
+        "expected_lifecycle": "active"
+      }
+    ],
+    "expected_memory_blocks": {
+      "case_id": "case_feishu_231_example",
+      "blocks": [
+        {
+          "block_id": "block:external_messaging",
+          "topic_key": "external_messaging",
+          "topic_title": "对外沟通口径",
+          "supporting_event_ids": [
+            "gold_event_turn_001_status_event",
+            "gold_event_turn_001_time_event",
+            "gold_event_turn_003_commitment_event",
+            "gold_event_turn_003_objection_event",
+            "gold_event_turn_007_conclusion_event",
+            "gold_event_turn_007_scope_event",
+            "gold_event_turn_008_status_event",
+            "gold_event_turn_008_commitment_event",
+            "gold_event_turn_009_conclusion_event",
+            "gold_event_turn_009_scope_event",
+            "gold_event_turn_012_commitment_event",
+            "gold_event_turn_016_commitment_event",
+            "gold_event_turn_016_scope_event",
+            "gold_event_turn_017_constraint_event",
+            "gold_event_turn_017_conclusion_event",
+            "gold_event_turn_019_status_event",
+            "gold_event_turn_019_scope_event",
+            "gold_event_turn_020_conclusion_event",
+            "gold_event_turn_020_status_event"
+          ],
+          "slot_event_map": {
+            "status": [
+              "gold_event_turn_001_status_event",
+              "gold_event_turn_008_status_event",
+              "gold_event_turn_019_status_event",
+              "gold_event_turn_020_status_event"
+            ],
+            "time": [
+              "gold_event_turn_001_time_event"
+            ],
+            "commitment": [
+              "gold_event_turn_003_commitment_event",
+              "gold_event_turn_008_commitment_event",
+              "gold_event_turn_012_commitment_event",
+              "gold_event_turn_016_commitment_event"
+            ],
+            "objection": [
+              "gold_event_turn_003_objection_event"
+            ],
+            "conclusion": [
+              "gold_event_turn_007_conclusion_event",
+              "gold_event_turn_009_conclusion_event",
+              "gold_event_turn_017_conclusion_event",
+              "gold_event_turn_020_conclusion_event"
+            ],
+            "scope": [
+              "gold_event_turn_007_scope_event",
+              "gold_event_turn_009_scope_event",
+              "gold_event_turn_016_scope_event",
+              "gold_event_turn_019_scope_event"
+            ],
+            "constraint": [
+              "gold_event_turn_017_constraint_event"
+            ]
+          }
+        },
+        {
+          "block_id": "block:release_date",
+          "topic_key": "release_date",
+          "topic_title": "发布时间口径",
+          "supporting_event_ids": [
+            "gold_event_turn_002_conclusion_event",
+            "gold_event_turn_002_time_event",
+            "gold_event_turn_002_scope_event",
+            "gold_event_turn_010_rationale_event",
+            "gold_event_turn_010_time_event",
+            "gold_event_turn_010_status_event",
+            "gold_event_turn_014_conclusion_event",
+            "gold_event_turn_014_time_event",
+            "gold_event_turn_014_status_event",
+            "gold_event_turn_015_conclusion_event",
+            "gold_event_turn_015_time_event",
+            "gold_event_turn_015_scope_event"
+          ],
+          "slot_event_map": {
+            "conclusion": [
+              "gold_event_turn_002_conclusion_event",
+              "gold_event_turn_014_conclusion_event",
+              "gold_event_turn_015_conclusion_event"
+            ],
+            "time": [
+              "gold_event_turn_002_time_event",
+              "gold_event_turn_010_time_event",
+              "gold_event_turn_014_time_event",
+              "gold_event_turn_015_time_event"
+            ],
+            "scope": [
+              "gold_event_turn_002_scope_event",
+              "gold_event_turn_015_scope_event"
+            ],
+            "rationale": [
+              "gold_event_turn_010_rationale_event"
+            ],
+            "status": [
+              "gold_event_turn_010_status_event",
+              "gold_event_turn_014_status_event"
+            ]
+          }
+        },
+        {
+          "block_id": "block:blocker_readiness",
+          "topic_key": "blocker_readiness",
+          "topic_title": "关键 blocker 状态",
+          "supporting_event_ids": [
+            "gold_event_turn_004_status_event",
+            "gold_event_turn_004_constraint_event",
+            "gold_event_turn_004_rationale_event",
+            "gold_event_turn_006_constraint_event",
+            "gold_event_turn_006_objection_event",
+            "gold_event_turn_011_objection_event",
+            "gold_event_turn_011_status_event",
+            "gold_event_turn_018_status_event"
+          ],
+          "slot_event_map": {
+            "status": [
+              "gold_event_turn_004_status_event",
+              "gold_event_turn_011_status_event",
+              "gold_event_turn_018_status_event"
+            ],
+            "constraint": [
+              "gold_event_turn_004_constraint_event",
+              "gold_event_turn_006_constraint_event"
+            ],
+            "rationale": [
+              "gold_event_turn_004_rationale_event"
+            ],
+            "objection": [
+              "gold_event_turn_006_objection_event",
+              "gold_event_turn_011_objection_event"
+            ]
+          }
+        },
+        {
+          "block_id": "block:rollback_readiness",
+          "topic_key": "rollback_readiness",
+          "topic_title": "回滚与上线准备",
+          "supporting_event_ids": [
+            "gold_event_turn_005_constraint_event",
+            "gold_event_turn_005_time_event",
+            "gold_event_turn_005_status_event",
+            "gold_event_turn_013_commitment_event",
+            "gold_event_turn_013_time_event"
+          ],
+          "slot_event_map": {
+            "constraint": [
+              "gold_event_turn_005_constraint_event"
+            ],
+            "time": [
+              "gold_event_turn_005_time_event",
+              "gold_event_turn_013_time_event"
+            ],
+            "status": [
+              "gold_event_turn_005_status_event"
+            ],
+            "commitment": [
+              "gold_event_turn_013_commitment_event"
+            ]
+          }
+        }
+      ]
+    },
+    "expected_current_state": {
+      "case_id": "case_feishu_231_example",
+      "current_items": [
+        {
+          "topic_key": "external_messaging",
+          "slot": "status",
+          "event_id": "gold_event_turn_020_status_event",
+          "claim": "销售确认前线统一使用窗口口径，不再单独补具体日期。",
+          "source_session_id": "chat:customer_sync_chat"
+        },
+        {
+          "topic_key": "external_messaging",
+          "slot": "time",
+          "event_id": "gold_event_turn_001_time_event",
+          "claim": "客户已经开始追问 FEISHU-231 的上线窗口，主群需要给出能向外同步的回应。",
+          "source_session_id": "chat:main_chat"
+        },
+        {
+          "topic_key": "release_date",
+          "slot": "conclusion",
+          "event_id": "gold_event_turn_015_conclusion_event",
+          "claim": "内部目标先同步更新为 5 月 10 日，但仍不是客户承诺日期。",
+          "source_session_id": "chat:main_chat"
+        },
+        {
+          "topic_key": "release_date",
+          "slot": "time",
+          "event_id": "gold_event_turn_015_time_event",
+          "claim": "内部目标先同步更新为 5 月 10 日，但仍不是客户承诺日期。",
+          "source_session_id": "chat:main_chat"
+        },
+        {
+          "topic_key": "release_date",
+          "slot": "scope",
+          "event_id": "gold_event_turn_015_scope_event",
+          "claim": "内部目标先同步更新为 5 月 10 日，但仍不是客户承诺日期。",
+          "source_session_id": "chat:main_chat"
+        },
+        {
+          "topic_key": "external_messaging",
+          "slot": "commitment",
+          "event_id": "gold_event_turn_016_commitment_event",
+          "claim": "客户侧统一说法调整为：目标窗口仍在确认，下一次明确更新时间是本周四晚。",
+          "source_session_id": "chat:customer_sync_chat"
+        },
+        {
+          "topic_key": "external_messaging",
+          "slot": "objection",
+          "event_id": "gold_event_turn_003_objection_event",
+          "claim": "销售希望今天就形成面向客户的同步口径，不然商务承诺会继续失焦。",
+          "source_session_id": "chat:main_chat"
+        },
+        {
+          "topic_key": "blocker_readiness",
+          "slot": "status",
+          "event_id": "gold_event_turn_018_status_event",
+          "claim": "回归高优问题已经收敛，测试 blocker 从红色降到黄色。",
+          "source_session_id": "thread:launch_window_thread"
+        },
+        {
+          "topic_key": "blocker_readiness",
+          "slot": "constraint",
+          "event_id": "gold_event_turn_006_constraint_event",
+          "claim": "高风险能力在安全评审前不应进入客户承诺口径。",
+          "source_session_id": "thread:launch_window_thread"
+        },
+        {
+          "topic_key": "blocker_readiness",
+          "slot": "rationale",
+          "event_id": "gold_event_turn_004_rationale_event",
+          "claim": "真正的 blocker 是数据迁移窗口还没锁定，代码本身不是最慢项。",
+          "source_session_id": "thread:launch_window_thread"
+        },
+        {
+          "topic_key": "rollback_readiness",
+          "slot": "constraint",
+          "event_id": "gold_event_turn_005_constraint_event",
+          "claim": "上线窗口还没最终确认，回滚演练也没有完成，现在说死日期风险太高。",
+          "source_session_id": "thread:launch_window_thread"
+        },
+        {
+          "topic_key": "rollback_readiness",
+          "slot": "time",
+          "event_id": "gold_event_turn_013_time_event",
+          "claim": "运维承诺周三前完成回滚演练，并在当晚回写结果。",
+          "source_session_id": "chat:main_chat"
+        },
+        {
+          "topic_key": "rollback_readiness",
+          "slot": "status",
+          "event_id": "gold_event_turn_005_status_event",
+          "claim": "上线窗口还没最终确认，回滚演练也没有完成，现在说死日期风险太高。",
+          "source_session_id": "thread:launch_window_thread"
+        },
+        {
+          "topic_key": "blocker_readiness",
+          "slot": "objection",
+          "event_id": "gold_event_turn_011_objection_event",
+          "claim": "回归队列还没清完，测试这边也不支持直接锁 5 月 5 日。",
+          "source_session_id": "chat:main_chat"
+        },
+        {
+          "topic_key": "external_messaging",
+          "slot": "conclusion",
+          "event_id": "gold_event_turn_020_conclusion_event",
+          "claim": "销售确认前线统一使用窗口口径，不再单独补具体日期。",
+          "source_session_id": "chat:customer_sync_chat"
+        },
+        {
+          "topic_key": "external_messaging",
+          "slot": "scope",
+          "event_id": "gold_event_turn_019_scope_event",
+          "claim": "即便测试进度改善，客户侧说法也继续保持窗口而不是日期。",
+          "source_session_id": "chat:main_chat"
+        },
+        {
+          "topic_key": "release_date",
+          "slot": "rationale",
+          "event_id": "gold_event_turn_010_rationale_event",
+          "claim": "如果迁移窗口在 5 月 7 日前锁定，内部更合理的目标会变成 5 月 10 日。",
+          "source_session_id": "thread:launch_window_thread"
+        },
+        {
+          "topic_key": "release_date",
+          "slot": "status",
+          "event_id": "gold_event_turn_014_status_event",
+          "claim": "基于当前依赖情况，原来的 5 月 5 日内部目标应改成 5 月 10 日。",
+          "source_session_id": "thread:launch_window_thread"
+        },
+        {
+          "topic_key": "rollback_readiness",
+          "slot": "commitment",
+          "event_id": "gold_event_turn_013_commitment_event",
+          "claim": "运维承诺周三前完成回滚演练，并在当晚回写结果。",
+          "source_session_id": "chat:main_chat"
+        },
+        {
+          "topic_key": "external_messaging",
+          "slot": "constraint",
+          "event_id": "gold_event_turn_017_constraint_event",
+          "claim": "在回滚演练和安全评审完成前，对外只能给窗口，不能给具体日期。",
+          "source_session_id": "chat:main_chat"
+        }
+      ]
+    }
+  },
+  "execution_plan": {
+    "case_id": "case_feishu_231_example",
+    "operator_identity": "user",
+    "delivery_mode": "prefixed_single_operator",
+    "actions": [
+      {
+        "action_id": "act_001",
+        "action_type": "create_chat",
+        "depends_on": [],
+        "params": {
+          "chat_ref": "main_chat",
+          "name": "FEISHU-231 主项目群",
+          "members": [
+            "customer_success_05",
+            "engineering_04",
+            "frontend_08",
+            "management_03",
+            "operations_02",
+            "qa_06",
+            "sales_07",
+            "security_01"
+          ]
+        },
+        "output_ref": "main_chat"
+      },
+      {
+        "action_id": "act_002",
+        "action_type": "create_chat",
+        "depends_on": [],
+        "params": {
+          "chat_ref": "customer_sync_chat",
+          "name": "客户同步群",
+          "members": [
+            "customer_success_05",
+            "engineering_04",
+            "frontend_08",
+            "management_03",
+            "operations_02",
+            "qa_06",
+            "sales_07",
+            "security_01"
+          ]
+        },
+        "output_ref": "customer_sync_chat"
+      },
+      {
+        "action_id": "act_003",
+        "action_type": "send_message",
+        "depends_on": [
+          "act_001"
+        ],
+        "params": {
+          "chat_ref": "main_chat",
+          "sender_ref": "security_01",
+          "content_text": "【安全/林晨】客户已经开始追问 FEISHU-231 的上线窗口，主群需要给出能向外同步的回应。 这个口径请前线和主群保持一致。"
+        },
+        "output_ref": "msg_turn_001"
+      },
+      {
+        "action_id": "act_004",
+        "action_type": "send_message",
+        "depends_on": [
+          "act_001"
+        ],
+        "params": {
+          "chat_ref": "main_chat",
+          "sender_ref": "security_01",
+          "content_text": "【安全/林晨】当前先按 5 月 5 日内部目标推进，但这个日期还不能直接对外承诺。 这也是我们当前需要统一的发布时间口径。"
+        },
+        "output_ref": "msg_turn_002"
+      },
+      {
+        "action_id": "act_005",
+        "action_type": "send_message",
+        "depends_on": [
+          "act_001"
+        ],
+        "params": {
+          "chat_ref": "main_chat",
+          "sender_ref": "sales_07",
+          "content_text": "【销售/罗天】销售希望今天就形成面向客户的同步口径，不然商务承诺会继续失焦。 这个口径请前线和主群保持一致。"
+        },
+        "output_ref": "msg_turn_003"
+      },
+      {
+        "action_id": "act_006",
+        "action_type": "reply_in_thread",
+        "depends_on": [
+          "act_001",
+          "act_004"
+        ],
+        "params": {
+          "chat_ref": "main_chat",
+          "sender_ref": "engineering_04",
+          "content_text": "【研发/赵敏】真正的 blocker 是数据迁移窗口还没锁定，代码本身不是最慢项。 先把 blocker 讲清楚，再决定后面的承诺。",
+          "root_message_ref": "msg_turn_002"
+        },
+        "output_ref": "msg_turn_004"
+      },
+      {
+        "action_id": "act_007",
+        "action_type": "reply_in_thread",
+        "depends_on": [
+          "act_001",
+          "act_004"
+        ],
+        "params": {
+          "chat_ref": "main_chat",
+          "sender_ref": "operations_02",
+          "content_text": "【运维/周宇】上线窗口还没最终确认，回滚演练也没有完成，现在说死日期风险太高。 回滚和上线准备不到位的话，日期就不能说死。",
+          "root_message_ref": "msg_turn_002"
+        },
+        "output_ref": "msg_turn_005"
+      },
+      {
+        "action_id": "act_008",
+        "action_type": "reply_in_thread",
+        "depends_on": [
+          "act_001",
+          "act_004"
+        ],
+        "params": {
+          "chat_ref": "main_chat",
+          "sender_ref": "security_01",
+          "content_text": "【安全/林晨】高风险能力在安全评审前不应进入客户承诺口径。 先把 blocker 讲清楚，再决定后面的承诺。",
+          "root_message_ref": "msg_turn_002"
+        },
+        "output_ref": "msg_turn_006"
+      },
+      {
+        "action_id": "act_009",
+        "action_type": "send_message",
+        "depends_on": [
+          "act_001"
+        ],
+        "params": {
+          "chat_ref": "main_chat",
+          "sender_ref": "security_01",
+          "content_text": "【安全/林晨】请先不要把 5 月 5 日当成已确认时间对外同步，当前只能说还在评估窗口。 这个口径请前线和主群保持一致。"
+        },
+        "output_ref": "msg_turn_007"
+      },
+      {
+        "action_id": "act_010",
+        "action_type": "send_message",
+        "depends_on": [
+          "act_002"
+        ],
+        "params": {
+          "chat_ref": "customer_sync_chat",
+          "sender_ref": "security_01",
+          "content_text": "【安全/林晨】客户同步口径暂时只能说发布日期窗口仍在确认，今天会给出下一次更新时间。 这个口径请前线和主群保持一致。"
+        },
+        "output_ref": "msg_turn_008"
+      },
+      {
+        "action_id": "act_011",
+        "action_type": "send_message",
+        "depends_on": [
+          "act_002"
+        ],
+        "params": {
+          "chat_ref": "customer_sync_chat",
+          "sender_ref": "management_03",
+          "content_text": "【管理/王源】统一对外只说目标窗口仍在评估，不给单点日期。 这个口径请前线和主群保持一致。"
+        },
+        "output_ref": "msg_turn_009"
+      },
+      {
+        "action_id": "act_012",
+        "action_type": "reply_in_thread",
+        "depends_on": [
+          "act_001",
+          "act_004"
+        ],
+        "params": {
+          "chat_ref": "main_chat",
+          "sender_ref": "engineering_04",
+          "content_text": "【研发/赵敏】如果迁移窗口在 5 月 7 日前锁定，内部更合理的目标会变成 5 月 10 日。 这也是我们当前需要统一的发布时间口径。",
+          "root_message_ref": "msg_turn_002"
+        },
+        "output_ref": "msg_turn_010"
+      },
+      {
+        "action_id": "act_013",
+        "action_type": "send_message",
+        "depends_on": [
+          "act_001"
+        ],
+        "params": {
+          "chat_ref": "main_chat",
+          "sender_ref": "qa_06",
+          "content_text": "【测试/陈雪】回归队列还没清完，测试这边也不支持直接锁 5 月 5 日。 先把 blocker 讲清楚，再决定后面的承诺。"
+        },
+        "output_ref": "msg_turn_011"
+      },
+      {
+        "action_id": "act_014",
+        "action_type": "send_message",
+        "depends_on": [
+          "act_002"
+        ],
+        "params": {
+          "chat_ref": "customer_sync_chat",
+          "sender_ref": "sales_07",
+          "content_text": "【销售/罗天】需要一版可以直接发给客户的说明，不然前线还是会自己补日期。 这个口径请前线和主群保持一致。"
+        },
+        "output_ref": "msg_turn_012"
+      },
+      {
+        "action_id": "act_015",
+        "action_type": "send_message",
+        "depends_on": [
+          "act_001"
+        ],
+        "params": {
+          "chat_ref": "main_chat",
+          "sender_ref": "operations_02",
+          "content_text": "【运维/周宇】运维承诺周三前完成回滚演练，并在当晚回写结果。 回滚和上线准备不到位的话，日期就不能说死。"
+        },
+        "output_ref": "msg_turn_013"
+      },
+      {
+        "action_id": "act_016",
+        "action_type": "reply_in_thread",
+        "depends_on": [
+          "act_001",
+          "act_004"
+        ],
+        "params": {
+          "chat_ref": "main_chat",
+          "sender_ref": "engineering_04",
+          "content_text": "【研发/赵敏】基于当前依赖情况，原来的 5 月 5 日内部目标应改成 5 月 10 日。 这也是我们当前需要统一的发布时间口径。",
+          "root_message_ref": "msg_turn_002"
+        },
+        "output_ref": "msg_turn_014"
+      },
+      {
+        "action_id": "act_017",
+        "action_type": "send_message",
+        "depends_on": [
+          "act_001"
+        ],
+        "params": {
+          "chat_ref": "main_chat",
+          "sender_ref": "security_01",
+          "content_text": "【安全/林晨】内部目标先同步更新为 5 月 10 日，但仍不是客户承诺日期。 这也是我们当前需要统一的发布时间口径。"
+        },
+        "output_ref": "msg_turn_015"
+      },
+      {
+        "action_id": "act_018",
+        "action_type": "send_message",
+        "depends_on": [
+          "act_002"
+        ],
+        "params": {
+          "chat_ref": "customer_sync_chat",
+          "sender_ref": "security_01",
+          "content_text": "【安全/林晨】客户侧统一说法调整为：目标窗口仍在确认，下一次明确更新时间是本周四晚。 这个口径请前线和主群保持一致。"
+        },
+        "output_ref": "msg_turn_016"
+      },
+      {
+        "action_id": "act_019",
+        "action_type": "send_message",
+        "depends_on": [
+          "act_001"
+        ],
+        "params": {
+          "chat_ref": "main_chat",
+          "sender_ref": "management_03",
+          "content_text": "【管理/王源】在回滚演练和安全评审完成前，对外只能给窗口，不能给具体日期。 这个口径请前线和主群保持一致。"
+        },
+        "output_ref": "msg_turn_017"
+      },
+      {
+        "action_id": "act_020",
+        "action_type": "reply_in_thread",
+        "depends_on": [
+          "act_001",
+          "act_004"
+        ],
+        "params": {
+          "chat_ref": "main_chat",
+          "sender_ref": "qa_06",
+          "content_text": "【测试/陈雪】回归高优问题已经收敛，测试 blocker 从红色降到黄色。 先把 blocker 讲清楚，再决定后面的承诺。",
+          "root_message_ref": "msg_turn_002"
+        },
+        "output_ref": "msg_turn_018"
+      },
+      {
+        "action_id": "act_021",
+        "action_type": "send_message",
+        "depends_on": [
+          "act_001"
+        ],
+        "params": {
+          "chat_ref": "main_chat",
+          "sender_ref": "security_01",
+          "content_text": "【安全/林晨】即便测试进度改善，客户侧说法也继续保持窗口而不是日期。 这个口径请前线和主群保持一致。"
+        },
+        "output_ref": "msg_turn_019"
+      },
+      {
+        "action_id": "act_022",
+        "action_type": "send_message",
+        "depends_on": [
+          "act_002"
+        ],
+        "params": {
+          "chat_ref": "customer_sync_chat",
+          "sender_ref": "sales_07",
+          "content_text": "【销售/罗天】销售确认前线统一使用窗口口径，不再单独补具体日期。 这个口径请前线和主群保持一致。"
+        },
+        "output_ref": "msg_turn_020"
+      },
+      {
+        "action_id": "act_023",
+        "action_type": "fetch_chat_messages",
+        "depends_on": [
+          "act_001"
+        ],
+        "params": {
+          "chat_ref": "main_chat"
+        }
+      },
+      {
+        "action_id": "act_024",
+        "action_type": "fetch_chat_messages",
+        "depends_on": [
+          "act_002"
+        ],
+        "params": {
+          "chat_ref": "customer_sync_chat"
+        }
+      },
+      {
+        "action_id": "act_025",
+        "action_type": "fetch_thread_messages",
+        "depends_on": [
+          "act_001",
+          "act_004"
+        ],
+        "params": {
+          "chat_ref": "main_chat",
+          "root_message_ref": "msg_turn_002"
+        }
+      }
+    ]
+  }
+}

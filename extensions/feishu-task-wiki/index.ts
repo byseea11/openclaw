@@ -1,10 +1,29 @@
-import { definePluginEntry } from "openclaw/plugin-sdk/plugin-entry";
+import {
+  defineBundledChannelEntry,
+  loadBundledEntryExportSync,
+} from "openclaw/plugin-sdk/channel-entry-contract";
+import type { OpenClawPluginApi } from "openclaw/plugin-sdk/channel-entry-contract";
 
 export * from "./api.ts";
 
-export default definePluginEntry({
+function registerFeishuTaskWikiFull(api: OpenClawPluginApi) {
+  const register = loadBundledEntryExportSync<(api: OpenClawPluginApi) => void>(import.meta.url, {
+    specifier: "./api.ts",
+    exportName: "registerFeishuTaskWikiFull",
+  });
+  register(api);
+}
+
+export default defineBundledChannelEntry({
   id: "feishu-task-wiki",
   name: "Feishu Task Wiki",
-  description: "Task-first routing helpers for Feishu collaboration memory",
-  register() {},
+  description: "Feishu/Lark channel with task-first runtime session routing",
+  importMetaUrl: import.meta.url,
+  plugin: {
+    specifier: "./api.ts",
+    exportName: "feishuTaskWikiChannelPlugin",
+  },
+  registerFull(api) {
+    registerFeishuTaskWikiFull(api);
+  },
 });

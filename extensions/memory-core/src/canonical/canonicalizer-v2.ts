@@ -581,7 +581,7 @@ export function canonicalizeV2(params: CanonicalizeV2Params): CanonicalizeV2Resu
     const supportingContextQuotes = resolveSupportingContextQuotes({
       contextEntries,
       quotes: Array.isArray(claimValueJson?.supporting_context_quotes)
-        ? (claimValueJson.supporting_context_quotes as DecisionSupportingContextQuote[])
+        ? (claimValueJson.supporting_context_quotes)
         : [],
     });
     const supportingQuoteTexts = supportingContextQuotes.map((quote) => quote.quote);
@@ -677,7 +677,7 @@ export function canonicalizeV2(params: CanonicalizeV2Params): CanonicalizeV2Resu
       slot_key: claim.claim_field,
       claim: claim.claim_text,
       claim_value: {
-        ...(claim.claim_value_json ?? {}),
+        ...claim.claim_value_json,
         core_entry_id: claim.resolved_core_entry_id,
         supporting_context_quotes: claim.supporting_context_quotes.map((quote) => ({
           quote: quote.quote,

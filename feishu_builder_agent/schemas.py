@@ -32,6 +32,45 @@ def _require_list(value: Any, field: str) -> list[Any]:
     return value
 
 
+def _require_dict(value: Any, field: str) -> dict[str, Any]:
+    if not isinstance(value, dict):
+        raise ValidationError(f"{field} must be an object")
+    return value
+
+
+def _require_int(value: Any, field: str, *, minimum: int | None = None) -> int:
+    try:
+        number = int(value)
+    except (TypeError, ValueError) as exc:
+        raise ValidationError(f"{field} must be an integer") from exc
+    if minimum is not None and number < minimum:
+        raise ValidationError(f"{field} must be >= {minimum}")
+    return number
+
+
+def _require_string_list(value: Any, field: str) -> list[str]:
+    return [_require_string(item, f"{field}[]") for item in _require_list(value, field)]
+
+
+def _validate_complexity_profile(value: Any, field: str) -> dict[str, int]:
+    profile = _require_dict(value, field)
+    defaults = {
+        "session_count_target": 3,
+        "source_session_count_target": 3,
+        "message_count_target": 18,
+        "topic_count_target": 3,
+        "thread_reply_depth_target": 3,
+        "state_transition_target": 4,
+        "supersession_target": 1,
+        "cross_source_revision_target": 1,
+        "event_family_target": 5,
+    }
+    normalized: dict[str, int] = {}
+    for key, default_value in defaults.items():
+        normalized[key] = _require_int(profile.get(key, default_value), f"{field}.{key}", minimum=1)
+    return normalized
+
+
 def validate_case_spec(payload: dict[str, Any]) -> dict[str, Any]:
     departments = [_require_chinese_string(item, "departments[]") for item in _require_list(payload.get("departments"), "departments")]
     return {
@@ -43,6 +82,54 @@ def validate_case_spec(payload: dict[str, Any]) -> dict[str, Any]:
         "main_goal": _require_chinese_string(payload.get("main_goal"), "main_goal"),
         "difficulty": str(payload.get("difficulty") or "medium").strip() or "medium",
         "seed": int(payload.get("seed") or 0),
+    }
+
+
+def validate_case_seed(payload: dict[str, Any]) -> dict[str, Any]:
+    departments = [_require_chinese_string(item, "case_seed.departments[]") for item in _require_list(payload.get("departments"), "case_seed.departments")]
+    return {
+        "case_id": _require_string(payload.get("case_id"), "case_seed.case_id"),
+        "task_id": _require_string(payload.get("task_id"), "case_seed.task_id"),
+        "title": _require_chinese_string(payload.get("title"), "case_seed.title"),
+        "domain": _require_string(payload.get("domain") or "enterprise_product_launch", "case_seed.domain"),
+        "company_type": _require_chinese_string(payload.get("company_type"), "case_seed.company_type"),
+        "departments": departments,
+        "main_goal": _require_chinese_string(payload.get("main_goal"), "case_seed.main_goal"),
+        "difficulty": str(payload.get("difficulty") or "medium").strip() or "medium",
+        "seed": int(payload.get("seed") or 0),
+        "complexity_profile": _validate_complexity_profile(
+            payload.get("complexity_profile")
+            or {
+                "session_count_target": 3,
+                "source_session_count_target": 3,
+                "message_count_target": 18,
+                "topic_count_target": 3,
+                "thread_reply_depth_target": 3,
+                "state_transition_target": 4,
+                "supersession_target": 1,
+                "cross_source_revision_target": 1,
+                "event_family_target": 5,
+            },
+            "case_seed.complexity_profile",
+        ),
+    }
+
+
+def validate_case_world(payload: dict[str, Any]) -> dict[str, Any]:
+    return {
+        "case_id": _require_string(payload.get("case_id"), "case_world.case_id"),
+        "task_id": _require_string(payload.get("task_id"), "case_world.task_id"),
+        "title": _require_chinese_string(payload.get("title"), "case_world.title"),
+        "domain": _require_string(payload.get("domain"), "case_world.domain"),
+        "company_type": _require_chinese_string(payload.get("company_type"), "case_world.company_type"),
+        "main_goal": _require_chinese_string(payload.get("main_goal"), "case_world.main_goal"),
+        "organization_background": _require_chinese_string(payload.get("organization_background"), "case_world.organization_background"),
+        "external_pressure": _require_chinese_string(payload.get("external_pressure"), "case_world.external_pressure"),
+        "stakeholders": [_require_chinese_string(item, "case_world.stakeholders[]") for item in _require_list(payload.get("stakeholders"), "case_world.stakeholders")],
+        "conflict_axes": [_require_chinese_string(item, "case_world.conflict_axes[]") for item in _require_list(payload.get("conflict_axes"), "case_world.conflict_axes")],
+        "hidden_constraints": [_require_chinese_string(item, "case_world.hidden_constraints[]") for item in _require_list(payload.get("hidden_constraints"), "case_world.hidden_constraints")],
+        "reversal_points": [_require_chinese_string(item, "case_world.reversal_points[]") for item in _require_list(payload.get("reversal_points"), "case_world.reversal_points")],
+        "complexity_profile": _validate_complexity_profile(payload.get("complexity_profile"), "case_world.complexity_profile"),
     }
 
 
@@ -84,9 +171,231 @@ def validate_characters(payload: dict[str, Any]) -> dict[str, Any]:
                 "responsibility": _require_chinese_string(character.get("responsibility"), f"{person_id}.responsibility"),
                 "communication_style": _require_chinese_string(character.get("communication_style"), f"{person_id}.communication_style"),
                 "conflict_bias": _require_chinese_string(character.get("conflict_bias"), f"{person_id}.conflict_bias"),
+                "stance": _require_chinese_string(character.get("stance") or "倾向于在可控风险下推进目标。", f"{person_id}.stance"),
+                "risk_preference": _require_chinese_string(character.get("risk_preference") or "中等风险偏好", f"{person_id}.risk_preference"),
+                "information_access_level": _require_chinese_string(character.get("information_access_level") or "掌握部分上下游信息", f"{person_id}.information_access_level"),
+                "default_channels": _require_string_list(character.get("default_channels") or ["main_chat"], f"{person_id}.default_channels"),
             }
         )
     return {"case_id": case_id, "characters": normalized}
+
+
+def validate_conversation_plan(payload: dict[str, Any], *, allowed_actor_refs: set[str] | None = None) -> dict[str, Any]:
+    case_id = _require_string(payload.get("case_id"), "conversation_plan.case_id")
+    task_id = _require_string(payload.get("task_id"), "conversation_plan.task_id")
+    topic_registry = _require_list(payload.get("topic_registry"), "conversation_plan.topic_registry")
+    sessions = _require_list(payload.get("sessions"), "conversation_plan.sessions")
+    turns = _require_list(payload.get("turns"), "conversation_plan.turns")
+    if len(topic_registry) < 3:
+        raise ValidationError("conversation_plan.topic_registry must contain at least 3 topics")
+    if len(sessions) < 3:
+        raise ValidationError("conversation_plan.sessions must contain at least 3 sessions")
+    if len(turns) < 18:
+        raise ValidationError("conversation_plan.turns must contain at least 18 turns")
+    normalized_topics: list[dict[str, Any]] = []
+    topic_keys: set[str] = set()
+    for topic in topic_registry:
+        topic_obj = _require_dict(topic, "conversation_plan.topic_registry[]")
+        topic_key = _require_string(topic_obj.get("topic_key"), "conversation_plan.topic_key")
+        if topic_key in topic_keys:
+            raise ValidationError(f"duplicate conversation_plan.topic_key: {topic_key}")
+        topic_keys.add(topic_key)
+        normalized_topics.append(
+            {
+                "topic_key": topic_key,
+                "topic_title": _require_chinese_string(topic_obj.get("topic_title"), f"{topic_key}.topic_title"),
+                "desired_event_types": _require_string_list(topic_obj.get("desired_event_types"), f"{topic_key}.desired_event_types"),
+                "state_transitions": [_require_chinese_string(item, f"{topic_key}.state_transitions[]") for item in _require_list(topic_obj.get("state_transitions"), f"{topic_key}.state_transitions")],
+            }
+        )
+    normalized_sessions: list[dict[str, Any]] = []
+    session_ids: set[str] = set()
+    for session in sessions:
+        session_obj = _require_dict(session, "conversation_plan.sessions[]")
+        session_id = _require_string(session_obj.get("session_id"), "conversation_plan.session_id")
+        if session_id in session_ids:
+            raise ValidationError(f"duplicate conversation_plan.session_id: {session_id}")
+        session_ids.add(session_id)
+        source_type = _require_string(session_obj.get("source_type"), f"{session_id}.source_type")
+        if source_type not in {"chat", "thread", "comment", "doc"}:
+            raise ValidationError(f"{session_id}.source_type must be one of chat/thread/comment/doc")
+        normalized_sessions.append(
+            {
+                "session_id": session_id,
+                "source_type": source_type,
+                "source_ref": _require_string(session_obj.get("source_ref"), f"{session_id}.source_ref"),
+                "chat_ref": _require_string(session_obj.get("chat_ref"), f"{session_id}.chat_ref"),
+                "title": _require_chinese_string(session_obj.get("title"), f"{session_id}.title"),
+                "topic_keys": [_require_string(item, f"{session_id}.topic_keys[]") for item in _require_list(session_obj.get("topic_keys"), f"{session_id}.topic_keys")],
+                "planned_turn_count": _require_int(session_obj.get("planned_turn_count"), f"{session_id}.planned_turn_count", minimum=1),
+                "root_turn_id": str(session_obj.get("root_turn_id") or "").strip() or None,
+            }
+        )
+    normalized_turns: list[dict[str, Any]] = []
+    turn_ids: set[str] = set()
+    for turn in turns:
+        turn_obj = _require_dict(turn, "conversation_plan.turns[]")
+        turn_id = _require_string(turn_obj.get("turn_id"), "conversation_plan.turn_id")
+        if turn_id in turn_ids:
+            raise ValidationError(f"duplicate conversation_plan.turn_id: {turn_id}")
+        turn_ids.add(turn_id)
+        speaker_ref = _require_string(turn_obj.get("speaker_ref"), f"{turn_id}.speaker_ref")
+        if allowed_actor_refs is not None and speaker_ref not in allowed_actor_refs:
+            raise ValidationError(f"{turn_id}.speaker_ref must exist in characters.json")
+        session_id = _require_string(turn_obj.get("session_id"), f"{turn_id}.session_id")
+        if session_id not in session_ids:
+            raise ValidationError(f"{turn_id}.session_id must exist in conversation_plan.sessions")
+        topic_key = _require_string(turn_obj.get("topic_key"), f"{turn_id}.topic_key")
+        if topic_key not in topic_keys:
+            raise ValidationError(f"{turn_id}.topic_key must exist in topic_registry")
+        normalized_turns.append(
+            {
+                "turn_id": turn_id,
+                "sequence_no": _require_int(turn_obj.get("sequence_no"), f"{turn_id}.sequence_no", minimum=1),
+                "session_id": session_id,
+                "speaker_ref": speaker_ref,
+                "topic_key": topic_key,
+                "turn_purpose": _require_chinese_string(turn_obj.get("turn_purpose"), f"{turn_id}.turn_purpose"),
+                "supports_event_types": _require_string_list(turn_obj.get("supports_event_types"), f"{turn_id}.supports_event_types"),
+                "references_previous_turns": [str(item).strip() for item in _require_list(turn_obj.get("references_previous_turns") or [], f"{turn_id}.references_previous_turns")],
+                "state_transition": _require_chinese_string(turn_obj.get("state_transition"), f"{turn_id}.state_transition"),
+                "semantic_payload": _require_chinese_string(turn_obj.get("semantic_payload"), f"{turn_id}.semantic_payload"),
+            }
+        )
+    return {
+        "case_id": case_id,
+        "task_id": task_id,
+        "topic_registry": normalized_topics,
+        "sessions": normalized_sessions,
+        "turns": sorted(normalized_turns, key=lambda item: (item["sequence_no"], item["turn_id"])),
+    }
+
+
+def validate_utterance_plan(rows: list[dict[str, Any]], *, allowed_actor_refs: set[str] | None = None) -> list[dict[str, Any]]:
+    normalized: list[dict[str, Any]] = []
+    turn_ids: set[str] = set()
+    for row in rows:
+        row_obj = _require_dict(row, "utterance_plan[]")
+        turn_id = _require_string(row_obj.get("turn_id"), "utterance_plan.turn_id")
+        if turn_id in turn_ids:
+            raise ValidationError(f"duplicate utterance_plan.turn_id: {turn_id}")
+        turn_ids.add(turn_id)
+        speaker_ref = _require_string(row_obj.get("speaker_ref"), f"{turn_id}.speaker_ref")
+        if allowed_actor_refs is not None and speaker_ref not in allowed_actor_refs:
+            raise ValidationError(f"{turn_id}.speaker_ref must exist in characters.json")
+        normalized.append(
+            {
+                "turn_id": turn_id,
+                "sequence_no": _require_int(row_obj.get("sequence_no"), f"{turn_id}.sequence_no", minimum=1),
+                "session_id": _require_string(row_obj.get("session_id"), f"{turn_id}.session_id"),
+                "source_type": _require_string(row_obj.get("source_type"), f"{turn_id}.source_type"),
+                "source_ref": _require_string(row_obj.get("source_ref"), f"{turn_id}.source_ref"),
+                "chat_ref": _require_string(row_obj.get("chat_ref"), f"{turn_id}.chat_ref"),
+                "speaker_ref": speaker_ref,
+                "topic_key": _require_string(row_obj.get("topic_key"), f"{turn_id}.topic_key"),
+                "turn_purpose": _require_chinese_string(row_obj.get("turn_purpose"), f"{turn_id}.turn_purpose"),
+                "supports_event_types": _require_string_list(row_obj.get("supports_event_types"), f"{turn_id}.supports_event_types"),
+                "references_previous_turns": [str(item).strip() for item in _require_list(row_obj.get("references_previous_turns") or [], f"{turn_id}.references_previous_turns")],
+                "state_transition": _require_chinese_string(row_obj.get("state_transition"), f"{turn_id}.state_transition"),
+                "semantic_payload": _require_chinese_string(row_obj.get("semantic_payload"), f"{turn_id}.semantic_payload"),
+                "root_turn_id": str(row_obj.get("root_turn_id") or "").strip() or None,
+            }
+        )
+    return sorted(normalized, key=lambda item: (item["sequence_no"], item["turn_id"]))
+
+
+def validate_realized_messages(rows: list[dict[str, Any]], *, allowed_actor_refs: set[str] | None = None) -> list[dict[str, Any]]:
+    normalized = validate_utterance_plan(rows, allowed_actor_refs=allowed_actor_refs)
+    output: list[dict[str, Any]] = []
+    for row in normalized:
+        payload = dict(row)
+        payload["content_text"] = _require_chinese_string((next(item for item in rows if str(item.get("turn_id")) == row["turn_id"])).get("content_text"), f"{row['turn_id']}.content_text")
+        output.append(payload)
+    return output
+
+
+def validate_expected_events(rows: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    normalized: list[dict[str, Any]] = []
+    event_ids: set[str] = set()
+    for row in rows:
+        row_obj = _require_dict(row, "expected_events[]")
+        event_id = _require_string(row_obj.get("event_id"), "expected_events.event_id")
+        if event_id in event_ids:
+            raise ValidationError(f"duplicate expected_events.event_id: {event_id}")
+        event_ids.add(event_id)
+        normalized.append(
+            {
+                "event_id": event_id,
+                "event_type": _require_string(row_obj.get("event_type"), f"{event_id}.event_type"),
+                "topic_key": _require_string(row_obj.get("topic_key"), f"{event_id}.topic_key"),
+                "source_session_id": _require_string(row_obj.get("source_session_id"), f"{event_id}.source_session_id"),
+                "claim": _require_chinese_string(row_obj.get("claim"), f"{event_id}.claim"),
+                "evidence_turn_id": _require_string(row_obj.get("evidence_turn_id"), f"{event_id}.evidence_turn_id"),
+                "expected_lifecycle": _require_string(row_obj.get("expected_lifecycle") or "active", f"{event_id}.expected_lifecycle"),
+            }
+        )
+    return normalized
+
+
+def validate_expected_memory_blocks(payload: dict[str, Any]) -> dict[str, Any]:
+    case_id = _require_string(payload.get("case_id"), "expected_memory_blocks.case_id")
+    blocks = _require_list(payload.get("blocks"), "expected_memory_blocks.blocks")
+    normalized: list[dict[str, Any]] = []
+    for block in blocks:
+        block_obj = _require_dict(block, "expected_memory_blocks.blocks[]")
+        block_id = _require_string(block_obj.get("block_id"), "expected_memory_blocks.block_id")
+        slot_event_map = _require_dict(block_obj.get("slot_event_map"), f"{block_id}.slot_event_map")
+        normalized.append(
+            {
+                "block_id": block_id,
+                "topic_key": _require_string(block_obj.get("topic_key"), f"{block_id}.topic_key"),
+                "topic_title": _require_chinese_string(block_obj.get("topic_title"), f"{block_id}.topic_title"),
+                "supporting_event_ids": _require_string_list(block_obj.get("supporting_event_ids"), f"{block_id}.supporting_event_ids"),
+                "slot_event_map": {str(key): _require_string_list(value, f"{block_id}.slot_event_map.{key}") for key, value in slot_event_map.items()},
+            }
+        )
+    return {"case_id": case_id, "blocks": normalized}
+
+
+def validate_expected_current_state(payload: dict[str, Any]) -> dict[str, Any]:
+    case_id = _require_string(payload.get("case_id"), "expected_current_state.case_id")
+    current_items = _require_list(payload.get("current_items"), "expected_current_state.current_items")
+    normalized: list[dict[str, Any]] = []
+    for item in current_items:
+        item_obj = _require_dict(item, "expected_current_state.current_items[]")
+        normalized.append(
+            {
+                "topic_key": _require_string(item_obj.get("topic_key"), "expected_current_state.topic_key"),
+                "slot": _require_string(item_obj.get("slot"), "expected_current_state.slot"),
+                "event_id": _require_string(item_obj.get("event_id"), "expected_current_state.event_id"),
+                "claim": _require_chinese_string(item_obj.get("claim"), "expected_current_state.claim"),
+                "source_session_id": _require_string(item_obj.get("source_session_id"), "expected_current_state.source_session_id"),
+            }
+        )
+    return {"case_id": case_id, "current_items": normalized}
+
+
+def validate_complexity_report(payload: dict[str, Any]) -> dict[str, Any]:
+    report = _require_dict(payload, "complexity_report")
+    metrics = _require_dict(report.get("metrics"), "complexity_report.metrics")
+    thresholds = _require_dict(report.get("thresholds"), "complexity_report.thresholds")
+    return {
+        "case_id": _require_string(report.get("case_id"), "complexity_report.case_id"),
+        "passed": bool(report.get("passed")),
+        "failed_checks": _require_string_list(report.get("failed_checks") or [], "complexity_report.failed_checks"),
+        "metrics": {str(key): _require_int(value, f"complexity_report.metrics.{key}", minimum=0) for key, value in metrics.items()},
+        "thresholds": {str(key): _require_int(value, f"complexity_report.thresholds.{key}", minimum=0) for key, value in thresholds.items()},
+    }
+
+
+def validate_dataset_validation_report(payload: dict[str, Any]) -> dict[str, Any]:
+    report = _require_dict(payload, "dataset_validation_report")
+    return {
+        "case_id": _require_string(report.get("case_id"), "dataset_validation_report.case_id"),
+        "passed": bool(report.get("passed")),
+        "errors": _require_string_list(report.get("errors") or [], "dataset_validation_report.errors"),
+        "checks": _require_dict(report.get("checks"), "dataset_validation_report.checks"),
+    }
 
 
 def validate_timeline(payload: dict[str, Any], *, allowed_actor_refs: set[str] | None = None) -> dict[str, Any]:
@@ -214,7 +523,9 @@ def validate_build_report(payload: dict[str, Any]) -> dict[str, Any]:
         "preflight",
         "fetch_identity",
         "num_characters",
-        "num_timeline_events",
+        "num_topics",
+        "num_source_sessions",
+        "num_realized_turns",
         "num_planned_actions",
         "num_executed_actions",
         "num_lark_messages_collected",

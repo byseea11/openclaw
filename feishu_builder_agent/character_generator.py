@@ -57,6 +57,10 @@ def _fallback_characters(spec: dict[str, Any]) -> dict[str, Any]:
                 "responsibility": responsibility,
                 "communication_style": communication_style,
                 "conflict_bias": conflict_bias,
+                "stance": f"{department} 侧会围绕自己的职责对 {spec['task_id']} 提出明确立场。",
+                "risk_preference": "中等风险偏好" if department in {"产品", "销售", "客户成功"} else "低风险偏好",
+                "information_access_level": "掌握跨部门上下游信息" if department in {"产品", "管理"} else "掌握本职能关键事实",
+                "default_channels": ["main_chat", "customer_sync_chat"] if department in {"销售", "客户成功"} else ["main_chat", "launch_window_thread"],
             }
         )
     return {"case_id": spec["case_id"], "characters": characters}
@@ -85,14 +89,16 @@ def generate_characters_with_mode(
     system_prompt = (
         "Generate a concise role roster for one enterprise software delivery case. "
         "Return only JSON with keys: case_id, characters. characters must be an array of 6 to 10 objects. "
-        "Each object must contain person_id, name, department, role, responsibility, communication_style, conflict_bias. "
+        "Each object must contain person_id, name, department, role, responsibility, communication_style, conflict_bias, "
+        "stance, risk_preference, information_access_level, default_channels. "
         "All natural-language strings must be written in Simplified Chinese. "
         "Only person_id may remain snake_case."
     )
     user_prompt = (
         f"Case spec:\n{spec}\nStory:\n{validated_story}\n"
         "请生成 6 到 10 个覆盖至少 5 个部门的角色。所有自然语言字段必须使用简体中文，字段尽量简短。"
-        "person_id must be stable snake_case strings."
+        "person_id must be stable snake_case strings. default_channels should be string arrays such as "
+        "['main_chat', 'launch_window_thread', 'customer_sync_chat']."
     )
     try:
         payload = llm_client.generate_json(system_prompt=system_prompt, user_prompt=user_prompt)

@@ -38,7 +38,7 @@ def preflight(*, lark_cli_bin: str = "lark-cli", runner: Runner | None = None, o
     if runner is None:
         result["warnings"].append("auth status not checked")
         return result
-    auth_cmd = [lark_cli_bin, "auth", "status", "--format", "json"]
+    auth_cmd = [lark_cli_bin, "auth", "status"]
     completed = runner(auth_cmd)
     payload = _safe_json(completed.stdout)
     result["auth_ok"] = completed.returncode == 0
