@@ -60,7 +60,15 @@ def _load_case_spec(path: str | Path) -> dict[str, Any]:
 
 
 def _aggregate_llm_mode(generation_modes: dict[str, str]) -> str:
-    modes = [mode for mode in generation_modes.values() if mode in {"live", "fallback", "mixed"}]
+    normalized_modes: list[str] = []
+    for mode in generation_modes.values():
+        if mode in {"live", "live_retry"}:
+            normalized_modes.append("live")
+        elif mode in {"fallback", "fallback_repaired"}:
+            normalized_modes.append("fallback")
+        elif mode == "mixed":
+            normalized_modes.append("mixed")
+    modes = normalized_modes
     if not modes:
         return "deterministic"
     if all(mode == "live" for mode in modes):
@@ -235,8 +243,13 @@ def generate_conversation_plan_stage(*, case_dir_path: str | Path) -> dict[str, 
     active_llm_client = None if isinstance(llm_client, DisabledLLMClient) else llm_client
     story, story_mode = generate_story_with_mode(case_world, characters, llm_client=active_llm_client)
     _timeline, timeline_mode = generate_timeline_with_mode(case_world, story, characters, llm_client=active_llm_client)
-    conversation_plan, conversation_plan_mode = generate_conversation_plan_with_mode(case_world, characters, llm_client=active_llm_client)
+    conversation_plan, conversation_plan_mode, conversation_plan_generation_log = generate_conversation_plan_with_mode(
+        case_world,
+        characters,
+        llm_client=active_llm_client,
+    )
     write_json(case_path / "input" / "conversation_plan.json", conversation_plan)
+    write_json(case_path / "checks" / "conversation_plan_generation_log.json", conversation_plan_generation_log)
     llm_mode = _aggregate_llm_mode(
         {
             "story": story_mode,
@@ -252,6 +265,7 @@ def generate_conversation_plan_stage(*, case_dir_path: str | Path) -> dict[str, 
         "case_world": case_world,
         "characters": characters,
         "conversation_plan": conversation_plan,
+        "conversation_plan_generation_log": conversation_plan_generation_log,
     }
 
 

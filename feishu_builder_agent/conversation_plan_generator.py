@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from collections import defaultdict
+from datetime import datetime, timezone
 from typing import Any
 
 from .builder_settings import resolve_difficulty_settings
@@ -13,6 +14,9 @@ from .schemas import (
     validate_characters,
     validate_conversation_plan,
 )
+
+
+SUPERSESSION_KEYWORDS = ("更新为", "改为", "修正为", "收紧为")
 
 
 def _first_actor(roster: list[dict[str, Any]], department: str) -> str:
@@ -188,6 +192,10 @@ def _plan_session_map(plan: dict[str, Any]) -> dict[str, dict[str, Any]]:
     return {item["session_id"]: item for item in plan["sessions"]}
 
 
+def _utc_now_iso() -> str:
+    return datetime.now(timezone.utc).replace(microsecond=0).isoformat().replace("+00:00", "Z")
+
+
 def _next_turn_sequence_no(turns: list[dict[str, Any]]) -> int:
     return max((int(turn["sequence_no"]) for turn in turns), default=0) + 1
 
@@ -275,14 +283,160 @@ def _topic_source_refs(plan: dict[str, Any], topic_key: str) -> set[str]:
 
 
 def _count_supersessions(turns: list[dict[str, Any]]) -> int:
-    keywords = ("更新为", "改为", "修正为", "收紧为")
     total = 0
     for turn in turns:
         state_transition = str(turn.get("state_transition") or "")
         semantic_payload = str(turn.get("semantic_payload") or "")
-        if any(keyword in state_transition for keyword in keywords) or any(keyword in semantic_payload for keyword in keywords):
+        if any(keyword in state_transition for keyword in SUPERSESSION_KEYWORDS) or any(
+            keyword in semantic_payload for keyword in SUPERSESSION_KEYWORDS
+        ):
             total += 1
     return total
+
+
+def measure_plan_metrics(plan: dict[str, Any]) -> dict[str, int]:
+    session_map = _plan_session_map(plan)
+    thread_counts: defaultdict[str, int] = defaultdict(int)
+    topic_source_refs: defaultdict[str, set[str]] = defaultdict(set)
+    state_transition_count = 0
+    for turn in plan["turns"]:
+        session = session_map.get(turn["session_id"])
+        if not session:
+            continue
+        if session["source_type"] == "thread":
+            thread_counts[str(session["source_ref"])] += 1
+        topic_source_refs[str(turn["topic_key"])].add(str(session["source_ref"]))
+        if str(turn.get("state_transition") or "").strip():
+            state_transition_count += 1
+    return {
+        "session_count": len(plan["sessions"]),
+        "topic_count": len(plan["topic_registry"]),
+        "message_count": len(plan["turns"]),
+        "thread_reply_depth": max(thread_counts.values(), default=0),
+        "state_transition_count": state_transition_count,
+        "supersession_count": _count_supersessions(plan["turns"]),
+        "cross_source_revision_count": sum(1 for refs in topic_source_refs.values() if len(refs) >= 2),
+    }
+
+
+def measure_plan_deficit(plan: dict[str, Any], difficulty_settings: dict[str, Any]) -> dict[str, int]:
+    metrics = measure_plan_metrics(plan)
+    return deficit_from_metrics(metrics, difficulty_settings)
+
+
+def deficit_from_metrics(metrics: dict[str, int], difficulty_settings: dict[str, Any]) -> dict[str, int]:
+    complexity = difficulty_settings["complexity_profile"]
+    thresholds = {
+        "session_count": int(complexity["session_count_target"]),
+        "topic_count": int(difficulty_settings["topic_count"]),
+        "message_count": int(complexity["message_count_target"]),
+        "thread_reply_depth": int(complexity["thread_reply_depth_target"]),
+        "state_transition_count": int(complexity["state_transition_target"]),
+        "supersession_count": int(complexity["supersession_target"]),
+        "cross_source_revision_count": int(complexity["cross_source_revision_target"]),
+    }
+    return {key: max(threshold - int(metrics.get(key, 0)), 0) for key, threshold in thresholds.items()}
+
+
+def _try_measure_plan_metrics(payload: Any) -> dict[str, int] | None:
+    if not isinstance(payload, dict):
+        return None
+    try:
+        sessions = payload.get("sessions")
+        turns = payload.get("turns")
+        topic_registry = payload.get("topic_registry")
+        if not isinstance(sessions, list) or not isinstance(turns, list) or not isinstance(topic_registry, list):
+            return None
+        session_map = {
+            str(item.get("session_id")): item
+            for item in sessions
+            if isinstance(item, dict) and str(item.get("session_id") or "").strip()
+        }
+        thread_counts: defaultdict[str, int] = defaultdict(int)
+        topic_source_refs: defaultdict[str, set[str]] = defaultdict(set)
+        state_transition_count = 0
+        supersession_count = 0
+        for turn in turns:
+            if not isinstance(turn, dict):
+                continue
+            session = session_map.get(str(turn.get("session_id") or ""))
+            if session and str(session.get("source_type") or "") == "thread":
+                thread_counts[str(session.get("source_ref") or session.get("session_id") or "")] += 1
+            if session:
+                topic_source_refs[str(turn.get("topic_key") or "")].add(
+                    str(session.get("source_ref") or session.get("session_id") or "")
+                )
+            state_transition = str(turn.get("state_transition") or "")
+            semantic_payload = str(turn.get("semantic_payload") or "")
+            if state_transition.strip():
+                state_transition_count += 1
+            if any(keyword in state_transition for keyword in SUPERSESSION_KEYWORDS) or any(
+                keyword in semantic_payload for keyword in SUPERSESSION_KEYWORDS
+            ):
+                supersession_count += 1
+        return {
+            "session_count": len(sessions),
+            "topic_count": len(topic_registry),
+            "message_count": len(turns),
+            "thread_reply_depth": max(thread_counts.values(), default=0),
+            "state_transition_count": state_transition_count,
+            "supersession_count": supersession_count,
+            "cross_source_revision_count": sum(1 for refs in topic_source_refs.values() if len(refs) >= 2),
+        }
+    except Exception:
+        return None
+
+
+def _nonzero_deficit(deficit: dict[str, int]) -> dict[str, int]:
+    return {key: value for key, value in deficit.items() if int(value) > 0}
+
+
+def _record_attempt(
+    generation_log: dict[str, Any],
+    *,
+    stage: str,
+    mode: str,
+    success: bool,
+    validation_error: str = "",
+    input_metrics: dict[str, int] | None = None,
+    output_metrics: dict[str, int] | None = None,
+    remaining_deficit: dict[str, int] | None = None,
+    notes: str = "",
+) -> None:
+    generation_log["attempts"].append(
+        {
+            "stage": stage,
+            "mode": mode,
+            "success": bool(success),
+            "validation_error": str(validation_error or ""),
+            "input_metrics": input_metrics,
+            "output_metrics": output_metrics,
+            "remaining_deficit": remaining_deficit or {},
+            "notes": str(notes or ""),
+        }
+    )
+
+
+def _finalize_fallback_result(
+    *,
+    generation_log: dict[str, Any],
+    fallback_plan: dict[str, Any],
+    world: dict[str, Any],
+    validated_characters: dict[str, Any],
+    difficulty_settings: dict[str, Any],
+    roster_ids: set[str],
+) -> tuple[dict[str, Any], str, dict[str, Any]]:
+    repaired = repair_conversation_plan_complexity(
+        fallback_plan,
+        world,
+        validated_characters,
+        difficulty_settings,
+        generation_log=generation_log,
+    )
+    generation_log["final_mode"] = "fallback_repaired"
+    generation_log["degraded"] = True
+    generation_log["finished_at"] = _utc_now_iso()
+    return validate_conversation_plan(repaired, allowed_actor_refs=roster_ids), "fallback_repaired", generation_log
 
 
 def ensure_thread_depth(
@@ -530,6 +684,8 @@ def repair_conversation_plan_complexity(
     world: dict[str, Any],
     characters: dict[str, Any],
     difficulty_settings: dict[str, Any],
+    *,
+    generation_log: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
     validated_world = validate_case_world(world)
     validated_characters = validate_characters(characters)
@@ -541,10 +697,15 @@ def repair_conversation_plan_complexity(
         "turns": [dict(item) for item in plan["turns"]],
     }
     roster = list(validated_characters["characters"])
+    before_metrics = measure_plan_metrics(repaired)
     ensure_thread_depth(repaired, validated_world, roster, difficulty_settings=difficulty_settings)
+    after_thread_metrics = measure_plan_metrics(repaired)
     ensure_supersession_count(repaired, roster, difficulty_settings=difficulty_settings)
+    after_supersession_metrics = measure_plan_metrics(repaired)
     ensure_cross_source_revisions(repaired, roster, difficulty_settings=difficulty_settings)
+    after_cross_source_metrics = measure_plan_metrics(repaired)
     ensure_min_turn_count(repaired, validated_world, roster, difficulty_settings=difficulty_settings)
+    after_min_turn_metrics = measure_plan_metrics(repaired)
     session_counts: defaultdict[str, int] = defaultdict(int)
     session_topics: defaultdict[str, list[str]] = defaultdict(list)
     main_chat_root = next((turn["turn_id"] for turn in repaired["turns"] if turn["session_id"] == "session_main_chat"), None)
@@ -558,6 +719,27 @@ def repair_conversation_plan_complexity(
         session["topic_keys"] = session_topics.get(session["session_id"], session.get("topic_keys", []))
         if session["source_type"] == "thread" and not session.get("root_turn_id"):
             session["root_turn_id"] = main_chat_root
+    if generation_log is not None:
+        final_metrics = measure_plan_metrics(repaired)
+        _record_attempt(
+            generation_log,
+            stage="repair",
+            mode="deterministic_repair",
+            success=True,
+            input_metrics=before_metrics,
+            output_metrics=final_metrics,
+            remaining_deficit=_nonzero_deficit(measure_plan_deficit(repaired, difficulty_settings)),
+            notes=(
+                "thread_depth_delta="
+                f"{after_thread_metrics['thread_reply_depth'] - before_metrics['thread_reply_depth']}, "
+                "supersession_delta="
+                f"{after_supersession_metrics['supersession_count'] - after_thread_metrics['supersession_count']}, "
+                "cross_source_delta="
+                f"{after_cross_source_metrics['cross_source_revision_count'] - after_supersession_metrics['cross_source_revision_count']}, "
+                "message_delta="
+                f"{after_min_turn_metrics['message_count'] - after_cross_source_metrics['message_count']}"
+            ),
+        )
     return repaired
 
 
@@ -566,32 +748,231 @@ def generate_conversation_plan_with_mode(
     characters: dict[str, Any],
     *,
     llm_client: JsonLLMClient | None = None,
-) -> tuple[dict[str, Any], str]:
+) -> tuple[dict[str, Any], str, dict[str, Any]]:
     world = validate_case_world(case_world)
     validated_characters = validate_characters(characters)
     roster_ids = {item["person_id"] for item in validated_characters["characters"]}
     fallback_plan = _fallback_conversation_plan(world, validated_characters)
     difficulty_settings = resolve_difficulty_settings(world["difficulty"])
+    generation_log: dict[str, Any] = {
+        "case_id": world["case_id"],
+        "task_id": world["task_id"],
+        "difficulty": world["difficulty"],
+        "started_at": _utc_now_iso(),
+        "finished_at": "",
+        "final_mode": "",
+        "degraded": False,
+        "attempts": [],
+    }
+    fallback_metrics = measure_plan_metrics(fallback_plan)
+    fallback_deficit = _nonzero_deficit(measure_plan_deficit(fallback_plan, difficulty_settings))
+    _record_attempt(
+        generation_log,
+        stage="fallback_plan",
+        mode="fallback_plan",
+        success=True,
+        output_metrics=fallback_metrics,
+        remaining_deficit=fallback_deficit,
+        notes="deterministic skeleton built from case_world.selected_topics",
+    )
     if llm_client is None:
-        repaired = repair_conversation_plan_complexity(fallback_plan, world, validated_characters, difficulty_settings)
-        return validate_conversation_plan(repaired, allowed_actor_refs=roster_ids), "fallback"
+        return _finalize_fallback_result(
+            generation_log=generation_log,
+            fallback_plan=fallback_plan,
+            world=world,
+            validated_characters=validated_characters,
+            difficulty_settings=difficulty_settings,
+            roster_ids=roster_ids,
+        )
+
     system_prompt, user_prompt = build_conversation_plan_prompts(
         world=world,
         validated_characters=validated_characters,
     )
+    payload: Any = None
     try:
         payload = llm_client.generate_json(system_prompt=system_prompt, user_prompt=user_prompt)
         live_plan = validate_conversation_plan(payload, allowed_actor_refs=roster_ids)
-        repaired = repair_conversation_plan_complexity(live_plan, world, validated_characters, difficulty_settings)
-        return validate_conversation_plan(repaired, allowed_actor_refs=roster_ids), "live"
+        live_metrics = measure_plan_metrics(live_plan)
+        live_deficit = _nonzero_deficit(measure_plan_deficit(live_plan, difficulty_settings))
+        if not live_deficit:
+            _record_attempt(
+                generation_log,
+                stage="plan_live_attempt_1",
+                mode="live",
+                success=True,
+                output_metrics=live_metrics,
+                remaining_deficit=live_deficit,
+                notes="initial live conversation plan generation",
+            )
+            repaired = repair_conversation_plan_complexity(
+                live_plan,
+                world,
+                validated_characters,
+                difficulty_settings,
+                generation_log=generation_log,
+            )
+            generation_log["final_mode"] = "live"
+            generation_log["finished_at"] = _utc_now_iso()
+            return validate_conversation_plan(repaired, allowed_actor_refs=roster_ids), "live", generation_log
+        _record_attempt(
+            generation_log,
+            stage="plan_live_attempt_1",
+            mode="live_insufficient",
+            success=False,
+            output_metrics=live_metrics,
+            remaining_deficit=live_deficit,
+            notes="initial live plan passed schema validation but did not satisfy complexity targets",
+        )
+        builder_log(
+            "plan",
+            "第一次 live 生成未达标，准备注入 deficit 做第二次 live retry。"
+            f" remaining_deficit={live_deficit}",
+        )
+
+        retry_system_prompt, retry_user_prompt = build_conversation_plan_prompts(
+            world=world,
+            validated_characters=validated_characters,
+            current_metrics=live_metrics,
+            remaining_deficit=live_deficit,
+            must_fix_now=sorted(live_deficit.keys()),
+        )
+        retry_payload: Any = None
+        try:
+            retry_payload = llm_client.generate_json(system_prompt=retry_system_prompt, user_prompt=retry_user_prompt)
+            retry_plan = validate_conversation_plan(retry_payload, allowed_actor_refs=roster_ids)
+            retry_metrics = measure_plan_metrics(retry_plan)
+            retry_deficit = _nonzero_deficit(measure_plan_deficit(retry_plan, difficulty_settings))
+            if retry_deficit:
+                _record_attempt(
+                    generation_log,
+                    stage="plan_live_attempt_2",
+                    mode="retry_insufficient",
+                    success=False,
+                    input_metrics=live_metrics,
+                    output_metrics=retry_metrics,
+                    remaining_deficit=retry_deficit,
+                    notes="retry plan passed schema validation but still did not satisfy complexity targets",
+                )
+                builder_log(
+                    "plan",
+                    "第二次 live 生成仍未达标，进入显式 fallback + repair。"
+                    f" remaining_deficit={retry_deficit}",
+                )
+                return _finalize_fallback_result(
+                    generation_log=generation_log,
+                    fallback_plan=fallback_plan,
+                    world=world,
+                    validated_characters=validated_characters,
+                    difficulty_settings=difficulty_settings,
+                    roster_ids=roster_ids,
+                )
+            _record_attempt(
+                generation_log,
+                stage="plan_live_attempt_2",
+                mode="live_retry",
+                success=True,
+                input_metrics=live_metrics,
+                output_metrics=retry_metrics,
+                remaining_deficit=retry_deficit,
+                notes="retry prompt injected current metrics and remaining deficit",
+            )
+        except ValidationError as exc:
+            retry_metrics = _try_measure_plan_metrics(retry_payload)
+            retry_deficit = _nonzero_deficit(deficit_from_metrics(retry_metrics, difficulty_settings)) if retry_metrics is not None else {}
+            _record_attempt(
+                generation_log,
+                stage="plan_live_attempt_2",
+                mode="retry_invalid",
+                success=False,
+                validation_error=str(exc),
+                input_metrics=live_metrics,
+                output_metrics=retry_metrics,
+                remaining_deficit=retry_deficit,
+                notes="retry conversation_plan payload failed schema validation",
+            )
+            builder_log("plan", f"第二次 live 输出未通过 conversation_plan 校验，进入显式 fallback + repair。reason={exc} payload={retry_payload!r}")
+            return _finalize_fallback_result(
+                generation_log=generation_log,
+                fallback_plan=fallback_plan,
+                world=world,
+                validated_characters=validated_characters,
+                difficulty_settings=difficulty_settings,
+                roster_ids=roster_ids,
+            )
+        except Exception as exc:
+            _record_attempt(
+                generation_log,
+                stage="plan_live_attempt_2",
+                mode="retry_runtime_error",
+                success=False,
+                validation_error=f"{exc.__class__.__name__}: {exc}",
+                input_metrics=live_metrics,
+                output_metrics=_try_measure_plan_metrics(retry_payload),
+                remaining_deficit={},
+                notes="retry live generation failed before a valid plan was produced",
+            )
+            builder_log("plan", f"第二次 live 输出后处理失败，进入显式 fallback + repair。reason={exc.__class__.__name__}: {exc}")
+            return _finalize_fallback_result(
+                generation_log=generation_log,
+                fallback_plan=fallback_plan,
+                world=world,
+                validated_characters=validated_characters,
+                difficulty_settings=difficulty_settings,
+                roster_ids=roster_ids,
+            )
+        repaired = repair_conversation_plan_complexity(
+            retry_plan,
+            world,
+            validated_characters,
+            difficulty_settings,
+            generation_log=generation_log,
+        )
+        generation_log["final_mode"] = "live_retry"
+        generation_log["finished_at"] = _utc_now_iso()
+        return validate_conversation_plan(repaired, allowed_actor_refs=roster_ids), "live_retry", generation_log
     except ValidationError as exc:
-        builder_log("plan", f"模型输出未通过 conversation_plan 校验，回退 fallback。reason={exc} payload={payload!r}")
-        repaired = repair_conversation_plan_complexity(fallback_plan, world, validated_characters, difficulty_settings)
-        return validate_conversation_plan(repaired, allowed_actor_refs=roster_ids), "fallback"
+        input_metrics = _try_measure_plan_metrics(payload)
+        remaining_deficit = _nonzero_deficit(deficit_from_metrics(input_metrics, difficulty_settings)) if input_metrics is not None else {}
+        _record_attempt(
+            generation_log,
+            stage="plan_live_attempt_1",
+            mode="live_invalid",
+            success=False,
+            validation_error=str(exc),
+            output_metrics=input_metrics,
+            remaining_deficit=remaining_deficit,
+            notes="conversation_plan payload failed schema validation",
+        )
+        builder_log("plan", f"模型输出未通过 conversation_plan 校验，进入显式 fallback + repair。reason={exc} payload={payload!r}")
+        return _finalize_fallback_result(
+            generation_log=generation_log,
+            fallback_plan=fallback_plan,
+            world=world,
+            validated_characters=validated_characters,
+            difficulty_settings=difficulty_settings,
+            roster_ids=roster_ids,
+        )
     except Exception as exc:
-        builder_log("plan", f"模型输出后处理失败，回退 fallback。reason={exc.__class__.__name__}: {exc}")
-        repaired = repair_conversation_plan_complexity(fallback_plan, world, validated_characters, difficulty_settings)
-        return validate_conversation_plan(repaired, allowed_actor_refs=roster_ids), "fallback"
+        _record_attempt(
+            generation_log,
+            stage="plan_live_attempt_1",
+            mode="llm_runtime_error",
+            success=False,
+            validation_error=f"{exc.__class__.__name__}: {exc}",
+            output_metrics=_try_measure_plan_metrics(payload),
+            remaining_deficit={},
+            notes="live generation failed before a valid plan was produced",
+        )
+        builder_log("plan", f"模型输出后处理失败，进入显式 fallback + repair。reason={exc.__class__.__name__}: {exc}")
+        return _finalize_fallback_result(
+            generation_log=generation_log,
+            fallback_plan=fallback_plan,
+            world=world,
+            validated_characters=validated_characters,
+            difficulty_settings=difficulty_settings,
+            roster_ids=roster_ids,
+        )
 
 
 def generate_conversation_plan(
@@ -600,7 +981,7 @@ def generate_conversation_plan(
     *,
     llm_client: JsonLLMClient | None = None,
 ) -> dict[str, Any]:
-    plan, _mode = generate_conversation_plan_with_mode(
+    plan, _mode, _log = generate_conversation_plan_with_mode(
         case_world,
         characters,
         llm_client=llm_client,

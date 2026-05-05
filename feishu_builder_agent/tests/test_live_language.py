@@ -6,7 +6,11 @@ from typing import Any
 from feishu_builder_agent.character_generator import generate_characters
 from feishu_builder_agent.case_world_generator import generate_case_world
 from feishu_builder_agent.complexity_validator import build_complexity_report
-from feishu_builder_agent.conversation_plan_generator import _fallback_conversation_plan, generate_conversation_plan
+from feishu_builder_agent.conversation_plan_generator import (
+    _fallback_conversation_plan,
+    generate_conversation_plan,
+    generate_conversation_plan_with_mode,
+)
 from feishu_builder_agent.spec_generator import build_complexity_profile
 from feishu_builder_agent.story_generator import generate_story
 from feishu_builder_agent.timeline_planner import generate_timeline
@@ -117,16 +121,27 @@ class LiveLanguageFallbackTests(unittest.TestCase):
         world = generate_case_world(hard_seed)
         characters = generate_characters(world)
         tiny_plan = _fallback_conversation_plan(world, characters)
-        tiny_plan["turns"] = tiny_plan["turns"][:8]
-        tiny_plan["sessions"] = tiny_plan["sessions"][:3]
+        tiny_plan["turns"] = tiny_plan["turns"][:21]
         for session in tiny_plan["sessions"]:
             session["planned_turn_count"] = sum(1 for turn in tiny_plan["turns"] if turn["session_id"] == session["session_id"])
+        completed_plan = generate_conversation_plan(world, characters, llm_client=None)
 
         class _TinyPlanLLM:
-            def generate_json(self, *, system_prompt: str, user_prompt: str) -> dict[str, Any]:
-                return tiny_plan
+            def __init__(self) -> None:
+                self._payloads = [tiny_plan, completed_plan]
 
-        repaired_plan = generate_conversation_plan(world, characters, llm_client=_TinyPlanLLM())
+            def generate_json(self, *, system_prompt: str, user_prompt: str) -> dict[str, Any]:
+                return self._payloads.pop(0)
+
+        repaired_plan, mode, generation_log = generate_conversation_plan_with_mode(
+            world,
+            characters,
+            llm_client=_TinyPlanLLM(),
+        )
+        self.assertEqual(mode, "live_retry")
+        self.assertFalse(generation_log["degraded"])
+        self.assertEqual(generation_log["final_mode"], "live_retry")
+        self.assertEqual(len(generation_log["attempts"]), 4)
         self.assertGreaterEqual(len(repaired_plan["turns"]), 28)
         thread_counts: dict[str, int] = {}
         session_map = {item["session_id"]: item for item in repaired_plan["sessions"]}
@@ -135,6 +150,68 @@ class LiveLanguageFallbackTests(unittest.TestCase):
             if session["source_type"] == "thread":
                 thread_counts[session["source_ref"]] = thread_counts.get(session["source_ref"], 0) + 1
         self.assertGreaterEqual(max(thread_counts.values()), 5)
+        self.assertEqual(generation_log["attempts"][1]["mode"], "live_insufficient")
+        self.assertEqual(generation_log["attempts"][1]["stage"], "plan_live_attempt_1")
+        self.assertEqual(generation_log["attempts"][2]["mode"], "live_retry")
+        self.assertEqual(generation_log["attempts"][2]["stage"], "plan_live_attempt_2")
+        self.assertEqual(generation_log["attempts"][3]["stage"], "repair")
+
+    def test_conversation_plan_logs_retry_insufficient_before_fallback_repair(self) -> None:
+        hard_seed = {
+            **CASE_SEED,
+            "difficulty": "hard",
+            "complexity_profile": build_complexity_profile("hard"),
+        }
+        world = generate_case_world(hard_seed)
+        characters = generate_characters(world)
+        tiny_plan = _fallback_conversation_plan(world, characters)
+        tiny_plan["turns"] = tiny_plan["turns"][:21]
+        for session in tiny_plan["sessions"]:
+            session["planned_turn_count"] = sum(1 for turn in tiny_plan["turns"] if turn["session_id"] == session["session_id"])
+
+        class _StillTinyPlanLLM:
+            def generate_json(self, *, system_prompt: str, user_prompt: str) -> dict[str, Any]:
+                return tiny_plan
+
+        repaired_plan, mode, generation_log = generate_conversation_plan_with_mode(
+            world,
+            characters,
+            llm_client=_StillTinyPlanLLM(),
+        )
+        self.assertEqual(mode, "fallback_repaired")
+        self.assertTrue(generation_log["degraded"])
+        self.assertEqual(generation_log["attempts"][1]["mode"], "live_insufficient")
+        self.assertEqual(generation_log["attempts"][2]["mode"], "retry_insufficient")
+        self.assertEqual(generation_log["attempts"][-1]["stage"], "repair")
+        self.assertGreaterEqual(len(repaired_plan["turns"]), 28)
+
+    def test_conversation_plan_logs_explicit_fallback_when_live_output_is_invalid(self) -> None:
+        hard_seed = {
+            **CASE_SEED,
+            "difficulty": "hard",
+            "complexity_profile": build_complexity_profile("hard"),
+        }
+        world = generate_case_world(hard_seed)
+        characters = generate_characters(world)
+        tiny_plan = _fallback_conversation_plan(world, characters)
+        tiny_plan["turns"] = tiny_plan["turns"][:8]
+        tiny_plan["sessions"] = tiny_plan["sessions"][:2]
+
+        class _InvalidPlanLLM:
+            def generate_json(self, *, system_prompt: str, user_prompt: str) -> dict[str, Any]:
+                return tiny_plan
+
+        repaired_plan, mode, generation_log = generate_conversation_plan_with_mode(
+            world,
+            characters,
+            llm_client=_InvalidPlanLLM(),
+        )
+        self.assertEqual(mode, "fallback_repaired")
+        self.assertTrue(generation_log["degraded"])
+        self.assertEqual(generation_log["final_mode"], "fallback_repaired")
+        self.assertEqual(generation_log["attempts"][1]["mode"], "live_invalid")
+        self.assertEqual(generation_log["attempts"][-1]["stage"], "repair")
+        self.assertGreaterEqual(len(repaired_plan["turns"]), 28)
 
     def test_case_world_pads_live_departments_and_topics_to_hard_targets(self) -> None:
         hard_seed = {

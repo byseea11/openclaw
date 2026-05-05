@@ -155,6 +155,7 @@ class EndToEndTests(unittest.TestCase):
             self.assertTrue((Path(compiled["case_dir"]) / "input" / "case_seed.json").exists())
             self.assertTrue((Path(compiled["case_dir"]) / "input" / "case_world.json").exists())
             self.assertTrue((Path(compiled["case_dir"]) / "input" / "conversation_plan.json").exists())
+            self.assertTrue((Path(compiled["case_dir"]) / "checks" / "conversation_plan_generation_log.json").exists())
             self.assertTrue((Path(compiled["case_dir"]) / "input" / "command_plan.jsonl").exists())
             self.assertTrue((Path(compiled["case_dir"]) / "execution_plan.json").exists())
             case_dir = Path(compiled["case_dir"])

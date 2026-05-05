@@ -1,0 +1,110 @@
+{
+  "case_id": "case_feishu_505160829_example",
+  "current_items": [
+    {
+      "topic_key": "release_window",
+      "slot": "conclusion",
+      "event_id": "evt_86b5ac49f8dccfb1",
+      "claim": "原来的内部目标窗口更新为条件式窗口，当前暂不作为客户承诺。",
+      "source_session_id": "task:FEISHU-505160829::chat:main_chat"
+    },
+    {
+      "topic_key": "release_window",
+      "slot": "scope",
+      "event_id": "evt_c1c4e78b882d69c0",
+      "claim": "客户侧已经在追问上线时间，我们需要给一个保守但可执行的同步口径。",
+      "source_session_id": "task:FEISHU-505160829::chat:customer_sync_chat"
+    },
+    {
+      "topic_key": "release_window",
+      "slot": "time",
+      "event_id": "evt_9470f3ed689cc24f",
+      "claim": "发布时间口径继续收紧为条件式窗口，等 blocker 清零后再恢复具体日期。",
+      "source_session_id": "task:FEISHU-505160829::chat:main_chat"
+    },
+    {
+      "topic_key": "readiness_blockers",
+      "slot": "commitment",
+      "event_id": "evt_7f0eafbe3f6c133d",
+      "claim": "研发会在本周内补齐迁移方案细节，并和运维一起把窗口确认条件列清楚。",
+      "source_session_id": "task:FEISHU-505160829::chat:main_chat"
+    },
+    {
+      "topic_key": "readiness_blockers",
+      "slot": "constraint",
+      "event_id": "evt_ddc0ed2b28f1d964",
+      "claim": "当前仍有关键前置项待确认，迁移窗口和放行材料都还需要继续补齐。",
+      "source_session_id": "task:FEISHU-505160829::thread:launch_window_thread"
+    },
+    {
+      "topic_key": "readiness_blockers",
+      "slot": "status",
+      "event_id": "evt_5d335f3576b4b056",
+      "claim": "当前仍有关键前置项待确认，迁移窗口和放行材料都还需要继续补齐。",
+      "source_session_id": "task:FEISHU-505160829::thread:launch_window_thread"
+    },
+    {
+      "topic_key": "external_messaging",
+      "slot": "conclusion",
+      "event_id": "evt_d87cbd6297c8893f",
+      "claim": "客户同步口径从明确日期改为条件式窗口，只能在评审通过后同步。",
+      "source_session_id": "task:FEISHU-505160829::chat:customer_sync_chat"
+    },
+    {
+      "topic_key": "external_messaging",
+      "slot": "rationale",
+      "event_id": "evt_b88e6efacdb71e31",
+      "claim": "客户同步口径继续改为保守表述，只同步准备中和条件未闭环这两个事实。",
+      "source_session_id": "task:FEISHU-505160829::chat:customer_sync_chat"
+    },
+    {
+      "topic_key": "external_messaging",
+      "slot": "scope",
+      "event_id": "evt_397e3ac7e769f0e8",
+      "claim": "客户同步口径继续改为保守表述，只同步准备中和条件未闭环这两个事实。",
+      "source_session_id": "task:FEISHU-505160829::chat:customer_sync_chat"
+    },
+    {
+      "topic_key": "risk_controls",
+      "slot": "commitment",
+      "event_id": "evt_8a091751fc48211c",
+      "claim": "研发会在下一个工作日把迁移方案、监控预案和回滚条件整理成一版供大家评审。",
+      "source_session_id": "task:FEISHU-505160829::chat:main_chat"
+    },
+    {
+      "topic_key": "risk_controls",
+      "slot": "objection",
+      "event_id": "evt_b5391ef851fb3a54",
+      "claim": "如果没有最终的风险验收清单，现在推进上线窗口只会放大后续回滚概率。",
+      "source_session_id": "task:FEISHU-505160829::chat:main_chat"
+    },
+    {
+      "topic_key": "risk_controls",
+      "slot": "status",
+      "event_id": "evt_c09ae8a9a7e1d253",
+      "claim": "最终是否放行以风险材料补齐和演练通过为准，在这之前所有对外说法都保持保守。",
+      "source_session_id": "task:FEISHU-505160829::chat:exec_sync_chat"
+    },
+    {
+      "topic_key": "executive_sync",
+      "slot": "conclusion",
+      "event_id": "evt_ac6e5a8b2f88fc1e",
+      "claim": "管理层同步也统一使用条件式表述，不再带具体乐观日期。",
+      "source_session_id": "task:FEISHU-505160829::chat:main_chat"
+    },
+    {
+      "topic_key": "executive_sync",
+      "slot": "scope",
+      "event_id": "evt_dc1480c736dfd5c0",
+      "claim": "管理层同步也统一使用条件式表述，不再带具体乐观日期。",
+      "source_session_id": "task:FEISHU-505160829::chat:main_chat"
+    },
+    {
+      "topic_key": "executive_sync",
+      "slot": "status",
+      "event_id": "evt_3004b6ad0651faf4",
+      "claim": "需要同步说明当前仍取决于迁移窗口、回滚演练和最终风险验收三个条件。",
+      "source_session_id": "task:FEISHU-505160829::chat:exec_sync_chat"
+    }
+  ]
+}

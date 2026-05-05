@@ -1,0 +1,178 @@
+{
+  "case_id": "case_feishu_505160829_example",
+  "blocks": [
+    {
+      "block_id": "block:release_window",
+      "topic_key": "release_window",
+      "topic_title": "发布时间口径",
+      "supporting_event_ids": [
+        "evt_9bef05ccbe3ff70a",
+        "evt_89bbb736f96a90e7",
+        "evt_b31e83db6910475c",
+        "evt_53aa2c381e5ec833",
+        "evt_11c3f0469d3a87fa",
+        "evt_2f49183c7f540bdd",
+        "evt_13730a9912b9a213",
+        "evt_c1c4e78b882d69c0",
+        "evt_9fabfad422571576",
+        "evt_d2074f379f451da5",
+        "evt_8de7426a35eefbf6",
+        "evt_5317f70010a1c56c",
+        "evt_486c13f2a3da33b3",
+        "evt_8f00ded792c0634a",
+        "evt_5f9c468d2b448690",
+        "evt_e84f11c2cc3e8cef",
+        "evt_86b5ac49f8dccfb1",
+        "evt_3313576024997340",
+        "evt_cc7b814093555f56",
+        "evt_9470f3ed689cc24f"
+      ],
+      "slot_event_map": {
+        "conclusion": [
+          "evt_9bef05ccbe3ff70a",
+          "evt_9fabfad422571576",
+          "evt_86b5ac49f8dccfb1"
+        ],
+        "scope": [
+          "evt_c1c4e78b882d69c0"
+        ],
+        "time": [
+          "evt_89bbb736f96a90e7",
+          "evt_53aa2c381e5ec833",
+          "evt_2f49183c7f540bdd",
+          "evt_d2074f379f451da5",
+          "evt_486c13f2a3da33b3",
+          "evt_e84f11c2cc3e8cef",
+          "evt_3313576024997340",
+          "evt_9470f3ed689cc24f"
+        ]
+      }
+    },
+    {
+      "block_id": "block:readiness_blockers",
+      "topic_key": "readiness_blockers",
+      "topic_title": "上线阻塞项",
+      "supporting_event_ids": [
+        "evt_d96829570e16878e",
+        "evt_5becf169454bb2a0",
+        "evt_39f02867aa962d41",
+        "evt_4e371f37905f6539",
+        "evt_d77ba11927a759ab",
+        "evt_b5b524ebdded4cf8",
+        "evt_7f0eafbe3f6c133d",
+        "evt_c3bf99aba2982b76",
+        "evt_0f2566316251c3c9",
+        "evt_3739505f5ef7de30",
+        "evt_ddc0ed2b28f1d964",
+        "evt_5d335f3576b4b056"
+      ],
+      "slot_event_map": {
+        "commitment": [
+          "evt_7f0eafbe3f6c133d"
+        ],
+        "constraint": [
+          "evt_d96829570e16878e",
+          "evt_39f02867aa962d41",
+          "evt_b5b524ebdded4cf8",
+          "evt_ddc0ed2b28f1d964"
+        ],
+        "status": [
+          "evt_5becf169454bb2a0",
+          "evt_d77ba11927a759ab",
+          "evt_0f2566316251c3c9",
+          "evt_5d335f3576b4b056"
+        ]
+      }
+    },
+    {
+      "block_id": "block:external_messaging",
+      "topic_key": "external_messaging",
+      "topic_title": "客户同步口径",
+      "supporting_event_ids": [
+        "evt_d80d7f979a7b784b",
+        "evt_c8344cbee9f0a5cc",
+        "evt_04ea64534756d498",
+        "evt_17738ce24417040e",
+        "evt_124c36647de772f2",
+        "evt_20ea00d630e46145",
+        "evt_7b63fc06d2b2b866",
+        "evt_7c22b3cfc19104aa",
+        "evt_d87cbd6297c8893f",
+        "evt_fa0dcc8cee14e2b2",
+        "evt_397e3ac7e769f0e8",
+        "evt_b88e6efacdb71e31"
+      ],
+      "slot_event_map": {
+        "conclusion": [
+          "evt_124c36647de772f2",
+          "evt_7b63fc06d2b2b866",
+          "evt_d87cbd6297c8893f"
+        ],
+        "rationale": [
+          "evt_04ea64534756d498",
+          "evt_7c22b3cfc19104aa",
+          "evt_b88e6efacdb71e31"
+        ],
+        "scope": [
+          "evt_c8344cbee9f0a5cc",
+          "evt_17738ce24417040e",
+          "evt_20ea00d630e46145",
+          "evt_fa0dcc8cee14e2b2",
+          "evt_397e3ac7e769f0e8"
+        ]
+      }
+    },
+    {
+      "block_id": "block:risk_controls",
+      "topic_key": "risk_controls",
+      "topic_title": "风险控制与验收条件",
+      "supporting_event_ids": [
+        "evt_b5391ef851fb3a54",
+        "evt_e9e8e2a4040a0a2d",
+        "evt_1af548b6a24fa7e0",
+        "evt_757adddf40dc4703",
+        "evt_8a091751fc48211c",
+        "evt_907596a7ed70bc07",
+        "evt_38e834aed233a3c6",
+        "evt_c09ae8a9a7e1d253"
+      ],
+      "slot_event_map": {
+        "commitment": [
+          "evt_8a091751fc48211c"
+        ],
+        "objection": [
+          "evt_b5391ef851fb3a54"
+        ],
+        "status": [
+          "evt_c09ae8a9a7e1d253"
+        ]
+      }
+    },
+    {
+      "block_id": "block:executive_sync",
+      "topic_key": "executive_sync",
+      "topic_title": "管理层同步口径",
+      "supporting_event_ids": [
+        "evt_0113c69bdb70ce06",
+        "evt_ccc7e973eeef9ff1",
+        "evt_dff86ab56e348539",
+        "evt_3004b6ad0651faf4",
+        "evt_ac6e5a8b2f88fc1e",
+        "evt_dc1480c736dfd5c0"
+      ],
+      "slot_event_map": {
+        "conclusion": [
+          "evt_ac6e5a8b2f88fc1e"
+        ],
+        "scope": [
+          "evt_ccc7e973eeef9ff1",
+          "evt_dc1480c736dfd5c0"
+        ],
+        "status": [
+          "evt_0113c69bdb70ce06",
+          "evt_3004b6ad0651faf4"
+        ]
+      }
+    }
+  ]
+}

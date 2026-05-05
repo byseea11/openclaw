@@ -143,6 +143,9 @@ def build_conversation_plan_prompts(
     *,
     world: dict[str, Any],
     validated_characters: dict[str, Any],
+    current_metrics: dict[str, int] | None = None,
+    remaining_deficit: dict[str, int] | None = None,
+    must_fix_now: list[str] | None = None,
 ) -> tuple[str, str]:
     difficulty_settings = resolve_difficulty_settings(world["difficulty"])
     complexity = difficulty_settings["complexity_profile"]
@@ -162,6 +165,17 @@ def build_conversation_plan_prompts(
         "Do not rely on implicit complexity. Every required state change must be visible in turns. "
         "Do not output Markdown."
     )
+    retry_section = ""
+    if current_metrics is not None or remaining_deficit or must_fix_now:
+        retry_section = (
+            "\n当前上一版 live plan 的统计如下：\n"
+            f"- current_metrics: {_dump_json(current_metrics or {})}\n"
+            f"- remaining_deficit: {_dump_json(remaining_deficit or {})}\n"
+            f"- must_fix_now: {_dump_json(must_fix_now or [])}\n\n"
+            "这是一轮 retry，不要重复输出同样规模的计划。"
+            "你必须优先补齐 remaining_deficit 中非 0 的指标，尤其是 turns、thread 深度、supersession 和 cross-source revision。"
+            "不允许用摘要式描述掩盖 deficit，必须通过合法的 session/topic/turn 结构把缺口补满。\n"
+        )
     user_prompt = (
         "请基于已有 world 和角色配置生成一个多轮、多 source 的飞书协作计划。\n"
         f"- difficulty: {world['difficulty']}\n"
@@ -171,7 +185,8 @@ def build_conversation_plan_prompts(
         f"- required_thread_reply_depth_min: {required_thread_depth}\n"
         f"- required_state_transition_count_min: {required_state_transitions}\n"
         f"- required_supersession_count_min: {required_supersessions}\n"
-        f"- required_cross_source_revision_count_min: {required_cross_source_revisions}\n\n"
+        f"- required_cross_source_revision_count_min: {required_cross_source_revisions}\n"
+        f"{retry_section}\n"
         f"Case world:\n{_dump_json(world)}\n\n"
         f"Characters:\n{_dump_json(validated_characters)}\n\n"
         "要求：\n"

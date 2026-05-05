@@ -81,6 +81,7 @@ amem_docs/ds/feishu_im_dataset_v2/cases/<case_id>/
     collected_messages.jsonl
   checks/
     conversation_complexity_report.json
+    conversation_plan_generation_log.json
     dataset_validation_report.json
   execution_plan.json
   execution_result.json
@@ -240,7 +241,67 @@ simulated_open_id = ou_sim_<person_id>
 - 这轮支持哪类 event
 - 哪些轮次会触发状态演化
 
-### 4.7 `command_plan.jsonl`
+当前这层固定走“两段式 live + fallback repair”：
+
+1. 第一次 live 生成
+2. 计算当前 complexity deficit
+3. 如果不足，发起第二次 live retry
+4. 如果 retry 仍不合法或仍不足，则进入显式 fallback + deterministic repair
+
+这意味着 fallback 不是默认主路径，也不是静默发生的。
+
+### 4.7 `conversation_plan_generation_log.json`
+
+这是 `conversation_plan` 阶段的 case 级生成日志。
+
+位置：
+
+- `checks/conversation_plan_generation_log.json`
+
+职责：
+
+- 记录第一次 live、第二次 retry、fallback、repair 的完整轨迹
+- 记录为什么 fallback
+- 记录 repair 前后 metrics 与 remaining deficit
+
+后续如果要排查“为什么没有直接采用 live plan”，这份日志是第一真相来源。
+
+当前顶层字段至少包括：
+
+- `case_id`
+- `task_id`
+- `difficulty`
+- `started_at`
+- `finished_at`
+- `final_mode`
+- `degraded`
+- `attempts`
+
+其中每个 `attempt` 至少记录：
+
+- `stage`
+- `mode`
+- `success`
+- `validation_error`
+- `input_metrics`
+- `output_metrics`
+- `remaining_deficit`
+- `notes`
+
+当前 `attempt.mode` 会出现：
+
+- `fallback_plan`
+- `live`
+- `live_insufficient`
+- `live_retry`
+- `retry_invalid`
+- `retry_insufficient`
+- `retry_runtime_error`
+- `live_invalid`
+- `llm_runtime_error`
+- `deterministic_repair`
+
+### 4.8 `command_plan.jsonl`
 
 这是逻辑动作层。
 
@@ -259,13 +320,13 @@ simulated_open_id = ou_sim_<person_id>
 - `depends_on_step_ids`
 - `gold_intent_refs`
 
-### 4.8 `execution_plan.json`
+### 4.9 `execution_plan.json`
 
 这是运行层。
 
 它把 `command_plan.jsonl` 编译成执行器可以直接消费的结构化动作计划。
 
-### 4.9 `collected_messages.jsonl`
+### 4.10 `collected_messages.jsonl`
 
 这是 collect 后的 canonical 评测层数据。
 
@@ -277,7 +338,7 @@ simulated_open_id = ou_sim_<person_id>
 
 这层的作用是把“真实单用户执行”和“多角色 benchmark 语义”分开。
 
-### 4.10 `openclaw_message_ingress.jsonl`
+### 4.11 `openclaw_message_ingress.jsonl`
 
 这是 replay 层输入。
 
@@ -307,6 +368,15 @@ simulated_open_id = ou_sim_<person_id>
 - `character_count_max`
 - `session_blueprint`
 - `complexity_profile`
+
+其中 `complexity_profile` 当前至少控制：
+
+- `session_count_target`
+- `message_count_target`
+- `thread_reply_depth_target`
+- `state_transition_target`
+- `supersession_target`
+- `cross_source_revision_target`
 
 例如如果要提高 `hard` 的复杂度，改这里：
 
@@ -343,6 +413,24 @@ simulated_open_id = ou_sim_<person_id>
 - `message_count_target`
 - `thread_reply_depth_target`
 - `state_transition_target`
+- `supersession_target`
+- `cross_source_revision_target`
+
+其中 `plan` 阶段是两类 prompt：
+
+1. 初次 live prompt
+   直接注入当前 difficulty 的总目标
+2. retry prompt
+   额外注入：
+   - `current_metrics`
+   - `remaining_deficit`
+   - `must_fix_now`
+
+也就是说，第二次 live 不是“再试一次同样的 prompt”，而是显式告诉模型：
+
+- 当前已经有多少 session / topic / turn
+- 还差多少 thread depth / supersession / cross-source revision
+- 这次必须优先补哪些缺口
 
 其余阶段也已经迁移到同一个 prompt 模块，但当前主要是集中维护语义展开 prompt，没有额外引入新的 yml 结构字段。
 
@@ -375,8 +463,12 @@ open_id   = ou_sim_<person_id>
 
 - `live`
   模型输出被采纳
+- `live_retry`
+  第一次 live 不足，第二次 retry 输出被采纳
 - `fallback`
   最终没有采纳模型输出
+- `fallback_repaired`
+  live 路径没有成功达标，最终采用 fallback 并经过 deterministic repair
 - `mixed`
   多个阶段混合
 
@@ -392,11 +484,31 @@ open_id   = ou_sim_<person_id>
 
 如果后续校验失败，仍然会切到 fallback。
 
+但 `conversation_plan` 现在不是“单次失败就静默切 fallback”，而是：
+
+1. 先尝试第一次 live
+2. 再基于 deficit 做第二次 live retry
+3. 最后才允许进入 fallback + repair
+
+并且这条轨迹会显式落到：
+
+- `checks/conversation_plan_generation_log.json`
+
 当前 `spec-generation` 已经会明确输出回退原因，例如：
 
 ```text
 模型输出未通过 case_spec 校验，回退 fallback。reason=department_hints must be a list
 ```
+
+`conversation_plan` 现在也采用同样原则：
+
+- `live_invalid`
+- `live_insufficient`
+- `retry_invalid`
+- `retry_insufficient`
+- `llm_runtime_error`
+
+这些不会只停留在 stderr，而会被写入 case 级 generation log。
 
 ## 8. 各阶段伪代码
 
@@ -495,22 +607,183 @@ def generate_characters(case_world):
 def generate_conversation_plan(case_world, characters):
     story = generate_story(case_world, characters)
     timeline = generate_timeline(case_world, story, characters)
+    fallback_plan = build_fallback_plan(
+        selected_topics=case_world.selected_topics,
+        session_blueprint=difficulty_settings.session_blueprint,
+        characters=characters,
+    )
+    generation_log = {
+        "case_id": case_world["case_id"],
+        "task_id": case_world["task_id"],
+        "difficulty": case_world["difficulty"],
+        "attempts": [],
+    }
 
-    if llm_available():
-        payload = llm_generate_plan(case_world, characters)
-        plan = validate_conversation_plan(payload)
-    else:
-        plan = build_fallback_plan(
-            selected_topics=case_world.selected_topics,
-            session_blueprint=difficulty_settings.session_blueprint,
-            characters=characters,
+    record_attempt(
+        generation_log,
+        stage="fallback_plan",
+        mode="fallback_plan",
+        output_metrics=measure_plan_metrics(fallback_plan),
+        remaining_deficit=measure_plan_deficit(fallback_plan, difficulty_settings),
+    )
+
+    if not llm_available():
+        repaired = repair_conversation_plan_complexity(
+            fallback_plan,
+            case_world,
+            characters,
+            difficulty_settings,
+            generation_log=generation_log,
         )
+        generation_log["final_mode"] = "fallback_repaired"
+        generation_log["degraded"] = True
+        return validate_conversation_plan(repaired), "fallback_repaired", generation_log
 
-    assert plan_has_at_least_3_sessions(plan)
-    assert plan_has_at_least_3_topics(plan)
-    assert plan_has_at_least_18_turns(plan)
-    return plan
+    first_payload = llm_generate_plan(case_world, characters)
+    first_plan = validate_conversation_plan(first_payload)
+    first_metrics = measure_plan_metrics(first_plan)
+    first_deficit = measure_plan_deficit(first_plan, difficulty_settings)
+
+    if not first_deficit:
+        record_attempt(
+            generation_log,
+            stage="plan_live_attempt_1",
+            mode="live",
+            output_metrics=first_metrics,
+            remaining_deficit={},
+        )
+        repaired = repair_conversation_plan_complexity(
+            first_plan,
+            case_world,
+            characters,
+            difficulty_settings,
+            generation_log=generation_log,
+        )
+        generation_log["final_mode"] = "live"
+        generation_log["degraded"] = False
+        return validate_conversation_plan(repaired), "live", generation_log
+
+    record_attempt(
+        generation_log,
+        stage="plan_live_attempt_1",
+        mode="live_insufficient",
+        success=False,
+        output_metrics=first_metrics,
+        remaining_deficit=first_deficit,
+    )
+
+    retry_payload = llm_generate_plan_with_retry_prompt(
+        case_world,
+        characters,
+        current_metrics=first_metrics,
+        remaining_deficit=first_deficit,
+        must_fix_now=sorted(first_deficit.keys()),
+    )
+
+    try:
+        retry_plan = validate_conversation_plan(retry_payload)
+        retry_metrics = measure_plan_metrics(retry_plan)
+        retry_deficit = measure_plan_deficit(retry_plan, difficulty_settings)
+        if retry_deficit:
+            record_attempt(
+                generation_log,
+                stage="plan_live_attempt_2",
+                mode="retry_insufficient",
+                success=False,
+                input_metrics=first_metrics,
+                output_metrics=retry_metrics,
+                remaining_deficit=retry_deficit,
+            )
+            repaired = repair_conversation_plan_complexity(
+                fallback_plan,
+                case_world,
+                characters,
+                difficulty_settings,
+                generation_log=generation_log,
+            )
+            generation_log["final_mode"] = "fallback_repaired"
+            generation_log["degraded"] = True
+            return validate_conversation_plan(repaired), "fallback_repaired", generation_log
+
+        record_attempt(
+            generation_log,
+            stage="plan_live_attempt_2",
+            mode="live_retry",
+            input_metrics=first_metrics,
+            output_metrics=retry_metrics,
+            remaining_deficit={},
+        )
+        repaired = repair_conversation_plan_complexity(
+            retry_plan,
+            case_world,
+            characters,
+            difficulty_settings,
+            generation_log=generation_log,
+        )
+        generation_log["final_mode"] = "live_retry"
+        generation_log["degraded"] = False
+        return validate_conversation_plan(repaired), "live_retry", generation_log
+
+    except ValidationError:
+        record_attempt(..., mode="retry_invalid")
+        repaired = repair_conversation_plan_complexity(...)
+        generation_log["final_mode"] = "fallback_repaired"
+        generation_log["degraded"] = True
+        return validate_conversation_plan(repaired), "fallback_repaired", generation_log
+
+    except RuntimeError:
+        record_attempt(..., mode="retry_runtime_error")
+        repaired = repair_conversation_plan_complexity(...)
+        generation_log["final_mode"] = "fallback_repaired"
+        generation_log["degraded"] = True
+        return validate_conversation_plan(repaired), "fallback_repaired", generation_log
 ```
+
+补充说明：
+
+- 如果第一次 live 就直接 schema 非法，会记录成 `live_invalid`
+- 如果第一次 live 请求或后处理失败，会记录成 `llm_runtime_error`
+- 这两类情况都不会再静默吞掉，而是直接落到 generation log，然后进入显式 fallback + repair
+
+这里 `repair_conversation_plan_complexity(...)` 的顺序是固定的：
+
+1. `ensure_thread_depth`
+2. `ensure_supersession_count`
+3. `ensure_cross_source_revisions`
+4. `ensure_min_turn_count`
+
+这层 repair 不调用 LLM，只做 deterministic 补齐。
+
+## 8.4.1 `plan` 的 complexity 计数口径
+
+`plan` 阶段自己的静态计数和 `validate` 阶段的 complexity gate 需要尽量对齐。
+
+当前 builder 侧主要这样统计：
+
+- `session_count`
+  `len(sessions)`
+- `topic_count`
+  `len(topic_registry)`
+- `message_count`
+  `len(turns)`
+- `thread_reply_depth`
+  同一个 thread `source_ref` 下的 turn 数最大值
+- `state_transition_count`
+  非空 `state_transition` 的 turn 数
+- `supersession_count`
+  `state_transition` 或 `semantic_payload` 中显式包含：
+  - `更新为`
+  - `改为`
+  - `修正为`
+  - `收紧为`
+- `cross_source_revision_count`
+  同一个 `topic_key` 出现在至少两个不同 `source_ref`
+
+也因此，当前 prompt 和 repair 都会显式要求：
+
+- supersession turn 必须把“更新为 / 改为”写在可见文本里
+- cross-source revision 必须真正把同一 topic 写到不同 source 中
+- thread 深度必须集中落到至少一个 thread session，而不是平均摊薄
 
 ### 8.5 `target-gold`
 

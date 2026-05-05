@@ -78,6 +78,27 @@ class PromptTemplateTests(unittest.TestCase):
         self.assertIn("required_turn_count_min: 28", user_prompt)
         self.assertIn("required_cross_source_revision_count_min: 2", user_prompt)
 
+    def test_plan_retry_prompt_includes_current_metrics_and_deficit(self) -> None:
+        _system_prompt, user_prompt = build_conversation_plan_prompts(
+            world={
+                "difficulty": "hard",
+                "departments": ["产品", "研发", "安全"],
+            },
+            validated_characters={
+                "characters": [
+                    {"person_id": "product_manager_01", "department": "产品"},
+                    {"person_id": "engineering_lead_02", "department": "研发"},
+                ]
+            },
+            current_metrics={"message_count": 18, "thread_reply_depth": 3},
+            remaining_deficit={"message_count": 10, "thread_reply_depth": 2, "supersession_count": 1},
+            must_fix_now=["message_count", "thread_reply_depth", "supersession_count"],
+        )
+        self.assertIn("current_metrics", user_prompt)
+        self.assertIn("remaining_deficit", user_prompt)
+        self.assertIn("must_fix_now", user_prompt)
+        self.assertIn("必须优先补齐 remaining_deficit", user_prompt)
+
 
 if __name__ == "__main__":
     unittest.main()
