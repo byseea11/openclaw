@@ -1,0 +1,50 @@
+{
+  "version": 1,
+  "task_id": "task:FEISHU-506003144",
+  "task_key": "FEISHU-506003144",
+  "pages": {
+    "task:FEISHU-506003144::chat:main_chat": {
+      "source_session_id": "task:FEISHU-506003144::chat:main_chat",
+      "relative_page_path": "sessions/FEISHU-506003144_chat_main_chat-e13e257d/session_wiki.md",
+      "summary": "本次 session 暂无已验证的结构化记忆块。",
+      "blocks": [],
+      "updated_at": "2026-05-06T00:31:44.451Z"
+    },
+    "task:FEISHU-506003144::thread:handoff_thread": {
+      "source_session_id": "task:FEISHU-506003144::thread:handoff_thread",
+      "relative_page_path": "sessions/FEISHU-506003144_thread_handoff_thread-dbe94da9/session_wiki.md",
+      "summary": "这次讨论主要涉及：【研发/林晨】FEISHU-506003144 最早是由 Bob 负责推进的，当时窗口也更乐观。",
+      "blocks": [
+        {
+          "block_id": "block-研发_林晨_feishu-506003144_最早是由_bob_负责推进的_当时窗口也更乐观-192008f6",
+          "anchor_id": "block-研发_林晨_feishu-506003144_最早是由_bob_负责推进的_当时窗口也更乐观-192008f6",
+          "topic_key": "【研发/林晨】feishu-506003144 最早是由 bob 负责推进的，当时窗口也更乐观",
+          "topic_title": "【研发/林晨】FEISHU-506003144 最早是由 Bob 负责推进的，当时窗口也更乐观",
+          "status": "active",
+          "slots": [
+            "commitment"
+          ],
+          "summary": "【研发/林晨】FEISHU-506003144 最早是由 Bob 负责推进的，当时窗口也更乐观"
+        }
+      ],
+      "updated_at": "2026-05-06T00:31:44.494Z"
+    }
+  },
+  "topic_routes": [
+    {
+      "topic_key": "行动项",
+      "topic_title": "行动项",
+      "block_links": [
+        {
+          "label": "【研发/林晨】FEISHU-506003144 最早是由 Bob 负责推进的，当时窗口也更乐观 (task:FEISHU-506003144::thread:handoff_thread)",
+          "target": "sessions/FEISHU-506003144_thread_handoff_thread-dbe94da9/session_wiki.md#block-研发_林晨_feishu-506003144_最早是由_bob_负责推进的_当时窗口也更乐观-192008f6"
+        }
+      ]
+    }
+  ],
+  "updated_at": "2026-05-06T00:31:44.494Z",
+  "changedPageKeys": [
+    "task:FEISHU-506003144::thread:handoff_thread"
+  ],
+  "changedRouteTitles": []
+}

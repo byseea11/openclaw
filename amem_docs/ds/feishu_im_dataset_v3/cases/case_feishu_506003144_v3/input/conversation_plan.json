@@ -1,0 +1,133 @@
+{
+  "case_id": "case_feishu_506003144_v3",
+  "task_id": "FEISHU-506003144",
+  "sessions": [
+    {
+      "session_id": "session_main_chat",
+      "source_type": "chat",
+      "source_ref": "chat:main_chat",
+      "chat_ref": "main_chat",
+      "title": "主群协调",
+      "session_purpose": "沉淀目标任务的主线协作信息和最终 current state。",
+      "root_turn_id": null
+    },
+    {
+      "session_id": "session_handoff_thread",
+      "source_type": "thread",
+      "source_ref": "thread:handoff_thread",
+      "chat_ref": "main_chat",
+      "title": "线程补充讨论",
+      "session_purpose": "承载修正、依赖和局部事实补充，制造 cross-source revision。",
+      "root_turn_id": "turn_003"
+    },
+    {
+      "session_id": "session_customer_sync_chat",
+      "source_type": "chat",
+      "source_ref": "chat:customer_sync_chat",
+      "chat_ref": "customer_sync_chat",
+      "title": "侧向补充聊天",
+      "session_purpose": "承载 distractor context、客户同步或风险补充信息。",
+      "root_turn_id": null
+    }
+  ],
+  "turns": [
+    {
+      "turn_id": "turn_003",
+      "sequence_no": 1,
+      "session_id": "session_main_chat",
+      "speaker_ref": "engineering_owner_1",
+      "topic_key": "static_memory_stale_state",
+      "turn_purpose": "围绕 负责人与发布日期连续修正，旧状态仍是真实历史，但不应当作当前状态。 安排一个 final_current_state_turn，让 baseline 在该点暴露失败。",
+      "references_previous_turns": [
+        "turn_002"
+      ],
+      "semantic_payload": "现在统一一下 current state：FEISHU-506003144 当前 owner 以 xzy 为准，旧 owner 只算历史信息。",
+      "planned_message_text": "现在统一一下 current state：FEISHU-506003144 当前 owner 以 xzy 为准，旧 owner 只算历史信息。",
+      "benchmark_role": "final_current_state_turn",
+      "memory_failure_mode": "static_memory_stale_state",
+      "memory_trap": "trap_feishu_506003144_stale_001",
+      "expected_openclaw_memory_risk": "Memory.md 可能同时保留多个历史 owner，但无法稳定区分谁是当前 owner。",
+      "task_wiki_expected_handling": "Task Wiki 应回答当前 owner 是最终状态，并把旧 owner 标记为历史状态，引用交接证据。",
+      "state_field_hints": [
+        "owner",
+        "release_window"
+      ],
+      "probe_query_hints": [
+        "FEISHU-506003144 当前负责人是谁？Bob 和 Alice 现在还负责吗？"
+      ]
+    },
+    {
+      "turn_id": "turn_004",
+      "sequence_no": 2,
+      "session_id": "session_main_chat",
+      "speaker_ref": "engineering_owner_1",
+      "topic_key": "static_memory_stale_state",
+      "turn_purpose": "围绕 负责人与发布日期连续修正，旧状态仍是真实历史，但不应当作当前状态。 安排一个 current_state_disambiguation_turn，让 baseline 在该点暴露失败。",
+      "references_previous_turns": [
+        "turn_003"
+      ],
+      "semantic_payload": "明确一下 current state：现在只认最新一轮确认过的 owner、blocker 和依赖状态，不再沿用旧说法。",
+      "planned_message_text": "明确一下 current state：现在只认最新一轮确认过的 owner、blocker 和依赖状态，不再沿用旧说法。",
+      "benchmark_role": "current_state_disambiguation_turn",
+      "memory_failure_mode": "static_memory_stale_state",
+      "memory_trap": "trap_feishu_506003144_stale_001",
+      "expected_openclaw_memory_risk": "Memory.md 可能同时保留多个历史 owner，但无法稳定区分谁是当前 owner。",
+      "task_wiki_expected_handling": "Task Wiki 应回答当前 owner 是最终状态，并把旧 owner 标记为历史状态，引用交接证据。",
+      "state_field_hints": [
+        "owner",
+        "release_window"
+      ],
+      "probe_query_hints": [
+        "FEISHU-506003144 当前负责人是谁？Bob 和 Alice 现在还负责吗？"
+      ]
+    },
+    {
+      "turn_id": "turn_001",
+      "sequence_no": 3,
+      "session_id": "session_handoff_thread",
+      "speaker_ref": "engineering_owner_1",
+      "topic_key": "static_memory_stale_state",
+      "turn_purpose": "围绕 负责人与发布日期连续修正，旧状态仍是真实历史，但不应当作当前状态。 安排一个 stale_state_turn，让 baseline 在该点暴露失败。",
+      "references_previous_turns": [],
+      "semantic_payload": "FEISHU-506003144 最早是由 Bob 负责推进的，当时窗口也更乐观。",
+      "planned_message_text": "FEISHU-506003144 最早是由 Bob 负责推进的，当时窗口也更乐观。",
+      "benchmark_role": "stale_state_turn",
+      "memory_failure_mode": "static_memory_stale_state",
+      "memory_trap": "trap_feishu_506003144_stale_001",
+      "expected_openclaw_memory_risk": "Memory.md 可能同时保留多个历史 owner，但无法稳定区分谁是当前 owner。",
+      "task_wiki_expected_handling": "Task Wiki 应回答当前 owner 是最终状态，并把旧 owner 标记为历史状态，引用交接证据。",
+      "state_field_hints": [
+        "owner",
+        "release_window"
+      ],
+      "probe_query_hints": [
+        "FEISHU-506003144 当前负责人是谁？Bob 和 Alice 现在还负责吗？"
+      ]
+    },
+    {
+      "turn_id": "turn_002",
+      "sequence_no": 4,
+      "session_id": "session_handoff_thread",
+      "speaker_ref": "engineering_owner_1",
+      "topic_key": "static_memory_stale_state",
+      "turn_purpose": "围绕 负责人与发布日期连续修正，旧状态仍是真实历史，但不应当作当前状态。 安排一个 supersession_turn，让 baseline 在该点暴露失败。",
+      "references_previous_turns": [
+        "turn_001"
+      ],
+      "semantic_payload": "更新一下，之前那个 owner 口径已经作废，当前接手人和窗口判断都需要按新安排重算。",
+      "planned_message_text": "更新一下，之前那个 owner 口径已经作废，当前接手人和窗口判断都需要按新安排重算。",
+      "benchmark_role": "supersession_turn",
+      "memory_failure_mode": "static_memory_stale_state",
+      "memory_trap": "trap_feishu_506003144_stale_001",
+      "expected_openclaw_memory_risk": "Memory.md 可能同时保留多个历史 owner，但无法稳定区分谁是当前 owner。",
+      "task_wiki_expected_handling": "Task Wiki 应回答当前 owner 是最终状态，并把旧 owner 标记为历史状态，引用交接证据。",
+      "state_field_hints": [
+        "owner",
+        "release_window"
+      ],
+      "probe_query_hints": [
+        "FEISHU-506003144 当前负责人是谁？Bob 和 Alice 现在还负责吗？"
+      ]
+    }
+  ]
+}

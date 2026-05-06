@@ -1,0 +1,47 @@
+{
+  "case_id": "case_feishu_506003144_v3",
+  "required_failure_modes": [
+    "static_memory_stale_state"
+  ],
+  "required_benchmark_roles": [
+    "stale_state_turn",
+    "supersession_turn",
+    "final_current_state_turn",
+    "current_state_disambiguation_turn"
+  ],
+  "required_query_types": [
+    "system-correctness",
+    "baseline-break"
+  ],
+  "required_state_fields": [
+    "owner",
+    "release_window"
+  ],
+  "trap_coverage": {
+    "required_traps": [
+      {
+        "trap_id": "trap_feishu_506003144_stale_001",
+        "failure_mode": "static_memory_stale_state",
+        "landing_requirements": {
+          "required_benchmark_roles": [
+            "stale_state_turn",
+            "supersession_turn",
+            "final_current_state_turn",
+            "current_state_disambiguation_turn"
+          ],
+          "required_state_fields": [
+            "owner",
+            "release_window"
+          ],
+          "required_evidence_messages_min": 4,
+          "required_probe_queries_min": 1
+        }
+      }
+    ]
+  },
+  "hard_gates": {
+    "min_traps": 1,
+    "min_required_roles": 4,
+    "require_cross_source_revision": true
+  }
+}

@@ -2,8 +2,6 @@ from __future__ import annotations
 
 from typing import Any
 
-from .schemas import validate_build_report
-
 
 def build_case_report(
     *,
@@ -41,4 +39,4 @@ def build_case_report(
         "num_openclaw_ingress_events": len(ingress_events),
         "warnings": list(warnings or []),
     }
-    return validate_build_report(report)
+    return report

@@ -1,4 +1,4 @@
-"""Feishu Builder Agent (V2)."""
+"""Feishu Builder Agent V3."""
 
 
 def main() -> None:

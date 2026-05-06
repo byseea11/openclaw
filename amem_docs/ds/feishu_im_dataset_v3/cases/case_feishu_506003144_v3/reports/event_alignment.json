@@ -1,0 +1,49 @@
+{
+  "case_id": "case_feishu_506003144_v3",
+  "target_prediction_source": "session_events",
+  "alignments": [
+    {
+      "annotation_id": "ann_001",
+      "prediction_event_id": null,
+      "alignment_type": "unmatched",
+      "score": 0.0,
+      "failure_mode": "static_memory_stale_state",
+      "expected_verdict": "verified",
+      "prediction_verdict": null
+    },
+    {
+      "annotation_id": "ann_002",
+      "prediction_event_id": null,
+      "alignment_type": "unmatched",
+      "score": 0.0,
+      "failure_mode": "static_memory_stale_state",
+      "expected_verdict": "verified",
+      "prediction_verdict": null
+    },
+    {
+      "annotation_id": "ann_003",
+      "prediction_event_id": "evt_a27871eceb30fef1",
+      "alignment_type": "partial",
+      "score": 0.9,
+      "failure_mode": "static_memory_stale_state",
+      "expected_verdict": "verified",
+      "prediction_verdict": "verified"
+    },
+    {
+      "annotation_id": "ann_004",
+      "prediction_event_id": null,
+      "alignment_type": "unmatched",
+      "score": 0.0,
+      "failure_mode": "static_memory_stale_state",
+      "expected_verdict": "verified",
+      "prediction_verdict": null
+    }
+  ],
+  "summary": {
+    "exact": 0,
+    "partial": 1,
+    "unmatched": 3,
+    "over_split": 0,
+    "over_merged": 0
+  }
+}

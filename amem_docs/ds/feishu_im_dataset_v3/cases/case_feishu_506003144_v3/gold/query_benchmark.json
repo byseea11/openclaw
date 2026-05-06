@@ -1,0 +1,46 @@
+{
+  "case_id": "case_feishu_506003144_v3",
+  "task_id": "FEISHU-506003144",
+  "queries": [
+    {
+      "query_id": "q_001",
+      "query_family": "static_memory_stale_state",
+      "query_text": "FEISHU-506003144 当前负责人是谁？Bob 和 Alice 现在还负责吗？",
+      "source_trap_id": "trap_feishu_506003144_stale_001",
+      "failure_mode": "static_memory_stale_state",
+      "expected_openclaw_failure": "Memory.md 可能同时保留多个历史 owner，但无法稳定区分谁是当前 owner。",
+      "expected_answer_points": [
+        "Task Wiki 应回答当前 owner 是最终状态，并把旧 owner 标记为历史状态，引用交接证据。",
+        "最终 current state 是 xzy"
+      ],
+      "forbidden_claims": [
+        "Memory.md 可能同时保留多个历史 owner，但无法稳定区分谁是当前 owner。"
+      ],
+      "required_event_annotation_ids": [
+        "ann_001",
+        "ann_002",
+        "ann_003",
+        "ann_004"
+      ],
+      "required_block_topics": [
+        "static_memory_stale_state"
+      ],
+      "expected_current_state": [
+        {
+          "state_field": "owner",
+          "value": "xzy"
+        }
+      ],
+      "stale_values": [
+        "Bob",
+        "Alice"
+      ],
+      "citation_expectation": {
+        "min_citations": 1,
+        "must_cite_message_ids": [
+          "om_sim_step_003"
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,134 @@
+{
+  "case_id": "case_feishu_506003144_v3",
+  "operator_identity": "user",
+  "delivery_mode": "prefixed_single_operator",
+  "actions": [
+    {
+      "action_id": "step_001",
+      "action_type": "create_chat",
+      "depends_on": [],
+      "params": {
+        "chat_ref": "main_chat",
+        "name": "主群协调",
+        "members": [
+          "customer_manager_1",
+          "engineering_owner_1",
+          "finance_partner_1",
+          "ops_owner_1",
+          "product_owner_1",
+          "security_reviewer_1"
+        ]
+      },
+      "output_ref": "main_chat"
+    },
+    {
+      "action_id": "step_002",
+      "action_type": "create_chat",
+      "depends_on": [],
+      "params": {
+        "chat_ref": "customer_sync_chat",
+        "name": "侧向补充聊天",
+        "members": [
+          "customer_manager_1",
+          "engineering_owner_1",
+          "finance_partner_1",
+          "ops_owner_1",
+          "product_owner_1",
+          "security_reviewer_1"
+        ]
+      },
+      "output_ref": "customer_sync_chat"
+    },
+    {
+      "action_id": "step_003",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_001"
+      ],
+      "params": {
+        "chat_ref": "main_chat",
+        "sender_ref": "engineering_owner_1",
+        "content_text": "【研发/林晨】现在统一一下 current state：FEISHU-506003144 当前 owner 以 xzy 为准，旧 owner 只算历史信息。"
+      },
+      "output_ref": "msg_turn_003"
+    },
+    {
+      "action_id": "step_004",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_001"
+      ],
+      "params": {
+        "chat_ref": "main_chat",
+        "sender_ref": "engineering_owner_1",
+        "content_text": "【研发/林晨】明确一下 current state：现在只认最新一轮确认过的 owner、blocker 和依赖状态，不再沿用旧说法。"
+      },
+      "output_ref": "msg_turn_004"
+    },
+    {
+      "action_id": "step_005",
+      "action_type": "reply_in_thread",
+      "depends_on": [
+        "step_001",
+        "step_003"
+      ],
+      "params": {
+        "chat_ref": "main_chat",
+        "sender_ref": "engineering_owner_1",
+        "content_text": "【研发/林晨】FEISHU-506003144 最早是由 Bob 负责推进的，当时窗口也更乐观。",
+        "root_message_ref": "msg_turn_003"
+      },
+      "output_ref": "msg_turn_001"
+    },
+    {
+      "action_id": "step_006",
+      "action_type": "reply_in_thread",
+      "depends_on": [
+        "step_001",
+        "step_003"
+      ],
+      "params": {
+        "chat_ref": "main_chat",
+        "sender_ref": "engineering_owner_1",
+        "content_text": "【研发/林晨】更新一下，之前那个 owner 口径已经作废，当前接手人和窗口判断都需要按新安排重算。",
+        "root_message_ref": "msg_turn_003"
+      },
+      "output_ref": "msg_turn_002"
+    },
+    {
+      "action_id": "step_007",
+      "action_type": "fetch_chat_messages",
+      "depends_on": [
+        "step_001"
+      ],
+      "params": {
+        "chat_ref": "main_chat"
+      },
+      "output_ref": null
+    },
+    {
+      "action_id": "step_008",
+      "action_type": "fetch_chat_messages",
+      "depends_on": [
+        "step_002"
+      ],
+      "params": {
+        "chat_ref": "customer_sync_chat"
+      },
+      "output_ref": null
+    },
+    {
+      "action_id": "step_009",
+      "action_type": "fetch_thread_messages",
+      "depends_on": [
+        "step_001",
+        "step_003"
+      ],
+      "params": {
+        "chat_ref": "main_chat",
+        "root_message_ref": "msg_turn_003"
+      },
+      "output_ref": null
+    }
+  ]
+}

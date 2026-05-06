@@ -1,0 +1,41 @@
+{
+  "case_id": "case_feishu_506003144_v3",
+  "beats": [
+    {
+      "beat_id": "beat_01_01",
+      "trap_id": "trap_feishu_506003144_stale_001",
+      "failure_mode": "static_memory_stale_state",
+      "beat_type": "trap_beat",
+      "benchmark_role": "stale_state_turn",
+      "description": "围绕 负责人与发布日期连续修正，旧状态仍是真实历史，但不应当作当前状态。 安排一个 stale_state_turn，让 baseline 在该点暴露失败。",
+      "target_session_id": "session_main_chat"
+    },
+    {
+      "beat_id": "beat_01_02",
+      "trap_id": "trap_feishu_506003144_stale_001",
+      "failure_mode": "static_memory_stale_state",
+      "beat_type": "revision_beat",
+      "benchmark_role": "supersession_turn",
+      "description": "围绕 负责人与发布日期连续修正，旧状态仍是真实历史，但不应当作当前状态。 安排一个 supersession_turn，让 baseline 在该点暴露失败。",
+      "target_session_id": "session_handoff_thread"
+    },
+    {
+      "beat_id": "beat_01_03",
+      "trap_id": "trap_feishu_506003144_stale_001",
+      "failure_mode": "static_memory_stale_state",
+      "beat_type": "revision_beat",
+      "benchmark_role": "final_current_state_turn",
+      "description": "围绕 负责人与发布日期连续修正，旧状态仍是真实历史，但不应当作当前状态。 安排一个 final_current_state_turn，让 baseline 在该点暴露失败。",
+      "target_session_id": "session_customer_sync_chat"
+    },
+    {
+      "beat_id": "beat_01_04",
+      "trap_id": "trap_feishu_506003144_stale_001",
+      "failure_mode": "static_memory_stale_state",
+      "beat_type": "revision_beat",
+      "benchmark_role": "current_state_disambiguation_turn",
+      "description": "围绕 负责人与发布日期连续修正，旧状态仍是真实历史，但不应当作当前状态。 安排一个 current_state_disambiguation_turn，让 baseline 在该点暴露失败。",
+      "target_session_id": "session_customer_sync_chat"
+    }
+  ]
+}

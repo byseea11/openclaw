@@ -1,0 +1,218 @@
+{
+  "case_id": "case_feishu_506003144_v3",
+  "status": "success",
+  "operator_identity": "user",
+  "delivery_mode": "prefixed_single_operator",
+  "created_resources": {
+    "main_chat": {
+      "chat_id": "oc_sim_main_chat"
+    },
+    "customer_sync_chat": {
+      "chat_id": "oc_sim_customer_sync_chat"
+    },
+    "msg_turn_003": {
+      "message_id": "om_sim_step_003",
+      "thread_id": "omt_sim_turn_003",
+      "chat_id": "oc_sim_main_chat"
+    },
+    "msg_turn_004": {
+      "message_id": "om_sim_step_004",
+      "thread_id": "omt_sim_turn_004",
+      "chat_id": "oc_sim_main_chat"
+    },
+    "msg_turn_001": {
+      "message_id": "om_sim_step_005",
+      "thread_id": "omt_sim_turn_001",
+      "chat_id": "oc_sim_main_chat"
+    },
+    "msg_turn_002": {
+      "message_id": "om_sim_step_006",
+      "thread_id": "omt_sim_turn_002",
+      "chat_id": "oc_sim_main_chat"
+    }
+  },
+  "thread_id_to_chat_id": {},
+  "action_status": [
+    {
+      "action_id": "step_001",
+      "status": "dry_run",
+      "command": [
+        "lark-cli",
+        "im",
+        "+chat-create",
+        "--name",
+        "主群协调",
+        "--as",
+        "user"
+      ],
+      "stdout": {},
+      "stderr": "",
+      "returncode": 0
+    },
+    {
+      "action_id": "step_002",
+      "status": "dry_run",
+      "command": [
+        "lark-cli",
+        "im",
+        "+chat-create",
+        "--name",
+        "侧向补充聊天",
+        "--as",
+        "user"
+      ],
+      "stdout": {},
+      "stderr": "",
+      "returncode": 0
+    },
+    {
+      "action_id": "step_003",
+      "status": "dry_run",
+      "command": [
+        "lark-cli",
+        "im",
+        "+messages-send",
+        "--chat-id",
+        "main_chat",
+        "--text",
+        "【研发/林晨】现在统一一下 current state：FEISHU-506003144 当前 owner 以 xzy 为准，旧 owner 只算历史信息。",
+        "--as",
+        "user"
+      ],
+      "stdout": {},
+      "stderr": "",
+      "returncode": 0
+    },
+    {
+      "action_id": "step_004",
+      "status": "dry_run",
+      "command": [
+        "lark-cli",
+        "im",
+        "+messages-send",
+        "--chat-id",
+        "main_chat",
+        "--text",
+        "【研发/林晨】明确一下 current state：现在只认最新一轮确认过的 owner、blocker 和依赖状态，不再沿用旧说法。",
+        "--as",
+        "user"
+      ],
+      "stdout": {},
+      "stderr": "",
+      "returncode": 0
+    },
+    {
+      "action_id": "step_007",
+      "status": "dry_run",
+      "command": [
+        "lark-cli",
+        "im",
+        "+chat-messages-list",
+        "--chat-id",
+        "main_chat",
+        "--sort",
+        "asc",
+        "--page-size",
+        "50",
+        "--format",
+        "json",
+        "--as",
+        "user"
+      ],
+      "stdout": {},
+      "stderr": "",
+      "returncode": 0
+    },
+    {
+      "action_id": "step_008",
+      "status": "dry_run",
+      "command": [
+        "lark-cli",
+        "im",
+        "+chat-messages-list",
+        "--chat-id",
+        "customer_sync_chat",
+        "--sort",
+        "asc",
+        "--page-size",
+        "50",
+        "--format",
+        "json",
+        "--as",
+        "user"
+      ],
+      "stdout": {},
+      "stderr": "",
+      "returncode": 0
+    },
+    {
+      "action_id": "step_005",
+      "status": "dry_run",
+      "command": [
+        "lark-cli",
+        "im",
+        "+messages-reply",
+        "--message-id",
+        "msg_turn_003",
+        "--text",
+        "【研发/林晨】FEISHU-506003144 最早是由 Bob 负责推进的，当时窗口也更乐观。",
+        "--reply-in-thread",
+        "--as",
+        "user"
+      ],
+      "stdout": {},
+      "stderr": "",
+      "returncode": 0
+    },
+    {
+      "action_id": "step_006",
+      "status": "dry_run",
+      "command": [
+        "lark-cli",
+        "im",
+        "+messages-reply",
+        "--message-id",
+        "msg_turn_003",
+        "--text",
+        "【研发/林晨】更新一下，之前那个 owner 口径已经作废，当前接手人和窗口判断都需要按新安排重算。",
+        "--reply-in-thread",
+        "--as",
+        "user"
+      ],
+      "stdout": {},
+      "stderr": "",
+      "returncode": 0
+    },
+    {
+      "action_id": "step_009",
+      "status": "dry_run",
+      "command": [
+        "lark-cli",
+        "im",
+        "+threads-messages-list",
+        "--thread",
+        "msg_turn_003",
+        "--sort",
+        "asc",
+        "--page-size",
+        "50",
+        "--format",
+        "json",
+        "--as",
+        "user"
+      ],
+      "stdout": {},
+      "stderr": "",
+      "returncode": 0
+    }
+  ],
+  "preflight": {
+    "lark_cli_available": true,
+    "operator_identity": "user",
+    "auth_ok": false,
+    "im_capabilities_ok": false,
+    "warnings": [
+      "auth status not checked"
+    ]
+  }
+}

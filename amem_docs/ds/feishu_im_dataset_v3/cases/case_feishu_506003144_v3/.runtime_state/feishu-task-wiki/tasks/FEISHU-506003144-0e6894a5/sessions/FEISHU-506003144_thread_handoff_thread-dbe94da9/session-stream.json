@@ -1,0 +1,11 @@
+{
+  "task_id": "task:FEISHU-506003144",
+  "task_key": "FEISHU-506003144",
+  "source_session_id": "task:FEISHU-506003144::thread:handoff_thread",
+  "source_scope": "thread:handoff_thread",
+  "source_type": "thread",
+  "source_id": "thread:handoff_thread",
+  "latest_ingest_version": 2,
+  "created_at": "2026-05-06T00:31:44.434Z",
+  "updated_at": "2026-05-06T00:31:44.439Z"
+}

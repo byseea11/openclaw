@@ -1,0 +1,22 @@
+{
+  "case_id": "case_feishu_506003144_v3",
+  "overall": {
+    "topic_hit_rate": 0.0,
+    "current_state_hit_rate": 0.0
+  },
+  "by_failure_mode": {
+    "static_memory_stale_state": {
+      "eligible_blocks": 1,
+      "topic_hit_rate": 0.0,
+      "current_state_hit_rate": 0.0
+    }
+  },
+  "block_eval_on_all_gold_events": {
+    "extractor_failure_view": 1.0,
+    "projector_failure_view": 1.0
+  },
+  "block_eval_on_aligned_events_only": {
+    "extractor_failure_view": 1.0,
+    "projector_failure_view": 1.0
+  }
+}

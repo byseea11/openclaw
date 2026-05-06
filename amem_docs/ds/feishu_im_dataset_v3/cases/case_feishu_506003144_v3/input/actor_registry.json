@@ -1,0 +1,65 @@
+{
+  "case_id": "case_feishu_506003144_v3",
+  "actors": [
+    {
+      "person_id": "engineering_owner_1",
+      "simulated_open_id": "ou_sim_engineering_owner_1",
+      "name": "林晨",
+      "department": "研发",
+      "role": "研发负责人",
+      "default_channels": [
+        "main_chat"
+      ]
+    },
+    {
+      "person_id": "ops_owner_1",
+      "simulated_open_id": "ou_sim_ops_owner_1",
+      "name": "周宇",
+      "department": "运维",
+      "role": "运维负责人",
+      "default_channels": [
+        "main_chat"
+      ]
+    },
+    {
+      "person_id": "product_owner_1",
+      "simulated_open_id": "ou_sim_product_owner_1",
+      "name": "陈雪",
+      "department": "产品",
+      "role": "产品负责人",
+      "default_channels": [
+        "main_chat"
+      ]
+    },
+    {
+      "person_id": "security_reviewer_1",
+      "simulated_open_id": "ou_sim_security_reviewer_1",
+      "name": "王源",
+      "department": "安全",
+      "role": "安全评审",
+      "default_channels": [
+        "main_chat"
+      ]
+    },
+    {
+      "person_id": "finance_partner_1",
+      "simulated_open_id": "ou_sim_finance_partner_1",
+      "name": "高骏",
+      "department": "财务",
+      "role": "财务合作方",
+      "default_channels": [
+        "main_chat"
+      ]
+    },
+    {
+      "person_id": "customer_manager_1",
+      "simulated_open_id": "ou_sim_customer_manager_1",
+      "name": "赵敏",
+      "department": "销售",
+      "role": "客户经理",
+      "default_channels": [
+        "main_chat"
+      ]
+    }
+  ]
+}

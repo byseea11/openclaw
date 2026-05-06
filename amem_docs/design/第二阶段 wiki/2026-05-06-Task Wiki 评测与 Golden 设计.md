@@ -1,64 +1,76 @@
-# 2026-05-06 Task Wiki 评测与 Golden 设计
+# 2026-05-06 Task Wiki 评测与 Golden 设计 V3
 
-## 1. 当前问题
+本文是 `Task Wiki 评测与 Golden 设计 V3`。  
+V3 替代此前所有旧设计口径，不保留双轨方案，不保留过渡性主设计。后续 `builder`、`replay-runtime`、`evaluator`、`dataset` 结构均以本文为唯一规范。
 
-当前 `feishu_builder_agent` 已经有：
+## 1. 当前问题与 V3 目标
 
-```text
-target-gold
--> gold
--> validate
-```
+V3 要同时解决两个问题。
 
-但当前这套设计仍然存在一个根问题：
+### 1.1 旧方案的问题
 
-```text
-builder 仍在生成 runtime-like gold。
-```
-
-也就是说，当前 `gold/expected_events.jsonl`、`gold/expected_memory_blocks.json`、`gold/expected_current_state.json` 更像是：
+旧方案把 builder 推向了 `runtime-like gold`：
 
 ```text
-builder 根据 target_state + collected_messages
-合成出来的一组“看起来像 runtime 输出”的参考快照，
-而不是独立于 runtime 实现之外的 annotation gold。
+builder 产出 expected_events / expected_memory_blocks / expected_current_state
+-> evaluator 拿它们去对 runtime 做近似 exact match
 ```
 
-这会导致几个直接问题：
+这会带来三个直接问题：
 
-1. builder 生成的 gold 与 runtime extractor / projector 的字段形态过于相似，容易形成评测泄漏
-2. `expected_events` 很容易被误解为 `session_events.jsonl` 的离线金标准换皮
-3. `expected_memory_blocks` 很容易被误解为 `projector.js` 输出的离线金标准换皮
-4. validate 和 effect evaluation 的边界会混在一起
-5. 如果后续继续拿 `expected_*` 做 exact match，评到的是 builder 自己的口径，而不是 Task Wiki 系统本身
+1. builder 生成的“正确答案”与 runtime 输出过于相似，存在评测泄漏。
+2. `expected_events` 很容易退化成 `session_events.jsonl` 的离线换皮。
+3. 评测结果更像在比较 builder 模板与 runtime 模板，而不是比较系统是否真的记住了任务。
 
-因此这份文档要彻底改口径：
+### 1.2 旧方案没有回答的关键问题
+
+旧方案没有回答最重要的问题：
+
+```text
+如何生成一批会让 OpenClaw 当前 Memory.md 失败、但 Task Wiki 能成功的数据？
+```
+
+V3 的答案不是“先造复杂故事，再补评测点”，而是：
+
+```text
+先选择 Memory.md failure mode，
+再倒推任务、人员、source、状态变化、干扰上下文、trap turn 和 probe query。
+```
+
+### 1.3 V3 的目标
+
+V3 的主 baseline 是 OpenClaw 当前 `Memory.md`。  
+普通 `raw-message RAG` 是辅助 baseline，不是主叙事。
+
+V3 的 benchmark 目标不是“复杂”，而是：
+
+```text
+稳定暴露 baseline failure，
+并证明 Task Wiki 为什么能在同类 case 上更准、更可追溯、更能维护 current state。
+```
+
+V3 的唯一主口径如下：
 
 ```text
 builder 不生成 runtime gold；
-builder 生成 case world、state trajectory、coverage spec 和 evidence-bound annotations。
+builder 生成 case world、state trajectory、coverage spec、conversation plan 和 evidence-bound annotations。
 runtime 在 replay 中生成 prediction；
-evaluator 通过 evidence alignment、claim matching、slot/current-state matching 和 QA faithfulness 进行分层评测。
+evaluator 通过 evidence alignment、claim matching、slot/current-state matching、QA faithfulness 和 baseline comparison 进行分层评测。
 ```
 
-这句话是全文核心原则。
-
----
-
-## 2. 核心原则
-
-这份设计从一开始就固定以下边界。
+## 2. V3 核心原则
 
 ### 2.1 Builder 生成什么
 
 builder 只生成：
 
-1. `case world`
-2. `state trajectory`
-3. `coverage spec`
-4. `conversation plan`
-5. `command plan`
+1. `case_world`
+2. `state_trajectory`
+3. `coverage_spec`
+4. `conversation_plan`
+5. `command_plan`
 6. `evidence-bound annotations`
+7. `checks`
 
 ### 2.2 Builder 不生成什么
 
@@ -66,11 +78,12 @@ builder 不生成：
 
 1. runtime `session_event`
 2. runtime `session_wiki_state`
-3. runtime `task_wiki_state`
-4. runtime `event_id`
-5. runtime `block_id`
-6. runtime `verification verdict`
-7. projector 输出
+3. runtime `task_index_state`
+4. runtime `task_wiki_state`
+5. runtime `event_id`
+6. runtime `block_id`
+7. runtime `verification verdict`
+8. projector 输出
 
 ### 2.3 Runtime 只能在哪个阶段运行
 
@@ -84,9 +97,9 @@ replay-runtime
 
 也就是说：
 
-- `task-events/extractor.js`
-- `task-events/session-ingest.js`
-- `task-wiki/projector.js`
+- `task-events/session-ingest`
+- `task-events/extractor`
+- `task-wiki/projector`
 
 都不能参与 gold 生成。
 
@@ -96,7 +109,7 @@ gold 不能复用：
 
 1. runtime `event_id`
 2. runtime `block_id`
-3. runtime `verification.verdict`
+3. runtime `verification verdict`
 4. runtime `session_events.jsonl` 结构
 5. runtime `session_wiki_state.json`
 6. runtime `task_index_state.json`
@@ -105,9 +118,9 @@ gold 不能复用：
 gold 只能描述：
 
 ```text
-哪段证据应该支持什么 atomic claim；
+哪段证据支持什么 atomic claim；
 这个 claim 属于什么 topic / slot；
-它应该被抽取、被验证通过、被拒绝，还是应该进入 needs_review。
+它应该被抽取、进入 verified、进入 needs_review、进入 rejected，还是根本不应形成 event。
 ```
 
 ### 2.5 评测总原则
@@ -118,76 +131,364 @@ gold 只能描述：
 2. event claim matching
 3. block / slot / current-state matching
 4. QA answer / citation / faithfulness matching
+5. baseline comparison / value evaluation
 
 不做单一 JSON exact match。
 
----
+## 3. OpenClaw Fail 数据生成方法
 
-## 3. 新的整体生成与评测链路
-
-新的主链应该是：
+V3 的主变化不是补一个 schema，而是把 case generation 的上游控制面改成：
 
 ```text
-case_world
--> state_trajectory
--> story_beats
--> evidence_obligations
--> natural_messages
--> evidence-bound annotation gold
--> replay runtime
--> evaluator
+OpenClaw Memory.md failure-oriented case generation
 ```
 
-也可以画成：
+### 3.1 为什么必须改成 failure-oriented
+
+如果先写故事，再看覆盖了哪些 event family，得到的通常只是：
+
+```text
+复杂、热闹、消息很多
+```
+
+但这不等于：
+
+```text
+能稳定复现 Memory.md 的失败模式
+```
+
+V3 的原则是：
+
+```text
+先定义 baseline 会掉进去的坑，
+再围绕这个坑构造世界、轨迹、消息与查询。
+```
+
+### 3.2 V3 的 trap-first 生成链路
+
+```text
+memory_failure_profile
+-> failure_case_pattern
+-> task_and_actor_layout
+-> target_task_state_trajectory
+-> distractor_memory_context
+-> source_session_plan
+-> trap_turn_plan
+-> natural_messages
+-> memory_probe_queries
+-> annotation_gold
+-> baseline_comparison
+```
 
 ```mermaid
 flowchart TD
-  A["case_world"] --> B["state_trajectory"]
-  B --> C["story_beats"]
-  C --> D["evidence_obligations"]
-  D --> E["natural_messages / collected_messages"]
-  E --> F["event_annotations / block_annotations / query_benchmark"]
-  E --> G["replay-runtime"]
-  G --> H["predictions/*"]
-  F --> I["replay-eval"]
-  H --> I["replay-eval"]
-  I --> J["reports/*"]
+  A["memory_failure_profile"] --> B["failure_case_pattern"]
+  B --> C["task_and_actor_layout"]
+  C --> D["target_task_state_trajectory"]
+  D --> E["distractor_memory_context"]
+  E --> F["source_session_plan"]
+  F --> G["trap_turn_plan"]
+  G --> H["natural_messages"]
+  H --> I["execute / collect -> collected_messages"]
+  I --> J["annotation_gold"]
+  I --> K["replay-runtime"]
+  J --> L["replay-eval"]
+  K --> L["replay-eval"]
+  L --> M["baseline_comparison / value_eval"]
 ```
 
-这条链路里有一个硬边界：
+### 3.3 四类固定 failure mode
+
+V3 只保留四类 case family：
+
+1. `personal_memory_pollution`
+2. `unverifiable_summary_claim`
+3. `static_memory_stale_state`
+4. `dependency_propagation_failure`
+
+其中：
+
+- 前三类是核心必测 failure mode
+- 第四类是增强型 hard mode
+
+### 3.4 failure mode 与项目突破的映射
+
+- `personal_memory_pollution`
+  对应突破一：任务级记忆组织
+- `unverifiable_summary_claim`
+  对应突破二：证据驱动的 Event 记忆
+- `static_memory_stale_state`
+  对应突破三：增量可更新的任务状态维护
+- `dependency_propagation_failure`
+  对应企业协作中的跨任务状态传播与检索价值
+
+### 3.5 Failure Mode 1：`personal_memory_pollution`
+
+`Memory.md` 应该怎么失败：
 
 ```text
-annotation gold 必须建立在 collected_messages 的真实 evidence_quote 上；
-prediction 必须建立在 replay-runtime 的真实 extractor / projector 上。
+把多个任务、多个角色、多个状态时间点混写，
+导致用户问 target task 时答进无关任务，或把旧负责人 / 其他审批状态混进来。
 ```
 
----
+Case pattern：
+
+```text
+Personal Memory Pollution Pattern
+```
+
+生成规则：
+
+1. 每个 case 至少 1 个 target task、2 到 3 个 distractor tasks、3 到 5 个 shared actors。
+2. 多任务共享负责人、审批状态、截止时间、依赖、blocker 等相似字段。
+3. target task 与 distractor task 至少共享 2 类同名 slot。
+4. 至少 1 个 query 专门问 target task 的 current owner / blocker / approval status。
+
+case 必带字段示例：
+
+```json
+{
+  "failure_case_pattern": "personal_memory_pollution",
+  "target_task_id": "FEISHU-231",
+  "distractor_tasks": ["PROD-123", "FEISHU-312", "FEISHU-291"],
+  "shared_actors": ["Alice", "Bob", "Carol", "xzy"],
+  "overlapping_slots": ["owner", "approval_status", "blocker", "deadline"]
+}
+```
+
+预期 OpenClaw failure：
+
+1. 回答包含无关任务信息。
+2. 把别的任务的审批状态混进 target task。
+3. 把历史 owner 或 distractor owner 当 current owner。
+
+预期 Task Wiki success：
+
+1. 以 `task_id` 组织记忆。
+2. answer 只引用 target task 相关 event / block。
+3. 能把 distractor 信息排除在 citation 之外。
+
+probe query 示例：
+
+```text
+只看 FEISHU-231，当前负责人是谁？当前阻塞是什么？
+```
+
+对应 metrics：
+
+- `task_memory_isolation_accuracy`
+- `irrelevant_memory_pollution_rate`
+- `current_item_accuracy`
+- `citation_accuracy`
+
+### 3.6 Failure Mode 2：`unverifiable_summary_claim`
+
+`Memory.md` 应该怎么失败：
+
+```text
+写出一个看起来合理的总结，
+但这条总结没有证据，或者把猜测、转述、弱承诺写成确定事实。
+```
+
+Case pattern：
+
+```text
+Unverifiable Summary Claim Pattern
+```
+
+生成规则：
+
+1. 同一 topic 下同时生成 verified fact、ambiguous turn、hearsay turn、ordinary ack、context-only turn。
+2. 至少一条弱承诺长得像 `commitment_event`，但不够进入 verified。
+3. 至少一条普通确认长得像“已接手”，但实际上只是 acknowledgement。
+4. 至少一个 query 专门问“谁说的 / 依据是什么 / 是否真的确定”。
+
+case 必带字段示例：
+
+```json
+{
+  "failure_case_pattern": "unverifiable_summary_claim",
+  "target_claim": "FEISHU-231 当前受财务问题阻塞",
+  "evidence_distribution": {
+    "verified_fact_turns": 2,
+    "ambiguous_turns": 2,
+    "hearsay_turns": 1,
+    "ordinary_ack_turns": 2,
+    "context_only_turns": 1
+  }
+}
+```
+
+预期 OpenClaw failure：
+
+1. 把模糊表达写成确定记忆。
+2. claim 无法回到原文 quote。
+3. 无法区分 verified fact 与 hearsay / weak signal。
+
+预期 Task Wiki success：
+
+1. verified event 必须绑定 `evidence_quote`。
+2. 模糊表达进入 `needs_review` 或 `rejected`。
+3. ordinary ack / no-event 不进入正式事实层。
+
+probe query 示例：
+
+```text
+现在说“财务问题阻塞上线”这件事，具体是谁明确说的？有没有直接证据？
+```
+
+对应 metrics：
+
+- `unsupported_claim_rate`
+- `verified_precision`
+- `needs_review_accuracy`
+- `no_event_false_positive_rate`
+
+### 3.7 Failure Mode 3：`static_memory_stale_state`
+
+`Memory.md` 应该怎么失败：
+
+```text
+同一任务状态持续变化，
+旧状态虽然曾经真实，但已经不是 current state；
+Memory.md 容易继续把旧状态当成当前态。
+```
+
+Case pattern：
+
+```text
+Static Memory Stale State Pattern
+```
+
+生成规则：
+
+1. 每个关键 topic 至少三段状态：initial、intermediate、final。
+2. 至少覆盖 `owner`、`deadline`、`blocker` 三类 track 中的两类。
+3. 至少 1 次 cross-source revision。
+4. 至少 1 个 query 专门问 current state，检查 stale answer。
+
+case 必带字段示例：
+
+```json
+{
+  "failure_case_pattern": "static_memory_stale_state",
+  "state_tracks": [
+    {
+      "track_key": "owner",
+      "states": ["Bob", "Alice", "xzy"],
+      "final_current_state": "xzy",
+      "stale_states": ["Bob", "Alice"]
+    },
+    {
+      "track_key": "deadline",
+      "states": ["2026-04-24", "2026-04-28"],
+      "final_current_state": "2026-04-28",
+      "stale_states": ["2026-04-24"]
+    }
+  ]
+}
+```
+
+预期 OpenClaw failure：
+
+1. 把旧负责人或旧截止时间当 current state。
+2. 无法稳定区分历史状态与当前状态。
+3. 后续新增 session 后，旧状态继续污染回答。
+
+预期 Task Wiki success：
+
+1. current slot 指向最新状态。
+2. stale 状态保留为历史，不作为当前答案。
+3. supersession 与 cross-source revision 可追溯。
+
+probe query 示例：
+
+```text
+现在 FEISHU-231 的当前负责人到底是谁？不是历史负责人，是当前口径。
+```
+
+对应 metrics：
+
+- `current_state_accuracy`
+- `stale_answer_rate`
+- `supersession_accuracy`
+- `cross_source_revision_hit_rate`
+
+### 3.8 Failure Mode 4：`dependency_propagation_failure`
+
+`Memory.md` 应该怎么失败：
+
+```text
+能记住局部事实，
+但不能稳定回答“上游没过会影响哪些下游任务、当前还能不能继续推进”。
+```
+
+Case pattern：
+
+```text
+Dependency Propagation Failure Pattern
+```
+
+生成规则：
+
+1. target task 与上游审批、下游发布、关联任务之间必须存在显式依赖。
+2. 至少 1 次“局部状态已更新，但依赖后果未同步说明”的消息轨迹。
+3. 至少 1 个 query 问依赖传播结果，而不是只问单条事实。
+
+case 必带字段示例：
+
+```json
+{
+  "failure_case_pattern": "dependency_propagation_failure",
+  "dependency_path": [
+    "legal_approval -> finance_clearance -> release_window -> customer_commitment"
+  ],
+  "blocking_edge": "finance_clearance -> release_window"
+}
+```
+
+预期 OpenClaw failure：
+
+1. 只能答局部状态，答不出依赖传播后的 current implication。
+2. 把上游旧状态与下游当前状态混在一起。
+
+预期 Task Wiki success：
+
+1. 通过 task wiki / index / dependency block 回答跨 source 推理问题。
+2. 明确引用当前 blocker 与其影响范围。
+
+probe query 示例：
+
+```text
+如果财务还没过，当前还能不能对客户承诺五月上旬上线？为什么？
+```
+
+对应 metrics：
+
+- `cross_source_reasoning_success_rate`
+- `blocker_or_risk_hit_rate`
+- `decision_consistency_rate`
 
 ## 4. 中间抽象分层
 
-当前文档不能只谈 gold 文件，还必须把 builder 内部的中间抽象拆清楚。
+V3 不推翻已有中间抽象，但每一层都必须显式承载 failure intent。
 
 ### 4.1 `case_world`
 
 `case_world` 是故事世界，不是 event JSON。
 
-它负责描述：
+它至少负责：
 
-1. 组织背景
-2. 公司类型
-3. 角色关系
-4. 冲突轴
-5. 隐藏约束
-6. 外部压力
-7. 业务目标
-8. 最终目标状态
-
-它回答的问题是：
-
-```text
-这个 case 发生在什么样的企业协作世界里？
-为什么这些人会在这些 source 里反复讨论这个任务？
-```
+1. 企业背景
+2. 角色关系
+3. 冲突轴
+4. 隐藏约束
+5. 外部压力
+6. 最终目标状态
+7. `case_generation_goal`
+8. `memory_failure_profile`
+9. `task_and_actor_layout`
+10. `distractor_memory_context`
 
 示例：
 
@@ -195,24 +496,23 @@ prediction 必须建立在 replay-runtime 的真实 extractor / projector 上。
 {
   "case_id": "case_feishu_505160829_example",
   "task_id": "FEISHU-505160829",
-  "title": "FEISHU-505160829 发布窗口协调",
-  "company_context": {
-    "company_type": "B2B SaaS 公司",
-    "business_pressure": "客户已将能力排入内部计划",
-    "external_pressure": "销售希望给出明确口径"
+  "case_generation_goal": {
+    "baseline": "openclaw_memory_md",
+    "goal": "生成会暴露 Memory.md stale state 与 evidence weakness 的企业任务记忆 case"
   },
-  "conflict_axes": [
-    "发布日期口径是否可以对外承诺",
-    "迁移窗口和放行条件是否已经闭环",
-    "管理层同步口径是否应与客户口径保持一致"
-  ],
-  "hidden_constraints": [
-    "数据迁移窗口尚未最终确认",
-    "高风险能力仍受安全评审约束"
-  ],
-  "final_goal_state": {
-    "release_window": "条件式窗口，不对外承诺具体日期",
-    "external_messaging": "只同步准备中和条件未闭环两个事实"
+  "memory_failure_profile": {
+    "selected_failure_modes": [
+      "static_memory_stale_state",
+      "unverifiable_summary_claim"
+    ],
+    "primary_failure_mode": "static_memory_stale_state"
+  },
+  "task_and_actor_layout": {
+    "target_task_id": "FEISHU-505160829",
+    "shared_actors": ["Alice", "Bob", "Carol", "xzy"]
+  },
+  "distractor_memory_context": {
+    "distractor_tasks": ["PROD-123", "FEISHU-312"]
   }
 }
 ```
@@ -221,335 +521,153 @@ prediction 必须建立在 replay-runtime 的真实 extractor / projector 上。
 
 `state_trajectory` 是每个 topic 的状态变化路径，不是最终 event。
 
-它负责描述：
+它至少负责：
 
-1. 初始状态
-2. 中间修正
-3. 哪些旧事实会被 supersede / revise
-4. 哪些状态最终成为 current state
-5. 哪些 source 负责暴露这些状态
-6. 哪些 source 负责修正这些状态
+1. `target_task_state_trajectory`
+2. `revision_points`
+3. `supersession_edges`
+4. `final_current_state`
+5. `dependency_path`
+6. 哪些 source 暴露旧状态
+7. 哪些 source 修正旧状态
 
-它回答的问题是：
+### 4.3 `coverage_spec`
 
-```text
-每个 topic 在整条协作链里是如何演进的？
-哪些是旧状态，哪些是最终有效状态？
-```
+`coverage_spec` 不是剧情，也不是 gold。
 
-示例：
+它负责规定这条 case 在评测层面必须覆盖什么：
 
-```json
-{
-  "case_id": "case_feishu_505160829_example",
-  "topics": [
-    {
-      "topic_key": "release_window",
-      "initial_state": "先按五月上旬内部推进",
-      "transitions": [
-        {
-          "transition_id": "release_window_t1",
-          "kind": "proposal",
-          "state": "先按五月上旬内部推进",
-          "exposed_by_sources": ["chat:main_chat"]
-        },
-        {
-          "transition_id": "release_window_t2",
-          "kind": "constraint_update",
-          "state": "blocker 未清零，不能对外承诺具体日期",
-          "exposed_by_sources": ["thread:launch_window_thread"],
-          "supersedes": ["release_window_t1"]
-        },
-        {
-          "transition_id": "release_window_t3",
-          "kind": "final_current_state",
-          "state": "条件式窗口，当前不作为客户承诺",
-          "exposed_by_sources": ["chat:main_chat", "chat:customer_sync_chat"],
-          "supersedes": ["release_window_t2"]
-        }
-      ],
-      "final_current_state_transition_id": "release_window_t3"
-    }
-  ]
-}
-```
+1. 必须覆盖哪些 `failure_mode`
+2. 必须覆盖哪些 `event family`
+3. 必须覆盖哪些 `source/session`
+4. 必须覆盖哪些 `slot`
+5. 必须覆盖哪些 `query_type`
+6. 必须包含多少 `no-event / ambiguous / distractor / context-only` turns
+7. 哪些 failure mode / topic / query 是 hard gate
 
-### 4.3 `story_beats`
+它的作用是防止 case 漂成“故事上很热闹，但 benchmark 上没有杀伤力”。
+
+### 4.4 `story_beats`
 
 `story_beats` 是剧情节拍，不是 event JSON。
 
-它描述的是：
+V3 中每个 beat 不只要说明“谁在什么 source 推动了什么变化”，还要说明：
 
-1. 哪个角色
-2. 在哪个 source / session
-3. 用什么动机
-4. 推动了哪一次状态变化
+1. `memory_failure_mode`
+2. 哪个 beat 是 `baseline trap`
+3. 哪个 beat 是 `revision beat`
+4. 哪个 beat 是 `distractor beat`
 
-它回答的问题是：
-
-```text
-为什么这条消息会在这个 source 出现？
-它在整条状态演进里承担什么剧情作用？
-```
-
-示例：
-
-```json
-{
-  "beat_id": "beat_009",
-  "topic_key": "release_window",
-  "source_session_ref": "thread:launch_window_thread",
-  "speaker_ref": "dev_wang_fang",
-  "goal": "把风险从代码问题转移到迁移窗口与放行条件",
-  "drives_transition_ids": ["release_window_t2"],
-  "style_hint": "研发侧补充、偏谨慎、非正式汇报口吻"
-}
-```
-
-### 4.4 `evidence_obligations`
+### 4.5 `evidence_obligations`
 
 `evidence_obligations` 是证据义务，不是 runtime event instance。
 
-它只描述：
+它除了定义 event opportunity，还必须定义：
 
-```text
-这个 beat 自然落地成消息以后，
-应该有机会产生哪些可验证事实类型。
-```
+1. 哪些 obligation 目标是 `verified`
+2. 哪些 obligation 目标是 `needs_review`
+3. 哪些 obligation 目标是 `no_event`
+4. 哪些 obligation 本身就是 `false-positive trap`
 
-例如：
-
-- `conclusion`
-- `constraint`
-- `objection`
-- `status`
-- `commitment`
-- `time`
-- `scope`
-
-它是：
-
-```text
-event opportunity
-```
-
-不是：
-
-```text
-runtime event instance
-```
-
-示例：
-
-```json
-{
-  "beat_id": "beat_009",
-  "topic_key": "release_window",
-  "source_session_ref": "thread:launch_window_thread",
-  "required_event_opportunities": [
-    {
-      "event_type": "constraint_event",
-      "why": "需要暴露 blocker 未清零不能对外承诺日期"
-    },
-    {
-      "event_type": "time_event",
-      "why": "需要让系统有机会感知窗口从明确目标转为条件式窗口"
-    }
-  ],
-  "negative_expectations": [
-    {
-      "forbidden_event_type": "commitment_event",
-      "why": "这条消息不是承诺，只是风险补充"
-    }
-  ]
-}
-```
-
-### 4.5 `natural_messages`
-
-`natural_messages` 是自然对话，不允许为了迎合 event schema 写成结构化摘要。
-
-必须保证：
-
-1. 符合人类聊天语气
-2. 可以带模糊表达
-3. 可以有上下文依赖
-4. 可以有 no-event / distractor / acknowledgement / question-only turn
-
-不能把消息直接写成：
-
-```text
-Constraint: 数据迁移窗口尚未确认。
-Conclusion: 当前不能承诺发布日期。
-```
-
-因为这会把评测退化成 schema 模板识别。
-
-### 4.6 `annotation gold`
-
-`annotation gold` 必须建立在真实 `collected_messages` 上。
-
-它的核心要求是：
-
-```text
-消息生成并 collect 完成以后，
-再基于真实出现的 evidence_quote 标注 atomic claim、event_type、topic_key、slot、required_fields。
-```
-
-这里有一个必须明确写死的规则：
+这里还要加一条硬边界：
 
 ```text
 supports_event_types、semantic_payload_template、turn_template
-只能作为 event opportunity / evidence obligation；
+只能作为 event opportunity / plan metadata；
 不能直接变成 event_annotations。
 ```
 
-换句话说：
+因为它们描述的是“这条消息应该有机会表达什么”，不是“runtime 一定抽出了一个合格 event”。
+
+### 4.6 `natural_messages` 与 `collected_messages`
+
+这里的边界必须写死：
 
 ```text
-builder 不能把 plan 里的 supports_event_types 直接抄成 annotation gold。
+natural_messages 属于 plan-time generation，用于指导 execute；
+collected_messages 属于 execution-time observation，是 collect 阶段采集到的真实消息。
 ```
 
-annotation 必须回到：
+因此：
 
-- `collected_messages.jsonl`
-- 真实 `message_id`
-- 真实 `content_text`
-- 真实 `evidence_quote`
+```text
+annotation 只能引用 collected_messages 中的 evidence_message_id 和 evidence_quote；
+不能引用 conversation_plan / natural_messages draft 中的文本生成 gold。
+```
 
----
-
-## 5. Builder 生成什么，不能生成什么
+## 5. Builder、Observed Data 与 Conversation Plan
 
 ### 5.1 Builder 生成什么
 
-builder 的职责是生成：
+builder 生成：
 
 1. `input/case_world.json`
 2. `input/state_trajectory.json`
 3. `input/coverage_spec.json`
 4. `input/conversation_plan.json`
 5. `input/command_plan.jsonl`
-6. `data/collected_messages.jsonl`
-7. `gold/event_annotations.jsonl`
-8. `gold/block_annotations.json`
-9. `gold/query_benchmark.json`
-10. `checks/complexity_gate.json`
-11. `checks/integrity_gate.json`
-12. `checks/eval_manifest.json`
+6. `gold/event_annotations.jsonl`
+7. `gold/block_annotations.json`
+8. `gold/query_benchmark.json`
+9. `checks/complexity_gate.json`
+10. `checks/integrity_gate.json`
+11. `checks/eval_manifest.json`
 
-### 5.2 Builder 不能生成什么
+### 5.2 `collected_messages` 不是 builder 的答案文件
 
-builder 不能生成：
-
-1. `predictions/candidate_events.jsonl`
-2. `predictions/session_events.jsonl`
-3. `predictions/session_wiki_state.json`
-4. `predictions/task_index_state.json`
-5. `predictions/task_wiki_state.json`
-6. runtime `event_id`
-7. runtime `block_id`
-8. runtime `verification verdict`
-
-### 5.3 为什么不能生成 runtime gold
-
-原因很简单：
+必须明确：
 
 ```text
-如果 builder 直接生成 runtime 风格输出，
-评测就会变成“builder 的模板与 runtime 的实现相似度”比较，
-而不是“runtime 是否从真实消息中正确抽取事实并组织结构”。
+builder 生成 command_plan；
+execute 真实执行动作；
+collect 从飞书或模拟环境采集真实消息；
+collected_messages 是 collect 阶段的 observed data，不是 builder 直接生成的 gold。
 ```
 
----
+annotation gold 必须基于 `collected_messages` 回标，不能基于 plan-time draft message 回标。
 
-## 6. `target_state.json` 职责拆分
+### 5.3 `conversation_plan` 必须承载 trap 设计
 
-当前 `target_state.json` 职责过重，不应继续承担万能 control plane。
+V3 中 `conversation_plan.json` 不能只是对话草图。
 
-新的设计里应拆成三个输入文件。
+每个 planned turn 至少包含：
 
-### 6.1 `input/case_world.json`
+1. `benchmark_role`
+2. `memory_failure_mode`
+3. `memory_trap`
+4. `expected_openclaw_memory_risk`
+5. `task_wiki_expected_handling`
 
-负责：
+推荐固定 `benchmark_role`：
 
-1. 背景
-2. 角色
-3. 冲突轴
-4. 隐藏约束
-5. 外部压力
-6. 最终目标状态
-
-### 6.2 `input/state_trajectory.json`
-
-负责：
-
-1. 每个 topic 的状态演进
-2. 哪些事实会被 revision / supersession
-3. 哪些事实是 final current state
-4. 哪些 source 负责暴露这些状态
-5. 哪些 source 负责修正这些状态
-
-### 6.3 `input/coverage_spec.json`
-
-负责：
-
-1. 必须覆盖哪些 event family
-2. 必须覆盖哪些 source / session 类型
-3. 必须覆盖哪些 slot
-4. 必须覆盖哪些 query 类型
-5. 必须包含多少 no-event / distractor / ambiguous / context-only turns
+1. `baseline_trap_turn`
+2. `revision_turn`
+3. `ambiguous_turn`
+4. `negative_turn`
+5. `cross_source_correction_turn`
+6. `dependency_exposure_turn`
 
 示例：
 
 ```json
 {
-  "required_event_families": [
-    "conclusion_event",
-    "constraint_event",
-    "status_event",
-    "time_event",
-    "objection_event"
-  ],
-  "required_source_types": ["chat", "thread"],
-  "required_slots": ["conclusion", "constraint", "status", "time"],
-  "required_query_types": [
-    "current_state",
-    "cross_source_revision",
-    "blocker_or_risk",
-    "citation_sensitive",
-    "negative_or_unknown"
-  ],
-  "minimum_negative_turns": {
-    "no_event": 3,
-    "ambiguous": 2,
-    "context_only": 2,
-    "ordinary_ack": 2
-  }
+  "turn_id": "step_017",
+  "source_session_ref": "chat:main_chat",
+  "benchmark_role": "baseline_trap_turn",
+  "memory_failure_mode": "static_memory_stale_state",
+  "memory_trap": "这条早期消息会让 Memory.md 记录 Bob 为负责人，但后续会被 Alice 和 xzy 覆盖。",
+  "expected_openclaw_memory_risk": "Memory.md 可能无法区分 Bob 是历史负责人还是当前负责人。",
+  "task_wiki_expected_handling": "保留为历史 event，后续 current owner 被 supersede。"
 }
 ```
 
-### 6.4 `target_state.json` 的过渡期处理
+这些字段属于 plan-time metadata：
 
-过渡期可以保留 `target_state.json` 兼容旧脚本，但必须降级为：
+1. 不属于 runtime
+2. 不直接变成 annotation
+3. 只能作为后续回标与 error analysis 的控制面
 
-```text
-legacy compatibility input
-```
-
-不能继续把它当万能 control plane。
-
-后续任何新逻辑都应优先读：
-
-- `case_world.json`
-- `state_trajectory.json`
-- `coverage_spec.json`
-
-而不是继续堆字段到 `target_state.json`。
-
----
-
-## 7. 正式 Gold 文件定义
+## 6. Gold 文件定义
 
 正式 `gold/` 目录只保留：
 
@@ -559,11 +677,29 @@ gold/block_annotations.json
 gold/query_benchmark.json
 ```
 
-### 7.1 `gold/event_annotations.jsonl`
+### 6.1 `gold/event_annotations.jsonl`
 
 这是 evidence-bound annotation，不是 runtime `session_event`。
 
-每条 annotation 至少必须包含：
+为统一 positive / negative / review 三类记录，必须显式包含：
+
+1. `annotation_kind`
+2. `expected_verdict`
+
+`annotation_kind` 固定支持：
+
+1. `positive_event`
+2. `negative_no_event`
+3. `review_event`
+
+`expected_verdict` 固定支持：
+
+1. `verified`
+2. `needs_review`
+3. `rejected`
+4. `no_event`
+
+`positive_event` 至少包含：
 
 1. `event_gold_id`
 2. `evidence_turn_id`
@@ -576,98 +712,42 @@ gold/query_benchmark.json
 9. `topic_key`
 10. `slot`
 11. `should_extract`
-12. `should_verify`
+12. `expected_verdict`
 13. `lifecycle_hint`
 
-正例示例：
+`negative_no_event` 要求：
 
-```json
-{
-  "event_gold_id": "evt_gold_001",
-  "evidence_turn_id": "step_004",
-  "evidence_message_id": "om_x100b5095232be8a4c36072fde6deaa9",
-  "source_session_ref": "chat:main_chat",
-  "evidence_quote": "当前先按五月上旬作为内部目标推进，但还没有对外锁死具体发布日期。",
-  "event_type": "conclusion_event",
-  "atomic_claim": "当前先按五月上旬作为内部目标推进，但还没有对外锁死具体发布日期。",
-  "required_fields": {
-    "conclusion": "当前先按五月上旬作为内部目标推进，但还没有对外锁死具体发布日期。",
-    "target": "发布时间口径"
-  },
-  "topic_key": "release_window",
-  "slot": "conclusion",
-  "should_extract": true,
-  "should_verify": true,
-  "lifecycle_hint": "active"
-}
+1. `event_type = null`
+2. `atomic_claim = null`
+3. `required_fields = {}`
+4. `slot = null`
+5. `should_extract = false`
+6. `expected_verdict = "no_event"`
+
+`review_event` 用来表达：
+
+```text
+runtime 可以生成 candidate，
+但不能直接进入 verified session_events。
 ```
 
-### 7.2 Negative annotation
-
-对于不应抽取 event 的消息，也可以写入 annotation。
-
-示例：
-
-```json
-{
-  "event_gold_id": "neg_001",
-  "evidence_turn_id": "step_017",
-  "evidence_message_id": "om_xxx",
-  "source_session_ref": "chat:main_chat",
-  "evidence_quote": "我先看看",
-  "should_extract": false,
-  "negative_reason": "vague_commitment",
-  "forbidden_event_types": ["commitment_event"]
-}
-```
-
-这类 negative annotation 用来评：
-
-1. false positive rate
-2. unsupported extraction rate
-3. no-event stability
-4. vague commitment 是否被误抽为 commitment
-
-### 7.3 `gold/block_annotations.json`
+### 6.2 `gold/block_annotations.json`
 
 这是 Block / Slot / Current State 的 gold，不是 runtime `session_wiki_state`。
 
-建议结构：
+它只描述：
 
-```json
-{
-  "case_id": "case_feishu_505160829_example",
-  "blocks": [
-    {
-      "topic_key": "release_window",
-      "topic_title": "发布时间口径",
-      "member_event_gold_ids": ["evt_gold_001", "evt_gold_002", "evt_gold_003"],
-      "slot_gold_ids": {
-        "conclusion": ["evt_gold_001"],
-        "constraint": ["evt_gold_002"],
-        "time": ["evt_gold_003"]
-      },
-      "current_gold_ids": {
-        "conclusion": "evt_gold_001",
-        "constraint": "evt_gold_002",
-        "time": "evt_gold_003"
-      },
-      "stale_gold_ids": ["evt_gold_000"],
-      "expected_status": "open"
-    }
-  ]
-}
-```
+1. 哪些 `event_gold_id` 属于同一 topic
+2. 它们应该落到哪些 slot
+3. 哪些是 `current`
+4. 哪些是 `stale`
+5. block 的预期状态
 
-注意：
+不保存 runtime `block_id`。
 
-1. 不保存 runtime `block_id`
-2. 不要求与 runtime topic title 完全同名
-3. 只描述事件归组、slot 分配、current state、stale state、block status
+### 6.3 `gold/query_benchmark.json`
 
-### 7.4 `gold/query_benchmark.json`
-
-这是 QA / Retrieval 层 gold。
+V3 中 query benchmark 不只是 QA 数据，而是 baseline-break 数据。
 
 每个 query 至少包含：
 
@@ -681,37 +761,24 @@ gold/query_benchmark.json
 8. `forbidden_claims`
 9. `required_citation_level`
 10. `stale_answer_check`
+11. `source_trap_id`
+12. `failure_mode`
+13. `expected_openclaw_failure`
 
-示例：
+query 分为两类：
 
-```json
-{
-  "case_id": "case_feishu_505160829_example",
-  "queries": [
-    {
-      "query_id": "q_001",
-      "question": "现在对外是否已经锁定发布日期？",
-      "query_type": "current_state",
-      "expected_topics": ["release_window", "external_messaging"],
-      "required_event_gold_ids": ["evt_gold_010"],
-      "required_block_topics": ["release_window"],
-      "expected_answer_points": [
-        "当前没有对外锁死具体发布日期",
-        "当前口径是条件式窗口"
-      ],
-      "forbidden_claims": [
-        "已经对客户承诺五月上旬上线"
-      ],
-      "required_citation_level": "event",
-      "stale_answer_check": true
-    }
-  ]
-}
-```
+1. `system-correctness queries`
+2. `baseline-break queries`
 
-### 7.5 明确禁止
+必须明确：
 
-必须在文档里明确写死：
+1. 每个 `memory_trap` 至少派生一个 query
+2. 每个核心 failure mode 至少有 2 到 3 个 probe query
+3. query 目标不是泛泛提问，而是把 `Memory.md` 的典型错误逼出来
+
+### 6.4 明确禁止
+
+V3 里必须写死：
 
 ```text
 gold 不保存 runtime event_id；
@@ -720,68 +787,11 @@ gold 不保存 runtime verification verdict；
 gold 不直接等价于 session_events.jsonl。
 ```
 
----
+## 7. Checks 不是 Gold
 
-## 8. `supports_event_types` 不能直接变成 annotation
+`checks/` 目录里的文件不是 gold，而是 deterministic quality gate / eval spec。
 
-这是实现里最容易出错的一点，所以单独拿出来强调。
-
-### 8.1 可以保留什么
-
-在 `conversation_plan` / `story_beats` 阶段可以保留：
-
-- `supports_event_types`
-- `semantic_payload_template`
-- `turn_template`
-
-因为它们仍然有用，可以帮助控制：
-
-1. 剧情覆盖度
-2. event opportunity 覆盖度
-3. source / role / topic 的分布
-
-### 8.2 不能直接做什么
-
-但它们不能直接变成：
-
-- `event_annotations.jsonl`
-- `block_annotations.json`
-
-原因是：
-
-```text
-supports_event_types 只说明“这条消息应该有机会表达哪类事实”，
-并不说明 runtime 一定能从真实文本中抽到一个合格 event。
-```
-
-例如：
-
-- 句子可能太含糊
-- 证据可能不足
-- 事实可能只有 context，不能作为 core evidence
-- 消息可能天然应该进入 `needs_review`
-- 消息可能根本不应被抽取
-
-因此：
-
-```text
-supports_event_types 只能作为 evidence obligation，
-不能作为 annotation gold。
-```
-
----
-
-## 9. Checks 不是 Gold
-
-后续不要再使用“check golden”这个说法。
-
-`checks/` 目录里的文件不是 gold，而是：
-
-```text
-deterministic quality gate / eval spec
-```
-
-正式命名改成：
+正式命名为：
 
 ```text
 checks/complexity_gate.json
@@ -789,236 +799,60 @@ checks/integrity_gate.json
 checks/eval_manifest.json
 ```
 
-### 9.1 `checks/complexity_gate.json`
+### 7.1 `checks/complexity_gate.json`
 
-它规定最低复杂度要求，例如：
+规定最小复杂度要求，例如：
 
 1. session 数
 2. source session 数
 3. message 数
-4. thread depth
-5. topic 数
-6. state transition 数
-7. cross-source revision 数
-8. no-event turns 比例
-9. distractor turns 比例
+4. topic 数
+5. state transition 数
+6. cross-source revision 数
+7. no-event turns 比例
+8. distractor turns 比例
+9. trap coverage
 
-示例：
+### 7.2 `checks/integrity_gate.json`
 
-```json
-{
-  "minimum_sessions": 5,
-  "minimum_source_sessions": 4,
-  "minimum_messages": 28,
-  "minimum_thread_depth": 5,
-  "minimum_topics": 5,
-  "minimum_state_transitions": 6,
-  "minimum_cross_source_revisions": 2,
-  "minimum_negative_turns": {
-    "no_event": 3,
-    "context_only": 2,
-    "ambiguous": 2
-  }
-}
-```
-
-### 9.2 `checks/integrity_gate.json`
-
-它规定：
+规定：
 
 1. `command_plan`
 2. `collected_messages`
 3. `actor_registry`
 4. `event_annotations`
+5. `block_annotations`
+6. `query_benchmark`
 
-之间的结构一致性要求。
+之间的结构一致性。
 
-例如：
+### 7.3 `checks/eval_manifest.json`
 
-1. 每个 `evidence_turn_id` 必须存在
-2. 每个 `evidence_message_id` 必须存在
-3. `source_session_ref` 必须能在 plan 中找到
-4. query benchmark 和 block annotation 只能引用已知 `event_gold_id`
-5. annotation gold 不允许引用 collect 中不存在的 quote
+规定：
 
-### 9.3 `checks/eval_manifest.json`
+1. replay-eval 跑哪些 layer
+2. 哪些 topic / slot / query 是 hard gate
+3. 哪些 failure mode 是 hard requirement
+4. 哪些 metrics 是 hard gate
+5. 哪些 metrics 是观察项
 
-它规定 replay-eval 应该跑哪些层、哪些 topic / slot / query 是 hard gate、哪些 metrics 只是观察项。
+## 8. Prediction 与 Verification 边界
 
-示例：
+### 8.1 Prediction 从哪里来
 
-```json
-{
-  "required_layers": ["event", "block", "qa"],
-  "hard_gate_topics": ["release_window", "readiness_blockers"],
-  "hard_gate_slots": ["conclusion", "constraint", "status"],
-  "hard_gate_query_types": ["current_state", "cross_source_revision"],
-  "hard_metrics": {
-    "event.verified_recall": 0.9,
-    "event.no_event_false_positive_rate": 0.1,
-    "qa.stale_answer_rate": 0.05
-  },
-  "observability_metrics": [
-    "event.partial_alignment_rate",
-    "block.block_status_accuracy",
-    "qa.answer_point_recall"
-  ]
-}
-```
-
----
-
-## 10. No-event / Distractor 数据设计
-
-每个 case 不能全是高密度 event 消息。
-
-如果每条消息都承载清晰结构化事实，系统靠“每条都抽”也能拿到看起来不错的分数，这不是真实评测。
-
-因此每个 case 必须包含一定比例的：
-
-1. `no-event turns`
-2. `ambiguous turns`
-3. `context-only turns`
-4. `duplicate turns`
-5. `stale turns`
-6. `weak commitment turns`
-7. `ordinary acknowledgement turns`
-8. `question-only turns`
-
-### 10.1 这些 turn 的作用
-
-这些消息用于评估：
-
-1. false positive rate
-2. unsupported extraction rate
-3. `needs_review` / `rejected` 判断
-4. no-op stability
-5. stale current state 识别
-
-### 10.2 例子
-
-`ordinary acknowledgement`：
+prediction 只能来自：
 
 ```text
-收到，我先看看。
+replay-runtime
 ```
 
-这类消息通常不应被抽成正式 event。
+真实运行：
 
-`context-only`：
+1. `task-events/session-ingest`
+2. `task-events/extractor`
+3. `task-wiki/projector`
 
-```text
-和上面一样，先别对外说死。
-```
-
-这类消息可能帮助 disambiguation，但如果没有足够 core evidence，不应该独立成为 verified event。
-
-`question-only`：
-
-```text
-那本周能不能给客户一个时间窗口？
-```
-
-它可以触发后续回答，但本身通常不是 conclusion / commitment。
-
-`duplicate turn`：
-
-```text
-再确认一下，当前还是不能对外承诺日期，对吧？
-```
-
-如果只是重复已有状态，不应被误判为新的 current state。
-
----
-
-## 11. Candidate / Needs Review / Rejected 的评测
-
-当前文档不能只评 verified event，还必须评 verification quality。
-
-### 11.1 必须评的问题
-
-至少要评估：
-
-1. 应该 `verified` 的是否进入 `session_events`
-2. 应该 `rejected` 的是否没有进入 `session_events`
-3. 应该 `needs_review` 的是否被错误 `verified`
-4. context-only 信息是否被错误抽取
-5. 证据不足信息是否被错误抽取
-6. 含糊承诺是否被错误当成 `commitment_event`
-
-### 11.2 建议指标
-
-新增这些指标：
-
-1. `verified_recall`
-2. `verified_precision`
-3. `false_verified_rate`
-4. `needs_review_accuracy`
-5. `rejected_precision`
-6. `no_event_false_positive_rate`
-7. `unsupported_claim_rate`
-8. `context_only_generation_rate`
-
-### 11.3 Annotation 如何支持这层评测
-
-`event_annotations.jsonl` 需要允许表达：
-
-1. `should_extract = true / false`
-2. `should_verify = true / false`
-3. `review_reason`
-4. `negative_reason`
-
-例如一个 `needs_review` 场景：
-
-```json
-{
-  "event_gold_id": "evt_review_001",
-  "evidence_turn_id": "step_021",
-  "evidence_message_id": "om_xx21",
-  "source_session_ref": "chat:main_chat",
-  "evidence_quote": "我这边可以先盯一下这个事情。",
-  "event_type": "commitment_event",
-  "atomic_claim": "说话人表达了弱承诺，但 owner/action 粒度不足。",
-  "required_fields": {
-    "action": "先盯一下这个事情"
-  },
-  "topic_key": "risk_controls",
-  "slot": "commitment",
-  "should_extract": true,
-  "should_verify": false,
-  "review_reason": "weak_commitment_missing_owner_or_deadline",
-  "lifecycle_hint": "active"
-}
-```
-
-这样 evaluator 才能判断：
-
-```text
-runtime 是否把本应 needs_review 的东西错误地写进了 verified session_events。
-```
-
----
-
-## 12. Runtime Prediction 从哪里来
-
-Prediction 只能来自 replay runtime。
-
-### 12.1 Replay-runtime 的输入
-
-输入必须是：
-
-- `data/openclaw_message_ingress.jsonl`
-- runtime 所需最小 task binding / source metadata
-
-### 12.2 Replay-runtime 的执行
-
-必须真实运行：
-
-1. `extensions/feishu-task-wiki/openclaw-lark/src/task-events/session-ingest.js`
-2. `extensions/feishu-task-wiki/openclaw-lark/src/task-events/extractor.js`
-3. `extensions/feishu-task-wiki/openclaw-lark/src/task-wiki/projector.js`
-
-### 12.3 Replay-runtime 的输出
+### 8.2 Prediction 输出
 
 输出写入：
 
@@ -1030,75 +864,68 @@ predictions/task_index_state.json
 predictions/task_wiki_state.json
 ```
 
-### 12.4 Builder 不能参与 prediction 生成
+### 8.3 `candidate_events` / `session_events` 的唯一定义
 
-builder 不能：
+V3 固定：
 
-1. 模拟 runtime verdict
-2. 预先写 prediction 文件
-3. 根据 annotation gold 倒推 runtime output
+1. `session_events.jsonl` 只保存 verified
+2. `candidate_events.jsonl` 承接 rejected / needs_review / 候选抽取
+3. verification quality evaluation 必须同时读取两者
 
----
+### 8.4 `no_event`、`rejected`、`needs_review`、`verified`
 
-## 13. Event Alignment 工程规则
+这里必须明确：
 
-当前文档不能只说“不做 event_id exact match”，还必须把 alignment 规则写落地。
+```text
+no_event ≠ rejected
+```
 
-新增输出文件：
+四者定义如下：
+
+1. `no_event`
+   - runtime 不应该生成任何 candidate
+2. `rejected`
+   - runtime 可以生成 candidate，但 verifier 应拒绝它进入 `session_events`
+3. `needs_review`
+   - runtime 可以生成 candidate，但不能进入 verified `session_events`
+4. `verified`
+   - runtime 应写入 `session_events`
+
+## 9. Event Alignment 与分层评测
+
+### 9.1 `reports/event_alignment.json`
+
+Event 层不要求 `event_id` exact match。
+
+新增输出：
 
 ```text
 reports/event_alignment.json
 ```
 
-### 13.1 `event_alignment.json` 结构
-
-它用于保存 gold event 与 predicted event 的对齐关系。
-
 每条记录至少包含：
 
 1. `gold_event_id`
 2. `predicted_event_id`
-3. `alignment_status`
-4. `evidence_match`
-5. `event_type_match`
-6. `claim_match_score`
-7. `required_field_score`
-8. `notes`
+3. `predicted_candidate_event_id`
+4. `predicted_verdict`
+5. `alignment_status`
+6. `evidence_match`
+7. `event_type_match`
+8. `claim_match_score`
+9. `required_field_score`
+10. `notes`
 
-示例：
+### 9.2 对齐规则
 
-```json
-{
-  "gold_event_id": "evt_gold_010",
-  "predicted_event_id": "evt_86b5ac49f8dccfb1",
-  "alignment_status": "partial",
-  "evidence_match": true,
-  "event_type_match": true,
-  "claim_match_score": 0.86,
-  "required_field_score": 0.5,
-  "notes": "时间口径对齐，但 target 正常化后仍缺少条件式窗口语义。"
-}
-```
+优先级固定为：
 
-### 13.2 对齐优先级
-
-Event 层 matching 规则如下：
-
-1. 优先用 `evidence_message_id` 对齐
+1. 先比 `evidence_message_id`
 2. 再比 `event_type`
-3. 再比 `atomic_claim` 的语义等价
+3. 再比 `atomic_claim` 语义等价
 4. 再比 `required_fields`
 
-明确不要求：
-
-1. `event_id` 相等
-2. `claim` 字面完全一致
-
-### 13.3 时间表达归一化
-
-时间表达必须 normalizer 之后再比较。
-
-例如：
+时间表达先做 normalize，例如：
 
 - `5月上旬`
 - `五月上旬`
@@ -1106,143 +933,64 @@ Event 层 matching 规则如下：
 
 应视为等价。
 
-### 13.4 Alignment Status
+### 9.3 多候选竞争规则
 
-`alignment_status` 至少包含：
+同一 message 可能抽出多个 event，因此：
 
-1. `exact`
-2. `partial`
-3. `unmatched`
-4. `over_merged`
-5. `over_split`
-
-定义：
-
-- `exact`
-  - evidence、event_type、claim、required_fields 都高度一致
-- `partial`
-  - evidence 对齐，但 claim 或字段不完整
-- `unmatched`
-  - 没找到合理 prediction
-- `over_split`
-  - 一个 gold event 被 runtime 拆成多个 prediction
-- `over_merged`
-  - 多个 gold event 被 runtime 合成一个 prediction
-
-### 13.5 Partial 不是全错
-
-如果 evidence 对齐但字段缺失，不直接算全错。
-
-应该：
-
-1. 记为 `partial`
-2. 在 `required_field_score` 上扣分
-3. 在后续 event eval 中折算进 precision / completeness
-
----
-
-## 14. Event 层评测
-
-Event 层评测不是比较 `session_events.jsonl` 文件长得像不像。
-
-它评的是：
+1. 对每个 gold event，先筛选同 `evidence_message_id` 的 predicted candidates / predicted events
+2. 计算综合匹配分
 
 ```text
-runtime 是否从真实消息中抽到了正确的 atomic fact，
-并以合理的 verified / needs_review / rejected 边界落盘。
+alignment_score =
+  evidence_score * 0.35
+  + event_type_score * 0.25
+  + claim_match_score * 0.25
+  + required_field_score * 0.15
 ```
 
-### 14.1 输入
+3. 在同一 `evidence_message_id` 内做 bipartite matching
+4. 一个 predicted event 不能同时 exact match 多个 gold event
+5. 一个 predicted event 覆盖多个 gold atomic claims，标记 `over_merged`
+6. 多个 predicted events 共同覆盖一个 gold atomic claim，标记 `over_split`
 
-Prediction：
+### 9.4 Event 层指标
 
-- `predictions/candidate_events.jsonl`
-- `predictions/session_events.jsonl`
-
-Gold：
-
-- `gold/event_annotations.jsonl`
-
-Alignment：
-
-- `reports/event_alignment.json`
-
-### 14.2 核心指标
+`reports/event_eval.json` 至少输出：
 
 1. `verified_recall`
 2. `verified_precision`
 3. `false_verified_rate`
 4. `needs_review_accuracy`
-5. `rejected_precision`
+5. `rejected_decision_accuracy`
 6. `no_event_false_positive_rate`
 7. `unsupported_claim_rate`
 8. `context_only_generation_rate`
 9. `required_field_completeness`
 10. `claim_match_score_avg`
 
-### 14.3 评测输出
+并支持：
 
-建议写入：
+1. `overall`
+2. `by_failure_mode`
+3. `by_event_type`
+4. `by_topic`
 
-```text
-reports/event_eval.json
-```
+### 9.5 Block / Current State 层指标
 
-其中至少包含：
+Block 层必须依赖 `event_alignment.json`。
 
-- overall metrics
-- per-event-type metrics
-- per-topic metrics
-- high-severity error samples
-
----
-
-## 15. Block / Current State 评测
-
-Block / Current State 评测不能直接拿 `gold event_id` 和 `runtime event_id` 比。
-
-必须先通过：
+如果某个 gold event 在 Event 层 `unmatched`，那么它在 Block 层视为：
 
 ```text
-reports/event_alignment.json
+unavailable
 ```
 
-建立：
+`reports/block_eval.json` 至少输出两套结果：
 
-```text
-gold_event_id -> predicted_event_id
-```
+1. `block_eval_on_all_gold_events`
+2. `block_eval_on_aligned_events_only`
 
-映射。
-
-### 15.1 Block 层必须依赖 Event Alignment
-
-Block 层评测顺序必须是：
-
-```text
-先做 event alignment
--> 再做 block membership / slot / current-state comparison
-```
-
-不能跳过这一步。
-
-### 15.2 Block 层输入
-
-Prediction：
-
-- `predictions/session_wiki_state.json`
-- `predictions/task_index_state.json`
-- `predictions/task_wiki_state.json`
-
-Gold：
-
-- `gold/block_annotations.json`
-
-Alignment：
-
-- `reports/event_alignment.json`
-
-### 15.3 Block 层指标
+Block 指标包括：
 
 1. `block_membership_pairwise_f1`
 2. `slot_filling_accuracy`
@@ -1252,57 +1000,49 @@ Alignment：
 6. `supersession_accuracy`
 7. `block_status_accuracy`
 
-### 15.4 Block 层不要求什么
+并支持：
 
-不要求：
+1. `overall`
+2. `by_failure_mode`
+3. `by_topic`
 
-1. `block_id` 字面相等
-2. `topic_title` 字面相等
+### 9.6 QA / Retrieval 层指标
 
-重点评的是：
+QA evaluator 分为两类：
 
-1. 事件是否被组织到正确主题
-2. slot 是否正确
-3. 当前态是否正确
-4. 旧状态是否被正确降级
+1. `deterministic check`
+2. `semantic judge`
 
-### 15.5 输出
+`deterministic check` 评：
 
-建议写入：
+1. `required_event_gold_ids` 是否被命中
+2. `required_block_topics` 是否被命中
+3. citation path 是否能回到 event / block / evidence quote
+4. `forbidden_claims` 是否命中
+5. current-state query 是否引用 stale transition
+6. `negative_or_unknown` query 是否被编造
 
-```text
-reports/block_eval.json
-```
+`semantic judge` 评：
 
----
+1. `expected_answer_points` 是否覆盖
+2. answer 是否 faithful to evidence
+3. 是否出现 unsupported claim
+4. 是否把旧状态当成当前状态
+5. cross-source reasoning 是否成立
 
-## 16. QA / Retrieval 评测
+judge 输入至少包含：
 
-QA 层不能只看 answer string 是否相似。
+1. `question`
+2. `model answer`
+3. `expected_answer_points`
+4. `forbidden_claims`
+5. `required_event_gold_ids`
+6. `retrieved citations`
+7. `evidence_quotes`
+8. `current_state gold`
+9. `stale_gold_ids`
 
-必须同时评：
-
-1. hit
-2. citation
-3. faithfulness
-4. stale answer
-5. cross-source reasoning
-
-### 16.1 `query_type`
-
-`query_benchmark.json` 至少支持这些 `query_type`：
-
-1. `current_state`
-2. `cross_source_revision`
-3. `blocker_or_risk`
-4. `citation_sensitive`
-5. `negative_or_unknown`
-6. `commitment_lookup`
-7. `timeline_lookup`
-
-### 16.2 QA 指标
-
-至少包含：
+`reports/qa_eval.json` 至少输出：
 
 1. `hit_rate`
 2. `answer_point_recall`
@@ -1313,63 +1053,77 @@ QA 层不能只看 answer string 是否相似。
 7. `forbidden_claim_rate`
 8. `cross_source_reasoning_success_rate`
 
-### 16.3 `stale_answer_rate` 必须单独强调
+并支持：
 
-这是 Task Wiki 场景里的关键指标。
+1. `overall`
+2. `by_failure_mode`
+3. `by_query_type`
 
-如果用户问的是：
+## 10. Value Evaluation：证明实际效能
 
-```text
-current state
-```
-
-但系统回答了旧口径，即使它引用了真实旧 evidence，也应该算错或严重扣分。
-
-因为这里评的是：
+前面的 Event / Block / QA 主要证明：
 
 ```text
-当前态是否正确
+系统有没有正确记住。
 ```
 
-不是：
+V3 还必须回答：
 
 ```text
-是否能找到一条历史上真实存在的旧证据
+系统是否真正产生了实际效能。
 ```
 
-### 16.4 输出
+### 10.1 三组 baseline
 
-建议写入：
+1. `Baseline A：OpenClaw Memory.md`
+   - 当前个人长期记忆方案
+2. `Baseline B：raw-message RAG`
+   - 直接检索原始消息，再让模型总结
+3. `System C：Task Wiki`
+   - 使用 `event -> block -> index -> task_wiki` 的结构化记忆
+
+### 10.2 比较指标
+
+`reports/value_eval.json` 至少包含：
+
+1. `task_success_rate`
+2. `time_to_answer`
+3. `follow_up_turns`
+4. `manual_correction_rate`
+5. `duplicate_question_reduction`
+6. `decision_consistency_rate`
+7. `citation_success_rate`
+8. `stale_answer_rate`
+9. `user_satisfaction_score`
+
+### 10.3 输出方式
+
+`value_eval.json` 应至少输出三层：
+
+1. `overall baseline comparison`
+2. `by_failure_mode baseline comparison`
+3. `by_query_family baseline comparison`
+
+V3 要明确：
 
 ```text
-reports/qa_eval.json
+证明“真的记住了”：
+看 event / block / QA 分层指标。
+
+证明“真的有用”：
+看 Task Wiki 相比 Memory.md 和 raw-message RAG 是否更快、更准、更少追问、更少人工纠错、更少 stale answer。
 ```
 
----
+### 10.4 项目答辩可直接使用的总结
 
-## 17. Data / Replay 完整性评测
+```text
+本系统对“记住了”的定义不是生成一段摘要，而是形成可验证、可追溯、可更新、可检索的任务记忆；
+对“产生效能”的定义也不是主观感觉，而是相对于 OpenClaw Memory.md 和 raw-message RAG baseline，在回答准确率、查询耗时、重复追问、人工纠错和当前态一致性等指标上取得可量化提升。
+```
 
-这层不属于效果评测，而是数据质量与 replay 可执行性评测。
+## 11. Data、Validate 与 Adapt 边界
 
-### 17.1 目标
-
-目标是保证：
-
-1. case 本身可评
-2. replay 输入链完整
-3. annotation gold 可追溯
-4. hard gate 覆盖度达标
-
-### 17.2 对应的 gate
-
-这里主要读：
-
-- `checks/complexity_gate.json`
-- `checks/integrity_gate.json`
-
-并输出 deterministic audit report。
-
-### 17.3 Validate 的职责
+### 11.1 Validate 的职责
 
 `validate` 只做 deterministic audit，不跑 runtime。
 
@@ -1380,24 +1134,45 @@ reports/qa_eval.json
 3. 生成 prediction
 4. 根据 prediction 反改 gold
 
----
+### 11.2 `optional-adapt` 的位置
 
-## 18. Adapt 阶段边界
+V3 固定流程是：
 
-如果保留 `adapt` 阶段，必须明确它只能做什么，不能做什么。
+```text
+execute
+-> collect
+-> pre-annotation-validate
+-> optional-adapt
+-> recollect-if-needed
+-> annotation-gold
+-> build-checks
+-> gold-validate
+-> replay-runtime
+-> replay-eval
+-> value-eval
+-> report
+```
 
-### 18.1 Adapt 只能做什么
+其中：
+
+1. `pre-annotation-validate` 只检查 observed data 的完整性与覆盖度
+2. `optional-adapt` 只能发生在 `annotation-gold` 之前
+3. `annotation-gold` 必须基于最终 `collected_messages`
+4. `gold-validate` 检查 gold 与最终 `collected_messages` 的一致性
+5. `replay-runtime` 只能在 `gold-validate` 通过之后运行
+
+### 11.3 Adapt 只能做什么
 
 `adapt` 只能修复：
 
 1. 数据完整性问题
 2. 覆盖度不足问题
 3. 格式错误
-4. 缺失 source
+4. 缺失 source / session
 5. 缺失 no-event turns
 6. actor / ingress 字段不完整
 
-### 18.2 Adapt 不能做什么
+### 11.4 Adapt 不能做什么
 
 `adapt` 不能：
 
@@ -1407,56 +1182,24 @@ reports/qa_eval.json
 4. 重写 `atomic_claim` 只为让 alignment 更好看
 5. 删除 negative sample 只为提升 precision
 
-### 18.3 为什么要这样限制
+如果 `optional-adapt` 改动了：
 
-因为一旦 `adapt` 能根据 prediction 反改 gold，评测就会泄漏。
+1. `collected_messages`
+2. `source_session`
+3. `turn_id`
+4. `message_id`
+5. `message text`
+6. `evidence_quote`
 
-必须保证：
+就必须重新生成受影响的：
 
-```text
-gold 由 evidence 和 control plane 决定，
-不是由 runtime 表现决定。
-```
+1. `event_annotations`
+2. `block_annotations`
+3. `query_benchmark`
 
----
+## 12. 最终目录结构与 Pipeline
 
-## 19. 旧 Expected 文件降级为 Debug Artifact
-
-旧文件不再放在 `gold/` 下。
-
-改成：
-
-```text
-debug/expected_events.snapshot.jsonl
-debug/expected_memory_blocks.snapshot.json
-debug/expected_current_state.snapshot.json
-```
-
-它们的定位是：
-
-```text
-builder debug artifact / reference snapshot
-```
-
-不参与：
-
-1. 正式 replay-eval
-2. event alignment
-3. evaluator 输入
-4. hard gate 判断
-
-换句话说：
-
-```text
-expected_* 只保留为过渡期参考快照，
-不再是正式评测 gold。
-```
-
----
-
-## 20. 最终推荐目录结构
-
-统一改成：
+### 12.1 正式目录结构
 
 ```text
 input/
@@ -1492,6 +1235,7 @@ reports/
   event_eval.json
   block_eval.json
   qa_eval.json
+  value_eval.json
   overall_eval.json
 
 debug/
@@ -1500,270 +1244,142 @@ debug/
   expected_current_state.snapshot.json
 ```
 
-### 20.1 目录语义
+其中：
 
-`input/`
+- `gold/` 是 annotation gold，不是 runtime output
+- `checks/` 是 deterministic gate，不是 gold
+- `debug/expected_*` 只是 debug artifact，不参与正式 replay-eval
 
-- builder control plane
-
-`data/`
-
-- execute / collect / adapt 后的真实消息与 replay 输入
-
-`gold/`
-
-- annotation gold，不是 runtime output
-
-`checks/`
-
-- deterministic quality gate / eval spec，不是 gold
-
-`predictions/`
-
-- replay runtime 真实输出
-
-`reports/`
-
-- evaluator 产物
-
-`debug/`
-
-- 过渡期 snapshot，不参与正式评测
-
----
-
-## 21. 最终阶段流程
-
-流程统一改成：
+### 12.2 V3 的唯一正式流程
 
 ```text
-spec-generation
+failure-mode-selection
+-> failure-case-pattern
 -> case-world
 -> state-trajectory
--> characters
+-> distractor-layout
 -> story-beats
+-> source-session-plan
+-> trap-turn-plan
 -> conversation-plan
 -> command-plan
 -> execute
 -> collect
+-> pre-annotation-validate
+-> optional-adapt
+-> recollect-if-needed
 -> annotation-gold
 -> build-checks
--> validate
--> optional-adapt
+-> gold-validate
 -> replay-runtime
 -> replay-eval
+-> value-eval
 -> report
 ```
 
-### 21.1 阶段职责
+顺序边界固定为：
 
-`spec-generation`
+1. `pre-annotation-validate` 不使用 gold
+2. `annotation-gold` 基于最终 `collected_messages`
+3. `gold-validate` 不运行 runtime
+4. `replay-runtime` 不读取 gold
+5. `replay-eval` 只比较 gold annotations 与 runtime predictions
+6. `value-eval` 负责 baseline comparison
 
-- 生成最小 case spec
+## 13. V3 最终回答
 
-`case-world`
+V3 必须能直接回答下面 10 个问题。
 
-- 生成组织背景、冲突轴、隐藏约束、角色关系、最终目标状态
+### 13.1 为什么主 baseline 是 OpenClaw `Memory.md`
 
-`state-trajectory`
+因为 Task Wiki 要证明的不是“比一个通用 QA pipeline 更花哨”，而是：
 
-- 生成每个 topic 的状态演进
+```text
+针对 OpenClaw 当前个人长期记忆方案的真实缺陷，
+在企业任务记忆场景里给出更强的组织、证据与 current-state 能力。
+```
 
-`characters`
+### 13.2 OpenClaw fail 数据到底怎么生成
 
-- 生成角色画像与 simulated open_id 映射
+不是先写复杂故事，而是：
 
-`story-beats`
+```text
+先选 failure mode
+-> 再定 trap
+-> 再定任务与角色布局
+-> 再定状态轨迹与 distractor
+-> 再生成 source 与 turn
+-> 再从 trap 派生 probe query
+```
 
-- 生成剧情节拍和 source / speaker / transition 关系
+### 13.3 为什么必须从 `failure-mode-selection` 开始
 
-`conversation-plan`
+因为 V3 的 benchmark 不是“高复杂度合成对话”，而是“能稳定诱发 baseline 出错的对话”。
 
-- 生成多 session、多 source、多 turn 的会话计划
+### 13.4 三个核心 failure mode 如何对应三个突破
 
-`command-plan`
+1. `personal_memory_pollution` 对应任务级记忆组织
+2. `unverifiable_summary_claim` 对应证据驱动 event 记忆
+3. `static_memory_stale_state` 对应增量可更新 current state
 
-- 生成可执行飞书动作
+### 13.5 `case_world`、`state_trajectory`、`story_beats`、`conversation_plan`、`annotation gold` 分别承载什么
 
-`execute`
+- `case_world`
+  承载企业背景、角色关系与 failure intent
+- `state_trajectory`
+  承载状态演进、revision、supersession 与 final current state
+- `story_beats`
+  承载哪条剧情在制造哪种 Memory.md 风险
+- `conversation_plan`
+  承载 trap turn 设计与 benchmark metadata
+- `annotation gold`
+  承载基于真实 evidence 的 atomic claim 标注
 
-- 真实执行动作
+### 13.6 为什么 `event_annotations` 不是 `expected_events` 换皮
 
-`collect`
-
-- 拉取真实消息
-
-`annotation-gold`
-
-- 基于真实 collected messages 生成 evidence-bound annotation gold
-
-`build-checks`
-
-- 生成 deterministic quality gate / eval spec，不生成正确答案
-
-`validate`
-
-- 只做 deterministic audit，不跑 runtime
-
-`optional-adapt`
-
-- 只修数据完整性与覆盖问题，不改 gold 以迎合 prediction
-
-`replay-runtime`
-
-- 真实运行 runtime extractor / projector，生成 predictions
-
-`replay-eval`
-
-- 只能比较 gold annotations 和 runtime predictions
-
-`report`
-
-- 汇总 event / block / qa / overall 报告
-
-### 21.2 顺序边界
-
-必须明确：
-
-1. `annotation-gold` 发生在 `collect` 之后
-2. `replay-runtime` 发生在 `annotation-gold` 之后
-3. `validate` 不跑 runtime
-4. `build-checks` 不生成正确答案
-5. `replay-eval` 只能比较 gold annotations 与 runtime predictions
-
----
-
-## 22. 最终回答
-
-这份设计最终明确回答 10 个问题。
-
-### 22.1 Builder 到底生成什么
-
-builder 生成：
-
-1. `case_world`
-2. `state_trajectory`
-3. `coverage_spec`
-4. `conversation_plan`
-5. `command_plan`
-6. `collected_messages`
-7. `event_annotations`
-8. `block_annotations`
-9. `query_benchmark`
-10. `complexity_gate`
-11. `integrity_gate`
-12. `eval_manifest`
-
-### 22.2 Builder 不能生成什么
-
-builder 不能生成：
-
-1. runtime `session_event`
-2. runtime `block_id`
-3. runtime `event_id`
-4. runtime `verification verdict`
-5. projector 输出
-6. prediction 文件
-
-### 22.3 `case_world`、`state_trajectory`、`story_beats`、`event_annotations` 分别是什么
-
-`case_world`
-
-- 企业协作世界
-
-`state_trajectory`
-
-- 每个 topic 的状态演化路径
-
-`story_beats`
-
-- 哪个角色在哪个 source 推动了哪次状态变化
-
-`event_annotations`
-
-- 基于真实消息证据标注出的 evidence-bound atomic claim annotation
-
-### 22.4 Event annotation 如何避免变成 `expected_events` 换皮
-
-靠 4 条边界：
+因为它：
 
 1. 不使用 runtime `event_id`
 2. 不使用 runtime `verification verdict`
 3. 不直接长成 `session_events.jsonl`
-4. 必须从真实 `evidence_quote` 回标，而不是从 `supports_event_types` 直出
+4. 必须从真实 `evidence_quote` 回标
 
-### 22.5 Runtime prediction 从哪里来
-
-只能来自：
-
-```text
-replay-runtime
-```
-
-真实运行 `task-events` 与 `task-wiki`。
-
-### 22.6 Event / Block / QA 三层如何对齐和打分
-
-1. Event：先做 `event_alignment.json`
-2. Block：基于 `event_alignment.json` 做 topic / slot / current-state matching
-3. QA：基于 query benchmark 做 hit / citation / faithfulness / stale answer 评测
-
-### 22.7 Negative / no-event / needs_review / rejected 如何评测
+### 13.7 `no_event`、`needs_review`、`rejected`、`verified` 如何统一评测
 
 通过：
 
-1. negative annotation
-2. `should_extract`
-3. `should_verify`
-4. `review_reason`
-5. verification quality metrics
+1. `annotation_kind`
+2. `expected_verdict`
+3. `candidate_events.jsonl`
+4. `session_events.jsonl`
+5. `event_alignment.json`
 
-来单独评测。
+统一完成 verification quality evaluation。
 
-### 22.8 旧 expected 文件如何降级为 debug artifact
+### 13.8 `Memory.md`、raw-message RAG、Task Wiki 如何进入 `value_eval.json`
 
-移动到：
+以三组 baseline / system 进入同一套 query benchmark，对比：
 
-```text
-debug/expected_events.snapshot.jsonl
-debug/expected_memory_blocks.snapshot.json
-debug/expected_current_state.snapshot.json
-```
+1. 正确率
+2. citation
+3. stale answer
+4. follow-up turn
+5. manual correction
+6. time to answer
 
-不再作为正式 gold。
+并按 `failure_mode` 做聚合。
 
-### 22.9 Adapt 阶段如何避免评测泄漏
+### 13.9 V3 的正式目录结构和 pipeline 是什么
 
-规定：
+目录结构见第 12.1 节，pipeline 见第 12.2 节。
 
-1. adapt 只能修数据完整性与覆盖问题
-2. adapt 不能根据 prediction 修改 gold
-3. adapt 不能修改 quote / claim 去迎合 runtime
+### 13.10 为什么不再保留旧口径
 
-### 22.10 最终目录结构和 pipeline 是什么
+因为只要继续保留旧口径，就会持续污染实现边界：
 
-目录结构见第 20 节，阶段流程见第 21 节。
+1. builder 容易重新生成 runtime-like gold
+2. evaluator 容易退化回 exact match
+3. case generation 容易退化回复杂故事优先
+4. baseline failure intent 会被稀释
 
----
-
-## 23. 最终决策
-
-最终采用下面这套固定口径：
-
-```text
-builder 不生成 runtime gold；
-builder 生成 case world、state trajectory、coverage spec 和 evidence-bound annotations。
-runtime 在 replay 中生成 prediction；
-evaluator 通过 evidence alignment、claim matching、slot/current-state matching 和 QA faithfulness 进行分层评测。
-```
-
-这条原则必须贯穿：
-
-1. case 生成
-2. gold 生成
-3. validate
-4. replay-runtime
-5. replay-eval
-6. report
-
-任何后续实现如果违反这条边界，都应视为评测设计退化。
+V3 的价值就在于把这些边界一次性写死。

@@ -1,0 +1,83 @@
+{
+  "version": 1,
+  "task_id": "task:FEISHU-506003144",
+  "task_key": "FEISHU-506003144",
+  "source_session_id": "task:FEISHU-506003144::thread:handoff_thread",
+  "source_scope": "thread:handoff_thread",
+  "source_type": "thread",
+  "source_id": "thread:handoff_thread",
+  "session_title": "task:FEISHU-506003144::thread:handoff_thread",
+  "time_range": {
+    "start": "2026-05-06T00:31:44.434Z",
+    "end": "2026-05-06T00:31:44.443Z"
+  },
+  "participants": [
+    "林晨"
+  ],
+  "relative_page_path": "sessions/FEISHU-506003144_thread_handoff_thread-dbe94da9/session_wiki.md",
+  "session_summary": "这次讨论主要涉及：【研发/林晨】FEISHU-506003144 最早是由 Bob 负责推进的，当时窗口也更乐观。",
+  "block_order": [
+    "block-研发_林晨_feishu-506003144_最早是由_bob_负责推进的_当时窗口也更乐观-192008f6"
+  ],
+  "blocks": {
+    "block-研发_林晨_feishu-506003144_最早是由_bob_负责推进的_当时窗口也更乐观-192008f6": {
+      "block_id": "block-研发_林晨_feishu-506003144_最早是由_bob_负责推进的_当时窗口也更乐观-192008f6",
+      "anchor_id": "block-研发_林晨_feishu-506003144_最早是由_bob_负责推进的_当时窗口也更乐观-192008f6",
+      "topic_key": "【研发/林晨】feishu-506003144 最早是由 bob 负责推进的，当时窗口也更乐观",
+      "topic_title": "【研发/林晨】FEISHU-506003144 最早是由 Bob 负责推进的，当时窗口也更乐观",
+      "event_ids": [
+        "evt_a27871eceb30fef1"
+      ],
+      "slots": {
+        "conclusion": [],
+        "rationale": [],
+        "objection": [],
+        "constraint": [],
+        "commitment": [
+          {
+            "event_id": "evt_a27871eceb30fef1",
+            "event_type": "commitment_event",
+            "claim": "【研发/林晨】FEISHU-506003144 最早是由 Bob 负责推进的，当时窗口也更乐观",
+            "event_time": "2026-05-06T00:05:00.000Z",
+            "evidence_quote": "【研发/林晨】FEISHU-506003144 最早是由 Bob 负责推进的，当时窗口也更乐观",
+            "event_path": "sessions/FEISHU-506003144_thread_handoff_thread-dbe94da9/session_events.jsonl#evt_a27871eceb30fef1",
+            "event_ref": "[[sessions/FEISHU-506003144_thread_handoff_thread-dbe94da9/session_events.jsonl#evt_a27871eceb30fef1|evt_a27871eceb30fef1]]",
+            "entry_ref": "[[sessions/FEISHU-506003144_thread_handoff_thread-dbe94da9/session.md#om_sim_step_005|om_sim_step_005]]",
+            "core_entry_id": "om_sim_step_005",
+            "subject_key": "【研发/林晨】feishu-506003144 最早是由 bob 负责推进的，当时窗口也更乐观",
+            "is_current": true,
+            "lifecycle_status": "active",
+            "lifecycle_reason": null,
+            "target": null,
+            "time_target": null,
+            "scope_target": null,
+            "action": "【研发/林晨】FEISHU-506003144 最早是由 Bob 负责推进的，当时窗口也更乐观",
+            "owner": "003144 最早是由 Bob",
+            "objector": null,
+            "status": null,
+            "certainty": null
+          }
+        ],
+        "status": [],
+        "time": [],
+        "scope": []
+      },
+      "status": "active",
+      "evidence_refs": [
+        {
+          "event_id": "evt_a27871eceb30fef1",
+          "event_path": "sessions/FEISHU-506003144_thread_handoff_thread-dbe94da9/session_events.jsonl#evt_a27871eceb30fef1",
+          "entry_ref": "[[sessions/FEISHU-506003144_thread_handoff_thread-dbe94da9/session.md#om_sim_step_005|om_sim_step_005]]",
+          "quote": "【研发/林晨】FEISHU-506003144 最早是由 Bob 负责推进的，当时窗口也更乐观"
+        }
+      ],
+      "summary": "【研发/林晨】FEISHU-506003144 最早是由 Bob 负责推进的，当时窗口也更乐观"
+    }
+  },
+  "lifecycle_summary": {
+    "active_event_count": 1,
+    "historical_event_count": 0,
+    "invalid_event_count": 0
+  },
+  "updated_at": "2026-05-06T00:31:44.493Z"
+}

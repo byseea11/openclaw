@@ -1,0 +1,23 @@
+task_id: task:FEISHU-506003144
+task_key: FEISHU-506003144
+source_session_id: task:FEISHU-506003144::chat:main_chat
+source_scope: chat:main_chat
+source_type: chat
+source_id: chat:main_chat
+chat_id: main_chat
+thread_id: null
+root_id: null
+time_range:
+  start: 2026-05-06T00:31:44.358Z
+  end: 2026-05-06T00:31:44.433Z
+participants:
+  - 林晨
+source_locator: null
+binding_mode: benchmark_replay
+created_at: 2026-05-06T00:31:44.363Z
+updated_at: 2026-05-06T00:31:44.433Z
+latest_ingest_version: 2
+raw_ingest_count: 2
+visible_ingest_count: 2
+compacted_at: 2026-05-06T00:31:44.433Z
+retained_entry_count: 2

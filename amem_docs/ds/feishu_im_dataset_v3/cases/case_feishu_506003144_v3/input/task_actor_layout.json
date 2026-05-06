@@ -1,0 +1,120 @@
+{
+  "case_id": "case_feishu_506003144_v3",
+  "task_id": "FEISHU-506003144",
+  "target_task": {
+    "task_id": "FEISHU-506003144",
+    "title": "FEISHU-506003144 任务推进",
+    "task_scope": "围绕目标任务当前负责人、阻塞项、依赖和对外口径形成可验证的任务记忆。"
+  },
+  "distractor_tasks": [
+    {
+      "task_id": "FEISHU-188",
+      "title": "FEISHU-188 关联任务",
+      "relationship_to_target": "与目标任务共享人员或依赖，是制造 Memory.md 干扰项的来源。"
+    }
+  ],
+  "shared_actor_slots": [
+    {
+      "actor_slot_id": "engineering_owner_1",
+      "department": "研发",
+      "role_label": "研发负责人",
+      "task_ids": [
+        "FEISHU-506003144",
+        "FEISHU-188"
+      ]
+    },
+    {
+      "actor_slot_id": "ops_owner_1",
+      "department": "运维",
+      "role_label": "运维负责人",
+      "task_ids": [
+        "FEISHU-506003144",
+        "FEISHU-188"
+      ]
+    },
+    {
+      "actor_slot_id": "product_owner_1",
+      "department": "产品",
+      "role_label": "产品负责人",
+      "task_ids": [
+        "FEISHU-506003144",
+        "FEISHU-188"
+      ]
+    },
+    {
+      "actor_slot_id": "security_reviewer_1",
+      "department": "安全",
+      "role_label": "安全评审",
+      "task_ids": [
+        "FEISHU-506003144"
+      ]
+    },
+    {
+      "actor_slot_id": "finance_partner_1",
+      "department": "财务",
+      "role_label": "财务合作方",
+      "task_ids": [
+        "FEISHU-506003144"
+      ]
+    },
+    {
+      "actor_slot_id": "customer_manager_1",
+      "department": "销售",
+      "role_label": "客户经理",
+      "task_ids": [
+        "FEISHU-506003144"
+      ]
+    }
+  ],
+  "pollution_dimensions": [
+    "shared_actor",
+    "similar_status_wording"
+  ],
+  "task_actor_overlap": [
+    {
+      "actor_slot_id": "engineering_owner_1",
+      "task_ids": [
+        "FEISHU-506003144",
+        "FEISHU-188"
+      ],
+      "overlap_reason": "共享人员是制造任务记忆污染和跨任务误引用的主要手段。"
+    },
+    {
+      "actor_slot_id": "ops_owner_1",
+      "task_ids": [
+        "FEISHU-506003144",
+        "FEISHU-188"
+      ],
+      "overlap_reason": "共享人员是制造任务记忆污染和跨任务误引用的主要手段。"
+    },
+    {
+      "actor_slot_id": "product_owner_1",
+      "task_ids": [
+        "FEISHU-506003144",
+        "FEISHU-188"
+      ],
+      "overlap_reason": "共享人员是制造任务记忆污染和跨任务误引用的主要手段。"
+    },
+    {
+      "actor_slot_id": "security_reviewer_1",
+      "task_ids": [
+        "FEISHU-506003144"
+      ],
+      "overlap_reason": "共享人员是制造任务记忆污染和跨任务误引用的主要手段。"
+    },
+    {
+      "actor_slot_id": "finance_partner_1",
+      "task_ids": [
+        "FEISHU-506003144"
+      ],
+      "overlap_reason": "共享人员是制造任务记忆污染和跨任务误引用的主要手段。"
+    },
+    {
+      "actor_slot_id": "customer_manager_1",
+      "task_ids": [
+        "FEISHU-506003144"
+      ],
+      "overlap_reason": "共享人员是制造任务记忆污染和跨任务误引用的主要手段。"
+    }
+  ]
+}

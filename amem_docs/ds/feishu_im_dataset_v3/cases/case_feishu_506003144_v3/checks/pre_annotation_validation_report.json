@@ -1,0 +1,34 @@
+{
+  "case_id": "case_feishu_506003144_v3",
+  "status": "pass",
+  "required_failure_modes_observed": [
+    "static_memory_stale_state"
+  ],
+  "missing_failure_modes": [],
+  "traps": [
+    {
+      "trap_id": "trap_feishu_506003144_stale_001",
+      "failure_mode": "static_memory_stale_state",
+      "landed": true,
+      "matched_roles": [
+        "current_state_disambiguation_turn",
+        "final_current_state_turn",
+        "stale_state_turn",
+        "supersession_turn"
+      ],
+      "missing_roles": [],
+      "evidence_messages_count": 4,
+      "required_state_fields": [
+        "owner",
+        "release_window"
+      ],
+      "observed_state_fields": [
+        "owner",
+        "release_window"
+      ],
+      "missing_state_fields": [],
+      "probe_query_ready": true,
+      "notes": []
+    }
+  ]
+}

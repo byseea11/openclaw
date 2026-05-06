@@ -1,0 +1,50 @@
+{
+  "case_id": "case_feishu_506003144_v3",
+  "task_id": "FEISHU-506003144",
+  "transitions": [
+    {
+      "transition_id": "transition_owner_01_01",
+      "trap_id": "trap_feishu_506003144_stale_001",
+      "failure_mode": "static_memory_stale_state",
+      "state_field": "owner",
+      "from_value": "",
+      "to_value": "林晨",
+      "creates_stale_state": "",
+      "supersedes_transition_id": "",
+      "is_final_current_state": false,
+      "source_session_ref": "chat:main_chat",
+      "evidence_requirement": "需要明确记录 owner 从 未指定 变为 林晨 的证据。"
+    },
+    {
+      "transition_id": "transition_owner_01_02",
+      "trap_id": "trap_feishu_506003144_stale_001",
+      "failure_mode": "static_memory_stale_state",
+      "state_field": "owner",
+      "from_value": "林晨",
+      "to_value": "周宇",
+      "creates_stale_state": "林晨",
+      "supersedes_transition_id": "transition_owner_01_01",
+      "is_final_current_state": false,
+      "source_session_ref": "thread:handoff_thread",
+      "evidence_requirement": "需要明确记录 owner 从 林晨 变为 周宇 的证据。"
+    },
+    {
+      "transition_id": "transition_owner_01_03",
+      "trap_id": "trap_feishu_506003144_stale_001",
+      "failure_mode": "static_memory_stale_state",
+      "state_field": "owner",
+      "from_value": "周宇",
+      "to_value": "陈雪",
+      "creates_stale_state": "周宇",
+      "supersedes_transition_id": "transition_owner_01_02",
+      "is_final_current_state": true,
+      "source_session_ref": "chat:customer_sync_chat",
+      "evidence_requirement": "需要明确记录 owner 从 周宇 变为 陈雪 的证据。"
+    }
+  ],
+  "final_current_state": {
+    "owner": "陈雪",
+    "release_window": "暂不锁死具体发布日期",
+    "dependency_status": "部分上游依赖待确认"
+  }
+}
