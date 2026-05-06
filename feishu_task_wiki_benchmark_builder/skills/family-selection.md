@@ -14,6 +14,9 @@
 - family 选择只决定 failure mechanism，不决定去生成多个正式 task。
 - difficulty/profile 只负责复杂度控制，不改变 formal family 集合。
 - 一旦 family 确定，后续阶段必须满足该 family 在 `builder_settings.yml` 中定义的最低复杂度条件。
+- family 一旦确定，后续阶段必须同时服从：
+  - runtime 注入的 numeric minima
+  - 当前 family skill 中定义的 role/context/dependency 语义
 - 不要开始设计企业场景、角色或消息节奏。
 
 ## 禁止

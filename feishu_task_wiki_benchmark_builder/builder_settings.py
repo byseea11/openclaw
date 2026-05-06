@@ -19,18 +19,6 @@ def _require_dict(value: Any, path: str) -> dict[str, Any]:
     return value
 
 
-def _require_list(value: Any, path: str) -> list[Any]:
-    if not isinstance(value, list):
-        raise BuilderSettingsError(f"{path} must be a list")
-    return value
-
-
-def _require_string(value: Any, path: str) -> str:
-    if not isinstance(value, str) or not value.strip():
-        raise BuilderSettingsError(f"{path} must be a non-empty string")
-    return value
-
-
 def _require_int(value: Any, path: str, *, minimum: int | None = None) -> int:
     if not isinstance(value, int):
         raise BuilderSettingsError(f"{path} must be an integer")
@@ -39,14 +27,7 @@ def _require_int(value: Any, path: str, *, minimum: int | None = None) -> int:
     return value
 
 
-def _require_bool(value: Any, path: str) -> bool:
-    if not isinstance(value, bool):
-        raise BuilderSettingsError(f"{path} must be a boolean")
-    return value
-
-
 def _validate_settings(payload: dict[str, Any]) -> dict[str, Any]:
-    defaults = _require_dict(payload.get("defaults"), "builder_settings.defaults")
     difficulty_profiles = _require_dict(
         payload.get("difficulty_profiles"),
         "builder_settings.difficulty_profiles",
@@ -55,21 +36,6 @@ def _validate_settings(payload: dict[str, Any]) -> dict[str, Any]:
         payload.get("family_constraints"),
         "builder_settings.family_constraints",
     )
-    topology_defaults = _require_dict(
-        payload.get("topology_defaults"),
-        "builder_settings.topology_defaults",
-    )
-
-    _require_string(defaults.get("default_difficulty"), "builder_settings.defaults.default_difficulty")
-    _require_string(
-        defaults.get("comparison_target_default"),
-        "builder_settings.defaults.comparison_target_default",
-    )
-    for index, item in enumerate(
-        _require_list(defaults.get("department_pool"), "builder_settings.defaults.department_pool"),
-        start=1,
-    ):
-        _require_string(item, f"builder_settings.defaults.department_pool[{index}]")
 
     for difficulty, profile in difficulty_profiles.items():
         profile_obj = _require_dict(profile, f"builder_settings.difficulty_profiles.{difficulty}")
@@ -88,20 +54,25 @@ def _validate_settings(payload: dict[str, Any]) -> dict[str, Any]:
             f"builder_settings.difficulty_profiles.{difficulty}.character_count_max",
             minimum=1,
         )
-        _require_bool(
-            profile_obj.get("require_cross_source_revision"),
-            f"builder_settings.difficulty_profiles.{difficulty}.require_cross_source_revision",
+        _require_int(
+            profile_obj.get("recommended_actor_count"),
+            f"builder_settings.difficulty_profiles.{difficulty}.recommended_actor_count",
+            minimum=1,
         )
-        for index, session in enumerate(
-            _require_list(
-                profile_obj.get("session_blueprint"),
-                f"builder_settings.difficulty_profiles.{difficulty}.session_blueprint",
-            ),
-            start=1,
-        ):
-            _require_string(
-                session,
-                f"builder_settings.difficulty_profiles.{difficulty}.session_blueprint[{index}]",
+        _require_int(
+            profile_obj.get("recommended_department_count"),
+            f"builder_settings.difficulty_profiles.{difficulty}.recommended_department_count",
+            minimum=1,
+        )
+        _require_int(
+            profile_obj.get("recommended_session_count"),
+            f"builder_settings.difficulty_profiles.{difficulty}.recommended_session_count",
+            minimum=1,
+        )
+        require_cross_source_revision = profile_obj.get("require_cross_source_revision")
+        if not isinstance(require_cross_source_revision, bool):
+            raise BuilderSettingsError(
+                f"builder_settings.difficulty_profiles.{difficulty}.require_cross_source_revision must be a boolean"
             )
 
     for family_id in FORMAL_FAMILY_IDS:
@@ -120,17 +91,6 @@ def _validate_settings(payload: dict[str, Any]) -> dict[str, Any]:
                 "builder_settings.family_constraints.anti_interference.min_shared_actors",
                 minimum=1,
             )
-            for index, item in enumerate(
-                _require_list(
-                    constraint.get("required_noise_types"),
-                    "builder_settings.family_constraints.anti_interference.required_noise_types",
-                ),
-                start=1,
-            ):
-                _require_string(
-                    item,
-                    f"builder_settings.family_constraints.anti_interference.required_noise_types[{index}]",
-                )
         elif family_id == "contradiction_update":
             _require_int(
                 constraint.get("min_state_tracks"),
@@ -142,17 +102,6 @@ def _validate_settings(payload: dict[str, Any]) -> dict[str, Any]:
                 "builder_settings.family_constraints.contradiction_update.min_stale_states",
                 minimum=1,
             )
-            for index, item in enumerate(
-                _require_list(
-                    constraint.get("required_supersession_clues"),
-                    "builder_settings.family_constraints.contradiction_update.required_supersession_clues",
-                ),
-                start=1,
-            ):
-                _require_string(
-                    item,
-                    f"builder_settings.family_constraints.contradiction_update.required_supersession_clues[{index}]",
-                )
         elif family_id == "evidence_dependency_reasoning":
             _require_int(
                 constraint.get("min_dependency_hops"),
@@ -164,24 +113,6 @@ def _validate_settings(payload: dict[str, Any]) -> dict[str, Any]:
                 "builder_settings.family_constraints.evidence_dependency_reasoning.min_cross_source_updates",
                 minimum=0,
             )
-            for index, item in enumerate(
-                _require_list(
-                    constraint.get("required_evidence_roles"),
-                    "builder_settings.family_constraints.evidence_dependency_reasoning.required_evidence_roles",
-                ),
-                start=1,
-            ):
-                _require_string(
-                    item,
-                    f"builder_settings.family_constraints.evidence_dependency_reasoning.required_evidence_roles[{index}]",
-                )
-
-    for key in ("shared_actor_slot_suggestions", "external_context_types", "lateral_session_types"):
-        for index, item in enumerate(
-            _require_list(topology_defaults.get(key), f"builder_settings.topology_defaults.{key}"),
-            start=1,
-        ):
-            _require_string(item, f"builder_settings.topology_defaults.{key}[{index}]")
 
     return payload
 
@@ -206,17 +137,6 @@ def resolve_difficulty_settings(difficulty: str) -> dict[str, Any]:
     )
 
 
-def resolve_default_difficulty() -> str:
-    settings = load_builder_settings()
-    defaults = _require_dict(settings["defaults"], "builder_settings.defaults")
-    difficulty = _require_string(
-        defaults.get("default_difficulty"),
-        "builder_settings.defaults.default_difficulty",
-    )
-    resolve_difficulty_settings(difficulty)
-    return difficulty
-
-
 def resolve_family_constraints(family_id: str) -> dict[str, Any]:
     settings = load_builder_settings()
     if family_id not in FORMAL_FAMILY_IDS:
@@ -227,6 +147,79 @@ def resolve_family_constraints(family_id: str) -> dict[str, Any]:
     )
 
 
-def resolve_topology_defaults() -> dict[str, Any]:
-    settings = load_builder_settings()
-    return _require_dict(settings["topology_defaults"], "builder_settings.topology_defaults")
+def _build_stage_slots(stage: str, difficulty_slots: dict[str, Any]) -> dict[str, Any]:
+    if stage == "case-context":
+        return {
+            "must_reflect_output_fields": [
+                "organization",
+                "team",
+                "scenario_summary",
+                "required_case_structure",
+            ],
+            "must_reflect_department_topology": True,
+            "recommended_session_count": difficulty_slots["recommended_session_count"],
+            "session_semantics_from_skills": True,
+            "family_semantics_from_skills": True,
+        }
+    if stage == "story-plan":
+        return {
+            "must_reflect_output_fields": [
+                "actors",
+                "task_actor_layout",
+                "state_changes",
+                "message_beats",
+                "planned_probe_queries",
+            ],
+            "enforce_actor_count_range": True,
+            "enforce_session_count_target": True,
+            "enforce_family_numeric_minima": True,
+            "recommended_session_count": difficulty_slots["recommended_session_count"],
+            "session_semantics_from_skills": True,
+            "family_semantics_from_skills": True,
+        }
+    raise BuilderSettingsError(f"Unsupported stage for prompt slots: {stage}")
+
+
+def _build_difficulty_slots(difficulty: str) -> dict[str, Any]:
+    profile = resolve_difficulty_settings(difficulty)
+    return {
+        "difficulty": difficulty,
+        "department_count": profile["department_count"],
+        "character_count_min": profile["character_count_min"],
+        "character_count_max": profile["character_count_max"],
+        "recommended_actor_count": profile["recommended_actor_count"],
+        "recommended_department_count": profile["recommended_department_count"],
+        "recommended_session_count": profile["recommended_session_count"],
+        "require_cross_source_revision": profile["require_cross_source_revision"],
+    }
+
+
+def _build_family_numeric_slots(family_id: str) -> dict[str, Any]:
+    family_numeric_slots = dict(resolve_family_constraints(family_id))
+    family_numeric_slots["family_id"] = family_id
+    return family_numeric_slots
+
+
+def resolve_prompt_slots(
+    *,
+    stage: str,
+    difficulty: str,
+    family_id: str | None = None,
+) -> dict[str, Any]:
+    difficulty_slots = _build_difficulty_slots(difficulty)
+    resolved: dict[str, Any] = {
+        "difficulty_slots": difficulty_slots,
+        "stage_slots": _build_stage_slots(stage, difficulty_slots),
+        "example_targets": {
+            "recommended_actor_count": difficulty_slots["recommended_actor_count"],
+            "recommended_department_count": difficulty_slots["recommended_department_count"],
+            "recommended_session_count": difficulty_slots["recommended_session_count"],
+        },
+    }
+    if family_id is not None:
+        resolved["family_numeric_slots"] = _build_family_numeric_slots(family_id)
+    elif stage == "case-context":
+        resolved["family_numeric_slots_by_family"] = {
+            item: _build_family_numeric_slots(item) for item in FORMAL_FAMILY_IDS
+        }
+    return resolved

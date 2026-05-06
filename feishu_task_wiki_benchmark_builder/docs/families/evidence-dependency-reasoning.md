@@ -34,6 +34,7 @@
 ### capability-brief
 
 - 强调必须同时存在 evidence strength gradient 和 impact chain
+- 当前 difficulty 会额外注入 actors、departments 和 session 数量目标，不能只保留最小证据链示例
 
 ### case-world
 
@@ -44,6 +45,7 @@
 
 - 强调 `task_actor_layout + state_changes + message_beats + planned_probe_queries` 都是重点
 - 强调 `dependency_context_blocks` 必须区分 verified anchor、hearsay、ambiguous 和 downstream impact
+- 强调最终规模必须服从 runtime 注入的数字目标，而 verified/hearsay/ambiguous/downstream 和 role/dependency 槽位语义由 family skills 自己定义
 
 ## 有效 probe
 

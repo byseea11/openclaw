@@ -1,77 +1,39 @@
 from __future__ import annotations
 
-from typing import Any
+import json
 
-from .builder_settings import (
-    load_builder_settings,
-    resolve_default_difficulty,
-    resolve_difficulty_settings,
-    resolve_family_constraints,
-    resolve_topology_defaults,
-)
-from .config import FORMAL_FAMILY_IDS
+from .builder_settings import load_builder_settings, resolve_prompt_slots
+from .config import BUILDER_DEFAULT_DIFFICULTY
 
 
-def _render_difficulty_section(difficulty: str) -> list[str]:
-    profile = resolve_difficulty_settings(difficulty)
+def _render_runtime_constraints(resolved_slots: dict[str, object]) -> list[str]:
+    difficulty_slots = dict(resolved_slots["difficulty_slots"])
+    stage_slots = dict(resolved_slots["stage_slots"])
     return [
-        f"- 当前 difficulty: `{difficulty}`",
-        f"- `department_count`: {profile['department_count']}",
-        f"- `character_count_min/max`: {profile['character_count_min']} / {profile['character_count_max']}",
-        f"- `require_cross_source_revision`: {str(profile['require_cross_source_revision']).lower()}",
-        f"- `session_blueprint`: {', '.join(profile['session_blueprint'])}",
+        "## Skill Runtime Constraints",
+        "下方 `Resolved Slot Contract` 只提供当前 difficulty / family 的数字目标。",
+        "session 类型、noise 类型、role/context/dependency 语义全部以 skills 正文为准，不从 builder_settings.yml 读取。",
+        f"- 当前 difficulty: `{difficulty_slots['difficulty']}`",
+        f"- actors 数量必须落在 `{difficulty_slots['character_count_min']}` 到 `{difficulty_slots['character_count_max']}` 之间。",
+        f"- 推荐 actors 数量: `{difficulty_slots['recommended_actor_count']}`。",
+        f"- 推荐覆盖部门数: `{difficulty_slots['recommended_department_count']}`。",
+        f"- 推荐覆盖 session 数: `{difficulty_slots['recommended_session_count']}`。",
+        f"- 当前阶段必须体现在这些输出字段里: `{', '.join(stage_slots['must_reflect_output_fields'])}`。",
     ]
-
-
-def _render_family_section(family_id: str) -> list[str]:
-    constraint = resolve_family_constraints(family_id)
-    lines = [f"### Family Constraints: `{family_id}`"]
-    if family_id == "anti_interference":
-        lines.extend(
-            [
-                f"- `min_interference_context_blocks`: {constraint['min_interference_context_blocks']}",
-                f"- `min_shared_actors`: {constraint['min_shared_actors']}",
-                f"- `required_noise_types`: {', '.join(constraint['required_noise_types'])}",
-            ]
-        )
-    elif family_id == "contradiction_update":
-        lines.extend(
-            [
-                f"- `min_state_tracks`: {constraint['min_state_tracks']}",
-                f"- `min_stale_states`: {constraint['min_stale_states']}",
-                f"- `required_supersession_clues`: {', '.join(constraint['required_supersession_clues'])}",
-            ]
-        )
-    elif family_id == "evidence_dependency_reasoning":
-        lines.extend(
-            [
-                f"- `min_dependency_hops`: {constraint['min_dependency_hops']}",
-                f"- `min_cross_source_updates`: {constraint['min_cross_source_updates']}",
-                f"- `required_evidence_roles`: {', '.join(constraint['required_evidence_roles'])}",
-            ]
-        )
-    return lines
 
 
 def render_prompt_settings_summary(*, stage: str, difficulty: str, family_id: str | None = None) -> str:
     if not difficulty:
-        difficulty = resolve_default_difficulty()
+        difficulty = BUILDER_DEFAULT_DIFFICULTY
     load_builder_settings()
-    topology_defaults = resolve_topology_defaults()
-    sections: list[str] = [
-        "## Builder Settings Summary",
-        "以下设置来自 `builder_settings.yml`，是当前阶段必须服从的规模与复杂度控制面。",
-        "### Difficulty Profile",
-        *_render_difficulty_section(difficulty),
-        "### Topology Defaults",
-        f"- `shared_actor_slot_suggestions`: {', '.join(topology_defaults['shared_actor_slot_suggestions'])}",
-        f"- `external_context_types`: {', '.join(topology_defaults['external_context_types'])}",
-        f"- `lateral_session_types`: {', '.join(topology_defaults['lateral_session_types'])}",
-    ]
-    if family_id is not None:
-        sections.extend(_render_family_section(family_id))
-    elif stage == "case-context":
-        sections.append("### Formal Family Constraints")
-        for item in FORMAL_FAMILY_IDS:
-            sections.extend(_render_family_section(item))
+    resolved_slots = resolve_prompt_slots(stage=stage, difficulty=difficulty, family_id=family_id)
+    sections = _render_runtime_constraints(resolved_slots)
+    sections.extend(
+        [
+            "## Resolved Slot Contract",
+            "```json",
+            json.dumps(resolved_slots, ensure_ascii=False, indent=2, sort_keys=True),
+            "```",
+        ]
+    )
     return "\n".join(sections)

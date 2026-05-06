@@ -61,7 +61,8 @@ class DocsAndSkillTests(unittest.TestCase):
         self.assertIn("story-plan", build_story_plan_system_prompt())
         architecture = Path("feishu_task_wiki_benchmark_builder/docs/architecture.md").read_text(encoding="utf-8")
         self.assertIn("builder_settings.yml", architecture)
-        self.assertIn("source of truth", architecture)
+        self.assertIn("只负责数字控制面", architecture)
+        self.assertIn("唯一语义 owner", architecture)
         self.assertIn("prompt_settings_renderer.py", architecture)
 
 

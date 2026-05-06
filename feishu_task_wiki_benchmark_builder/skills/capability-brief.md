@@ -17,6 +17,7 @@
 - `probe_strategy` 必须描述要测什么能力，不是最终问句。
 - `required_case_structure` 必须约束后续任务结构、状态变化或证据关系。
 - `required_case_structure` 不只是“有这些概念”，还必须满足当前 difficulty 和 family 的最低数量、分布与 cross-source 复杂度。
+- `required_case_structure` 必须显式覆盖 runtime 注入的数字目标，以及当前 family skill 里定义的语义槽位，不能只保留抽象概念名词。
 - 必须吸收旧 builder 里的 family-specific failure mechanism：
   - `anti_interference` 强调 shared actor、相似措辞和 cross-task noise 如何污染目标任务答案。
   - `contradiction_update` 强调 stale state、supersede relation 和 final current state 的区分。
@@ -25,8 +26,10 @@
 - 必须吸收旧 builder 的规模规则：
   - `department_count`
   - `character_count_min/max`
-  - `session_blueprint`
+  - `recommended_session_count`
   - family-specific minima，如 `min_shared_actors`、`min_state_tracks`、`min_dependency_hops`
+- session 类型定义、noise 类型、role slots、context slots、revision fields、dependency slots 都由对应 skills 定义，不由 yml 注入。
+- 如果当前 family skill 定义了特定 role/context/dependency/revision 槽位，`generation_rules` 和 `required_case_structure` 必须能覆盖这些语义槽位。
 
 ## 禁止
 

@@ -24,23 +24,49 @@
 - `planned_probe_queries` 是 query contract，不单独拆 probe artifact。
 - query 不能只是问显式字段，必须真正测试当前 family 的 memory capability，让好系统和差系统拉开差异。
 - `actors` 数量必须落在当前 difficulty profile 的 `character_count_min/max` 范围内。
-- `message_beats` 的 session 分布必须满足当前 difficulty 的 `session_blueprint`，不能退化成单 session 单线程。
-- 共享角色、状态段数、依赖 hop 数等最低复杂度必须服从当前 family 的 settings summary，而不是自行简化。
+- 必须显式消费 runtime 注入的 `difficulty_slots`、`family_numeric_slots` 和 `stage_slots`，不能只参考本文件的静态示例。
+- `message_beats` 的 session 分布必须从本 skill 定义的合法 session 类型中选择，并覆盖当前 difficulty 要求的 session 数量，不能退化成单 session 单线程。
+- 共享角色、状态段数、依赖 hop 数等最低复杂度必须服从当前 family 的 numeric minima，而 family 的语义槽位则以对应 family skill 为准。
+- 如果当前 difficulty 为 `hard`，生成时应接近 runtime 注入的 `recommended_actor_count`，不能退化成只给最小样本。
+- `task_actor_layout` 必须覆盖当前 family skill 定义的 role/context/dependency/revision 槽位。
+
+## 合法 session 类型
+
+- `main_chat`
+  - 主群，承载最早的目标口径、跨部门同步和显式 current-state 提示。
+- `handoff_thread`
+  - 交接线程，适合承载 owner handoff、历史状态解释、补充说明。
+- `customer_sync_chat`
+  - 客户或外部同步侧聊，适合承载对外承诺压力、模糊口径、延迟确认。
+- `risk_review_thread`
+  - 风险/评审线程，适合承载 blocker 讨论、合规/风控/运维补充。
+- `exec_sync_chat`
+  - 高层同步侧聊，适合承载发布时间压力、升级后的总结口径、带方向性的模糊判断。
+
+- easy:
+  - 至少覆盖 3 类 session。
+- medium:
+  - 至少覆盖 4 类 session。
+- hard:
+  - 至少覆盖 5 类 session。
 
 ## family-specific hard-case 要求
 
 - `anti_interference`
   - 至少满足当前 family 设置的 `min_interference_context_blocks` 和 `min_shared_actors`
-  - 至少包含 `shared_actor_noise`、`similar_wording_noise`、`parallel_discussion_noise`
+  - 至少包含 `anti-interference-context.md` 定义的 `shared_actor_noise`、`similar_wording_noise`、`parallel_discussion_noise`
   - 至少有一条消息显式提醒“这不是目标任务 owner 变更”
+  - 必须覆盖 `anti-interference-context.md` 中定义的 role/context 槽位
 - `contradiction_update`
   - 至少满足当前 family 设置的 `min_state_tracks` 和 `min_stale_states`
-  - 至少同时修正 `owner` 和 `release_window`
+  - 至少同时修正 `contradiction-update-context.md` 推荐的 `owner` 和 `release_window`
   - 至少有一条强 supersession clue，例如“之前口径作废”
+  - 必须覆盖 `contradiction-update-context.md` 中定义的 revision 语义
 - `evidence_dependency_reasoning`
   - 至少满足当前 family 设置的 `min_dependency_hops` 和 `min_cross_source_updates`
-  - 至少同时包含 `verified_anchor`、`hearsay_channel`、`ambiguous_channel`、`downstream_impact`
+  - 至少同时包含 `evidence-dependency-context.md` 定义的 `verified_anchor`、`hearsay_channel`、`ambiguous_channel`、`downstream_impact`
   - 最终 summary 必须依赖 verified anchor 才能答对
+  - 必须覆盖 `evidence-dependency-context.md` 中定义的 role/dependency 槽位
 
 ## 禁止
 
@@ -51,6 +77,16 @@
 - 不要把 distractor 写成正式 `task`。
 - 不要把某个 section 写成 string 或 object 来替代应为 list 的字段。
 - 不要把规模要求偷降到 3-4 个角色、1-2 个 session 这种过弱版本，除非当前 difficulty settings 明确允许。
+
+## 示例规模要求
+
+- 下面的 JSON 示例主要用于说明字段形状和 hard-case 机制，不直接代表当前 difficulty 的最终规模。
+- 实际生成时，必须以 runtime 注入的 `Resolved Slot Contract` 为准：
+  - `actors` 数量服从 `character_count_min/max`
+  - 示例规模应接近 `recommended_actor_count`
+  - 覆盖部门数应接近 `recommended_department_count`
+  - session 数应接近 `recommended_session_count`
+  - 必须覆盖当前 family skill 定义的 role/context/dependency/revision 槽位
 
 ## JSON 示例：`anti_interference`
 

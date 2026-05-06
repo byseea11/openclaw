@@ -32,10 +32,10 @@
 - 代码只负责执行少量 stage runner 和 checkpoint 落盘
 - 不再维护分散的上游 artifact 关系
 - runtime prompt 由代码从 `skills/*.md` 组装
-- `builder_settings.yml` 是规模、难度和 family 最低复杂度的唯一控制面 source of truth
-- `skills/*.md` 仍然是 runtime prompt 的唯一 machine guidance owner；代码会把 `builder_settings.yml` 渲染成 settings summary 再拼进 prompt
+- `builder_settings.yml` 只负责数字控制面：人数、部门数、session 数、family numeric minima
+- `skills/*.md` 是 runtime prompt 的唯一语义 owner：session 类型、noise 类型、role/context/dependency/revision 语义全部在 skills 中定义
 - `case-context` 会组装通用 skill + 当前或全部 family context skill；`story-plan` 会组装通用 skill + 当前 family context skill
-- `case-context` / `story-plan` 在组装 prompt 时会额外注入当前 difficulty profile、family constraints 和 topology defaults
+- `case-context` / `story-plan` 在组装 prompt 时会额外注入当前 difficulty profile、family numeric minima 和 stage-specific numeric slot contract
 - `case-context` 和 `story-plan` 默认由 model backend 生成，不做规则 fallback
 - 真实模型模式只读取仓库根 `.env` 的 OpenAI 配置，不混用 shell env
 - 进入 `case-context` / `story-plan` 前必须先通过 `auth-check` 同等探活
@@ -77,4 +77,4 @@ Phase 1 只保留这些正式 checkpoint：
 - `build_case_context_system_prompt()`
 - `build_story_plan_system_prompt()`
 
-它们通过 `prompt_loader.py` 从 code-side skills 组装运行时约束，并通过 `prompt_settings_renderer.py` 注入 `builder_settings.yml` 渲染出的规模/复杂度 summary；运行时不读取 `docs/`，也不读取 `.agents/skills/...`。
+它们通过 `prompt_loader.py` 从 code-side skills 组装运行时约束，并通过 `prompt_settings_renderer.py` 注入 `builder_settings.yml` 解析出的数字型槽位；运行时不读取 `docs/`，也不读取 `.agents/skills/...`。

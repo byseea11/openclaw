@@ -3,6 +3,7 @@ from __future__ import annotations
 from pathlib import Path
 
 BUILDER_VERSION = "v1-lite"
+BUILDER_DEFAULT_DIFFICULTY = "medium"
 DEFAULT_DATASET_ROOT = Path("amem_docs/ds/feishu_im_dataset_v3")
 CASES_DIRNAME = "cases"
 ACTIVE_CASE_FILENAME = "active_case.json"

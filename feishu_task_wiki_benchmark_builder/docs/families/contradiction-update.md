@@ -29,6 +29,7 @@
 ### capability-brief
 
 - 强调必须有多轮更新和 current/historical 区分
+- 当前 difficulty 会额外注入 actors、departments 和 session 数量目标，不能把修正链压缩成最小示例
 
 ### case-world
 
@@ -38,6 +39,7 @@
 
 - 强调 `state_changes` 和 planned probes 是重点
 - 强调 `revision_context_blocks` 和 `supersession_clues` 必须明确指出哪一轮口径已经作废
+- 强调最终规模必须服从 runtime 注入的数字目标，而 stale/current/supersession 和 revision field 语义由 family skills 自己定义
 
 ## 有效 probe
 

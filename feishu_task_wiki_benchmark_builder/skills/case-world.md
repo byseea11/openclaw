@@ -16,7 +16,9 @@
 - 必须解释为什么这个 family 会在该场景里自然发生。
 - `scenario_summary` 只负责业务化，不负责写消息节奏。
 - 必须把“组织”理解成部门拓扑和协作结构，而不是显式多公司数量。
-- 必须与当前 difficulty 的 `department_count` 和 `session_blueprint` 保持一致，默认是多部门协作，而不是单小组单线对话。
+- 必须与当前 difficulty 的 `department_count` 和 `recommended_session_count` 保持一致，默认是多部门协作，而不是单小组单线对话。
+- 必须显式消费 runtime 注入的数字目标，把部门规模和侧向 source 数量体现在 `organization`、`team`、`scenario_summary` 与 `required_case_structure` 的业务化描述里。
+- session 类型语义、外部上下文类型和侧向 source 的含义都由 skills 定义，不由 yml 注入。
 - 必须吸收旧 builder 的 case world 语义：
   - 为什么信息会分散在主群、线程和侧向补充对话里。
   - 为什么协作方会使用模糊、保守或未完成承诺的措辞。
@@ -46,3 +48,8 @@
   "family_fit_explanation": "该场景需要处理多个按时间顺序发生的状态更新，并有明确的 supersede 关系，属于 contradiction_update 范畴。"
 }
 ```
+
+## 槽位联动说明
+
+- 上面的 JSON 示例只展示字段形状，不代表当前 difficulty 的最终人数、部门数或 session 规模。
+- 实际生成时，必须以 runtime 注入的 `Resolved Slot Contract` 为准，把 actors、departments 和 sessions 扩展到对应档位。

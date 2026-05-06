@@ -29,6 +29,7 @@
 ### capability-brief
 
 - 强调必须有单一 target task、shared actors 和来自其他任务的干扰上下文
+- 当前 difficulty 会额外注入 actors、departments 和 session 数量目标，不能只保留最小三人示例
 
 ### case-world
 
@@ -38,6 +39,7 @@
 
 - 强调 `task_actor_layout` 和 `planned_probe_queries` 是重点
 - 强调 `interference_context_blocks` 必须把 shared actor noise、相似措辞噪声或并行讨论噪声结构化出来
+- 强调最终规模必须服从 runtime 注入的数字目标，而 `shared_actor_noise`、role slots、context slots 语义由 family skills 自己定义
 
 ## 有效 probe
 

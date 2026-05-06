@@ -6,7 +6,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Callable
 
-from .config import DEFAULT_DATASET_ROOT
+from .config import BUILDER_DEFAULT_DIFFICULTY, DEFAULT_DATASET_ROOT
 from .io import ensure_dir, read_json, read_jsonl, write_json, write_jsonl, write_text
 from .llm import (
     MODEL_CALL_LOG_PATH,
@@ -693,7 +693,7 @@ def _build_parser() -> argparse.ArgumentParser:
     dataset_plan_parser.add_argument("--dataset-root", default=str(DEFAULT_DATASET_ROOT))
     dataset_plan_parser.add_argument("--dataset-size", type=int, default=4)
     dataset_plan_parser.add_argument("--seed", type=int, default=1)
-    dataset_plan_parser.add_argument("--difficulty", default="medium")
+    dataset_plan_parser.add_argument("--difficulty", default=BUILDER_DEFAULT_DIFFICULTY)
 
     subparsers.add_parser("auth-check")
     current_case_parser = subparsers.add_parser("current-case")
@@ -705,14 +705,14 @@ def _build_parser() -> argparse.ArgumentParser:
     phase1_step_parser.add_argument("--case-dir")
     phase1_step_parser.add_argument("--seed", type=int)
     phase1_step_parser.add_argument("--family-id")
-    phase1_step_parser.add_argument("--difficulty", default="medium")
+    phase1_step_parser.add_argument("--difficulty", default=BUILDER_DEFAULT_DIFFICULTY)
     phase1_step_parser.add_argument("--comparison-target", default="default_memory_architectures")
 
     for name in ("phase1", "build-all"):
         subparser = subparsers.add_parser(name)
         subparser.add_argument("--dataset-root", default=str(DEFAULT_DATASET_ROOT))
         subparser.add_argument("--seed", type=int)
-        subparser.add_argument("--difficulty", default="medium")
+        subparser.add_argument("--difficulty", default=BUILDER_DEFAULT_DIFFICULTY)
         subparser.add_argument("--family-id")
         subparser.add_argument("--comparison-target", default="default_memory_architectures")
 
