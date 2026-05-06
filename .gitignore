@@ -5,4 +5,5 @@ dist/
 locomo/
 LongMemEval/
 tau2-bench/
-ToolSandbox/
+.ToolSandbox/
+.env

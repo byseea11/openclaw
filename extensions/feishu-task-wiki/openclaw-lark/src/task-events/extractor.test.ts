@@ -16,9 +16,63 @@ function loadExtractorModule(): ExtractorModule {
   return require("./extractor.js") as ExtractorModule;
 }
 
+function setLlmEnv() {
+  process.env.OPENAI_API_KEY = "test-key";
+  process.env.OPENAI_API_BASE_URL = "https://example.com/v1";
+  process.env.FEISHU_TASK_WIKI_MODEL = "test-model";
+}
+
+function maskLlmEnv() {
+  process.env.FEISHU_TASK_WIKI_API_KEY = " ";
+  process.env.FEISHU_TASK_WIKI_API_BASE_URL = " ";
+  process.env.FEISHU_TASK_WIKI_MODEL = " ";
+  process.env.OPENAI_API_KEY = " ";
+  process.env.OPENAI_API_BASE_URL = " ";
+  process.env.OPENAI_MODEL = " ";
+}
+
+function buildExtractionParams(text = "发布时间口径这次先按方案 B 来。") {
+  return {
+    task: { taskId: "task:FEISHU-231", taskKey: "FEISHU-231", taskTitle: "FEISHU-231 发布任务" },
+    sourceSessionId: "task:FEISHU-231::chat:oc_chat_1",
+    ingestVersion: 1,
+    coreEntries: [{ entry_id: "e1", text, sender_name: "林晨", create_time: "2026-05-01T10:00:00Z" }],
+    contextEntries: [],
+    sourceType: "chat",
+    sourceId: "chat:oc_chat_1",
+    chatId: "oc_chat_1",
+  };
+}
+
+function stubChatCompletionContent(content: string) {
+  const fetchMock = vi.fn(async () =>
+    ({
+      ok: true,
+      text: async () =>
+        JSON.stringify({
+          choices: [
+            {
+              message: {
+                content,
+              },
+            },
+          ],
+        }),
+    }) as Response);
+  vi.stubGlobal("fetch", fetchMock);
+  return fetchMock;
+}
+
+function stubChatCompletionObject(result: Record<string, unknown>) {
+  return stubChatCompletionContent(JSON.stringify(result));
+}
+
 describe("task event extractor", () => {
   afterEach(() => {
     vi.restoreAllMocks();
+    vi.unstubAllGlobals();
+    delete process.env.FEISHU_TASK_WIKI_API_KEY;
+    delete process.env.FEISHU_TASK_WIKI_API_BASE_URL;
     delete process.env.OPENAI_API_KEY;
     delete process.env.OPENAI_API_BASE_URL;
     delete process.env.OPENAI_MODEL;
@@ -97,54 +151,120 @@ describe("task event extractor", () => {
     expect(validated.programmatic_validation?.verdict).toBe("rejected");
   });
 
-  it("uses LLM extraction when configured and falls back to normalized candidate events", async () => {
-    process.env.OPENAI_API_KEY = "test-key";
-    process.env.OPENAI_API_BASE_URL = "https://example.com/v1";
-    process.env.FEISHU_TASK_WIKI_MODEL = "test-model";
-
-    vi.stubGlobal(
-      "fetch",
-      vi.fn(async () =>
-        ({
-          ok: true,
-          text: async () =>
-            JSON.stringify({
-              choices: [
-                {
-                  message: {
-                    content: JSON.stringify({
-                      events: [
-                        {
-                          event_type: "conclusion_event",
-                          claim: "本期先按方案 B 来",
-                          core_entry_id: "e1",
-                          evidence_quote: "这次先按方案 B 来",
-                          conclusion: "先按方案 B 来",
-                          target: "方案选择",
-                        },
-                      ],
-                    }),
-                  },
-                },
-              ],
-            }),
-        }) as Response),
-    );
+  it("uses LLM extraction when configured and normalizes candidate events", async () => {
+    setLlmEnv();
+    stubChatCompletionObject({
+      events: [
+        {
+          event_type: "conclusion_event",
+          claim: "本期先按方案 B 来",
+          core_entry_id: "e1",
+          evidence_quote: "这次先按方案 B 来",
+          conclusion: "先按方案 B 来",
+          target: "方案选择",
+        },
+      ],
+    });
 
     const { extractCandidateEventsWithLLM } = loadExtractorModule();
-    const result = await extractCandidateEventsWithLLM({
-      task: { taskId: "task:FEISHU-231", taskKey: "FEISHU-231", taskTitle: "FEISHU-231 发布任务" },
-      sourceSessionId: "task:FEISHU-231::chat:oc_chat_1",
-      ingestVersion: 1,
-      coreEntries: [{ entry_id: "e1", text: "这次先按方案 B 来。", sender_name: "林晨", create_time: "2026-05-01T10:00:00Z" }],
-      contextEntries: [],
-      sourceType: "chat",
-      sourceId: "chat:oc_chat_1",
-      chatId: "oc_chat_1",
-    });
+    const result = await extractCandidateEventsWithLLM(buildExtractionParams("这次先按方案 B 来。"));
 
     expect(result).toHaveLength(1);
     expect(result[0]?.event_type).toBe("conclusion_event");
     expect(result[0]?.event_id).toBeTruthy();
+  });
+
+  it("falls back to heuristic extraction when LLM is not configured", async () => {
+    maskLlmEnv();
+
+    const { extractCandidateEventsWithLLM } = loadExtractorModule();
+    const result = await extractCandidateEventsWithLLM(buildExtractionParams());
+
+    expect(result.some((event) => event.event_type === "conclusion_event")).toBe(true);
+  });
+
+  it("falls back to heuristic extraction when LLM request throws", async () => {
+    setLlmEnv();
+    vi.stubGlobal(
+      "fetch",
+      vi.fn(async () => {
+        throw new Error("network down");
+      }),
+    );
+
+    const { extractCandidateEventsWithLLM } = loadExtractorModule();
+    const result = await extractCandidateEventsWithLLM(buildExtractionParams());
+
+    expect(result.some((event) => event.event_type === "conclusion_event")).toBe(true);
+  });
+
+  it("falls back to heuristic extraction when LLM returns invalid JSON content", async () => {
+    setLlmEnv();
+    stubChatCompletionContent("not valid json");
+
+    const { extractCandidateEventsWithLLM } = loadExtractorModule();
+    const result = await extractCandidateEventsWithLLM(buildExtractionParams());
+
+    expect(result.some((event) => event.event_type === "conclusion_event")).toBe(true);
+  });
+
+  it("falls back to heuristic extraction when LLM response omits events", async () => {
+    setLlmEnv();
+    stubChatCompletionObject({});
+
+    const { extractCandidateEventsWithLLM } = loadExtractorModule();
+    const result = await extractCandidateEventsWithLLM(buildExtractionParams());
+
+    expect(result.some((event) => event.event_type === "conclusion_event")).toBe(true);
+  });
+
+  it("falls back to heuristic extraction when LLM response events is null", async () => {
+    setLlmEnv();
+    stubChatCompletionObject({ events: null });
+
+    const { extractCandidateEventsWithLLM } = loadExtractorModule();
+    const result = await extractCandidateEventsWithLLM(buildExtractionParams());
+
+    expect(result.some((event) => event.event_type === "conclusion_event")).toBe(true);
+  });
+
+  it("trusts an empty LLM events result instead of falling back to heuristic extraction", async () => {
+    setLlmEnv();
+    stubChatCompletionObject({ events: [] });
+
+    const { extractCandidateEventsWithLLM } = loadExtractorModule();
+    const result = await extractCandidateEventsWithLLM(buildExtractionParams());
+
+    expect(result).toEqual([]);
+  });
+
+  it("trusts LLM output filtered to no supported event types instead of falling back", async () => {
+    setLlmEnv();
+    stubChatCompletionObject({
+      events: [
+        {
+          event_type: "unsupported_event",
+          claim: "发布时间口径这次先按方案 B 来",
+          core_entry_id: "e1",
+          evidence_quote: "发布时间口径这次先按方案 B 来",
+        },
+      ],
+    });
+
+    const { extractCandidateEventsWithLLM } = loadExtractorModule();
+    const result = await extractCandidateEventsWithLLM(buildExtractionParams());
+
+    expect(result).toEqual([]);
+  });
+
+  it("does not turn a weak trigger into a conclusion event when LLM abstains", async () => {
+    setLlmEnv();
+    stubChatCompletionObject({ events: [] });
+
+    const { extractCandidateEventsWithLLM } = loadExtractorModule();
+    const result = await extractCandidateEventsWithLLM(buildExtractionParams("先看一下这个方案吧"));
+
+    expect(result.some((event) => event.event_type === "conclusion_event")).toBe(false);
+    expect(result).toEqual([]);
   });
 });

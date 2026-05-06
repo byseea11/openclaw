@@ -447,13 +447,13 @@ async function extractCandidateEventsWithLLM(params) {
       temperature: 0.1,
       maxTokens: 2200,
     });
-    const rawEvents = Array.isArray(result?.events) ? result.events : [];
+    if (!Array.isArray(result?.events)) {
+      throw new Error("Invalid LLM extractor response: events must be an array");
+    }
+    const rawEvents = result.events;
     const normalized = rawEvents
       .map((event) => normalizeCandidateEvent(event, params))
       .filter(Boolean);
-    if (normalized.length === 0) {
-      return extractCandidateEventsHeuristic(params);
-    }
     return dedupeEvents(normalized);
   } catch {
     return extractCandidateEventsHeuristic(params);

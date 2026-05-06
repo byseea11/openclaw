@@ -11,41 +11,17 @@ const {
   verifyCandidateEvent,
 } = require("./extractor.js");
 
+const RUNNING_VERIFIER_JOBS = new Set();
 const HOT_INGEST_WINDOW = 20;
 const NO_EVENT_WINDOW = 10;
-const DEFAULT_DRAIN_INGEST_LIMIT = 4;
-const DEFAULT_DRAIN_CHAR_LIMIT = 1600;
-const DEFAULT_IDLE_DRAIN_DELAY_MS = 45_000;
 const INGEST_STATUS = {
   PENDING_EXTRACTION: "pending_extraction",
-  QUEUED_FOR_DRAIN: "queued_for_drain",
   PENDING_VERIFICATION: "pending_verification",
   VERIFIED: "verified",
   NEEDS_REVIEW: "needs_review",
   REJECTED: "rejected",
   PROCESSED_NO_EVENT: "processed_no_event",
 };
-
-const SIGNAL_PATTERNS = [
-  { reason: "status_change", weight: 3, pattern: /(阻塞|blocked|卡住|完成|done|已完成|未完成|尚未|状态|上线|发布)/iu },
-  { reason: "owner_change", weight: 2, pattern: /(负责人|owner|我来|我负责|跟进|推进|assign|assigned)/iu },
-  { reason: "decision", weight: 2, pattern: /(决定|结论|统一口径|先按|暂定|确认|锁定|采用)/iu },
-  { reason: "time_change", weight: 2, pattern: /(\d{1,2}\s*月\s*\d{1,2}\s*日|今天|明天|后天|本周|下周|deadline|截止)/iu },
-  { reason: "dependency", weight: 2, pattern: /(依赖|dependency|前置|等待|迁移窗口|blocker|风险)/iu },
-];
-const DRAIN_REASONS = new Set([
-  "replay_runtime",
-  "verification",
-  "projector",
-  "recall",
-  "pre_compaction",
-  "threshold_dirty_count",
-  "threshold_span_size",
-  "strong_signal",
-  "idle",
-  "manual",
-]);
-const IDLE_DRAIN_TIMERS = new Map();
 
 function appendTaskActivityLog(taskId, kind, detail) {
   try {
@@ -83,13 +59,6 @@ function slugify(input) {
 
 function ensureDir(dirPath) {
   fs.mkdirSync(dirPath, { recursive: true });
-}
-
-function ensureJsonlFile(filePath) {
-  ensureDir(path.dirname(filePath));
-  if (!fs.existsSync(filePath)) {
-    fs.writeFileSync(filePath, "", "utf8");
-  }
 }
 
 function readJsonFile(filePath, fallbackValue) {
@@ -157,35 +126,6 @@ function uniqueStrings(values) {
   return result;
 }
 
-function scoreSignal(text) {
-  const normalized = normalizeText(text);
-  let signalStrength = 0;
-  const dirtyReasons = [];
-  for (const rule of SIGNAL_PATTERNS) {
-    if (rule.pattern.test(normalized)) {
-      signalStrength += rule.weight;
-      dirtyReasons.push(rule.reason);
-    }
-  }
-  return {
-    signalStrength,
-    dirtyReasons: uniqueStrings(dirtyReasons),
-    needsLlmExtraction: signalStrength > 0,
-  };
-}
-
-function createDrainBatchId(parts) {
-  return `drain_${crypto.createHash("sha1").update(parts.join("|")).digest("hex").slice(0, 16)}`;
-}
-
-function normalizeDrainReason(reason) {
-  const normalized = String(reason ?? "").trim();
-  if (DRAIN_REASONS.has(normalized)) {
-    return normalized;
-  }
-  return "manual";
-}
-
 function resolveTaskRootDir(taskId) {
   return path.join(resolveStateDir(), "feishu-task-wiki", "tasks", slugify(taskId));
 }
@@ -196,42 +136,6 @@ function resolveSourceSessionId(taskId, sourceScope) {
 
 function resolveSourceSessionDir(taskId, sourceSessionId) {
   return path.join(resolveTaskRootDir(taskId), "sessions", slugify(sourceSessionId));
-}
-
-function resolveTaskRootDirFromSessionDir(sessionDir) {
-  return path.dirname(path.dirname(sessionDir));
-}
-
-function listSessionDirs(taskRootDir) {
-  const sessionsDir = path.join(taskRootDir, "sessions");
-  try {
-    return fs.readdirSync(sessionsDir, { withFileTypes: true })
-      .filter((entry) => entry.isDirectory())
-      .map((entry) => path.join(sessionsDir, entry.name));
-  } catch {
-    return [];
-  }
-}
-
-function isAsyncDrainDisabled() {
-  return process.env.OPENCLAW_FEISHU_TASK_WIKI_DISABLE_ASYNC_VERIFIER === "1";
-}
-
-function clearIdleDrainTimer(sessionDir) {
-  const existing = IDLE_DRAIN_TIMERS.get(sessionDir);
-  if (!existing) {
-    return false;
-  }
-  clearTimeout(existing);
-  IDLE_DRAIN_TIMERS.delete(sessionDir);
-  return true;
-}
-
-function clearIdleDrainTimers() {
-  for (const timer of IDLE_DRAIN_TIMERS.values()) {
-    clearTimeout(timer);
-  }
-  IDLE_DRAIN_TIMERS.clear();
 }
 
 function resolveFilePaths(sessionDir) {
@@ -512,20 +416,6 @@ function collectVisibleSessionEntries(params) {
       visibleIds.add(entry.entry_id);
     }
   }
-  for (const record of sortedIngests) {
-    if (
-      record.status === INGEST_STATUS.PENDING_EXTRACTION
-      || record.status === INGEST_STATUS.QUEUED_FOR_DRAIN
-      || record.status === INGEST_STATUS.PENDING_VERIFICATION
-      || record.status === INGEST_STATUS.VERIFIED
-      || record.status === INGEST_STATUS.NEEDS_REVIEW
-      || record.status === INGEST_STATUS.REJECTED
-    ) {
-      for (const entry of record.new_entries ?? []) {
-        visibleIds.add(entry.entry_id);
-      }
-    }
-  }
   for (const record of recentNoEventIngests) {
     for (const entry of record.new_entries ?? []) {
       visibleIds.add(entry.entry_id);
@@ -636,10 +526,6 @@ function buildSessionMetadata(params, manifest, ingestRecords, viewStats) {
     visible_ingest_count: viewStats.visibleIngestCount,
     compacted_at: new Date().toISOString(),
     retained_entry_count: viewStats.retainedEntryCount,
-    last_drain_reason: params.lastDrainReason ?? manifest?.last_drain_reason ?? null,
-    last_drain_batch_id: params.lastDrainBatchId ?? manifest?.last_drain_batch_id ?? null,
-    last_drain_at: params.lastDrainAt ?? manifest?.last_drain_at ?? null,
-    last_drain_source_ingest_ids: params.lastDrainSourceIngestIds ?? manifest?.last_drain_source_ingest_ids ?? [],
   };
 }
 
@@ -665,27 +551,17 @@ function buildIngestRecord(params) {
     core_entry_ids: params.coreEntries.map((entry) => entry.entry_id),
     context_entry_ids: params.contextEntries.map((entry) => entry.entry_id),
     source_locator: params.sourceLocator ?? null,
-    signal_strength: Number(params.signalStrength ?? 0),
-    dirty_reason: uniqueStrings(params.dirtyReasons ?? []),
-    needs_llm_extraction: Boolean(params.needsLlmExtraction),
-    drain_batch_id: null,
-    drain_reason: null,
-    covered_by_batch_at: null,
   };
 }
 
 function buildEvidenceSpan(params) {
   return {
     evidence_span_id: `span_${crypto.createHash("sha1").update(params.ingestId).digest("hex").slice(0, 16)}`,
-    span_kind: params.spanKind ?? "ingest",
     task_id: params.taskId,
     source_session_id: params.sourceSessionId,
     ingest_id: params.ingestId,
     ingest_version: params.ingestVersion,
     source_scope: params.sourceScope,
-    drain_batch_id: params.drainBatchId ?? null,
-    drain_reason: params.drainReason ?? null,
-    source_ingest_ids: params.sourceIngestIds ?? [params.ingestId],
     trigger_entries: params.triggerEntries,
     support_entries: params.supportEntries,
     core_entries: params.coreEntries,
@@ -695,9 +571,6 @@ function buildEvidenceSpan(params) {
 
 function refreshSessionFiles(params) {
   const files = resolveFilePaths(params.sessionDir);
-  ensureJsonlFile(files.candidateEvents);
-  ensureJsonlFile(files.sessionEvents);
-  ensureJsonlFile(files.verificationJobs);
   const manifest = readSessionManifest(params.sessionDir);
   const ingestRecords = readJsonl(files.pendingIngests);
   const evidenceSpans = readJsonl(files.evidenceSpans);
@@ -723,10 +596,6 @@ function refreshSessionFiles(params) {
       sourceLocator: params.sourceLocator,
       bindingMode: params.bindingMode,
       latestIngestVersion: manifest?.latest_ingest_version ?? 0,
-      lastDrainReason: params.lastDrainReason ?? null,
-      lastDrainBatchId: params.lastDrainBatchId ?? null,
-      lastDrainAt: params.lastDrainAt ?? null,
-      lastDrainSourceIngestIds: params.lastDrainSourceIngestIds ?? [],
     }, manifest, ingestRecords, viewStats)),
     "utf8",
   );
@@ -774,91 +643,6 @@ function computeIngestStatusFromCandidates(candidates) {
   return INGEST_STATUS.REJECTED;
 }
 
-function collectRelatedCandidatesForIngests(candidates, ingestIds) {
-  const ingestIdSet = new Set(ingestIds);
-  return candidates.filter((candidate) => {
-    const sourceIngestIds = Array.isArray(candidate?.source_ingest_ids) ? candidate.source_ingest_ids : [];
-    return sourceIngestIds.some((ingestId) => ingestIdSet.has(ingestId));
-  });
-}
-
-function updateStatusesForIngestIds(ingestRecords, candidateRecords, ingestIds, statusOverride = null) {
-  const relatedCandidates = collectRelatedCandidatesForIngests(candidateRecords, ingestIds);
-  const nextStatus = statusOverride ?? computeIngestStatusFromCandidates(relatedCandidates);
-  const now = new Date().toISOString();
-  for (const ingestRecord of ingestRecords) {
-    if (!ingestIds.includes(ingestRecord?.ingest_id)) {
-      continue;
-    }
-    ingestRecord.status = nextStatus;
-    ingestRecord.updated_at = now;
-  }
-}
-
-function resolveBatchEvidenceSpan(evidenceSpans, job) {
-  if (job.drain_batch_id) {
-    return evidenceSpans.find((entry) => entry?.drain_batch_id === job.drain_batch_id && entry?.span_kind === "drain_batch");
-  }
-  return evidenceSpans.find((entry) => entry?.ingest_id === job.ingest_id);
-}
-
-function buildBatchEnvelope(params) {
-  const coreEntries = [];
-  const supportEntries = [];
-  const contextEntries = [];
-  for (const span of params.spans) {
-    coreEntries.push(...(span.trigger_entries ?? span.core_entries ?? []));
-    supportEntries.push(...(span.support_entries ?? []));
-    contextEntries.push(...(span.context_entries ?? []));
-  }
-  const dedupedCore = dedupeEntries(coreEntries);
-  const coreIds = new Set(dedupedCore.map((entry) => entry.entry_id));
-  const dedupedSupport = dedupeEntries(
-    supportEntries.filter((entry) => entry?.entry_id && !coreIds.has(entry.entry_id)),
-  );
-  const supportIds = new Set(dedupedSupport.map((entry) => entry.entry_id));
-  const dedupedContext = dedupeEntries(
-    contextEntries.filter((entry) => entry?.entry_id && !coreIds.has(entry.entry_id) && !supportIds.has(entry.entry_id)),
-  );
-  const latestIngestVersion = Math.max(...params.ingestRecords.map((record) => Number(record.ingest_version ?? 0)));
-  const sourceIngestIds = params.ingestRecords.map((record) => record.ingest_id);
-  const drainBatchId = createDrainBatchId([
-    params.sourceSessionId,
-    sourceIngestIds.join("|"),
-  ]);
-  return {
-    drainBatchId,
-    sourceIngestIds,
-    latestIngestVersion,
-    coreEntries: dedupedCore,
-    supportEntries: dedupedSupport,
-    contextEntries: dedupedContext,
-    signalStrength: params.ingestRecords.reduce((sum, record) => sum + Number(record.signal_strength ?? 0), 0),
-    dirtyReasons: uniqueStrings(params.ingestRecords.flatMap((record) => record.dirty_reason ?? [])),
-  };
-}
-
-function splitPendingIngestsIntoBatches(ingestRecords) {
-  const batches = [];
-  let current = [];
-  let currentChars = 0;
-  for (const record of ingestRecords) {
-    const nextChars = (record.new_entries ?? []).reduce((sum, entry) => sum + String(entry?.text ?? "").length, 0);
-    const wouldOverflow = current.length >= DEFAULT_DRAIN_INGEST_LIMIT || currentChars + nextChars > DEFAULT_DRAIN_CHAR_LIMIT;
-    if (current.length > 0 && wouldOverflow) {
-      batches.push(current);
-      current = [];
-      currentChars = 0;
-    }
-    current.push(record);
-    currentChars += nextChars;
-  }
-  if (current.length > 0) {
-    batches.push(current);
-  }
-  return batches;
-}
-
 function buildVerifiedEventSignature(event) {
   return [
     event?.task_id ?? event?.task_ref ?? "",
@@ -877,9 +661,6 @@ function enqueueVerificationJob(files, params) {
     source_session_id: params.sourceSessionId,
     ingest_id: params.ingestId,
     ingest_version: params.ingestVersion,
-    drain_batch_id: params.drainBatchId ?? null,
-    drain_reason: params.drainReason ?? null,
-    source_ingest_ids: params.sourceIngestIds ?? [params.ingestId],
     candidate_event_id: params.event.event_id,
     status: "queued",
     created_at: now,
@@ -890,265 +671,28 @@ function enqueueVerificationJob(files, params) {
   return job;
 }
 
-async function drainPendingGraphUpdates(params) {
-  const drainReason = normalizeDrainReason(params.reason);
-  const files = resolveFilePaths(params.sessionDir);
-  const ingestRecords = readJsonl(files.pendingIngests);
-  const evidenceSpans = readJsonl(files.evidenceSpans);
-  const candidateRecords = readJsonl(files.candidateEvents);
-  const jobs = readJsonl(files.verificationJobs);
-  const metadata = YAML.parse(fs.readFileSync(files.metadata, "utf8"));
-  const pending = ingestRecords
-    .filter((record) => (
-      record?.status === INGEST_STATUS.PENDING_EXTRACTION
-      || record?.status === INGEST_STATUS.QUEUED_FOR_DRAIN
-    ) && record?.needs_llm_extraction)
-    .sort((a, b) => Number(a.ingest_version ?? 0) - Number(b.ingest_version ?? 0));
-  if (pending.length === 0) {
-    return {
-      drainBatches: 0,
-      extractedCandidates: 0,
-      queuedVerificationJobs: jobs.filter((job) => job.status === "queued").length,
-    };
+function scheduleVerificationRun(params) {
+  if (process.env.OPENCLAW_FEISHU_TASK_WIKI_DISABLE_ASYNC_VERIFIER === "1") {
+    return;
   }
-
-  const batches = splitPendingIngestsIntoBatches(pending);
-  let extractedCandidates = 0;
-  let queuedVerificationJobs = 0;
-  const now = new Date().toISOString();
-  let lastDrainBatchId = null;
-  let lastDrainSourceIngestIds = [];
-
-  for (const batchIngests of batches) {
-    const spanIndex = new Map(
-      evidenceSpans
-        .filter((span) => span?.span_kind !== "drain_batch")
-        .map((span) => [span.ingest_id, span]),
-    );
-    const batchSpans = batchIngests
-      .map((record) => spanIndex.get(record.ingest_id))
-      .filter(Boolean);
-    if (batchSpans.length === 0) {
-      continue;
+  const sessionKey = params.sessionDir;
+  if (RUNNING_VERIFIER_JOBS.has(sessionKey)) {
+    return;
+  }
+  RUNNING_VERIFIER_JOBS.add(sessionKey);
+  const timer = setTimeout(async () => {
+    try {
+      await runVerificationJobs(params);
+    } finally {
+      RUNNING_VERIFIER_JOBS.delete(sessionKey);
     }
-
-    const envelope = buildBatchEnvelope({
-      sourceSessionId: metadata.source_session_id,
-      ingestRecords: batchIngests,
-      spans: batchSpans,
-    });
-    const batchSpan = buildEvidenceSpan({
-      taskId: metadata.task_id,
-      sourceSessionId: metadata.source_session_id,
-      ingestId: batchIngests[batchIngests.length - 1].ingest_id,
-      ingestVersion: envelope.latestIngestVersion,
-      sourceScope: metadata.source_scope,
-      triggerEntries: envelope.coreEntries,
-      supportEntries: envelope.supportEntries,
-      coreEntries: envelope.coreEntries,
-      contextEntries: envelope.contextEntries,
-      spanKind: "drain_batch",
-      drainBatchId: envelope.drainBatchId,
-      drainReason,
-      sourceIngestIds: envelope.sourceIngestIds,
-    });
-    evidenceSpans.push(batchSpan);
-
-    for (const ingestRecord of batchIngests) {
-      ingestRecord.status = INGEST_STATUS.QUEUED_FOR_DRAIN;
-      ingestRecord.drain_batch_id = envelope.drainBatchId;
-      ingestRecord.drain_reason = drainReason;
-      ingestRecord.covered_by_batch_at = now;
-      ingestRecord.updated_at = now;
-    }
-
-    const rawCandidates = await extractCandidateEventsWithLLM({
-      task: {
-        taskId: metadata.task_id,
-        taskKey: metadata.task_key,
-      },
-      sourceSessionId: metadata.source_session_id,
-      ingestVersion: envelope.latestIngestVersion,
-      coreEntries: envelope.coreEntries,
-      contextEntries: envelope.contextEntries,
-      supportEntries: envelope.supportEntries,
-      sourceType: metadata.source_type,
-      sourceId: metadata.source_id,
-      chatId: metadata.chat_id,
-      threadId: metadata.thread_id,
-      rootId: metadata.root_id,
-      sourceLocator: metadata.source_locator ?? null,
-    });
-    const validatedCandidates = rawCandidates.map((candidate) => ({
-      ...validateCandidateEvent(candidate, envelope.coreEntries),
-      ingest_id: batchIngests[batchIngests.length - 1].ingest_id,
-      task_id: metadata.task_id,
-      source_scope: metadata.source_scope,
-      drain_batch_id: envelope.drainBatchId,
-      source_ingest_ids: envelope.sourceIngestIds,
-      processing_status: INGEST_STATUS.PENDING_VERIFICATION,
-    }));
-
-    if (validatedCandidates.length === 0) {
-      updateStatusesForIngestIds(
-        ingestRecords,
-        candidateRecords,
-        envelope.sourceIngestIds,
-        INGEST_STATUS.PROCESSED_NO_EVENT,
-      );
-      continue;
-    }
-
-    extractedCandidates += validatedCandidates.length;
-    const candidateStatuses = [];
-    for (const candidate of validatedCandidates) {
-      const processingStatus = computeCandidateProcessingStatus(candidate);
-      candidateStatuses.push(processingStatus);
-      if (candidate.programmatic_validation?.verdict !== "ready_for_verification") {
-        upsertJsonlRecord(
-          files.candidateEvents,
-          { ...candidate, processing_status: processingStatus },
-          "event_id",
-        );
-        candidateRecords.push({ ...candidate, processing_status: processingStatus });
-        continue;
-      }
-      const job = enqueueVerificationJob(files, {
-        taskId: metadata.task_id,
-        sourceSessionId: metadata.source_session_id,
-        ingestId: batchIngests[batchIngests.length - 1].ingest_id,
-        ingestVersion: envelope.latestIngestVersion,
-        drainBatchId: envelope.drainBatchId,
-        drainReason,
-        sourceIngestIds: envelope.sourceIngestIds,
-        event: candidate,
-      });
-      queuedVerificationJobs += 1;
-      upsertJsonlRecord(
-        files.candidateEvents,
-        {
-          ...candidate,
-          processing_status: INGEST_STATUS.PENDING_VERIFICATION,
-          verification_job_id: job.job_id,
-        },
-        "event_id",
-      );
-      candidateRecords.push({
-        ...candidate,
-        processing_status: INGEST_STATUS.PENDING_VERIFICATION,
-        verification_job_id: job.job_id,
-      });
-    }
-
-    updateStatusesForIngestIds(ingestRecords, candidateRecords, envelope.sourceIngestIds);
-    appendTaskActivityLog(
-      metadata.task_id,
-      "drain_extract",
-      `${drainReason}: ${validatedCandidates.length} candidate_events for ${metadata.source_session_id}#${envelope.drainBatchId}`,
-    );
-    lastDrainBatchId = envelope.drainBatchId;
-    lastDrainSourceIngestIds = envelope.sourceIngestIds;
-  }
-
-  writeJsonl(files.pendingIngests, ingestRecords);
-  writeJsonl(files.evidenceSpans, evidenceSpans);
-  refreshSessionFiles({
-    sessionDir: params.sessionDir,
-    task: {
-      taskId: metadata.task_id,
-      taskKey: metadata.task_key,
-    },
-    sourceSessionId: metadata.source_session_id,
-    sourceScope: metadata.source_scope,
-    sourceType: metadata.source_type,
-    sourceId: metadata.source_id,
-    chatId: metadata.chat_id,
-    threadId: metadata.thread_id,
-    rootId: metadata.root_id,
-    sourceLocator: metadata.source_locator ?? null,
-    bindingMode: metadata.binding_mode ?? null,
-    lastDrainReason: drainReason,
-    lastDrainBatchId,
-    lastDrainAt: now,
-    lastDrainSourceIngestIds,
-  });
-
-  return {
-    drainBatches: batches.length,
-    extractedCandidates,
-    queuedVerificationJobs,
-    reason: drainReason,
-  };
-}
-
-function sessionHasPendingExtraction(ingestRecords) {
-  return ingestRecords.some((record) => (
-    record?.status === INGEST_STATUS.PENDING_EXTRACTION
-    || record?.status === INGEST_STATUS.QUEUED_FOR_DRAIN
-  ) && record?.needs_llm_extraction);
-}
-
-function sessionHasPendingVerification(ingestRecords, jobs) {
-  const queuedJobs = jobs.some((job) => job?.status === "queued" || job?.status === "running");
-  if (queuedJobs) {
-    return true;
-  }
-  return ingestRecords.some((record) => record?.status === INGEST_STATUS.PENDING_VERIFICATION);
-}
-
-function sessionHasVerifiedEvents(files) {
-  return readJsonl(files.sessionEvents).length > 0;
-}
-
-function sessionNeedsProjection(files) {
-  if (!fs.existsSync(files.sessionEvents)) {
-    return false;
-  }
-  const verifiedCount = readJsonl(files.sessionEvents).length;
-  if (verifiedCount === 0) {
-    return false;
-  }
-  if (!fs.existsSync(path.join(path.dirname(files.sessionEvents), "session_wiki_state.json"))) {
-    return true;
-  }
-  const taskRootDir = resolveTaskRootDirFromSessionDir(path.dirname(files.sessionEvents));
-  return !fs.existsSync(path.join(taskRootDir, "task_wiki_state.json"))
-    || !fs.existsSync(path.join(taskRootDir, "task_index_state.json"));
-}
-
-async function maybeProjectTaskWikiFromSession(params) {
-  if (!params.projectAfterDrain) {
-    return null;
-  }
-  const files = resolveFilePaths(params.sessionDir);
-  if (!sessionHasVerifiedEvents(files)) {
-    return null;
-  }
-  const shouldProject = params.forceProject || sessionNeedsProjection(files);
-  if (!shouldProject) {
-    return null;
-  }
-  try {
-    // Lazy load to keep third-stage projector off the hot path until an explicit
-    // freshness or projection barrier asks for it.
-    // eslint-disable-next-line @typescript-eslint/no-require-imports -- CommonJS subtree on purpose
-    const { updateTaskWikiFromVerifiedEvents } = require("../task-wiki/projector.js");
-    return await updateTaskWikiFromVerifiedEvents({ sessionDir: params.sessionDir });
-  } catch (error) {
-    if (params.strictProject) {
-      throw error;
-    }
-    return null;
+  }, 0);
+  if (typeof timer.unref === "function") {
+    timer.unref();
   }
 }
 
 async function runVerificationJobs(params) {
-  if (!params.skipDrain) {
-    await drainPendingGraphUpdates({
-      sessionDir: params.sessionDir,
-      reason: params.reason ?? "verification",
-    });
-  }
   const files = resolveFilePaths(params.sessionDir);
   const jobs = readJsonl(files.verificationJobs);
   const candidateRecords = readJsonl(files.candidateEvents);
@@ -1172,7 +716,7 @@ async function runVerificationJobs(params) {
       changed = true;
       continue;
     }
-    const span = resolveBatchEvidenceSpan(evidenceSpans, job);
+    const span = evidenceSpans.find((entry) => entry?.ingest_id === job.ingest_id);
     if (!span) {
       job.status = "failed";
       job.last_error = "evidence_span_not_found";
@@ -1193,8 +737,6 @@ async function runVerificationJobs(params) {
       });
       candidateRecords[candidateIndex] = {
         ...verified,
-        drain_batch_id: job.drain_batch_id ?? candidateRecords[candidateIndex]?.drain_batch_id ?? null,
-        source_ingest_ids: job.source_ingest_ids ?? candidateRecords[candidateIndex]?.source_ingest_ids ?? [job.ingest_id],
         processing_status: verified.verification?.verdict === "verified"
           ? INGEST_STATUS.VERIFIED
           : verified.verification?.verdict === "rejected"
@@ -1217,11 +759,12 @@ async function runVerificationJobs(params) {
         }
       }
       completedCandidateCount += 1;
-      updateStatusesForIngestIds(
-        ingestRecords,
-        candidateRecords,
-        Array.isArray(job.source_ingest_ids) ? job.source_ingest_ids : [job.ingest_id],
-      );
+      const ingestRecord = ingestRecords.find((entry) => entry?.ingest_id === job.ingest_id);
+      if (ingestRecord) {
+        const relatedCandidates = candidateRecords.filter((entry) => entry?.ingest_id === job.ingest_id);
+        ingestRecord.status = computeIngestStatusFromCandidates(relatedCandidates);
+        ingestRecord.updated_at = new Date().toISOString();
+      }
       job.status = "completed";
       job.updated_at = new Date().toISOString();
       job.last_error = null;
@@ -1260,11 +803,17 @@ async function runVerificationJobs(params) {
         "session_event_write",
         `${newlyVerifiedCount} verified session_events for ${metadata.source_session_id}`,
       );
-      await maybeProjectTaskWikiFromSession({
-        sessionDir: params.sessionDir,
-        projectAfterDrain: params.projectVerifiedEvents !== false,
-        forceProject: true,
-      });
+      try {
+        // Lazy load to keep the stage-3 wiki projector off the hot path until
+        // a verified event actually lands.
+        // eslint-disable-next-line @typescript-eslint/no-require-imports -- CommonJS subtree on purpose
+        const { updateTaskWikiFromVerifiedEvents } = require("../task-wiki/projector.js");
+        await updateTaskWikiFromVerifiedEvents({
+          sessionDir: params.sessionDir,
+        });
+      } catch {
+        // Do not block Layer 2 verification on Layer 3 projection failures.
+      }
     }
     if (completedCandidateCount > 0) {
       appendTaskActivityLog(
@@ -1279,114 +828,7 @@ async function runVerificationJobs(params) {
     queuedJobs: jobs.filter((job) => job.status === "queued").length,
     completedJobs: jobs.filter((job) => job.status === "completed").length,
     verifiedEvents: verifiedEvents.length,
-    newlyVerifiedCount,
-    completedCandidateCount,
   };
-}
-
-async function ensureTaskWikiFresh(params) {
-  const reason = normalizeDrainReason(params.reason);
-  const sessionDirs = params.sessionDir
-    ? [params.sessionDir]
-    : params.taskRootDir
-      ? listSessionDirs(params.taskRootDir)
-      : [];
-  if (sessionDirs.length === 0) {
-    return {
-      checked_session_count: 0,
-      drained_session_count: 0,
-      drain_batch_ids: [],
-      verified_event_count: 0,
-      projected_session_count: 0,
-      reason,
-    };
-  }
-
-  let drainedSessionCount = 0;
-  let verifiedEventCount = 0;
-  let projectedSessionCount = 0;
-  const drainBatchIds = [];
-
-  for (const sessionDir of sessionDirs) {
-    clearIdleDrainTimer(sessionDir);
-    const files = resolveFilePaths(sessionDir);
-    const ingestRecords = readJsonl(files.pendingIngests);
-    const jobs = readJsonl(files.verificationJobs);
-    const pendingExtraction = sessionHasPendingExtraction(ingestRecords);
-    const pendingVerification = sessionHasPendingVerification(ingestRecords, jobs);
-    let didWork = false;
-
-    if (pendingExtraction) {
-      const drainResult = await drainPendingGraphUpdates({ sessionDir, reason });
-      if (drainResult.drainBatches > 0 || drainResult.extractedCandidates > 0) {
-        didWork = true;
-        drainedSessionCount += 1;
-      }
-      const refreshedMetadata = YAML.parse(fs.readFileSync(files.metadata, "utf8"));
-      if (refreshedMetadata?.last_drain_batch_id) {
-        drainBatchIds.push(refreshedMetadata.last_drain_batch_id);
-      }
-    }
-
-    const nextIngestRecords = readJsonl(files.pendingIngests);
-    const nextJobs = readJsonl(files.verificationJobs);
-    const shouldVerify = pendingVerification || sessionHasPendingVerification(nextIngestRecords, nextJobs);
-    if (shouldVerify) {
-      const verificationResult = await runVerificationJobs({
-        sessionDir,
-        skipDrain: true,
-        reason,
-        projectVerifiedEvents: false,
-      });
-      if (verificationResult.completedCandidateCount > 0 || verificationResult.newlyVerifiedCount > 0) {
-        didWork = true;
-      }
-    }
-
-    const projected = await maybeProjectTaskWikiFromSession({
-      sessionDir,
-      projectAfterDrain: params.projectAfterDrain === true,
-      forceProject: didWork || sessionNeedsProjection(files),
-      strictProject: params.projectAfterDrain === true,
-    });
-    if (projected) {
-      projectedSessionCount += 1;
-    }
-    verifiedEventCount += readJsonl(files.sessionEvents).length;
-  }
-
-  return {
-    checked_session_count: sessionDirs.length,
-    drained_session_count: drainedSessionCount,
-    drain_batch_ids: uniqueStrings(drainBatchIds),
-    verified_event_count: verifiedEventCount,
-    projected_session_count: projectedSessionCount,
-    reason,
-  };
-}
-
-function scheduleIdleDrain(params) {
-  if (isAsyncDrainDisabled() || !params.sessionDir || !params.needsLlmExtraction) {
-    return false;
-  }
-  clearIdleDrainTimer(params.sessionDir);
-  const delayMs = Number.isFinite(params.delayMs) && params.delayMs > 0
-    ? params.delayMs
-    : DEFAULT_IDLE_DRAIN_DELAY_MS;
-  const timer = setTimeout(() => {
-    IDLE_DRAIN_TIMERS.delete(params.sessionDir);
-    const barrier = module.exports.ensureTaskWikiFresh ?? ensureTaskWikiFresh;
-    void barrier({
-      sessionDir: params.sessionDir,
-      reason: "idle",
-      projectAfterDrain: true,
-    }).catch(() => {});
-  }, delayMs);
-  if (typeof timer.unref === "function") {
-    timer.unref();
-  }
-  IDLE_DRAIN_TIMERS.set(params.sessionDir, timer);
-  return true;
 }
 
 async function appendToSourceSession(params) {
@@ -1480,6 +922,34 @@ async function appendToSourceSession(params) {
   };
 }
 
+async function extractCandidateEventsForIngest(params) {
+  const candidates = await extractCandidateEventsWithLLM({
+    task: params.taskBinding.task,
+    sourceSessionId: params.sourceSessionId,
+    ingestVersion: params.ingestVersion,
+    coreEntries: params.triggerEntries,
+    contextEntries: params.contextEntries,
+    supportEntries: params.supportEntries,
+    sourceType: params.sourceType,
+    sourceId: params.sourceId,
+    chatId: params.chatId,
+    threadId: params.threadId,
+    rootId: params.rootId,
+    sourceLocator: params.sourceLocator,
+  });
+  const validated = candidates.map((candidate) => ({
+    ...validateCandidateEvent(candidate, params.triggerEntries),
+    ingest_id: params.ingestId,
+    task_id: params.taskBinding.task.taskId,
+    source_scope: params.taskBinding.sourceScope,
+    processing_status: INGEST_STATUS.PENDING_VERIFICATION,
+  }));
+  for (const candidate of validated) {
+    upsertJsonlRecord(params.files.candidateEvents, candidate, "event_id");
+  }
+  return validated;
+}
+
 async function maybeIngestTaskSourceSession(params) {
   if (!params.taskBinding?.task?.taskId) {
     return { skipped: true, reason: "unbound_task" };
@@ -1495,16 +965,48 @@ async function maybeIngestTaskSourceSession(params) {
     "ingest",
     `${appended.sourceSessionId}#${appended.ingestVersion}`,
   );
-  const signal = scoreSignal(params.content);
+  const validatedCandidates = await extractCandidateEventsForIngest({
+    ...params,
+    ...appended,
+    files: appended.files,
+  });
+  appendTaskActivityLog(
+    appended.taskId,
+    "extract",
+    `${validatedCandidates.length} candidate_events for ${appended.sourceSessionId}#${appended.ingestVersion}`,
+  );
+
+  let verificationJobsQueued = 0;
+  const candidateStatuses = [];
+  for (const candidate of validatedCandidates) {
+    const processingStatus = computeCandidateProcessingStatus(candidate);
+    if (candidate.programmatic_validation?.verdict !== "ready_for_verification") {
+      candidateStatuses.push(processingStatus);
+      upsertJsonlRecord(appended.files.candidateEvents, { ...candidate, processing_status: processingStatus }, "event_id");
+      continue;
+    }
+    const job = enqueueVerificationJob(appended.files, {
+      taskId: params.taskBinding.task.taskId,
+      sourceSessionId: appended.sourceSessionId,
+      ingestId: appended.ingestId,
+      ingestVersion: appended.ingestVersion,
+      event: candidate,
+    });
+    verificationJobsQueued += 1;
+    candidateStatuses.push(INGEST_STATUS.PENDING_VERIFICATION);
+    upsertJsonlRecord(
+      appended.files.candidateEvents,
+      { ...candidate, processing_status: INGEST_STATUS.PENDING_VERIFICATION, verification_job_id: job.job_id },
+      "event_id",
+    );
+  }
+
   const ingestRecords = readJsonl(appended.files.pendingIngests);
   const ingestRecord = ingestRecords.find((entry) => entry?.ingest_id === appended.ingestId);
   if (ingestRecord) {
-    ingestRecord.signal_strength = signal.signalStrength;
-    ingestRecord.dirty_reason = signal.dirtyReasons;
-    ingestRecord.needs_llm_extraction = signal.needsLlmExtraction;
-    ingestRecord.status = signal.needsLlmExtraction
-      ? INGEST_STATUS.PENDING_EXTRACTION
-      : INGEST_STATUS.PROCESSED_NO_EVENT;
+    ingestRecord.status = computeIngestStatusFromCandidates(
+      candidateStatuses.map((status) => ({ processing_status: status })),
+    );
     ingestRecord.updated_at = new Date().toISOString();
     writeJsonl(appended.files.pendingIngests, ingestRecords);
   }
@@ -1522,15 +1024,12 @@ async function maybeIngestTaskSourceSession(params) {
     sourceLocator: params.sourceLocator,
     bindingMode: params.taskBinding.reason,
   });
-  appendTaskActivityLog(
-    appended.taskId,
-    "signal_detect",
-    `${signal.needsLlmExtraction ? "dirty" : "no_event"}:${signal.dirtyReasons.join(",") || "none"} for ${appended.sourceSessionId}#${appended.ingestVersion}`,
-  );
-  scheduleIdleDrain({
-    sessionDir: appended.sessionDir,
-    needsLlmExtraction: signal.needsLlmExtraction,
-  });
+
+  if (verificationJobsQueued > 0) {
+    scheduleVerificationRun({
+      sessionDir: appended.sessionDir,
+    });
+  }
 
   return {
     skipped: false,
@@ -1539,23 +1038,18 @@ async function maybeIngestTaskSourceSession(params) {
     ingestId: appended.ingestId,
     ingestVersion: appended.ingestVersion,
     sessionDir: appended.sessionDir,
-    candidateEventCount: 0,
-    verificationJobsQueued: 0,
+    candidateEventCount: validatedCandidates.length,
+    verificationJobsQueued,
     coreEntryCount: appended.coreEntries.length,
     contextEntryCount: appended.contextEntries.length,
-    drainRecommended: signal.needsLlmExtraction,
   };
 }
 
 module.exports = {
   appendToSourceSession,
   buildEvidenceSpanForIngest: buildEvidenceSpan,
-  clearIdleDrainTimers,
-  drainPendingGraphUpdates,
   enqueueVerificationJob,
-  ensureTaskWikiFresh,
   maybeIngestTaskSourceSession,
   resolveSourceSessionId,
   runVerificationJobs,
-  scheduleIdleDrain,
 };
