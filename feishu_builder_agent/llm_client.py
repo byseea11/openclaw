@@ -47,6 +47,15 @@ def _load_builder_env() -> dict[str, str]:
     return values
 
 
+def _is_truthy(value: str | None) -> bool:
+    return str(value or "").strip().lower() in {"1", "true", "yes", "on"}
+
+
+def live_llm_required() -> bool:
+    env = _load_builder_env()
+    return _is_truthy(env.get("FEISHU_BUILDER_REQUIRE_LIVE_LLM"))
+
+
 def _normalize_chat_completions_url(base_url: str) -> str:
     base = base_url.rstrip("/")
     if base.endswith("/chat/completions"):

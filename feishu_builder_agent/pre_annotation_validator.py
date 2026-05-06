@@ -6,7 +6,6 @@ from .schemas import (
     validate_case_spec,
     validate_collected_messages_v3,
     validate_conversation_plan_v3,
-    validate_coverage_spec,
     validate_memory_failure_blueprint,
     validate_pre_annotation_validation_report,
 )
@@ -16,13 +15,11 @@ def build_pre_annotation_validation_report(
     *,
     case_spec: dict[str, Any],
     memory_failure_blueprint: dict[str, Any],
-    coverage_spec: dict[str, Any],
     conversation_plan: dict[str, Any],
     collected_messages: list[dict[str, Any]],
 ) -> dict[str, Any]:
     spec = validate_case_spec(case_spec)
     blueprint = validate_memory_failure_blueprint(memory_failure_blueprint)
-    coverage = validate_coverage_spec(coverage_spec)
     plan = validate_conversation_plan_v3(conversation_plan)
     messages = validate_collected_messages_v3(collected_messages)
     del plan
@@ -70,7 +67,7 @@ def build_pre_annotation_validation_report(
                 "notes": notes,
             }
         )
-    missing_failure_modes = [mode for mode in coverage["required_failure_modes"] if mode not in observed_failure_modes]
+    missing_failure_modes = [mode for mode in blueprint["selected_failure_modes"] if mode not in observed_failure_modes]
     report = {
         "case_id": spec["case_id"],
         "status": "pass" if not missing_failure_modes and all(item["landed"] for item in trap_reports) else "fail",

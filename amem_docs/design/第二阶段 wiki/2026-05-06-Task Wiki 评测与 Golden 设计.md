@@ -595,23 +595,210 @@ annotation 只能引用 collected_messages 中的 evidence_message_id 和 eviden
 不能引用 conversation_plan / natural_messages draft 中的文本生成 gold。
 ```
 
+### 4.7 `case_spec`、`memory_failure_blueprint` 与 `input/` 关联
+
+V3 里必须把控制面写清楚：
+
+```text
+case_spec 只定义 benchmark control；
+memory_failure_blueprint 定义 baseline failure trap；
+后续 input 负责把 trap 逐层落到世界、角色、状态和对话。
+```
+
+正式关联关系固定为：
+
+```text
+case_spec
+-> memory_failure_blueprint
+-> task_actor_layout
+-> case_world
+-> characters
+-> state_trajectory
+-> conversation_plan
+-> command_plan
+```
+
+每层只负责一件事：
+
+1. `case_spec`
+   - 只保留 `case_id / task_id / difficulty / seed / comparison_target / selected_failure_modes / primary_failure_mode`
+   - 不保留 `title_hint / main_goal_hint / scenario_profile / department_hints`
+2. `memory_failure_blueprint`
+   - 定义 trap、probe query、landing requirement、typed payload
+   - 不定义自然语言故事
+3. `task_actor_layout`
+   - 定义 target task、distractor tasks、shared actors、pollution dimensions
+4. `case_world`
+   - 解释这些 trap 为什么会自然发生在企业协作里
+5. `characters`
+   - 把角色槽位实例化成具体人
+6. `state_trajectory`
+   - 定义 current-state / stale-state / supersession 的状态演进
+7. `conversation_plan`
+   - 把 trap 落到 session / turn / benchmark_role
+8. `command_plan`
+   - 把对话 turn 落到可执行动作
+
+这里也要明确删掉两层旧理解：
+
+1. `coverage_spec` 不再是主控制面
+2. `story_beats` 不再是正式 input 必经层
+
+### 4.8 四类 `typed_payload` 到底如何破坏 `Memory.md`
+
+V3 不能只说“有四类 failure mode”，必须明确：
+
+```text
+不是复杂故事会打败 Memory.md；
+而是单用户视角、静态摘要、无证据验证、不会自动 current-state 更新，
+在下面四类结构化 trap 上会稳定失效。
+```
+
+#### `personal_memory_pollution_payload`
+
+这类 case 要制造的是：
+
+```text
+同一 actor 同时参与 target task 和 distractor task，
+让个人视角记忆把“和这个人相关的事”误写成“和这个任务相关的事”。
+```
+
+构造方式：
+
+1. target task 和至少两个 distractor task 共用 actor
+2. 共享 actor 在不同 source 里讨论不同 task 的状态、owner、风险或时间点
+3. probe query 明确只问 target task，但上下文故意提供大量“同人不同任务”的信息
+
+typed payload 的核心字段含义：
+
+1. `target_task_id`
+   - 真正要回答的任务
+2. `distractor_tasks`
+   - 用来制造污染的相邻任务
+3. `shared_actors`
+   - 触发个人记忆串味的人员重叠
+4. `pollution_dimensions`
+   - owner / blocker / eta / reviewer 等容易串槽位的维度
+
+为什么足以破坏 `Memory.md`：
+
+1. `Memory.md` 天然按人和长期摘要聚合
+2. 它不擅长维持 task-scoped isolation
+3. 所以会把“Bob 还在另一个任务上负责上线窗口”错误带到 target task 上
+
+#### `unverifiable_summary_claim_payload`
+
+这类 case 要制造的是：
+
+```text
+模糊说法、传话、弱承诺和明确事实混在一起，
+诱发 Memory.md 把未经验证的说法写成稳定结论。
+```
+
+构造方式：
+
+1. 同一 topic 下同时放入 verified fact、ambiguous claim、hearsay、ordinary ack
+2. 至少一个 probe query 强制追问“是谁明确说的”“有没有原始证据”
+3. 让 query 不只是问结论，还问证据可回溯性
+
+typed payload 的核心字段含义：
+
+1. `target_claim`
+   - baseline 最容易直接写进摘要的结论
+2. `evidence_distribution`
+   - verified / ambiguous / hearsay / weak_commitment / no_event 的证据配比
+3. `required_probe_queries`
+   - 必须把“谁明确说过”问出来
+
+为什么足以破坏 `Memory.md`：
+
+1. `Memory.md` 倾向把对话压成自然语言总结
+2. 总结文本如果不绑定原始证据，就会把猜测和确认混写
+3. 一旦后续再引用这段摘要，就会把 unsupported claim 当作事实滚雪球
+
+#### `static_memory_stale_state_payload`
+
+这类 case 要制造的是：
+
+```text
+旧状态真实存在，但已经被后续 turn 修正；
+Memory.md 会保留历史事实，却难以稳定回答“现在到底是什么”。
+```
+
+构造方式：
+
+1. 同一 slot 至少经历两次以上 supersession
+2. 明确制造 stale states 和 final current state
+3. 至少一个 query 直接问 current state，并要求区分历史状态
+
+typed payload 的核心字段含义：
+
+1. `state_tracks`
+   - 哪些 slot 会发生 revision
+2. `stale_states`
+   - 仍然真实、但不再 current 的历史值
+3. `final_current_state`
+   - 最终应该回答的 current value
+4. `supersession_edges`
+   - 哪条更新覆盖了哪条旧状态
+
+为什么足以破坏 `Memory.md`：
+
+1. `Memory.md` 擅长保留“出现过什么”
+2. 不擅长显式维护“当前态覆盖了历史态”
+3. 所以很容易把 Bob、Alice、xzy 全都记住，却回答不稳“当前 owner 是谁”
+
+#### `dependency_propagation_failure_payload`
+
+这类 case 要制造的是：
+
+```text
+一个子任务或依赖项状态变化后，
+上层任务的 current state 也应该同步变化；
+Memory.md 往往只记局部变化，不会沿依赖链传播。
+```
+
+构造方式：
+
+1. 先定义 parent task 与 dependency task
+2. 在 dependency 上制造 blocker 消失、owner 变更、时间点重排等变化
+3. probe query 直接追问“这对上层任务当前判断有什么影响”
+
+typed payload 的核心字段含义：
+
+1. `dependency_path`
+   - 哪些 task / topic 构成依赖链
+2. `impact_fields`
+   - 变化会影响哪些上层结论
+3. `propagation_expectation`
+   - Task Wiki 应把哪条下游变化映射到哪条上游 current state
+
+为什么足以破坏 `Memory.md`：
+
+1. `Memory.md` 更像平铺的个人摘要
+2. 它不会稳定维护“依赖变化 -> 上层判断更新”的结构化传播
+3. 因此常见现象是子任务状态已经更新，但主任务回答仍然 stale
+
 ## 5. Builder、Observed Data 与 Conversation Plan
 
 ### 5.1 Builder 生成什么
 
 builder 生成：
 
-1. `input/case_world.json`
-2. `input/state_trajectory.json`
-3. `input/coverage_spec.json`
-4. `input/conversation_plan.json`
-5. `input/command_plan.jsonl`
-6. `gold/event_annotations.jsonl`
-7. `gold/block_annotations.json`
-8. `gold/query_benchmark.json`
-9. `checks/complexity_gate.json`
-10. `checks/integrity_gate.json`
-11. `checks/eval_manifest.json`
+1. `input/memory_failure_blueprint.json`
+2. `input/task_actor_layout.json`
+3. `input/case_world.json`
+4. `input/characters.json`
+5. `input/actor_registry.json`
+6. `input/state_trajectory.json`
+7. `input/conversation_plan.json`
+8. `input/command_plan.jsonl`
+9. `gold/event_annotations.jsonl`
+10. `gold/block_annotations.json`
+11. `gold/query_benchmark.json`
+12. `checks/complexity_gate.json`
+13. `checks/integrity_gate.json`
+14. `checks/eval_manifest.json`
 
 ### 5.2 `collected_messages` 不是 builder 的答案文件
 
@@ -1084,17 +1271,16 @@ V3 还必须回答：
 
 ### 10.2 比较指标
 
-`reports/value_eval.json` 至少包含：
+`reports/value_eval.json` 第一版固定包含离线可计算指标：
 
-1. `task_success_rate`
-2. `time_to_answer`
-3. `follow_up_turns`
-4. `manual_correction_rate`
-5. `duplicate_question_reduction`
-6. `decision_consistency_rate`
-7. `citation_success_rate`
-8. `stale_answer_rate`
-9. `user_satisfaction_score`
+1. `task_specific_answer_accuracy`
+2. `irrelevant_memory_pollution_rate`
+3. `evidence_citation_success_rate`
+4. `stale_memory_answer_rate`
+5. `current_state_answer_accuracy`
+6. `dependency_impact_recall`
+7. `memory_claim_traceability_rate`
+8. `memory_scope_purity`
 
 ### 10.3 输出方式
 
@@ -1203,9 +1389,12 @@ execute
 
 ```text
 input/
+  memory_failure_blueprint.json
+  task_actor_layout.json
   case_world.json
+  characters.json
+  actor_registry.json
   state_trajectory.json
-  coverage_spec.json
   conversation_plan.json
   command_plan.jsonl
 
@@ -1253,16 +1442,14 @@ debug/
 ### 12.2 V3 的唯一正式流程
 
 ```text
-failure-mode-selection
--> failure-case-pattern
--> case-world
--> state-trajectory
--> distractor-layout
--> story-beats
--> source-session-plan
--> trap-turn-plan
--> conversation-plan
--> command-plan
+spec-generation
+-> memory_failure_blueprint
+-> task_actor_layout
+-> case_world
+-> characters
+-> state_trajectory
+-> conversation_plan
+-> command_plan
 -> execute
 -> collect
 -> pre-annotation-validate

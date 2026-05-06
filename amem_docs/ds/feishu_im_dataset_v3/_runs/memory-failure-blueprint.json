@@ -1,0 +1,226 @@
+{
+  "case_dir": "amem_docs/ds/feishu_im_dataset_v3/cases/case_feishu_001_v3",
+  "llm_mode": "llm",
+  "memory_failure_blueprint": {
+    "case_id": "case_feishu_001_v3",
+    "task_id": "FEISHU-1",
+    "comparison_target": "openclaw_memory_md",
+    "selected_failure_modes": [
+      "static_memory_stale_state",
+      "personal_memory_pollution",
+      "unverifiable_summary_claim",
+      "dependency_propagation_failure"
+    ],
+    "primary_failure_mode": "static_memory_stale_state",
+    "traps": [
+      {
+        "trap_id": "trap_feishu_1_stale_001",
+        "failure_mode": "static_memory_stale_state",
+        "target_task_id": "FEISHU-1",
+        "trap_mechanism": "负责人与发布日期连续修正，旧状态仍是真实历史，但不应当作当前状态。",
+        "common": {
+          "distractor_tasks": [
+            "FEISHU-188"
+          ],
+          "shared_actors": [
+            "engineering_owner_1",
+            "ops_owner_1",
+            "product_owner_1"
+          ],
+          "probe_queries": [
+            "FEISHU-1 当前负责人是谁？Bob 和 Alice 现在还负责吗？"
+          ],
+          "metric_targets": [
+            "stale_memory_answer_rate",
+            "current_state_answer_accuracy"
+          ],
+          "landing_requirements": {
+            "required_benchmark_roles": [
+              "stale_state_turn",
+              "supersession_turn",
+              "final_current_state_turn",
+              "current_state_disambiguation_turn"
+            ],
+            "required_state_fields": [
+              "owner",
+              "release_window"
+            ],
+            "required_evidence_messages_min": 4,
+            "required_probe_queries_min": 1
+          }
+        },
+        "typed_payload": {
+          "payload_type": "static_memory_stale_state_payload",
+          "required_state_track": {
+            "field": "owner",
+            "states": [
+              "Bob",
+              "Alice",
+              "xzy"
+            ],
+            "final_current_state": "xzy",
+            "stale_states": [
+              "Bob",
+              "Alice"
+            ]
+          }
+        },
+        "expected_openclaw_failure": "Memory.md 可能同时保留多个历史 owner，但无法稳定区分谁是当前 owner。",
+        "expected_task_wiki_success": "Task Wiki 应回答当前 owner 是最终状态，并把旧 owner 标记为历史状态，引用交接证据。"
+      },
+      {
+        "trap_id": "trap_feishu_1_pollution_001",
+        "failure_mode": "personal_memory_pollution",
+        "target_task_id": "FEISHU-1",
+        "trap_mechanism": "同一负责人同时参与目标任务和两个相似项目，容易把其他任务的 blocker 和 owner 污染到当前任务记忆中。",
+        "common": {
+          "distractor_tasks": [
+            "FEISHU-291",
+            "FEISHU-377"
+          ],
+          "shared_actors": [
+            "product_owner_1",
+            "engineering_owner_1"
+          ],
+          "probe_queries": [
+            "FEISHU-1 当前真正的 owner 和 blocker 是谁？哪些信息只是其他任务的干扰？"
+          ],
+          "metric_targets": [
+            "irrelevant_memory_pollution_rate",
+            "memory_scope_purity"
+          ],
+          "landing_requirements": {
+            "required_benchmark_roles": [
+              "target_fact_turn",
+              "shared_actor_turn",
+              "distractor_task_turn",
+              "memory_pollution_turn"
+            ],
+            "required_state_fields": [
+              "owner",
+              "blocker"
+            ],
+            "required_evidence_messages_min": 4,
+            "required_probe_queries_min": 1
+          }
+        },
+        "typed_payload": {
+          "payload_type": "personal_memory_pollution_payload",
+          "target_task_summary": "目标任务需要区分当前 owner、真实 blocker 和其他任务的相似描述。",
+          "overlapping_slots": [
+            "owner",
+            "blocker",
+            "next_step"
+          ],
+          "pollution_dimensions": [
+            "shared_actor",
+            "similar_status_wording",
+            "cross_task_reference"
+          ],
+          "distractor_task_ids": [
+            "FEISHU-291",
+            "FEISHU-377"
+          ]
+        },
+        "expected_openclaw_failure": "Memory.md 可能把共享人员在其他任务里的状态误写进目标任务摘要，导致 scope 被污染。",
+        "expected_task_wiki_success": "Task Wiki 应按 task 隔离事件，并能回答哪些 owner/blocker 属于当前任务、哪些只是干扰上下文。"
+      },
+      {
+        "trap_id": "trap_feishu_1_claim_001",
+        "failure_mode": "unverifiable_summary_claim",
+        "target_task_id": "FEISHU-1",
+        "trap_mechanism": "把模糊说法、传闻和普通应答夹在一起，诱发无证据总结。",
+        "common": {
+          "distractor_tasks": [
+            "FEISHU-412"
+          ],
+          "shared_actors": [
+            "finance_partner_1",
+            "product_owner_1"
+          ],
+          "probe_queries": [
+            "现在说 FEISHU-1 受财务问题阻塞，这是谁明确说的？证据在哪？"
+          ],
+          "metric_targets": [
+            "unsupported_claim_rate",
+            "evidence_citation_success_rate"
+          ],
+          "landing_requirements": {
+            "required_benchmark_roles": [
+              "evidence_anchor_turn",
+              "ambiguous_claim_turn",
+              "hearsay_turn",
+              "ordinary_ack_turn"
+            ],
+            "required_state_fields": [
+              "blocker"
+            ],
+            "required_evidence_messages_min": 4,
+            "required_probe_queries_min": 1
+          }
+        },
+        "typed_payload": {
+          "payload_type": "unverifiable_summary_claim_payload",
+          "target_claim": "FEISHU-1 当前受财务问题阻塞",
+          "evidence_distribution": {
+            "verified_fact_turns": 2,
+            "ambiguous_turns": 2,
+            "hearsay_turns": 1,
+            "weak_commitment_turns": 1,
+            "no_event_turns": 2
+          }
+        },
+        "expected_openclaw_failure": "Memory.md 可能把猜测或传闻写成确定事实，而且无法追溯到原始证据。",
+        "expected_task_wiki_success": "Task Wiki 应区分 verified、needs_review 和 no-event，不把模糊说法升级成确定结论。"
+      },
+      {
+        "trap_id": "trap_feishu_1_dependency_001",
+        "failure_mode": "dependency_propagation_failure",
+        "target_task_id": "FEISHU-1",
+        "trap_mechanism": "上游依赖变化导致目标任务当前状态反转，但静态总结未传播更新。",
+        "common": {
+          "distractor_tasks": [
+            "FEISHU-188"
+          ],
+          "shared_actors": [
+            "security_reviewer_1",
+            "operations_owner_1"
+          ],
+          "probe_queries": [
+            "FEISHU-1 为什么又不能锁发布日期了？这和上游依赖变化有什么关系？"
+          ],
+          "metric_targets": [
+            "dependency_impact_recall",
+            "current_state_answer_accuracy"
+          ],
+          "landing_requirements": {
+            "required_benchmark_roles": [
+              "dependency_link_turn",
+              "dependency_update_turn",
+              "current_state_disambiguation_turn"
+            ],
+            "required_state_fields": [
+              "dependency_status",
+              "launch_readiness"
+            ],
+            "required_evidence_messages_min": 3,
+            "required_probe_queries_min": 1
+          }
+        },
+        "typed_payload": {
+          "payload_type": "dependency_propagation_failure_payload",
+          "upstream_task_id": "FEISHU-188",
+          "dependency_chain": [
+            "budget approval",
+            "security signoff",
+            "release window"
+          ],
+          "impacted_field": "launch_readiness",
+          "expected_missed_update": "如果记忆没有传播依赖更新，就会错误地把任务仍视为 ready。"
+        },
+        "expected_openclaw_failure": "Memory.md 可能记录了旧 readiness，却没有把上游变化重新投影到目标任务当前状态。",
+        "expected_task_wiki_success": "Task Wiki 应把上游依赖变化转写成目标任务 current state 变化，并能解释因果链。"
+      }
+    ]
+  }
+}

@@ -2,6 +2,9 @@ from __future__ import annotations
 
 from typing import Any
 
+from .llm_client import live_llm_required
+from .logging_utils import builder_log
+from .prompt_registry import build_character_prompts
 from .schemas import validate_case_world_v3, validate_characters, validate_task_actor_layout
 
 
@@ -35,13 +38,45 @@ def generate_characters(task_actor_layout: dict[str, Any], case_world: dict[str,
             }
         )
     return validate_characters({"case_id": layout["case_id"], "characters": characters})
-
-
 def generate_characters_with_mode(
     task_actor_layout: dict[str, Any],
     case_world: dict[str, Any],
     *,
     llm_client: Any | None = None,
 ) -> tuple[dict[str, Any], str]:
-    del llm_client
-    return generate_characters(task_actor_layout, case_world), "fallback"
+    layout = validate_task_actor_layout(task_actor_layout)
+    world = validate_case_world_v3(case_world)
+    scaffold = generate_characters(layout, world)
+    if llm_client is None and live_llm_required():
+        raise RuntimeError("characters requires live LLM but no active llm_client is available")
+    if llm_client is not None:
+        system_prompt, user_prompt = build_character_prompts(layout, world, scaffold)
+        try:
+            payload = llm_client.generate_json(system_prompt=system_prompt, user_prompt=user_prompt)
+            characters = list(payload.get("characters") or [])
+            if len(characters) != len(scaffold["characters"]):
+                raise ValueError("character count does not match scaffold")
+            merged_rows = []
+            scaffold_map = {item["person_id"]: item for item in scaffold["characters"]}
+            for item in characters:
+                person_id = str(item.get("person_id") or "").strip()
+                if person_id not in scaffold_map:
+                    raise ValueError(f"unknown person_id from llm: {person_id}")
+                scaffold_row = scaffold_map[person_id]
+                merged = dict(scaffold_row)
+                merged.update(item)
+                merged["simulated_open_id"] = scaffold_row["simulated_open_id"]
+                merged["actor_slot_id"] = scaffold_row["actor_slot_id"]
+                merged["department"] = scaffold_row["department"]
+                merged["role"] = scaffold_row["role"]
+                merged["task_ids"] = scaffold_row["task_ids"]
+                merged["default_channels"] = scaffold_row["default_channels"]
+                merged_rows.append(merged)
+            result = validate_characters({"case_id": scaffold["case_id"], "characters": merged_rows})
+            builder_log("characters", f"使用 live LLM 生成人物 case_id={world['case_id']}")
+            return result, "llm"
+        except Exception as exc:
+            if live_llm_required():
+                raise RuntimeError(f"characters requires live LLM but failed: {exc}") from exc
+            builder_log("characters", f"live LLM characters 生成失败，回退 fallback。reason={exc}")
+    return scaffold, "fallback"

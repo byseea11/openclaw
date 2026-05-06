@@ -2,12 +2,15 @@ from __future__ import annotations
 
 from typing import Any
 
+from .llm_client import live_llm_required
+from .logging_utils import builder_log
+from .prompt_registry import build_conversation_plan_prompts
 from .schemas import (
     validate_case_world_v3,
     validate_characters,
     validate_conversation_plan_v3,
     validate_memory_failure_blueprint,
-    validate_story_beats,
+    validate_state_trajectory,
 )
 
 
@@ -114,26 +117,61 @@ def _state_field_hints(trap: dict[str, Any]) -> list[str]:
     return fields
 
 
+def _beats_from_trap_and_trajectory(
+    trap: dict[str, Any],
+    trap_transitions: list[dict[str, Any]],
+) -> list[dict[str, Any]]:
+    beats = []
+    roles = list(trap["common"]["landing_requirements"]["required_benchmark_roles"])
+    final_transition = next((item for item in trap_transitions if item["is_final_current_state"]), None)
+    for role_index, role in enumerate(roles, start=1):
+        beat_type = "trap_beat"
+        if "supersession" in role or "current_state" in role:
+            beat_type = "revision_beat"
+        elif "distractor" in role or "pollution" in role:
+            beat_type = "distractor_beat"
+        transition_hint = ""
+        if role == "stale_state_turn" and trap_transitions:
+            transition_hint = trap_transitions[0]["evidence_requirement"]
+        elif role == "supersession_turn" and len(trap_transitions) > 1:
+            transition_hint = trap_transitions[1]["evidence_requirement"]
+        elif role in {"final_current_state_turn", "current_state_disambiguation_turn"} and final_transition:
+            transition_hint = final_transition["evidence_requirement"]
+        beats.append(
+            {
+                "benchmark_role": role,
+                "beat_type": beat_type,
+                "description": f"围绕 {trap['trap_mechanism']} 安排一个 {role}。{transition_hint}".strip(),
+                "role_index": role_index,
+            }
+        )
+    return beats
+
+
 def generate_conversation_plan(
     case_world: dict[str, Any],
     characters: dict[str, Any],
     memory_failure_blueprint: dict[str, Any],
-    story_beats: dict[str, Any],
+    state_trajectory: dict[str, Any],
 ) -> dict[str, Any]:
     world = validate_case_world_v3(case_world)
     roster = validate_characters(characters)
     blueprint = validate_memory_failure_blueprint(memory_failure_blueprint)
-    beats = validate_story_beats(story_beats)
+    trajectory = validate_state_trajectory(state_trajectory)
     roster_map = _character_map(roster)
     sessions = [dict(item) for item in world["source_sessions"]]
     available_session_ids = [item["session_id"] for item in sessions]
     turns = []
     sequence_no = 1
-    beats_by_trap: dict[str, list[dict[str, Any]]] = {}
-    for beat in beats["beats"]:
-        beats_by_trap.setdefault(beat["trap_id"], []).append(beat)
+    transitions_by_trap: dict[str, list[dict[str, Any]]] = {}
+    for transition in trajectory["transitions"]:
+        transitions_by_trap.setdefault(transition["trap_id"], []).append(transition)
     for trap in blueprint["traps"]:
-        for beat in beats_by_trap.get(trap["trap_id"], []):
+        trap_beats = _beats_from_trap_and_trajectory(
+            trap,
+            transitions_by_trap.get(trap["trap_id"], []),
+        )
+        for beat in trap_beats:
             session_id = _pick_session_id(beat["benchmark_role"], available_session_ids)
             speaker_ref = _choose_speaker(trap, beat["benchmark_role"], roster_map)
             turns.append(
@@ -179,15 +217,41 @@ def generate_conversation_plan(
         },
         allowed_actor_refs={item["person_id"] for item in roster["characters"]},
     )
-
-
 def generate_conversation_plan_with_mode(
     case_world: dict[str, Any],
     characters: dict[str, Any],
     memory_failure_blueprint: dict[str, Any],
-    story_beats: dict[str, Any],
+    state_trajectory: dict[str, Any],
     *,
     llm_client: Any | None = None,
 ) -> tuple[dict[str, Any], str]:
-    del llm_client
-    return generate_conversation_plan(case_world, characters, memory_failure_blueprint, story_beats), "fallback"
+    world = validate_case_world_v3(case_world)
+    roster = validate_characters(characters)
+    blueprint = validate_memory_failure_blueprint(memory_failure_blueprint)
+    trajectory = validate_state_trajectory(state_trajectory)
+    scaffold = generate_conversation_plan(world, roster, blueprint, trajectory)
+    if llm_client is None and live_llm_required():
+        raise RuntimeError("conversation-plan requires live LLM but no active llm_client is available")
+    if llm_client is not None:
+        system_prompt, user_prompt = build_conversation_plan_prompts(world, roster, blueprint, trajectory, scaffold)
+        try:
+            payload = llm_client.generate_json(system_prompt=system_prompt, user_prompt=user_prompt)
+            merged = {
+                "case_id": scaffold["case_id"],
+                "task_id": scaffold["task_id"],
+                "sessions": payload.get("sessions") or scaffold["sessions"],
+                "turns": payload.get("turns") or scaffold["turns"],
+            }
+            result = validate_conversation_plan_v3(
+                merged,
+                allowed_actor_refs={item["person_id"] for item in roster["characters"]},
+            )
+            if len(result["turns"]) < len(scaffold["turns"]):
+                raise ValueError("llm returned fewer turns than scaffold")
+            builder_log("conversation-plan", f"使用 live LLM 生成 conversation_plan case_id={world['case_id']}")
+            return result, "llm"
+        except Exception as exc:
+            if live_llm_required():
+                raise RuntimeError(f"conversation-plan requires live LLM but failed: {exc}") from exc
+            builder_log("conversation-plan", f"live LLM conversation_plan 生成失败，回退 fallback。reason={exc}")
+    return scaffold, "fallback"

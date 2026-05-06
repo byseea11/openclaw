@@ -3,122 +3,10 @@ from __future__ import annotations
 from typing import Any
 
 from .builder_settings import load_builder_settings
+from .llm_client import live_llm_required
 from .logging_utils import builder_log
+from .prompt_registry import build_memory_failure_blueprint_prompts
 from .schemas import validate_case_spec, validate_memory_failure_blueprint
-
-
-def build_personal_memory_pollution_blueprint_prompt(case_spec: dict[str, Any]) -> str:
-    return f"""
-你要生成 personal_memory_pollution 的 Memory.md fail blueprint。
-目标任务: {case_spec["task_id"]}
-要求:
-1. 必须有 target task + distractor tasks + shared actors。
-2. 必须制造同一人跨多个任务出现，诱发人员维度污染。
-3. probe query 必须逼问当前任务的 owner / blocker / next step，而不是泛泛总结。
-禁止:
-1. 不要把 distractor task 写成完全无关的噪声。
-2. 不要省略 landing_requirements。
-示例:
-{{
-  "trap_id": "trap_owner_pollution_001",
-  "failure_mode": "personal_memory_pollution",
-  "trap_mechanism": "同一负责人同时参与目标任务和两个相似项目，Memory.md 可能把别的项目 blocker 混入当前任务。",
-  "typed_payload": {{
-    "target_task_summary": "目标任务需要确认当前 owner 和真实 blocker。",
-    "overlapping_slots": ["owner", "blocker", "next_step"],
-    "pollution_dimensions": ["shared_actor", "similar_status_wording"],
-    "distractor_task_ids": ["FEISHU-291", "FEISHU-377"]
-  }}
-}}
-""".strip()
-
-
-def build_unverifiable_summary_claim_blueprint_prompt(case_spec: dict[str, Any]) -> str:
-    return f"""
-你要生成 unverifiable_summary_claim 的 Memory.md fail blueprint。
-目标任务: {case_spec["task_id"]}
-要求:
-1. 必须同时包含 verified fact、ambiguous claim、hearsay、no-event。
-2. target_claim 必须是一个容易被误写成确定事实的说法。
-3. probe query 必须追问“谁明确说过”“证据在哪”。
-示例:
-{{
-  "trap_id": "trap_finance_claim_001",
-  "failure_mode": "unverifiable_summary_claim",
-  "trap_mechanism": "把模糊说法和明确事实混在一起，诱发无证据总结。",
-  "typed_payload": {{
-    "target_claim": "FEISHU-231 当前受财务问题阻塞",
-    "evidence_distribution": {{
-      "verified_fact_turns": 2,
-      "ambiguous_turns": 2,
-      "hearsay_turns": 1,
-      "weak_commitment_turns": 1,
-      "no_event_turns": 2
-    }}
-  }}
-}}
-""".strip()
-
-
-def build_static_memory_stale_state_blueprint_prompt(case_spec: dict[str, Any]) -> str:
-    return f"""
-你要生成 static_memory_stale_state 的 Memory.md fail blueprint。
-目标任务: {case_spec["task_id"]}
-要求:
-1. 必须让同一个 state field 连续变化至少 3 次。
-2. final_current_state 必须和 stale_states 清晰区分。
-3. probe query 要问“当前是谁/当前状态是什么”，并追问旧状态是否仍然有效。
-示例:
-{{
-  "trap_id": "trap_owner_handoff_001",
-  "failure_mode": "static_memory_stale_state",
-  "trap_mechanism": "负责人连续变化，旧负责人仍是真实历史但不应作为当前负责人。",
-  "typed_payload": {{
-    "required_state_track": {{
-      "field": "owner",
-      "states": ["Bob", "Alice", "xzy"],
-      "final_current_state": "xzy",
-      "stale_states": ["Bob", "Alice"]
-    }}
-  }}
-}}
-""".strip()
-
-
-def build_dependency_propagation_failure_blueprint_prompt(case_spec: dict[str, Any]) -> str:
-    return f"""
-你要生成 dependency_propagation_failure 的 Memory.md fail blueprint。
-目标任务: {case_spec["task_id"]}
-要求:
-1. 必须有 upstream dependency -> target task impact -> current-state correction。
-2. query 必须要求回答依赖变化如何影响当前任务。
-示例:
-{{
-  "trap_id": "trap_dependency_shift_001",
-  "failure_mode": "dependency_propagation_failure",
-  "trap_mechanism": "上游审批条件变化后，目标任务状态已变，但静态总结未传播更新。",
-  "typed_payload": {{
-    "upstream_task_id": "FEISHU-188",
-    "dependency_chain": ["budget approval", "security signoff", "release window"],
-    "impacted_field": "launch_readiness",
-    "expected_missed_update": "仍把目标任务写成 ready，而没有反映上游卡点回流。"
-  }}
-}}
-""".strip()
-
-
-def build_memory_failure_blueprint_prompt(case_spec: dict[str, Any]) -> str:
-    prompts = []
-    for failure_mode in case_spec["selected_failure_modes"]:
-        if failure_mode == "personal_memory_pollution":
-            prompts.append(build_personal_memory_pollution_blueprint_prompt(case_spec))
-        elif failure_mode == "unverifiable_summary_claim":
-            prompts.append(build_unverifiable_summary_claim_blueprint_prompt(case_spec))
-        elif failure_mode == "static_memory_stale_state":
-            prompts.append(build_static_memory_stale_state_blueprint_prompt(case_spec))
-        elif failure_mode == "dependency_propagation_failure":
-            prompts.append(build_dependency_propagation_failure_blueprint_prompt(case_spec))
-    return "\n\n".join(prompts)
 
 
 def _personal_memory_pollution_trap(case_spec: dict[str, Any]) -> dict[str, Any]:
@@ -287,9 +175,19 @@ def _fallback_trap(case_spec: dict[str, Any], failure_mode: str) -> dict[str, An
 
 
 def request_blueprint_json(case_spec: dict[str, Any], *, llm_client: Any | None = None) -> dict[str, Any]:
-    del llm_client
-    prompt = build_memory_failure_blueprint_prompt(case_spec)
-    builder_log("memory-failure-blueprint", f"使用 fallback blueprint 生成。prompt_size={len(prompt)}")
+    system_prompt, user_prompt = build_memory_failure_blueprint_prompts(case_spec)
+    if llm_client is None and live_llm_required():
+        raise RuntimeError("memory-failure-blueprint requires live LLM but no active llm_client is available")
+    if llm_client is not None:
+        try:
+            payload = llm_client.generate_json(system_prompt=system_prompt, user_prompt=user_prompt)
+            builder_log("memory-failure-blueprint", f"使用 live LLM blueprint 生成。prompt_size={len(user_prompt)}")
+            return payload
+        except Exception as exc:
+            if live_llm_required():
+                raise RuntimeError(f"memory-failure-blueprint requires live LLM but failed: {exc}") from exc
+            builder_log("memory-failure-blueprint", f"live LLM blueprint 生成失败，回退 fallback。reason={exc}")
+    builder_log("memory-failure-blueprint", f"使用 fallback blueprint 生成。prompt_size={len(user_prompt)}")
     return {
         "case_id": case_spec["case_id"],
         "task_id": case_spec["task_id"],
@@ -332,7 +230,7 @@ def generate_memory_failure_blueprint_with_mode(
     validated_spec = validate_case_spec(case_spec)
     blueprint = request_blueprint_json(validated_spec, llm_client=llm_client)
     audited = audit_and_repair_memory_failure_blueprint(blueprint, validated_spec)
-    return audited, "fallback"
+    return audited, "llm" if llm_client is not None and blueprint.get("traps") != [_fallback_trap(validated_spec, item) for item in validated_spec["selected_failure_modes"]] else "fallback"
 
 
 def generate_memory_failure_blueprint(case_spec: dict[str, Any], *, llm_client: Any | None = None) -> dict[str, Any]:

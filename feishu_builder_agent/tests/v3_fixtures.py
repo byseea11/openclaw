@@ -7,13 +7,6 @@ def sample_case_spec() -> dict[str, Any]:
     return {
         "case_id": "case_fixture_v3",
         "task_id": "FEISHU-231",
-        "title": "发布任务记忆基准",
-        "company_type": "企业软件公司",
-        "department_hints": ["产品", "研发", "运营"],
-        "scenario_profile": "enterprise_task_memory",
-        "title_hint": "发布窗口协同",
-        "main_goal_hint": "统一发布时间口径",
-        "main_goal": "统一发布时间口径并避免旧状态污染",
         "difficulty": "medium",
         "seed": 42,
         "comparison_target": "openclaw_memory_md",
@@ -23,7 +16,6 @@ def sample_case_spec() -> dict[str, Any]:
             "personal_memory_pollution",
         ],
         "primary_failure_mode": "static_memory_stale_state",
-        "user_hint": "覆盖 owner 修正、模糊 claim 和 distractor 任务污染",
     }
 
 

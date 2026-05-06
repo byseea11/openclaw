@@ -6,12 +6,10 @@ from typing import Any
 from .schemas import (
     validate_block_annotations,
     validate_case_spec,
-    validate_coverage_spec,
     validate_event_annotations,
     validate_memory_failure_blueprint,
     validate_query_benchmark,
     validate_state_trajectory,
-    validate_story_beats,
     validate_conversation_plan_v3,
     validate_collected_messages_v3,
 )
@@ -102,16 +100,12 @@ def generate_annotation_gold(
     case_spec: dict[str, Any],
     memory_failure_blueprint: dict[str, Any],
     state_trajectory: dict[str, Any],
-    coverage_spec: dict[str, Any],
-    story_beats: dict[str, Any],
     conversation_plan: dict[str, Any],
     collected_messages: list[dict[str, Any]],
 ) -> dict[str, Any]:
     case_spec = validate_case_spec(case_spec)
     blueprint = validate_memory_failure_blueprint(memory_failure_blueprint)
     trajectory = validate_state_trajectory(state_trajectory)
-    validate_coverage_spec(coverage_spec)
-    validate_story_beats(story_beats)
     validate_conversation_plan_v3(conversation_plan)
     messages = validate_collected_messages_v3(collected_messages)
 

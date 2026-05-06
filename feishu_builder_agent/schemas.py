@@ -156,28 +156,14 @@ def validate_case_spec(payload: dict[str, Any]) -> dict[str, Any]:
     if primary_failure_mode not in selected_failure_modes:
         raise ValidationError("case_spec.primary_failure_mode must belong to selected_failure_modes")
     comparison_target = _require_string(payload.get("comparison_target"), "case_spec.comparison_target")
-    departments = [
-        _require_chinese_string(item, "case_spec.department_hints[]")
-        for item in _require_list(payload.get("department_hints"), "case_spec.department_hints")
-    ]
-    if not departments:
-        raise ValidationError("case_spec.department_hints must not be empty")
     return {
         "case_id": case_id,
         "task_id": task_id,
-        "title": _optional_chinese_string(payload.get("title"), "case_spec.title"),
-        "company_type": _optional_chinese_string(payload.get("company_type"), "case_spec.company_type"),
-        "department_hints": departments,
-        "scenario_profile": _require_string(payload.get("scenario_profile"), "case_spec.scenario_profile"),
-        "title_hint": _optional_chinese_string(payload.get("title_hint"), "case_spec.title_hint"),
-        "main_goal_hint": _optional_chinese_string(payload.get("main_goal_hint"), "case_spec.main_goal_hint"),
-        "main_goal": _optional_chinese_string(payload.get("main_goal"), "case_spec.main_goal"),
         "difficulty": difficulty,
         "seed": _require_int(payload.get("seed"), "case_spec.seed", minimum=0),
         "comparison_target": comparison_target,
         "selected_failure_modes": selected_failure_modes,
         "primary_failure_mode": primary_failure_mode,
-        "user_hint": _optional_string(payload.get("user_hint")),
     }
 
 
@@ -1037,8 +1023,6 @@ _PHASE_NAMES = {
     "case-world",
     "characters",
     "state-trajectory",
-    "coverage-spec",
-    "story-beats",
     "conversation-plan",
     "command-plan",
     "execute",

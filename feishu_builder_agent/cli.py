@@ -1,6 +1,8 @@
 from __future__ import annotations
 
 import argparse
+import json
+import sys
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
@@ -17,7 +19,6 @@ from .collector import collect_fetch_records, utc_now_iso
 from .command_plan_generator import generate_command_plan_with_mode
 from .config import DATASET_ROOT
 from .conversation_plan_generator import generate_conversation_plan_with_mode
-from .coverage_spec_generator import generate_coverage_spec
 from .event_alignment import align_events
 from .event_evaluator import evaluate_events
 from .executor import execute_plan
@@ -38,7 +39,6 @@ from .report_builder import build_reports
 from .schemas import ValidationError, validate_case_manifest, validate_case_spec
 from .spec_generator import generate_case_spec_with_mode, normalize_seed
 from .state_trajectory_generator import generate_state_trajectory
-from .story_beats_generator import generate_story_beats
 from .task_actor_layout_generator import generate_task_actor_layout
 from .value_evaluator import evaluate_value
 
@@ -118,6 +118,8 @@ def generate_case_spec_stage(
     selected_failure_modes: list[str] | None = None,
     primary_failure_mode: str | None = None,
 ) -> dict[str, Any]:
+    scenario_profile = str(scenario_profile or "enterprise_task_memory")
+    user_hint = str(user_hint or "")
     normalized_seed = normalize_seed(seed)
     spec, llm_mode = generate_case_spec_with_mode(
         scenario_profile=scenario_profile,
@@ -196,37 +198,17 @@ def generate_state_trajectory_stage(*, case_dir_path: str | Path) -> dict[str, A
     return {"case_dir": str(case_path), "state_trajectory": trajectory}
 
 
-def generate_coverage_spec_stage(*, case_dir_path: str | Path) -> dict[str, Any]:
-    case_path = _require_case_dir(case_dir_path)
-    blueprint = _read_required_json(case_path, "input/memory_failure_blueprint.json", "coverage-spec")
-    trajectory = _read_required_json(case_path, "input/state_trajectory.json", "coverage-spec")
-    coverage_spec = generate_coverage_spec(blueprint, trajectory)
-    write_json(case_path / "input" / "coverage_spec.json", coverage_spec)
-    _touch_case_manifest(case_path, stage="coverage-spec")
-    return {"case_dir": str(case_path), "coverage_spec": coverage_spec}
-
-
-def generate_story_beats_stage(*, case_dir_path: str | Path) -> dict[str, Any]:
-    case_path = _require_case_dir(case_dir_path)
-    blueprint = _read_required_json(case_path, "input/memory_failure_blueprint.json", "story-beats")
-    case_world = _read_required_json(case_path, "input/case_world.json", "story-beats")
-    beats = generate_story_beats(blueprint, case_world)
-    write_json(case_path / "input" / "story_beats.json", beats)
-    _touch_case_manifest(case_path, stage="story-beats")
-    return {"case_dir": str(case_path), "story_beats": beats}
-
-
 def generate_conversation_plan_stage(*, case_dir_path: str | Path) -> dict[str, Any]:
     case_path = _require_case_dir(case_dir_path)
     case_world = _read_required_json(case_path, "input/case_world.json", "conversation-plan")
     characters = _read_required_json(case_path, "input/characters.json", "conversation-plan")
     blueprint = _read_required_json(case_path, "input/memory_failure_blueprint.json", "conversation-plan")
-    beats = _read_required_json(case_path, "input/story_beats.json", "conversation-plan")
+    trajectory = _read_required_json(case_path, "input/state_trajectory.json", "conversation-plan")
     plan, llm_mode = generate_conversation_plan_with_mode(
         case_world,
         characters,
         blueprint,
-        beats,
+        trajectory,
         llm_client=_active_llm_client(),
     )
     write_json(case_path / "input" / "conversation_plan.json", plan)
@@ -385,7 +367,6 @@ def pre_annotation_validate_stage(*, case_dir_path: str | Path) -> dict[str, Any
     report = build_pre_annotation_validation_report(
         case_spec=_read_required_json(case_path, "case_spec.json", "pre-annotation-validate"),
         memory_failure_blueprint=_read_required_json(case_path, "input/memory_failure_blueprint.json", "pre-annotation-validate"),
-        coverage_spec=_read_required_json(case_path, "input/coverage_spec.json", "pre-annotation-validate"),
         conversation_plan=_read_required_json(case_path, "input/conversation_plan.json", "pre-annotation-validate"),
         collected_messages=_read_required_jsonl(case_path, "data/collected_messages.jsonl", "pre-annotation-validate"),
     )
@@ -400,8 +381,6 @@ def annotation_gold_stage(*, case_dir_path: str | Path) -> dict[str, Any]:
         case_spec=_read_required_json(case_path, "case_spec.json", "annotation-gold"),
         memory_failure_blueprint=_read_required_json(case_path, "input/memory_failure_blueprint.json", "annotation-gold"),
         state_trajectory=_read_required_json(case_path, "input/state_trajectory.json", "annotation-gold"),
-        coverage_spec=_read_required_json(case_path, "input/coverage_spec.json", "annotation-gold"),
-        story_beats=_read_required_json(case_path, "input/story_beats.json", "annotation-gold"),
         conversation_plan=_read_required_json(case_path, "input/conversation_plan.json", "annotation-gold"),
         collected_messages=_read_required_jsonl(case_path, "data/collected_messages.jsonl", "annotation-gold"),
     )
@@ -416,7 +395,6 @@ def build_checks_stage(*, case_dir_path: str | Path) -> dict[str, Any]:
     case_path = _require_case_dir(case_dir_path)
     built = build_checks(
         case_spec=_read_required_json(case_path, "case_spec.json", "build-checks"),
-        coverage_spec=_read_required_json(case_path, "input/coverage_spec.json", "build-checks"),
         pre_annotation_validation_report=_read_required_json(
             case_path,
             "checks/pre_annotation_validation_report.json",
@@ -557,19 +535,30 @@ def compile_case_phase1(
     case_spec = _load_case_spec(case_spec_path)
     case_output_dir = case_dir(dataset_root, case_spec["case_id"])
     write_json(case_output_dir / "case_spec.json", case_spec)
-    generate_memory_failure_blueprint_stage(case_spec_path=case_output_dir / "case_spec.json", dataset_root=dataset_root)
+    blueprint = generate_memory_failure_blueprint_stage(case_spec_path=case_output_dir / "case_spec.json", dataset_root=dataset_root)
     generate_task_actor_layout_stage(case_dir_path=case_output_dir)
-    generate_case_world_stage(case_spec_path=case_output_dir / "case_spec.json", dataset_root=dataset_root)
-    generate_characters_stage(case_dir_path=case_output_dir)
+    case_world = generate_case_world_stage(case_spec_path=case_output_dir / "case_spec.json", dataset_root=dataset_root)
+    characters = generate_characters_stage(case_dir_path=case_output_dir)
     generate_state_trajectory_stage(case_dir_path=case_output_dir)
-    generate_coverage_spec_stage(case_dir_path=case_output_dir)
-    generate_story_beats_stage(case_dir_path=case_output_dir)
     conversation = generate_conversation_plan_stage(case_dir_path=case_output_dir)
     command = generate_command_plan_stage(case_dir_path=case_output_dir)
     execution_result = execute_case(case_dir_path=case_output_dir, dry_run=dry_run)
     collect = collect_case(case_dir_path=case_output_dir, dry_run=dry_run)
     validation = pre_annotation_validate_stage(case_dir_path=case_output_dir)
     manifest = _update_dataset_manifest(dataset_root)
+    generation_modes = {
+        "memory_failure_blueprint": blueprint["llm_mode"],
+        "case_world": case_world["llm_mode"],
+        "characters": characters["llm_mode"],
+        "conversation_plan": conversation["llm_mode"],
+        "command_plan": command["llm_mode"],
+    }
+    creative_modes = [
+        generation_modes["memory_failure_blueprint"],
+        generation_modes["case_world"],
+        generation_modes["characters"],
+        generation_modes["conversation_plan"],
+    ]
     return {
         "case_dir": str(case_output_dir),
         "dataset_manifest": manifest,
@@ -578,7 +567,8 @@ def compile_case_phase1(
         "execution_result": execution_result,
         "collected_messages": collect["collected_messages"],
         "pre_annotation_validation_report": validation["pre_annotation_validation_report"],
-        "llm_mode": "fallback",
+        "llm_mode": "llm" if all(mode == "llm" for mode in creative_modes) else "fallback",
+        "llm_generation_modes": generation_modes,
     }
 
 
@@ -624,10 +614,8 @@ def build_parser() -> argparse.ArgumentParser:
 
     spec = subparsers.add_parser("spec-generation")
     spec.add_argument("--dataset-root", default=DATASET_ROOT)
-    spec.add_argument("--scenario-profile", default="enterprise_task_memory")
     spec.add_argument("--difficulty", default=resolve_default_difficulty())
     spec.add_argument("--seed", type=int, default=None)
-    spec.add_argument("--user-hint", default="")
     spec.add_argument("--comparison-target", default=None)
     spec.add_argument("--selected-failure-mode", action="append", dest="selected_failure_modes")
     spec.add_argument("--primary-failure-mode", default=None)
@@ -637,8 +625,6 @@ def build_parser() -> argparse.ArgumentParser:
         "task-actor-layout",
         "characters",
         "state-trajectory",
-        "coverage-spec",
-        "story-beats",
         "conversation-plan",
         "command-plan",
         "execute",
@@ -675,71 +661,73 @@ def build_parser() -> argparse.ArgumentParser:
     return parser
 
 
-def main(argv: list[str] | None = None) -> None:
+def main(argv: list[str] | None = None) -> dict[str, Any]:
     parser = build_parser()
     args = parser.parse_args(argv)
     if args.command == "spec-generation":
-        generate_case_spec_stage(
+        result = generate_case_spec_stage(
             dataset_root=args.dataset_root,
-            scenario_profile=args.scenario_profile,
             difficulty=args.difficulty,
             seed=args.seed,
-            user_hint=args.user_hint,
             comparison_target=args.comparison_target,
             selected_failure_modes=args.selected_failure_modes,
             primary_failure_mode=args.primary_failure_mode,
         )
     elif args.command == "memory-failure-blueprint":
         case_dir_path = _require_case_dir(args.case_dir)
-        generate_memory_failure_blueprint_stage(case_spec_path=case_dir_path / "case_spec.json", dataset_root=case_dir_path.parent.parent)
+        result = generate_memory_failure_blueprint_stage(case_spec_path=case_dir_path / "case_spec.json", dataset_root=case_dir_path.parent.parent)
     elif args.command == "task-actor-layout":
-        generate_task_actor_layout_stage(case_dir_path=args.case_dir)
+        result = generate_task_actor_layout_stage(case_dir_path=args.case_dir)
     elif args.command == "case-world":
-        generate_case_world_stage(case_spec_path=args.case_spec_path, dataset_root=args.dataset_root)
+        result = generate_case_world_stage(case_spec_path=args.case_spec_path, dataset_root=args.dataset_root)
     elif args.command == "characters":
-        generate_characters_stage(case_dir_path=args.case_dir)
+        result = generate_characters_stage(case_dir_path=args.case_dir)
     elif args.command == "state-trajectory":
-        generate_state_trajectory_stage(case_dir_path=args.case_dir)
-    elif args.command == "coverage-spec":
-        generate_coverage_spec_stage(case_dir_path=args.case_dir)
-    elif args.command == "story-beats":
-        generate_story_beats_stage(case_dir_path=args.case_dir)
+        result = generate_state_trajectory_stage(case_dir_path=args.case_dir)
     elif args.command == "conversation-plan":
-        generate_conversation_plan_stage(case_dir_path=args.case_dir)
+        result = generate_conversation_plan_stage(case_dir_path=args.case_dir)
     elif args.command == "command-plan":
-        generate_command_plan_stage(case_dir_path=args.case_dir)
+        result = generate_command_plan_stage(case_dir_path=args.case_dir)
     elif args.command == "execute":
-        execute_case(case_dir_path=args.case_dir, dry_run=args.dry_run)
+        result = execute_case(case_dir_path=args.case_dir, dry_run=args.dry_run)
     elif args.command == "collect":
-        collect_case(case_dir_path=args.case_dir, dry_run=args.dry_run)
+        result = collect_case(case_dir_path=args.case_dir, dry_run=args.dry_run)
     elif args.command == "pre-annotation-validate":
-        pre_annotation_validate_stage(case_dir_path=args.case_dir)
+        result = pre_annotation_validate_stage(case_dir_path=args.case_dir)
     elif args.command == "annotation-gold":
-        annotation_gold_stage(case_dir_path=args.case_dir)
+        result = annotation_gold_stage(case_dir_path=args.case_dir)
     elif args.command == "build-checks":
-        build_checks_stage(case_dir_path=args.case_dir)
+        result = build_checks_stage(case_dir_path=args.case_dir)
     elif args.command == "gold-validate":
-        gold_validate_stage(case_dir_path=args.case_dir)
+        result = gold_validate_stage(case_dir_path=args.case_dir)
     elif args.command == "replay-runtime":
-        replay_runtime_stage(case_dir_path=args.case_dir)
+        result = replay_runtime_stage(case_dir_path=args.case_dir)
     elif args.command == "replay-eval":
-        replay_eval_stage(case_dir_path=args.case_dir)
+        result = replay_eval_stage(case_dir_path=args.case_dir)
     elif args.command == "memory-md-baseline":
-        memory_md_baseline_stage(case_dir_path=args.case_dir)
+        result = memory_md_baseline_stage(case_dir_path=args.case_dir)
     elif args.command == "value-eval":
-        value_eval_stage(case_dir_path=args.case_dir)
+        result = value_eval_stage(case_dir_path=args.case_dir)
     elif args.command == "report":
-        report_stage(case_dir_path=args.case_dir)
+        result = report_stage(case_dir_path=args.case_dir)
     elif args.command == "compile-case-phase1":
-        compile_case_phase1(
+        result = compile_case_phase1(
             case_spec_path=args.case_spec_path,
             dataset_root=args.dataset_root,
             dry_run=args.dry_run,
         )
     elif args.command == "compile-case-phase2":
-        compile_case_phase2(case_dir_path=args.case_dir)
+        result = compile_case_phase2(case_dir_path=args.case_dir)
     elif args.command == "compile-case-phase3":
-        compile_case_phase3(case_dir_path=args.case_dir)
+        result = compile_case_phase3(case_dir_path=args.case_dir)
+    else:
+        raise ValidationError(f"unsupported command: {args.command}")
+    return result
+
+
+if __name__ == "__main__":
+    json.dump(main(), sys.stdout, ensure_ascii=False, indent=2)
+    sys.stdout.write("\n")
 
 
 __all__ = [
@@ -756,10 +744,8 @@ __all__ = [
     "generate_characters_stage",
     "generate_command_plan_stage",
     "generate_conversation_plan_stage",
-    "generate_coverage_spec_stage",
     "generate_memory_failure_blueprint_stage",
     "generate_state_trajectory_stage",
-    "generate_story_beats_stage",
     "generate_task_actor_layout_stage",
     "main",
     "memory_md_baseline_stage",

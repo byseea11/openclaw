@@ -7,13 +7,11 @@ from feishu_builder_agent.character_generator import generate_characters
 from feishu_builder_agent.collected_message_builder import build_collected_messages
 from feishu_builder_agent.command_plan_generator import generate_command_plan
 from feishu_builder_agent.conversation_plan_generator import generate_conversation_plan
-from feishu_builder_agent.coverage_spec_generator import generate_coverage_spec
 from feishu_builder_agent.memory_failure_blueprint_generator import generate_memory_failure_blueprint
 from feishu_builder_agent.plan_mapper import build_execution_plan_from_command_plan
 from feishu_builder_agent.pre_annotation_validator import build_pre_annotation_validation_report
 from feishu_builder_agent.spec_generator import generate_case_spec
 from feishu_builder_agent.state_trajectory_generator import generate_state_trajectory
-from feishu_builder_agent.story_beats_generator import generate_story_beats
 from feishu_builder_agent.task_actor_layout_generator import generate_task_actor_layout
 
 
@@ -31,9 +29,7 @@ class PreAnnotationValidatorTests(unittest.TestCase):
         case_world = generate_case_world(case_spec, blueprint, layout)
         characters = generate_characters(layout, case_world)
         trajectory = generate_state_trajectory(blueprint, layout, case_world, characters)
-        coverage = generate_coverage_spec(blueprint, trajectory)
-        beats = generate_story_beats(blueprint, case_world)
-        conversation_plan = generate_conversation_plan(case_world, characters, blueprint, beats)
+        conversation_plan = generate_conversation_plan(case_world, characters, blueprint, trajectory)
         command_plan = generate_command_plan(case_spec, conversation_plan, characters)
         execution_plan = build_execution_plan_from_command_plan(command_plan)
         execution_result = {
@@ -81,7 +77,6 @@ class PreAnnotationValidatorTests(unittest.TestCase):
         report = build_pre_annotation_validation_report(
             case_spec=case_spec,
             memory_failure_blueprint=blueprint,
-            coverage_spec=coverage,
             conversation_plan=conversation_plan,
             collected_messages=collected_messages,
         )

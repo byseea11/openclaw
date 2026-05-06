@@ -5,7 +5,6 @@ from typing import Any
 from .schemas import (
     validate_block_annotations,
     validate_case_spec,
-    validate_coverage_spec,
     validate_event_annotations,
     validate_pre_annotation_validation_report,
     validate_query_benchmark,
@@ -15,27 +14,27 @@ from .schemas import (
 def build_checks(
     *,
     case_spec: dict[str, Any],
-    coverage_spec: dict[str, Any],
     pre_annotation_validation_report: dict[str, Any],
     event_annotations: list[dict[str, Any]],
     block_annotations: dict[str, Any],
     query_benchmark: dict[str, Any],
 ) -> dict[str, Any]:
     case_spec = validate_case_spec(case_spec)
-    coverage_spec = validate_coverage_spec(coverage_spec)
     prevalidation = validate_pre_annotation_validation_report(pre_annotation_validation_report)
     event_annotations = validate_event_annotations(event_annotations)
     block_annotations = validate_block_annotations(block_annotations)
     query_benchmark = validate_query_benchmark(query_benchmark)
 
     observed_modes = {row["failure_mode"] for row in event_annotations}
-    required_modes = set(coverage_spec["required_failure_modes"])
+    required_modes = set(case_spec["selected_failure_modes"])
+    observed_query_families = sorted({row["query_family"] for row in query_benchmark["queries"]})
     complexity_gate = {
         "case_id": case_spec["case_id"],
         "status": "pass" if required_modes.issubset(observed_modes) else "fail",
         "required_failure_modes": sorted(required_modes),
         "observed_failure_modes": sorted(observed_modes),
-        "required_query_types": coverage_spec["required_query_types"],
+        "required_query_types": ["system-correctness", "baseline-break"],
+        "observed_query_families": observed_query_families,
         "query_count": len(query_benchmark["queries"]),
         "event_annotation_count": len(event_annotations),
         "block_annotation_count": len(block_annotations["blocks"]),

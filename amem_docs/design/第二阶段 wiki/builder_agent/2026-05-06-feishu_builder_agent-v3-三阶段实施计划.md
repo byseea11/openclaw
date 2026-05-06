@@ -34,8 +34,6 @@ spec-generation
 -> case-world
 -> characters
 -> state-trajectory
--> coverage-spec
--> story-beats
 -> conversation-plan
 -> command-plan
 -> execute
@@ -66,12 +64,8 @@ spec-generation
   把角色槽位实例化成具体人物，并生成 `characters.json` 与 `actor_registry.json`。
 - `state-trajectory`
   生成每个 topic 的状态演进、修正关系、过期状态和最终 current state。
-- `coverage-spec`
-  定义这个 case 必须覆盖哪些 failure mode、turn 类型、query 类型和 trap 落地要求。
-- `story-beats`
-  生成剧情节拍，规定哪个角色在哪个 source 推动了哪次状态变化或制造了哪种 trap。
 - `conversation-plan`
-  生成多 source、多 session、多 turn 的对话计划，并标注每条 turn 的 benchmark 角色和风险意图。
+  直接基于 blueprint 和 state trajectory 生成多 source、多 session、多 turn 的对话计划，并标注每条 turn 的 benchmark 角色和风险意图。
 - `command-plan`
   把对话计划转成可执行动作，如建群、发消息、回 thread、拉消息。
 - `execute`
@@ -642,8 +636,6 @@ V3 保留这些为正式 artifact：
 - `input/characters.json`
 - `input/actor_registry.json`
 - `input/state_trajectory.json`
-- `input/coverage_spec.json`
-- `input/story_beats.json`
 - `input/conversation_plan.json`
 - `input/command_plan.jsonl`
 - `data/collected_messages.jsonl`
@@ -702,8 +694,6 @@ V3 明确删除：
 - `input/characters.json`
 - `input/actor_registry.json`
 - `input/state_trajectory.json`
-- `input/coverage_spec.json`
-- `input/story_beats.json`
 - `input/conversation_plan.json`
 - `input/command_plan.jsonl`
 - `data/collected_messages.jsonl`

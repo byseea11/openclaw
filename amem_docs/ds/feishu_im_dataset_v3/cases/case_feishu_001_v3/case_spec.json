@@ -1,0 +1,14 @@
+{
+  "case_id": "case_feishu_001_v3",
+  "task_id": "FEISHU-1",
+  "difficulty": "hard",
+  "seed": 506092433,
+  "comparison_target": "openclaw_memory_md",
+  "selected_failure_modes": [
+    "static_memory_stale_state",
+    "personal_memory_pollution",
+    "unverifiable_summary_claim",
+    "dependency_propagation_failure"
+  ],
+  "primary_failure_mode": "static_memory_stale_state"
+}

@@ -35,11 +35,28 @@
 然后完成：
 
 source session
-  → Evidence Span
+  → pending_ingests / evidence_spans
+  → batch drain
   → candidate_event
   → verification
   → verified session_event
 ```
+
+这里要先固定一个当前最终语义：
+
+- `maybeIngestTaskSourceSession(...)`
+  只负责 write-only ingest + signal detection
+- `drainPendingGraphUpdates(...)`
+  才是唯一真正跑 extractor 的入口
+- `runVerificationJobs(...)`
+  依赖 candidate layer，不再等同于“抽取入口”
+
+当前强制抽取语义也已经固定成两层：
+
+- `hard trigger`
+  - `verification / replay-runtime / projector / recall / pre-compaction` 前必须 drain
+- `soft trigger`
+  - `dirty-count / span-size / strong-signal / idle` 这类场景建议提前 drain
 
 ### 1.1 预期最小输入对象
 
@@ -153,9 +170,9 @@ verification_jobs.jsonl
 - `metadata.yaml`
   - 当前 session 的元数据快照
 - `pending_ingests.jsonl`
-  - 每次新增 ingest 的 ledger
+  - dirty ledger / ingest ledger
 - `evidence_spans.jsonl`
-  - 每次 ingest 对应的 `trigger_entries + support_entries + context_entries`
+  - batch extraction evidence envelope
 - `candidate_events.jsonl`
   - 候选层，允许 `pending_verification / needs_review / rejected`
 - `session_events.jsonl`
@@ -170,6 +187,8 @@ verification_jobs.jsonl
 当前代码里，第二阶段真正的主入口是：
 
 - `maybeIngestTaskSourceSession(...)`
+- `drainPendingGraphUpdates(...)`
+- `runVerificationJobs(...)`
 
 它的真实输入比设计最小对象更贴近 runtime：
 
@@ -248,6 +267,29 @@ source_scope: chat:oc_5a7d802471bd789a3afc994a18eec9f7
 source_session_id: task:FEISHU-231::chat:oc_5a7d802471bd789a3afc994a18eec9f7
 ingest_id: task:FEISHU-231::chat:oc_5a7d802471bd789a3afc994a18eec9f7::3
 ```
+
+### 3.3 当前 batch extraction 流程图
+
+```text
+message ingress
+-> maybeIngestTaskSourceSession(write-only)
+-> pending_ingests / evidence_spans
+-> drainPendingGraphUpdates(reason=...)
+-> candidate_events.jsonl
+-> runVerificationJobs()
+-> session_events.jsonl
+```
+
+### 3.4 `trigger/context/support` 的当前语义
+
+在当前 batch 模式里，这三层不再是“单条消息补一点上下文”，而是 dirty span 视角：
+
+- `trigger/core`
+  - batch 里真正承载新增事实或状态变化的主证据集合
+- `context`
+  - 用来解释时间、代词、修正、否定和当前状态归属的前后文窗口
+- `support`
+  - root、近邻消息或辅助证据，只允许做支撑与消歧，不单独触发正式 event
 
 ---
 

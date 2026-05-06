@@ -7,10 +7,8 @@ from feishu_builder_agent.tests.v3_fixtures import (
     sample_case_spec,
     sample_collected_messages,
     sample_conversation_plan,
-    sample_coverage_spec,
     sample_memory_failure_blueprint,
     sample_state_trajectory,
-    sample_story_beats,
 )
 
 
@@ -20,8 +18,6 @@ class AnnotationGoldGeneratorV3Tests(unittest.TestCase):
             case_spec=sample_case_spec(),
             memory_failure_blueprint=sample_memory_failure_blueprint(),
             state_trajectory=sample_state_trajectory(),
-            coverage_spec=sample_coverage_spec(),
-            story_beats=sample_story_beats(),
             conversation_plan=sample_conversation_plan(),
             collected_messages=sample_collected_messages(),
         )
@@ -39,8 +35,6 @@ class AnnotationGoldGeneratorV3Tests(unittest.TestCase):
             case_spec=sample_case_spec(),
             memory_failure_blueprint=sample_memory_failure_blueprint(),
             state_trajectory=sample_state_trajectory(),
-            coverage_spec=sample_coverage_spec(),
-            story_beats=sample_story_beats(),
             conversation_plan=sample_conversation_plan(),
             collected_messages=rows,
         )

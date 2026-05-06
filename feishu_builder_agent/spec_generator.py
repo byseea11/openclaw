@@ -6,19 +6,17 @@ from typing import Any
 
 from .builder_settings import load_builder_settings, resolve_default_difficulty
 from .failure_mode_selector import fill_failure_modes
+from .llm_client import live_llm_required
 from .logging_utils import builder_log
-from .schemas import ValidationError, validate_case_spec
-
-
-DEFAULT_SCENARIO_PROFILE = "enterprise_task_memory"
-DEFAULT_DEPARTMENTS = ["产品", "研发", "安全", "运维", "销售", "客户成功"]
+from .prompt_registry import build_spec_generation_prompts
+from .schemas import validate_case_spec
 
 
 def normalize_seed(seed: int | None = None) -> int:
     if seed is not None:
         return int(seed)
     now = datetime.now(timezone.utc)
-    return int(now.strftime("%m%d%H%M%S"))
+    return int(now.strftime("%m%d%H%M%S%f"))
 
 
 def _default_task_id(seed: int) -> str:
@@ -45,32 +43,10 @@ def _normalize_case_id(value: Any, task_id: str) -> str:
     return _default_case_id(task_id)
 
 
-def _select_department_hints(user_hint: str) -> list[str]:
-    chosen: list[str] = []
-    keyword_map = {
-        "财务": ["财务", "产品"],
-        "客户": ["销售", "客户成功"],
-        "安全": ["安全", "研发"],
-        "迁移": ["数据平台", "运维"],
-        "依赖": ["研发", "产品"],
-    }
-    for keyword, departments in keyword_map.items():
-        if keyword in user_hint:
-            for department in departments:
-                if department not in chosen:
-                    chosen.append(department)
-    for department in DEFAULT_DEPARTMENTS:
-        if department not in chosen:
-            chosen.append(department)
-    return chosen[:6]
-
-
 def _fallback_case_spec(
     *,
-    scenario_profile: str,
     difficulty: str,
     seed: int,
-    user_hint: str,
     comparison_target: str,
     selected_failure_modes: list[str] | None,
     primary_failure_mode: str | None,
@@ -86,19 +62,48 @@ def _fallback_case_spec(
         {
             "case_id": case_id,
             "task_id": task_id,
-            "title": "",
-            "company_type": "",
-            "department_hints": _select_department_hints(user_hint),
-            "scenario_profile": scenario_profile or DEFAULT_SCENARIO_PROFILE,
-            "title_hint": user_hint or f"{task_id} 任务记忆失败用例",
-            "main_goal_hint": user_hint or f"构造会让 Memory.md 在 {task_id} 上失败的任务协作数据",
-            "main_goal": "",
             "difficulty": difficulty or resolve_default_difficulty(),
             "seed": seed,
             "comparison_target": comparison_target,
             "selected_failure_modes": resolved_modes,
             "primary_failure_mode": resolved_primary,
-            "user_hint": user_hint,
+        }
+    )
+def _normalize_llm_case_spec(
+    payload: dict[str, Any],
+    *,
+    difficulty: str,
+    seed: int,
+    comparison_target: str,
+    selected_failure_modes: list[str] | None,
+    primary_failure_mode: str | None,
+) -> dict[str, Any]:
+    requested_modes, requested_primary = fill_failure_modes(
+        selected_failure_modes=selected_failure_modes,
+        primary_failure_mode=primary_failure_mode,
+        difficulty=difficulty,
+    )
+    task_id = _default_task_id(seed)
+    case_id = _default_case_id(task_id)
+    candidate_modes = payload.get("selected_failure_modes") if selected_failure_modes is None else requested_modes
+    resolved_modes, resolved_primary = fill_failure_modes(
+        selected_failure_modes=candidate_modes,
+        primary_failure_mode=payload.get("primary_failure_mode") if primary_failure_mode is None else requested_primary,
+        difficulty=difficulty,
+    )
+    if selected_failure_modes is not None:
+        resolved_modes = requested_modes
+    if primary_failure_mode is not None:
+        resolved_primary = requested_primary
+    return validate_case_spec(
+        {
+            "case_id": case_id,
+            "task_id": task_id,
+            "difficulty": difficulty or resolve_default_difficulty(),
+            "seed": seed,
+            "comparison_target": comparison_target,
+            "selected_failure_modes": resolved_modes,
+            "primary_failure_mode": resolved_primary,
         }
     )
 
@@ -114,15 +119,42 @@ def generate_case_spec_with_mode(
     primary_failure_mode: str | None = None,
     llm_client: Any | None = None,
 ) -> tuple[dict[str, Any], str]:
-    del llm_client
     settings = load_builder_settings()
     normalized_seed = normalize_seed(seed)
     target = comparison_target or settings["defaults"]["comparison_target_default"]
+    if llm_client is None and live_llm_required():
+        raise RuntimeError("spec-generation requires live LLM but no active llm_client is available")
+    if llm_client is not None:
+        system_prompt, user_prompt = build_spec_generation_prompts(
+            difficulty=difficulty or resolve_default_difficulty(),
+            seed=normalized_seed,
+            comparison_target=target,
+            selected_failure_modes=selected_failure_modes,
+            primary_failure_mode=primary_failure_mode,
+            user_hint=user_hint,
+        )
+        try:
+            llm_payload = llm_client.generate_json(system_prompt=system_prompt, user_prompt=user_prompt)
+            spec = _normalize_llm_case_spec(
+                llm_payload,
+                difficulty=difficulty or resolve_default_difficulty(),
+                seed=normalized_seed,
+                comparison_target=target,
+                selected_failure_modes=selected_failure_modes,
+                primary_failure_mode=primary_failure_mode,
+            )
+            builder_log(
+                "spec",
+                f"生成 V3 case_spec case_id={spec['case_id']} failure_modes={','.join(spec['selected_failure_modes'])}",
+            )
+            return spec, "llm"
+        except Exception as exc:
+            if live_llm_required():
+                raise RuntimeError(f"spec-generation requires live LLM but failed: {exc}") from exc
+            builder_log("spec", f"live LLM case_spec 生成失败，回退 fallback。reason={exc}")
     spec = _fallback_case_spec(
-        scenario_profile=scenario_profile,
         difficulty=difficulty or resolve_default_difficulty(),
         seed=normalized_seed,
-        user_hint=user_hint,
         comparison_target=target,
         selected_failure_modes=selected_failure_modes,
         primary_failure_mode=primary_failure_mode,

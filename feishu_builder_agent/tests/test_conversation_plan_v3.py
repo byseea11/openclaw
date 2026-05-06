@@ -7,7 +7,7 @@ from feishu_builder_agent.character_generator import generate_characters
 from feishu_builder_agent.conversation_plan_generator import generate_conversation_plan
 from feishu_builder_agent.memory_failure_blueprint_generator import generate_memory_failure_blueprint
 from feishu_builder_agent.spec_generator import generate_case_spec
-from feishu_builder_agent.story_beats_generator import generate_story_beats
+from feishu_builder_agent.state_trajectory_generator import generate_state_trajectory
 from feishu_builder_agent.task_actor_layout_generator import generate_task_actor_layout
 
 
@@ -18,8 +18,8 @@ class ConversationPlanTests(unittest.TestCase):
         layout = generate_task_actor_layout(blueprint)
         case_world = generate_case_world(case_spec, blueprint, layout)
         characters = generate_characters(layout, case_world)
-        beats = generate_story_beats(blueprint, case_world)
-        plan = generate_conversation_plan(case_world, characters, blueprint, beats)
+        trajectory = generate_state_trajectory(blueprint, layout, case_world, characters)
+        plan = generate_conversation_plan(case_world, characters, blueprint, trajectory)
         self.assertTrue(plan["turns"])
         row = plan["turns"][0]
         self.assertTrue(row["benchmark_role"])

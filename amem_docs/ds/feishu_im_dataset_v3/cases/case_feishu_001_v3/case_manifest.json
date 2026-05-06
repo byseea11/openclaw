@@ -1,0 +1,16 @@
+{
+  "case_id": "case_feishu_001_v3",
+  "dataset_version": "v3",
+  "builder_version": "v3-phase3",
+  "case_dir": "amem_docs/ds/feishu_im_dataset_v3/cases/case_feishu_001_v3",
+  "completed_stages": [
+    "spec-generation",
+    "memory-failure-blueprint"
+  ],
+  "artifacts": {
+    "case_spec": "case_spec.json",
+    "case_manifest": "case_manifest.json",
+    "memory_failure_blueprint": "input/memory_failure_blueprint.json"
+  },
+  "updated_at": "2026-05-06T09:26:19Z"
+}

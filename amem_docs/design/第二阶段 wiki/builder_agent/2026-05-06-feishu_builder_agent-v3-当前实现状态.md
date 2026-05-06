@@ -44,16 +44,24 @@ Phase 1 当前已经实现 fail-oriented case generation 到 observed data 的�
 
 - `spec-generation`
   已支持 `comparison_target / selected_failure_modes / primary_failure_mode`
+- `case_spec` identity
+  `task_id / case_id` 当前由 system-owned deterministic control 生成；LLM 只参与 failure mode 选择，不参与 case identity 命名
 - `memory-failure-blueprint`
   已有正式生成器、schema validate、audit/repair、四类 typed payload
 - `task-actor-layout`
   已生成 `target_task / distractor_tasks / shared_actor_slots / pollution_dimensions`
-- `case-world / characters / state-trajectory / coverage-spec / story-beats / conversation-plan / command-plan`
+- `case-world / characters / state-trajectory / conversation-plan / command-plan`
   已全部落地并进入 CLI
 - `execute / collect / pre-annotation-validate`
   已可跑，observed data contract 已稳定
 - `case_manifest.json`
   已引入，作为阶段推进与 artifact 路径的统一状态文件
+
+这里有一个已经完成的 contract 收口：
+
+- `case_spec.json` 已不再落 `title_hint / main_goal_hint / scenario_profile / department_hints` 这类故事提示字段
+- `memory_failure_blueprint.json` 继续作为唯一正式上游控制面
+- `coverage_spec.json` 与 `story_beats.json` 已从正式 input control plane 降级，不再要求作为 Phase 1/2/3 的正式前置输入
 
 当前 Phase 1 正式 artifact 已落地为：
 
@@ -68,8 +76,6 @@ input/
   characters.json
   actor_registry.json
   state_trajectory.json
-  coverage_spec.json
-  story_beats.json
   conversation_plan.json
   command_plan.jsonl
 
@@ -79,6 +85,19 @@ data/
 
 checks/
   pre_annotation_validation_report.json
+```
+
+当前 Phase 1 的正式 input 关联关系已经收口为：
+
+```text
+case_spec
+-> memory_failure_blueprint
+-> task_actor_layout
+-> case_world
+-> characters
+-> state_trajectory
+-> conversation_plan
+-> command_plan
 ```
 
 ### 3.2 Phase 2：已实现内容
@@ -106,6 +125,8 @@ Phase 2 当前已经实现 annotation gold、真实 replay runtime 和分层 eva
 
 - `replay_runtime.py` 已实现
 - 已包装真实 Task Wiki runtime 接口
+- 当前 replay-runtime 的 event ingestion 主链已经收口为：
+  `session-ingest(write-only) -> pending_ingests/evidence_spans -> batch drain extraction -> candidate_events -> verification -> session_events -> projector`
 - 当前 replay 输出为：
   - `predictions/candidate_events.jsonl`
   - `predictions/session_events.jsonl`
@@ -212,6 +233,8 @@ reports/
   三类 annotation record + `expected_verdict`
 - `predictions/*`
   真实 replay runtime prediction contract
+- `pending_ingests.jsonl / evidence_spans.jsonl`
+  当前 replay-runtime 前半段的正式中间层，负责承载 write-only ingest 后的 dirty span 与 batch extraction 输入
 - `reports/event_eval.json / block_eval.json / qa_eval.json / value_eval.json / overall_eval.json / final_benchmark_report.json`
   当前 V3 正式报告集合
 - `reports/memory_md_baseline_report.json`

@@ -1,0 +1,4 @@
+[feishu_builder][2026-05-06T09:26:14Z][llm] 已加载 OPENAI 兼容配置 model=deepseek-chat base_url=https://api.deepseek.com/v1
+[feishu_builder][2026-05-06T09:26:14Z][llm] 开始请求模型 model=deepseek-chat timeout=300.0s max_tokens=4096
+[feishu_builder][2026-05-06T09:26:19Z][llm] 模型请求成功返回 JSON 内容
+[feishu_builder][2026-05-06T09:26:19Z][memory-failure-blueprint] 使用 live LLM blueprint 生成。prompt_size=2487

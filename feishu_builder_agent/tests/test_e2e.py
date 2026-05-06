@@ -29,6 +29,8 @@ class EndToEndTests(unittest.TestCase):
             self.assertTrue((case_dir / "input" / "task_actor_layout.json").exists())
             self.assertTrue((case_dir / "input" / "conversation_plan.json").exists())
             self.assertTrue((case_dir / "input" / "command_plan.jsonl").exists())
+            self.assertFalse((case_dir / "input" / "coverage_spec.json").exists())
+            self.assertFalse((case_dir / "input" / "story_beats.json").exists())
             self.assertTrue((case_dir / "data" / "collected_messages.jsonl").exists())
             self.assertTrue((case_dir / "data" / "openclaw_message_ingress.jsonl").exists())
             self.assertTrue((case_dir / "checks" / "pre_annotation_validation_report.json").exists())

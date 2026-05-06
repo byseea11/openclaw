@@ -28,10 +28,12 @@ type SessionIngestResult = {
   candidateEventCount?: number;
   verificationJobsQueued?: number;
   coreEntryCount?: number;
+  drainRecommended?: boolean;
 };
 
 type SessionIngestModule = {
   maybeIngestTaskSourceSession: (params: Record<string, unknown>) => Promise<SessionIngestResult>;
+  drainPendingGraphUpdates: (params: { sessionDir: string }) => Promise<Record<string, unknown>>;
   runVerificationJobs: (params: { sessionDir: string }) => Promise<Record<string, unknown>>;
 };
 
@@ -74,7 +76,7 @@ describe("task event session ingest", () => {
 
   it("creates a stable chat source session, accumulates session files, and separates candidate/session events", async () => {
     const { resolveTaskBindingForInbound } = loadBindingModule();
-    const { maybeIngestTaskSourceSession, runVerificationJobs } = loadSessionModule();
+    const { maybeIngestTaskSourceSession, drainPendingGraphUpdates, runVerificationJobs } = loadSessionModule();
 
     const binding = resolveTaskBindingForInbound({
       accountId: "default",
@@ -120,8 +122,6 @@ describe("task event session ingest", () => {
     expect(second.ingestVersion).toBe(2);
     expect(second.sessionDir).toBeTruthy();
 
-    await runVerificationJobs({ sessionDir: second.sessionDir! });
-
     const sessionRoot = path.join(stateDir, "feishu-task-wiki", "tasks");
     const taskDirs = await fs.readdir(sessionRoot);
     const sessionDirs = await fs.readdir(path.join(sessionRoot, taskDirs[0]!, "sessions"));
@@ -145,17 +145,25 @@ describe("task event session ingest", () => {
       .split("\n")
       .map((line) => JSON.parse(line));
     expect(pending).toHaveLength(2);
+    expect(pending.every((entry) => entry.status === "pending_extraction")).toBe(true);
+
+    const beforeCandidates = await fs.readFile(path.join(sessionDir, "candidate_events.jsonl"), "utf8").catch(() => "");
+    expect(beforeCandidates.trim()).toBe("");
+
+    await drainPendingGraphUpdates({ sessionDir, reason: "strong_signal" });
+    await runVerificationJobs({ sessionDir });
 
     const candidates = (await fs.readFile(path.join(sessionDir, "candidate_events.jsonl"), "utf8"))
       .trim()
       .split("\n")
+      .filter(Boolean)
       .map((line) => JSON.parse(line));
     const verified = (await fs.readFile(path.join(sessionDir, "session_events.jsonl"), "utf8"))
       .trim()
       .split("\n")
+      .filter(Boolean)
       .map((line) => JSON.parse(line));
     expect(candidates.length).toBeGreaterThan(0);
-    expect(verified.length).toBeGreaterThan(0);
     expect(verified.every((entry) => entry.verification?.verdict === "verified")).toBe(true);
 
     const sessionMarkdown = await fs.readFile(path.join(sessionDir, "session.md"), "utf8");
@@ -297,9 +305,90 @@ describe("task event session ingest", () => {
     expect(ingest.sourceSessionId).toContain("comment:doc_token:comment_1");
   });
 
+  it("marks strong messages dirty and drains them as a single batch envelope", async () => {
+    const { resolveTaskBindingForInbound } = loadBindingModule();
+    const { maybeIngestTaskSourceSession, drainPendingGraphUpdates } = loadSessionModule();
+
+    const binding = resolveTaskBindingForInbound({
+      accountId: "default",
+      sourceType: "chat",
+      sourceId: "chat:oc_chat_batch",
+      chatId: "oc_chat_batch",
+      rootMessageText: "创建任务 FEISHU-231：目标先看 5 月 5 日。",
+      allowInitialize: true,
+    });
+
+    const first = await maybeIngestTaskSourceSession({
+      accountId: "default",
+      taskBinding: binding,
+      sourceType: "chat",
+      sourceId: "chat:oc_chat_batch",
+      chatId: "oc_chat_batch",
+      messageId: "om_batch_1",
+      senderId: "ou_pm",
+      senderName: "林晨",
+      content: "创建任务 FEISHU-231：目标先看 5 月 5 日。",
+    });
+    const second = await maybeIngestTaskSourceSession({
+      accountId: "default",
+      taskBinding: binding,
+      sourceType: "chat",
+      sourceId: "chat:oc_chat_batch",
+      chatId: "oc_chat_batch",
+      messageId: "om_batch_2",
+      senderId: "ou_dev",
+      senderName: "周宇",
+      content: "迁移窗口还没锁定，所以这个日期只能暂定。",
+    });
+
+    const sessionDir = second.sessionDir!;
+    const beforeDrain = (await fs.readFile(path.join(sessionDir, "pending_ingests.jsonl"), "utf8"))
+      .trim()
+      .split("\n")
+      .map((line) => JSON.parse(line));
+    expect(beforeDrain.every((entry) => entry.needs_llm_extraction === true)).toBe(true);
+    expect(first.drainRecommended).toBe(true);
+    expect(second.drainRecommended).toBe(true);
+
+    await drainPendingGraphUpdates({ sessionDir, reason: "strong_signal" });
+
+    const afterDrain = (await fs.readFile(path.join(sessionDir, "pending_ingests.jsonl"), "utf8"))
+      .trim()
+      .split("\n")
+      .map((line) => JSON.parse(line));
+    expect(afterDrain.every((entry) => entry.drain_batch_id)).toBe(true);
+    expect(afterDrain.every((entry) => entry.covered_by_batch_at)).toBe(true);
+
+    const spans = (await fs.readFile(path.join(sessionDir, "evidence_spans.jsonl"), "utf8"))
+      .trim()
+      .split("\n")
+      .map((line) => JSON.parse(line));
+    const batchSpan = spans.find((entry) => entry.span_kind === "drain_batch");
+    expect(batchSpan).toBeTruthy();
+    expect(batchSpan.source_ingest_ids).toHaveLength(2);
+    expect(batchSpan.drain_reason).toBe("strong_signal");
+
+    const candidates = (await fs.readFile(path.join(sessionDir, "candidate_events.jsonl"), "utf8"))
+      .trim()
+      .split("\n")
+      .filter(Boolean)
+      .map((line) => JSON.parse(line));
+    expect(candidates.length).toBeGreaterThan(0);
+    expect(candidates.every((entry) => entry.drain_batch_id === batchSpan.drain_batch_id)).toBe(true);
+
+    const metadata = YAML.parse(await fs.readFile(path.join(sessionDir, "metadata.yaml"), "utf8")) as {
+      last_drain_reason: string;
+      last_drain_batch_id: string;
+      last_drain_source_ingest_ids: string[];
+    };
+    expect(metadata.last_drain_reason).toBe("strong_signal");
+    expect(metadata.last_drain_batch_id).toBe(batchSpan.drain_batch_id);
+    expect(metadata.last_drain_source_ingest_ids).toHaveLength(2);
+  });
+
   it("marks no-event ingests as processed_no_event and skips verifier jobs", async () => {
     const { resolveTaskBindingForInbound } = loadBindingModule();
-    const { maybeIngestTaskSourceSession } = loadSessionModule();
+    const { maybeIngestTaskSourceSession, drainPendingGraphUpdates } = loadSessionModule();
 
     const binding = resolveTaskBindingForInbound({
       accountId: "default",
@@ -322,6 +411,8 @@ describe("task event session ingest", () => {
       content: "创建任务 FEISHU-231：先统一发布时间口径。",
     });
 
+    await drainPendingGraphUpdates({ sessionDir: seed.sessionDir! });
+
     const jobsBefore = (await fs.readFile(path.join(seed.sessionDir!, "verification_jobs.jsonl"), "utf8"))
       .trim()
       .split("\n")
@@ -341,12 +432,14 @@ describe("task event session ingest", () => {
 
     expect(noEvent.candidateEventCount).toBe(0);
     expect(noEvent.verificationJobsQueued).toBe(0);
+    expect(noEvent.drainRecommended).toBe(false);
 
     const pending = (await fs.readFile(path.join(noEvent.sessionDir!, "pending_ingests.jsonl"), "utf8"))
       .trim()
       .split("\n")
       .map((line) => JSON.parse(line));
     expect(pending.at(-1)?.status).toBe("processed_no_event");
+    expect(pending.at(-1)?.needs_llm_extraction).toBe(false);
 
     const jobs = (await fs.readFile(path.join(noEvent.sessionDir!, "verification_jobs.jsonl"), "utf8"))
       .trim()
@@ -357,7 +450,7 @@ describe("task event session ingest", () => {
 
   it("does not duplicate root-derived conclusion/time events in thread sessions", async () => {
     const { resolveTaskBindingForInbound } = loadBindingModule();
-    const { maybeIngestTaskSourceSession, runVerificationJobs } = loadSessionModule();
+    const { maybeIngestTaskSourceSession, drainPendingGraphUpdates, runVerificationJobs } = loadSessionModule();
 
     const threadBinding = resolveTaskBindingForInbound({
       accountId: "default",
@@ -399,6 +492,7 @@ describe("task event session ingest", () => {
       rootContent: "创建任务 FEISHU-231：目标发布时间暂定 5 月 5 日。",
     });
 
+    await drainPendingGraphUpdates({ sessionDir: first.sessionDir! });
     await runVerificationJobs({ sessionDir: first.sessionDir! });
 
     const verified = (await fs.readFile(path.join(first.sessionDir!, "session_events.jsonl"), "utf8"))

@@ -215,4 +215,4 @@ def generate_command_plan_with_mode(
     llm_client: Any | None = None,
 ) -> tuple[list[dict[str, Any]], str]:
     del llm_client
-    return generate_command_plan(case_spec, conversation_plan, characters), "fallback"
+    return generate_command_plan(case_spec, conversation_plan, characters), "derived"

@@ -12,13 +12,6 @@ class SchemaTests(unittest.TestCase):
                 {
                     "case_id": "case_feishu_1_v3",
                     "task_id": "FEISHU-1",
-                    "title": "",
-                    "company_type": "",
-                    "department_hints": ["产品", "研发", "安全"],
-                    "scenario_profile": "enterprise_task_memory",
-                    "title_hint": "测试",
-                    "main_goal_hint": "测试",
-                    "main_goal": "",
                     "difficulty": "medium",
                     "seed": 1,
                     "comparison_target": "openclaw_memory_md",

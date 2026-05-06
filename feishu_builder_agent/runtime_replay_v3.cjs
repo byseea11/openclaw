@@ -3,7 +3,7 @@
 const fs = require("node:fs");
 const path = require("node:path");
 
-const { maybeIngestTaskSourceSession, runVerificationJobs } = require(
+const { maybeIngestTaskSourceSession, drainPendingGraphUpdates, runVerificationJobs } = require(
   "../extensions/feishu-task-wiki/openclaw-lark/src/task-events/session-ingest.js",
 );
 const { updateTaskWikiFromVerifiedEvents } = require(
@@ -116,7 +116,9 @@ async function main() {
   let taskWikiState = {};
 
   for (const sessionDir of sessionDirs) {
+    await drainPendingGraphUpdates({ sessionDir, reason: "replay_runtime" });
     await runVerificationJobs({ sessionDir });
+    await drainPendingGraphUpdates({ sessionDir, reason: "projector" });
     const projectorResult = await updateTaskWikiFromVerifiedEvents({ sessionDir });
     sessionStates.push(projectorResult.sessionState);
     taskIndexState = projectorResult.indexState;
