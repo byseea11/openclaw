@@ -8,28 +8,37 @@ const storeSymbol = Symbol.for("openclaw.feishuTaskWiki.bindingStore");
 function loadBindingModule() {
   // eslint-disable-next-line @typescript-eslint/no-require-imports -- CommonJS subtree is intentional
   return require("../task-banding/task-binding-store.js") as {
-    resolveTaskBindingForInbound: (params: Record<string, unknown>) => Record<string, unknown> | null;
+    resolveTaskBindingForInbound: (
+      params: Record<string, unknown>,
+    ) => Record<string, unknown> | null;
   };
 }
 
 function loadSessionModule() {
   // eslint-disable-next-line @typescript-eslint/no-require-imports -- CommonJS subtree is intentional
   return require("../task-events/session-ingest.js") as {
-    maybeIngestTaskSourceSession: (params: Record<string, unknown>) => Promise<{ sessionDir?: string; sourceSessionId?: string }>;
+    maybeIngestTaskSourceSession: (
+      params: Record<string, unknown>,
+    ) => Promise<{ sessionDir?: string; sourceSessionId?: string }>;
   };
 }
 
 function loadProjectorModule() {
   // eslint-disable-next-line @typescript-eslint/no-require-imports -- CommonJS subtree is intentional
   return require("./projector.js") as {
-    updateTaskWikiFromVerifiedEvents: (params: { sessionDir: string }) => Promise<Record<string, unknown>>;
+    updateTaskWikiFromVerifiedEvents: (params: {
+      sessionDir: string;
+    }) => Promise<Record<string, unknown>>;
   };
 }
 
 function loadLintModule() {
   // eslint-disable-next-line @typescript-eslint/no-require-imports -- CommonJS subtree is intentional
   return require("./lint.js") as {
-    runTaskWikiLint: (params: { taskRootDir: string; appendLog?: boolean }) => Promise<Record<string, unknown>>;
+    runTaskWikiLint: (params: {
+      taskRootDir: string;
+      appendLog?: boolean;
+    }) => Promise<Record<string, unknown>>;
   };
 }
 
@@ -132,13 +141,15 @@ describe("task wiki lint", () => {
 
     await fs.writeFile(
       path.join(seed.sessionDir, "session_events.jsonl"),
-      `${JSON.stringify(makeVerifiedConclusion({
-        eventId: "evt_orphan",
-        sourceSessionId: seed.sourceSessionId,
-        claim: "先按 5 月 5 日推进。",
-        eventTime: "2026-05-01T10:00:00.000Z",
-        chatId: "oc_lint_1",
-      }))}\n`,
+      `${JSON.stringify(
+        makeVerifiedConclusion({
+          eventId: "evt_orphan",
+          sourceSessionId: seed.sourceSessionId,
+          claim: "先按 5 月 5 日推进。",
+          eventTime: "2026-05-01T10:00:00.000Z",
+          chatId: "oc_lint_1",
+        }),
+      )}\n`,
       "utf8",
     );
     await updateTaskWikiFromVerifiedEvents({ sessionDir: seed.sessionDir });
@@ -155,7 +166,10 @@ describe("task wiki lint", () => {
 
     const taskRootDir = path.dirname(path.dirname(seed.sessionDir));
     const lintState = await runTaskWikiLint({ taskRootDir });
-    const orphanFile = await fs.readFile(path.join(taskRootDir, "lint", "orphan_events.md"), "utf8");
+    const orphanFile = await fs.readFile(
+      path.join(taskRootDir, "lint", "orphan_events.md"),
+      "utf8",
+    );
 
     expect((lintState as { orphan_event_count: number }).orphan_event_count).toBeGreaterThan(0);
     expect(orphanFile).toContain("orphan event evt_orphan");
@@ -170,24 +184,28 @@ describe("task wiki lint", () => {
 
     await fs.writeFile(
       path.join(first.sessionDir, "session_events.jsonl"),
-      `${JSON.stringify(makeVerifiedConclusion({
-        eventId: "evt_conflict_old",
-        sourceSessionId: first.sourceSessionId,
-        claim: "当前结论是 5 月 5 日可发。",
-        eventTime: "2026-05-01T09:00:00.000Z",
-        chatId: "oc_lint_2a",
-      }))}\n`,
+      `${JSON.stringify(
+        makeVerifiedConclusion({
+          eventId: "evt_conflict_old",
+          sourceSessionId: first.sourceSessionId,
+          claim: "当前结论是 5 月 5 日可发。",
+          eventTime: "2026-05-01T09:00:00.000Z",
+          chatId: "oc_lint_2a",
+        }),
+      )}\n`,
       "utf8",
     );
     await fs.writeFile(
       path.join(second.sessionDir, "session_events.jsonl"),
-      `${JSON.stringify(makeVerifiedConclusion({
-        eventId: "evt_conflict_new",
-        sourceSessionId: second.sourceSessionId,
-        claim: "当前结论是 5 月 8 日才可发。",
-        eventTime: "2026-05-01T11:00:00.000Z",
-        chatId: "oc_lint_2b",
-      }))}\n`,
+      `${JSON.stringify(
+        makeVerifiedConclusion({
+          eventId: "evt_conflict_new",
+          sourceSessionId: second.sourceSessionId,
+          claim: "当前结论是 5 月 8 日才可发。",
+          eventTime: "2026-05-01T11:00:00.000Z",
+          chatId: "oc_lint_2b",
+        }),
+      )}\n`,
       "utf8",
     );
 
@@ -196,11 +214,57 @@ describe("task wiki lint", () => {
 
     const taskRootDir = path.dirname(path.dirname(first.sessionDir));
     const lintState = await runTaskWikiLint({ taskRootDir });
-    const conflictsFile = await fs.readFile(path.join(taskRootDir, "lint", "open_conflicts.md"), "utf8");
+    const conflictsFile = await fs.readFile(
+      path.join(taskRootDir, "lint", "open_conflicts.md"),
+      "utf8",
+    );
 
     expect((lintState as { open_conflict_count: number }).open_conflict_count).toBeGreaterThan(0);
     expect(conflictsFile).toContain("发布时间口径");
     expect(conflictsFile).toContain("5 月 5 日可发");
     expect(conflictsFile).toContain("5 月 8 日才可发");
+  });
+
+  it("does not treat same-KI history items as stale current or open conflicts", async () => {
+    const { updateTaskWikiFromVerifiedEvents } = loadProjectorModule();
+    const { runTaskWikiLint } = loadLintModule();
+    const seed = await createSeedSession("oc_lint_3", "创建任务 FEISHU-231：统一发布时间。");
+
+    await fs.writeFile(
+      path.join(seed.sessionDir, "session_events.jsonl"),
+      [
+        makeVerifiedConclusion({
+          eventId: "evt_history_old",
+          sourceSessionId: seed.sourceSessionId,
+          claim: "当前结论是 5 月 5 日可发。",
+          eventTime: "2026-05-01T09:00:00.000Z",
+          chatId: "oc_lint_3",
+        }),
+        makeVerifiedConclusion({
+          eventId: "evt_history_new",
+          sourceSessionId: seed.sourceSessionId,
+          claim: "当前结论是 5 月 8 日才可发。",
+          eventTime: "2026-05-01T11:00:00.000Z",
+          chatId: "oc_lint_3",
+        }),
+      ]
+        .map((event) => `${JSON.stringify(event)}\n`)
+        .join(""),
+      "utf8",
+    );
+
+    await updateTaskWikiFromVerifiedEvents({ sessionDir: seed.sessionDir });
+
+    const taskRootDir = path.dirname(path.dirname(seed.sessionDir));
+    const lintState = await runTaskWikiLint({ taskRootDir });
+    const sessionWiki = await fs.readFile(path.join(seed.sessionDir, "session_wiki.md"), "utf8");
+
+    expect(sessionWiki).toContain("##### Current");
+    expect(sessionWiki).toContain("[当前] 当前结论是 5 月 8 日才可发。");
+    expect(sessionWiki).toContain("##### History");
+    expect(sessionWiki).toContain("[历史] 当前结论是 5 月 5 日可发。");
+    expect((lintState as { stale_claim_count: number }).stale_claim_count).toBe(0);
+    expect((lintState as { open_conflict_count: number }).open_conflict_count).toBe(0);
+    expect((lintState as { missing_cross_ref_count: number }).missing_cross_ref_count).toBe(0);
   });
 });

@@ -1,47 +1,65 @@
 # capability-brief
 
-## 什么时候使用
+## 职责
 
-当 family 已经确定，当前要把这类能力实例化成 case-specific brief 时使用。
+这个 skill 负责为 `case-context` 阶段提供能力约束、失败原因、生成规则和 probe 策略。它不单独落文件，而是约束最终 `case_context.json` 的 capability brief 部分。
 
-## 这一步要解决什么
+## 硬规则
 
-- 说明本 case 测什么能力
-- 说明默认记忆系统为什么可能失败
-- 定义生成约束
-- 定义 required case structure
-- 定义 probe strategy
-- 把比赛口径映射写进 brief，供 report 和 downstream 阶段共用
+- 必须明确：
+  - `capability_under_test`
+  - `why_memory_systems_may_fail`
+  - `generation_rules`
+  - `required_case_structure`
+  - `probe_strategy`
+  - `expected_good_system_behavior`
+- 每个字段都必须能帮助后续 `story-plan` 做决定。
+- `probe_strategy` 必须描述要测什么能力，不是最终问句。
+- `required_case_structure` 必须约束后续任务结构、状态变化或证据关系。
+- `required_case_structure` 不只是“有这些概念”，还必须满足当前 difficulty 和 family 的最低数量、分布与 cross-source 复杂度。
+- 必须吸收旧 builder 里的 family-specific failure mechanism：
+  - `anti_interference` 强调 shared actor、相似措辞和 cross-task noise 如何污染目标任务答案。
+  - `contradiction_update` 强调 stale state、supersede relation 和 final current state 的区分。
+  - `evidence_dependency_reasoning` 强调 verified / ambiguous / hearsay 的证据梯度，以及 upstream impact 如何传播到目标任务。
+- 正式 contract 里只有 1 个目标任务；distractor 或 upstream/downstream 只能作为上下文来源，不是并列正式 task。
+- 必须吸收旧 builder 的规模规则：
+  - `department_count`
+  - `character_count_min/max`
+  - `session_blueprint`
+  - family-specific minima，如 `min_shared_actors`、`min_state_tracks`、`min_dependency_hops`
 
-## 输出目标
+## 禁止
 
-- `input/memory_capability_brief.json`
+- 不要开始写企业场景。
+- 不要开始写 message beats。
+- 不要开始写最终 probe wording。
+- 不要重新定义 family。
+- 不要把多个正式 task 写进 `required_case_structure`。
 
-## 字段应该帮助后续什么
+## JSON 示例
 
-- `capability_under_test`
-  帮助后续判断这条 case 的主测试目标
-- `benchmark_requirement_name`
-  帮助后续 report 直接映射项目需求里的 benchmark 名称
-- `benchmark_requirement_summary`
-  帮助 case-world 和评审者理解这类 case 为什么存在
-- `report_display_name`
-  帮助最终报告以比赛口径展示结果
-- `why_memory_systems_may_fail`
-  帮助后续保持 trap 对准真实失败原理
-- `generation_rules`
-  约束 case-world 和 story-plan 不要跑偏
-- `required_case_structure`
-  约束 case-world 必须长成什么样
-- `probe_strategy`
-  约束 story-plan 的 planned probes 应该测试什么
-- `expected_good_system_behavior`
-  帮助 eval 阶段理解好系统应该怎么答
+下面是最终 `case_context.json` 中 capability brief 的片段示例：
 
-## 不要做什么
-
-- 不要开始写企业场景
-- 不要开始写任务细节
-- 不要开始写 message beats
-- 不要重新定义 family
-- 不要把 `效能指标验证` 写成 family 字段
+```json
+{
+  "capability_under_test": "在多个状态更新发生后，识别哪个值已经被覆盖，哪个值仍是当前值，并明确旧口径已经作废。",
+  "why_memory_systems_may_fail": "系统容易记住较早的显式值，却忽略后续修正和 supersede 关系，最终把 stale value 当成 current value。",
+  "generation_rules": [
+    "必须有至少 3 段状态：initial、historical、current。",
+    "更新必须通过真实消息落地，不能只在结构化字段里声明。",
+    "当前 difficulty 必须保证足够多的部门、角色和 session，不能把复杂协作压成单线程对话。"
+  ],
+  "required_case_structure": [
+    "target_task",
+    "distractor_context",
+    "multi_step_update_sequence",
+    "supersedes_relation"
+  ],
+  "probe_strategy": [
+    "查询当前状态，同时追问历史状态是否仍然有效。"
+  ],
+  "expected_good_system_behavior": [
+    "返回 current value，并标注历史值已经失效。"
+  ]
+}
+```

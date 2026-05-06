@@ -1,51 +1,9 @@
 # Feishu Task Wiki Benchmark Builder Workflow
 
-## 定位
-
-这套 workflow 采用 family-first 设计：
-
-- 先决定要测哪一种 memory capability family
-- 正式 family 固定为 `anti_interference`、`contradiction_update`、`evidence_dependency_reasoning`
-- 再把 capability brief 业务化成企业场景
-- 再在统一的 `story_plan.json` 中承载任务、角色、状态变化、消息节奏和 planned probe queries
-- collect 之后才做 observed validation、annotation gold 和 benchmark evaluation
-
-## 正式 artifact
-
-- `dataset_generation_plan.json`
-- `input/family_selection.json`
-- `input/memory_capability_brief.json`
-- `case_spec.json`
-- `input/case_world.json`
-- `input/story_plan.json`
-- `input/command_plan.jsonl`
-- `data/collected_messages.jsonl`
-- `data/openclaw_message_ingress.jsonl`
-- `checks/pre_annotation_validation_report.json`
-- `gold/annotation_gold.jsonl`
-- `gold/query_benchmark.json`
-- `reports/replay_eval.json`
-- `reports/baseline_eval.json`
-- `reports/value_eval.json`
-- `reports/final_benchmark_report.md`
-
-## 不再存在的正式 artifact
-
-- `input/memory_failure_blueprint.json`
-- `input/task_actor_layout.json`
-- `input/state_trajectory.json`
-- `input/probe_targets.json`
-- `input/memory_case_contract.json`
-- `case_manifest.json`
-
 ## Phase 1
 
 ```text
-dataset-plan
--> family-selection
--> memory-capability-brief
--> case-spec
--> case-world
+case-context
 -> story-plan
 -> command-plan
 -> execute
@@ -53,73 +11,98 @@ dataset-plan
 -> pre-annotation-validate
 ```
 
-### dataset-plan
+### `case-context`
 
-- 输入：`dataset_size`、`seed`、`difficulty`
-- 输出：`dataset_generation_plan.json`
-- 说明：只在 batch 模式下需要，用来定义 family quota、difficulty policy 和 seed policy
+- 输入：
+  - `--seed`
+  - `--family-id` 可选
+  - `--difficulty`
+  - `--comparison-target`
+- 前置要求：
+  - 先通过真实模型预检
+  - 真实模型配置只读取 repo 根 `.env`
+- 输出：
+  - `input/case_context.json`
+- 作用：
+  - 一次性收口 family 选择、能力约束、case 控制字段、企业场景
+  - 由大模型直接生成，不走规则 fallback
+  - `case_id`、`task_id`、`seed`、`difficulty`、`comparison_target` 由代码层注入，不由模型自由命名
 
-### family-selection
+### `story-plan`
 
-- 输入：`seed` 或用户显式指定的 `family_id`
-- 输出：`input/family_selection.json`
-- 说明：single case 未指定 family 时，按 seed deterministic 选择
+- 输入：
+  - `input/case_context.json`
+- 前置要求：
+  - 先通过真实模型预检
+- 输出：
+  - `input/story_plan.json`
+- 作用：
+  - 生成单 `task`、actors、task_actor_layout、state_changes、message_beats、planned_probe_queries
+  - 由大模型直接生成，不走规则 fallback
 
-### memory-capability-brief
+### `command-plan`
 
-- 输入：`input/family_selection.json`
-- 输出：`input/memory_capability_brief.json`
-- 说明：定义本 case 测试的 memory capability、生成规则、required structure、probe strategy，以及项目需求映射字段
+- 输入：
+  - `input/story_plan.json`
+- 输出：
+  - `input/command_plan.jsonl`
 
-### case-spec
+### `execute`
 
-- 输入：`family_selection + difficulty + comparison_target + seed`
-- 输出：`case_spec.json`
-- 说明：只保留控制字段，不承载解释性 family 语义
+- 输入：
+  - `input/case_context.json`
+  - `input/command_plan.jsonl`
+- 输出：
+  - `runtime/executed_commands.jsonl`
 
-### case-world
+### `collect`
 
-- 输入：`case_spec + memory_capability_brief`
-- 输出：`input/case_world.json`
-- 说明：不是自由写故事，而是把 brief 业务化成自然企业场景
-
-### story-plan
-
-- 输入：`case_spec + case_world + memory_capability_brief`
-- 输出：`input/story_plan.json`
-- 说明：这是 V1-Lite 唯一核心中间 artifact，统一承载：
-  - `tasks`
-  - `actors`
-  - `task_actor_layout`
-  - `state_changes`
-  - `message_beats`
-  - `planned_probe_queries`
-
-### command-plan
-
-- 输入：`input/story_plan.json`
-- 输出：`input/command_plan.jsonl`
-- 说明：把 message beats 转成可执行动作
-
-### execute
-
-- 输入：`input/command_plan.jsonl`
-- 输出：`runtime/executed_commands.jsonl`
-- 说明：执行动作计划，形成 runtime trace
-
-### collect
-
-- 输入：`runtime/executed_commands.jsonl`
+- 输入：
+  - `input/case_context.json`
+  - `runtime/executed_commands.jsonl`
 - 输出：
   - `data/collected_messages.jsonl`
   - `data/openclaw_message_ingress.jsonl`
-- 说明：把执行结果转成 observed-side message artifacts
 
-### pre-annotation-validate
+### `pre-annotation-validate`
 
-- 输入：`story_plan + collected_messages`
-- 输出：`checks/pre_annotation_validation_report.json`
-- 说明：这是 observed-side validation，不是 gold，也不是 replay eval
+- 输入：
+  - `input/case_context.json`
+  - `input/story_plan.json`
+  - `data/collected_messages.jsonl`
+- 输出：
+  - `checks/pre_annotation_validation_report.json`
+
+### model 调用日志
+
+- 运行时会额外写：
+  - `logs/model_call_log.jsonl`
+- 当前只记录：
+  - `case-context`
+  - `story-plan`
+- 默认认证来源：
+  - 只读 repo 根 `.env`
+- 当前日志只保留元数据：
+  - `timestamp`
+  - `stage`
+  - `backend`
+  - `model`
+  - `base_url`
+  - `success`
+  - `duration_ms`
+  - `case_id`
+  - `artifact_path`
+- 失败时额外记录：
+  - `error_type`
+  - `error_code`
+  - `http_status`
+  - `message`
+
+### auth-check
+
+- `auth-check` 会读取 repo 根 `.env`
+- 它会用当前 `OPENAI_API_KEY`、`OPENAI_API_BASE_URL`、`FEISHU_BUILDER_MODEL` 做一次真实 API 探活
+- 如果失败，CLI 会直接返回可修复的错误提示，而不是打印 Python traceback
 
 ## Phase 2
 
@@ -129,23 +112,10 @@ annotation-gold
 -> replay-eval
 ```
 
-### annotation-gold
-
-- 输入：`story_plan + collected_messages`
-- 输出：`gold/annotation_gold.jsonl`
-- 说明：只能基于 observed messages 回标
-
-### query-benchmark
-
-- 输入：`annotation_gold + story_plan`
-- 输出：`gold/query_benchmark.json`
-- 说明：把 planned probe queries 收口成正式评测 query
-
-### replay-eval
-
-- 输入：`gold/query_benchmark.json`
-- 输出：`reports/replay_eval.json`
-- 说明：这是 Task Wiki replay 结果，不是 baseline comparison
+- 正式输出：
+  - `gold/annotation_gold.jsonl`
+  - `gold/query_benchmark.json`
+  - `reports/replay_eval.json`
 
 ## Phase 3
 
@@ -155,20 +125,16 @@ baseline-eval
 -> benchmark-report
 ```
 
-### baseline-eval
+- 正式输出：
+  - `reports/baseline_eval.json`
+  - `reports/value_eval.json`
+  - `reports/final_benchmark_report.md`
 
-- 输入：`reports/replay_eval.json`
-- 输出：`reports/baseline_eval.json`
-- 说明：输出 `openclaw_memory_md`、`raw_message_rag`、`task_wiki` 三个 baseline mode
+## 不再作为正式上游 artifact 的文件
 
-### value-eval
+- `input/family_selection.json`
+- `input/memory_capability_brief.json`
+- `case_spec.json`
+- `input/case_world.json`
 
-- 输入：`reports/replay_eval.json + reports/baseline_eval.json`
-- 输出：`reports/value_eval.json`
-- 说明：衡量 Task Wiki 相对 baseline 的能力提升
-
-### benchmark-report
-
-- 输入：`case_spec + capability_brief + replay_eval + baseline_eval + value_eval`
-- 输出：`reports/final_benchmark_report.md`
-- 说明：输出人类可读总结
+这些信息现在全部并入 `input/case_context.json`。

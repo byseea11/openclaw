@@ -1,6 +1,6 @@
 ---
 name: feishu-task-wiki-benchmark-builder
-description: Build or refactor the Feishu Task Wiki benchmark builder. Use when Codex needs the repo-local builder workflow, and then immediately load the code-side machine guidance at feishu_task_wiki_benchmark_builder/skills/root.md before making design or implementation choices.
+description: Build or refactor the Feishu Task Wiki benchmark builder. Use when Codex needs the repo-local builder workflow, and then immediately load the code-side machine guidance at feishu_task_wiki_benchmark_builder/skills/workflow.md before making design or implementation choices.
 ---
 
 # Feishu Task Wiki Benchmark Builder
@@ -11,7 +11,7 @@ Use this skill when the task is specifically about the Feishu Task Wiki benchmar
 
 Immediately read:
 
-- `feishu_task_wiki_benchmark_builder/skills/root.md`
+- `feishu_task_wiki_benchmark_builder/skills/workflow.md`
 
 ## What this shell does
 

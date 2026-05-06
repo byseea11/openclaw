@@ -2,7 +2,7 @@
 
 ## 本质
 
-这类 family 测的是：当多个任务共享角色、词汇和上下文时，系统能不能只回答目标任务的当前上下文。
+这类 family 测的是：当单个目标任务周围存在来自其他任务的共享角色、相似措辞和并行协作上下文时，系统能不能只回答目标任务的当前上下文。
 
 ## 为什么默认记忆系统容易失败
 
@@ -12,19 +12,32 @@
 
 失败通常不是因为没记住，而是因为记住了太多相似片段，却没有足够强的 task boundary。
 
+## 为什么这个 hard case 会难倒弱记忆系统
+
+- 同一个人同时在目标任务和并行上下文里出现，弱记忆系统会把 reviewer / ops owner 身份拼进目标任务答案。
+- 多条消息都使用 `owner`、`blocker`、`ready`、`收口` 这类相似词，静态 summary 很容易把别处的 blocker 当成当前 blocker。
+- 即使消息里明说“这不是目标任务 owner 变更”，只做关键词拼接的系统仍然可能把它当成新的 owner 证据。
+
+## 最容易误判的消息
+
+- “这不是目标任务 owner 变更”这类带否定和排除语义的消息。
+- shared actor 在其他上下文里的角色说明。
+- 相似措辞但不同 scope 的 blocker / ready 描述。
+
 ## 对后续阶段的帮助
 
 ### capability-brief
 
-- 强调必须有 target task、distractor tasks 和 shared actors
+- 强调必须有单一 target task、shared actors 和来自其他任务的干扰上下文
 
 ### case-world
 
-- 强调场景里必须天然存在多任务并行和共享角色
+- 强调场景里必须天然存在其他任务带来的并行上下文和共享角色
 
 ### story-plan
 
 - 强调 `task_actor_layout` 和 `planned_probe_queries` 是重点
+- 强调 `interference_context_blocks` 必须把 shared actor noise、相似措辞噪声或并行讨论噪声结构化出来
 
 ## 有效 probe
 
@@ -34,10 +47,11 @@
 ## 无效 probe
 
 - 只问一个显式字段、完全不制造相似任务干扰
-- 不要求区分目标任务和 distractor task
+- 不要求区分目标任务和其他任务上下文
 
 ## Observed Validation / Eval 重点
 
-- shared actor 是否真的出现在多个任务中
+- shared actor 是否真的同时出现在目标任务和其他任务上下文中
 - distractor 信息是否真的进入了 observed messages
 - probe 是否真的需要系统做 task boundary 判断
+- `interference_context_blocks` 是否都在消息里找得到对应噪声来源

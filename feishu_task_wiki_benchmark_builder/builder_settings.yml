@@ -1,0 +1,115 @@
+{
+  "defaults": {
+    "default_difficulty": "medium",
+    "department_pool": [
+      "产品",
+      "研发",
+      "架构",
+      "安全",
+      "合规",
+      "风控",
+      "运维",
+      "站点可靠性工程",
+      "数据平台",
+      "销售",
+      "市场",
+      "客户成功",
+      "测试",
+      "法务",
+      "财务",
+      "采购",
+      "商务",
+      "客服",
+      "运营",
+      "项目管理办公室"
+    ],
+    "comparison_target_default": "default_memory_architectures"
+  },
+  "difficulty_profiles": {
+    "easy": {
+      "department_count": 5,
+      "character_count_min": 6,
+      "character_count_max": 8,
+      "require_cross_source_revision": false,
+      "session_blueprint": [
+        "main_chat",
+        "handoff_thread",
+        "customer_sync_chat"
+      ]
+    },
+    "medium": {
+      "department_count": 7,
+      "character_count_min": 8,
+      "character_count_max": 10,
+      "require_cross_source_revision": true,
+      "session_blueprint": [
+        "main_chat",
+        "handoff_thread",
+        "customer_sync_chat",
+        "risk_review_thread"
+      ]
+    },
+    "hard": {
+      "department_count": 9,
+      "character_count_min": 10,
+      "character_count_max": 12,
+      "require_cross_source_revision": true,
+      "session_blueprint": [
+        "main_chat",
+        "handoff_thread",
+        "customer_sync_chat",
+        "risk_review_thread",
+        "exec_sync_chat"
+      ]
+    }
+  },
+  "family_constraints": {
+    "anti_interference": {
+      "min_interference_context_blocks": 3,
+      "min_shared_actors": 2,
+      "required_noise_types": [
+        "shared_actor_noise",
+        "similar_wording_noise",
+        "parallel_discussion_noise"
+      ]
+    },
+    "contradiction_update": {
+      "min_state_tracks": 3,
+      "min_stale_states": 2,
+      "required_supersession_clues": [
+        "之前口径作废",
+        "最终确认以本轮为准"
+      ]
+    },
+    "evidence_dependency_reasoning": {
+      "min_dependency_hops": 2,
+      "min_cross_source_updates": 1,
+      "required_evidence_roles": [
+        "verified_anchor",
+        "hearsay_channel",
+        "ambiguous_channel",
+        "downstream_impact"
+      ]
+    }
+  },
+  "topology_defaults": {
+    "shared_actor_slot_suggestions": [
+      "产品负责人",
+      "研发负责人",
+      "运维负责人",
+      "安全评审",
+      "客户经理"
+    ],
+    "external_context_types": [
+      "客户同步",
+      "供应商依赖",
+      "风险评审",
+      "对外发布时间压力"
+    ],
+    "lateral_session_types": [
+      "customer_sync_chat",
+      "risk_review_thread",
+      "exec_sync_chat"
+    ]
+  }
+}

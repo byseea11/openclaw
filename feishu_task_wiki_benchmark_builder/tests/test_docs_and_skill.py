@@ -5,9 +5,7 @@ from pathlib import Path
 
 from feishu_task_wiki_benchmark_builder.family_catalog import FAMILY_CATALOG, ordered_family_ids
 from feishu_task_wiki_benchmark_builder.prompt import (
-    build_capability_brief_system_prompt,
-    build_case_world_system_prompt,
-    build_family_selection_system_prompt,
+    build_case_context_system_prompt,
     build_story_plan_system_prompt,
 )
 
@@ -21,18 +19,30 @@ class DocsAndSkillTests(unittest.TestCase):
 
     def test_workflow_doc_lists_all_phases(self) -> None:
         workflow = Path("feishu_task_wiki_benchmark_builder/docs/workflow.md").read_text(encoding="utf-8")
-        self.assertIn("dataset-plan", workflow)
+        self.assertIn("case-context", workflow)
         self.assertIn("pre-annotation-validate", workflow)
         self.assertIn("annotation-gold", workflow)
         self.assertIn("benchmark-report", workflow)
 
-    def test_root_skill_lists_internal_skills(self) -> None:
-        root_skill = Path("feishu_task_wiki_benchmark_builder/skills/root.md").read_text(encoding="utf-8")
-        self.assertIn("family-selection", root_skill)
-        self.assertIn("capability-brief", root_skill)
-        self.assertIn("case-world", root_skill)
-        self.assertIn("story-plan", root_skill)
-        self.assertIn("evaluation", root_skill)
+    def test_workflow_skill_exists_and_routes_phase1(self) -> None:
+        workflow_skill = Path("feishu_task_wiki_benchmark_builder/skills/workflow.md").read_text(encoding="utf-8")
+        self.assertIn("Canonical Workflow", workflow_skill)
+        self.assertIn("Stage Routing", workflow_skill)
+        self.assertIn("Stage Summary", workflow_skill)
+        self.assertIn("Minimal Global Invariants", workflow_skill)
+        self.assertIn("case-context", workflow_skill)
+        self.assertIn("story-plan", workflow_skill)
+        self.assertIn("command-plan", workflow_skill)
+        self.assertIn("story_plan.json", workflow_skill)
+        self.assertIn("效能指标验证", workflow_skill)
+        self.assertIn("不允许走规则 fallback", workflow_skill)
+        self.assertIn("family-selection.md", workflow_skill)
+        self.assertIn("capability-brief.md", workflow_skill)
+        self.assertIn("case-world.md", workflow_skill)
+        self.assertIn("anti-interference-context.md", workflow_skill)
+        self.assertIn("contradiction-update-context.md", workflow_skill)
+        self.assertIn("evidence-dependency-context.md", workflow_skill)
+        self.assertIn("evaluation.md", workflow_skill)
 
     def test_every_family_id_has_a_matching_family_doc(self) -> None:
         for family_id in ordered_family_ids():
@@ -47,10 +57,12 @@ class DocsAndSkillTests(unittest.TestCase):
             self.assertTrue(definition.report_display_name)
 
     def test_prompt_module_exports_required_stage_prompts(self) -> None:
-        self.assertIn("anti_interference", build_family_selection_system_prompt())
-        self.assertIn("memory-capability-brief", build_capability_brief_system_prompt())
-        self.assertIn("case-world", build_case_world_system_prompt())
+        self.assertIn("case-context", build_case_context_system_prompt())
         self.assertIn("story-plan", build_story_plan_system_prompt())
+        architecture = Path("feishu_task_wiki_benchmark_builder/docs/architecture.md").read_text(encoding="utf-8")
+        self.assertIn("builder_settings.yml", architecture)
+        self.assertIn("source of truth", architecture)
+        self.assertIn("prompt_settings_renderer.py", architecture)
 
 
 if __name__ == "__main__":

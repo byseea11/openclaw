@@ -17,7 +17,9 @@ type SessionModule = {
 };
 
 type ProjectorModule = {
-  updateTaskWikiFromVerifiedEvents: (params: { sessionDir: string }) => Promise<Record<string, unknown>>;
+  updateTaskWikiFromVerifiedEvents: (params: {
+    sessionDir: string;
+  }) => Promise<Record<string, unknown>>;
 };
 
 function loadBindingModule(): BindingModule {
@@ -311,7 +313,7 @@ describe("task wiki projector", () => {
           messages?: Array<{ content?: string }>;
         };
         const userPrompt = String(payload.messages?.[1]?.content ?? "");
-        if (userPrompt.includes("\"assignments\"")) {
+        if (userPrompt.includes('"assignments"')) {
           return {
             ok: true,
             text: async () =>
@@ -489,7 +491,9 @@ describe("task wiki projector", () => {
     ) as {
       blocks: Record<string, { topic_title: string; summary: string }>;
     };
-    const riskBlockBefore = Object.values(beforeState.blocks).find((block) => block.topic_title === "销售承诺风险");
+    const riskBlockBefore = Object.values(beforeState.blocks).find(
+      (block) => block.topic_title === "销售承诺风险",
+    );
     expect(riskBlockBefore).toBeTruthy();
 
     await writeSessionEvents(seed.sessionDir, [
@@ -514,13 +518,93 @@ describe("task wiki projector", () => {
     ) as {
       blocks: Record<string, { topic_title: string; summary: string }>;
     };
-    const riskBlockAfter = Object.values(afterState.blocks).find((block) => block.topic_title === "销售承诺风险");
+    const riskBlockAfter = Object.values(afterState.blocks).find(
+      (block) => block.topic_title === "销售承诺风险",
+    );
     expect(riskBlockAfter?.summary).toBe(riskBlockBefore?.summary);
+  });
+
+  it("renders same-KI session updates as current plus history with evidence refs", async () => {
+    const { updateTaskWikiFromVerifiedEvents } = loadProjectorModule();
+    const seed = await createSeedSession("oc_chat_p3_4", "创建任务 FEISHU-231：统一发布时间口径。");
+
+    const oldTimeEvent = makeVerifiedEvent({
+      eventId: "evt_time_session_old",
+      sourceSessionId: seed.sourceSessionId,
+      ingestVersion: 1,
+      eventType: "time_event",
+      claim: "目标发布时间暂定 5 月 5 日。",
+      coreEntryId: "om_time_session_old",
+      evidenceQuote: "目标发布时间暂定 5 月 5 日。",
+      eventTime: "2026-05-01T09:00:00.000Z",
+      chatId: "oc_chat_p3_4",
+      timeTarget: "发布时间口径",
+      timeValue: "5 月 5 日",
+    });
+    const newTimeEvent = makeVerifiedEvent({
+      eventId: "evt_time_session_new",
+      sourceSessionId: seed.sourceSessionId,
+      ingestVersion: 2,
+      eventType: "time_event",
+      claim: "目标发布时间顺延到 5 月 8 日。",
+      coreEntryId: "om_time_session_new",
+      evidenceQuote: "目标发布时间顺延到 5 月 8 日。",
+      eventTime: "2026-05-01T15:00:00.000Z",
+      chatId: "oc_chat_p3_4",
+      timeTarget: "发布时间口径",
+      timeValue: "5 月 8 日",
+    });
+
+    await writeSessionEvents(seed.sessionDir, [oldTimeEvent]);
+    await updateTaskWikiFromVerifiedEvents({ sessionDir: seed.sessionDir });
+    await writeSessionEvents(seed.sessionDir, [oldTimeEvent, newTimeEvent]);
+    await updateTaskWikiFromVerifiedEvents({ sessionDir: seed.sessionDir });
+
+    const taskRoot = path.dirname(path.dirname(seed.sessionDir));
+    const sessionWiki = await fs.readFile(path.join(seed.sessionDir, "session_wiki.md"), "utf8");
+    const taskWiki = await fs.readFile(path.join(taskRoot, "task_wiki.md"), "utf8");
+    const sessionState = JSON.parse(
+      await fs.readFile(path.join(seed.sessionDir, "session_wiki_state.json"), "utf8"),
+    ) as {
+      blocks: Record<
+        string,
+        { topic_title: string; slots: { time: Array<{ event_id: string; is_current: boolean }> } }
+      >;
+    };
+    const timeBlock = Object.values(sessionState.blocks).find(
+      (block) => block.topic_title === "发布时间口径",
+    );
+    const timeItems = timeBlock?.slots.time ?? [];
+
+    expect(timeItems.find((item) => item.event_id === "evt_time_session_new")?.is_current).toBe(
+      true,
+    );
+    expect(timeItems.find((item) => item.event_id === "evt_time_session_old")?.is_current).toBe(
+      false,
+    );
+    expect(sessionWiki).toContain("#### Time");
+    expect(sessionWiki).toContain("##### Current");
+    expect(sessionWiki).toContain("##### History");
+    const currentIndex = sessionWiki.indexOf("[当前] 目标发布时间顺延到 5 月 8 日。");
+    const historyIndex = sessionWiki.indexOf("[历史] 目标发布时间暂定 5 月 5 日。");
+    expect(currentIndex).toBeGreaterThan(-1);
+    expect(historyIndex).toBeGreaterThan(currentIndex);
+    expect(sessionWiki).toContain("session_events.jsonl#evt_time_session_new");
+    expect(sessionWiki).toContain("session_events.jsonl#evt_time_session_old");
+    expect(sessionWiki).toContain("session.md#om_time_session_new");
+    expect(sessionWiki).toContain("session.md#om_time_session_old");
+    expect(sessionWiki).toContain("Quote: 目标发布时间顺延到 5 月 8 日。");
+    expect(sessionWiki).toContain("Quote: 目标发布时间暂定 5 月 5 日。");
+    expect(taskWiki).toContain("目标发布时间顺延到 5 月 8 日。");
+    expect(taskWiki).not.toContain("目标发布时间暂定 5 月 5 日。");
   });
 
   it("keeps only the newest current item for the same topic in task_wiki across sessions", async () => {
     const { updateTaskWikiFromVerifiedEvents } = loadProjectorModule();
-    const first = await createSeedSession("oc_chat_p3_4a", "创建任务 FEISHU-231：统一发布时间口径。");
+    const first = await createSeedSession(
+      "oc_chat_p3_4a",
+      "创建任务 FEISHU-231：统一发布时间口径。",
+    );
     const second = await createSeedSession("oc_chat_p3_4b", "同步任务 FEISHU-231：上线时间更新。");
 
     await writeSessionEvents(first.sessionDir, [

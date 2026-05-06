@@ -116,6 +116,86 @@ def validate_memory_capability_brief(payload: dict[str, Any]) -> dict[str, Any]:
     }
 
 
+def validate_case_context(payload: dict[str, Any]) -> dict[str, Any]:
+    obj = _require_dict(payload, "case_context")
+    family_id = _require_string(obj.get("family_id"), "case_context.family_id")
+    if family_id not in FORMAL_FAMILY_IDS:
+        raise ValidationError("case_context.family_id must be a formal family id")
+    return {
+        "family_id": family_id,
+        "benchmark_requirement_name": _require_string(
+            obj.get("benchmark_requirement_name"),
+            "case_context.benchmark_requirement_name",
+        ),
+        "benchmark_requirement_summary": _require_string(
+            obj.get("benchmark_requirement_summary"),
+            "case_context.benchmark_requirement_summary",
+        ),
+        "report_display_name": _require_string(
+            obj.get("report_display_name"),
+            "case_context.report_display_name",
+        ),
+        "capability_under_test": _require_string(
+            obj.get("capability_under_test"),
+            "case_context.capability_under_test",
+        ),
+        "why_memory_systems_may_fail": _require_string(
+            obj.get("why_memory_systems_may_fail"),
+            "case_context.why_memory_systems_may_fail",
+        ),
+        "generation_rules": [
+            _require_string(item, f"case_context.generation_rules[{index}]")
+            for index, item in enumerate(
+                _require_list(obj.get("generation_rules"), "case_context.generation_rules"),
+                start=1,
+            )
+        ],
+        "required_case_structure": [
+            _require_string(item, f"case_context.required_case_structure[{index}]")
+            for index, item in enumerate(
+                _require_list(obj.get("required_case_structure"), "case_context.required_case_structure"),
+                start=1,
+            )
+        ],
+        "probe_strategy": [
+            _require_string(item, f"case_context.probe_strategy[{index}]")
+            for index, item in enumerate(
+                _require_list(obj.get("probe_strategy"), "case_context.probe_strategy"),
+                start=1,
+            )
+        ],
+        "expected_good_system_behavior": [
+            _require_string(item, f"case_context.expected_good_system_behavior[{index}]")
+            for index, item in enumerate(
+                _require_list(
+                    obj.get("expected_good_system_behavior"),
+                    "case_context.expected_good_system_behavior",
+                ),
+                start=1,
+            )
+        ],
+        "case_id": _require_string(obj.get("case_id"), "case_context.case_id"),
+        "task_id": _require_string(obj.get("task_id"), "case_context.task_id"),
+        "seed": int(_require_number(obj.get("seed"), "case_context.seed")),
+        "difficulty": _require_string(obj.get("difficulty"), "case_context.difficulty"),
+        "comparison_target": _require_string(
+            obj.get("comparison_target"),
+            "case_context.comparison_target",
+        ),
+        "organization": _require_string(obj.get("organization"), "case_context.organization"),
+        "team": _require_string(obj.get("team"), "case_context.team"),
+        "business_goal": _require_string(obj.get("business_goal"), "case_context.business_goal"),
+        "scenario_summary": _require_string(
+            obj.get("scenario_summary"),
+            "case_context.scenario_summary",
+        ),
+        "family_fit_explanation": _require_string(
+            obj.get("family_fit_explanation"),
+            "case_context.family_fit_explanation",
+        ),
+    }
+
+
 def validate_case_spec(payload: dict[str, Any]) -> dict[str, Any]:
     obj = _require_dict(payload, "case_spec")
     family_id = _require_string(obj.get("family_id"), "case_spec.family_id")
@@ -149,7 +229,17 @@ def validate_case_world(payload: dict[str, Any]) -> dict[str, Any]:
 
 def validate_story_plan(payload: dict[str, Any]) -> dict[str, Any]:
     obj = _require_dict(payload, "story_plan")
-    tasks = _require_list(obj.get("tasks"), "story_plan.tasks")
+    task_obj = obj.get("task")
+    tasks_obj = obj.get("tasks")
+    if task_obj is not None:
+        task = _require_dict(task_obj, "story_plan.task")
+    elif tasks_obj is not None:
+        tasks = _require_list(tasks_obj, "story_plan.tasks")
+        if len(tasks) != 1:
+            raise ValidationError("story_plan.tasks must contain exactly one task")
+        task = _require_dict(tasks[0], "story_plan.tasks[0]")
+    else:
+        raise ValidationError("story_plan.task is required")
     actors = _require_list(obj.get("actors"), "story_plan.actors")
     task_actor_layout = _require_dict(obj.get("task_actor_layout"), "story_plan.task_actor_layout")
     state_changes = _require_list(obj.get("state_changes"), "story_plan.state_changes")
@@ -158,8 +248,6 @@ def validate_story_plan(payload: dict[str, Any]) -> dict[str, Any]:
         obj.get("planned_probe_queries"),
         "story_plan.planned_probe_queries",
     )
-    if not tasks:
-        raise ValidationError("story_plan.tasks must not be empty")
     if not actors:
         raise ValidationError("story_plan.actors must not be empty")
     if not state_changes:
@@ -183,7 +271,7 @@ def validate_story_plan(payload: dict[str, Any]) -> dict[str, Any]:
         "story_id": _require_string(obj.get("story_id"), "story_plan.story_id"),
         "case_id": _require_string(obj.get("case_id"), "story_plan.case_id"),
         "family_id": _require_string(obj.get("family_id"), "story_plan.family_id"),
-        "tasks": tasks,
+        "task": task,
         "actors": actors,
         "task_actor_layout": task_actor_layout,
         "state_changes": state_changes,

@@ -12,6 +12,18 @@
 
 失败不是单纯 missing memory，而是时序和 supersedes 关系没有被建模。
 
+## 为什么这个 hard case 会难倒弱记忆系统
+
+- 早期口径通常写得最明确，弱记忆系统容易把最早出现的 owner 或日期直接保留下来。
+- 中间修正是真实存在且一度有效的，所以不能简单当噪声丢掉，这会逼系统正确区分 historical 和 current。
+- 最终消息虽然给了强 supersession clue，但如果系统没有建模“作废关系”，仍会把旧值和当前值并列保留。
+
+## 最容易误判的消息
+
+- 第一轮最明确的 owner / window 宣布。
+- 中间那轮看起来很“正式”的修正消息。
+- 最终带“之前口径作废”的 current-state 确认消息。
+
 ## 对后续阶段的帮助
 
 ### capability-brief
@@ -25,6 +37,7 @@
 ### story-plan
 
 - 强调 `state_changes` 和 planned probes 是重点
+- 强调 `revision_context_blocks` 和 `supersession_clues` 必须明确指出哪一轮口径已经作废
 
 ## 有效 probe
 
@@ -41,3 +54,4 @@
 - 更新是否真的在消息里逐步发生
 - 当前值和历史值是否都能在 observed data 找到证据
 - probe 是否真的测试 supersession 而不是普通字段抽取
+- `revision_context_blocks` 是否能把 stale / historical / current 的语义边界表达清楚

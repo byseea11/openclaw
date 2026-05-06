@@ -1,4 +1,4 @@
 interface:
   display_name: "Feishu Task Wiki Builder"
   short_description: "Implement the family-first Feishu Task Wiki benchmark builder"
-  default_prompt: "Use $feishu-task-wiki-benchmark-builder to work on the Feishu Task Wiki benchmark builder, then load feishu_task_wiki_benchmark_builder/skills/root.md before making design or implementation choices."
+  default_prompt: "Use $feishu-task-wiki-benchmark-builder to work on the Feishu Task Wiki benchmark builder, then load feishu_task_wiki_benchmark_builder/skills/workflow.md before making design or implementation choices."

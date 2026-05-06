@@ -1337,6 +1337,10 @@ index 中每个 Memory Block 只需要保留轻量信息：
 
 它不直接承载所有细节，而是从 index.md 中挑选当前最重要的 Memory Blocks，并综合这些 block 的结论、风险、行动项和时间线。
 
+它也不负责保存历史快照。历史追溯回到 `session_wiki.md` 中的 Memory Block：
+同一个 KI Slot 内最新有效项展示为 `Current`，旧项、被 supersede 项、失效项或来源失效项展示为 `History`，
+并继续保留 `Event Ref`、`Entry Ref` 和 quote。
+
 它应包含：
 
 ```text
@@ -1495,9 +1499,10 @@ new raw content
 ```text
 - 保留旧 event 作为历史事实
 - 用新 event 更新相关 Memory Block 的当前状态
+- 在 session_wiki.md 的同一 KI Slot 中把新项放入 Current，把旧项保留到 History
 - 将旧结论标记为 superseded
 - 在 task_wiki.md 中展示新的当前状态
-- 在时间线里保留历史变化
+- 通过 session_wiki.md 的 History 和 event evidence 链保留历史变化
 ```
 
 ---
@@ -1800,6 +1805,9 @@ No slot hallucination：字段缺失就填 null，不补。
 Typed verification：不同 event 类型使用不同校验规则。
 ```
 
-# 需要修改
+# 已确认的 history 调整
 
-1. wiki的更新需要增加history，把呃，原始的wiki的内容放在history里面，然后新增的再放在前面。这样的话可以做到历史追溯。如果是现在的机制没办法做历史追溯。
+1. Wiki 更新时不保存整页旧快照，而是在 `session_wiki.md` 的 KI Slot 内维护 `Current` / `History`。
+2. 新增或更新后的当前项放在 `Current`，同一 KI 的旧项放在 `History`。
+3. `task_wiki.md` 继续只展示当前状态；`index.md` 继续只负责定位 Memory Block。
+4. 溯源链路是 `index.md → session_wiki.md#Memory Block → KI Slot History → Event Ref / Entry Ref / quote`。

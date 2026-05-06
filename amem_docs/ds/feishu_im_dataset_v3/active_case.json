@@ -1,0 +1,9 @@
+{
+  "case_id": "case_20260506190905128493_contradiction_update",
+  "case_dir": "amem_docs/ds/feishu_im_dataset_v3/cases/case_20260506190905128493_contradiction_update",
+  "family_id": "contradiction_update",
+  "task_id": "FEISHU-293",
+  "seed": 20260506190905128493,
+  "last_completed_stage": "story-plan",
+  "updated_at": "2026-05-06T19:09:55.997302+00:00"
+}

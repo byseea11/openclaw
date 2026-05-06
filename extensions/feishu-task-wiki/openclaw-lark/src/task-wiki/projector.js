@@ -63,16 +63,7 @@ const EVENT_TYPE_LABEL = {
   scope_event: "范围",
 };
 
-const TOPIC_ROUTE_ORDER = [
-  "发布时间",
-  "风险",
-  "行动项",
-  "约束",
-  "时间线",
-  "范围",
-  "状态",
-  "决策",
-];
+const TOPIC_ROUTE_ORDER = ["发布时间", "风险", "行动项", "约束", "时间线", "范围", "状态", "决策"];
 
 function normalizeText(input) {
   return String(input ?? "")
@@ -91,7 +82,11 @@ function slugify(input) {
     .replace(/[^A-Za-z0-9._\u4e00-\u9fff-]+/gu, "_")
     .replace(/^_+|_+$/gu, "")
     .slice(0, 64);
-  const digest = crypto.createHash("sha1").update(String(input ?? "")).digest("hex").slice(0, 8);
+  const digest = crypto
+    .createHash("sha1")
+    .update(String(input ?? ""))
+    .digest("hex")
+    .slice(0, 8);
   return `${normalized || "item"}-${digest}`;
 }
 
@@ -124,14 +119,18 @@ function removeMarkedSection(content, key) {
 }
 
 function inferSemanticTopicSeed(event) {
-  const joined = normalizeText([
-    event?.target,
-    event?.time_target,
-    event?.scope_target,
-    event?.action,
-    event?.claim,
-    event?.evidence_quote,
-  ].filter(Boolean).join(" "));
+  const joined = normalizeText(
+    [
+      event?.target,
+      event?.time_target,
+      event?.scope_target,
+      event?.action,
+      event?.claim,
+      event?.evidence_quote,
+    ]
+      .filter(Boolean)
+      .join(" "),
+  );
   if (!joined) {
     return "";
   }
@@ -206,16 +205,17 @@ async function assignTopicsWithLLM(params) {
   if (!buildClientFromEnv()) {
     return fallbackAssignments;
   }
-  const previousAssignments = params.previousState?.block_order
-    ?.map((blockId) => params.previousState.blocks?.[blockId])
-    ?.filter(Boolean)
-    ?.flatMap((block) =>
-      (block.event_ids ?? []).map((eventId) => ({
-        event_id: eventId,
-        topic_key: block.topic_key,
-        topic_title: block.topic_title,
-      })),
-    ) ?? [];
+  const previousAssignments =
+    params.previousState?.block_order
+      ?.map((blockId) => params.previousState.blocks?.[blockId])
+      ?.filter(Boolean)
+      ?.flatMap((block) =>
+        (block.event_ids ?? []).map((eventId) => ({
+          event_id: eventId,
+          topic_key: block.topic_key,
+          topic_title: block.topic_title,
+        })),
+      ) ?? [];
   try {
     const result = await requestJson({
       systemPrompt: [
@@ -238,11 +238,7 @@ async function assignTopicsWithLLM(params) {
           suggested_topic_title: fallbackTopicTitleForEvent(event),
           claim: event.claim,
           key_field:
-            event.target
-            ?? event.time_target
-            ?? event.scope_target
-            ?? event.action
-            ?? null,
+            event.target ?? event.time_target ?? event.scope_target ?? event.action ?? null,
           evidence_quote: event.evidence_quote,
         })),
         output_schema: {
@@ -388,15 +384,15 @@ function inferBlockStatus(slots) {
   const currentObjections = slots.objection.filter((item) => item.is_current);
   const currentConstraints = slots.constraint.filter((item) => item.is_current);
   if (
-    currentStatusItems.some((item) => /完成|已完成|关闭|解决/u.test(item.claim))
-    && currentObjections.length === 0
+    currentStatusItems.some((item) => /完成|已完成|关闭|解决/u.test(item.claim)) &&
+    currentObjections.length === 0
   ) {
     return "resolved";
   }
   if (
-    currentObjections.length > 0
-    || currentConstraints.length > 0
-    || currentStatusItems.some((item) => /未|尚未|卡住|阻塞|风险/u.test(item.claim))
+    currentObjections.length > 0 ||
+    currentConstraints.length > 0 ||
+    currentStatusItems.some((item) => /未|尚未|卡住|阻塞|风险/u.test(item.claim))
   ) {
     return "open";
   }
@@ -433,23 +429,29 @@ function uniqueNormalized(items) {
 
 function fallbackSummary(kind, params) {
   if (kind === "block") {
-    const currentClaims = uniqueNormalized(SLOT_ORDER.flatMap((slot) =>
-      params.slots[slot].filter((item) => item.is_current).map((item) => item.claim),
-    ));
+    const currentClaims = uniqueNormalized(
+      SLOT_ORDER.flatMap((slot) =>
+        params.slots[slot].filter((item) => item.is_current).map((item) => item.claim),
+      ),
+    );
     if (currentClaims.length > 0) {
       return currentClaims.slice(0, 2).join("；");
     }
     return `该记忆块当前围绕${params.topicTitle}展开。`;
   }
   if (kind === "session") {
-    const topicTitles = uniqueNormalized(params.blocks.map((block) => block.topic_title).filter(Boolean));
+    const topicTitles = uniqueNormalized(
+      params.blocks.map((block) => block.topic_title).filter(Boolean),
+    );
     if (topicTitles.length > 0) {
       return `这次讨论主要涉及：${topicTitles.slice(0, 4).join("、")}。`;
     }
     return "本次 session 暂无已验证的结构化记忆块。";
   }
   if (kind === "task") {
-    const topicTitles = uniqueNormalized(params.blocks.map((block) => block.topic_title).filter(Boolean));
+    const topicTitles = uniqueNormalized(
+      params.blocks.map((block) => block.topic_title).filter(Boolean),
+    );
     if (topicTitles.length > 0) {
       return `当前任务重点集中在：${topicTitles.slice(0, 5).join("、")}。`;
     }
@@ -506,37 +508,43 @@ function blockSignature(block) {
   });
 }
 
+function renderSlotItemMarkdown(item) {
+  let prefix = "[历史]";
+  if (item.lifecycle_status === "invalid") {
+    prefix = item.lifecycle_reason === "source_revoked" ? "[来源失效]" : "[失效]";
+  } else if (item.is_current) {
+    prefix = "[当前]";
+  }
+  const lines = [`- ${prefix} ${item.claim}`, `  - Event Ref: ${item.event_ref}`];
+  if (item.entry_ref) {
+    lines.push(`  - Entry Ref: ${item.entry_ref}`);
+  }
+  lines.push(`  - Quote: ${item.evidence_quote}`);
+  return lines.join("\n");
+}
+
+function renderSlotItemList(items) {
+  if (!items.length) {
+    return "- 无";
+  }
+  return items.map((item) => renderSlotItemMarkdown(item)).join("\n");
+}
+
 function renderSlotMarkdown(slotItems) {
   if (!slotItems.length) {
     return "- 无";
   }
-  return slotItems
-    .map((item) => {
-      let prefix = "[历史]";
-      if (item.lifecycle_status === "invalid") {
-        prefix = item.lifecycle_reason === "source_revoked" ? "[来源失效]" : "[失效]";
-      } else if (item.is_current) {
-        prefix = "[当前]";
-      }
-      const lines = [
-        `- ${prefix} ${item.claim}`,
-        `  - Event Ref: ${item.event_ref}`,
-      ];
-      if (item.entry_ref) {
-        lines.push(`  - Entry Ref: ${item.entry_ref}`);
-      }
-      lines.push(`  - Quote: ${item.evidence_quote}`);
-      return lines.join("\n");
-    })
-    .join("\n");
+  const currentItems = slotItems.filter((item) => item.is_current);
+  const historyItems = slotItems.filter((item) => !item.is_current);
+  const lines = ["##### Current", renderSlotItemList(currentItems)];
+  if (historyItems.length > 0) {
+    lines.push("", "##### History", renderSlotItemList(historyItems));
+  }
+  return lines.join("\n");
 }
 
 function renderSessionSummarySection(summary) {
-  return renderMarkedSection("session-summary", [
-    "## Session Summary",
-    summary,
-    "",
-  ]);
+  return renderMarkedSection("session-summary", ["## Session Summary", summary, ""]);
 }
 
 function renderSessionWikiBlock(block, index) {
@@ -637,7 +645,9 @@ async function projectSessionWiki(params) {
   const blockOrder = [];
   const changedBlockIds = [];
   const previousBlocks = previousState?.blocks ?? {};
-  for (const bucket of [...eventsByTopic.values()].sort((left, right) => left.topic_title.localeCompare(right.topic_title, "zh-Hans-CN"))) {
+  for (const bucket of [...eventsByTopic.values()].sort((left, right) =>
+    left.topic_title.localeCompare(right.topic_title, "zh-Hans-CN"),
+  )) {
     const blockId = `block-${slugify(bucket.topic_key)}`;
     const anchorId = `block-${slugify(bucket.topic_key)}`;
     const slots = buildSlotItems(bucket.events, relativePagePath);
@@ -672,11 +682,13 @@ async function projectSessionWiki(params) {
           topic_title: bucket.topic_title,
           status: baseBlock.status,
           current_items: SLOT_ORDER.flatMap((slot) =>
-            slots[slot].filter((item) => item.is_current).map((item) => ({
-              slot,
-              claim: item.claim,
-              evidence_quote: item.evidence_quote,
-            })),
+            slots[slot]
+              .filter((item) => item.is_current)
+              .map((item) => ({
+                slot,
+                claim: item.claim,
+                evidence_quote: item.evidence_quote,
+              })),
           ),
         },
         fallback: {
@@ -730,9 +742,15 @@ async function projectSessionWiki(params) {
     block_order: blockOrder,
     blocks: nextBlocks,
     lifecycle_summary: {
-      active_event_count: sessionEvents.filter((event) => event.lifecycle?.lifecycle_status === "active").length,
-      historical_event_count: sessionEvents.filter((event) => event.lifecycle?.lifecycle_status === "historical").length,
-      invalid_event_count: sessionEvents.filter((event) => event.lifecycle?.lifecycle_status === "invalid").length,
+      active_event_count: sessionEvents.filter(
+        (event) => event.lifecycle?.lifecycle_status === "active",
+      ).length,
+      historical_event_count: sessionEvents.filter(
+        (event) => event.lifecycle?.lifecycle_status === "historical",
+      ).length,
+      invalid_event_count: sessionEvents.filter(
+        (event) => event.lifecycle?.lifecycle_status === "invalid",
+      ).length,
     },
     updated_at: new Date().toISOString(),
   };
@@ -782,28 +800,32 @@ function renderIndexMarkdown(state) {
     ]),
   ];
   for (const page of pageEntries) {
-    lines.push(renderMarkedSection(`wiki-page:${page.source_session_id}`, [
-      `### ${renderLink(page.relative_page_path, page.relative_page_path)}`,
-      page.summary || "该 session 的一手 Wiki 页面。",
-      "",
-      ...page.blocks.flatMap((block) => [
-        `- ${renderLink(`${page.relative_page_path}#${block.anchor_id}`, `${page.relative_page_path}#${block.anchor_id}`)}`,
-        `  - Topic: ${block.topic_title}`,
-        `  - Status: ${block.status}`,
-        `  - Slots: ${block.slots.join(", ")}`,
-        `  - Summary: ${block.summary}`,
+    lines.push(
+      renderMarkedSection(`wiki-page:${page.source_session_id}`, [
+        `### ${renderLink(page.relative_page_path, page.relative_page_path)}`,
+        page.summary || "该 session 的一手 Wiki 页面。",
         "",
+        ...page.blocks.flatMap((block) => [
+          `- ${renderLink(`${page.relative_page_path}#${block.anchor_id}`, `${page.relative_page_path}#${block.anchor_id}`)}`,
+          `  - Topic: ${block.topic_title}`,
+          `  - Status: ${block.status}`,
+          `  - Slots: ${block.slots.join(", ")}`,
+          `  - Summary: ${block.summary}`,
+          "",
+        ]),
       ]),
-    ]));
+    );
   }
   lines.push("## Topic Routes");
   lines.push("");
   for (const route of state.topic_routes) {
-    lines.push(renderMarkedSection(`topic-route:${slugify(route.topic_title)}`, [
-      `### ${route.topic_title}`,
-      ...route.block_links.map((link) => `- ${renderLink(link.label, link.target)}`),
-      "",
-    ]));
+    lines.push(
+      renderMarkedSection(`topic-route:${slugify(route.topic_title)}`, [
+        `### ${route.topic_title}`,
+        ...route.block_links.map((link) => `- ${renderLink(link.label, link.target)}`),
+        "",
+      ]),
+    );
   }
   return `${lines.join("\n").trim()}\n`;
 }
@@ -892,14 +914,16 @@ async function projectTaskIndex(params) {
   const previousPages = originalState.pages ?? {};
   const previousRoutes = originalState.topic_routes ?? [];
   const changedPageKeys = uniqueStrings(
-    Object.keys(previousState.pages).filter((key) =>
-      pageSignature(previousPages[key]) !== pageSignature(previousState.pages[key]),
+    Object.keys(previousState.pages).filter(
+      (key) => pageSignature(previousPages[key]) !== pageSignature(previousState.pages[key]),
     ),
   );
   const changedRouteTitles = uniqueStrings(
     previousState.topic_routes
       .filter((route) => {
-        const previousRoute = previousRoutes.find((entry) => entry.topic_title === route.topic_title);
+        const previousRoute = previousRoutes.find(
+          (entry) => entry.topic_title === route.topic_title,
+        );
         return routeSignature(previousRoute) !== routeSignature(route);
       })
       .map((route) => route.topic_title),
@@ -915,7 +939,10 @@ async function projectTaskIndex(params) {
     changedRouteTitles,
   });
   const sessionCount = Object.keys(previousState.pages).length;
-  const blockCount = Object.values(previousState.pages).reduce((sum, page) => sum + (page.blocks?.length ?? 0), 0);
+  const blockCount = Object.values(previousState.pages).reduce(
+    (sum, page) => sum + (page.blocks?.length ?? 0),
+    0,
+  );
   updateTaskYaml(params.taskRootDir, {
     taskId: previousState.task_id,
     taskKey: previousState.task_key,
@@ -970,10 +997,7 @@ function chooseNewestCurrentItems(items) {
 }
 
 function renderTaskWikiMarkdown(state) {
-  const lines = [
-    `# Task Wiki: ${state.task_key}`,
-    "",
-  ];
+  const lines = [`# Task Wiki: ${state.task_key}`, ""];
   const renderSectionItems = (items) => {
     if (!items.length) {
       return ["- 无"];
@@ -986,27 +1010,38 @@ function renderTaskWikiMarkdown(state) {
   };
   const renderTaskSection = (key, title, items) =>
     renderMarkedSection(`task-section:${key}`, [title, ...renderSectionItems(items), ""]);
-  lines.push(renderMarkedSection("task-summary", ["## Current Summary", state.current_summary, ""]));
+  lines.push(
+    renderMarkedSection("task-summary", ["## Current Summary", state.current_summary, ""]),
+  );
   lines.push(renderTaskSection("conclusion", "## Current Conclusions", state.sections.conclusion));
-  lines.push(renderMarkedSection("task-section:key-decisions", [
-    "## Key Decisions",
-    ...(state.related_blocks.length
-      ? state.related_blocks.map((block) => `- ${renderLink(block.topic_title, block.block_link)}：${block.summary}`)
-      : ["- 无"]),
-    "",
-  ]));
+  lines.push(
+    renderMarkedSection("task-section:key-decisions", [
+      "## Key Decisions",
+      ...(state.related_blocks.length
+        ? state.related_blocks.map(
+            (block) => `- ${renderLink(block.topic_title, block.block_link)}：${block.summary}`,
+          )
+        : ["- 无"]),
+      "",
+    ]),
+  );
   lines.push(renderTaskSection("rationale", "## Rationales", state.sections.rationale));
   lines.push(renderTaskSection("objection", "## Objections / Risks", state.sections.objection));
   lines.push(renderTaskSection("constraint", "## Constraints", state.sections.constraint));
   lines.push(renderTaskSection("commitment", "## Commitments", state.sections.commitment));
   lines.push(renderTaskSection("time", "## Timeline", state.sections.time));
-  lines.push(renderMarkedSection("task-section:related-blocks", [
-    "## Related Session Wikis / Memory Blocks",
-    ...(state.related_blocks.length
-      ? state.related_blocks.map((block) => `- ${renderLink(block.topic_title, block.block_link)} (${renderLink(block.source_session_id, block.session_wiki_path)})`)
-      : ["- 无"]),
-    "",
-  ]));
+  lines.push(
+    renderMarkedSection("task-section:related-blocks", [
+      "## Related Session Wikis / Memory Blocks",
+      ...(state.related_blocks.length
+        ? state.related_blocks.map(
+            (block) =>
+              `- ${renderLink(block.topic_title, block.block_link)} (${renderLink(block.source_session_id, block.session_wiki_path)})`,
+          )
+        : ["- 无"]),
+      "",
+    ]),
+  );
   lines.push("");
   return `${lines.join("\n").trim()}\n`;
 }
@@ -1025,7 +1060,9 @@ function sectionSignature(items) {
 
 function writeMarkdownWithFallback(params) {
   try {
-    const existing = fs.existsSync(params.filePath) ? fs.readFileSync(params.filePath, "utf8") : null;
+    const existing = fs.existsSync(params.filePath)
+      ? fs.readFileSync(params.filePath, "utf8")
+      : null;
     if (!existing) {
       fs.writeFileSync(params.filePath, params.fullContent, "utf8");
       return false;
@@ -1050,19 +1087,28 @@ function writeMarkdownWithFallback(params) {
 }
 
 function patchSessionWikiMarkdown(params) {
-  const nextBlocksById = new Map(params.nextState.block_order.map((blockId) => [blockId, params.nextState.blocks[blockId]]));
+  const nextBlocksById = new Map(
+    params.nextState.block_order.map((blockId) => [blockId, params.nextState.blocks[blockId]]),
+  );
   return writeMarkdownWithFallback({
     filePath: params.filePath,
     fullContent: renderSessionWikiMarkdown(params.nextState),
     taskRootDir: params.taskRootDir,
     fallbackDetail: params.nextState.relative_page_path,
     tryPatch(existing) {
-      if (JSON.stringify(params.previousState?.block_order ?? []) !== JSON.stringify(params.nextState.block_order)) {
+      if (
+        JSON.stringify(params.previousState?.block_order ?? []) !==
+        JSON.stringify(params.nextState.block_order)
+      ) {
         return null;
       }
       let updated = existing;
       if (params.previousState?.session_summary !== params.nextState.session_summary) {
-        updated = replaceMarkedSection(updated, "session-summary", renderSessionSummarySection(params.nextState.session_summary));
+        updated = replaceMarkedSection(
+          updated,
+          "session-summary",
+          renderSessionSummarySection(params.nextState.session_summary),
+        );
         if (updated == null) {
           return null;
         }
@@ -1139,12 +1185,21 @@ function patchIndexMarkdown(params) {
     tryPatch(existing) {
       const prevPageKeys = Object.keys(params.previousState?.pages ?? {}).sort();
       const nextPageKeys = Object.keys(params.nextState.pages ?? {}).sort();
-      const prevRouteKeys = (params.previousState?.topic_routes ?? []).map((route) => route.topic_title).sort();
+      const prevRouteKeys = (params.previousState?.topic_routes ?? [])
+        .map((route) => route.topic_title)
+        .sort();
       const nextRouteKeys = params.nextState.topic_routes.map((route) => route.topic_title).sort();
-      if (JSON.stringify(prevPageKeys) !== JSON.stringify(nextPageKeys) || JSON.stringify(prevRouteKeys) !== JSON.stringify(nextRouteKeys)) {
+      if (
+        JSON.stringify(prevPageKeys) !== JSON.stringify(nextPageKeys) ||
+        JSON.stringify(prevRouteKeys) !== JSON.stringify(nextRouteKeys)
+      ) {
         return null;
       }
-      let updated = replaceMarkedSection(existing, "index-overview", renderIndexOverviewSection(params.nextState));
+      let updated = replaceMarkedSection(
+        existing,
+        "index-overview",
+        renderIndexOverviewSection(params.nextState),
+      );
       if (updated == null) {
         return null;
       }
@@ -1153,17 +1208,27 @@ function patchIndexMarkdown(params) {
         if (!page) {
           return null;
         }
-        updated = replaceMarkedSection(updated, `wiki-page:${pageKey}`, renderIndexPageSection(page));
+        updated = replaceMarkedSection(
+          updated,
+          `wiki-page:${pageKey}`,
+          renderIndexPageSection(page),
+        );
         if (updated == null) {
           return null;
         }
       }
       for (const routeTitle of params.changedRouteTitles) {
-        const route = params.nextState.topic_routes.find((entry) => entry.topic_title === routeTitle);
+        const route = params.nextState.topic_routes.find(
+          (entry) => entry.topic_title === routeTitle,
+        );
         if (!route) {
           return null;
         }
-        updated = replaceMarkedSection(updated, `topic-route:${slugify(routeTitle)}`, renderIndexRouteSection(route));
+        updated = replaceMarkedSection(
+          updated,
+          `topic-route:${slugify(routeTitle)}`,
+          renderIndexRouteSection(route),
+        );
         if (updated == null) {
           return null;
         }
@@ -1195,7 +1260,9 @@ function renderTaskKeyDecisionsSection(relatedBlocks) {
   return renderMarkedSection("task-section:key-decisions", [
     "## Key Decisions",
     ...(relatedBlocks.length
-      ? relatedBlocks.map((block) => `- ${renderLink(block.topic_title, block.block_link)}：${block.summary}`)
+      ? relatedBlocks.map(
+          (block) => `- ${renderLink(block.topic_title, block.block_link)}：${block.summary}`,
+        )
       : ["- 无"]),
     "",
   ]);
@@ -1205,7 +1272,10 @@ function renderTaskRelatedBlocksSection(relatedBlocks) {
   return renderMarkedSection("task-section:related-blocks", [
     "## Related Session Wikis / Memory Blocks",
     ...(relatedBlocks.length
-      ? relatedBlocks.map((block) => `- ${renderLink(block.topic_title, block.block_link)} (${renderLink(block.source_session_id, block.session_wiki_path)})`)
+      ? relatedBlocks.map(
+          (block) =>
+            `- ${renderLink(block.topic_title, block.block_link)} (${renderLink(block.source_session_id, block.session_wiki_path)})`,
+        )
       : ["- 无"]),
     "",
   ]);
@@ -1218,7 +1288,11 @@ function patchTaskWikiMarkdown(params) {
     taskRootDir: params.taskRootDir,
     fallbackDetail: "task_wiki.md",
     tryPatch(existing) {
-      let updated = replaceMarkedSection(existing, "task-summary", renderTaskSummarySection(params.nextState.current_summary));
+      let updated = replaceMarkedSection(
+        existing,
+        "task-summary",
+        renderTaskSummarySection(params.nextState.current_summary),
+      );
       if (updated == null) {
         return null;
       }
@@ -1237,7 +1311,11 @@ function patchTaskWikiMarkdown(params) {
         updated = replaceMarkedSection(
           updated,
           `task-section:${sectionKey}`,
-          renderTaskSectionBlock(sectionKey, titleMap[sectionKey], params.nextState.sections[sectionKey] ?? []),
+          renderTaskSectionBlock(
+            sectionKey,
+            titleMap[sectionKey],
+            params.nextState.sections[sectionKey] ?? [],
+          ),
         );
         if (updated == null) {
           return null;
@@ -1359,11 +1437,14 @@ async function projectTaskWiki(params) {
     updated_at: new Date().toISOString(),
   };
 
-  const changedSectionKeys = SLOT_ORDER.filter((slot) =>
-    sectionSignature(previousState.sections?.[slot] ?? []) !== sectionSignature(nextState.sections?.[slot] ?? []),
+  const changedSectionKeys = SLOT_ORDER.filter(
+    (slot) =>
+      sectionSignature(previousState.sections?.[slot] ?? []) !==
+      sectionSignature(nextState.sections?.[slot] ?? []),
   );
   const changedRelatedBlocks =
-    sectionSignature(previousState.related_blocks ?? []) !== sectionSignature(nextState.related_blocks ?? []);
+    sectionSignature(previousState.related_blocks ?? []) !==
+    sectionSignature(nextState.related_blocks ?? []);
 
   writeJson(taskPaths.taskWikiState, nextState);
   patchTaskWikiMarkdown({

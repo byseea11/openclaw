@@ -1,45 +1,80 @@
-# Builder Architecture
+# Feishu Task Wiki Benchmark Builder Architecture
 
-## 四层分工
+当前实现采用三层：
 
-当前 builder 采用四层分工：
+- trigger shell
+  - `.agents/skills/feishu-task-wiki-benchmark-builder/SKILL.md`
+- control plane
+  - `feishu_task_wiki_benchmark_builder/builder_settings.yml`
+  - `feishu_task_wiki_benchmark_builder/builder_settings.py`
+  - `feishu_task_wiki_benchmark_builder/prompt_settings_renderer.py`
+- machine workflow
+  - `feishu_task_wiki_benchmark_builder/skills/workflow.md`
+  - `feishu_task_wiki_benchmark_builder/skills/family-selection.md`
+  - `feishu_task_wiki_benchmark_builder/skills/capability-brief.md`
+  - `feishu_task_wiki_benchmark_builder/skills/case-world.md`
+  - `feishu_task_wiki_benchmark_builder/skills/story-plan.md`
+  - `feishu_task_wiki_benchmark_builder/skills/anti-interference-context.md`
+  - `feishu_task_wiki_benchmark_builder/skills/contradiction-update-context.md`
+  - `feishu_task_wiki_benchmark_builder/skills/evidence-dependency-context.md`
+  - `feishu_task_wiki_benchmark_builder/skills/evaluation.md`
+- code executor
+  - `feishu_task_wiki_benchmark_builder/cli.py`
+  - `feishu_task_wiki_benchmark_builder/stages/*`
 
-- `.agents/skills/feishu-task-wiki-benchmark-builder/`
-  - 可触发入口
-- `feishu_task_wiki_benchmark_builder/skills/`
-  - 给模型看的 machine guidance
-- `feishu_task_wiki_benchmark_builder/prompt.py`
-  - 运行时 prompt source
-- `feishu_task_wiki_benchmark_builder/docs/`
-  - 给人看的说明文档
+## 设计原则
 
-## 正式比赛口径
+- `workflow.md` 是入口，不再是唯一详细规则 owner
+- family/stage guidance 分散在多个 `skills/*.md` 文件
+- family-specific context guidance 由对应的 `*-context.md` skill 承担，而不是继续混在通用 `task_actor_layout` 说明里
+- `workflow.md` 只保留路由、阶段摘要和最小全局 invariant，不承载完整 artifact contract 或大段 anti-splitting 清单
+- “不要再拆出哪些旧 artifact” 这类 anti-regression 约束主要放在 `docs/architecture.md` 和对应阶段 skill 中
+- 代码只负责执行少量 stage runner 和 checkpoint 落盘
+- 不再维护分散的上游 artifact 关系
+- runtime prompt 由代码从 `skills/*.md` 组装
+- `builder_settings.yml` 是规模、难度和 family 最低复杂度的唯一控制面 source of truth
+- `skills/*.md` 仍然是 runtime prompt 的唯一 machine guidance owner；代码会把 `builder_settings.yml` 渲染成 settings summary 再拼进 prompt
+- `case-context` 会组装通用 skill + 当前或全部 family context skill；`story-plan` 会组装通用 skill + 当前 family context skill
+- `case-context` / `story-plan` 在组装 prompt 时会额外注入当前 difficulty profile、family constraints 和 topology defaults
+- `case-context` 和 `story-plan` 默认由 model backend 生成，不做规则 fallback
+- 真实模型模式只读取仓库根 `.env` 的 OpenAI 配置，不混用 shell env
+- 进入 `case-context` / `story-plan` 前必须先通过 `auth-check` 同等探活
+- `case_id`、`task_id`、`story_id` 这类标识符由代码层统一生成，不让模型自由命名
 
-当前 builder 只保留三类 formal family：
+## Phase 1 最少 checkpoint
 
-- `anti_interference`
-- `contradiction_update`
-- `evidence_dependency_reasoning`
+Phase 1 只保留这些正式 checkpoint：
+
+- `input/case_context.json`
+- `input/story_plan.json`
+- `input/command_plan.jsonl`
+- `runtime/executed_commands.jsonl`
+- `data/collected_messages.jsonl`
+- `data/openclaw_message_ingress.jsonl`
+- `checks/pre_annotation_validation_report.json`
 
 其中：
 
-- `anti_interference` 对应抗干扰测试
-- `contradiction_update` 对应矛盾更新测试
-- `evidence_dependency_reasoning` 对应证据验证 + 依赖传播
+- `case_context.json` 取代原来分散的 family selection、capability brief、case spec、case world
+- `story_plan.json` 继续作为唯一核心中间 artifact
 
-`效能指标验证` 继续保留在 report / evaluation 层，不作为 formal family。
+运行时日志：
 
-## 为什么这样分层
+- `logs/model_call_log.jsonl`
+  - 记录每次 `case-context` / `story-plan` 的 model 调用
+  - 成功记录只包含 metadata：stage、backend、model、base_url、success、duration、case_id、artifact_path
+  - 失败记录会额外包含 error_type、error_code、http_status、message 和 raw payload（validation failure）
 
-- trigger shell 需要放在 `.agents/skills/`，这样 Codex 才能发现并触发
-- 真正需要频繁修改的机器 guidance 放在代码目录 `skills/`，这样更容易跟实现一起迭代
-- runtime prompt 放在代码里，避免 prompt 和代码脱节
-- docs 只承担人类阅读和评审用途，避免同一份文档既给人看又给机器当输入
+## Prompt Boundary
 
-## 关键边界
+运行时 prompt 只存在于：
 
-- machine skill source 不在 `docs/`
-- runtime prompt source 不在 `docs/`
-- prompt 不负责解释架构
-- docs 不负责运行时 prompt
-- `story_plan.json` 是唯一核心中间 artifact
+- `feishu_task_wiki_benchmark_builder/prompt_loader.py`
+- `feishu_task_wiki_benchmark_builder/prompt.py`
+
+当前对外仍只保留两个 stage system prompt：
+
+- `build_case_context_system_prompt()`
+- `build_story_plan_system_prompt()`
+
+它们通过 `prompt_loader.py` 从 code-side skills 组装运行时约束，并通过 `prompt_settings_renderer.py` 注入 `builder_settings.yml` 渲染出的规模/复杂度 summary；运行时不读取 `docs/`，也不读取 `.agents/skills/...`。

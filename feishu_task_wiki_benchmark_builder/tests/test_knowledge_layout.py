@@ -5,22 +5,35 @@ from pathlib import Path
 
 
 class KnowledgeLayoutTests(unittest.TestCase):
-    def test_all_internal_skill_files_exist(self) -> None:
-        expected = [
-            "root.md",
-            "family-selection.md",
-            "capability-brief.md",
-            "case-world.md",
-            "story-plan.md",
-            "evaluation.md",
-        ]
-        for name in expected:
-            self.assertTrue((Path("feishu_task_wiki_benchmark_builder/skills") / name).exists())
+    def test_internal_skill_files_exist(self) -> None:
+        skill_files = sorted(path.name for path in Path("feishu_task_wiki_benchmark_builder/skills").glob("*.md"))
+        self.assertEqual(
+            skill_files,
+            [
+                "anti-interference-context.md",
+                "capability-brief.md",
+                "case-world.md",
+                "contradiction-update-context.md",
+                "evaluation.md",
+                "evidence-dependency-context.md",
+                "family-selection.md",
+                "story-plan.md",
+                "workflow.md",
+            ],
+        )
 
-    def test_root_skill_contains_stage_routing_and_identification(self) -> None:
-        content = Path("feishu_task_wiki_benchmark_builder/skills/root.md").read_text(encoding="utf-8")
+    def test_workflow_skill_contains_stage_routing_and_skill_references(self) -> None:
+        content = Path("feishu_task_wiki_benchmark_builder/skills/workflow.md").read_text(encoding="utf-8")
         self.assertIn("Stage Routing", content)
-        self.assertIn("Stage Identification", content)
+        self.assertIn("family-selection.md", content)
+        self.assertIn("capability-brief.md", content)
+        self.assertIn("case-world.md", content)
+        self.assertIn("story-plan.md", content)
+        self.assertIn("anti-interference-context.md", content)
+        self.assertIn("contradiction-update-context.md", content)
+        self.assertIn("evidence-dependency-context.md", content)
+        self.assertIn("evaluation.md", content)
+        self.assertIn("case_context.json", content)
         self.assertIn("story_plan.json", content)
 
     def test_human_docs_structure_exists(self) -> None:
