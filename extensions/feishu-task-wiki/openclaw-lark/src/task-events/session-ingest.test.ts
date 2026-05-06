@@ -2,7 +2,7 @@ import fs from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
 import YAML from "yaml";
-import { afterEach, beforeEach, describe, expect, it } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
 const storeSymbol = Symbol.for("openclaw.feishuTaskWiki.bindingStore");
 
@@ -33,8 +33,25 @@ type SessionIngestResult = {
 
 type SessionIngestModule = {
   maybeIngestTaskSourceSession: (params: Record<string, unknown>) => Promise<SessionIngestResult>;
-  drainPendingGraphUpdates: (params: { sessionDir: string }) => Promise<Record<string, unknown>>;
-  runVerificationJobs: (params: { sessionDir: string }) => Promise<Record<string, unknown>>;
+  clearIdleDrainTimers: () => void;
+  drainPendingGraphUpdates: (params: { sessionDir: string; reason?: string }) => Promise<Record<string, unknown>>;
+  ensureTaskWikiFresh: (params: {
+    taskRootDir?: string;
+    sessionDir?: string;
+    reason: string;
+    projectAfterDrain?: boolean;
+  }) => Promise<Record<string, unknown>>;
+  scheduleIdleDrain: (params: {
+    sessionDir: string;
+    needsLlmExtraction: boolean;
+    delayMs?: number;
+  }) => boolean;
+  runVerificationJobs: (params: {
+    sessionDir: string;
+    reason?: string;
+    skipDrain?: boolean;
+    projectVerifiedEvents?: boolean;
+  }) => Promise<Record<string, unknown>>;
 };
 
 function loadBindingModule(): TaskBindingModule {
@@ -64,6 +81,9 @@ describe("task event session ingest", () => {
   });
 
   afterEach(async () => {
+    try {
+      loadSessionModule().clearIdleDrainTimers();
+    } catch {}
     delete (globalThis as Record<PropertyKey, unknown>)[storeSymbol];
     if (previousStateDir === undefined) {
       delete process.env.OPENCLAW_STATE_DIR;
@@ -71,6 +91,7 @@ describe("task event session ingest", () => {
       process.env.OPENCLAW_STATE_DIR = previousStateDir;
     }
     delete process.env.OPENCLAW_FEISHU_TASK_WIKI_DISABLE_ASYNC_VERIFIER;
+    vi.useRealTimers();
     await fs.rm(stateDir, { recursive: true, force: true });
   });
 
@@ -556,5 +577,163 @@ describe("task event session ingest", () => {
     expect(metadata.raw_ingest_count).toBe(26);
     expect(metadata.visible_ingest_count).toBeGreaterThanOrEqual(20);
     expect(metadata.retained_entry_count).toBeGreaterThanOrEqual(21);
+  });
+
+  it("ensures freshness before recall-style state reads", async () => {
+    const { resolveTaskBindingForInbound } = loadBindingModule();
+    const { maybeIngestTaskSourceSession, ensureTaskWikiFresh } = loadSessionModule();
+
+    const binding = resolveTaskBindingForInbound({
+      accountId: "default",
+      sourceType: "chat",
+      sourceId: "chat:oc_chat_recall",
+      chatId: "oc_chat_recall",
+      rootMessageText: "创建任务 FEISHU-231：统一发布时间口径。",
+      allowInitialize: true,
+    });
+
+    await maybeIngestTaskSourceSession({
+      accountId: "default",
+      taskBinding: binding,
+      sourceType: "chat",
+      sourceId: "chat:oc_chat_recall",
+      chatId: "oc_chat_recall",
+      messageId: "om_recall_0",
+      senderId: "ou_pm",
+      senderName: "林晨",
+      content: "创建任务 FEISHU-231：Q2 发布准备启动，目标先看 5 月 5 日。",
+    });
+    const ingest = await maybeIngestTaskSourceSession({
+      accountId: "default",
+      taskBinding: binding,
+      sourceType: "chat",
+      sourceId: "chat:oc_chat_recall",
+      chatId: "oc_chat_recall",
+      messageId: "om_recall_1",
+      senderId: "ou_dev",
+      senderName: "周宇",
+      content: "研发这边担心迁移窗口还没锁定，所以 5 月 5 日只能暂定。",
+    });
+
+    const freshness = await ensureTaskWikiFresh({
+      sessionDir: ingest.sessionDir!,
+      reason: "recall",
+      projectAfterDrain: true,
+    }) as {
+      drained_session_count: number;
+      verified_event_count: number;
+      projected_session_count: number;
+    };
+
+    expect(freshness.drained_session_count).toBe(1);
+    const candidates = (await fs.readFile(path.join(ingest.sessionDir!, "candidate_events.jsonl"), "utf8"))
+      .trim()
+      .split("\n")
+      .filter(Boolean);
+    expect(candidates.length).toBeGreaterThan(0);
+
+    const pending = (await fs.readFile(path.join(ingest.sessionDir!, "pending_ingests.jsonl"), "utf8"))
+      .trim()
+      .split("\n")
+      .map((line) => JSON.parse(line));
+    expect(pending.every((entry) => entry.status !== "pending_extraction")).toBe(true);
+
+    const metadata = YAML.parse(await fs.readFile(path.join(ingest.sessionDir!, "metadata.yaml"), "utf8")) as {
+      last_drain_reason: string;
+    };
+    expect(metadata.last_drain_reason).toBe("recall");
+  });
+
+  it("runs idle drain only for sessions that still need llm extraction", async () => {
+    delete process.env.OPENCLAW_FEISHU_TASK_WIKI_DISABLE_ASYNC_VERIFIER;
+    const { resolveTaskBindingForInbound } = loadBindingModule();
+    const sessionModule = loadSessionModule();
+    const { maybeIngestTaskSourceSession, scheduleIdleDrain } = sessionModule;
+    vi.useFakeTimers();
+    const ensureFreshSpy = vi.spyOn(sessionModule, "ensureTaskWikiFresh").mockResolvedValue({
+      checked_session_count: 1,
+      drained_session_count: 1,
+      drain_batch_ids: [],
+      verified_event_count: 0,
+      projected_session_count: 0,
+      reason: "idle",
+    });
+
+    const strongBinding = resolveTaskBindingForInbound({
+      accountId: "default",
+      sourceType: "chat",
+      sourceId: "chat:oc_chat_idle_strong",
+      chatId: "oc_chat_idle_strong",
+      rootMessageText: "创建任务 FEISHU-231：统一发布时间口径。",
+      allowInitialize: true,
+    });
+    await maybeIngestTaskSourceSession({
+      accountId: "default",
+      taskBinding: strongBinding,
+      sourceType: "chat",
+      sourceId: "chat:oc_chat_idle_strong",
+      chatId: "oc_chat_idle_strong",
+      messageId: "om_idle_strong_0",
+      senderId: "ou_pm",
+      senderName: "林晨",
+      content: "创建任务 FEISHU-231：Q2 发布准备启动，目标先看 5 月 5 日。",
+    });
+    const strongIngest = await maybeIngestTaskSourceSession({
+      accountId: "default",
+      taskBinding: strongBinding,
+      sourceType: "chat",
+      sourceId: "chat:oc_chat_idle_strong",
+      chatId: "oc_chat_idle_strong",
+      messageId: "om_idle_strong_1",
+      senderId: "ou_dev",
+      senderName: "周宇",
+      content: "研发这边担心迁移窗口还没锁定，所以 5 月 5 日只能暂定。",
+    });
+
+    scheduleIdleDrain({
+      sessionDir: strongIngest.sessionDir!,
+      needsLlmExtraction: true,
+      delayMs: 1,
+    });
+    await vi.advanceTimersByTimeAsync(5);
+    expect(ensureFreshSpy).toHaveBeenCalledTimes(1);
+    expect(ensureFreshSpy).toHaveBeenCalledWith({
+      sessionDir: strongIngest.sessionDir!,
+      reason: "idle",
+      projectAfterDrain: true,
+    });
+
+    const ackBinding = resolveTaskBindingForInbound({
+      accountId: "default",
+      sourceType: "chat",
+      sourceId: "chat:oc_chat_idle_ack",
+      chatId: "oc_chat_idle_ack",
+      rootMessageText: "创建任务 FEISHU-231：统一发布时间口径。",
+      allowInitialize: true,
+    });
+    const ackIngest = await maybeIngestTaskSourceSession({
+      accountId: "default",
+      taskBinding: ackBinding,
+      sourceType: "chat",
+      sourceId: "chat:oc_chat_idle_ack",
+      chatId: "oc_chat_idle_ack",
+      messageId: "om_idle_ack",
+      senderId: "ou_dev",
+      senderName: "周宇",
+      content: "收到，了解。",
+    });
+
+    const scheduled = scheduleIdleDrain({
+      sessionDir: ackIngest.sessionDir!,
+      needsLlmExtraction: false,
+      delayMs: 1,
+    });
+    expect(scheduled).toBe(false);
+    expect(ensureFreshSpy).toHaveBeenCalledTimes(1);
+
+    const ackCandidates = await fs.readFile(path.join(ackIngest.sessionDir!, "candidate_events.jsonl"), "utf8");
+    const ackVerified = await fs.readFile(path.join(ackIngest.sessionDir!, "session_events.jsonl"), "utf8");
+    expect(ackCandidates.trim()).toBe("");
+    expect(ackVerified.trim()).toBe("");
   });
 });

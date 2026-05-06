@@ -15,6 +15,7 @@ const HOT_INGEST_WINDOW = 20;
 const NO_EVENT_WINDOW = 10;
 const DEFAULT_DRAIN_INGEST_LIMIT = 4;
 const DEFAULT_DRAIN_CHAR_LIMIT = 1600;
+const DEFAULT_IDLE_DRAIN_DELAY_MS = 45_000;
 const INGEST_STATUS = {
   PENDING_EXTRACTION: "pending_extraction",
   QUEUED_FOR_DRAIN: "queued_for_drain",
@@ -44,6 +45,7 @@ const DRAIN_REASONS = new Set([
   "idle",
   "manual",
 ]);
+const IDLE_DRAIN_TIMERS = new Map();
 
 function appendTaskActivityLog(taskId, kind, detail) {
   try {
@@ -194,6 +196,42 @@ function resolveSourceSessionId(taskId, sourceScope) {
 
 function resolveSourceSessionDir(taskId, sourceSessionId) {
   return path.join(resolveTaskRootDir(taskId), "sessions", slugify(sourceSessionId));
+}
+
+function resolveTaskRootDirFromSessionDir(sessionDir) {
+  return path.dirname(path.dirname(sessionDir));
+}
+
+function listSessionDirs(taskRootDir) {
+  const sessionsDir = path.join(taskRootDir, "sessions");
+  try {
+    return fs.readdirSync(sessionsDir, { withFileTypes: true })
+      .filter((entry) => entry.isDirectory())
+      .map((entry) => path.join(sessionsDir, entry.name));
+  } catch {
+    return [];
+  }
+}
+
+function isAsyncDrainDisabled() {
+  return process.env.OPENCLAW_FEISHU_TASK_WIKI_DISABLE_ASYNC_VERIFIER === "1";
+}
+
+function clearIdleDrainTimer(sessionDir) {
+  const existing = IDLE_DRAIN_TIMERS.get(sessionDir);
+  if (!existing) {
+    return false;
+  }
+  clearTimeout(existing);
+  IDLE_DRAIN_TIMERS.delete(sessionDir);
+  return true;
+}
+
+function clearIdleDrainTimers() {
+  for (const timer of IDLE_DRAIN_TIMERS.values()) {
+    clearTimeout(timer);
+  }
+  IDLE_DRAIN_TIMERS.clear();
 }
 
 function resolveFilePaths(sessionDir) {
@@ -1043,8 +1081,74 @@ async function drainPendingGraphUpdates(params) {
   };
 }
 
+function sessionHasPendingExtraction(ingestRecords) {
+  return ingestRecords.some((record) => (
+    record?.status === INGEST_STATUS.PENDING_EXTRACTION
+    || record?.status === INGEST_STATUS.QUEUED_FOR_DRAIN
+  ) && record?.needs_llm_extraction);
+}
+
+function sessionHasPendingVerification(ingestRecords, jobs) {
+  const queuedJobs = jobs.some((job) => job?.status === "queued" || job?.status === "running");
+  if (queuedJobs) {
+    return true;
+  }
+  return ingestRecords.some((record) => record?.status === INGEST_STATUS.PENDING_VERIFICATION);
+}
+
+function sessionHasVerifiedEvents(files) {
+  return readJsonl(files.sessionEvents).length > 0;
+}
+
+function sessionNeedsProjection(files) {
+  if (!fs.existsSync(files.sessionEvents)) {
+    return false;
+  }
+  const verifiedCount = readJsonl(files.sessionEvents).length;
+  if (verifiedCount === 0) {
+    return false;
+  }
+  if (!fs.existsSync(path.join(path.dirname(files.sessionEvents), "session_wiki_state.json"))) {
+    return true;
+  }
+  const taskRootDir = resolveTaskRootDirFromSessionDir(path.dirname(files.sessionEvents));
+  return !fs.existsSync(path.join(taskRootDir, "task_wiki_state.json"))
+    || !fs.existsSync(path.join(taskRootDir, "task_index_state.json"));
+}
+
+async function maybeProjectTaskWikiFromSession(params) {
+  if (!params.projectAfterDrain) {
+    return null;
+  }
+  const files = resolveFilePaths(params.sessionDir);
+  if (!sessionHasVerifiedEvents(files)) {
+    return null;
+  }
+  const shouldProject = params.forceProject || sessionNeedsProjection(files);
+  if (!shouldProject) {
+    return null;
+  }
+  try {
+    // Lazy load to keep third-stage projector off the hot path until an explicit
+    // freshness or projection barrier asks for it.
+    // eslint-disable-next-line @typescript-eslint/no-require-imports -- CommonJS subtree on purpose
+    const { updateTaskWikiFromVerifiedEvents } = require("../task-wiki/projector.js");
+    return await updateTaskWikiFromVerifiedEvents({ sessionDir: params.sessionDir });
+  } catch (error) {
+    if (params.strictProject) {
+      throw error;
+    }
+    return null;
+  }
+}
+
 async function runVerificationJobs(params) {
-  await drainPendingGraphUpdates({ sessionDir: params.sessionDir, reason: "verification" });
+  if (!params.skipDrain) {
+    await drainPendingGraphUpdates({
+      sessionDir: params.sessionDir,
+      reason: params.reason ?? "verification",
+    });
+  }
   const files = resolveFilePaths(params.sessionDir);
   const jobs = readJsonl(files.verificationJobs);
   const candidateRecords = readJsonl(files.candidateEvents);
@@ -1156,17 +1260,11 @@ async function runVerificationJobs(params) {
         "session_event_write",
         `${newlyVerifiedCount} verified session_events for ${metadata.source_session_id}`,
       );
-      try {
-        // Lazy load to keep the stage-3 wiki projector off the hot path until
-        // a verified event actually lands.
-        // eslint-disable-next-line @typescript-eslint/no-require-imports -- CommonJS subtree on purpose
-        const { updateTaskWikiFromVerifiedEvents } = require("../task-wiki/projector.js");
-        await updateTaskWikiFromVerifiedEvents({
-          sessionDir: params.sessionDir,
-        });
-      } catch {
-        // Do not block Layer 2 verification on Layer 3 projection failures.
-      }
+      await maybeProjectTaskWikiFromSession({
+        sessionDir: params.sessionDir,
+        projectAfterDrain: params.projectVerifiedEvents !== false,
+        forceProject: true,
+      });
     }
     if (completedCandidateCount > 0) {
       appendTaskActivityLog(
@@ -1181,7 +1279,114 @@ async function runVerificationJobs(params) {
     queuedJobs: jobs.filter((job) => job.status === "queued").length,
     completedJobs: jobs.filter((job) => job.status === "completed").length,
     verifiedEvents: verifiedEvents.length,
+    newlyVerifiedCount,
+    completedCandidateCount,
   };
+}
+
+async function ensureTaskWikiFresh(params) {
+  const reason = normalizeDrainReason(params.reason);
+  const sessionDirs = params.sessionDir
+    ? [params.sessionDir]
+    : params.taskRootDir
+      ? listSessionDirs(params.taskRootDir)
+      : [];
+  if (sessionDirs.length === 0) {
+    return {
+      checked_session_count: 0,
+      drained_session_count: 0,
+      drain_batch_ids: [],
+      verified_event_count: 0,
+      projected_session_count: 0,
+      reason,
+    };
+  }
+
+  let drainedSessionCount = 0;
+  let verifiedEventCount = 0;
+  let projectedSessionCount = 0;
+  const drainBatchIds = [];
+
+  for (const sessionDir of sessionDirs) {
+    clearIdleDrainTimer(sessionDir);
+    const files = resolveFilePaths(sessionDir);
+    const ingestRecords = readJsonl(files.pendingIngests);
+    const jobs = readJsonl(files.verificationJobs);
+    const pendingExtraction = sessionHasPendingExtraction(ingestRecords);
+    const pendingVerification = sessionHasPendingVerification(ingestRecords, jobs);
+    let didWork = false;
+
+    if (pendingExtraction) {
+      const drainResult = await drainPendingGraphUpdates({ sessionDir, reason });
+      if (drainResult.drainBatches > 0 || drainResult.extractedCandidates > 0) {
+        didWork = true;
+        drainedSessionCount += 1;
+      }
+      const refreshedMetadata = YAML.parse(fs.readFileSync(files.metadata, "utf8"));
+      if (refreshedMetadata?.last_drain_batch_id) {
+        drainBatchIds.push(refreshedMetadata.last_drain_batch_id);
+      }
+    }
+
+    const nextIngestRecords = readJsonl(files.pendingIngests);
+    const nextJobs = readJsonl(files.verificationJobs);
+    const shouldVerify = pendingVerification || sessionHasPendingVerification(nextIngestRecords, nextJobs);
+    if (shouldVerify) {
+      const verificationResult = await runVerificationJobs({
+        sessionDir,
+        skipDrain: true,
+        reason,
+        projectVerifiedEvents: false,
+      });
+      if (verificationResult.completedCandidateCount > 0 || verificationResult.newlyVerifiedCount > 0) {
+        didWork = true;
+      }
+    }
+
+    const projected = await maybeProjectTaskWikiFromSession({
+      sessionDir,
+      projectAfterDrain: params.projectAfterDrain === true,
+      forceProject: didWork || sessionNeedsProjection(files),
+      strictProject: params.projectAfterDrain === true,
+    });
+    if (projected) {
+      projectedSessionCount += 1;
+    }
+    verifiedEventCount += readJsonl(files.sessionEvents).length;
+  }
+
+  return {
+    checked_session_count: sessionDirs.length,
+    drained_session_count: drainedSessionCount,
+    drain_batch_ids: uniqueStrings(drainBatchIds),
+    verified_event_count: verifiedEventCount,
+    projected_session_count: projectedSessionCount,
+    reason,
+  };
+}
+
+function scheduleIdleDrain(params) {
+  if (isAsyncDrainDisabled() || !params.sessionDir || !params.needsLlmExtraction) {
+    return false;
+  }
+  clearIdleDrainTimer(params.sessionDir);
+  const delayMs = Number.isFinite(params.delayMs) && params.delayMs > 0
+    ? params.delayMs
+    : DEFAULT_IDLE_DRAIN_DELAY_MS;
+  const timer = setTimeout(() => {
+    IDLE_DRAIN_TIMERS.delete(params.sessionDir);
+    const barrier = module.exports.ensureTaskWikiFresh ?? ensureTaskWikiFresh;
+    void barrier({
+      sessionDir: params.sessionDir,
+      reason: "idle",
+      projectAfterDrain: true,
+    }).catch(() => {});
+  }, delayMs);
+  if (typeof timer.unref === "function") {
+    timer.unref();
+  }
+  IDLE_DRAIN_TIMERS.set(params.sessionDir, timer);
+  return true;
 }
 
 async function appendToSourceSession(params) {
@@ -1322,6 +1527,10 @@ async function maybeIngestTaskSourceSession(params) {
     "signal_detect",
     `${signal.needsLlmExtraction ? "dirty" : "no_event"}:${signal.dirtyReasons.join(",") || "none"} for ${appended.sourceSessionId}#${appended.ingestVersion}`,
   );
+  scheduleIdleDrain({
+    sessionDir: appended.sessionDir,
+    needsLlmExtraction: signal.needsLlmExtraction,
+  });
 
   return {
     skipped: false,
@@ -1341,9 +1550,12 @@ async function maybeIngestTaskSourceSession(params) {
 module.exports = {
   appendToSourceSession,
   buildEvidenceSpanForIngest: buildEvidenceSpan,
+  clearIdleDrainTimers,
   drainPendingGraphUpdates,
   enqueueVerificationJob,
+  ensureTaskWikiFresh,
   maybeIngestTaskSourceSession,
   resolveSourceSessionId,
   runVerificationJobs,
+  scheduleIdleDrain,
 };

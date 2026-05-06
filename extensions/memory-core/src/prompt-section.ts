@@ -33,11 +33,6 @@ export const buildPromptSection: MemoryPromptSectionBuilder = ({
       "Citations: include Source: <path#line> when it helps the user verify memory snippets.",
     );
   }
-  if (hasMemorySearch) {
-    lines.push(
-      'Some memory_search results may have corpus: "graph". These are semantically compressed Graph Index results: [Graph state] is the current workflow view, [Graph event] is a recorded change, and [Graph edge] is an active relation. If the prompt already includes "## Current Memory Context", use it directly when sufficient; call memory_search or memory_get only when you need more evidence or exact wording.',
-    );
-  }
   lines.push("");
   return lines;
 };

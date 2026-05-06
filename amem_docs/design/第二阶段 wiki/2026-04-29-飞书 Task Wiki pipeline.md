@@ -1562,11 +1562,8 @@ Lint 用于维护 Task Wiki 的长期健康度。
 ```text
 1. 是否有 session_event 没有被对应 session_wiki.md 引用
 2. 是否有 session_wiki.md 没有 Evidence References
-3. 是否有旧结论被新 event 覆盖但还显示为 active
-4. 是否有开放异议长期未解决
-5. 是否有行动项过期
 6. 是否有 session 被删除但 event 仍在支撑 Wiki
-7. 是否有 claim 强度超过 quote
+7. 是否有 claim 强度超过 event
 8. 是否有同一 topic 下的结论冲突
 9. 是否有孤立 session_wiki.md 或孤立 Memory Block
 10. 是否缺少必要交叉引用
@@ -1591,17 +1588,12 @@ lint/overdue_commitments.md
 它记录：
 
 ```text
-- session ingest
-- candidate_event extraction
-- verification
-- session_event write
 - session_wiki update
 - index update
 - task_wiki refresh
 - topic view update
 - lint
 - forgetting
-- manual review
 ```
 
 建议使用统一前缀，便于解析：
@@ -1807,3 +1799,7 @@ Modality preservation：保留原文强度，例如“暂定”不能写成“�
 No slot hallucination：字段缺失就填 null，不补。
 Typed verification：不同 event 类型使用不同校验规则。
 ```
+
+# 需要修改
+
+1. wiki的更新需要增加history，把呃，原始的wiki的内容放在history里面，然后新增的再放在前面。这样的话可以做到历史追溯。如果是现在的机制没办法做历史追溯。

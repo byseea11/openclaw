@@ -9,7 +9,7 @@
  * doc, wiki, drive, perm, bitable, task, calendar.
  */
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.isMessageExpired = exports.checkMessageGate = exports.parseMessageEvent = exports.handleFeishuReaction = exports.feishuPlugin = exports.buildMentionedCardContent = exports.buildMentionedMessage = exports.formatMentionAllForCard = exports.formatMentionAllForText = exports.formatMentionForCard = exports.formatMentionForText = exports.extractMessageBody = exports.nonBotMentions = exports.mentionedBot = exports.feishuMessageActions = exports.listChatMembersFeishu = exports.removeChatMembersFeishu = exports.addChatMembersFeishu = exports.updateChatFeishu = exports.forwardMessageFeishu = exports.VALID_FEISHU_EMOJI_TYPES = exports.FeishuEmoji = exports.listReactionsFeishu = exports.removeReactionFeishu = exports.addReactionFeishu = exports.probeFeishu = exports.sendMediaLark = exports.sendCardLark = exports.sendTextLark = exports.uploadAndSendMediaLark = exports.sendAudioLark = exports.sendFileLark = exports.sendImageLark = exports.uploadFileLark = exports.uploadImageLark = exports.getMessageFeishu = exports.editMessageFeishu = exports.updateCardFeishu = exports.sendCardFeishu = exports.sendMessageFeishu = exports.monitorFeishuProvider = void 0;
+exports.isMessageExpired = exports.checkMessageGate = exports.parseMessageEvent = exports.handleFeishuReaction = exports.feishuPlugin = exports.buildMentionedCardContent = exports.buildMentionedMessage = exports.formatMentionAllForCard = exports.formatMentionAllForText = exports.formatMentionForCard = exports.formatMentionForText = exports.extractMessageBody = exports.nonBotMentions = exports.mentionedBot = exports.feishuMessageActions = exports.listChatMembersFeishu = exports.removeChatMembersFeishu = exports.addChatMembersFeishu = exports.updateChatFeishu = exports.forwardMessageFeishu = exports.VALID_FEISHU_EMOJI_TYPES = exports.FeishuEmoji = exports.listReactionsFeishu = exports.removeReactionFeishu = exports.addReactionFeishu = exports.probeFeishu = exports.sendMediaLark = exports.sendCardLark = exports.sendTextLark = exports.uploadAndSendMediaLark = exports.sendAudioLark = exports.sendFileLark = exports.sendImageLark = exports.uploadFileLark = exports.uploadImageLark = exports.getMessageFeishu = exports.editMessageFeishu = exports.updateCardFeishu = exports.sendCardFeishu = exports.sendMessageFeishu = exports.monitorFeishuProvider = exports.recallTaskWiki = exports.prepareSessionForCompaction = void 0;
 const plugin_sdk_1 = require("openclaw/plugin-sdk");
 const plugin_1 = require("./src/channel/plugin.js");
 const lark_client_1 = require("./src/core/lark-client.js");
@@ -85,6 +85,9 @@ var gate_1 = require("./src/messaging/inbound/gate.js");
 Object.defineProperty(exports, "checkMessageGate", { enumerable: true, get: function () { return gate_1.checkMessageGate; } });
 var dedup_1 = require("./src/messaging/inbound/dedup.js");
 Object.defineProperty(exports, "isMessageExpired", { enumerable: true, get: function () { return dedup_1.isMessageExpired; } });
+var recall_1 = require("./src/task-wiki/recall.js");
+Object.defineProperty(exports, "prepareSessionForCompaction", { enumerable: true, get: function () { return recall_1.prepareSessionForCompaction; } });
+Object.defineProperty(exports, "recallTaskWiki", { enumerable: true, get: function () { return recall_1.recallTaskWiki; } });
 // ---------------------------------------------------------------------------
 // Plugin definition
 // ---------------------------------------------------------------------------

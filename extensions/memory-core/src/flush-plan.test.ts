@@ -15,7 +15,7 @@ describe("memory flush plan", () => {
           entries: {
             "memory-core": {
               config: {
-                graphIndex: {
+                contextRecall: {
                   enabled: true,
                 },
               },

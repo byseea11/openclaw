@@ -6,8 +6,6 @@ import {
 } from "openclaw/plugin-sdk/memory-core-host-runtime-cli";
 import type {
   MemoryCommandOptions,
-  MemoryGraphCommandOptions,
-  MemoryGraphSearchCommandOptions,
   MemoryPromoteCommandOptions,
   MemoryPromoteExplainOptions,
   MemoryRemBackfillOptions,
@@ -42,29 +40,6 @@ async function runMemoryIndex(opts: MemoryCommandOptions) {
 async function runMemorySearch(queryArg: string | undefined, opts: MemorySearchCommandOptions) {
   const runtime = await loadMemoryCliRuntime();
   await runtime.runMemorySearch(queryArg, opts);
-}
-
-async function runMemoryGraphStatus(opts: MemoryGraphCommandOptions) {
-  const runtime = await loadMemoryCliRuntime();
-  await runtime.runMemoryGraphStatus(opts);
-}
-
-async function runMemoryGraphReindex(opts: MemoryGraphCommandOptions) {
-  const runtime = await loadMemoryCliRuntime();
-  await runtime.runMemoryGraphReindex(opts);
-}
-
-async function runMemoryGraphSearch(
-  queryArg: string | undefined,
-  opts: MemoryGraphSearchCommandOptions,
-) {
-  const runtime = await loadMemoryCliRuntime();
-  await runtime.runMemoryGraphSearch(queryArg, opts);
-}
-
-async function runMemoryGraphExport(opts: MemoryGraphCommandOptions) {
-  const runtime = await loadMemoryCliRuntime();
-  await runtime.runMemoryGraphExport(opts);
 }
 
 async function runMemoryPromote(opts: MemoryPromoteCommandOptions) {
@@ -172,51 +147,6 @@ export function registerMemoryCli(program: Command) {
     .option("--json", "Print JSON")
     .action(async (queryArg: string | undefined, opts: MemorySearchCommandOptions) => {
       await runMemorySearch(queryArg, opts);
-    });
-
-  const graph = memory.command("graph").description("Inspect and debug the graph memory index");
-
-  graph
-    .command("status")
-    .description("Show graph memory sidecar status")
-    .option("--agent <id>", "Agent id (default: default agent)")
-    .option("--json", "Print JSON")
-    .option("--verbose", "Verbose logging", false)
-    .action(async (opts: MemoryGraphCommandOptions) => {
-      await runMemoryGraphStatus(opts);
-    });
-
-  graph
-    .command("reindex")
-    .description("Rebuild the graph memory sidecar from memory files")
-    .option("--agent <id>", "Agent id (default: default agent)")
-    .option("--force", "Force full reindex", false)
-    .option("--json", "Print JSON")
-    .option("--verbose", "Verbose logging", false)
-    .action(async (opts: MemoryGraphCommandOptions) => {
-      await runMemoryGraphReindex(opts);
-    });
-
-  graph
-    .command("search")
-    .description("Search the graph memory sidecar")
-    .argument("[query]", "Search query")
-    .option("--query <text>", "Search query (alternative to positional argument)")
-    .option("--agent <id>", "Agent id (default: default agent)")
-    .option("--max-results <n>", "Max results", (value: string) => Number(value))
-    .option("--json", "Print JSON")
-    .action(async (queryArg: string | undefined, opts: MemoryGraphSearchCommandOptions) => {
-      await runMemoryGraphSearch(queryArg, opts);
-    });
-
-  graph
-    .command("export")
-    .description("Export graph memory events and states as JSONL")
-    .option("--agent <id>", "Agent id (default: default agent)")
-    .option("--json", "Wrap JSONL in a JSON payload")
-    .option("--verbose", "Verbose logging", false)
-    .action(async (opts: MemoryGraphCommandOptions) => {
-      await runMemoryGraphExport(opts);
     });
 
   memory

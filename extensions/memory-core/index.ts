@@ -1,14 +1,4 @@
-import { formatErrorMessage } from "openclaw/plugin-sdk/error-runtime";
-import { createPluginRuntime } from "openclaw/plugin-sdk/memory-core";
 import { definePluginEntry } from "openclaw/plugin-sdk/plugin-entry";
-import {
-  createSubagentExtractorClient,
-  handleGraphAfterTurn,
-  handleGraphBeforeCompaction,
-  noteGraphUsageFromAssistantOutput,
-  noteGraphUsageFromMemoryGet,
-  setDefaultExtractorClient,
-} from "./src/canonical/index.js";
 import { registerMemoryCli } from "./src/cli.js";
 import { registerDreamingCommand } from "./src/dreaming-command.js";
 import { registerShortTermPromotionDreaming } from "./src/dreaming.js";
@@ -38,10 +28,6 @@ export default definePluginEntry({
   description: "File-backed memory search tools and CLI",
   kind: ["memory", "context-engine"],
   register(api) {
-    const extractorRuntime = createPluginRuntime({ allowGatewaySubagentBinding: true });
-    setDefaultExtractorClient(
-      createSubagentExtractorClient(extractorRuntime.subagent ?? api.runtime?.subagent, api.logger),
-    );
     registerBuiltInMemoryEmbeddingProviders(api);
     registerShortTermPromotionDreaming(api);
     registerDreamingCommand(api);
@@ -49,8 +35,6 @@ export default definePluginEntry({
     api.registerMemoryCapability({
       promptBuilder: buildPromptSection,
       flushPlanResolver: buildMemoryFlushPlan,
-      afterTurnObserver: handleGraphAfterTurn,
-      beforeCompactionObserver: handleGraphBeforeCompaction,
       runtime: memoryRuntime,
       publicArtifacts: {
         listArtifacts: listMemoryCorePublicArtifacts,
@@ -74,49 +58,6 @@ export default definePluginEntry({
         }),
       { names: ["memory_get"] },
     );
-
-    api.on("after_tool_call", async (event, ctx) => {
-      try {
-        if (event.toolName !== "memory_get" || !ctx.agentId || !ctx.sessionKey) {
-          return;
-        }
-        const params =
-          event.params && typeof event.params === "object"
-            ? (event.params as Record<string, unknown>)
-            : null;
-        if (typeof params?.path !== "string" || !params.path.trim()) {
-          return;
-        }
-        await noteGraphUsageFromMemoryGet({
-          cfg: api.config,
-          agentId: ctx.agentId,
-          sessionKey: ctx.sessionKey,
-          path: params.path,
-          from: typeof params.from === "number" ? params.from : undefined,
-          lines: typeof params.lines === "number" ? params.lines : undefined,
-        });
-      } catch (err) {
-        api.logger.warn(
-          `memory-core: graph usage after_tool_call failed: ${formatErrorMessage(err)}`,
-        );
-      }
-    });
-
-    api.on("llm_output", async (event, ctx) => {
-      try {
-        if (!ctx.agentId || !ctx.sessionKey || event.assistantTexts.length === 0) {
-          return;
-        }
-        await noteGraphUsageFromAssistantOutput({
-          cfg: api.config,
-          agentId: ctx.agentId,
-          sessionKey: ctx.sessionKey,
-          assistantTexts: event.assistantTexts,
-        });
-      } catch (err) {
-        api.logger.warn(`memory-core: graph usage llm_output failed: ${formatErrorMessage(err)}`);
-      }
-    });
 
     api.registerCli(
       ({ program }) => {

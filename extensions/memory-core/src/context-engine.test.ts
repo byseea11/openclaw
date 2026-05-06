@@ -1,11 +1,5 @@
-import fs from "node:fs/promises";
-import os from "node:os";
-import path from "node:path";
 import type { OpenClawConfig } from "../api.js";
-import { afterEach, beforeEach, describe, expect, it } from "vitest";
-import { generateUlid } from "./canonical/id-v2.js";
-import { closeAllCanonicalStores, getCanonicalStore } from "./canonical/index.js";
-import { buildEvidenceFingerprint, buildEventFingerprint } from "./canonical/schema-v2.js";
+import { beforeEach, describe, expect, it } from "vitest";
 import {
   getMemorySearchManagerMockCalls,
   resetMemoryToolMockState,
@@ -21,9 +15,7 @@ function cfg(): OpenClawConfig {
       slots: { contextEngine: "memory-core" },
       entries: {
         "memory-core": {
-          config: {
-            graphIndex: { enabled: true },
-          },
+          config: {},
         },
       },
     },
@@ -38,7 +30,6 @@ function cfgWithContextRecall(enabled: boolean): OpenClawConfig {
       entries: {
         "memory-core": {
           config: {
-            graphIndex: { enabled: true },
             contextRecall: { enabled },
           },
         },
@@ -47,98 +38,12 @@ function cfgWithContextRecall(enabled: boolean): OpenClawConfig {
   } as OpenClawConfig;
 }
 
-async function seedBlockedTask() {
-  const store = getCanonicalStore("main");
-  const evidenceId = generateUlid();
-  const occurredAt = "2026-04-20T12:00:00.000Z";
-  await store.persistSemanticBatchV2({
-    evidence: [{
-      evidence_id: evidenceId,
-      evidence_fingerprint: buildEvidenceFingerprint({
-        sourcePlatform: "transcript",
-        sourceKind: "transcript_span",
-        sessionKey: "agent:main:feishu:thread",
-        firstEntryId: "entry-1",
-        lastEntryId: "entry-1",
-        occurredAt,
-        contentText: "FEISHU-231 is blocked by AP-778 and Alice owns the follow-up.",
-        contentJson: {},
-      }),
-      source_platform: "transcript",
-      source_kind: "transcript_span",
-      session_key: "agent:main:feishu:thread",
-      message_id: null,
-      chat_id: null,
-      chat_type: null,
-      thread_id: null,
-      root_id: null,
-      parent_id: null,
-      first_entry_id: "entry-1",
-      last_entry_id: "entry-1",
-      content_text: "FEISHU-231 is blocked by AP-778 and Alice owns the follow-up.",
-      content_json: "{}",
-      source_locator_json: JSON.stringify({ source_ref: "transcripts/test.txt#L1-L1" }),
-      occurred_at: occurredAt,
-      created_at: Date.now(),
-    }],
-    events: [
-      {
-        event_id: generateUlid(),
-        event_fingerprint: buildEventFingerprint({
-          evidenceId,
-          eventType: "constraint_event",
-          subjectRef: "task:FEISHU-231",
-          objectRef: "approval:AP-778",
-          occurredAt,
-          payloadJson: {
-            task_ref: "task:FEISHU-231",
-            claim: "FEISHU-231 is blocked by AP-778",
-            constraint: "approval:AP-778",
-          },
-        }),
-        evidence_id: evidenceId,
-        event_type: "constraint_event",
-        subject_ref: "task:FEISHU-231",
-        actor_ref: "person_name:alice",
-        object_ref: "approval:AP-778",
-        related_refs_json: JSON.stringify(["approval:AP-778", "person_name:alice"]),
-        occurred_at: occurredAt,
-        payload_json: JSON.stringify({
-          task_ref: "task:FEISHU-231",
-          claim: "FEISHU-231 is blocked by AP-778",
-          constraint: "approval:AP-778",
-        }),
-        confidence: 0.95,
-        extraction_version: "test",
-        created_at: Date.now(),
-      },
-    ],
-  });
-}
-
 describe("memory-core context engine", () => {
-  let stateDir = "";
-  let previousStateDir: string | undefined;
-
-  beforeEach(async () => {
-    stateDir = await fs.mkdtemp(path.join(os.tmpdir(), "openclaw-memory-context-engine-"));
-    previousStateDir = process.env.OPENCLAW_STATE_DIR;
-    process.env.OPENCLAW_STATE_DIR = stateDir;
+  beforeEach(() => {
     resetMemoryToolMockState();
   });
 
-  afterEach(async () => {
-    await closeAllCanonicalStores();
-    if (previousStateDir === undefined) {
-      delete process.env.OPENCLAW_STATE_DIR;
-    } else {
-      process.env.OPENCLAW_STATE_DIR = previousStateDir;
-    }
-    await fs.rm(stateDir, { recursive: true, force: true });
-  });
-
-  it("injects project state and top evidence before memory-oriented prompts", async () => {
-    await seedBlockedTask();
+  it("injects top evidence before memory-oriented prompts", async () => {
     setMemorySearchImpl(async () => [
       {
         path: "memory/2026-04-20.md",
@@ -164,9 +69,7 @@ describe("memory-core context engine", () => {
 
     expect(result.currentUserPromptPrefix).toContain("## Current Memory Context");
     expect(result.currentUserPromptPrefix).toContain("memory/2026-04-20.md#L10-L12");
-    if (result.systemPromptAddition) {
-      expect(result.systemPromptAddition).toContain("## Current Project State");
-    }
+    expect("systemPromptAddition" in result).toBe(false);
     expect(result.messages).toHaveLength(1);
   });
 
@@ -184,13 +87,12 @@ describe("memory-core context engine", () => {
       prompt: "hello",
     });
 
-    expect(result.systemPromptAddition).toBeUndefined();
+    expect("systemPromptAddition" in result).toBe(false);
     expect(result.currentUserPromptPrefix).toBeUndefined();
     expect(getMemorySearchManagerMockCalls()).toBe(0);
   });
 
   it("skips assemble-time recall when context recall is disabled", async () => {
-    await seedBlockedTask();
     setMemorySearchImpl(async () => [
       {
         path: "memory/2026-04-20.md",
@@ -214,7 +116,7 @@ describe("memory-core context engine", () => {
       prompt: "FEISHU-231 为什么 blocked?",
     });
 
-    expect(result.systemPromptAddition).toBeUndefined();
+    expect("systemPromptAddition" in result).toBe(false);
     expect(result.currentUserPromptPrefix).toBeUndefined();
     expect(getMemorySearchManagerMockCalls()).toBe(0);
   });

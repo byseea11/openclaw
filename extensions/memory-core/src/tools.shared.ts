@@ -12,14 +12,7 @@ import type { MemorySearchResult } from "openclaw/plugin-sdk/memory-core-host-ru
 
 export type MemorySearchResultWithCorpus =
   | (MemorySearchResult & { corpus: "memory" })
-  | MemoryCorpusSearchResult
-  | (MemorySearchResult & {
-    corpus: "graph";
-    graphMeta: {
-      type: "event" | "state" | "edge";
-      entity_id: string;
-    };
-  });
+  | MemoryCorpusSearchResult;
 import { normalizeLowercaseStringOrEmpty } from "openclaw/plugin-sdk/text-runtime";
 
 type MemoryToolRuntime = typeof import("./tools.runtime.js");

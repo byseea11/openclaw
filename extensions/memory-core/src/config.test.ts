@@ -49,28 +49,6 @@ describe("memory-core manifest config schema", () => {
 
     expect(result.ok).toBe(true);
   });
-
-  it("accepts graph index feature flags", () => {
-    const result = validateJsonSchemaValue({
-      schema: manifest.configSchema,
-      cacheKey: "memory-core.manifest.graph-index",
-      value: {
-        graphIndex: {
-          enabled: true,
-          bootstrapOnStart: true,
-          trace: {
-            enabled: true,
-            filePath: "/tmp/openclaw-graph-index-trace.jsonl",
-            includeEntryPreview: true,
-            maxPreviewChars: 180,
-          },
-        },
-      },
-    });
-
-    expect(result.ok).toBe(true);
-  });
-
   it("accepts context recall feature flags", () => {
     const result = validateJsonSchemaValue({
       schema: manifest.configSchema,

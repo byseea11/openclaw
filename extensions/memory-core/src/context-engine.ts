@@ -1,17 +1,10 @@
 import type { ContextEngine } from "openclaw/plugin-sdk";
 import type { OpenClawConfig } from "openclaw/plugin-sdk/memory-core-host-runtime-core";
 import type { MemorySearchResult } from "openclaw/plugin-sdk/memory-core-host-runtime-files";
-import {
-  searchGraphForMemoryTool,
-  type GraphMemorySearchResult,
-} from "./canonical/index.js";
-import { classifyQueryV2 } from "./canonical/query-v2.js";
-import { getMemoryManagerContext, type MemorySearchResultWithCorpus } from "./tools.shared.js";
+import { getMemoryManagerContext } from "./tools.shared.js";
 
 type AssembleParams = Parameters<ContextEngine["assemble"]>[0];
-type QueryClass = ReturnType<typeof classifyQueryV2>;
 
-const STATE_SUMMARY_BUDGET_CHARS = 900;
 const TAIL_EVIDENCE_BUDGET_CHARS = 1_800;
 const TAIL_EVIDENCE_LIMIT = 3;
 const MEMORY_INTENT_RE =
@@ -32,58 +25,15 @@ function isContextRecallEnabled(cfg: OpenClawConfig): boolean {
 }
 
 function resultRef(
-  result: Pick<MemorySearchResultWithCorpus, "path" | "startLine" | "endLine">,
+  result: Pick<MemorySearchResult, "path" | "startLine" | "endLine">,
 ): string {
   return `${result.path}#L${result.startLine ?? 1}-L${result.endLine ?? result.startLine ?? 1}`;
 }
 
-function isGraphResult(
-  result: MemorySearchResultWithCorpus,
-): result is GraphMemorySearchResult {
-  return result.corpus === "graph";
-}
-
-function resultCorpus(result: MemorySearchResultWithCorpus): string {
-  return isGraphResult(result) ? `graph:${result.graphMeta.type}` : result.corpus;
-}
-
-function graphType(result: MemorySearchResultWithCorpus): string | null {
-  return isGraphResult(result) ? result.graphMeta.type : null;
-}
-
-function evidencePriority(queryClass: QueryClass, result: MemorySearchResultWithCorpus): number {
-  const type = graphType(result);
-  if (queryClass === "task_memory_card") {
-    return type === "state" ? 0 : type === "event" ? 1 : result.corpus === "memory" ? 2 : 3;
-  }
-  if (queryClass === "task_state") {
-    return type === "state" ? 0 : type === "event" ? 1 : result.corpus === "memory" ? 2 : 3;
-  }
-  if (queryClass === "task_why") {
-    return type === "event" ? 0 : type === "state" ? 1 : result.corpus === "memory" ? 2 : 3;
-  }
-  if (queryClass === "task_timeline") {
-    return type === "event" ? 0 : result.corpus === "memory" ? 1 : type === "state" ? 2 : 3;
-  }
-  return type === "edge" ? 0 : type === "state" ? 1 : result.corpus === "memory" ? 2 : 3;
-}
-
-function orderHybridEvidenceForQuery(params: {
-  queryClass: QueryClass;
-  results: MemorySearchResultWithCorpus[];
-}): MemorySearchResultWithCorpus[] {
-  return params.results.toSorted((left, right) => {
-    const priorityDelta =
-      evidencePriority(params.queryClass, left) - evidencePriority(params.queryClass, right);
-    if (priorityDelta !== 0) {
-      return priorityDelta;
-    }
+function orderMemoryEvidence(results: MemorySearchResult[]): MemorySearchResult[] {
+  return results.toSorted((left, right) => {
     if (left.score !== right.score) {
       return right.score - left.score;
-    }
-    const corpusDelta = resultCorpus(left).localeCompare(resultCorpus(right));
-    if (corpusDelta !== 0) {
-      return corpusDelta;
     }
     const pathDelta = left.path.localeCompare(right.path);
     if (pathDelta !== 0) {
@@ -116,31 +66,13 @@ function compactSnippet(snippet: string, maxChars: number): string {
   return normalized.length <= maxChars ? normalized : `${normalized.slice(0, maxChars - 1)}…`;
 }
 
-function buildProjectStateSummary(results: MemorySearchResultWithCorpus[]): string | undefined {
-  const stateResults = results.filter((result) => graphType(result) === "state").slice(0, 5);
-  if (stateResults.length === 0) {
-    return undefined;
-  }
-  const lines = [
-    "## Current Project State",
-    "Structured graph state recalled before this turn. Use only if relevant to the user's request.",
-  ];
-  for (const result of stateResults) {
-    const entry = `- ${compactSnippet(result.snippet, 220)} [source: ${resultRef(result)}]`;
-    if (!appendWithinBudget({ lines, next: entry, maxChars: STATE_SUMMARY_BUDGET_CHARS })) {
-      break;
-    }
-  }
-  return lines.length > 2 ? lines.join("\n") : undefined;
-}
-
-function buildCurrentUserPromptPrefix(results: MemorySearchResultWithCorpus[]): string | undefined {
+function buildCurrentUserPromptPrefix(results: MemorySearchResult[]): string | undefined {
   const lines = [
     "## Current Memory Context",
     "Top evidence recalled for the current query. Use it if relevant; call memory_search or memory_get only if you need more detail or exact wording.",
   ];
   for (const result of results.slice(0, TAIL_EVIDENCE_LIMIT)) {
-    const entry = `- (${resultCorpus(result)}) ${compactSnippet(result.snippet, 360)} [source: ${resultRef(result)}]`;
+    const entry = `- ${compactSnippet(result.snippet, 360)} [source: ${resultRef(result)}]`;
     if (!appendWithinBudget({ lines, next: entry, maxChars: TAIL_EVIDENCE_BUDGET_CHARS })) {
       break;
     }
@@ -153,7 +85,7 @@ async function searchMemoryEvidence(params: {
   agentId: string;
   query: string;
   sessionKey?: string;
-}): Promise<Array<MemorySearchResult & { corpus: "memory" }>> {
+}): Promise<MemorySearchResult[]> {
   const memory = await getMemoryManagerContext({ cfg: params.cfg, agentId: params.agentId });
   if ("error" in memory) {
     return [];
@@ -162,23 +94,7 @@ async function searchMemoryEvidence(params: {
     maxResults: TAIL_EVIDENCE_LIMIT,
     sessionKey: params.sessionKey,
   });
-  return results.map((result) => ({ ...result, corpus: "memory" as const }));
-}
-
-async function searchGraphEvidence(params: {
-  cfg: OpenClawConfig;
-  agentId: string;
-  query: string;
-  sessionKey?: string;
-}): Promise<GraphMemorySearchResult[]> {
-  const graph = await searchGraphForMemoryTool({
-    cfg: params.cfg,
-    agentId: params.agentId,
-    query: params.query,
-    maxResults: 5,
-    sessionKey: params.sessionKey,
-  });
-  return graph.results;
+  return results;
 }
 
 export class MemoryCoreContextEngine implements ContextEngine {
@@ -206,27 +122,16 @@ export class MemoryCoreContextEngine implements ContextEngine {
     }
 
     try {
-      const queryClass = classifyQueryV2(prompt);
-      const graphResults = await searchGraphEvidence({
-        cfg: params.config,
-        agentId: params.agentId,
-        query: prompt,
-        sessionKey: params.sessionKey,
-      });
       const memoryResults = await searchMemoryEvidence({
         cfg: params.config,
         agentId: params.agentId,
         query: prompt,
         sessionKey: params.sessionKey,
       });
-      const ordered = orderHybridEvidenceForQuery({
-        queryClass,
-        results: [...graphResults, ...memoryResults],
-      });
+      const ordered = orderMemoryEvidence(memoryResults);
       return {
         messages: params.messages,
         estimatedTokens: 0,
-        systemPromptAddition: buildProjectStateSummary(ordered),
         currentUserPromptPrefix: buildCurrentUserPromptPrefix(ordered),
       };
     } catch {

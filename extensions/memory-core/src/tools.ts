@@ -14,7 +14,6 @@ import {
   resolveMemoryCorePluginConfig,
   resolveMemoryDeepDreamingConfig,
 } from "openclaw/plugin-sdk/memory-core-host-status";
-import { searchGraphForMemoryTool } from "./canonical/index.js";
 import { recordShortTermRecalls } from "./short-term-promotion.js";
 import {
   clampResultsByInjectedChars,
@@ -250,11 +249,6 @@ export function createMemorySearchTool(options: {
                 fallback?: string;
                 searchMs: number;
                 hits: number;
-                graph?: {
-                  enabled: boolean;
-                  hits: number;
-                  renderedHits: number;
-                };
               }
             | undefined;
           if (shouldQueryMemory && memory && !("error" in memory)) {
@@ -328,26 +322,7 @@ export function createMemorySearchTool(options: {
             }
             return left.path.localeCompare(right.path);
           });
-          const graph = shouldQueryMemory
-            ? await searchGraphForMemoryTool({
-                cfg,
-                agentId,
-                query,
-                maxResults: maxResults ?? 5,
-                sessionKey: options.agentSessionKey,
-              })
-            : { enabled: false, hits: 0, renderedHits: 0, results: [] };
-          if (searchDebug) {
-            searchDebug.graph = {
-              enabled: graph.enabled,
-              hits: graph.hits,
-              renderedHits: graph.renderedHits,
-            };
-          }
-          const results = rankHybridMemoryResults(
-            [...baseResults, ...graph.results],
-            maxResults,
-          );
+          const results = rankHybridMemoryResults(baseResults, maxResults);
           return jsonResult({
             results,
             provider,
