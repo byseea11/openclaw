@@ -22,6 +22,7 @@
   - 中间修正
   - 最终 current-state 确认
 - query 必须同时考 current state、历史值和 supersession 关系。
+- 默认 `hard` 下必须按企业版密度生成：状态段、参与角色和跨线程修正都应明显高于最小示例，不得退化成单线程两三轮口径更新。
 
 ## 禁止
 
@@ -35,13 +36,13 @@
 ```json
 {
   "target_task_id": "FEISHU-202",
-  "shared_actors": ["alice", "xzy"],
+  "shared_actors": ["alice", "xavier"],
   "revision_context_blocks": [
     {
       "context_ref": "ctx_owner_handoff",
       "field": "owner",
       "revision_role": "historical_update",
-      "relationship_to_target": "Bob -> Alice -> xzy 的交接链会诱发系统把历史 owner 留成 current owner。"
+      "relationship_to_target": "Bob -> Alice -> Xavier 的交接链会诱发系统把历史 owner 留成 current owner。"
     },
     {
       "context_ref": "ctx_window_shift",
@@ -67,7 +68,7 @@
       "role": "historical_owner"
     },
     {
-      "actor_id": "xzy",
+      "actor_id": "xavier",
       "task_id": "FEISHU-202",
       "role": "current_owner"
     }
@@ -90,17 +91,17 @@
   "actors": [
     {"actor_id": "bob", "display_name": "Bob", "role": "initial_owner"},
     {"actor_id": "alice", "display_name": "Alice", "role": "historical_owner"},
-    {"actor_id": "xzy", "display_name": "xzy", "role": "current_owner"}
+    {"actor_id": "xavier", "display_name": "Xavier", "role": "current_owner"}
   ],
   "task_actor_layout": {
     "target_task_id": "FEISHU-202",
-    "shared_actors": ["alice", "xzy"],
+    "shared_actors": ["alice", "xavier"],
     "revision_context_blocks": [
       {
         "context_ref": "ctx_owner_handoff",
         "field": "owner",
         "revision_role": "historical_update",
-        "relationship_to_target": "Bob 交接到 Alice，再交接到 xzy，历史 owner 都是真实说法。"
+        "relationship_to_target": "Bob 交接到 Alice，再交接到 Xavier，历史 owner 都是真实说法。"
       },
       {
         "context_ref": "ctx_window_shift",
@@ -118,7 +119,7 @@
       "sequence": [
         {"value": "Bob", "status": "initial"},
         {"value": "Alice", "status": "historical"},
-        {"value": "xzy", "status": "current"}
+        {"value": "Xavier", "status": "current"}
       ]
     },
     {
@@ -146,16 +147,29 @@
     },
     {
       "beat_id": "beat_003",
-      "speaker": "xzy",
+      "speaker_actor_id": "xavier",
+      "speaker": "Xavier",
       "session_id": "thread_release",
-      "message_intent": "最终确认：FEISHU-202 由 xzy 收口，正式窗口以 5 月 9 日为准，之前口径作废，旧 owner 只算历史信息。"
+      "message_intent": "最终确认：FEISHU-202 由 Xavier 收口，正式窗口以 5 月 9 日为准，之前口径作废，旧 owner 只算历史信息。"
     }
   ],
   "planned_probe_queries": [
     {
       "query": "FEISHU-202 当前负责人是谁？Bob 和 Alice 现在还负责吗？上线窗口最终以哪一天为准？从哪一轮开始旧口径已经失效？",
-      "expected_good_behavior": "回答 xzy 是当前负责人、5 月 9 日是当前窗口，并明确 Bob/Alice 与 5 月 5 日/5 月 7 日都只属于历史状态，最终确认后旧口径已失效。"
+      "expected_good_behavior": "回答 Xavier 是当前负责人、5 月 9 日是当前窗口，并明确 Bob/Alice 与 5 月 5 日/5 月 7 日都只属于历史状态，最终确认后旧口径已失效。"
     }
   ]
 }
 ```
+
+## V3 Phase 1 对接位置
+
+`contradiction_update` 被选中时，本 skill 必须参与这些 stage：
+
+- `task-actor-layout`：定义 initial owner、historical owner、current owner，以及修正相关角色。
+- `state-trajectory`：定义 stale / historical / current 的状态序列和 supersession clues。
+- `coverage-spec`：要求初始口径、中间修正、最终 current-state 确认和“旧口径作废”线索都必须落地。
+- `story-beats`：安排 initial state、historical update、supersession、final current state 等 beat。
+- `conversation-plan`：把状态变化写成跨 source 的真实协作消息，不能只在结构化字段里声明。
+
+本 family 的关键是让系统回答“现在有效的是什么”，而不是复述所有出现过的历史值。

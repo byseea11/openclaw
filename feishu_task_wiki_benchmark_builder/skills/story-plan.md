@@ -2,7 +2,7 @@
 
 ## 职责
 
-这个 skill 负责约束 `story-plan` 阶段生成唯一核心中间 artifact：`story_plan.json`。
+这个 skill 负责约束 `story-plan` 阶段生成聚合视图 artifact：`story_plan.json`。它不是 actor/session/beat/turn 的唯一 owner，而是把 `task-actor-layout`、`case-world`、`story-beats`、`conversation-plan` 汇总成单一可读视图。
 
 ## 统一 contract
 
@@ -13,6 +13,11 @@
   - `state_changes`
   - `message_beats`
   - `planned_probe_queries`
+- `story_plan.json` 里的 actor / session / beat / turn identity 必须来自：
+  - `task_actor_layout.json`
+  - `case_world.json`
+  - `story_beats.json`
+  - `conversation_plan.json`
 - `task` 必须是 object，并且它是唯一正式 task。
 - `actors` 必须是 list。
 - `task_actor_layout` 必须是 object。
@@ -26,9 +31,14 @@
 - `actors` 数量必须落在当前 difficulty profile 的 `character_count_min/max` 范围内。
 - 必须显式消费 runtime 注入的 `difficulty_slots`、`family_numeric_slots` 和 `stage_slots`，不能只参考本文件的静态示例。
 - `message_beats` 的 session 分布必须从本 skill 定义的合法 session 类型中选择，并覆盖当前 difficulty 要求的 session 数量，不能退化成单 session 单线程。
+- `message_beats` 必须保留结构化 speaker 引用：
+  - `speaker_actor_id`
+  - `speaker`
 - 共享角色、状态段数、依赖 hop 数等最低复杂度必须服从当前 family 的 numeric minima，而 family 的语义槽位则以对应 family skill 为准。
-- 如果当前 difficulty 为 `hard`，生成时应接近 runtime 注入的 `recommended_actor_count`，不能退化成只给最小样本。
+- 如果当前 difficulty 为 `hard`，生成时应接近 runtime 注入的 `recommended_actor_count = 28`，不能退化成只给最小样本。
+- 如果当前 difficulty 为 `hard`，session 覆盖应接近 runtime 注入的 `recommended_session_count = 8`，并显式体现多部门、多线程、多来源的企业协作拓扑。
 - `task_actor_layout` 必须覆盖当前 family skill 定义的 role/context/dependency/revision 槽位。
+- 不得新增未在上游 ownership artifact 中声明的 actor / session / context / beat。
 
 ## 合法 session 类型
 
@@ -48,7 +58,7 @@
 - medium:
   - 至少覆盖 4 类 session。
 - hard:
-  - 至少覆盖 5 类 session。
+  - 至少覆盖 5 类 session，且在默认企业版配置下应扩展到约 8 个 session 实例，而不是只给 5 个最小示例。
 
 ## family-specific hard-case 要求
 
@@ -77,6 +87,8 @@
 - 不要把 distractor 写成正式 `task`。
 - 不要把某个 section 写成 string 或 object 来替代应为 list 的字段。
 - 不要把规模要求偷降到 3-4 个角色、1-2 个 session 这种过弱版本，除非当前 difficulty settings 明确允许。
+- 在默认 `hard` 下，不要退化成十人以内的小团队样本。
+- 不要把 speaker 仅写成自由文本名字而不给结构化 actor 引用。
 
 ## 示例规模要求
 
@@ -191,17 +203,17 @@
   "actors": [
     {"actor_id": "bob", "display_name": "Bob", "role": "initial_owner"},
     {"actor_id": "alice", "display_name": "Alice", "role": "historical_owner"},
-    {"actor_id": "xzy", "display_name": "xzy", "role": "current_owner"}
+    {"actor_id": "xavier", "display_name": "Xavier", "role": "current_owner"}
   ],
   "task_actor_layout": {
     "target_task_id": "FEISHU-202",
-    "shared_actors": ["alice", "xzy"],
+    "shared_actors": ["alice", "xavier"],
     "revision_context_blocks": [
       {
         "context_ref": "ctx_owner_handoff",
         "field": "owner",
         "revision_role": "historical_update",
-        "relationship_to_target": "Bob 交接到 Alice，再交接到 xzy，历史 owner 都是真实说法。"
+        "relationship_to_target": "Bob 交接到 Alice，再交接到 Xavier，历史 owner 都是真实说法。"
       },
       {
         "context_ref": "ctx_window_shift",
@@ -219,7 +231,7 @@
       "sequence": [
         {"value": "Bob", "status": "initial"},
         {"value": "Alice", "status": "historical"},
-        {"value": "xzy", "status": "current"}
+        {"value": "Xavier", "status": "current"}
       ]
     },
     {
@@ -247,15 +259,16 @@
     },
     {
       "beat_id": "beat_003",
-      "speaker": "xzy",
+      "speaker_actor_id": "xavier",
+      "speaker": "Xavier",
       "session_id": "thread_release",
-      "message_intent": "最终确认：FEISHU-202 由 xzy 收口，正式窗口以 5 月 9 日为准，之前口径作废，旧 owner 只算历史信息。"
+      "message_intent": "最终确认：FEISHU-202 由 Xavier 收口，正式窗口以 5 月 9 日为准，之前口径作废，旧 owner 只算历史信息。"
     }
   ],
   "planned_probe_queries": [
     {
       "query": "FEISHU-202 当前负责人是谁？Bob 和 Alice 现在还负责吗？上线窗口最终以哪一天为准？从哪一轮开始旧口径已经失效？",
-      "expected_good_behavior": "回答 xzy 是当前负责人、5 月 9 日是当前窗口，并明确 Bob/Alice 与 5 月 5 日/5 月 7 日都只属于历史状态，最终确认后旧口径已失效。"
+      "expected_good_behavior": "回答 Xavier 是当前负责人、5 月 9 日是当前窗口，并明确 Bob/Alice 与 5 月 5 日/5 月 7 日都只属于历史状态，最终确认后旧口径已失效。"
     }
   ]
 }
@@ -277,11 +290,11 @@
     {"actor_id": "alice", "display_name": "Alice", "role": "release_pm"},
     {"actor_id": "bob", "display_name": "Bob", "role": "ops_partner"},
     {"actor_id": "carol", "display_name": "Carol", "role": "migration_owner"},
-    {"actor_id": "xzy", "display_name": "xzy", "role": "target_owner"}
+    {"actor_id": "xavier", "display_name": "Xavier", "role": "target_owner"}
   ],
   "task_actor_layout": {
     "target_task_id": "FEISHU-203",
-    "shared_actors": ["carol", "xzy"],
+    "shared_actors": ["carol", "xavier"],
     "dependency_context_blocks": [
       {
         "context_ref": "ctx_upstream_window",
@@ -316,7 +329,7 @@
       {"actor_id": "carol", "context_ref": "ctx_upstream_window", "role": "verified_source"},
       {"actor_id": "bob", "context_ref": "ctx_window_hearsay", "role": "hearsay_source"},
       {"actor_id": "alice", "task_id": "FEISHU-203", "role": "ambiguous_source"},
-      {"actor_id": "xzy", "task_id": "FEISHU-203", "role": "target_owner"},
+      {"actor_id": "xavier", "task_id": "FEISHU-203", "role": "target_owner"},
       {"actor_id": "alice", "context_ref": "ctx_downstream_rollback", "role": "rollback_owner"}
     ]
   },
@@ -373,7 +386,8 @@
     },
     {
       "beat_id": "beat_005",
-      "speaker": "xzy",
+      "speaker_actor_id": "xavier",
+      "speaker": "Xavier",
       "session_id": "thread_release",
       "message_intent": "结论先按 Carol 的正式确认走：当前真正 blocker 是迁移窗口未锁定，这会同时卡住 FEISHU-203 和后面的回滚预案验收。"
     }

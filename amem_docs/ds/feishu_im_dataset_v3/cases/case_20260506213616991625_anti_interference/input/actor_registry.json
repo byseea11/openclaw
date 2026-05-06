@@ -1,0 +1,146 @@
+{
+  "case_id": "case_20260506213616991625_anti_interference",
+  "family_id": "anti_interference",
+  "actors": {
+    "alice": {
+      "actor_id": "alice",
+      "display_name": "Alice",
+      "role": "project_manager"
+    },
+    "bob": {
+      "actor_id": "bob",
+      "display_name": "Bob",
+      "role": "ops_manager"
+    },
+    "carol": {
+      "actor_id": "carol",
+      "display_name": "Carol",
+      "role": "release_manager"
+    },
+    "david": {
+      "actor_id": "david",
+      "display_name": "David",
+      "role": "qa_lead"
+    },
+    "eve": {
+      "actor_id": "eve",
+      "display_name": "Eve",
+      "role": "security_engineer"
+    },
+    "frank": {
+      "actor_id": "frank",
+      "display_name": "Frank",
+      "role": "backend_dev"
+    },
+    "grace": {
+      "actor_id": "grace",
+      "display_name": "Grace",
+      "role": "frontend_dev"
+    },
+    "heidi": {
+      "actor_id": "heidi",
+      "display_name": "Heidi",
+      "role": "doc_review_lead"
+    },
+    "ivan": {
+      "actor_id": "ivan",
+      "display_name": "Ivan",
+      "role": "ops_rehearsal_lead"
+    },
+    "judy": {
+      "actor_id": "judy",
+      "display_name": "Judy",
+      "role": "release_sync_coordinator"
+    },
+    "ken": {
+      "actor_id": "ken",
+      "display_name": "Ken",
+      "role": "compliance_officer"
+    },
+    "laura": {
+      "actor_id": "laura",
+      "display_name": "Laura",
+      "role": "customer_support"
+    },
+    "mike": {
+      "actor_id": "mike",
+      "display_name": "Mike",
+      "role": "infra_engineer"
+    },
+    "nina": {
+      "actor_id": "nina",
+      "display_name": "Nina",
+      "role": "data_analyst"
+    },
+    "oscar": {
+      "actor_id": "oscar",
+      "display_name": "Oscar",
+      "role": "network_engineer"
+    },
+    "paul": {
+      "actor_id": "paul",
+      "display_name": "Paul",
+      "role": "product_manager"
+    },
+    "quinn": {
+      "actor_id": "quinn",
+      "display_name": "Quinn",
+      "role": "designer"
+    },
+    "rachel": {
+      "actor_id": "rachel",
+      "display_name": "Rachel",
+      "role": "tech_writer"
+    },
+    "sam": {
+      "actor_id": "sam",
+      "display_name": "Sam",
+      "role": "external_auditor"
+    },
+    "tina": {
+      "actor_id": "tina",
+      "display_name": "Tina",
+      "role": "legal_advisor"
+    },
+    "uma": {
+      "actor_id": "uma",
+      "display_name": "Uma",
+      "role": "hr_business_partner"
+    },
+    "victor": {
+      "actor_id": "victor",
+      "display_name": "Victor",
+      "role": "finance_controller"
+    },
+    "wendy": {
+      "actor_id": "wendy",
+      "display_name": "Wendy",
+      "role": "procurement_specialist"
+    },
+    "xander": {
+      "actor_id": "xander",
+      "display_name": "Xander",
+      "role": "vendor_coordinator"
+    },
+    "yvonne": {
+      "actor_id": "yvonne",
+      "display_name": "Yvonne",
+      "role": "marketing_lead"
+    },
+    "zack": {
+      "actor_id": "zack",
+      "display_name": "Zack",
+      "role": "training_lead"
+    },
+    "abby": {
+      "actor_id": "abby",
+      "display_name": "Abby",
+      "role": "risk_analyst"
+    },
+    "ben": {
+      "actor_id": "ben",
+      "display_name": "Ben",
+      "role": "internal_auditor"
+    }
+  }
+}

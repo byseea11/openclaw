@@ -1,0 +1,47 @@
+{
+  "case_id": "case_20260506213133524022_anti_interference",
+  "family_id": "anti_interference",
+  "task_id": "FEISHU-822",
+  "state_changes": [
+    {
+      "task_id": "FEISHU-201",
+      "field": "owner",
+      "sequence": [
+        {
+          "value": "Alice",
+          "status": "current"
+        }
+      ]
+    },
+    {
+      "task_id": "FEISHU-201",
+      "field": "blocker",
+      "sequence": [
+        {
+          "value": "支付风控回归未完成",
+          "status": "current"
+        }
+      ]
+    },
+    {
+      "task_id": "FEISHU-201",
+      "field": "release_window",
+      "sequence": [
+        {
+          "value": "待定",
+          "status": "current"
+        }
+      ]
+    },
+    {
+      "task_id": "FEISHU-201",
+      "field": "status",
+      "sequence": [
+        {
+          "value": "灰度放量准备中",
+          "status": "current"
+        }
+      ]
+    }
+  ]
+}

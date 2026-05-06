@@ -22,6 +22,7 @@
   - 至少有一条消息显式说“这不是目标任务 owner 变更”，否则干扰太弱。
 - `message_beats` 必须让这些干扰 block 真正进入对话，而不是只停留在结构字段里。
 - query 必须逼系统显式排除这些上下文噪声，只回答目标任务。
+- 默认 `hard` 下必须按企业版密度生成：至少满足更高的 shared actor、context block 和并行讨论覆盖，不得只用 3 个左右角色完成示例。
 
 ## 禁止
 
@@ -168,3 +169,15 @@
   ]
 }
 ```
+
+## V3 Phase 1 对接位置
+
+`anti_interference` 被选中时，本 skill 必须参与这些 stage：
+
+- `task-actor-layout`：定义 shared actors、parallel context、相似措辞干扰和 actor/context role。
+- `state-trajectory`：定义目标任务 current state，以及哪些上下文不能污染目标答案。
+- `coverage-spec`：要求干扰上下文、排除线索和目标 current state 都必须在真实消息中落地。
+- `story-beats`：安排 target fact、shared actor noise、similar wording noise、explicit exclusion 等 beat。
+- `conversation-plan`：把干扰与排除线索写成自然消息，但不能让干扰上下文变成目标任务事实。
+
+本 family 的关键不是“多写几个噪声消息”，而是让系统必须从 shared actor 和相似措辞中排除不属于目标任务的上下文。

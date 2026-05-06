@@ -1,0 +1,147 @@
+{
+  "case_id": "case_20260506211506345155_anti_interference",
+  "family_id": "anti_interference",
+  "task_id": "FEISHU-655",
+  "sessions": [
+    {
+      "session_id": "main_chat",
+      "session_type": "main_chat",
+      "title": "主群协调",
+      "session_purpose": "沉淀目标任务的主线协作信息和最终 current state。"
+    },
+    {
+      "session_id": "thread_release",
+      "session_type": "chat",
+      "title": "thread_release 会话",
+      "session_purpose": "承载目标任务相关的补充协作上下文。"
+    },
+    {
+      "session_id": "thread_network",
+      "session_type": "chat",
+      "title": "thread_network 会话",
+      "session_purpose": "承载目标任务相关的补充协作上下文。"
+    },
+    {
+      "session_id": "thread_db",
+      "session_type": "chat",
+      "title": "thread_db 会话",
+      "session_purpose": "承载目标任务相关的补充协作上下文。"
+    },
+    {
+      "session_id": "thread_vendor",
+      "session_type": "chat",
+      "title": "thread_vendor 会话",
+      "session_purpose": "承载目标任务相关的补充协作上下文。"
+    }
+  ],
+  "turns": [
+    {
+      "turn_id": "turn_001",
+      "beat_id": "beat_001",
+      "sequence_no": 1,
+      "session_id": "main_chat",
+      "speaker_actor_id": "alice",
+      "speaker": "Alice",
+      "planned_message_text": "FEISHU-655 当前由 Alice 负责收口，真正 blocker 是支付风控回归测试还没跑完，窗口暂时锁定不了。"
+    },
+    {
+      "turn_id": "turn_002",
+      "beat_id": "beat_002",
+      "sequence_no": 2,
+      "session_id": "main_chat",
+      "speaker_actor_id": "bob",
+      "speaker": "Bob",
+      "planned_message_text": "运维演练那边也卡在 blocker，不过那是一条并行讨论，不是 FEISHU-655 的变更。"
+    },
+    {
+      "turn_id": "turn_003",
+      "beat_id": "beat_003",
+      "sequence_no": 3,
+      "session_id": "thread_release",
+      "speaker_actor_id": "carol",
+      "speaker": "Carol",
+      "planned_message_text": "Alice 晚上还要审文档收口，但那只是 reviewer 身份，不代表 FEISHU-655 再次换 owner。"
+    },
+    {
+      "turn_id": "turn_004",
+      "beat_id": "beat_004",
+      "sequence_no": 4,
+      "session_id": "main_chat",
+      "speaker_actor_id": "eve",
+      "speaker": "Eve",
+      "planned_message_text": "合规取证那边 blocker 是法规文件不齐，这个和 FEISHU-655 没关系，别混在一起。"
+    },
+    {
+      "turn_id": "turn_005",
+      "beat_id": "beat_005",
+      "sequence_no": 5,
+      "session_id": "thread_network",
+      "speaker_actor_id": "frank",
+      "speaker": "Frank",
+      "planned_message_text": "骨干网络升级的窗口计划在下周一，这个时间点不是 FEISHU-655 的放量窗口。"
+    },
+    {
+      "turn_id": "turn_006",
+      "beat_id": "beat_006",
+      "sequence_no": 6,
+      "session_id": "thread_db",
+      "speaker_actor_id": "grace",
+      "speaker": "Grace",
+      "planned_message_text": "数据库升级的收口负责人是 Grace，不是 Alice，两个任务不要搞混。"
+    },
+    {
+      "turn_id": "turn_007",
+      "beat_id": "beat_007",
+      "sequence_no": 7,
+      "session_id": "thread_vendor",
+      "speaker_actor_id": "nick",
+      "speaker": "Nick",
+      "planned_message_text": "供应商评审的 blocker 是合同条款，与 FEISHU-655 的风控回归无关。"
+    },
+    {
+      "turn_id": "turn_008",
+      "beat_id": "beat_008",
+      "sequence_no": 8,
+      "session_id": "thread_release",
+      "speaker_actor_id": "alice",
+      "speaker": "Alice",
+      "planned_message_text": "注意：FEISHU-655 的 owner 没有变化，还是 Alice，其他讨论的 owner 变更都是不同任务的。"
+    },
+    {
+      "turn_id": "turn_009",
+      "beat_id": "beat_009",
+      "sequence_no": 9,
+      "session_id": "main_chat",
+      "speaker_actor_id": "iris",
+      "speaker": "Iris",
+      "planned_message_text": "FEISHU-655 的 blocker 只有风控回归，数据迁移和合规取证的 blocker 都不是本任务的。"
+    },
+    {
+      "turn_id": "turn_010",
+      "beat_id": "beat_010",
+      "sequence_no": 10,
+      "session_id": "main_chat",
+      "speaker_actor_id": "jack",
+      "speaker": "Jack",
+      "planned_message_text": "迁移任务的 blocker 是机房电力，不是支付风控，大家记住两个任务是独立的。"
+    },
+    {
+      "turn_id": "turn_011",
+      "beat_id": "beat_011",
+      "sequence_no": 11,
+      "session_id": "main_chat",
+      "speaker_actor_id": "karen",
+      "speaker": "Karen",
+      "planned_message_text": "FEISHU-655 的最新状态：Alice 是 owner，风控回归 blocker，窗口待定。其他项目的状态不要混入本条消息。"
+    },
+    {
+      "turn_id": "turn_012",
+      "beat_id": "beat_012",
+      "sequence_no": 12,
+      "session_id": "thread_release",
+      "speaker_actor_id": "xavier",
+      "speaker": "Xavier",
+      "planned_message_text": "我确认 FEISHU-655 的当前状态就是 Alice 负责、风控回归 blocker，没有其他干扰项。"
+    }
+  ]
+}

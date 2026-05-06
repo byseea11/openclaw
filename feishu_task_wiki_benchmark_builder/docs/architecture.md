@@ -30,9 +30,10 @@
 - `workflow.md` 只保留路由、阶段摘要和最小全局 invariant，不承载完整 artifact contract 或大段 anti-splitting 清单
 - “不要再拆出哪些旧 artifact” 这类 anti-regression 约束主要放在 `docs/architecture.md` 和对应阶段 skill 中
 - 代码只负责执行少量 stage runner 和 checkpoint 落盘
-- 不再维护分散的上游 artifact 关系
+- phase1 内部恢复旧版风格的 ownership artifact 关系：actor/context 先定，session/source 再定，beats/turns 再展开
 - runtime prompt 由代码从 `skills/*.md` 组装
 - `builder_settings.yml` 只负责数字控制面：人数、部门数、session 数、family numeric minima
+- `builder_settings.yml` 同时持有唯一默认难度来源：`default_difficulty`
 - `skills/*.md` 是 runtime prompt 的唯一语义 owner：session 类型、noise 类型、role/context/dependency/revision 语义全部在 skills 中定义
 - `case-context` 会组装通用 skill + 当前或全部 family context skill；`story-plan` 会组装通用 skill + 当前 family context skill
 - `case-context` / `story-plan` 在组装 prompt 时会额外注入当前 difficulty profile、family numeric minima 和 stage-specific numeric slot contract
@@ -41,11 +42,15 @@
 - 进入 `case-context` / `story-plan` 前必须先通过 `auth-check` 同等探活
 - `case_id`、`task_id`、`story_id` 这类标识符由代码层统一生成，不让模型自由命名
 
-## Phase 1 最少 checkpoint
+## Phase 1 Checkpoints
 
-Phase 1 只保留这些正式 checkpoint：
+Phase 1 会落这些 checkpoint：
 
 - `input/case_context.json`
+- `input/task_actor_layout.json`
+- `input/case_world.json`
+- `input/story_beats.json`
+- `input/conversation_plan.json`
 - `input/story_plan.json`
 - `input/command_plan.jsonl`
 - `runtime/executed_commands.jsonl`
@@ -53,10 +58,14 @@ Phase 1 只保留这些正式 checkpoint：
 - `data/openclaw_message_ingress.jsonl`
 - `checks/pre_annotation_validation_report.json`
 
-其中：
+其中外部 CLI 仍然只暴露 `case-context -> story-plan -> command-plan`，但 `story-plan` 阶段会物化内部 ownership artifact：
 
 - `case_context.json` 取代原来分散的 family selection、capability brief、case spec、case world
-- `story_plan.json` 继续作为唯一核心中间 artifact
+- `task_actor_layout.json` 是 actor/context identity owner
+- `case_world.json` 是 session/source owner
+- `story_beats.json` 是 beat skeleton owner
+- `conversation_plan.json` 是 speaker/session/turn owner
+- `story_plan.json` 保留为聚合视图和兼容 artifact，不再是唯一中间 source of truth
 
 运行时日志：
 

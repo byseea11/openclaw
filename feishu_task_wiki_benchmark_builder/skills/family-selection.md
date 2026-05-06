@@ -37,3 +37,13 @@
   "report_display_name": "矛盾更新测试"
 }
 ```
+
+## V3 Phase 1 对接位置
+
+在当前三类 family 版本里，`family-selection` 是 Phase 1 的第一层 failure-oriented 控制面。它接在 `spec-generation` 之后，决定后续引用哪一个 family context skill。
+
+- `anti_interference` 后续必须引用 `anti-interference-context.md`。
+- `contradiction_update` 后续必须引用 `contradiction-update-context.md`。
+- `evidence_dependency_reasoning` 后续必须引用 `evidence-dependency-context.md`。
+
+单 case 默认只选一个 family。批量数据集可以通过多 case 覆盖三类 family，但不要在一个 case 内混合多个正式 family。

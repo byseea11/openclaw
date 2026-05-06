@@ -35,6 +35,7 @@
   - 依据来自谁、哪条消息
   - 哪些说法不能当正式确认
   - 这个 blocker 如何影响目标任务和下游影响
+- 默认 `hard` 下必须按企业版密度生成：依赖 hop、cross-source update、证据梯度和下游影响都应明显高于最小示例，不得退化成单条上游确认加一句总结。
 
 ## 禁止
 
@@ -48,7 +49,7 @@
 ```json
 {
   "target_task_id": "FEISHU-203",
-  "shared_actors": ["carol", "xzy"],
+  "shared_actors": ["carol", "xavier"],
   "dependency_context_blocks": [
     {
       "context_ref": "ctx_upstream_window",
@@ -96,7 +97,7 @@
       "role": "ambiguous_source"
     },
     {
-      "actor_id": "xzy",
+      "actor_id": "xavier",
       "task_id": "FEISHU-203",
       "role": "target_owner"
     },
@@ -125,11 +126,11 @@
     {"actor_id": "alice", "display_name": "Alice", "role": "release_pm"},
     {"actor_id": "bob", "display_name": "Bob", "role": "ops_partner"},
     {"actor_id": "carol", "display_name": "Carol", "role": "migration_owner"},
-    {"actor_id": "xzy", "display_name": "xzy", "role": "target_owner"}
+    {"actor_id": "xavier", "display_name": "Xavier", "role": "target_owner"}
   ],
   "task_actor_layout": {
     "target_task_id": "FEISHU-203",
-    "shared_actors": ["carol", "xzy"],
+    "shared_actors": ["carol", "xavier"],
     "dependency_context_blocks": [
       {
         "context_ref": "ctx_upstream_window",
@@ -164,7 +165,7 @@
       {"actor_id": "carol", "context_ref": "ctx_upstream_window", "role": "verified_source"},
       {"actor_id": "bob", "context_ref": "ctx_window_hearsay", "role": "hearsay_source"},
       {"actor_id": "alice", "task_id": "FEISHU-203", "role": "ambiguous_source"},
-      {"actor_id": "xzy", "task_id": "FEISHU-203", "role": "target_owner"},
+      {"actor_id": "xavier", "task_id": "FEISHU-203", "role": "target_owner"},
       {"actor_id": "alice", "context_ref": "ctx_downstream_rollback", "role": "rollback_owner"}
     ]
   },
@@ -221,7 +222,8 @@
     },
     {
       "beat_id": "beat_005",
-      "speaker": "xzy",
+      "speaker_actor_id": "xavier",
+      "speaker": "Xavier",
       "session_id": "thread_release",
       "message_intent": "结论先按 Carol 的确认走：当前真正 blocker 是迁移窗口未锁定，这会同时卡住 FEISHU-203 和后面的回滚预案验收。"
     }
@@ -234,3 +236,15 @@
   ]
 }
 ```
+
+## V3 Phase 1 对接位置
+
+`evidence_dependency_reasoning` 被选中时，本 skill 必须参与这些 stage：
+
+- `task-actor-layout`：定义 verified anchor、hearsay channel、ambiguous channel、downstream impact 等 context block。
+- `state-trajectory`：定义 upstream evidence 如何影响目标任务 current state，以及如何传播到 downstream impact。
+- `coverage-spec`：要求 verified、ambiguous、hearsay、impact chain 和 target summary 都必须在真实消息中落地。
+- `story-beats`：安排 evidence anchor、ambiguous claim、hearsay、dependency impact、target conclusion 等 beat。
+- `conversation-plan`：把证据梯度写成真实消息，并保持哪些说法可以验证、哪些不能验证的边界。
+
+本 family 的关键是让系统区分证据强度，并解释依赖变化如何影响目标任务，而不是只抽取一句 blocker 结论。

@@ -3,9 +3,15 @@ from __future__ import annotations
 import unittest
 
 from feishu_task_wiki_benchmark_builder.llm import BuilderModelClient, FixtureModelClient, ModelCallResult
+from feishu_task_wiki_benchmark_builder.schemas import validate_story_plan
 from feishu_task_wiki_benchmark_builder.stages.case_context import build_case_context, generate_case_context
+from feishu_task_wiki_benchmark_builder.stages.case_world import build_case_world_artifact
 from feishu_task_wiki_benchmark_builder.stages.common import generate_default_seed, normalize_seed
+from feishu_task_wiki_benchmark_builder.stages.command_plan import build_command_plan
+from feishu_task_wiki_benchmark_builder.stages.conversation_plan import build_conversation_plan_artifact
 from feishu_task_wiki_benchmark_builder.stages.story_plan import build_story_plan
+from feishu_task_wiki_benchmark_builder.stages.story_beats import build_story_beats_artifact
+from feishu_task_wiki_benchmark_builder.stages.task_actor_layout import build_task_actor_layout_artifact
 
 
 class WeirdNamingCaseContextClient:
@@ -131,6 +137,111 @@ class GenerationContractTests(unittest.TestCase):
         self.assertIn("hearsay_channel", dependency_roles)
         self.assertIn("ambiguous_channel", dependency_roles)
         self.assertIn("downstream_impact", dependency_roles)
+        self.assertTrue(all("speaker_actor_id" in beat for beat in story_plan["message_beats"]))
+
+    def test_story_plan_normalizes_casefolded_speaker_to_actor_id(self) -> None:
+        normalized = validate_story_plan(
+            {
+                "story_id": "story_case_0001",
+                "case_id": "case_0001_contradiction_update",
+                "family_id": "contradiction_update",
+                "task": {"task_id": "FEISHU-201", "task_name": "发布接入", "role": "target_task"},
+                "actors": [
+                    {"actor_id": "xavier", "display_name": "Xavier", "role": "current_owner"},
+                    {"actor_id": "alice", "display_name": "Alice", "role": "reviewer"},
+                ],
+                "task_actor_layout": {"target_task_id": "FEISHU-201"},
+                "state_changes": [{"task_id": "FEISHU-201", "field": "owner", "sequence": []}],
+                "message_beats": [
+                    {
+                        "beat_id": "beat_001",
+                        "speaker": "xavier",
+                        "session_id": "main_chat",
+                        "message_intent": "当前 owner 是 Xavier。",
+                    }
+                ],
+                "planned_probe_queries": [
+                    {
+                        "query": "当前 owner 是谁？",
+                        "tests_family": "contradiction_update",
+                        "expected_good_behavior": "回答 Xavier 是当前 owner。",
+                    }
+                ],
+            }
+        )
+        beat = normalized["message_beats"][0]
+        self.assertEqual(beat["speaker_actor_id"], "xavier")
+        self.assertEqual(beat["speaker"], "Xavier")
+
+    def test_command_plan_compiles_from_conversation_plan_actor_refs(self) -> None:
+        case_context = build_case_context(
+            seed=13,
+            requested_family_id="evidence_dependency_reasoning",
+            difficulty="medium",
+            comparison_target="default_memory_architectures",
+            model_client=FixtureModelClient(),
+        )
+        story_plan = build_story_plan(case_context=case_context, model_client=FixtureModelClient())
+        task_actor_layout_artifact = build_task_actor_layout_artifact(
+            case_context=case_context,
+            story_plan=story_plan,
+        )
+        case_world_artifact = build_case_world_artifact(
+            case_context=case_context,
+            task_actor_layout_artifact=task_actor_layout_artifact,
+            story_plan=story_plan,
+        )
+        story_beats_artifact = build_story_beats_artifact(
+            case_context=case_context,
+            case_world_artifact=case_world_artifact,
+            story_plan=story_plan,
+        )
+        conversation_plan = build_conversation_plan_artifact(
+            case_context=case_context,
+            case_world_artifact=case_world_artifact,
+            story_beats_artifact=story_beats_artifact,
+            story_plan=story_plan,
+        )
+        command_plan = build_command_plan(conversation_plan=conversation_plan)
+        message_rows = [
+            row
+            for row in command_plan
+            if row["action_type"] in {"send_message", "reply_in_thread"} and row["beat_id"]
+        ]
+        self.assertEqual(message_rows[0]["actor_id"], conversation_plan["turns"][0]["speaker_actor_id"])
+        self.assertEqual(message_rows[-1]["actor_id"], conversation_plan["turns"][-1]["speaker_actor_id"])
+        self.assertTrue(all(row["lark_cli_command"].startswith("lark-cli im +") for row in command_plan))
+        self.assertTrue(any(row["action_type"].startswith("fetch_") for row in command_plan))
+
+    def test_command_plan_uses_session_type_not_session_name_for_thread_detection(self) -> None:
+        conversation_plan = {
+            "case_id": "case_0013_anti_interference",
+            "family_id": "anti_interference",
+            "task_id": "FEISHU-213",
+            "sessions": [
+                {
+                    "session_id": "thread_docs",
+                    "session_type": "chat",
+                    "title": "thread_docs 会话",
+                    "session_purpose": "名字里有 thread，但正式类型仍是 chat。",
+                }
+            ],
+            "turns": [
+                {
+                    "turn_id": "turn_001",
+                    "beat_id": "beat_001",
+                    "sequence_no": 1,
+                    "session_id": "thread_docs",
+                    "speaker_actor_id": "alice",
+                    "speaker": "Alice",
+                    "planned_message_text": "FEISHU-213 当前 owner 是 Alice。",
+                }
+            ],
+        }
+        command_plan = build_command_plan(conversation_plan=conversation_plan)
+        self.assertTrue(any(row["action_type"] == "send_message" for row in command_plan))
+        self.assertTrue(any(row["action_type"] == "fetch_chat_messages" for row in command_plan))
+        self.assertFalse(any(row["action_type"] == "fetch_thread_messages" for row in command_plan))
 
 
 if __name__ == "__main__":

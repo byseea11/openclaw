@@ -140,6 +140,8 @@ class Phase1StepCommandTests(unittest.TestCase):
                     step_tmpdir,
                     "--seed",
                     "21",
+                    "--difficulty",
+                    "medium",
                     "--family-id",
                     "contradiction_update",
                 ]
@@ -167,7 +169,7 @@ class Phase1StepCommandTests(unittest.TestCase):
                 ],
             )
             self.assertIn("artifacts", step_results[4])
-            self.assertEqual(len(step_results[4]["artifacts"]), 2)
+            self.assertEqual(len(step_results[4]["artifacts"]), 3)
 
             aggregate = compile_phase1(
                 dataset_root=aggregate_tmpdir,
@@ -237,6 +239,9 @@ class Phase1StepCommandTests(unittest.TestCase):
                 ]
             )
             self.assertEqual(result["case_dir"], case_context["case_dir"])
+            self.assertIn("artifacts", result)
+            artifact_paths = [artifact["artifact_path"] for artifact in result["artifacts"]]
+            self.assertTrue(any(path.endswith("input/conversation_plan.json") for path in artifact_paths))
             active_case = read_json(Path(tmpdir) / "active_case.json")
             self.assertEqual(active_case["last_completed_stage"], "story-plan")
 
@@ -347,7 +352,7 @@ class Phase1StepCommandTests(unittest.TestCase):
                 ["phase1-step", "--stage", "command-plan", "--case-dir", case_dir]
             )
             self.assertIn("command-plan 缺少前置 artifact", error_text)
-            self.assertIn("input/story_plan.json", error_text)
+            self.assertIn("input/conversation_plan.json", error_text)
 
     def test_collect_requires_execute_first(self) -> None:
         with tempfile.TemporaryDirectory() as tmpdir:
@@ -369,7 +374,7 @@ class Phase1StepCommandTests(unittest.TestCase):
             self._run_cli(["phase1-step", "--stage", "command-plan", "--case-dir", case_dir])
             error_text = self._run_cli_error(["phase1-step", "--stage", "collect", "--case-dir", case_dir])
             self.assertIn("collect 缺少前置 artifact", error_text)
-            self.assertIn("runtime/executed_commands.jsonl", error_text)
+            self.assertIn("runtime/execution_result.json", error_text)
 
     def test_current_case_command_prints_active_case(self) -> None:
         with tempfile.TemporaryDirectory() as tmpdir:
@@ -408,7 +413,7 @@ class Phase1StepCommandTests(unittest.TestCase):
             phase3 = self._run_cli(["phase3", "--dataset-root", tmpdir])
             self.assertEqual(phase3["case_dir"], phase2["case_dir"])
             active_case = read_json(Path(tmpdir) / "active_case.json")
-            self.assertEqual(active_case["last_completed_stage"], "benchmark-report")
+            self.assertEqual(active_case["last_completed_stage"], "report")
 
     def test_failed_story_plan_writes_metadata_only_failure_log(self) -> None:
         with tempfile.TemporaryDirectory() as tmpdir:

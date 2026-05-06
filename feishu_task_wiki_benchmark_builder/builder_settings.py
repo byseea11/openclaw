@@ -27,7 +27,17 @@ def _require_int(value: Any, path: str, *, minimum: int | None = None) -> int:
     return value
 
 
+def _require_string(value: Any, path: str) -> str:
+    if not isinstance(value, str) or not value.strip():
+        raise BuilderSettingsError(f"{path} must be a non-empty string")
+    return value
+
+
 def _validate_settings(payload: dict[str, Any]) -> dict[str, Any]:
+    default_difficulty = _require_string(
+        payload.get("default_difficulty"),
+        "builder_settings.default_difficulty",
+    )
     difficulty_profiles = _require_dict(
         payload.get("difficulty_profiles"),
         "builder_settings.difficulty_profiles",
@@ -74,6 +84,11 @@ def _validate_settings(payload: dict[str, Any]) -> dict[str, Any]:
             raise BuilderSettingsError(
                 f"builder_settings.difficulty_profiles.{difficulty}.require_cross_source_revision must be a boolean"
             )
+
+    if default_difficulty not in difficulty_profiles:
+        raise BuilderSettingsError(
+            "builder_settings.default_difficulty must reference an existing difficulty profile"
+        )
 
     for family_id in FORMAL_FAMILY_IDS:
         constraint = _require_dict(
@@ -126,6 +141,14 @@ def load_builder_settings(path: str | Path | None = None) -> dict[str, Any]:
     return _validate_settings(payload)
 
 
+def resolve_default_difficulty() -> str:
+    settings = load_builder_settings()
+    return _require_string(
+        settings.get("default_difficulty"),
+        "builder_settings.default_difficulty",
+    )
+
+
 def resolve_difficulty_settings(difficulty: str) -> dict[str, Any]:
     settings = load_builder_settings()
     difficulty_profiles = settings["difficulty_profiles"]
@@ -148,8 +171,29 @@ def resolve_family_constraints(family_id: str) -> dict[str, Any]:
 
 
 def _build_stage_slots(stage: str, difficulty_slots: dict[str, Any]) -> dict[str, Any]:
+    common = {
+        "recommended_actor_count": difficulty_slots["recommended_actor_count"],
+        "recommended_department_count": difficulty_slots["recommended_department_count"],
+        "recommended_session_count": difficulty_slots["recommended_session_count"],
+        "require_cross_source_revision": difficulty_slots["require_cross_source_revision"],
+        "family_semantics_from_skills": True,
+    }
+    if stage == "spec-generation":
+        return {
+            **common,
+            "must_define_control_fields": [
+                "case_id",
+                "task_id",
+                "family_id",
+                "difficulty",
+                "seed",
+                "comparison_target",
+            ],
+            "must_not_define_story": True,
+        }
     if stage == "case-context":
         return {
+            **common,
             "must_reflect_output_fields": [
                 "organization",
                 "team",
@@ -157,12 +201,76 @@ def _build_stage_slots(stage: str, difficulty_slots: dict[str, Any]) -> dict[str
                 "required_case_structure",
             ],
             "must_reflect_department_topology": True,
-            "recommended_session_count": difficulty_slots["recommended_session_count"],
             "session_semantics_from_skills": True,
-            "family_semantics_from_skills": True,
+            "compatibility_stage": True,
+        }
+    if stage == "task-actor-layout":
+        return {
+            **common,
+            "enforce_actor_count_target": True,
+            "enforce_department_topology": True,
+            "enforce_family_numeric_minima": True,
+            "must_define": [
+                "actor_roster",
+                "context_blocks",
+                "shared_actors",
+                "actor_context_roles",
+            ],
+        }
+    if stage == "case-world":
+        return {
+            **common,
+            "must_reflect_department_topology": True,
+            "must_define_source_sessions": True,
+            "session_semantics_from_skills": True,
+            "cross_source_required": difficulty_slots["require_cross_source_revision"],
+        }
+    if stage == "characters":
+        return {
+            **common,
+            "character_count_min": difficulty_slots["character_count_min"],
+            "character_count_max": difficulty_slots["character_count_max"],
+            "preserve_actor_identity": True,
+            "must_emit_actor_registry": True,
+        }
+    if stage == "state-trajectory":
+        return {
+            **common,
+            "enforce_family_numeric_minima": True,
+            "must_define_current_state": True,
+            "must_define_historical_or_context_boundary": True,
+            "must_support_dependency_impact": True,
+        }
+    if stage == "coverage-spec":
+        return {
+            **common,
+            "must_cover": [
+                "evidence",
+                "state",
+                "beat",
+                "probe",
+            ],
+            "observed_data_landing_audit": True,
+            "enforce_family_numeric_minima": True,
+        }
+    if stage == "story-beats":
+        return {
+            **common,
+            "must_cover_benchmark_roles": True,
+            "enforce_session_distribution_target": True,
+            "must_not_write_full_turns": True,
+        }
+    if stage == "conversation-plan":
+        return {
+            **common,
+            "must_realize_turns": True,
+            "preserve_speaker_actor_refs": True,
+            "preserve_session_refs": True,
+            "preserve_beat_refs": True,
         }
     if stage == "story-plan":
         return {
+            **common,
             "must_reflect_output_fields": [
                 "actors",
                 "task_actor_layout",
@@ -173,9 +281,55 @@ def _build_stage_slots(stage: str, difficulty_slots: dict[str, Any]) -> dict[str
             "enforce_actor_count_range": True,
             "enforce_session_count_target": True,
             "enforce_family_numeric_minima": True,
-            "recommended_session_count": difficulty_slots["recommended_session_count"],
             "session_semantics_from_skills": True,
-            "family_semantics_from_skills": True,
+            "compatibility_stage": True,
+        }
+    if stage == "command-plan":
+        return {
+            **common,
+            "required_action_types": [
+                "create_chat",
+                "send_message",
+                "reply_in_thread",
+                "fetch_chat_messages",
+                "fetch_thread_messages",
+            ],
+            "require_dependency_edges": True,
+            "require_output_refs": True,
+            "require_lark_cli_command_preview": True,
+        }
+    if stage == "execute":
+        return {
+            **common,
+            "require_auth_preflight": True,
+            "execute_dependency_graph": True,
+            "capture_resource_ids": [
+                "chat_id",
+                "message_id",
+                "thread_id",
+            ],
+            "record_stdout_stderr_returncode": True,
+        }
+    if stage == "collect":
+        return {
+            **common,
+            "real_fetch_only": True,
+            "required_fetch_actions": [
+                "fetch_chat_messages",
+                "fetch_thread_messages",
+            ],
+            "preserve_observed_data_traceability": True,
+        }
+    if stage == "pre-annotation-validate":
+        return {
+            **common,
+            "observed_data_based_landing_audit": True,
+            "must_check": [
+                "family_trap",
+                "state_changes",
+                "evidence_chain",
+                "probe_support",
+            ],
         }
     raise BuilderSettingsError(f"Unsupported stage for prompt slots: {stage}")
 

@@ -55,24 +55,28 @@ def _base_actors() -> list[dict[str, Any]]:
             "actor_id": "alice",
             "display_name": "Alice",
             "simulated_open_id": "ou_alice",
+            "role": "program_manager",
             "task_roles": [],
         },
         {
             "actor_id": "bob",
             "display_name": "Bob",
             "simulated_open_id": "ou_bob",
+            "role": "engineering_owner",
             "task_roles": [],
         },
         {
             "actor_id": "carol",
             "display_name": "Carol",
             "simulated_open_id": "ou_carol",
+            "role": "risk_reviewer",
             "task_roles": [],
         },
         {
-            "actor_id": "xzy",
-            "display_name": "xzy",
-            "simulated_open_id": "ou_xzy",
+            "actor_id": "xavier",
+            "display_name": "Xavier",
+            "simulated_open_id": "ou_xavier",
+            "role": "release_coordinator",
             "task_roles": [],
         },
     ]
@@ -144,6 +148,7 @@ def _build_anti_interference_story(
             {
                 "beat_id": "beat_001",
                 "purpose": "introduce_target_owner",
+                "speaker_actor_id": "alice",
                 "speaker": "Alice",
                 "session_id": "main_chat",
                 "message_intent": f"{target_task} 现在由 Alice 负责推进，本周只看发布准备，不含运维演练。",
@@ -152,6 +157,7 @@ def _build_anti_interference_story(
             {
                 "beat_id": "beat_002",
                 "purpose": "introduce_distractor_ops",
+                "speaker_actor_id": "bob",
                 "speaker": "Bob",
                 "session_id": "main_chat",
                 "message_intent": f"{distractor_b} 还卡在运维演练，Bob 负责盯这个 blocker。",
@@ -160,6 +166,7 @@ def _build_anti_interference_story(
             {
                 "beat_id": "beat_003",
                 "purpose": "introduce_distractor_doc",
+                "speaker_actor_id": "carol",
                 "speaker": "Carol",
                 "session_id": "thread_docs",
                 "message_intent": f"{distractor_a} 的文档收口今晚由 Alice 审一轮，但这不是 {target_task} 的 owner 变更。",
@@ -195,7 +202,7 @@ def _build_contradiction_update_story(
                     "context_ref": "ctx_owner_handoff",
                     "field": "owner",
                     "revision_role": "historical_update",
-                    "relationship_to_target": "Bob -> Alice -> xzy 的交接链会诱发历史 owner 残留。",
+                    "relationship_to_target": "Bob -> Alice -> Xavier 的交接链会诱发历史 owner 残留。",
                 },
                 {
                     "context_ref": "ctx_window_shift",
@@ -209,7 +216,7 @@ def _build_contradiction_update_story(
             "actor_task_roles": [
                 {"actor_id": "bob", "task_id": task_id, "role": "initial_owner"},
                 {"actor_id": "alice", "task_id": task_id, "role": "historical_owner"},
-                {"actor_id": "xzy", "task_id": task_id, "role": "current_owner"},
+                {"actor_id": "xavier", "task_id": task_id, "role": "current_owner"},
             ],
         },
         "state_changes": [
@@ -219,7 +226,7 @@ def _build_contradiction_update_story(
                 "sequence": [
                     {"value": "Bob", "status": "initial"},
                     {"value": "Alice", "status": "historical"},
-                    {"value": "xzy", "status": "current"},
+                    {"value": "Xavier", "status": "current"},
                 ],
             },
             {
@@ -236,6 +243,7 @@ def _build_contradiction_update_story(
             {
                 "beat_id": "beat_001",
                 "purpose": "establish_initial_owner",
+                "speaker_actor_id": "alice",
                 "speaker": "Alice",
                 "session_id": "main_chat",
                 "message_intent": f"{task_id} 先由 Bob 跟进，初版窗口先按 5 月 5 日看。",
@@ -244,6 +252,7 @@ def _build_contradiction_update_story(
             {
                 "beat_id": "beat_002",
                 "purpose": "supersede_owner_once",
+                "speaker_actor_id": "alice",
                 "speaker": "Alice",
                 "session_id": "main_chat",
                 "message_intent": f"Bob 下周要去处理别的上线，{task_id} 改成 Alice 接手，窗口改到 5 月 7 日。",
@@ -252,9 +261,10 @@ def _build_contradiction_update_story(
             {
                 "beat_id": "beat_003",
                 "purpose": "final_current_owner",
+                "speaker_actor_id": "carol",
                 "speaker": "Carol",
                 "session_id": "thread_release",
-                "message_intent": f"最终确认：{task_id} 由 xzy 收口，正式窗口以 5 月 9 日为准，之前口径都作废。",
+                "message_intent": f"最终确认：{task_id} 由 Xavier 收口，正式窗口以 5 月 9 日为准，之前口径都作废。",
                 "family_linkage": "current_state",
             },
         ],
@@ -262,7 +272,7 @@ def _build_contradiction_update_story(
             {
                 "query": f"{task_id} 当前负责人是谁？Bob 和 Alice 现在还负责吗？上线窗口最终以哪一天为准？",
                 "tests_family": case_context["family_id"],
-                "expected_good_behavior": "回答 xzy 是当前负责人，Bob/Alice 只是历史负责人，最终窗口以 5 月 9 日为准。",
+                "expected_good_behavior": "回答 Xavier 是当前负责人，Bob/Alice 只是历史负责人，最终窗口以 5 月 9 日为准。",
             }
         ],
     }
@@ -284,7 +294,7 @@ def _build_evidence_dependency_reasoning_story(
         "actors": _base_actors(),
         "task_actor_layout": {
             "target_task_id": task_id,
-            "shared_actors": ["carol", "xzy"],
+            "shared_actors": ["carol", "xavier"],
             "dependency_context_blocks": [
                 {
                     "context_ref": "ctx_upstream_window",
@@ -319,7 +329,7 @@ def _build_evidence_dependency_reasoning_story(
                 {"actor_id": "carol", "context_ref": "ctx_upstream_window", "role": "verified_source"},
                 {"actor_id": "bob", "context_ref": "ctx_window_hearsay", "role": "hearsay_source"},
                 {"actor_id": "alice", "task_id": task_id, "role": "ambiguous_source"},
-                {"actor_id": "xzy", "task_id": task_id, "role": "target_owner"},
+                {"actor_id": "xavier", "task_id": task_id, "role": "target_owner"},
                 {"actor_id": "alice", "context_ref": "ctx_downstream_rollback", "role": "rollback_owner"},
             ],
         },
@@ -353,6 +363,7 @@ def _build_evidence_dependency_reasoning_story(
             {
                 "beat_id": "beat_001",
                 "purpose": "verified_upstream_risk",
+                "speaker_actor_id": "carol",
                 "speaker": "Carol",
                 "session_id": "main_chat",
                 "message_intent": f"我刚和迁移负责人确认过，{upstream_task} 的窗口今天还没锁定，所以 {task_id} 先不要对外承诺 5 月 8 日上线。",
@@ -361,6 +372,7 @@ def _build_evidence_dependency_reasoning_story(
             {
                 "beat_id": "beat_002",
                 "purpose": "hearsay_relief_claim",
+                "speaker_actor_id": "bob",
                 "speaker": "Bob",
                 "session_id": "main_chat",
                 "message_intent": "我听别人说窗口其实差不多定了，感觉可以先照常往外报，但我没看到正式确认。",
@@ -369,6 +381,7 @@ def _build_evidence_dependency_reasoning_story(
             {
                 "beat_id": "beat_003",
                 "purpose": "ambiguous_target_assessment",
+                "speaker_actor_id": "alice",
                 "speaker": "Alice",
                 "session_id": "thread_release",
                 "message_intent": f"直觉上风险可能没那么大，不过如果没有正式窗口邮件，{task_id} 这边还是不敢锁最终时间。",
@@ -377,6 +390,7 @@ def _build_evidence_dependency_reasoning_story(
             {
                 "beat_id": "beat_004",
                 "purpose": "downstream_dependency_impact",
+                "speaker_actor_id": "alice",
                 "speaker": "Alice",
                 "session_id": "thread_release",
                 "message_intent": f"如果 {task_id} 不能锁上线窗口，那 {downstream_task} 的回滚预案验收也只能一起顺延。",
@@ -385,7 +399,8 @@ def _build_evidence_dependency_reasoning_story(
             {
                 "beat_id": "beat_005",
                 "purpose": "target_owner_summary",
-                "speaker": "xzy",
+                "speaker_actor_id": "xavier",
+                "speaker": "Xavier",
                 "session_id": "thread_release",
                 "message_intent": f"结论先按 Carol 的确认走：当前真正 blocker 是 {upstream_task} 的窗口未锁定，这会同时卡住 {task_id} 和 {downstream_task}。",
                 "family_linkage": "target_summary",

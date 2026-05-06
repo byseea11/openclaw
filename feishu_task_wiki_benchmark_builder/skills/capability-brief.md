@@ -66,3 +66,16 @@
   ]
 }
 ```
+
+## V3 Phase 1 对接位置
+
+在 Phase 1 细分链路里，`capability-brief` 接在 `family-selection` 之后，负责把 family 转成可执行生成约束。
+
+它主要约束：
+
+- `task-actor-layout` 需要哪些角色、context block、shared actor 或 dependency role。
+- `state-trajectory` 需要哪些 current / historical / dependency state。
+- `coverage-spec` 需要检查哪些 evidence、state、beat 和 probe。
+- `story-beats` 需要覆盖哪些 benchmark role。
+
+它承接旧版第一阶段里 failure mechanism、landing requirements 和 probe strategy 的作用，但当前版本不新增独立 blueprint 文件。

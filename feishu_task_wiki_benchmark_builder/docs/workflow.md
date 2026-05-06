@@ -4,6 +4,10 @@
 
 ```text
 case-context
+-> task-actor-layout
+-> case-world
+-> story-beats
+-> conversation-plan
 -> story-plan
 -> command-plan
 -> execute
@@ -32,18 +36,70 @@ case-context
 
 - 输入：
   - `input/case_context.json`
+  - `input/task_actor_layout.json`
+  - `input/case_world.json`
+  - `input/story_beats.json`
+  - `input/conversation_plan.json`
 - 前置要求：
   - 先通过真实模型预检
 - 输出：
   - `input/story_plan.json`
+  - `input/task_actor_layout.json`
+  - `input/case_world.json`
+  - `input/story_beats.json`
+  - `input/conversation_plan.json`
 - 作用：
   - 生成单 `task`、actors、task_actor_layout、state_changes、message_beats、planned_probe_queries
+  - 同时把内部 ownership 结构物化为中间 artifact，供后续阶段只读引用
   - 由大模型直接生成，不走规则 fallback
+
+### `task-actor-layout`
+
+- 输入：
+  - `input/case_context.json`
+- 输出：
+  - `input/task_actor_layout.json`
+- 作用：
+  - 固定 actor roster、shared actors、overlap 和 context identity
+  - 后续阶段不得新增未声明 actor 或 context
+
+### `case-world`
+
+- 输入：
+  - `input/case_context.json`
+  - `input/task_actor_layout.json`
+- 输出：
+  - `input/case_world.json`
+- 作用：
+  - 固定 source sessions、session purpose 和企业协作世界
+  - 后续阶段不得新增未声明 session
+
+### `story-beats`
+
+- 输入：
+  - `input/case_context.json`
+  - `input/case_world.json`
+- 输出：
+  - `input/story_beats.json`
+- 作用：
+  - 固定 benchmark roles 和 beat skeleton
+
+### `conversation-plan`
+
+- 输入：
+  - `input/task_actor_layout.json`
+  - `input/case_world.json`
+  - `input/story_beats.json`
+- 输出：
+  - `input/conversation_plan.json`
+- 作用：
+  - 固定 `speaker_actor_id`、session placement 和 turn ordering
+  - `command-plan` 只编译这里的结构化 turn，不再猜 speaker 名字
 
 ### `command-plan`
 
 - 输入：
-  - `input/story_plan.json`
+  - `input/conversation_plan.json`
 - 输出：
   - `input/command_plan.jsonl`
 
@@ -130,11 +186,10 @@ baseline-eval
   - `reports/value_eval.json`
   - `reports/final_benchmark_report.md`
 
-## 不再作为正式上游 artifact 的文件
+## 仍然不是独立外部 stage 的文件
 
 - `input/family_selection.json`
 - `input/memory_capability_brief.json`
 - `case_spec.json`
-- `input/case_world.json`
 
-这些信息现在全部并入 `input/case_context.json`。
+这些信息现在仍通过 `input/case_context.json` 或 phase1 内部 ownership artifact 表达，不再作为单独的外部 CLI stage。

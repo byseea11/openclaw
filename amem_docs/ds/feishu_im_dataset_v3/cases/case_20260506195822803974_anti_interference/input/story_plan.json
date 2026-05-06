@@ -1,0 +1,445 @@
+{
+  "story_id": "story_case_20260506195822803974_anti_interference",
+  "case_id": "case_20260506195822803974_anti_interference",
+  "family_id": "anti_interference",
+  "task": {
+    "task_id": "FEISHU-774",
+    "task_name": "支付灰度放量准备",
+    "role": "target_task"
+  },
+  "actors": [
+    {
+      "actor_id": "alice",
+      "display_name": "Alice",
+      "role": "project_manager"
+    },
+    {
+      "actor_id": "bob",
+      "display_name": "Bob",
+      "role": "ops_manager"
+    },
+    {
+      "actor_id": "carol",
+      "display_name": "Carol",
+      "role": "release_manager"
+    },
+    {
+      "actor_id": "dave",
+      "display_name": "Dave",
+      "role": "security_lead"
+    },
+    {
+      "actor_id": "eve",
+      "display_name": "Eve",
+      "role": "frontend_lead"
+    },
+    {
+      "actor_id": "frank",
+      "display_name": "Frank",
+      "role": "backend_lead"
+    },
+    {
+      "actor_id": "grace",
+      "display_name": "Grace",
+      "role": "qa_lead"
+    },
+    {
+      "actor_id": "heidi",
+      "display_name": "Heidi",
+      "role": "devops_engineer"
+    },
+    {
+      "actor_id": "ivan",
+      "display_name": "Ivan",
+      "role": "database_admin"
+    },
+    {
+      "actor_id": "judy",
+      "display_name": "Judy",
+      "role": "compliance_officer"
+    },
+    {
+      "actor_id": "karen",
+      "display_name": "Karen",
+      "role": "product_lead"
+    },
+    {
+      "actor_id": "leo",
+      "display_name": "Leo",
+      "role": "tech_writer"
+    },
+    {
+      "actor_id": "mia",
+      "display_name": "Mia",
+      "role": "ux_designer"
+    },
+    {
+      "actor_id": "nina",
+      "display_name": "Nina",
+      "role": "data_scientist"
+    },
+    {
+      "actor_id": "oscar",
+      "display_name": "Oscar",
+      "role": "infra_engineer"
+    },
+    {
+      "actor_id": "paul",
+      "display_name": "Paul",
+      "role": "network_engineer"
+    },
+    {
+      "actor_id": "quinn",
+      "display_name": "Quinn",
+      "role": "security_analyst"
+    },
+    {
+      "actor_id": "rachel",
+      "display_name": "Rachel",
+      "role": "marketing_lead"
+    },
+    {
+      "actor_id": "sam",
+      "display_name": "Sam",
+      "role": "sales_lead"
+    },
+    {
+      "actor_id": "tina",
+      "display_name": "Tina",
+      "role": "support_lead"
+    },
+    {
+      "actor_id": "ulysses",
+      "display_name": "Ulysses",
+      "role": "legal_counsel"
+    },
+    {
+      "actor_id": "victor",
+      "display_name": "Victor",
+      "role": "finance_analyst"
+    },
+    {
+      "actor_id": "wendy",
+      "display_name": "Wendy",
+      "role": "hr_bp"
+    },
+    {
+      "actor_id": "xander",
+      "display_name": "Xander",
+      "role": "procurement_lead"
+    },
+    {
+      "actor_id": "yasmine",
+      "display_name": "Yasmine",
+      "role": "vendor_manager"
+    },
+    {
+      "actor_id": "zack",
+      "display_name": "Zack",
+      "role": "contract_manager"
+    },
+    {
+      "actor_id": "aaron",
+      "display_name": "Aaron",
+      "role": "compliance_analyst"
+    },
+    {
+      "actor_id": "bella",
+      "display_name": "Bella",
+      "role": "risk_officer"
+    }
+  ],
+  "task_actor_layout": {
+    "target_task_id": "FEISHU-774",
+    "shared_actors": [
+      "alice",
+      "bob",
+      "carol",
+      "dave",
+      "eve",
+      "frank",
+      "grace",
+      "heidi",
+      "ivan",
+      "judy",
+      "karen",
+      "leo",
+      "mia",
+      "nina",
+      "oscar",
+      "paul",
+      "quinn",
+      "rachel",
+      "sam",
+      "tina",
+      "ulysses",
+      "victor",
+      "wendy",
+      "xander",
+      "yasmine",
+      "zack",
+      "aaron",
+      "bella"
+    ],
+    "interference_context_blocks": [
+      {
+        "context_ref": "ctx_doc_review",
+        "context_label": "并行文档收口讨论",
+        "noise_source_type": "shared_actor_noise",
+        "relationship_to_target": "Alice 在文档收口里是 reviewer，不应被误当成 FEISHU-774 的 owner 再次变更。"
+      },
+      {
+        "context_ref": "ctx_ops_rehearsal",
+        "context_label": "运维演练 blocker 讨论",
+        "noise_source_type": "similar_wording_noise",
+        "relationship_to_target": "Bob 在这里说的 blocker 和 ready 不是 FEISHU-774 的当前 blocker。"
+      },
+      {
+        "context_ref": "ctx_release_sync",
+        "context_label": "并行发布节奏同步",
+        "noise_source_type": "parallel_discussion_noise",
+        "relationship_to_target": "并行同步里的 window/ready 讨论会和 FEISHU-774 混淆。"
+      },
+      {
+        "context_ref": "ctx_security_review",
+        "context_label": "安全审查并行讨论",
+        "noise_source_type": "shared_actor_noise",
+        "relationship_to_target": "Dave 在安全审查中提到的 blocker 不是 FEISHU-774 的 blocker。"
+      },
+      {
+        "context_ref": "ctx_qa_handoff",
+        "context_label": "QA 交接线程",
+        "noise_source_type": "similar_wording_noise",
+        "relationship_to_target": "Grace 在 QA 交接中说的 owner 变更不是 FEISHU-774 的 owner 变更。"
+      },
+      {
+        "context_ref": "ctx_compliance_check",
+        "context_label": "合规检查同步",
+        "noise_source_type": "parallel_discussion_noise",
+        "relationship_to_target": "Judy 在合规检查中提到的 ready 状态与 FEISHU-774 无关。"
+      }
+    ],
+    "actor_task_roles": [
+      {
+        "actor_id": "alice",
+        "task_id": "FEISHU-774",
+        "role": "target_owner"
+      },
+      {
+        "actor_id": "alice",
+        "context_ref": "ctx_doc_review",
+        "role": "reviewer"
+      },
+      {
+        "actor_id": "bob",
+        "context_ref": "ctx_ops_rehearsal",
+        "role": "ops_owner"
+      },
+      {
+        "actor_id": "carol",
+        "context_ref": "ctx_release_sync",
+        "role": "release_coordinator"
+      },
+      {
+        "actor_id": "dave",
+        "context_ref": "ctx_security_review",
+        "role": "security_owner"
+      },
+      {
+        "actor_id": "dave",
+        "task_id": "FEISHU-774",
+        "role": "security_advisor"
+      },
+      {
+        "actor_id": "grace",
+        "context_ref": "ctx_qa_handoff",
+        "role": "qa_owner"
+      },
+      {
+        "actor_id": "judy",
+        "context_ref": "ctx_compliance_check",
+        "role": "compliance_owner"
+      }
+    ]
+  },
+  "state_changes": [
+    {
+      "task_id": "FEISHU-774",
+      "field": "owner",
+      "sequence": [
+        {
+          "value": "Alice",
+          "status": "current"
+        }
+      ]
+    },
+    {
+      "task_id": "FEISHU-774",
+      "field": "blocker",
+      "sequence": [
+        {
+          "value": "支付风控回归未完成",
+          "status": "current"
+        }
+      ]
+    }
+  ],
+  "message_beats": [
+    {
+      "beat_id": "beat_001",
+      "speaker": "Alice",
+      "session_id": "main_chat",
+      "message_intent": "FEISHU-774 当前由 Alice 负责收口，真正 blocker 还是支付风控回归没有完成。"
+    },
+    {
+      "beat_id": "beat_002",
+      "speaker": "Bob",
+      "session_id": "main_chat",
+      "message_intent": "运维演练那边也卡在 blocker，但这是另外一条并行讨论，不是 FEISHU-774 的 owner 变更。"
+    },
+    {
+      "beat_id": "beat_003",
+      "speaker": "Carol",
+      "session_id": "thread_docs",
+      "message_intent": "Alice 晚上还要审文档收口，不过那只是 reviewer 身份，不代表 FEISHU-774 再次换 owner。"
+    },
+    {
+      "beat_id": "beat_004",
+      "speaker": "Dave",
+      "session_id": "main_chat",
+      "message_intent": "安全审查那边也有个 blocker，但那是另一个任务，不是 FEISHU-774 的。"
+    },
+    {
+      "beat_id": "beat_005",
+      "speaker": "Grace",
+      "session_id": "thread_qa_handoff",
+      "message_intent": "QA 交接这边确认 owner 已经改为 Eve，这和 FEISHU-774 无关，请勿混淆。"
+    },
+    {
+      "beat_id": "beat_006",
+      "speaker": "Judy",
+      "session_id": "customer_sync_chat",
+      "message_intent": "合规检查已经 ready 了，但那是另一个项目的，FEISHU-774 的 blocker 还没解决。"
+    },
+    {
+      "beat_id": "beat_007",
+      "speaker": "Alice",
+      "session_id": "handoff_thread",
+      "message_intent": "再次强调，FEISHU-774 的 owner 没有变更，仍然是我 Alice，blocker 仍然是支付风控回归。"
+    },
+    {
+      "beat_id": "beat_008",
+      "speaker": "Bob",
+      "session_id": "risk_review_thread",
+      "message_intent": "运维演练的 blocker 已经缓解，别和 FEISHU-774 的风控回归混淆。"
+    },
+    {
+      "beat_id": "beat_009",
+      "speaker": "Carol",
+      "session_id": "exec_sync_chat",
+      "message_intent": "并行发布节奏同步中提到的窗口调整不涉及 FEISHU-774，它的窗口仍待定。"
+    },
+    {
+      "beat_id": "beat_010",
+      "speaker": "Dave",
+      "session_id": "handoff_thread",
+      "message_intent": "安全审查的 blocker 是证书过期，不是支付风控，请不要混到 FEISHU-774 里。"
+    },
+    {
+      "beat_id": "beat_011",
+      "speaker": "Eve",
+      "session_id": "main_chat",
+      "message_intent": "前端团队 FEISHU-774 的依赖已就绪，但后端风控回归还没好。"
+    },
+    {
+      "beat_id": "beat_012",
+      "speaker": "Frank",
+      "session_id": "main_chat",
+      "message_intent": "后端风控回归还在进行中，这是 FEISHU-774 的 blocker。"
+    },
+    {
+      "beat_id": "beat_013",
+      "speaker": "Grace",
+      "session_id": "handoff_thread",
+      "message_intent": "QA 交接的 task 已经完成，和 FEISHU-774 无关，不要把它当成 FEISHU-774 的状态。"
+    },
+    {
+      "beat_id": "beat_014",
+      "speaker": "Heidi",
+      "session_id": "risk_review_thread",
+      "message_intent": "DevOps 环境就绪，但 FEISHU-774 需要等风控回归。"
+    },
+    {
+      "beat_id": "beat_015",
+      "speaker": "Ivan",
+      "session_id": "customer_sync_chat",
+      "message_intent": "数据库迁移已经完成，但那是另一个项目，FEISHU-774 不依赖这个。"
+    },
+    {
+      "beat_id": "beat_016",
+      "speaker": "Judy",
+      "session_id": "exec_sync_chat",
+      "message_intent": "合规检查全部通过，不过这不是 FEISHU-774 的阻塞，FEISHU-774 的阻塞是风控回归。"
+    },
+    {
+      "beat_id": "beat_017",
+      "speaker": "Karen",
+      "session_id": "main_chat",
+      "message_intent": "产品侧 FEISHU-774 需求已冻结，等待技术侧 blocker 解决。"
+    },
+    {
+      "beat_id": "beat_018",
+      "speaker": "Leo",
+      "session_id": "thread_docs",
+      "message_intent": "文档收口讨论中的 reviewer 身份是 Alice，但这不是 FEISHU-774 的 owner 变更。"
+    },
+    {
+      "beat_id": "beat_019",
+      "speaker": "Mia",
+      "session_id": "main_chat",
+      "message_intent": "UX 设计已完成，FEISHU-774 的前端部分可以推进，但后端风控回归仍是 blocker。"
+    },
+    {
+      "beat_id": "beat_020",
+      "speaker": "Nina",
+      "session_id": "handoff_thread",
+      "message_intent": "数据分析确认风控回归进度，预计还需要三天，这是 FEISHU-774 的 blocker。"
+    },
+    {
+      "beat_id": "beat_021",
+      "speaker": "Oscar",
+      "session_id": "risk_review_thread",
+      "message_intent": "基础设施已为 FEISHU-774 准备就绪，只等风控回归。"
+    },
+    {
+      "beat_id": "beat_022",
+      "speaker": "Paul",
+      "session_id": "customer_sync_chat",
+      "message_intent": "网络配置已更新，但那是另一个项目，FEISHU-774 不受影响。"
+    },
+    {
+      "beat_id": "beat_023",
+      "speaker": "Quinn",
+      "session_id": "exec_sync_chat",
+      "message_intent": "安全审查已通过，但 FEISHU-774 的 blocker 仍然存在，不要混淆。"
+    },
+    {
+      "beat_id": "beat_024",
+      "speaker": "Rachel",
+      "session_id": "main_chat",
+      "message_intent": "市场部已准备好 FEISHU-774 的发布材料，但需要 blocker 解除才能确定时间。"
+    },
+    {
+      "beat_id": "beat_025",
+      "speaker": "Alice",
+      "session_id": "main_chat",
+      "message_intent": "最后重申：FEISHU-774 的 owner 是我 Alice，blocker 是支付风控回归未完成，其他讨论中的信息请勿混入。"
+    }
+  ],
+  "planned_probe_queries": [
+    {
+      "query": "FEISHU-774 当前 owner 和 blocker 是什么？哪些上下文不应该混入当前答案？为什么文档收口、运维演练、安全审查、QA 交接和合规检查里的说法不属于 FEISHU-774？",
+      "expected_good_behavior": "只回答 Alice 是当前 owner、支付风控回归未完成是当前 blocker，并明确排除文档收口 reviewer 身份、运维演练 blocker 讨论、安全审查 blocker、QA 交接 owner 变更和合规检查 ready 状态。"
+    }
+  ]
+}

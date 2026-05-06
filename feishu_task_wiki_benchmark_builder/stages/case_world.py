@@ -1,6 +1,8 @@
 from __future__ import annotations
 
-from ..schemas import validate_case_world
+from typing import Any
+
+from ..schemas import validate_case_world, validate_case_world_artifact
 
 
 def build_case_world(*, case_spec: dict[str, object], capability_brief: dict[str, object]) -> dict[str, object]:
@@ -36,3 +38,57 @@ def build_case_world(*, case_spec: dict[str, object], capability_brief: dict[str
         "brief_required_case_structure": capability_brief["required_case_structure"],
     }
     return validate_case_world(payload)
+
+
+_SESSION_TYPE_TEMPLATES: dict[str, tuple[str, str, str]] = {
+    "main_chat": ("main_chat", "主群协调", "沉淀目标任务的主线协作信息和最终 current state。"),
+    "handoff_thread": ("handoff_thread", "交接修正线程", "承载 owner 交接、旧状态修正和 supersession 说明。"),
+    "risk_review_thread": ("risk_review_thread", "风险复核线程", "承载依赖、风险和证据分层补充信息。"),
+    "customer_sync_chat": ("customer_sync_chat", "客户同步侧群", "承接外部压力、模糊口径和对外同步上下文。"),
+    "exec_sync_chat": ("exec_sync_chat", "管理层同步侧群", "承载跨部门升级、相似措辞和并行决策噪声。"),
+}
+
+
+def _session_template_for(session_id: str) -> tuple[str, str, str]:
+    if session_id in _SESSION_TYPE_TEMPLATES:
+        return _SESSION_TYPE_TEMPLATES[session_id]
+    if session_id.endswith("_thread"):
+        return ("thread", f"{session_id} 线程", "承载局部修正、依赖或补充说明。")
+    return ("chat", f"{session_id} 会话", "承载目标任务相关的补充协作上下文。")
+
+
+def build_case_world_artifact(
+    *,
+    case_context: dict[str, Any],
+    task_actor_layout_artifact: dict[str, Any],
+    story_plan: dict[str, Any],
+) -> dict[str, Any]:
+    del task_actor_layout_artifact
+    seen_session_ids: set[str] = set()
+    source_sessions: list[dict[str, str]] = []
+    for beat in story_plan["message_beats"]:
+        session_id = str(beat["session_id"])
+        if session_id in seen_session_ids:
+            continue
+        seen_session_ids.add(session_id)
+        session_type, title, purpose = _session_template_for(session_id)
+        source_sessions.append(
+            {
+                "session_id": session_id,
+                "session_type": session_type,
+                "title": title,
+                "session_purpose": purpose,
+            }
+        )
+    payload = {
+        "case_id": case_context["case_id"],
+        "family_id": case_context["family_id"],
+        "task_id": case_context["task_id"],
+        "organization": case_context["organization"],
+        "team": case_context["team"],
+        "business_goal": case_context["business_goal"],
+        "scenario_summary": case_context["scenario_summary"],
+        "family_fit_explanation": case_context["family_fit_explanation"],
+        "source_sessions": source_sessions,
+    }
+    return validate_case_world_artifact(payload)

@@ -2,6 +2,7 @@ from __future__ import annotations
 
 from pathlib import Path
 
+from .builder_settings import resolve_default_difficulty
 from .config import FORMAL_FAMILY_IDS, SKILLS_DIR, WORKFLOW_SKILL
 from .io import read_text
 from .prompt_settings_renderer import render_prompt_settings_summary
@@ -14,8 +15,28 @@ BASE_STAGE_SKILL_PATHS: dict[str, tuple[Path, ...]] = {
         SKILLS_DIR / "capability-brief.md",
         SKILLS_DIR / "case-world.md",
     ),
+    "task-actor-layout": (
+        WORKFLOW_SKILL,
+        SKILLS_DIR / "task-actor-layout.md",
+    ),
+    "case-world": (
+        WORKFLOW_SKILL,
+        SKILLS_DIR / "case-world.md",
+    ),
+    "story-beats": (
+        WORKFLOW_SKILL,
+        SKILLS_DIR / "story-beats.md",
+    ),
+    "conversation-plan": (
+        WORKFLOW_SKILL,
+        SKILLS_DIR / "conversation-plan.md",
+    ),
     "story-plan": (
         WORKFLOW_SKILL,
+        SKILLS_DIR / "task-actor-layout.md",
+        SKILLS_DIR / "case-world.md",
+        SKILLS_DIR / "story-beats.md",
+        SKILLS_DIR / "conversation-plan.md",
         SKILLS_DIR / "story-plan.md",
     ),
 }
@@ -48,8 +69,10 @@ def build_stage_system_prompt(
     stage: str,
     family_id: str | None = None,
     *,
-    difficulty: str = "medium",
+    difficulty: str | None = None,
 ) -> str:
+    if difficulty is None:
+        difficulty = resolve_default_difficulty()
     sections = [
         f"你正在运行 Feishu Task Wiki benchmark builder 的 {stage} 阶段。",
         "以下内容来自 code-side skills，是当前阶段唯一的运行时约束来源。",

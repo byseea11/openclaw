@@ -2,8 +2,7 @@ from __future__ import annotations
 
 import json
 
-from .builder_settings import load_builder_settings, resolve_prompt_slots
-from .config import BUILDER_DEFAULT_DIFFICULTY
+from .builder_settings import load_builder_settings, resolve_default_difficulty, resolve_prompt_slots
 
 
 def _render_runtime_constraints(resolved_slots: dict[str, object]) -> list[str]:
@@ -22,9 +21,9 @@ def _render_runtime_constraints(resolved_slots: dict[str, object]) -> list[str]:
     ]
 
 
-def render_prompt_settings_summary(*, stage: str, difficulty: str, family_id: str | None = None) -> str:
+def render_prompt_settings_summary(*, stage: str, difficulty: str | None, family_id: str | None = None) -> str:
     if not difficulty:
-        difficulty = BUILDER_DEFAULT_DIFFICULTY
+        difficulty = resolve_default_difficulty()
     load_builder_settings()
     resolved_slots = resolve_prompt_slots(stage=stage, difficulty=difficulty, family_id=family_id)
     sections = _render_runtime_constraints(resolved_slots)

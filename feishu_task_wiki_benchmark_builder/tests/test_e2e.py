@@ -8,7 +8,7 @@ from unittest.mock import patch
 
 from feishu_task_wiki_benchmark_builder.cli import compile_phase1, compile_phase2, compile_phase3
 from feishu_task_wiki_benchmark_builder.family_catalog import ordered_family_ids
-from feishu_task_wiki_benchmark_builder.io import read_jsonl
+from feishu_task_wiki_benchmark_builder.io import read_json, read_jsonl
 
 
 class EndToEndTests(unittest.TestCase):
@@ -26,16 +26,54 @@ class EndToEndTests(unittest.TestCase):
             compiled = compile_phase1(dataset_root=tmpdir, seed=21, difficulty="medium")
             case_dir = Path(compiled["case_dir"])
             self.assertTrue((case_dir / "input" / "case_context.json").exists())
+            self.assertTrue((case_dir / "case_spec.json").exists())
+            self.assertTrue((case_dir / "input" / "family_selection.json").exists())
+            self.assertTrue((case_dir / "input" / "memory_capability_brief.json").exists())
             self.assertTrue((case_dir / "input" / "story_plan.json").exists())
+            self.assertTrue((case_dir / "input" / "task_actor_layout.json").exists())
+            self.assertTrue((case_dir / "input" / "case_world.json").exists())
+            self.assertTrue((case_dir / "input" / "characters.json").exists())
+            self.assertTrue((case_dir / "input" / "actor_registry.json").exists())
+            self.assertTrue((case_dir / "input" / "state_trajectory.json").exists())
+            self.assertTrue((case_dir / "input" / "coverage_spec.json").exists())
+            self.assertTrue((case_dir / "input" / "story_beats.json").exists())
+            self.assertTrue((case_dir / "input" / "conversation_plan.json").exists())
             self.assertTrue((case_dir / "input" / "command_plan.jsonl").exists())
+            self.assertTrue((case_dir / "execution_plan.json").exists())
             self.assertTrue((case_dir / "runtime" / "executed_commands.jsonl").exists())
+            self.assertTrue((case_dir / "runtime" / "execution_result.json").exists())
             self.assertTrue((case_dir / "data" / "collected_messages.jsonl").exists())
             self.assertTrue((case_dir / "checks" / "pre_annotation_validation_report.json").exists())
             self.assertTrue((case_dir / "logs" / "model_call_log.jsonl").exists())
-            self.assertFalse((case_dir / "input" / "family_selection.json").exists())
-            self.assertFalse((case_dir / "input" / "memory_capability_brief.json").exists())
-            self.assertFalse((case_dir / "case_spec.json").exists())
-            self.assertFalse((case_dir / "input" / "case_world.json").exists())
+            characters = read_json(case_dir / "input" / "characters.json")
+            actor_registry = read_json(case_dir / "input" / "actor_registry.json")
+            self.assertTrue(characters["characters"])
+            first_actor = actor_registry["actors"][0]
+            self.assertEqual(
+                first_actor["simulated_open_id"],
+                f"ou_sim_{first_actor['person_id']}",
+            )
+            command_rows = read_jsonl(case_dir / "input" / "command_plan.jsonl")
+            message_rows = [
+                row
+                for row in command_rows
+                if row["action_type"] in {"send_message", "reply_in_thread"} and row["beat_id"]
+            ]
+            self.assertTrue(message_rows)
+            self.assertNotIn("【project_manager/Alice】", message_rows[0]["params"]["content_text"])
+            self.assertNotIn("Alice", message_rows[0]["params"]["content_text"])
+            self.assertIn("【", message_rows[0]["params"]["content_text"])
+            collected_rows = read_jsonl(case_dir / "data" / "collected_messages.jsonl")
+            ingress_rows = read_jsonl(case_dir / "data" / "openclaw_message_ingress.jsonl")
+            self.assertEqual(collected_rows[0]["normalized_actor_id"], message_rows[0]["speaker_ref"])
+            self.assertIn("actual_sender", collected_rows[0])
+            self.assertTrue(collected_rows[0]["simulated_speaker"]["open_id"].startswith("ou_sim_"))
+            self.assertEqual(
+                ingress_rows[0]["sender"]["sender_id"]["open_id"],
+                collected_rows[0]["simulated_speaker"]["open_id"],
+            )
+            self.assertNotIn("【", ingress_rows[0]["message"]["content"])
+            self.assertNotIn("Alice", ingress_rows[0]["message"]["content"])
             model_calls = read_jsonl(case_dir / "logs" / "model_call_log.jsonl")
             self.assertEqual([row["stage"] for row in model_calls], ["case-context", "story-plan"])
             for row in model_calls:

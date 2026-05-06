@@ -1,0 +1,9 @@
+{"command_id": "cmd_001", "beat_id": "beat_001", "actor_id": "alice", "session_id": "main_chat", "message_text": "FEISHU-447 由 Alice 负责，初版上线窗口定在5月8日，blocker是安全审查未完成，优先级P1。"}
+{"command_id": "cmd_002", "beat_id": "beat_002", "actor_id": "alice", "session_id": "main_chat", "message_text": "Alice 下周要休假，FEISHU-447 先交给 Carol 接手，窗口顺延到5月10日，blocker变为网络延迟优化，优先级降至P2。"}
+{"command_id": "cmd_003", "beat_id": "beat_003", "actor_id": "carol", "session_id": "main_chat", "message_text": "接 Alice 消息，Carol 确认暂时负责 FEISHU-447，但架构评审工作繁重需要协助。"}
+{"command_id": "cmd_004", "beat_id": "beat_004", "actor_id": "xavier", "session_id": "handoff_thread", "message_text": "Carol 建议由 Xavier 最终收口，Xavier 在子线程中接手 FEISHU-447，窗口暂定5月12日，blocker更新为遗留API兼容问题，优先级重新升回P1。"}
+{"command_id": "cmd_005", "beat_id": "beat_005", "actor_id": "xavier", "session_id": "risk_review_thread", "message_text": "客户 escalation 要求尽快上线，但安全团队反馈遗留API兼容问题至少需要一周，因此窗口再推迟到5月14日。之前口径作废，最终确认以本轮为准。旧 owner 只算历史信息。以上一轮的结论已不适用。请以我最新消息为准。"}
+{"command_id": "cmd_006", "beat_id": "beat_006", "actor_id": "dave", "session_id": "risk_review_thread", "message_text": "QA 确认遗留API兼容问题是真正的 blocker，安全审查和网络延迟都已解决。"}
+{"command_id": "cmd_007", "beat_id": "beat_007", "actor_id": "henry", "session_id": "customer_sync_chat", "message_text": "客户催促5月14日上线，压力较大，但 Xavier 坚持必须等 blocker 解决。"}
+{"command_id": "cmd_008", "beat_id": "beat_008", "actor_id": "alice", "session_id": "main_chat", "message_text": "Alice 休假回来，确认 FEISHU-447 已由 Xavier 全权负责，自己不再参与。"}
+{"command_id": "cmd_009", "beat_id": "beat_009", "actor_id": "xavier", "session_id": "handoff_thread", "message_text": "最终状态：FEISHU-447 owner Xavier，窗口5月14日，blocker遗留API兼容问题，优先级P1。所有之前的分配和日期已作废。"}

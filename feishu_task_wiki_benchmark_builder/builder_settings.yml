@@ -1,45 +1,46 @@
 {
+  "default_difficulty": "hard",
   "difficulty_profiles": {
     "easy": {
-      "department_count": 5,
-      "character_count_min": 6,
-      "character_count_max": 8,
-      "recommended_actor_count": 7,
-      "recommended_department_count": 5,
-      "recommended_session_count": 3,
-      "require_cross_source_revision": false
-    },
-    "medium": {
-      "department_count": 7,
-      "character_count_min": 8,
-      "character_count_max": 10,
-      "recommended_actor_count": 9,
-      "recommended_department_count": 7,
+      "department_count": 8,
+      "character_count_min": 10,
+      "character_count_max": 14,
+      "recommended_actor_count": 12,
+      "recommended_department_count": 8,
       "recommended_session_count": 4,
       "require_cross_source_revision": true
     },
+    "medium": {
+      "department_count": 12,
+      "character_count_min": 16,
+      "character_count_max": 22,
+      "recommended_actor_count": 18,
+      "recommended_department_count": 12,
+      "recommended_session_count": 6,
+      "require_cross_source_revision": true
+    },
     "hard": {
-      "department_count": 9,
-      "character_count_min": 10,
-      "character_count_max": 12,
-      "recommended_actor_count": 11,
-      "recommended_department_count": 9,
-      "recommended_session_count": 5,
+      "department_count": 16,
+      "character_count_min": 24,
+      "character_count_max": 32,
+      "recommended_actor_count": 28,
+      "recommended_department_count": 16,
+      "recommended_session_count": 8,
       "require_cross_source_revision": true
     }
   },
   "family_constraints": {
     "anti_interference": {
-      "min_interference_context_blocks": 3,
-      "min_shared_actors": 2
+      "min_interference_context_blocks": 4,
+      "min_shared_actors": 3
     },
     "contradiction_update": {
-      "min_state_tracks": 3,
-      "min_stale_states": 2
+      "min_state_tracks": 4,
+      "min_stale_states": 3
     },
     "evidence_dependency_reasoning": {
-      "min_dependency_hops": 2,
-      "min_cross_source_updates": 1
+      "min_dependency_hops": 3,
+      "min_cross_source_updates": 2
     }
   }
 }
