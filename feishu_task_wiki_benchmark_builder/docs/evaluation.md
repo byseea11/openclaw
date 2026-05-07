@@ -32,15 +32,22 @@
 - 统一 Task Wiki 和 baseline 的评测输入
 - 如果 family 是 `evidence_dependency_reasoning`，query 必须同时考察证据归因和依赖传播
 
-## Baseline Modes
+## Phase 3 Cross-system Eval
 
-当前正式 baseline 固定为：
+当前正式对比对象固定为：
 
-- `openclaw_memory_md`
-- `raw_message_rag`
-- `task_wiki`
+- `task_wiki_3_layer`
+- `openclaw_original`
 
-`OpenClaw + prompt` 不纳入当前正式 benchmark，因为当前先比较默认记忆架构能力，而不是 prompt engineering 能力。
+Phase 3 不能使用 synthetic family penalty。它必须读取同一批 observed messages、同一份 query benchmark 和同一份 semantic gold，分别比较两个系统的答案和证据。
+
+核心维度：
+
+- 答案是否正确。
+- 是否输出证据。
+- 证据是否命中 gold supporting message ids。
+- 证据是否来自目标 task / 正确 session / 正确 source。
+- 证据是否避开干扰、旧状态、传闻和个人私有信息。
 
 ## 效能指标验证
 
@@ -49,6 +56,8 @@
 它应该跨不同 family 汇总，例如：
 
 - 命中率提升
+- 证据输出率提升
+- 证据准确率提升
 - 平均检索步骤减少
 - 平均输入字符数减少
 - 平均完成时间减少
@@ -57,4 +66,4 @@
 
 - family 结果告诉我们“系统记没记住”
 - 效能指标告诉我们“记住之后有没有实际价值”
-- 正式 family 始终只有三类，不把效能指标扩成第四类
+- 正式 family 不把效能指标扩成独立 family

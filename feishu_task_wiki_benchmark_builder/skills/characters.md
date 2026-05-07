@@ -22,7 +22,7 @@
 - 人物必须来自 `task-actor-layout` 已声明的 actor slots。
 - `person_id` 默认等于上游 `actor_id`，不能由 LLM 改名。
 - `simulated_open_id` 固定为 `ou_sim_<person_id>`，由 builder 系统侧生成，不来自真实飞书 fetch。
-- `actor_registry.json` 使用 `actors[]` list 结构，供 command-plan、collect 和 replay adapter 稳定查表。
+- `actor_registry.json` 使用 `actors[]` list 结构，供 command-plan、collect 和 OpenClaw replay ingress 稳定查表。
 - 可以自然化 `name/profile`，但不能删除或替换上游定义的结构身份。
 
 ## 下游作用

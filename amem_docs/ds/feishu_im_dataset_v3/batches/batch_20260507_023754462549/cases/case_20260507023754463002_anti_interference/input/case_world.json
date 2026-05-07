@@ -1,0 +1,78 @@
+{
+  "case_id": "case_20260507023754463002_anti_interference",
+  "family_id": "anti_interference",
+  "task_id": "FEISHU-702",
+  "organization": "Globex Corporation",
+  "team": "Platform Engineering",
+  "business_goal": "确保在多个并行项目和共享人力资源的环境中，系统能准确提取每个目标任务的真实状态，不受相似任务或同一角色在其他任务中信息的干扰。",
+  "scenario_summary": "平台工程部同时进行多项研发和运维工作，包括一个核心目标项目 FEISHU-201（平台发布收口）和多个并行干扰项目（如文档评审、运维演练、安全审计等）。部分关键角色（如 Alice）同时参与多个项目，且不同项目中会出现相似的术语（如 'blocker'、'ready'、'owner'），导致memory系统容易将干扰项目的上下文错误地合并到 FEISHU-201 的回答中。",
+  "family_fit_explanation": "该场景天然存在大量跨任务干扰：多个并行讨论共享相同的角色（Alice 同时是 FEISHU-201 的 owner 和文档评审的 reviewer），且使用了相似的关键词（'blocker'、'ready'、'收口'），能充分测试系统在干扰环境下正确限定 task scope 的能力。",
+  "source_sessions": [
+    {
+      "session_id": "main_chat",
+      "session_type": "main_chat",
+      "title": "主群协调",
+      "session_purpose": "沉淀目标任务的主线协作信息和最终 current state。"
+    },
+    {
+      "session_id": "thread_security",
+      "session_type": "chat",
+      "title": "thread_security 会话",
+      "session_purpose": "承载目标任务相关的补充协作上下文。"
+    },
+    {
+      "session_id": "thread_doc_review",
+      "session_type": "chat",
+      "title": "thread_doc_review 会话",
+      "session_purpose": "承载目标任务相关的补充协作上下文。"
+    },
+    {
+      "session_id": "thread_ops_rehearsal",
+      "session_type": "chat",
+      "title": "thread_ops_rehearsal 会话",
+      "session_purpose": "承载目标任务相关的补充协作上下文。"
+    },
+    {
+      "session_id": "thread_prod_issue",
+      "session_type": "chat",
+      "title": "thread_prod_issue 会话",
+      "session_purpose": "承载目标任务相关的补充协作上下文。"
+    },
+    {
+      "session_id": "thread_qa",
+      "session_type": "chat",
+      "title": "thread_qa 会话",
+      "session_purpose": "承载目标任务相关的补充协作上下文。"
+    },
+    {
+      "session_id": "thread_infra",
+      "session_type": "chat",
+      "title": "thread_infra 会话",
+      "session_purpose": "承载目标任务相关的补充协作上下文。"
+    },
+    {
+      "session_id": "thread_monitoring",
+      "session_type": "chat",
+      "title": "thread_monitoring 会话",
+      "session_purpose": "承载目标任务相关的补充协作上下文。"
+    },
+    {
+      "session_id": "thread_product",
+      "session_type": "chat",
+      "title": "thread_product 会话",
+      "session_purpose": "承载目标任务相关的补充协作上下文。"
+    },
+    {
+      "session_id": "thread_platform",
+      "session_type": "chat",
+      "title": "thread_platform 会话",
+      "session_purpose": "承载目标任务相关的补充协作上下文。"
+    },
+    {
+      "session_id": "thread_compliance",
+      "session_type": "chat",
+      "title": "thread_compliance 会话",
+      "session_purpose": "承载目标任务相关的补充协作上下文。"
+    }
+  ]
+}

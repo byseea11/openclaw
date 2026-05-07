@@ -1,0 +1,43 @@
+{
+  "case_id": "case_20260507021541740587_contradiction_update",
+  "family_id": "contradiction_update",
+  "task_id": "FEISHU-687",
+  "state_changes": [
+    {
+      "task_id": "FEISHU-687",
+      "field": "owner",
+      "sequence": [
+        {
+          "value": "Alice",
+          "status": "historical"
+        },
+        {
+          "value": "Bob",
+          "status": "historical"
+        },
+        {
+          "value": "Xavier",
+          "status": "current"
+        }
+      ]
+    },
+    {
+      "task_id": "FEISHU-687",
+      "field": "release_window",
+      "sequence": [
+        {
+          "value": "5月5日",
+          "status": "historical"
+        },
+        {
+          "value": "5月7日",
+          "status": "historical"
+        },
+        {
+          "value": "5月9日",
+          "status": "current"
+        }
+      ]
+    }
+  ]
+}

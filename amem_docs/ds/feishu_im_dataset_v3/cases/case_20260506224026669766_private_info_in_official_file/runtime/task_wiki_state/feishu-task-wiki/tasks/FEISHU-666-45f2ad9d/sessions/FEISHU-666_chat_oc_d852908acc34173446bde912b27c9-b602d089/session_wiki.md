@@ -4,12 +4,12 @@
 - Task: FEISHU-666
 - Source Type: chat
 - Source Scope: chat:oc_d852908acc34173446bde912b27c9963
-- Time Range: 2026-05-07T00:40:01.266Z ~ 2026-05-07T00:45:29.490Z
+- Time Range: 2026-05-07T01:35:39.797Z ~ 2026-05-07T01:41:33.672Z
 - Participants: 苏禾、罗天、梁昕、何然、秦怡、林晨
 
 <!-- session-summary:start -->
 ## Session Summary
-发布时间窗口可能调至周三前，正式确认5月10日；网络配置漂移阻塞器为发布阻塞风险；回滚计划已批准无变更；高层已同意计划；任务计划以正式纪要为准；团队资源安排已获批准；所有依赖项已确认；用户确认照常执行。
+发布时间口径确认为5月10日，阻塞风险为网络配置漂移，高层已同意计划，任务计划以正式纪要为准，团队资源安排已获批但需考虑个人时间限制，所有依赖项已确认。
 
 <!-- session-summary:end -->
 ## Memory Blocks
@@ -19,14 +19,10 @@
 ### Memory Block 1: 发布时间口径
 
 #### Summary
-发布时间口径：窗口可能调至周三前，正式确认5月10日。
+发布时间口径：正式窗口确认为5月10日。
 
 #### Time
 ##### Current
-- [当前] 听Carol提过窗口可能调到周三前
-  - Event Ref: [[sessions/FEISHU-666_chat_oc_d852908acc34173446bde912b27c9-b602d089/session_events.jsonl#evt_3aebb7a8720a4db5|evt_3aebb7a8720a4db5]]
-  - Entry Ref: [[sessions/FEISHU-666_chat_oc_d852908acc34173446bde912b27c9-b602d089/session.md#om_x100b5088e7a0c8a8c4572b662f77ee4|om_x100b5088e7a0c8a8c4572b662f77ee4]]
-  - Quote: 听Carol提过窗口可能调到周三前
 - [当前] 正式窗口确认是5月10日。
   - Event Ref: [[sessions/FEISHU-666_chat_oc_d852908acc34173446bde912b27c9-b602d089/session_events.jsonl#evt_7d1a63ba41c9c60f|evt_7d1a63ba41c9c60f]]
   - Entry Ref: [[sessions/FEISHU-666_chat_oc_d852908acc34173446bde912b27c9-b602d089/session.md#om_x100b5088e7b57ca0c3c45b8cb21f5a9|om_x100b5088e7b57ca0c3c45b8cb21f5a9]]
@@ -39,9 +35,6 @@
   - Quote: 窗口5月10日22点
 
 #### Evidence References
-- evt_3aebb7a8720a4db5 → sessions/FEISHU-666_chat_oc_d852908acc34173446bde912b27c9-b602d089/session_events.jsonl#evt_3aebb7a8720a4db5
-  - Entry Ref: [[sessions/FEISHU-666_chat_oc_d852908acc34173446bde912b27c9-b602d089/session.md#om_x100b5088e7a0c8a8c4572b662f77ee4|om_x100b5088e7a0c8a8c4572b662f77ee4]]
-  - Quote: 听Carol提过窗口可能调到周三前
 - evt_7d1a63ba41c9c60f → sessions/FEISHU-666_chat_oc_d852908acc34173446bde912b27c9-b602d089/session_events.jsonl#evt_7d1a63ba41c9c60f
   - Entry Ref: [[sessions/FEISHU-666_chat_oc_d852908acc34173446bde912b27c9-b602d089/session.md#om_x100b5088e7b57ca0c3c45b8cb21f5a9|om_x100b5088e7b57ca0c3c45b8cb21f5a9]]
   - Quote: 正式窗口确认是5月10日。
@@ -57,7 +50,7 @@
 ### Memory Block 2: 发布阻塞风险
 
 #### Summary
-发布阻塞风险：网络配置漂移阻塞器
+当前阻塞风险：网络配置漂移
 
 #### Status
 ##### Current
@@ -74,31 +67,9 @@
 ---
 
 <!-- block:block-发布阻塞风险-45763a86:end -->
-<!-- block:block-回滚计划-6a3e3027:start -->
-<a id="block-回滚计划-6a3e3027"></a>
-### Memory Block 3: 回滚计划
-
-#### Summary
-回滚计划已批准，无变更。
-
-#### Status
-##### Current
-- [当前] 回滚计划已批，无变更。
-  - Event Ref: [[sessions/FEISHU-666_chat_oc_d852908acc34173446bde912b27c9-b602d089/session_events.jsonl#evt_bd87555774b0f387|evt_bd87555774b0f387]]
-  - Entry Ref: [[sessions/FEISHU-666_chat_oc_d852908acc34173446bde912b27c9-b602d089/session.md#om_x100b5088e76b60a0c49b8006b3c330c|om_x100b5088e76b60a0c49b8006b3c330c]]
-  - Quote: 回滚计划已批，无变更。
-
-#### Evidence References
-- evt_bd87555774b0f387 → sessions/FEISHU-666_chat_oc_d852908acc34173446bde912b27c9-b602d089/session_events.jsonl#evt_bd87555774b0f387
-  - Entry Ref: [[sessions/FEISHU-666_chat_oc_d852908acc34173446bde912b27c9-b602d089/session.md#om_x100b5088e76b60a0c49b8006b3c330c|om_x100b5088e76b60a0c49b8006b3c330c]]
-  - Quote: 回滚计划已批，无变更。
-
----
-
-<!-- block:block-回滚计划-6a3e3027:end -->
 <!-- block:block-计划-c17bb5de:start -->
 <a id="block-计划-c17bb5de"></a>
-### Memory Block 4: 计划
+### Memory Block 3: 计划
 
 #### Summary
 高层已同意计划。
@@ -120,10 +91,10 @@
 <!-- block:block-计划-c17bb5de:end -->
 <!-- block:block-任务计划-0339415d:start -->
 <a id="block-任务计划-0339415d"></a>
-### Memory Block 5: 任务计划
+### Memory Block 4: 任务计划
 
 #### Summary
-任务计划以正式纪要为准，个人偏好不影响。
+任务计划以正式纪要为准，个人偏好和时间不影响任务，资源已按正式窗口安排。
 
 #### Objection / Risk
 ##### Current
@@ -132,20 +103,30 @@
   - Entry Ref: [[sessions/FEISHU-666_chat_oc_d852908acc34173446bde912b27c9-b602d089/session.md#om_x100b5088e74e7ca8c4f7a1b5b1ff429|om_x100b5088e74e7ca8c4f7a1b5b1ff429]]
   - Quote: 个人偏好不影响任务计划
 
+#### Status
+##### Current
+- [当前] 个人时间不影响任务，资源已按正式窗口安排。
+  - Event Ref: [[sessions/FEISHU-666_chat_oc_d852908acc34173446bde912b27c9-b602d089/session_events.jsonl#evt_9cb8c72a665d5240|evt_9cb8c72a665d5240]]
+  - Entry Ref: [[sessions/FEISHU-666_chat_oc_d852908acc34173446bde912b27c9-b602d089/session.md#om_x100b5088e770d0a0c22b19a26bde9ee|om_x100b5088e770d0a0c22b19a26bde9ee]]
+  - Quote: 个人时间不影响任务，资源已按正式窗口安排。
+
 #### Evidence References
 - evt_80505149e96ab494 → sessions/FEISHU-666_chat_oc_d852908acc34173446bde912b27c9-b602d089/session_events.jsonl#evt_80505149e96ab494
   - Entry Ref: [[sessions/FEISHU-666_chat_oc_d852908acc34173446bde912b27c9-b602d089/session.md#om_x100b5088e74e7ca8c4f7a1b5b1ff429|om_x100b5088e74e7ca8c4f7a1b5b1ff429]]
   - Quote: 个人偏好不影响任务计划
+- evt_9cb8c72a665d5240 → sessions/FEISHU-666_chat_oc_d852908acc34173446bde912b27c9-b602d089/session_events.jsonl#evt_9cb8c72a665d5240
+  - Entry Ref: [[sessions/FEISHU-666_chat_oc_d852908acc34173446bde912b27c9-b602d089/session.md#om_x100b5088e770d0a0c22b19a26bde9ee|om_x100b5088e770d0a0c22b19a26bde9ee]]
+  - Quote: 个人时间不影响任务，资源已按正式窗口安排。
 
 ---
 
 <!-- block:block-任务计划-0339415d:end -->
 <!-- block:block-团队资源安排-7d76d8a4:start -->
 <a id="block-团队资源安排-7d76d8a4"></a>
-### Memory Block 6: 团队资源安排
+### Memory Block 5: 团队资源安排
 
 #### Summary
-团队资源安排已获管理层批准，按正式窗口分配，个人时间不影响任务。
+团队资源安排已获管理层批准，但需考虑个人时间限制的影响。
 
 #### Objection / Risk
 ##### Current
@@ -156,10 +137,6 @@
 
 #### Status
 ##### Current
-- [当前] 个人时间不影响任务，资源已按正式窗口安排。
-  - Event Ref: [[sessions/FEISHU-666_chat_oc_d852908acc34173446bde912b27c9-b602d089/session_events.jsonl#evt_9cb8c72a665d5240|evt_9cb8c72a665d5240]]
-  - Entry Ref: [[sessions/FEISHU-666_chat_oc_d852908acc34173446bde912b27c9-b602d089/session.md#om_x100b5088e770d0a0c22b19a26bde9ee|om_x100b5088e770d0a0c22b19a26bde9ee]]
-  - Quote: 个人时间不影响任务，资源已按正式窗口安排。
 - [当前] 管理层已批准资源。
   - Event Ref: [[sessions/FEISHU-666_chat_oc_d852908acc34173446bde912b27c9-b602d089/session_events.jsonl#evt_4cc90e95bb11fee2|evt_4cc90e95bb11fee2]]
   - Entry Ref: [[sessions/FEISHU-666_chat_oc_d852908acc34173446bde912b27c9-b602d089/session.md#om_x100b5088e71eb134c3df64c4fc8ac7a|om_x100b5088e71eb134c3df64c4fc8ac7a]]
@@ -169,9 +146,6 @@
 - evt_b9f78011f2ab424d → sessions/FEISHU-666_chat_oc_d852908acc34173446bde912b27c9-b602d089/session_events.jsonl#evt_b9f78011f2ab424d
   - Entry Ref: [[sessions/FEISHU-666_chat_oc_d852908acc34173446bde912b27c9-b602d089/session.md#om_x100b5088e77f88a0c2ddf782b4c73b4|om_x100b5088e77f88a0c2ddf782b4c73b4]]
   - Quote: 个人时间限制会不会影响团队资源安排？
-- evt_9cb8c72a665d5240 → sessions/FEISHU-666_chat_oc_d852908acc34173446bde912b27c9-b602d089/session_events.jsonl#evt_9cb8c72a665d5240
-  - Entry Ref: [[sessions/FEISHU-666_chat_oc_d852908acc34173446bde912b27c9-b602d089/session.md#om_x100b5088e770d0a0c22b19a26bde9ee|om_x100b5088e770d0a0c22b19a26bde9ee]]
-  - Quote: 个人时间不影响任务，资源已按正式窗口安排。
 - evt_4cc90e95bb11fee2 → sessions/FEISHU-666_chat_oc_d852908acc34173446bde912b27c9-b602d089/session_events.jsonl#evt_4cc90e95bb11fee2
   - Entry Ref: [[sessions/FEISHU-666_chat_oc_d852908acc34173446bde912b27c9-b602d089/session.md#om_x100b5088e71eb134c3df64c4fc8ac7a|om_x100b5088e71eb134c3df64c4fc8ac7a]]
   - Quote: 管理层已批准资源。
@@ -181,7 +155,7 @@
 <!-- block:block-团队资源安排-7d76d8a4:end -->
 <!-- block:block-依赖项-babc4d11:start -->
 <a id="block-依赖项-babc4d11"></a>
-### Memory Block 7: 依赖项
+### Memory Block 6: 依赖项
 
 #### Summary
 所有依赖项已确认。
@@ -201,25 +175,3 @@
 ---
 
 <!-- block:block-依赖项-babc4d11:end -->
-<!-- block:block-照常执行-f7515873:start -->
-<a id="block-照常执行-f7515873"></a>
-### Memory Block 8: 照常执行
-
-#### Summary
-用户确认照常执行任务。
-
-#### Commitment
-##### Current
-- [当前] 照常执行
-  - Event Ref: [[sessions/FEISHU-666_chat_oc_d852908acc34173446bde912b27c9-b602d089/session_events.jsonl#evt_8dd33a7c77b98226|evt_8dd33a7c77b98226]]
-  - Entry Ref: [[sessions/FEISHU-666_chat_oc_d852908acc34173446bde912b27c9-b602d089/session.md#om_x100b5088e70aaca4c49d9bad8b9530f|om_x100b5088e70aaca4c49d9bad8b9530f]]
-  - Quote: 明白，那照常执行。
-
-#### Evidence References
-- evt_8dd33a7c77b98226 → sessions/FEISHU-666_chat_oc_d852908acc34173446bde912b27c9-b602d089/session_events.jsonl#evt_8dd33a7c77b98226
-  - Entry Ref: [[sessions/FEISHU-666_chat_oc_d852908acc34173446bde912b27c9-b602d089/session.md#om_x100b5088e70aaca4c49d9bad8b9530f|om_x100b5088e70aaca4c49d9bad8b9530f]]
-  - Quote: 明白，那照常执行。
-
----
-
-<!-- block:block-照常执行-f7515873:end -->

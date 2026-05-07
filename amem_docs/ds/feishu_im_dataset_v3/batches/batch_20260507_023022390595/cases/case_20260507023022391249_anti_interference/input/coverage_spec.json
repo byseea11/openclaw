@@ -1,0 +1,27 @@
+{
+  "case_id": "case_20260507023022391249_anti_interference",
+  "family_id": "anti_interference",
+  "task_id": "FEISHU-849",
+  "required_case_structure": [
+    "target_task",
+    "distractor_context",
+    "shared_actors",
+    "scope_limited_query_need"
+  ],
+  "message_beat_ids": [
+    "beat_001",
+    "beat_002",
+    "beat_003",
+    "beat_004",
+    "beat_005",
+    "beat_006",
+    "beat_007",
+    "beat_008"
+  ],
+  "probe_queries": [
+    {
+      "query": "FEISHU-849当前进展如何？负责人是谁？有什么阻塞吗？",
+      "expected_good_behavior": "Answer should state: owner is Alice, status is in_progress, blocker is pending security review. Must not mention doc review, ops rehearsal, security audit, or vendor eval as part of FEISHU-849 context. Should explicitly indicate that those are separate tasks."
+    }
+  ]
+}

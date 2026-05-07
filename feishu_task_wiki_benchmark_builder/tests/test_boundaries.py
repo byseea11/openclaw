@@ -20,12 +20,11 @@ class BoundaryTests(unittest.TestCase):
         self.assertIn("build_stage_system_prompt", prompt_module)
 
     def test_runner_help_lists_generic_phase1_step(self) -> None:
-        script = Path("amem_docs/scripts/feishu-task-wiki-benchmark-builder-run.sh").read_text(encoding="utf-8")
-        self.assertIn("phase1-step", script)
-        self.assertIn("auth-check", script)
-        self.assertIn("repo 根 `.env`", script)
-        self.assertIn("--stage spec-generation", script)
-        self.assertIn("--stage conversation-plan", script)
+        script = Path("amem_docs/scripts/01-feishu-task-wiki-phase1-build.sh").read_text(encoding="utf-8")
+        self.assertIn("Phase 1", script)
+        self.assertIn("spec-generation", script)
+        self.assertIn("conversation-plan", script)
+        self.assertIn("--family-id", script)
         self.assertNotIn("case-context", script)
         self.assertNotIn("story-plan", script)
         self.assertNotIn("phase1-family-selection", script)
@@ -39,7 +38,9 @@ class BoundaryTests(unittest.TestCase):
         ]
         roots = [
             Path("feishu_task_wiki_benchmark_builder"),
-            Path("amem_docs/scripts/feishu-task-wiki-benchmark-builder-run.sh"),
+            Path("amem_docs/scripts/01-feishu-task-wiki-phase1-build.sh"),
+            Path("amem_docs/scripts/02-feishu-task-wiki-phase2-eval.sh"),
+            Path("amem_docs/scripts/03-feishu-task-wiki-phase3-eval.sh"),
         ]
         for root in roots:
             paths = [root] if root.is_file() else [path for path in root.rglob("*") if path.is_file()]

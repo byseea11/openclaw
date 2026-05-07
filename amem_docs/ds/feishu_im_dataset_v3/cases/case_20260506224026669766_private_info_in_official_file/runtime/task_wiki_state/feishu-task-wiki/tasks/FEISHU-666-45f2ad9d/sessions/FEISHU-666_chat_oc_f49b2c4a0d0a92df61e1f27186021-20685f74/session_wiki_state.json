@@ -8,8 +8,8 @@
   "source_id": "chat:customer_sync_chat",
   "session_title": "task:FEISHU-666::chat:oc_f49b2c4a0d0a92df61e1f27186021348",
   "time_range": {
-    "start": "2026-05-07T00:39:53.832Z",
-    "end": "2026-05-07T00:44:52.992Z"
+    "start": "2026-05-07T01:35:31.893Z",
+    "end": "2026-05-07T01:40:56.556Z"
   },
   "participants": [
     "王源",
@@ -18,7 +18,7 @@
     "赵敏"
   ],
   "relative_page_path": "sessions/FEISHU-666_chat_oc_f49b2c4a0d0a92df61e1f27186021-20685f74/session_wiki.md",
-  "session_summary": "按评审纪要执行变更，窗口改期待处理，发布时间5月10日22点UTC，网络配置漂移处理中，合规已发确认函，回滚计划已批准。",
+  "session_summary": "按评审纪要执行变更，窗口时间以Alice为准，发布时间5月10日22点UTC，网络配置漂移处理中，合规已发确认函，回滚计划已批准。",
   "block_order": [
     "block-按评审纪要执行所有变更-722f9a7c",
     "block-窗口-a70a1513",
@@ -292,7 +292,7 @@
           "quote": "纪要里的blocker是network config drift，处理中。"
         }
       ],
-      "summary": "发布阻塞风险：network config drift处理中。"
+      "summary": "发布阻塞风险：network config drift处理中"
     },
     "block-合规侧-f1fad429": {
       "block_id": "block-合规侧-f1fad429",
@@ -497,5 +497,5 @@
     "historical_event_count": 0,
     "invalid_event_count": 0
   },
-  "updated_at": "2026-05-07T00:45:10.226Z"
+  "updated_at": "2026-05-07T01:41:17.295Z"
 }

@@ -1,0 +1,191 @@
+{
+  "case_id": "case_20260507023754463002_anti_interference",
+  "family_id": "anti_interference",
+  "task_id": "FEISHU-702",
+  "actors": [
+    {
+      "actor_id": "alice",
+      "display_name": "Alice",
+      "role": "release_manager"
+    },
+    {
+      "actor_id": "bob",
+      "display_name": "Bob",
+      "role": "ops_lead"
+    },
+    {
+      "actor_id": "carol",
+      "display_name": "Carol",
+      "role": "security_auditor"
+    },
+    {
+      "actor_id": "dave",
+      "display_name": "Dave",
+      "role": "doc_reviewer"
+    },
+    {
+      "actor_id": "eve",
+      "display_name": "Eve",
+      "role": "sre_engineer"
+    },
+    {
+      "actor_id": "frank",
+      "display_name": "Frank",
+      "role": "platform_dev"
+    },
+    {
+      "actor_id": "grace",
+      "display_name": "Grace",
+      "role": "qa_lead"
+    },
+    {
+      "actor_id": "henry",
+      "display_name": "Henry",
+      "role": "product_manager"
+    },
+    {
+      "actor_id": "iris",
+      "display_name": "Iris",
+      "role": "compliance_officer"
+    },
+    {
+      "actor_id": "jack",
+      "display_name": "Jack",
+      "role": "infra_engineer"
+    },
+    {
+      "actor_id": "kate",
+      "display_name": "Kate",
+      "role": "release_coordinator"
+    },
+    {
+      "actor_id": "leo",
+      "display_name": "Leo",
+      "role": "network_admin"
+    },
+    {
+      "actor_id": "mia",
+      "display_name": "Mia",
+      "role": "database_admin"
+    },
+    {
+      "actor_id": "nina",
+      "display_name": "Nina",
+      "role": "frontend_dev"
+    },
+    {
+      "actor_id": "oscar",
+      "display_name": "Oscar",
+      "role": "backend_dev"
+    },
+    {
+      "actor_id": "paul",
+      "display_name": "Paul",
+      "role": "security_engineer"
+    },
+    {
+      "actor_id": "quinn",
+      "display_name": "Quinn",
+      "role": "cloud_architect"
+    },
+    {
+      "actor_id": "rose",
+      "display_name": "Rose",
+      "role": "tech_writer"
+    },
+    {
+      "actor_id": "sam",
+      "display_name": "Sam",
+      "role": "devops_engineer"
+    },
+    {
+      "actor_id": "tina",
+      "display_name": "Tina",
+      "role": "data_engineer"
+    },
+    {
+      "actor_id": "uma",
+      "display_name": "Uma",
+      "role": "test_engineer"
+    },
+    {
+      "actor_id": "victor",
+      "display_name": "Victor",
+      "role": "scrum_master"
+    },
+    {
+      "actor_id": "wendy",
+      "display_name": "Wendy",
+      "role": "support_lead"
+    },
+    {
+      "actor_id": "xander",
+      "display_name": "Xander",
+      "role": "site_reliability"
+    },
+    {
+      "actor_id": "yara",
+      "display_name": "Yara",
+      "role": "automation_engineer"
+    },
+    {
+      "actor_id": "zack",
+      "display_name": "Zack",
+      "role": "monitoring_engineer"
+    },
+    {
+      "actor_id": "aaron",
+      "display_name": "Aaron",
+      "role": "cache_admin"
+    },
+    {
+      "actor_id": "bella",
+      "display_name": "Bella",
+      "role": "ci_cd_engineer"
+    }
+  ],
+  "task_actor_layout": {
+    "target_task_id": "FEISHU-702",
+    "shared_actors": [
+      "alice",
+      "bob",
+      "dave",
+      "frank",
+      "grace",
+      "henry",
+      "kate"
+    ],
+    "actor_task_roles": [
+      {
+        "actor_id": "alice",
+        "task_id": "FEISHU-702",
+        "role": "release_manager"
+      },
+      {
+        "actor_id": "bob",
+        "task_id": "FEISHU-702",
+        "role": "ops_lead"
+      },
+      {
+        "actor_id": "kate",
+        "task_id": "FEISHU-702",
+        "role": "release_coordinator"
+      },
+      {
+        "actor_id": "frank",
+        "task_id": "FEISHU-702",
+        "role": "platform_dev"
+      },
+      {
+        "actor_id": "grace",
+        "task_id": "FEISHU-702",
+        "role": "qa_lead"
+      },
+      {
+        "actor_id": "henry",
+        "task_id": "FEISHU-702",
+        "role": "product_manager"
+      }
+    ]
+  }
+}

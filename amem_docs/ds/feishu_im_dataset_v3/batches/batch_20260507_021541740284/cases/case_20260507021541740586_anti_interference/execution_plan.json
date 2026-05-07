@@ -1,0 +1,1581 @@
+{
+  "case_id": "case_20260507021541740586_anti_interference",
+  "operator_identity": "user",
+  "delivery_mode": "prefixed_single_operator",
+  "actions": [
+    {
+      "action_id": "step_001",
+      "action_type": "create_chat",
+      "depends_on": [],
+      "params": {
+        "chat_ref": "chat_main_chat",
+        "name": "主群协调",
+        "members": [
+          "adam_wu",
+          "alice_liu",
+          "bella_li",
+          "bob_chen",
+          "carol_wang",
+          "david_zhang",
+          "eve_li",
+          "frank_lin",
+          "grace_huang",
+          "henry_zhou",
+          "iris_wu",
+          "jack_sun",
+          "kate_li",
+          "leo_xu",
+          "mia_zhao",
+          "nina_li",
+          "oliver_li",
+          "peter_cai",
+          "quinn_tao",
+          "ray_feng",
+          "sara_hong",
+          "tom_liang",
+          "uma_ma",
+          "victor_hu",
+          "wendy_yan",
+          "xander_du",
+          "yuki_shi",
+          "zara_guo"
+        ]
+      },
+      "output_ref": "chat_main_chat"
+    },
+    {
+      "action_id": "step_002",
+      "action_type": "create_chat",
+      "depends_on": [],
+      "params": {
+        "chat_ref": "chat_thread_doc_review",
+        "name": "thread_doc_review 会话",
+        "members": [
+          "adam_wu",
+          "alice_liu",
+          "bella_li",
+          "bob_chen",
+          "carol_wang",
+          "david_zhang",
+          "eve_li",
+          "frank_lin",
+          "grace_huang",
+          "henry_zhou",
+          "iris_wu",
+          "jack_sun",
+          "kate_li",
+          "leo_xu",
+          "mia_zhao",
+          "nina_li",
+          "oliver_li",
+          "peter_cai",
+          "quinn_tao",
+          "ray_feng",
+          "sara_hong",
+          "tom_liang",
+          "uma_ma",
+          "victor_hu",
+          "wendy_yan",
+          "xander_du",
+          "yuki_shi",
+          "zara_guo"
+        ]
+      },
+      "output_ref": "chat_thread_doc_review"
+    },
+    {
+      "action_id": "step_003",
+      "action_type": "create_chat",
+      "depends_on": [],
+      "params": {
+        "chat_ref": "chat_thread_ops_rehearsal",
+        "name": "thread_ops_rehearsal 会话",
+        "members": [
+          "adam_wu",
+          "alice_liu",
+          "bella_li",
+          "bob_chen",
+          "carol_wang",
+          "david_zhang",
+          "eve_li",
+          "frank_lin",
+          "grace_huang",
+          "henry_zhou",
+          "iris_wu",
+          "jack_sun",
+          "kate_li",
+          "leo_xu",
+          "mia_zhao",
+          "nina_li",
+          "oliver_li",
+          "peter_cai",
+          "quinn_tao",
+          "ray_feng",
+          "sara_hong",
+          "tom_liang",
+          "uma_ma",
+          "victor_hu",
+          "wendy_yan",
+          "xander_du",
+          "yuki_shi",
+          "zara_guo"
+        ]
+      },
+      "output_ref": "chat_thread_ops_rehearsal"
+    },
+    {
+      "action_id": "step_004",
+      "action_type": "create_chat",
+      "depends_on": [],
+      "params": {
+        "chat_ref": "chat_thread_perf_testing",
+        "name": "thread_perf_testing 会话",
+        "members": [
+          "adam_wu",
+          "alice_liu",
+          "bella_li",
+          "bob_chen",
+          "carol_wang",
+          "david_zhang",
+          "eve_li",
+          "frank_lin",
+          "grace_huang",
+          "henry_zhou",
+          "iris_wu",
+          "jack_sun",
+          "kate_li",
+          "leo_xu",
+          "mia_zhao",
+          "nina_li",
+          "oliver_li",
+          "peter_cai",
+          "quinn_tao",
+          "ray_feng",
+          "sara_hong",
+          "tom_liang",
+          "uma_ma",
+          "victor_hu",
+          "wendy_yan",
+          "xander_du",
+          "yuki_shi",
+          "zara_guo"
+        ]
+      },
+      "output_ref": "chat_thread_perf_testing"
+    },
+    {
+      "action_id": "step_005",
+      "action_type": "create_chat",
+      "depends_on": [],
+      "params": {
+        "chat_ref": "chat_handoff_thread",
+        "name": "交接修正线程",
+        "members": [
+          "adam_wu",
+          "alice_liu",
+          "bella_li",
+          "bob_chen",
+          "carol_wang",
+          "david_zhang",
+          "eve_li",
+          "frank_lin",
+          "grace_huang",
+          "henry_zhou",
+          "iris_wu",
+          "jack_sun",
+          "kate_li",
+          "leo_xu",
+          "mia_zhao",
+          "nina_li",
+          "oliver_li",
+          "peter_cai",
+          "quinn_tao",
+          "ray_feng",
+          "sara_hong",
+          "tom_liang",
+          "uma_ma",
+          "victor_hu",
+          "wendy_yan",
+          "xander_du",
+          "yuki_shi",
+          "zara_guo"
+        ]
+      },
+      "output_ref": "chat_handoff_thread"
+    },
+    {
+      "action_id": "step_006",
+      "action_type": "create_chat",
+      "depends_on": [],
+      "params": {
+        "chat_ref": "chat_risk_review_thread",
+        "name": "风险复核线程",
+        "members": [
+          "adam_wu",
+          "alice_liu",
+          "bella_li",
+          "bob_chen",
+          "carol_wang",
+          "david_zhang",
+          "eve_li",
+          "frank_lin",
+          "grace_huang",
+          "henry_zhou",
+          "iris_wu",
+          "jack_sun",
+          "kate_li",
+          "leo_xu",
+          "mia_zhao",
+          "nina_li",
+          "oliver_li",
+          "peter_cai",
+          "quinn_tao",
+          "ray_feng",
+          "sara_hong",
+          "tom_liang",
+          "uma_ma",
+          "victor_hu",
+          "wendy_yan",
+          "xander_du",
+          "yuki_shi",
+          "zara_guo"
+        ]
+      },
+      "output_ref": "chat_risk_review_thread"
+    },
+    {
+      "action_id": "step_007",
+      "action_type": "create_chat",
+      "depends_on": [],
+      "params": {
+        "chat_ref": "chat_customer_sync_chat",
+        "name": "客户同步侧群",
+        "members": [
+          "adam_wu",
+          "alice_liu",
+          "bella_li",
+          "bob_chen",
+          "carol_wang",
+          "david_zhang",
+          "eve_li",
+          "frank_lin",
+          "grace_huang",
+          "henry_zhou",
+          "iris_wu",
+          "jack_sun",
+          "kate_li",
+          "leo_xu",
+          "mia_zhao",
+          "nina_li",
+          "oliver_li",
+          "peter_cai",
+          "quinn_tao",
+          "ray_feng",
+          "sara_hong",
+          "tom_liang",
+          "uma_ma",
+          "victor_hu",
+          "wendy_yan",
+          "xander_du",
+          "yuki_shi",
+          "zara_guo"
+        ]
+      },
+      "output_ref": "chat_customer_sync_chat"
+    },
+    {
+      "action_id": "step_008",
+      "action_type": "create_chat",
+      "depends_on": [],
+      "params": {
+        "chat_ref": "chat_exec_sync_chat",
+        "name": "管理层同步侧群",
+        "members": [
+          "adam_wu",
+          "alice_liu",
+          "bella_li",
+          "bob_chen",
+          "carol_wang",
+          "david_zhang",
+          "eve_li",
+          "frank_lin",
+          "grace_huang",
+          "henry_zhou",
+          "iris_wu",
+          "jack_sun",
+          "kate_li",
+          "leo_xu",
+          "mia_zhao",
+          "nina_li",
+          "oliver_li",
+          "peter_cai",
+          "quinn_tao",
+          "ray_feng",
+          "sara_hong",
+          "tom_liang",
+          "uma_ma",
+          "victor_hu",
+          "wendy_yan",
+          "xander_du",
+          "yuki_shi",
+          "zara_guo"
+        ]
+      },
+      "output_ref": "chat_exec_sync_chat"
+    },
+    {
+      "action_id": "step_009",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_005"
+      ],
+      "params": {
+        "chat_ref": "chat_handoff_thread",
+        "sender_ref": "benchmark_root",
+        "content_text": "【benchmark/root】交接修正线程：以下回复承载该 source session 的真实 benchmark 消息。"
+      },
+      "output_ref": "thread_root_handoff_thread"
+    },
+    {
+      "action_id": "step_010",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_006"
+      ],
+      "params": {
+        "chat_ref": "chat_risk_review_thread",
+        "sender_ref": "benchmark_root",
+        "content_text": "【benchmark/root】风险复核线程：以下回复承载该 source session 的真实 benchmark 消息。"
+      },
+      "output_ref": "thread_root_risk_review_thread"
+    },
+    {
+      "action_id": "step_011",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_001"
+      ],
+      "params": {
+        "chat_ref": "chat_main_chat",
+        "sender_ref": "alice_liu",
+        "content_text": "【项目管理/林晨】大家好，FEISHU-686 我接手了，当前 blocker 是内部文档API认证流程修改"
+      },
+      "output_ref": "msg_turn_001"
+    },
+    {
+      "action_id": "step_012",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_001"
+      ],
+      "params": {
+        "chat_ref": "chat_main_chat",
+        "sender_ref": "bob_chen",
+        "content_text": "【研发平台/周宇】收到 Alice，我这边已经在对接认证团队，窗口暂时还没锁定"
+      },
+      "output_ref": "msg_turn_002"
+    },
+    {
+      "action_id": "step_013",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_001"
+      ],
+      "params": {
+        "chat_ref": "chat_main_chat",
+        "sender_ref": "carol_wang",
+        "content_text": "【质量保障/陈雪】我看了 draft，认证流程改动部分还需要补充测试用例，预计下周可以完成 review"
+      },
+      "output_ref": "msg_turn_003"
+    },
+    {
+      "action_id": "step_014",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_001"
+      ],
+      "params": {
+        "chat_ref": "chat_main_chat",
+        "sender_ref": "david_zhang",
+        "content_text": "【研发平台/王源】基础设施方面我已经预配了新的 API 网关，认证改动后可以直接部署"
+      },
+      "output_ref": "msg_turn_004"
+    },
+    {
+      "action_id": "step_015",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_001"
+      ],
+      "params": {
+        "chat_ref": "chat_main_chat",
+        "sender_ref": "alice_liu",
+        "content_text": "【项目管理/林晨】注意，这个任务是 FEISHU-686，与之前的文档审阅收口（FEISHU-686）是分开的"
+      },
+      "output_ref": "msg_turn_005"
+    },
+    {
+      "action_id": "step_016",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_002"
+      ],
+      "params": {
+        "chat_ref": "chat_thread_doc_review",
+        "sender_ref": "alice_liu",
+        "content_text": "【项目管理/林晨】FEISHU-686 我这边审完了，人员充沛，下周三可以收口"
+      },
+      "output_ref": "msg_turn_006"
+    },
+    {
+      "action_id": "step_017",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_002"
+      ],
+      "params": {
+        "chat_ref": "chat_thread_doc_review",
+        "sender_ref": "bob_chen",
+        "content_text": "【研发平台/周宇】好，我确认下内容，没遗漏就标记 Ready"
+      },
+      "output_ref": "msg_turn_007"
+    },
+    {
+      "action_id": "step_018",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_003"
+      ],
+      "params": {
+        "chat_ref": "chat_thread_ops_rehearsal",
+        "sender_ref": "bob_chen",
+        "content_text": "【研发平台/周宇】演练 blocker 是环境问题，已经解决，窗口已锁定"
+      },
+      "output_ref": "msg_turn_008"
+    },
+    {
+      "action_id": "step_019",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_001"
+      ],
+      "params": {
+        "chat_ref": "chat_main_chat",
+        "sender_ref": "carol_wang",
+        "content_text": "【质量保障/陈雪】FEISHU-686 迁移窗口改成下周一，负责人改为 David"
+      },
+      "output_ref": "msg_turn_009"
+    },
+    {
+      "action_id": "step_020",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_004"
+      ],
+      "params": {
+        "chat_ref": "chat_thread_perf_testing",
+        "sender_ref": "david_zhang",
+        "content_text": "【研发平台/王源】性能测试 blocker 是资源瓶颈，已扩容，预计本周收口"
+      },
+      "output_ref": "msg_turn_010"
+    },
+    {
+      "action_id": "step_021",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_001"
+      ],
+      "params": {
+        "chat_ref": "chat_main_chat",
+        "sender_ref": "alice_liu",
+        "content_text": "【项目管理/林晨】再同步一下：FEISHU-686 我还是 owner，blocker 没变，窗口仍在等安全评审"
+      },
+      "output_ref": "msg_turn_011"
+    },
+    {
+      "action_id": "step_022",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_001"
+      ],
+      "params": {
+        "chat_ref": "chat_main_chat",
+        "sender_ref": "henry_zhou",
+        "content_text": "【研发平台/秦怡】后端认证模块改动已准备就绪，安全评审通过就能合入"
+      },
+      "output_ref": "msg_turn_012"
+    },
+    {
+      "action_id": "step_023",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_001"
+      ],
+      "params": {
+        "chat_ref": "chat_main_chat",
+        "sender_ref": "iris_wu",
+        "content_text": "【研发平台/罗天】前端侧已做兼容测试，API 变更后直接对接"
+      },
+      "output_ref": "msg_turn_013"
+    },
+    {
+      "action_id": "step_024",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_001"
+      ],
+      "params": {
+        "chat_ref": "chat_main_chat",
+        "sender_ref": "jack_sun",
+        "content_text": "【研发平台/苏禾】Infra 全部已做预配置，可随时上线"
+      },
+      "output_ref": "msg_turn_014"
+    },
+    {
+      "action_id": "step_025",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_001"
+      ],
+      "params": {
+        "chat_ref": "chat_main_chat",
+        "sender_ref": "leo_xu",
+        "content_text": "【研发平台/许薇】这是 API 认证流程调用频率数据，安全评审可能需要参考"
+      },
+      "output_ref": "msg_turn_015"
+    },
+    {
+      "action_id": "step_026",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_001"
+      ],
+      "params": {
+        "chat_ref": "chat_main_chat",
+        "sender_ref": "sara_hong",
+        "content_text": "【研发平台/高骏】用户反馈认证流程有时超时，这次改动正好能解决"
+      },
+      "output_ref": "msg_turn_016"
+    },
+    {
+      "action_id": "step_027",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_001"
+      ],
+      "params": {
+        "chat_ref": "chat_main_chat",
+        "sender_ref": "frank_lin",
+        "content_text": "【企业协作/赵敏】FEISHU-686 的收口时间大概能确定吗？"
+      },
+      "output_ref": "msg_turn_017"
+    },
+    {
+      "action_id": "step_028",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_001"
+      ],
+      "params": {
+        "chat_ref": "chat_main_chat",
+        "sender_ref": "alice_liu",
+        "content_text": "【项目管理/林晨】等安全评审通过窗口锁定后才行，目前暂不能承诺"
+      },
+      "output_ref": "msg_turn_018"
+    },
+    {
+      "action_id": "step_029",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_001"
+      ],
+      "params": {
+        "chat_ref": "chat_main_chat",
+        "sender_ref": "eve_li",
+        "content_text": "【研发平台/高骏】当前只有 API 认证流程这一个 blocker 吗？"
+      },
+      "output_ref": "msg_turn_019"
+    },
+    {
+      "action_id": "step_030",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_001"
+      ],
+      "params": {
+        "chat_ref": "chat_main_chat",
+        "sender_ref": "alice_liu",
+        "content_text": "【项目管理/林晨】对，只有这一个，其他都就绪了"
+      },
+      "output_ref": "msg_turn_020"
+    },
+    {
+      "action_id": "step_031",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_001"
+      ],
+      "params": {
+        "chat_ref": "chat_main_chat",
+        "sender_ref": "grace_huang",
+        "content_text": "【知识管理/何然】我把 FEISHU-686 的文档模板准备好了，需要补充什么？"
+      },
+      "output_ref": "msg_turn_021"
+    },
+    {
+      "action_id": "step_032",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_001"
+      ],
+      "params": {
+        "chat_ref": "chat_main_chat",
+        "sender_ref": "alice_liu",
+        "content_text": "【项目管理/林晨】先放基础架构部分，等认证部分通过后补上"
+      },
+      "output_ref": "msg_turn_022"
+    },
+    {
+      "action_id": "step_033",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_001"
+      ],
+      "params": {
+        "chat_ref": "chat_main_chat",
+        "sender_ref": "bob_chen",
+        "content_text": "【研发平台/周宇】认证团队那边下周一才有空，我会跟催"
+      },
+      "output_ref": "msg_turn_023"
+    },
+    {
+      "action_id": "step_034",
+      "action_type": "reply_in_thread",
+      "depends_on": [
+        "step_005",
+        "step_009"
+      ],
+      "params": {
+        "chat_ref": "chat_handoff_thread",
+        "sender_ref": "alice_liu",
+        "content_text": "【项目管理/林晨】补充一下：FEISHU-686 的客户对接目前由 Ray 负责，我继续管项目",
+        "root_message_ref": "thread_root_handoff_thread"
+      },
+      "output_ref": "msg_turn_024"
+    },
+    {
+      "action_id": "step_035",
+      "action_type": "reply_in_thread",
+      "depends_on": [
+        "step_005",
+        "step_009"
+      ],
+      "params": {
+        "chat_ref": "chat_handoff_thread",
+        "sender_ref": "ray_feng",
+        "content_text": "【客户协作/王源】明白了，客户那边我先不给承诺，等窗口锁定",
+        "root_message_ref": "thread_root_handoff_thread"
+      },
+      "output_ref": "msg_turn_025"
+    },
+    {
+      "action_id": "step_036",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_001"
+      ],
+      "params": {
+        "chat_ref": "chat_main_chat",
+        "sender_ref": "kate_li",
+        "content_text": "【研发平台/唐越】安全评审计划下周三进行，需要提前准备什么？"
+      },
+      "output_ref": "msg_turn_026"
+    },
+    {
+      "action_id": "step_037",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_001"
+      ],
+      "params": {
+        "chat_ref": "chat_main_chat",
+        "sender_ref": "alice_liu",
+        "content_text": "【项目管理/林晨】把认证流程文档和测试报告提交到评审系统"
+      },
+      "output_ref": "msg_turn_027"
+    },
+    {
+      "action_id": "step_038",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_007"
+      ],
+      "params": {
+        "chat_ref": "chat_customer_sync_chat",
+        "sender_ref": "ray_feng",
+        "content_text": "【客户协作/王源】客户问 FEISHU-686 能否本周上线，我说还在评估"
+      },
+      "output_ref": "msg_turn_028"
+    },
+    {
+      "action_id": "step_039",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_007"
+      ],
+      "params": {
+        "chat_ref": "chat_customer_sync_chat",
+        "sender_ref": "alice_liu",
+        "content_text": "【项目管理/林晨】暂时不能承诺，等窗口锁定再说"
+      },
+      "output_ref": "msg_turn_029"
+    },
+    {
+      "action_id": "step_040",
+      "action_type": "reply_in_thread",
+      "depends_on": [
+        "step_006",
+        "step_010"
+      ],
+      "params": {
+        "chat_ref": "chat_risk_review_thread",
+        "sender_ref": "eve_li",
+        "content_text": "【研发平台/高骏】FEISHU-686 的风险主要是外部依赖，要赶紧推动认证",
+        "root_message_ref": "thread_root_risk_review_thread"
+      },
+      "output_ref": "msg_turn_030"
+    },
+    {
+      "action_id": "step_041",
+      "action_type": "reply_in_thread",
+      "depends_on": [
+        "step_006",
+        "step_010"
+      ],
+      "params": {
+        "chat_ref": "chat_risk_review_thread",
+        "sender_ref": "bob_chen",
+        "content_text": "【研发平台/周宇】我跟认证团队确认过，他们下周一开始审核",
+        "root_message_ref": "thread_root_risk_review_thread"
+      },
+      "output_ref": "msg_turn_031"
+    },
+    {
+      "action_id": "step_042",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_001"
+      ],
+      "params": {
+        "chat_ref": "chat_main_chat",
+        "sender_ref": "adam_wu",
+        "content_text": "【企业协作/沈嘉】需要我帮忙拉通团队吗？认证流程有点慢"
+      },
+      "output_ref": "msg_turn_032"
+    },
+    {
+      "action_id": "step_043",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_001"
+      ],
+      "params": {
+        "chat_ref": "chat_main_chat",
+        "sender_ref": "alice_liu",
+        "content_text": "【项目管理/林晨】先不用，Bob 已经在跟了，有需要再找你"
+      },
+      "output_ref": "msg_turn_033"
+    },
+    {
+      "action_id": "step_044",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_001"
+      ],
+      "params": {
+        "chat_ref": "chat_main_chat",
+        "sender_ref": "bella_li",
+        "content_text": "【项目管理/梁昕】我帮你排个周会，周五同步一下各模块进展"
+      },
+      "output_ref": "msg_turn_034"
+    },
+    {
+      "action_id": "step_045",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_001"
+      ],
+      "params": {
+        "chat_ref": "chat_main_chat",
+        "sender_ref": "alice_liu",
+        "content_text": "【项目管理/林晨】好，周五下午三点，我发会议邀请"
+      },
+      "output_ref": "msg_turn_035"
+    },
+    {
+      "action_id": "step_046",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_008"
+      ],
+      "params": {
+        "chat_ref": "chat_exec_sync_chat",
+        "sender_ref": "eve_li",
+        "content_text": "【研发平台/高骏】FEISHU-686 和 FEISHU-686 都在推进，大家不要搞混了"
+      },
+      "output_ref": "msg_turn_036"
+    },
+    {
+      "action_id": "step_047",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_008"
+      ],
+      "params": {
+        "chat_ref": "chat_exec_sync_chat",
+        "sender_ref": "frank_lin",
+        "content_text": "【企业协作/赵敏】FEISHU-686 的文档基本审完了，下周三收口没问题"
+      },
+      "output_ref": "msg_turn_037"
+    },
+    {
+      "action_id": "step_048",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_008"
+      ],
+      "params": {
+        "chat_ref": "chat_exec_sync_chat",
+        "sender_ref": "alice_liu",
+        "content_text": "【项目管理/林晨】FEISHU-686 的窗口还没锁定，等安全评审"
+      },
+      "output_ref": "msg_turn_038"
+    },
+    {
+      "action_id": "step_049",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_001"
+      ],
+      "params": {
+        "chat_ref": "chat_main_chat",
+        "sender_ref": "tom_liang",
+        "content_text": "【企业协作/赵敏】API 网关配置我已经检查过，可以上线时直接使用"
+      },
+      "output_ref": "msg_turn_039"
+    },
+    {
+      "action_id": "step_050",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_001"
+      ],
+      "params": {
+        "chat_ref": "chat_main_chat",
+        "sender_ref": "alice_liu",
+        "content_text": "【项目管理/林晨】好，维持现状，大家继续推进各自部分"
+      },
+      "output_ref": "msg_turn_040"
+    },
+    {
+      "action_id": "step_051",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_001"
+      ],
+      "params": {
+        "chat_ref": "chat_main_chat",
+        "sender_ref": "nina_li",
+        "content_text": "【组织发展/梁昕】跨部门协调需要我帮忙说一下吗？"
+      },
+      "output_ref": "msg_turn_041"
+    },
+    {
+      "action_id": "step_052",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_001"
+      ],
+      "params": {
+        "chat_ref": "chat_main_chat",
+        "sender_ref": "alice_liu",
+        "content_text": "【项目管理/林晨】暂时不用，有问题我找你说"
+      },
+      "output_ref": "msg_turn_042"
+    },
+    {
+      "action_id": "step_053",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_002"
+      ],
+      "params": {
+        "chat_ref": "chat_thread_doc_review",
+        "sender_ref": "grace_huang",
+        "content_text": "【知识管理/何然】FEISHU-686 的文档最终版我放共享盘了，大家看一下"
+      },
+      "output_ref": "msg_turn_043"
+    },
+    {
+      "action_id": "step_054",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_002"
+      ],
+      "params": {
+        "chat_ref": "chat_thread_doc_review",
+        "sender_ref": "alice_liu",
+        "content_text": "【项目管理/林晨】收到，我周五前看完"
+      },
+      "output_ref": "msg_turn_044"
+    },
+    {
+      "action_id": "step_055",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_003"
+      ],
+      "params": {
+        "chat_ref": "chat_thread_ops_rehearsal",
+        "sender_ref": "bob_chen",
+        "content_text": "【研发平台/周宇】演练计划已经完成，环境准备好了"
+      },
+      "output_ref": "msg_turn_045"
+    },
+    {
+      "action_id": "step_056",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_003"
+      ],
+      "params": {
+        "chat_ref": "chat_thread_ops_rehearsal",
+        "sender_ref": "tom_liang",
+        "content_text": "【企业协作/赵敏】好，窗口没问题，准备收口"
+      },
+      "output_ref": "msg_turn_046"
+    },
+    {
+      "action_id": "step_057",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_004"
+      ],
+      "params": {
+        "chat_ref": "chat_thread_perf_testing",
+        "sender_ref": "david_zhang",
+        "content_text": "【研发平台/王源】性能测试已经全部通过，报告发你"
+      },
+      "output_ref": "msg_turn_047"
+    },
+    {
+      "action_id": "step_058",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_004"
+      ],
+      "params": {
+        "chat_ref": "chat_thread_perf_testing",
+        "sender_ref": "leo_xu",
+        "content_text": "【研发平台/许薇】数据我看过了，没问题"
+      },
+      "output_ref": "msg_turn_048"
+    },
+    {
+      "action_id": "step_059",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_001"
+      ],
+      "params": {
+        "chat_ref": "chat_main_chat",
+        "sender_ref": "alice_liu",
+        "content_text": "【项目管理/林晨】FEISHU-686 各模块就绪，只差安全评审一步"
+      },
+      "output_ref": "msg_turn_049"
+    },
+    {
+      "action_id": "step_060",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_001"
+      ],
+      "params": {
+        "chat_ref": "chat_main_chat",
+        "sender_ref": "carol_wang",
+        "content_text": "【质量保障/陈雪】测试用例我已经补完了，等下上传"
+      },
+      "output_ref": "msg_turn_050"
+    },
+    {
+      "action_id": "step_061",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_001"
+      ],
+      "params": {
+        "chat_ref": "chat_main_chat",
+        "sender_ref": "alice_liu",
+        "content_text": "【项目管理/林晨】收到，辛苦大家"
+      },
+      "output_ref": "msg_turn_051"
+    },
+    {
+      "action_id": "step_062",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_007"
+      ],
+      "params": {
+        "chat_ref": "chat_customer_sync_chat",
+        "sender_ref": "ray_feng",
+        "content_text": "【客户协作/王源】客户又问 FEISHU-686 进度了，我说周五给答复"
+      },
+      "output_ref": "msg_turn_052"
+    },
+    {
+      "action_id": "step_063",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_007"
+      ],
+      "params": {
+        "chat_ref": "chat_customer_sync_chat",
+        "sender_ref": "alice_liu",
+        "content_text": "【项目管理/林晨】行，周五同步，窗口没锁定就说还在等评审"
+      },
+      "output_ref": "msg_turn_053"
+    },
+    {
+      "action_id": "step_064",
+      "action_type": "reply_in_thread",
+      "depends_on": [
+        "step_006",
+        "step_010"
+      ],
+      "params": {
+        "chat_ref": "chat_risk_review_thread",
+        "sender_ref": "peter_cai",
+        "content_text": "【安全合规/周宇】安全评审我会优先处理，预计下周三出结果",
+        "root_message_ref": "thread_root_risk_review_thread"
+      },
+      "output_ref": "msg_turn_054"
+    },
+    {
+      "action_id": "step_065",
+      "action_type": "reply_in_thread",
+      "depends_on": [
+        "step_006",
+        "step_010"
+      ],
+      "params": {
+        "chat_ref": "chat_risk_review_thread",
+        "sender_ref": "alice_liu",
+        "content_text": "【项目管理/林晨】好的，我们等你消息",
+        "root_message_ref": "thread_root_risk_review_thread"
+      },
+      "output_ref": "msg_turn_055"
+    },
+    {
+      "action_id": "step_066",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_001"
+      ],
+      "params": {
+        "chat_ref": "chat_main_chat",
+        "sender_ref": "bella_li",
+        "content_text": "【项目管理/梁昕】会议邀请已发，周五下午三点，大家记得参加"
+      },
+      "output_ref": "msg_turn_056"
+    },
+    {
+      "action_id": "step_067",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_001"
+      ],
+      "params": {
+        "chat_ref": "chat_main_chat",
+        "sender_ref": "henry_zhou",
+        "content_text": "【研发平台/秦怡】收到，我会准备后端改动说明"
+      },
+      "output_ref": "msg_turn_057"
+    },
+    {
+      "action_id": "step_068",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_001"
+      ],
+      "params": {
+        "chat_ref": "chat_main_chat",
+        "sender_ref": "iris_wu",
+        "content_text": "【研发平台/罗天】前端测试报告也会准备好"
+      },
+      "output_ref": "msg_turn_058"
+    },
+    {
+      "action_id": "step_069",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_001"
+      ],
+      "params": {
+        "chat_ref": "chat_main_chat",
+        "sender_ref": "jack_sun",
+        "content_text": "【研发平台/苏禾】Infra 部署脚本已经写好，随时可用"
+      },
+      "output_ref": "msg_turn_059"
+    },
+    {
+      "action_id": "step_070",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_001"
+      ],
+      "params": {
+        "chat_ref": "chat_main_chat",
+        "sender_ref": "alice_liu",
+        "content_text": "【项目管理/林晨】很好，大家都准备好了"
+      },
+      "output_ref": "msg_turn_060"
+    },
+    {
+      "action_id": "step_071",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_008"
+      ],
+      "params": {
+        "chat_ref": "chat_exec_sync_chat",
+        "sender_ref": "eve_li",
+        "content_text": "【研发平台/高骏】FEISHU-686 迁移任务下周一启动，David 负责"
+      },
+      "output_ref": "msg_turn_061"
+    },
+    {
+      "action_id": "step_072",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_008"
+      ],
+      "params": {
+        "chat_ref": "chat_exec_sync_chat",
+        "sender_ref": "david_zhang",
+        "content_text": "【研发平台/王源】收到，数据库迁移方案已经准备好"
+      },
+      "output_ref": "msg_turn_062"
+    },
+    {
+      "action_id": "step_073",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_001"
+      ],
+      "params": {
+        "chat_ref": "chat_main_chat",
+        "sender_ref": "xander_du",
+        "content_text": "【研发平台/苏禾】FEISHU-686 的集成测试我这边也过了"
+      },
+      "output_ref": "msg_turn_063"
+    },
+    {
+      "action_id": "step_074",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_001"
+      ],
+      "params": {
+        "chat_ref": "chat_main_chat",
+        "sender_ref": "alice_liu",
+        "content_text": "【项目管理/林晨】好，知道了"
+      },
+      "output_ref": "msg_turn_064"
+    },
+    {
+      "action_id": "step_075",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_001"
+      ],
+      "params": {
+        "chat_ref": "chat_main_chat",
+        "sender_ref": "yuki_shi",
+        "content_text": "【研发平台/唐越】线上环境我已经准备好，可以随时发布"
+      },
+      "output_ref": "msg_turn_065"
+    },
+    {
+      "action_id": "step_076",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_001"
+      ],
+      "params": {
+        "chat_ref": "chat_main_chat",
+        "sender_ref": "alice_liu",
+        "content_text": "【项目管理/林晨】收到，辛苦"
+      },
+      "output_ref": "msg_turn_066"
+    },
+    {
+      "action_id": "step_077",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_001"
+      ],
+      "params": {
+        "chat_ref": "chat_main_chat",
+        "sender_ref": "zara_guo",
+        "content_text": "【项目管理/许薇】发布窗口要在系统里登记，等安全评审通过后我处理"
+      },
+      "output_ref": "msg_turn_067"
+    },
+    {
+      "action_id": "step_078",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_001"
+      ],
+      "params": {
+        "chat_ref": "chat_main_chat",
+        "sender_ref": "alice_liu",
+        "content_text": "【项目管理/林晨】好的，窗口登记等你来"
+      },
+      "output_ref": "msg_turn_068"
+    },
+    {
+      "action_id": "step_079",
+      "action_type": "reply_in_thread",
+      "depends_on": [
+        "step_005",
+        "step_009"
+      ],
+      "params": {
+        "chat_ref": "chat_handoff_thread",
+        "sender_ref": "uma_ma",
+        "content_text": "【项目管理/何然】FEISHU-686 的资源分配已经确认，团队到位",
+        "root_message_ref": "thread_root_handoff_thread"
+      },
+      "output_ref": "msg_turn_069"
+    },
+    {
+      "action_id": "step_080",
+      "action_type": "reply_in_thread",
+      "depends_on": [
+        "step_005",
+        "step_009"
+      ],
+      "params": {
+        "chat_ref": "chat_handoff_thread",
+        "sender_ref": "alice_liu",
+        "content_text": "【项目管理/林晨】收到，资源没问题",
+        "root_message_ref": "thread_root_handoff_thread"
+      },
+      "output_ref": "msg_turn_070"
+    },
+    {
+      "action_id": "step_081",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_001"
+      ],
+      "params": {
+        "chat_ref": "chat_main_chat",
+        "sender_ref": "victor_hu",
+        "content_text": "【安全合规/秦怡】我协助提前检查合规要求，没问题"
+      },
+      "output_ref": "msg_turn_071"
+    },
+    {
+      "action_id": "step_082",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_001"
+      ],
+      "params": {
+        "chat_ref": "chat_main_chat",
+        "sender_ref": "alice_liu",
+        "content_text": "【项目管理/林晨】好的，谢谢 Victor"
+      },
+      "output_ref": "msg_turn_072"
+    },
+    {
+      "action_id": "step_083",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_001"
+      ],
+      "params": {
+        "chat_ref": "chat_main_chat",
+        "sender_ref": "quinn_tao",
+        "content_text": "【企业协作/陈雪】第三方依赖合同已经走完了"
+      },
+      "output_ref": "msg_turn_073"
+    },
+    {
+      "action_id": "step_084",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_001"
+      ],
+      "params": {
+        "chat_ref": "chat_main_chat",
+        "sender_ref": "alice_liu",
+        "content_text": "【项目管理/林晨】好，外部依赖也齐了"
+      },
+      "output_ref": "msg_turn_074"
+    },
+    {
+      "action_id": "step_085",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_007"
+      ],
+      "params": {
+        "chat_ref": "chat_customer_sync_chat",
+        "sender_ref": "ray_feng",
+        "content_text": "【客户协作/王源】客户确认等我答复"
+      },
+      "output_ref": "msg_turn_075"
+    },
+    {
+      "action_id": "step_086",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_007"
+      ],
+      "params": {
+        "chat_ref": "chat_customer_sync_chat",
+        "sender_ref": "alice_liu",
+        "content_text": "【项目管理/林晨】周五见"
+      },
+      "output_ref": "msg_turn_076"
+    },
+    {
+      "action_id": "step_087",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_001"
+      ],
+      "params": {
+        "chat_ref": "chat_main_chat",
+        "sender_ref": "alice_liu",
+        "content_text": "【项目管理/林晨】再提醒一下：FEISHU-686 与 FEISHU-686 分开，请参考正式任务文档"
+      },
+      "output_ref": "msg_turn_077"
+    },
+    {
+      "action_id": "step_088",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_001"
+      ],
+      "params": {
+        "chat_ref": "chat_main_chat",
+        "sender_ref": "frank_lin",
+        "content_text": "【企业协作/赵敏】好的，记住了"
+      },
+      "output_ref": "msg_turn_078"
+    },
+    {
+      "action_id": "step_089",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_001"
+      ],
+      "params": {
+        "chat_ref": "chat_main_chat",
+        "sender_ref": "bob_chen",
+        "content_text": "【研发平台/周宇】认证团队确认下周一开始，我会持续跟进"
+      },
+      "output_ref": "msg_turn_079"
+    },
+    {
+      "action_id": "step_090",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_001"
+      ],
+      "params": {
+        "chat_ref": "chat_main_chat",
+        "sender_ref": "alice_liu",
+        "content_text": "【项目管理/林晨】好，大家继续，有进展随时同步"
+      },
+      "output_ref": "msg_turn_080"
+    },
+    {
+      "action_id": "step_091",
+      "action_type": "fetch_chat_messages",
+      "depends_on": [
+        "step_001",
+        "step_011",
+        "step_012",
+        "step_013",
+        "step_014",
+        "step_015",
+        "step_019",
+        "step_021",
+        "step_022",
+        "step_023",
+        "step_024",
+        "step_025",
+        "step_026",
+        "step_027",
+        "step_028",
+        "step_029",
+        "step_030",
+        "step_031",
+        "step_032",
+        "step_033",
+        "step_036",
+        "step_037",
+        "step_042",
+        "step_043",
+        "step_044",
+        "step_045",
+        "step_049",
+        "step_050",
+        "step_051",
+        "step_052",
+        "step_059",
+        "step_060",
+        "step_061",
+        "step_066",
+        "step_067",
+        "step_068",
+        "step_069",
+        "step_070",
+        "step_073",
+        "step_074",
+        "step_075",
+        "step_076",
+        "step_077",
+        "step_078",
+        "step_081",
+        "step_082",
+        "step_083",
+        "step_084",
+        "step_087",
+        "step_088",
+        "step_089",
+        "step_090"
+      ],
+      "params": {
+        "chat_ref": "chat_main_chat"
+      },
+      "output_ref": ""
+    },
+    {
+      "action_id": "step_092",
+      "action_type": "fetch_chat_messages",
+      "depends_on": [
+        "step_002",
+        "step_016",
+        "step_017",
+        "step_053",
+        "step_054"
+      ],
+      "params": {
+        "chat_ref": "chat_thread_doc_review"
+      },
+      "output_ref": ""
+    },
+    {
+      "action_id": "step_093",
+      "action_type": "fetch_chat_messages",
+      "depends_on": [
+        "step_003",
+        "step_018",
+        "step_055",
+        "step_056"
+      ],
+      "params": {
+        "chat_ref": "chat_thread_ops_rehearsal"
+      },
+      "output_ref": ""
+    },
+    {
+      "action_id": "step_094",
+      "action_type": "fetch_chat_messages",
+      "depends_on": [
+        "step_004",
+        "step_020",
+        "step_057",
+        "step_058"
+      ],
+      "params": {
+        "chat_ref": "chat_thread_perf_testing"
+      },
+      "output_ref": ""
+    },
+    {
+      "action_id": "step_095",
+      "action_type": "fetch_chat_messages",
+      "depends_on": [
+        "step_007",
+        "step_038",
+        "step_039",
+        "step_062",
+        "step_063",
+        "step_085",
+        "step_086"
+      ],
+      "params": {
+        "chat_ref": "chat_customer_sync_chat"
+      },
+      "output_ref": ""
+    },
+    {
+      "action_id": "step_096",
+      "action_type": "fetch_chat_messages",
+      "depends_on": [
+        "step_008",
+        "step_046",
+        "step_047",
+        "step_048",
+        "step_071",
+        "step_072"
+      ],
+      "params": {
+        "chat_ref": "chat_exec_sync_chat"
+      },
+      "output_ref": ""
+    },
+    {
+      "action_id": "step_097",
+      "action_type": "fetch_thread_messages",
+      "depends_on": [
+        "step_005",
+        "step_009",
+        "step_034",
+        "step_035",
+        "step_079",
+        "step_080"
+      ],
+      "params": {
+        "chat_ref": "chat_handoff_thread",
+        "root_message_ref": "thread_root_handoff_thread"
+      },
+      "output_ref": ""
+    },
+    {
+      "action_id": "step_098",
+      "action_type": "fetch_thread_messages",
+      "depends_on": [
+        "step_006",
+        "step_010",
+        "step_040",
+        "step_041",
+        "step_064",
+        "step_065"
+      ],
+      "params": {
+        "chat_ref": "chat_risk_review_thread",
+        "root_message_ref": "thread_root_risk_review_thread"
+      },
+      "output_ref": ""
+    }
+  ]
+}

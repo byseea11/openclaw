@@ -1,0 +1,127 @@
+{
+  "case_id": "case_20260507021541740586_anti_interference",
+  "family_id": "anti_interference",
+  "task_id": "FEISHU-686",
+  "beats": [
+    {
+      "beat_id": "beat_001",
+      "target_session_id": "main_chat",
+      "benchmark_role": "memory_pollution_turn",
+      "description": "大家好，FEISHU-686 我接手了，当前 blocker 是内部文档API认证流程修改，需要安全评审通过才能推进。"
+    },
+    {
+      "beat_id": "beat_002",
+      "target_session_id": "main_chat",
+      "benchmark_role": "memory_pollution_turn",
+      "description": "收到 Alice，我这边已经在对接认证团队，窗口暂时还没锁定，等安全评审结果。"
+    },
+    {
+      "beat_id": "beat_003",
+      "target_session_id": "main_chat",
+      "benchmark_role": "memory_pollution_turn",
+      "description": "我看了 draft，认证流程改动部分还需要补充测试用例，预计下周可以完成 review。"
+    },
+    {
+      "beat_id": "beat_004",
+      "target_session_id": "main_chat",
+      "benchmark_role": "memory_pollution_turn",
+      "description": "基础设施方面我已经预配了新的 API 网关，认证改动后可以直接部署。"
+    },
+    {
+      "beat_id": "beat_005",
+      "target_session_id": "main_chat",
+      "benchmark_role": "memory_pollution_turn",
+      "description": "注意，这个任务是 FEISHU-686，与之前的文档审阅收口（FEISHU-680）是分开的，不要混。"
+    },
+    {
+      "beat_id": "beat_006",
+      "target_session_id": "thread_doc_review",
+      "benchmark_role": "memory_pollution_turn",
+      "description": "FEISHU-680 我这边审完了，人员充沛，下周三可以收口，所有文档已归入。"
+    },
+    {
+      "beat_id": "beat_007",
+      "target_session_id": "thread_doc_review",
+      "benchmark_role": "memory_pollution_turn",
+      "description": "好，我确认下内容，没遗漏就标记 Ready。"
+    },
+    {
+      "beat_id": "beat_008",
+      "target_session_id": "thread_ops_rehearsal",
+      "benchmark_role": "memory_pollution_turn",
+      "description": "演练 blocker 是环境问题，已经解决，窗口已锁定，可以按计划收口。"
+    },
+    {
+      "beat_id": "beat_009",
+      "target_session_id": "main_chat",
+      "benchmark_role": "memory_pollution_turn",
+      "description": "FEISHU-683 迁移窗口改成下周一，负责人改为 David，我这边测试完成。"
+    },
+    {
+      "beat_id": "beat_010",
+      "target_session_id": "thread_perf_testing",
+      "benchmark_role": "memory_pollution_turn",
+      "description": "性能测试 blocker 是资源瓶颈，已扩容，预计本周收口。"
+    },
+    {
+      "beat_id": "beat_011",
+      "target_session_id": "main_chat",
+      "benchmark_role": "memory_pollution_turn",
+      "description": "再同步一下：FEISHU-686 我还是 owner，blocker 没变，窗口仍在等安全评审。"
+    },
+    {
+      "beat_id": "beat_012",
+      "target_session_id": "main_chat",
+      "benchmark_role": "memory_pollution_turn",
+      "description": "后端认证模块改动已准备就绪，安全评审通过就能合入。"
+    },
+    {
+      "beat_id": "beat_013",
+      "target_session_id": "main_chat",
+      "benchmark_role": "memory_pollution_turn",
+      "description": "前端侧已做兼容测试，API 变更后直接对接。"
+    },
+    {
+      "beat_id": "beat_014",
+      "target_session_id": "main_chat",
+      "benchmark_role": "memory_pollution_turn",
+      "description": "Infra 全部已做预配置，可随时上线。"
+    },
+    {
+      "beat_id": "beat_015",
+      "target_session_id": "main_chat",
+      "benchmark_role": "memory_pollution_turn",
+      "description": "这是 API 认证流程调用频率数据，安全评审可能需要参考。"
+    },
+    {
+      "beat_id": "beat_016",
+      "target_session_id": "main_chat",
+      "benchmark_role": "memory_pollution_turn",
+      "description": "用户反馈认证流程有时超时，这次改动正好能解决。"
+    },
+    {
+      "beat_id": "beat_017",
+      "target_session_id": "main_chat",
+      "benchmark_role": "memory_pollution_turn",
+      "description": "FEISHU-686 的收口时间大概能确定吗？"
+    },
+    {
+      "beat_id": "beat_018",
+      "target_session_id": "main_chat",
+      "benchmark_role": "memory_pollution_turn",
+      "description": "等安全评审通过窗口锁定后才行，目前暂不能承诺。"
+    },
+    {
+      "beat_id": "beat_019",
+      "target_session_id": "main_chat",
+      "benchmark_role": "memory_pollution_turn",
+      "description": "当前只有 API 认证流程这一个 blocker 吗？"
+    },
+    {
+      "beat_id": "beat_020",
+      "target_session_id": "main_chat",
+      "benchmark_role": "memory_pollution_turn",
+      "description": "对，只有这一个，其他都就绪了。"
+    }
+  ]
+}

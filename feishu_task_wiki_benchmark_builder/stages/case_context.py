@@ -43,6 +43,8 @@ def _build_case_context_user_payload(
         "comparison_target": comparison_target,
         "formal_families": families,
         "output_contract": {
+            "artifact_name": "case_context",
+            "return_format": "Return exactly one complete JSON object. Do not wrap it in markdown or a case_context key.",
             "must_include": [
                 "family_id",
                 "benchmark_requirement_name",
@@ -59,7 +61,33 @@ def _build_case_context_user_payload(
                 "business_goal",
                 "scenario_summary",
                 "family_fit_explanation",
-            ]
+            ],
+            "validation_rules": [
+                "If requested_family_id is set, family_id must equal requested_family_id.",
+                "Copy benchmark/capability fields from formal_families[family_id] exactly.",
+                "organization, team, business_goal, scenario_summary, and family_fit_explanation must be non-empty.",
+            ],
+        },
+    }
+
+
+def _build_case_context_repair_user_payload(
+    *,
+    base_payload: dict[str, Any],
+    invalid_payload: dict[str, Any],
+    validation_error: ValidationError,
+) -> dict[str, Any]:
+    return {
+        **base_payload,
+        "repair_context": {
+            "validation_error": str(validation_error),
+            "invalid_payload": invalid_payload,
+            "repair_instruction": (
+                "Rewrite the invalid case context into a complete valid JSON object. "
+                "Preserve the chosen family and scenario if they are compatible with the request, "
+                "copy missing benchmark/capability fields from formal_families[family_id], and "
+                "return only the repaired JSON object."
+            ),
         },
     }
 
@@ -112,6 +140,14 @@ def generate_case_context(
         system_prompt=system_prompt,
         user_payload=user_payload,
     )
+    model_call_entries = [
+        build_model_call_log_entry(
+            stage="case-context",
+            result=result,
+            case_id=build_case_id(normalized_seed, str(result.payload.get("family_id") or "unknown")),
+            artifact_path="input/case_context.json",
+        )
+    ]
     try:
         validated = validate_case_context(
             _merge_model_case_context_with_system_fields(
@@ -122,23 +158,49 @@ def generate_case_context(
             )
         )
     except ValidationError as exc:
-        raise ModelPayloadValidationError(
-            f"case-context payload validation failed: {exc}",
-            stage="case-context",
-            payload=result.payload,
-            backend=result.backend,
-            model=result.model,
-            base_url=result.base_url,
-            duration_ms=result.duration_ms,
-        ) from exc
-    return validated, [
-        build_model_call_log_entry(
-            stage="case-context",
-            result=result,
-            case_id=str(validated["case_id"]),
-            artifact_path="input/case_context.json",
+        repair_payload = _build_case_context_repair_user_payload(
+            base_payload=user_payload,
+            invalid_payload=result.payload,
+            validation_error=exc,
         )
-    ]
+        repair_result = client.complete_json(
+            stage="case-context-repair",
+            system_prompt=system_prompt,
+            user_payload=repair_payload,
+        )
+        model_call_entries.append(
+            build_model_call_log_entry(
+                stage="case-context-repair",
+                result=repair_result,
+                case_id=build_case_id(normalized_seed, str(repair_result.payload.get("family_id") or "unknown")),
+                artifact_path="input/case_context.json",
+            )
+        )
+        try:
+            validated = validate_case_context(
+                _merge_model_case_context_with_system_fields(
+                    model_payload=repair_result.payload,
+                    seed=normalized_seed,
+                    difficulty=difficulty,
+                    comparison_target=comparison_target,
+                )
+            )
+        except ValidationError as repair_exc:
+            raise ModelPayloadValidationError(
+                f"case-context payload validation failed after repair: {repair_exc}",
+                stage="case-context",
+                payload={
+                    "initial_validation_error": str(exc),
+                    "initial_invalid_payload": result.payload,
+                    "repair_validation_error": str(repair_exc),
+                    "repair_invalid_payload": repair_result.payload,
+                },
+                backend=repair_result.backend,
+                model=repair_result.model,
+                base_url=repair_result.base_url,
+                duration_ms=repair_result.duration_ms,
+            ) from repair_exc
+    return validated, model_call_entries
 
 
 def build_case_context(

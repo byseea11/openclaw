@@ -20,7 +20,8 @@ class DocsAndSkillTests(unittest.TestCase):
         self.assertIn("spec-generation", workflow)
         self.assertIn("conversation-plan", workflow)
         self.assertIn("semantic-gold", workflow)
-        self.assertIn("benchmark-report", workflow)
+        self.assertIn("comparative-score", workflow)
+        self.assertIn("phase3_score.json", workflow)
         self.assertNotIn("case-context\n->", workflow)
         self.assertNotIn("story-plan\n->", workflow)
 

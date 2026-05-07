@@ -1,0 +1,175 @@
+{
+  "case_id": "case_20260507023754463002_anti_interference",
+  "family_id": "anti_interference",
+  "task_id": "FEISHU-702",
+  "beats": [
+    {
+      "beat_id": "beat_001",
+      "target_session_id": "main_chat",
+      "benchmark_role": "memory_pollution_turn",
+      "description": "FEISHU-702 今天开始代码冻结，所有人不要再合入代码，只修 P0 阻塞缺陷。"
+    },
+    {
+      "beat_id": "beat_002",
+      "target_session_id": "main_chat",
+      "benchmark_role": "memory_pollution_turn",
+      "description": "FEISHU-702 回归测试已全部通过，没有新问题。"
+    },
+    {
+      "beat_id": "beat_003",
+      "target_session_id": "thread_security",
+      "benchmark_role": "memory_pollution_turn",
+      "description": "Carol，FEISHU-702 的安全审计什么时候能出结果？"
+    },
+    {
+      "beat_id": "beat_004",
+      "target_session_id": "thread_security",
+      "benchmark_role": "memory_pollution_turn",
+      "description": "FEISHU-702 的安全审计已经通过了，没有发现高危问题。"
+    },
+    {
+      "beat_id": "beat_005",
+      "target_session_id": "main_chat",
+      "benchmark_role": "memory_pollution_turn",
+      "description": "FEISHU-702 的发布窗口定在本周五晚 10 点，我已经预占好了。"
+    },
+    {
+      "beat_id": "beat_006",
+      "target_session_id": "thread_doc_review",
+      "benchmark_role": "memory_pollution_turn",
+      "description": "文档评审的 reviewer 之前是 Alice，但她最近太忙，我建议换成 Bob 来评。"
+    },
+    {
+      "beat_id": "beat_007",
+      "target_session_id": "thread_ops_rehearsal",
+      "benchmark_role": "memory_pollution_turn",
+      "description": "这次运维演练的 blocker 是数据库权限，还没打通，阻塞了演练。"
+    },
+    {
+      "beat_id": "beat_008",
+      "target_session_id": "thread_doc_review",
+      "benchmark_role": "memory_pollution_turn",
+      "description": "好的，我暂时没有时间审文档，Bob 你来接手吧。"
+    },
+    {
+      "beat_id": "beat_009",
+      "target_session_id": "thread_prod_issue",
+      "benchmark_role": "memory_pollution_turn",
+      "description": "支付模块的hotfix已经ready了，等审批后马上就部署。"
+    },
+    {
+      "beat_id": "beat_010",
+      "target_session_id": "thread_security",
+      "benchmark_role": "memory_pollution_turn",
+      "description": "另一个项目的安全审计有个blocker，需要等厂商修复。"
+    },
+    {
+      "beat_id": "beat_011",
+      "target_session_id": "thread_ops_rehearsal",
+      "benchmark_role": "memory_pollution_turn",
+      "description": "运维演练我这边都安排好了，随时可以开始。"
+    },
+    {
+      "beat_id": "beat_012",
+      "target_session_id": "thread_qa",
+      "benchmark_role": "memory_pollution_turn",
+      "description": "FEISHU-705的回归测试还有几个case没跑完。"
+    },
+    {
+      "beat_id": "beat_013",
+      "target_session_id": "thread_infra",
+      "benchmark_role": "memory_pollution_turn",
+      "description": "网络延迟的问题已经修复了，不会影响本周的发布窗口。"
+    },
+    {
+      "beat_id": "beat_014",
+      "target_session_id": "main_chat",
+      "benchmark_role": "memory_pollution_turn",
+      "description": "FEISHU-702 所有条件都满足了，周五按计划发布。"
+    },
+    {
+      "beat_id": "beat_015",
+      "target_session_id": "main_chat",
+      "benchmark_role": "memory_pollution_turn",
+      "description": "收到，周五晚窗口已锁定。"
+    },
+    {
+      "beat_id": "beat_016",
+      "target_session_id": "thread_security",
+      "benchmark_role": "memory_pollution_turn",
+      "description": "那个blocker我们项目也遇到过，解决方案可以复用。"
+    },
+    {
+      "beat_id": "beat_017",
+      "target_session_id": "thread_doc_review",
+      "benchmark_role": "memory_pollution_turn",
+      "description": "既然Alice不审了，那文档的owner就暂时挂在我名下吧。"
+    },
+    {
+      "beat_id": "beat_018",
+      "target_session_id": "main_chat",
+      "benchmark_role": "memory_pollution_turn",
+      "description": "提醒一下，FEISHU-702 当前 owner 是我，状态是代码冻结，周五晚上发布。"
+    },
+    {
+      "beat_id": "beat_019",
+      "target_session_id": "thread_ops_rehearsal",
+      "benchmark_role": "memory_pollution_turn",
+      "description": "演练的owner我已经指定给Eve了，我这边先退出了。"
+    },
+    {
+      "beat_id": "beat_020",
+      "target_session_id": "main_chat",
+      "benchmark_role": "memory_pollution_turn",
+      "description": "FEISHU-702 产品验收通过了，可以发布。"
+    },
+    {
+      "beat_id": "beat_021",
+      "target_session_id": "thread_qa",
+      "benchmark_role": "memory_pollution_turn",
+      "description": "FEISHU-702的release note我已经写好了，在文档里。"
+    },
+    {
+      "beat_id": "beat_022",
+      "target_session_id": "thread_monitoring",
+      "benchmark_role": "memory_pollution_turn",
+      "description": "生产环境有个单点故障blocker，已经回滚了。"
+    },
+    {
+      "beat_id": "beat_023",
+      "target_session_id": "main_chat",
+      "benchmark_role": "memory_pollution_turn",
+      "description": "FEISHU-702 最终状态：owner Alice，blocker 无，代码冻结，周五晚上发布。"
+    },
+    {
+      "beat_id": "beat_024",
+      "target_session_id": "thread_product",
+      "benchmark_role": "memory_pollution_turn",
+      "description": "FEISHU-710 的owner我打算换成Frank来做。"
+    },
+    {
+      "beat_id": "beat_025",
+      "target_session_id": "thread_platform",
+      "benchmark_role": "memory_pollution_turn",
+      "description": "FEISHU-708 的代码已经合入，我是owner。"
+    },
+    {
+      "beat_id": "beat_026",
+      "target_session_id": "thread_ops_rehearsal",
+      "benchmark_role": "memory_pollution_turn",
+      "description": "演练的另一个blocker是网络延时，已经解决了。"
+    },
+    {
+      "beat_id": "beat_027",
+      "target_session_id": "main_chat",
+      "benchmark_role": "memory_pollution_turn",
+      "description": "FEISHU-702 没有blocker，可以发布。"
+    },
+    {
+      "beat_id": "beat_028",
+      "target_session_id": "thread_compliance",
+      "benchmark_role": "memory_pollution_turn",
+      "description": "合规审批需要Alice来协调一下各团队。"
+    }
+  ]
+}

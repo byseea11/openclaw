@@ -8,8 +8,8 @@
   "source_id": "chat:qa_triage_chat",
   "session_title": "task:FEISHU-666::chat:oc_77fa9b1b12c2e4ce9cd5ef67b44b04b4",
   "time_range": {
-    "start": "2026-05-07T00:41:33.823Z",
-    "end": "2026-05-07T00:45:56.802Z"
+    "start": "2026-05-07T01:37:17.359Z",
+    "end": "2026-05-07T01:41:59.216Z"
   },
   "participants": [
     "秦怡",
@@ -188,5 +188,5 @@
     "historical_event_count": 0,
     "invalid_event_count": 0
   },
-  "updated_at": "2026-05-07T00:46:05.920Z"
+  "updated_at": "2026-05-07T01:42:09.381Z"
 }

@@ -8,8 +8,8 @@ chat_id: oc_ac5a33c314d20661373939b37672396d
 thread_id: om_x100b5088e5f6a0a0c37399c4ad6855d
 root_id: om_x100b5088e5f6a0a0c37399c4ad6855d
 time_range:
-  start: 2026-05-07T00:39:22.186Z
-  end: 2026-05-07T00:42:46.675Z
+  start: 2026-05-07T01:34:57.012Z
+  end: 2026-05-07T01:38:35.688Z
 participants:
   - Benchmark Root
   - 何然
@@ -19,10 +19,10 @@ participants:
   - 许薇
 source_locator: thread:risk_review_thread
 binding_mode: source_id
-created_at: 2026-05-07T00:39:22.186Z
-updated_at: 2026-05-07T00:42:46.690Z
+created_at: 2026-05-07T01:34:57.012Z
+updated_at: 2026-05-07T01:38:35.712Z
 latest_ingest_version: 12
 raw_ingest_count: 12
 visible_ingest_count: 12
-compacted_at: 2026-05-07T00:42:46.690Z
+compacted_at: 2026-05-07T01:38:35.712Z
 retained_entry_count: 12

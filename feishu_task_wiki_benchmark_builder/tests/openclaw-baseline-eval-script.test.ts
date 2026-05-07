@@ -5,7 +5,7 @@ import { join } from "node:path";
 import { afterEach, describe, expect, test } from "vitest";
 
 const repoRoot = process.cwd();
-const scriptPath = join(repoRoot, "amem_docs", "scripts", "feishu-openclaw-baseline-eval.mjs");
+const scriptPath = join(repoRoot, "feishu_task_wiki_benchmark_builder", "runtime", "openclaw_baseline_eval.mjs");
 const tempRoots: string[] = [];
 
 function writeJson(path: string, payload: Record<string, unknown>): void {
@@ -221,6 +221,33 @@ function createFixtureCase(): string {
   return caseDir;
 }
 
+function writeFakeReplayCommand(root: string): string {
+  const script = join(root, "fake-openclaw-replay.mjs");
+  writeFileSync(
+    script,
+    `
+let body = "";
+process.stdin.setEncoding("utf8");
+process.stdin.on("data", (chunk) => body += chunk);
+process.stdin.on("end", () => {
+  const input = JSON.parse(body);
+  const query = input.query_benchmark.queries[0];
+  process.stdout.write(JSON.stringify({
+    baseline_mode: "openclaw_real_replay",
+    answers: [{
+      query_id: query.query_id,
+      answer: "正式窗口已确认，证据是 om_official。",
+      supporting_message_ids: ["om_official"],
+      judge_result: { success: true }
+    }]
+  }));
+});
+`.trim() + "\n",
+    "utf8",
+  );
+  return script;
+}
+
 afterEach(() => {
   while (tempRoots.length > 0) {
     const root = tempRoots.pop();
@@ -228,14 +255,16 @@ afterEach(() => {
   }
 });
 
-describe("feishu-openclaw-baseline-eval", () => {
+describe("openclaw real baseline eval", () => {
   test("generates phase2 gold and baseline outputs", () => {
     const caseDir = createFixtureCase();
+    const fakeReplay = writeFakeReplayCommand(caseDir);
     const result = spawnSync(
       "node",
       [scriptPath, "--case-dir", caseDir, "--semantic-gold", "rule", "--json"],
       {
         cwd: repoRoot,
+        env: { ...process.env, OPENCLAW_BENCHMARK_REPLAY_COMMAND: `node ${fakeReplay}` },
         encoding: "utf8",
       },
     );
@@ -245,7 +274,7 @@ describe("feishu-openclaw-baseline-eval", () => {
       ingress_count: number;
       query_count: number;
     };
-    expect(summary.baseline_mode).toBe("openclaw_original_adapter");
+    expect(summary.baseline_mode).toBe("openclaw_real_replay");
     expect(summary.ingress_count).toBe(3);
     expect(summary.query_count).toBe(1);
 
@@ -255,7 +284,7 @@ describe("feishu-openclaw-baseline-eval", () => {
       baseline_mode: string;
       answers: Array<Record<string, unknown>>;
     };
-    expect(answers.baseline_mode).toBe("openclaw_original_adapter");
+    expect(answers.baseline_mode).toBe("openclaw_real_replay");
     expect(answers.answers).toHaveLength(1);
     expect(answers.answers[0]).toHaveProperty("answer");
     expect(answers.answers[0]).toHaveProperty("supporting_message_ids");
@@ -268,7 +297,7 @@ describe("feishu-openclaw-baseline-eval", () => {
       gold_generation: { generated_stages: string[] };
       metrics: Record<string, unknown>;
     };
-    expect(report.baseline_mode).toBe("openclaw_original_adapter");
+    expect(report.baseline_mode).toBe("openclaw_real_replay");
     expect(report.gold_generation.generated_stages).toEqual([
       "annotation-gold",
       "semantic-gold",
@@ -276,13 +305,9 @@ describe("feishu-openclaw-baseline-eval", () => {
     ]);
     expect(report.metrics).toHaveProperty("private_info_leak_rate");
 
-    const comparison = readFileSync(
-      join(caseDir, "reports", "openclaw_vs_task_wiki_comparison.md"),
-      "utf8",
+    expect(readFileSync(join(caseDir, "runtime", "openclaw_baseline", "replay_metadata.json"), "utf8")).toContain(
+      "benchmark_replay_command",
     );
-    expect(comparison).toContain("openclaw_original");
-    expect(comparison).toContain("task_wiki_3_layer");
-    expect(comparison).toContain("synthetic baseline");
   });
 
   test("does not import three-layer runtime modules", () => {
@@ -291,5 +316,6 @@ describe("feishu-openclaw-baseline-eval", () => {
     expect(source).not.toContain("task-events");
     expect(source).not.toContain("task-wiki/projector");
     expect(source).not.toContain("task-wiki/lint");
+    expect(source).not.toContain("agent --local");
   });
 });

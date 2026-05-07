@@ -8,8 +8,8 @@
   "source_id": "chat:dependency_sync_chat",
   "session_title": "task:FEISHU-666::chat:oc_ba31dd2af9ace4d46985b0f11750c043",
   "time_range": {
-    "start": "2026-05-07T00:41:39.789Z",
-    "end": "2026-05-07T00:46:10.499Z"
+    "start": "2026-05-07T01:37:24.424Z",
+    "end": "2026-05-07T01:42:13.578Z"
   },
   "participants": [
     "陈雪",
@@ -73,7 +73,7 @@
           "quote": "上游依赖已确认。"
         }
       ],
-      "summary": "上游依赖已确认"
+      "summary": "上游依赖已确认。"
     },
     "block-网络依赖项-4ad9be4c": {
       "block_id": "block-网络依赖项-4ad9be4c",
@@ -134,5 +134,5 @@
     "historical_event_count": 0,
     "invalid_event_count": 0
   },
-  "updated_at": "2026-05-07T00:46:18.364Z"
+  "updated_at": "2026-05-07T01:42:20.658Z"
 }

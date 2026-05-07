@@ -341,8 +341,8 @@ def get_configured_backend() -> str:
 
 
 def _max_tokens_for_stage(stage: str) -> int | None:
-    if stage == "conversation-plan":
-        return 16000
+    if stage in {"conversation-plan", "conversation-plan-repair"}:
+        return 20000
     return None
 
 

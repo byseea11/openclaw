@@ -25,11 +25,13 @@ annotation-gold
 -> replay-eval
 ```
 
-真实 runtime 健康评估由脚本执行：
+Phase 2 用户入口脚本：
 
 ```text
-amem_docs/scripts/feishu-task-wiki-runtime-eval.sh
+amem_docs/scripts/02-feishu-task-wiki-phase2-eval.sh
 ```
+
+真实 runtime 健康评估的底层调试脚本是 `node feishu_task_wiki_benchmark_builder/runtime/task_wiki_runtime_eval.mjs`，Phase 3 对比也会调用它。
 
 它读取：
 
@@ -136,12 +138,12 @@ Phase 2 的评分成立，依赖一个闭环：
 
 ## 真实 Runtime Eval
 
-`amem_docs/scripts/feishu-task-wiki-runtime-eval.sh` 是当前真实三层 runtime 健康评估入口。
+`node feishu_task_wiki_benchmark_builder/runtime/task_wiki_runtime_eval.mjs` 是当前真实三层 runtime 健康评估的底层调试入口。
 
 运行方式：
 
 ```bash
-amem_docs/scripts/feishu-task-wiki-runtime-eval.sh --case-dir <case_dir>
+node feishu_task_wiki_benchmark_builder/runtime/task_wiki_runtime_eval.mjs --case-dir <case_dir>
 ```
 
 如果不传 `--case-dir`，脚本默认读取 dataset active case。
@@ -259,6 +261,20 @@ health_score = layer1_score * 35% + layer2_score * 35% + layer3_score * 30%
 
 ## Phase 3 边界
 
-Phase 3 负责 baseline、value comparison 和 benchmark report。
+Phase 3 负责真实 cross-system comparison。
+
+当前 Phase 3 主线是：
+
+```text
+task-wiki-runtime-eval
+-> openclaw-real-baseline-eval
+-> comparative-score
+```
+
+它比较 `task_wiki_3_layer` 和 `openclaw_original`。
+
+比较维度不只包括答案是否正确，也包括是否输出证据、证据是否命中 gold `message_id`、证据是否来自目标任务，以及是否混入干扰、旧状态、传闻或个人私有信息。
+
+Phase 3 的正式结果是 `reports/phase3_score.json`。Markdown report 只能作为派生阅读物，不是评分源。
 
 本文只解释 Phase 2 如何生成 gold、如何跑真实 runtime eval，以及为什么这些输出可以作为评分依据。

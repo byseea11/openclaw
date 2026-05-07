@@ -1,0 +1,53 @@
+{
+  "case_id": "case_20260507023754463003_contradiction_update",
+  "family_id": "contradiction_update",
+  "task_id": "FEISHU-703",
+  "required_case_structure": [
+    "target_task",
+    "owner_or_schedule_field",
+    "multi_step_update_sequence",
+    "supersedes_relation"
+  ],
+  "message_beat_ids": [
+    "beat_001",
+    "beat_002",
+    "beat_003",
+    "beat_004",
+    "beat_005",
+    "beat_006",
+    "beat_007",
+    "beat_008",
+    "beat_009",
+    "beat_010",
+    "beat_011",
+    "beat_012",
+    "beat_013",
+    "beat_014",
+    "beat_015",
+    "beat_016",
+    "beat_017",
+    "beat_018"
+  ],
+  "probe_queries": [
+    {
+      "query": "FEISHU-703的当前owner是谁？",
+      "expected_good_behavior": "返回Xavier，并指出之前的owner是Alice和Bob，但已移交。"
+    },
+    {
+      "query": "FEISHU-703的交付窗口是什么时候？",
+      "expected_good_behavior": "返回7月1日至7月15日，说明该窗口是经过调整的最终版本，之前的6月窗口已作废。"
+    },
+    {
+      "query": "FEISHU-703现在处于什么阶段？",
+      "expected_good_behavior": "返回测试中，并说明此前经过规划和开发阶段，现在已进入测试。"
+    },
+    {
+      "query": "Alice是否还是FEISHU-703的owner？",
+      "expected_good_behavior": "回答否，Alice已将owner转给Xavier，Alice是历史owner。"
+    },
+    {
+      "query": "FEISHU-703最早的交付窗口是几月？",
+      "expected_good_behavior": "回答6月1日至6月15日，但强调该计划已被两次调整，当前窗口为7月1日至7月15日。"
+    }
+  ]
+}

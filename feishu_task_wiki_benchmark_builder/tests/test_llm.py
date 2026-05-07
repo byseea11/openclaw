@@ -111,6 +111,11 @@ class LlmTests(unittest.TestCase):
         self.assertIn("raw_payload", entry)
         self.assertEqual(entry["raw_payload"]["story_id"], "story_x")
 
+    def test_max_tokens_cover_conversation_plan_repair_stage(self) -> None:
+        self.assertEqual(llm._max_tokens_for_stage("conversation-plan"), 20000)
+        self.assertEqual(llm._max_tokens_for_stage("conversation-plan-repair"), 20000)
+        self.assertIsNone(llm._max_tokens_for_stage("story-plan"))
+
 
 if __name__ == "__main__":
     unittest.main()

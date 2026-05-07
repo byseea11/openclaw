@@ -75,9 +75,9 @@ annotation-gold
 ### Phase 3
 
 ```text
-baseline-eval
--> value-eval
--> benchmark-report
+task-wiki-runtime-eval
+-> openclaw-real-baseline-eval
+-> comparative-score
 ```
 
 ## Stage Routing
@@ -225,3 +225,7 @@ baseline-eval
 - `spec-generation` 和 `conversation-plan` 当前必须由大模型生成，不允许走规则 fallback；规则模板扩句只能作为 fixture/fallback，不是正式数据集路径。
 - `semantic-gold` 是 Phase 2 的可选 LLM 语义 gold，只能读取 observed messages 和 evidence `message_id`，不能读取 planned-only 文本。
 - runtime eval 的三层健康判定属于 `runtime-eval.md`，不要把 health score 口径只藏在脚本实现里。
+- Phase 3 必须基于真实 `task_wiki_3_layer` 和 `openclaw_original` 输出做比较；不要用固定满分或 family penalty 常量伪造结果。
+- Phase 3 必须把 answer correctness 和 evidence correctness 分开评分；“答案对但无证据”只能算弱通过。
+- Phase 3 的唯一正式评分产物是 `reports/phase3_score.json`；Markdown 只能作为派生阅读物，不作为评分源。
+- `openclaw_original` 必须走真实 OpenClaw replay seam；不得默认或隐式回退到 `openclaw_original_adapter`。

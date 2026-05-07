@@ -5,7 +5,9 @@ from pathlib import Path
 BUILDER_VERSION = "v1-lite"
 DEFAULT_DATASET_ROOT = Path("amem_docs/ds/feishu_im_dataset_v3")
 CASES_DIRNAME = "cases"
+BATCHES_DIRNAME = "batches"
 ACTIVE_CASE_FILENAME = "active_case.json"
+ACTIVE_BATCH_FILENAME = "active_batch.json"
 SKILLS_DIR = Path("feishu_task_wiki_benchmark_builder/skills")
 WORKFLOW_SKILL = SKILLS_DIR / "workflow.md"
 SKILLS_ROOT = WORKFLOW_SKILL

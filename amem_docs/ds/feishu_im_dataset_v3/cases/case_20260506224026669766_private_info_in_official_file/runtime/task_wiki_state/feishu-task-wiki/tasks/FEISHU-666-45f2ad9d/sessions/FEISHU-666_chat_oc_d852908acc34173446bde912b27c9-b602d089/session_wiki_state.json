@@ -8,8 +8,8 @@
   "source_id": "chat:exec_sync_chat",
   "session_title": "task:FEISHU-666::chat:oc_d852908acc34173446bde912b27c9963",
   "time_range": {
-    "start": "2026-05-07T00:40:01.266Z",
-    "end": "2026-05-07T00:45:29.490Z"
+    "start": "2026-05-07T01:35:39.797Z",
+    "end": "2026-05-07T01:41:33.672Z"
   },
   "participants": [
     "苏禾",
@@ -20,16 +20,14 @@
     "林晨"
   ],
   "relative_page_path": "sessions/FEISHU-666_chat_oc_d852908acc34173446bde912b27c9-b602d089/session_wiki.md",
-  "session_summary": "发布时间窗口可能调至周三前，正式确认5月10日；网络配置漂移阻塞器为发布阻塞风险；回滚计划已批准无变更；高层已同意计划；任务计划以正式纪要为准；团队资源安排已获批准；所有依赖项已确认；用户确认照常执行。",
+  "session_summary": "发布时间口径确认为5月10日，阻塞风险为网络配置漂移，高层已同意计划，任务计划以正式纪要为准，团队资源安排已获批但需考虑个人时间限制，所有依赖项已确认。",
   "block_order": [
     "block-发布时间口径-867908bd",
     "block-发布阻塞风险-45763a86",
-    "block-回滚计划-6a3e3027",
     "block-计划-c17bb5de",
     "block-任务计划-0339415d",
     "block-团队资源安排-7d76d8a4",
-    "block-依赖项-babc4d11",
-    "block-照常执行-f7515873"
+    "block-依赖项-babc4d11"
   ],
   "blocks": {
     "block-发布时间口径-867908bd": {
@@ -38,7 +36,6 @@
       "topic_key": "发布时间口径",
       "topic_title": "发布时间口径",
       "event_ids": [
-        "evt_3aebb7a8720a4db5",
         "evt_7d1a63ba41c9c60f",
         "evt_79ce26ce366171bb"
       ],
@@ -50,29 +47,6 @@
         "commitment": [],
         "status": [],
         "time": [
-          {
-            "event_id": "evt_3aebb7a8720a4db5",
-            "event_type": "time_event",
-            "claim": "听Carol提过窗口可能调到周三前",
-            "event_time": "1778109140000",
-            "evidence_quote": "听Carol提过窗口可能调到周三前",
-            "event_path": "sessions/FEISHU-666_chat_oc_d852908acc34173446bde912b27c9-b602d089/session_events.jsonl#evt_3aebb7a8720a4db5",
-            "event_ref": "[[sessions/FEISHU-666_chat_oc_d852908acc34173446bde912b27c9-b602d089/session_events.jsonl#evt_3aebb7a8720a4db5|evt_3aebb7a8720a4db5]]",
-            "entry_ref": "[[sessions/FEISHU-666_chat_oc_d852908acc34173446bde912b27c9-b602d089/session.md#om_x100b5088e7a0c8a8c4572b662f77ee4|om_x100b5088e7a0c8a8c4572b662f77ee4]]",
-            "core_entry_id": "om_x100b5088e7a0c8a8c4572b662f77ee4",
-            "subject_key": "窗口",
-            "is_current": true,
-            "lifecycle_status": "active",
-            "lifecycle_reason": null,
-            "target": null,
-            "time_target": "窗口",
-            "scope_target": null,
-            "action": null,
-            "owner": null,
-            "objector": null,
-            "status": null,
-            "certainty": "可能"
-          },
           {
             "event_id": "evt_7d1a63ba41c9c60f",
             "event_type": "time_event",
@@ -125,12 +99,6 @@
       "status": "active",
       "evidence_refs": [
         {
-          "event_id": "evt_3aebb7a8720a4db5",
-          "event_path": "sessions/FEISHU-666_chat_oc_d852908acc34173446bde912b27c9-b602d089/session_events.jsonl#evt_3aebb7a8720a4db5",
-          "entry_ref": "[[sessions/FEISHU-666_chat_oc_d852908acc34173446bde912b27c9-b602d089/session.md#om_x100b5088e7a0c8a8c4572b662f77ee4|om_x100b5088e7a0c8a8c4572b662f77ee4]]",
-          "quote": "听Carol提过窗口可能调到周三前"
-        },
-        {
           "event_id": "evt_7d1a63ba41c9c60f",
           "event_path": "sessions/FEISHU-666_chat_oc_d852908acc34173446bde912b27c9-b602d089/session_events.jsonl#evt_7d1a63ba41c9c60f",
           "entry_ref": "[[sessions/FEISHU-666_chat_oc_d852908acc34173446bde912b27c9-b602d089/session.md#om_x100b5088e7b57ca0c3c45b8cb21f5a9|om_x100b5088e7b57ca0c3c45b8cb21f5a9]]",
@@ -143,7 +111,7 @@
           "quote": "窗口5月10日22点"
         }
       ],
-      "summary": "发布时间口径：窗口可能调至周三前，正式确认5月10日。"
+      "summary": "发布时间口径：正式窗口确认为5月10日。"
     },
     "block-发布阻塞风险-45763a86": {
       "block_id": "block-发布阻塞风险-45763a86",
@@ -196,60 +164,7 @@
           "quote": "blocker network config drift"
         }
       ],
-      "summary": "发布阻塞风险：网络配置漂移阻塞器"
-    },
-    "block-回滚计划-6a3e3027": {
-      "block_id": "block-回滚计划-6a3e3027",
-      "anchor_id": "block-回滚计划-6a3e3027",
-      "topic_key": "回滚计划",
-      "topic_title": "回滚计划",
-      "event_ids": [
-        "evt_bd87555774b0f387"
-      ],
-      "slots": {
-        "conclusion": [],
-        "rationale": [],
-        "objection": [],
-        "constraint": [],
-        "commitment": [],
-        "status": [
-          {
-            "event_id": "evt_bd87555774b0f387",
-            "event_type": "status_event",
-            "claim": "回滚计划已批，无变更。",
-            "event_time": "1778109140000",
-            "evidence_quote": "回滚计划已批，无变更。",
-            "event_path": "sessions/FEISHU-666_chat_oc_d852908acc34173446bde912b27c9-b602d089/session_events.jsonl#evt_bd87555774b0f387",
-            "event_ref": "[[sessions/FEISHU-666_chat_oc_d852908acc34173446bde912b27c9-b602d089/session_events.jsonl#evt_bd87555774b0f387|evt_bd87555774b0f387]]",
-            "entry_ref": "[[sessions/FEISHU-666_chat_oc_d852908acc34173446bde912b27c9-b602d089/session.md#om_x100b5088e76b60a0c49b8006b3c330c|om_x100b5088e76b60a0c49b8006b3c330c]]",
-            "core_entry_id": "om_x100b5088e76b60a0c49b8006b3c330c",
-            "subject_key": "回滚计划",
-            "is_current": true,
-            "lifecycle_status": "active",
-            "lifecycle_reason": null,
-            "target": "回滚计划",
-            "time_target": null,
-            "scope_target": null,
-            "action": null,
-            "owner": null,
-            "objector": null,
-            "status": "已批",
-            "certainty": null
-          }
-        ],
-        "time": [],
-        "scope": []
-      },
-      "status": "active",
-      "evidence_refs": [
-        {
-          "event_id": "evt_bd87555774b0f387",
-          "event_path": "sessions/FEISHU-666_chat_oc_d852908acc34173446bde912b27c9-b602d089/session_events.jsonl#evt_bd87555774b0f387",
-          "entry_ref": "[[sessions/FEISHU-666_chat_oc_d852908acc34173446bde912b27c9-b602d089/session.md#om_x100b5088e76b60a0c49b8006b3c330c|om_x100b5088e76b60a0c49b8006b3c330c]]",
-          "quote": "回滚计划已批，无变更。"
-        }
-      ],
-      "summary": "回滚计划已批准，无变更。"
+      "summary": "当前阻塞风险：网络配置漂移"
     },
     "block-计划-c17bb5de": {
       "block_id": "block-计划-c17bb5de",
@@ -310,7 +225,8 @@
       "topic_key": "任务计划",
       "topic_title": "任务计划",
       "event_ids": [
-        "evt_80505149e96ab494"
+        "evt_80505149e96ab494",
+        "evt_9cb8c72a665d5240"
       ],
       "slots": {
         "conclusion": [],
@@ -342,7 +258,31 @@
         ],
         "constraint": [],
         "commitment": [],
-        "status": [],
+        "status": [
+          {
+            "event_id": "evt_9cb8c72a665d5240",
+            "event_type": "status_event",
+            "claim": "个人时间不影响任务，资源已按正式窗口安排。",
+            "event_time": "1778109140000",
+            "evidence_quote": "个人时间不影响任务，资源已按正式窗口安排。",
+            "event_path": "sessions/FEISHU-666_chat_oc_d852908acc34173446bde912b27c9-b602d089/session_events.jsonl#evt_9cb8c72a665d5240",
+            "event_ref": "[[sessions/FEISHU-666_chat_oc_d852908acc34173446bde912b27c9-b602d089/session_events.jsonl#evt_9cb8c72a665d5240|evt_9cb8c72a665d5240]]",
+            "entry_ref": "[[sessions/FEISHU-666_chat_oc_d852908acc34173446bde912b27c9-b602d089/session.md#om_x100b5088e770d0a0c22b19a26bde9ee|om_x100b5088e770d0a0c22b19a26bde9ee]]",
+            "core_entry_id": "om_x100b5088e770d0a0c22b19a26bde9ee",
+            "subject_key": "任务",
+            "is_current": true,
+            "lifecycle_status": "active",
+            "lifecycle_reason": null,
+            "target": "任务",
+            "time_target": null,
+            "scope_target": null,
+            "action": null,
+            "owner": null,
+            "objector": null,
+            "status": "不影响",
+            "certainty": null
+          }
+        ],
         "time": [],
         "scope": []
       },
@@ -353,9 +293,15 @@
           "event_path": "sessions/FEISHU-666_chat_oc_d852908acc34173446bde912b27c9-b602d089/session_events.jsonl#evt_80505149e96ab494",
           "entry_ref": "[[sessions/FEISHU-666_chat_oc_d852908acc34173446bde912b27c9-b602d089/session.md#om_x100b5088e74e7ca8c4f7a1b5b1ff429|om_x100b5088e74e7ca8c4f7a1b5b1ff429]]",
           "quote": "个人偏好不影响任务计划"
+        },
+        {
+          "event_id": "evt_9cb8c72a665d5240",
+          "event_path": "sessions/FEISHU-666_chat_oc_d852908acc34173446bde912b27c9-b602d089/session_events.jsonl#evt_9cb8c72a665d5240",
+          "entry_ref": "[[sessions/FEISHU-666_chat_oc_d852908acc34173446bde912b27c9-b602d089/session.md#om_x100b5088e770d0a0c22b19a26bde9ee|om_x100b5088e770d0a0c22b19a26bde9ee]]",
+          "quote": "个人时间不影响任务，资源已按正式窗口安排。"
         }
       ],
-      "summary": "任务计划以正式纪要为准，个人偏好不影响。"
+      "summary": "任务计划以正式纪要为准，个人偏好和时间不影响任务，资源已按正式窗口安排。"
     },
     "block-团队资源安排-7d76d8a4": {
       "block_id": "block-团队资源安排-7d76d8a4",
@@ -364,7 +310,6 @@
       "topic_title": "团队资源安排",
       "event_ids": [
         "evt_b9f78011f2ab424d",
-        "evt_9cb8c72a665d5240",
         "evt_4cc90e95bb11fee2"
       ],
       "slots": {
@@ -398,29 +343,6 @@
         "constraint": [],
         "commitment": [],
         "status": [
-          {
-            "event_id": "evt_9cb8c72a665d5240",
-            "event_type": "status_event",
-            "claim": "个人时间不影响任务，资源已按正式窗口安排。",
-            "event_time": "1778109140000",
-            "evidence_quote": "个人时间不影响任务，资源已按正式窗口安排。",
-            "event_path": "sessions/FEISHU-666_chat_oc_d852908acc34173446bde912b27c9-b602d089/session_events.jsonl#evt_9cb8c72a665d5240",
-            "event_ref": "[[sessions/FEISHU-666_chat_oc_d852908acc34173446bde912b27c9-b602d089/session_events.jsonl#evt_9cb8c72a665d5240|evt_9cb8c72a665d5240]]",
-            "entry_ref": "[[sessions/FEISHU-666_chat_oc_d852908acc34173446bde912b27c9-b602d089/session.md#om_x100b5088e770d0a0c22b19a26bde9ee|om_x100b5088e770d0a0c22b19a26bde9ee]]",
-            "core_entry_id": "om_x100b5088e770d0a0c22b19a26bde9ee",
-            "subject_key": "任务",
-            "is_current": true,
-            "lifecycle_status": "active",
-            "lifecycle_reason": null,
-            "target": "任务",
-            "time_target": null,
-            "scope_target": null,
-            "action": null,
-            "owner": null,
-            "objector": null,
-            "status": "不影响",
-            "certainty": null
-          },
           {
             "event_id": "evt_4cc90e95bb11fee2",
             "event_type": "status_event",
@@ -457,19 +379,13 @@
           "quote": "个人时间限制会不会影响团队资源安排？"
         },
         {
-          "event_id": "evt_9cb8c72a665d5240",
-          "event_path": "sessions/FEISHU-666_chat_oc_d852908acc34173446bde912b27c9-b602d089/session_events.jsonl#evt_9cb8c72a665d5240",
-          "entry_ref": "[[sessions/FEISHU-666_chat_oc_d852908acc34173446bde912b27c9-b602d089/session.md#om_x100b5088e770d0a0c22b19a26bde9ee|om_x100b5088e770d0a0c22b19a26bde9ee]]",
-          "quote": "个人时间不影响任务，资源已按正式窗口安排。"
-        },
-        {
           "event_id": "evt_4cc90e95bb11fee2",
           "event_path": "sessions/FEISHU-666_chat_oc_d852908acc34173446bde912b27c9-b602d089/session_events.jsonl#evt_4cc90e95bb11fee2",
           "entry_ref": "[[sessions/FEISHU-666_chat_oc_d852908acc34173446bde912b27c9-b602d089/session.md#om_x100b5088e71eb134c3df64c4fc8ac7a|om_x100b5088e71eb134c3df64c4fc8ac7a]]",
           "quote": "管理层已批准资源。"
         }
       ],
-      "summary": "团队资源安排已获管理层批准，按正式窗口分配，个人时间不影响任务。"
+      "summary": "团队资源安排已获管理层批准，但需考虑个人时间限制的影响。"
     },
     "block-依赖项-babc4d11": {
       "block_id": "block-依赖项-babc4d11",
@@ -523,65 +439,12 @@
         }
       ],
       "summary": "所有依赖项已确认。"
-    },
-    "block-照常执行-f7515873": {
-      "block_id": "block-照常执行-f7515873",
-      "anchor_id": "block-照常执行-f7515873",
-      "topic_key": "照常执行",
-      "topic_title": "照常执行",
-      "event_ids": [
-        "evt_8dd33a7c77b98226"
-      ],
-      "slots": {
-        "conclusion": [],
-        "rationale": [],
-        "objection": [],
-        "constraint": [],
-        "commitment": [
-          {
-            "event_id": "evt_8dd33a7c77b98226",
-            "event_type": "commitment_event",
-            "claim": "照常执行",
-            "event_time": "1778109140000",
-            "evidence_quote": "明白，那照常执行。",
-            "event_path": "sessions/FEISHU-666_chat_oc_d852908acc34173446bde912b27c9-b602d089/session_events.jsonl#evt_8dd33a7c77b98226",
-            "event_ref": "[[sessions/FEISHU-666_chat_oc_d852908acc34173446bde912b27c9-b602d089/session_events.jsonl#evt_8dd33a7c77b98226|evt_8dd33a7c77b98226]]",
-            "entry_ref": "[[sessions/FEISHU-666_chat_oc_d852908acc34173446bde912b27c9-b602d089/session.md#om_x100b5088e70aaca4c49d9bad8b9530f|om_x100b5088e70aaca4c49d9bad8b9530f]]",
-            "core_entry_id": "om_x100b5088e70aaca4c49d9bad8b9530f",
-            "subject_key": "照常执行",
-            "is_current": true,
-            "lifecycle_status": "active",
-            "lifecycle_reason": null,
-            "target": null,
-            "time_target": null,
-            "scope_target": null,
-            "action": "照常执行",
-            "owner": "秦怡",
-            "objector": null,
-            "status": null,
-            "certainty": null
-          }
-        ],
-        "status": [],
-        "time": [],
-        "scope": []
-      },
-      "status": "active",
-      "evidence_refs": [
-        {
-          "event_id": "evt_8dd33a7c77b98226",
-          "event_path": "sessions/FEISHU-666_chat_oc_d852908acc34173446bde912b27c9-b602d089/session_events.jsonl#evt_8dd33a7c77b98226",
-          "entry_ref": "[[sessions/FEISHU-666_chat_oc_d852908acc34173446bde912b27c9-b602d089/session.md#om_x100b5088e70aaca4c49d9bad8b9530f|om_x100b5088e70aaca4c49d9bad8b9530f]]",
-          "quote": "明白，那照常执行。"
-        }
-      ],
-      "summary": "用户确认照常执行任务。"
     }
   },
   "lifecycle_summary": {
-    "active_event_count": 12,
+    "active_event_count": 9,
     "historical_event_count": 0,
     "invalid_event_count": 0
   },
-  "updated_at": "2026-05-07T00:45:52.053Z"
+  "updated_at": "2026-05-07T01:41:53.909Z"
 }

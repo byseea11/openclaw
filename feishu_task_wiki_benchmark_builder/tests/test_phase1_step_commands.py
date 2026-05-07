@@ -9,16 +9,41 @@ from contextlib import redirect_stderr, redirect_stdout
 from pathlib import Path
 from unittest.mock import patch
 
-from feishu_task_wiki_benchmark_builder.cli import PHASE1_STAGE_ORDER, compile_phase1, main
+from feishu_task_wiki_benchmark_builder.cli import PHASE1_STAGE_ORDER, compile_phase1, compile_phase2, compile_phase3, main
 from feishu_task_wiki_benchmark_builder.io import read_json, read_jsonl
 from feishu_task_wiki_benchmark_builder.llm import ModelBackendError
 
 
 class Phase1StepCommandTests(unittest.TestCase):
     def setUp(self) -> None:
+        self.fake_replay_tmp = tempfile.TemporaryDirectory()
+        self.addCleanup(self.fake_replay_tmp.cleanup)
+        fake_replay = Path(self.fake_replay_tmp.name) / "fake_openclaw_replay.mjs"
+        fake_replay.write_text(
+            """
+let body = "";
+process.stdin.setEncoding("utf8");
+process.stdin.on("data", (chunk) => body += chunk);
+process.stdin.on("end", () => {
+  const input = JSON.parse(body);
+  const answers = input.query_benchmark.queries.map((query) => ({
+    query_id: query.query_id,
+    answer: "fixture answer with evidence",
+    supporting_message_ids: query.supporting_message_ids || [],
+    judge_result: { success: true }
+  }));
+  process.stdout.write(JSON.stringify({ baseline_mode: "openclaw_real_replay", answers }));
+});
+""".strip()
+            + "\n",
+            encoding="utf8",
+        )
         self.env_patcher = patch.dict(
             os.environ,
-            {"FEISHU_TASK_WIKI_BENCHMARK_BUILDER_MODEL_BACKEND": "fixture"},
+            {
+                "FEISHU_TASK_WIKI_BENCHMARK_BUILDER_MODEL_BACKEND": "fixture",
+                "OPENCLAW_BENCHMARK_REPLAY_COMMAND": f"node {fake_replay}",
+            },
             clear=False,
         )
         self.env_patcher.start()
@@ -220,7 +245,79 @@ class Phase1StepCommandTests(unittest.TestCase):
             phase3 = self._run_cli(["phase3", "--dataset-root", tmpdir])
             self.assertEqual(phase3["case_dir"], phase2["case_dir"])
             active_case = read_json(Path(tmpdir) / "active_case.json")
-            self.assertEqual(active_case["last_completed_stage"], "report")
+            self.assertEqual(active_case["last_completed_stage"], "comparative-score")
+
+    def test_aggregate_phase1_and_phase2_resume_existing_artifacts(self) -> None:
+        with tempfile.TemporaryDirectory() as tmpdir:
+            phase1 = compile_phase1(
+                dataset_root=tmpdir,
+                seed=61,
+                family_id="anti_interference",
+                difficulty="medium",
+            )
+            case_dir = Path(phase1["case_dir"])
+            model_log_path = case_dir / "logs" / "model_call_log.jsonl"
+            model_log_before = read_jsonl(model_log_path)
+
+            resumed_phase1 = compile_phase1(
+                dataset_root=tmpdir,
+                seed=61,
+                family_id="anti_interference",
+                difficulty="medium",
+            )
+            self.assertEqual(resumed_phase1["case_dir"], phase1["case_dir"])
+            self.assertIn("spec-generation", resumed_phase1["skipped_stages"])
+            self.assertIn("conversation-plan", resumed_phase1["skipped_stages"])
+            self.assertEqual(read_jsonl(model_log_path), model_log_before)
+
+            phase2 = compile_phase2(case_dir=case_dir, semantic_gold_mode="rule")
+            phase2_model_log_before = read_jsonl(model_log_path)
+            resumed_phase2 = compile_phase2(case_dir=case_dir, semantic_gold_mode="rule")
+            self.assertEqual(resumed_phase2["case_dir"], phase2["case_dir"])
+            self.assertEqual(set(resumed_phase2["skipped_stages"]), set(resumed_phase2["completed_stages"]))
+            self.assertEqual(read_jsonl(model_log_path), phase2_model_log_before)
+            self.assertTrue((case_dir / "runtime" / "builder_runs" / "latest.json").exists())
+
+    def test_phase3_failure_writes_openclaw_diagnostics(self) -> None:
+        with tempfile.TemporaryDirectory() as tmpdir, tempfile.TemporaryDirectory() as replay_tmpdir:
+            failing_replay = Path(replay_tmpdir) / "fail_openclaw_replay.mjs"
+            failing_replay.write_text("process.stderr.write('fixture replay failed'); process.exit(7);\n", encoding="utf8")
+            phase1 = compile_phase1(
+                dataset_root=tmpdir,
+                seed=62,
+                family_id="anti_interference",
+                difficulty="medium",
+            )
+            compile_phase2(case_dir=phase1["case_dir"], semantic_gold_mode="rule")
+            case_dir = Path(phase1["case_dir"])
+            with patch.dict(os.environ, {"OPENCLAW_BENCHMARK_REPLAY_COMMAND": f"node {failing_replay}"}, clear=False):
+                with self.assertRaises(RuntimeError):
+                    compile_phase3(case_dir=case_dir, force=True)
+
+            self.assertTrue((case_dir / "runtime" / "openclaw_baseline" / "failure.json").exists())
+            self.assertTrue((case_dir / "runtime" / "openclaw_baseline" / "replay_metadata.json").exists())
+            self.assertTrue((case_dir / "reports" / "phase3_failure.json").exists())
+            self.assertTrue((case_dir / "runtime" / "failures" / "phase3" / "openclaw-real-baseline-eval_latest.json").exists())
+            self.assertTrue((case_dir / "runtime" / "builder_runs" / "latest.json").exists())
+
+    def test_phase3_resume_skips_completed_openclaw_baseline(self) -> None:
+        with tempfile.TemporaryDirectory() as tmpdir, tempfile.TemporaryDirectory() as replay_tmpdir:
+            failing_replay = Path(replay_tmpdir) / "fail_openclaw_replay.mjs"
+            failing_replay.write_text("process.stderr.write('should not run'); process.exit(9);\n", encoding="utf8")
+            phase1 = compile_phase1(
+                dataset_root=tmpdir,
+                seed=63,
+                family_id="anti_interference",
+                difficulty="medium",
+            )
+            compile_phase2(case_dir=phase1["case_dir"], semantic_gold_mode="rule")
+            first_phase3 = compile_phase3(case_dir=phase1["case_dir"])
+            self.assertIn("openclaw-real-baseline-eval", first_phase3["completed_stages"])
+
+            with patch.dict(os.environ, {"OPENCLAW_BENCHMARK_REPLAY_COMMAND": f"node {failing_replay}"}, clear=False):
+                resumed_phase3 = compile_phase3(case_dir=phase1["case_dir"])
+            self.assertIn("openclaw-real-baseline-eval", resumed_phase3["skipped_stages"])
+            self.assertIn("comparative-score", resumed_phase3["skipped_stages"])
 
     def test_failed_conversation_plan_writes_metadata_only_failure_log(self) -> None:
         with tempfile.TemporaryDirectory() as tmpdir:

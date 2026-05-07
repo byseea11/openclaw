@@ -104,6 +104,8 @@ def _build_conversation_plan_user_payload(
             "must_generate_complete_transcript": True,
             "planned_message_text_max_chars": 45,
             "must_output_exact_turn_count": difficulty["total_turn_count_min"],
+            "allowed_speaker_actor_ids": [str(actor["person_id"]) for actor in actor_registry["actors"]],
+            "speaker_actor_id_rule": "Every turn must use one of allowed_speaker_actor_ids exactly; do not invent new people.",
             "forbidden_template_snippets": list(FORBIDDEN_TEMPLATE_SNIPPETS),
             "turn_trace_fields": [
                 "turn_kind",
@@ -113,6 +115,27 @@ def _build_conversation_plan_user_payload(
                 "private_info_ref",
                 "task_relevance_boundary",
             ],
+        },
+    }
+
+
+def _build_conversation_plan_repair_user_payload(
+    *,
+    base_payload: dict[str, Any],
+    invalid_payload: dict[str, Any],
+    validation_error: ValidationError,
+) -> dict[str, Any]:
+    return {
+        **base_payload,
+        "repair_context": {
+            "validation_error": str(validation_error),
+            "invalid_payload": invalid_payload,
+            "repair_instruction": (
+                "Rewrite the invalid conversation plan into a complete valid artifact. "
+                "Preserve the transcript intent and turn count, but replace every invalid "
+                "speaker_actor_id with one of output_contract.allowed_speaker_actor_ids and keep "
+                "all turn/session references valid. Return only the repaired JSON object."
+            ),
         },
     }
 
@@ -167,6 +190,7 @@ def validate_conversation_plan_quality(
     *,
     artifact: dict[str, Any],
     case_context: dict[str, Any],
+    actor_registry: dict[str, Any] | None = None,
     official_file_plan: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
     difficulty = resolve_difficulty_settings(str(case_context["difficulty"]))
@@ -186,6 +210,14 @@ def validate_conversation_plan_quality(
     repeated_texts = {text for text in texts if texts.count(text) > 2}
     if repeated_texts:
         raise ValidationError("conversation_plan_artifact has excessive duplicate message text")
+    if actor_registry is not None:
+        known_actor_ids = {str(actor["person_id"]) for actor in actor_registry["actors"]}
+        for turn in turns:
+            actor_id = str(turn["speaker_actor_id"])
+            if actor_id not in known_actor_ids:
+                raise ValidationError(
+                    f"conversation_plan turn {turn['turn_id']} references unknown person_id: {actor_id}"
+                )
     if str(case_context["family_id"]) == "private_info_in_official_file":
         official_refs = {str(turn.get("official_file_ref") or "") for turn in turns}
         private_refs = {str(turn.get("private_info_ref") or "") for turn in turns}
@@ -235,6 +267,14 @@ def generate_conversation_plan(
         system_prompt=system_prompt,
         user_payload=user_payload,
     )
+    model_call_entries = [
+        build_model_call_log_entry(
+            stage="conversation-plan",
+            result=result,
+            case_id=str(case_context["case_id"]),
+            artifact_path="input/conversation_plan.json",
+        )
+    ]
     try:
         validated = validate_conversation_plan_artifact(
             _normalize_model_conversation_plan(
@@ -247,26 +287,59 @@ def generate_conversation_plan(
         validate_conversation_plan_quality(
             artifact=validated,
             case_context=case_context,
+            actor_registry=actor_registry,
             official_file_plan=official_file_plan,
         )
     except ValidationError as exc:
-        raise ModelPayloadValidationError(
-            f"conversation-plan payload validation failed: {exc}",
-            stage="conversation-plan",
-            payload=result.payload,
-            backend=result.backend,
-            model=result.model,
-            base_url=result.base_url,
-            duration_ms=result.duration_ms,
-        ) from exc
-    return validated, [
-        build_model_call_log_entry(
-            stage="conversation-plan",
-            result=result,
-            case_id=str(case_context["case_id"]),
-            artifact_path="input/conversation_plan.json",
+        repair_payload = _build_conversation_plan_repair_user_payload(
+            base_payload=user_payload,
+            invalid_payload=result.payload,
+            validation_error=exc,
         )
-    ]
+        repair_result = client.complete_json(
+            stage="conversation-plan-repair",
+            system_prompt=system_prompt,
+            user_payload=repair_payload,
+        )
+        model_call_entries.append(
+            build_model_call_log_entry(
+                stage="conversation-plan-repair",
+                result=repair_result,
+                case_id=str(case_context["case_id"]),
+                artifact_path="input/conversation_plan.json",
+            )
+        )
+        try:
+            validated = validate_conversation_plan_artifact(
+                _normalize_model_conversation_plan(
+                    model_payload=repair_result.payload,
+                    case_context=case_context,
+                    case_world_artifact=case_world_artifact,
+                    official_file_plan=official_file_plan,
+                )
+            )
+            validate_conversation_plan_quality(
+                artifact=validated,
+                case_context=case_context,
+                actor_registry=actor_registry,
+                official_file_plan=official_file_plan,
+            )
+        except ValidationError as repair_exc:
+            raise ModelPayloadValidationError(
+                f"conversation-plan payload validation failed after repair: {repair_exc}",
+                stage="conversation-plan",
+                payload={
+                    "initial_validation_error": str(exc),
+                    "initial_invalid_payload": result.payload,
+                    "repair_validation_error": str(repair_exc),
+                    "repair_invalid_payload": repair_result.payload,
+                },
+                backend=repair_result.backend,
+                model=repair_result.model,
+                base_url=repair_result.base_url,
+                duration_ms=repair_result.duration_ms,
+            ) from repair_exc
+    return validated, model_call_entries
 
 
 def build_conversation_plan_artifact(

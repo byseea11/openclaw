@@ -1,13 +1,14 @@
 from __future__ import annotations
 
 import json
+import os
 import subprocess
 import tempfile
 import unittest
 from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
-SCRIPT_PATH = REPO_ROOT / "amem_docs" / "scripts" / "feishu-openclaw-baseline-eval.mjs"
+SCRIPT_PATH = REPO_ROOT / "feishu_task_wiki_benchmark_builder" / "runtime" / "openclaw_baseline_eval.mjs"
 
 
 def _write_json(path: Path, payload: dict[str, object]) -> None:
@@ -21,6 +22,33 @@ def _write_jsonl(path: Path, rows: list[dict[str, object]]) -> None:
         "".join(json.dumps(row, ensure_ascii=False) + "\n" for row in rows),
         encoding="utf8",
     )
+
+
+def _write_fake_replay_command(root: Path) -> Path:
+    script = root / "fake_openclaw_replay.mjs"
+    script.write_text(
+        """
+let body = "";
+process.stdin.setEncoding("utf8");
+process.stdin.on("data", (chunk) => body += chunk);
+process.stdin.on("end", () => {
+  const input = JSON.parse(body);
+  const query = input.query_benchmark.queries[0];
+  process.stdout.write(JSON.stringify({
+    baseline_mode: "openclaw_real_replay",
+    answers: [{
+      query_id: query.query_id,
+      answer: "正式窗口已确认，证据是 om_official。",
+      supporting_message_ids: ["om_official"],
+      judge_result: { success: true }
+    }]
+  }));
+});
+""".strip()
+        + "\n",
+        encoding="utf8",
+    )
+    return script
 
 
 def _message_row(*, message_id: str, text: str, create_time: int, session_id: str) -> dict[str, object]:
@@ -205,6 +233,11 @@ class OpenClawBaselineEvalScriptTests(unittest.TestCase):
     def test_script_generates_phase2_gold_and_baseline_outputs(self) -> None:
         with tempfile.TemporaryDirectory() as tmpdir:
             case_dir = _create_fixture_case(Path(tmpdir))
+            fake_replay = _write_fake_replay_command(Path(tmpdir))
+            env = {
+                **os.environ,
+                "OPENCLAW_BENCHMARK_REPLAY_COMMAND": f"node {fake_replay}",
+            }
             result = subprocess.run(
                 [
                     "node",
@@ -216,12 +249,13 @@ class OpenClawBaselineEvalScriptTests(unittest.TestCase):
                     "--json",
                 ],
                 cwd=REPO_ROOT,
+                env=env,
                 text=True,
                 capture_output=True,
                 check=True,
             )
             summary = json.loads(result.stdout)
-            self.assertEqual(summary["baseline_mode"], "openclaw_original_adapter")
+            self.assertEqual(summary["baseline_mode"], "openclaw_real_replay")
             self.assertEqual(summary["ingress_count"], 3)
             self.assertEqual(summary["query_count"], 1)
 
@@ -230,7 +264,8 @@ class OpenClawBaselineEvalScriptTests(unittest.TestCase):
             self.assertTrue((case_dir / "gold" / "query_benchmark.json").exists())
 
             answers = json.loads((case_dir / "runtime" / "openclaw_baseline" / "answers.json").read_text())
-            self.assertEqual(answers["baseline_mode"], "openclaw_original_adapter")
+            self.assertEqual(answers["baseline_mode"], "openclaw_real_replay")
+            self.assertEqual(answers["replay_kind"], "benchmark_replay_command")
             self.assertEqual(len(answers["answers"]), 1)
             answer = answers["answers"][0]
             self.assertIn("answer", answer)
@@ -238,14 +273,41 @@ class OpenClawBaselineEvalScriptTests(unittest.TestCase):
             self.assertIn("judge_result", answer)
 
             report = json.loads((case_dir / "reports" / "openclaw_baseline_eval.json").read_text())
-            self.assertEqual(report["baseline_mode"], "openclaw_original_adapter")
+            self.assertEqual(report["baseline_mode"], "openclaw_real_replay")
             self.assertEqual(report["gold_generation"]["generated_stages"], ["annotation-gold", "semantic-gold", "query-benchmark"])
             self.assertIn("private_info_leak_rate", report["metrics"])
+            self.assertTrue((case_dir / "runtime" / "openclaw_baseline" / "replay_metadata.json").exists())
 
-            comparison = (case_dir / "reports" / "openclaw_vs_task_wiki_comparison.md").read_text(encoding="utf8")
-            self.assertIn("openclaw_original", comparison)
-            self.assertIn("task_wiki_3_layer", comparison)
-            self.assertIn("synthetic baseline", comparison)
+    def test_script_fails_without_gateway_or_injected_harness(self) -> None:
+        with tempfile.TemporaryDirectory() as tmpdir:
+            case_dir = _create_fixture_case(Path(tmpdir))
+            fake_openclaw = Path(tmpdir) / "fake-openclaw.mjs"
+            fake_openclaw.write_text(
+                'console.error("gateway is not running"); process.exit(1);\n',
+                encoding="utf8",
+            )
+            env = {
+                **os.environ,
+                "OPENCLAW_BENCHMARK_OPENCLAW_COMMAND": f"node {fake_openclaw}",
+            }
+            env.pop("OPENCLAW_BENCHMARK_REPLAY_COMMAND", None)
+            result = subprocess.run(
+                [
+                    "node",
+                    str(SCRIPT_PATH),
+                    "--case-dir",
+                    str(case_dir),
+                    "--semantic-gold",
+                    "rule",
+                    "--json",
+                ],
+                cwd=REPO_ROOT,
+                env=env,
+                text=True,
+                capture_output=True,
+            )
+            self.assertNotEqual(result.returncode, 0)
+            self.assertIn("真实 OpenClaw baseline 需要已启动且可访问的 Gateway", result.stderr)
 
     def test_script_does_not_import_three_layer_runtime_modules(self) -> None:
         source = SCRIPT_PATH.read_text(encoding="utf8")
@@ -253,6 +315,7 @@ class OpenClawBaselineEvalScriptTests(unittest.TestCase):
         self.assertNotIn("task-events", source)
         self.assertNotIn("task-wiki/projector", source)
         self.assertNotIn("task-wiki/lint", source)
+        self.assertNotIn("agent --local", source)
 
 
 if __name__ == "__main__":

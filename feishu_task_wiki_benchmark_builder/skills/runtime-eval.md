@@ -4,13 +4,20 @@
 
 这个 skill 负责说明真实 Task Wiki runtime eval 的三层健康判定口径。
 
-它对应脚本：
+用户入口脚本：
 
 ```text
-amem_docs/scripts/feishu-task-wiki-runtime-eval.sh
+amem_docs/scripts/02-feishu-task-wiki-phase2-eval.sh
+amem_docs/scripts/03-feishu-task-wiki-phase3-eval.sh
 ```
 
-runtime eval 只判断真实三层 runtime 是否健康跑通，不替代 Phase 2/3 的 semantic gold、query benchmark 或 value eval。
+底层三层 runtime 调试脚本：
+
+```text
+node feishu_task_wiki_benchmark_builder/runtime/task_wiki_runtime_eval.mjs
+```
+
+runtime eval 只判断真实三层 runtime 是否健康跑通，不替代 Phase 2/3 的 semantic gold、query benchmark 或 comparative eval。
 
 ## 三层判定
 

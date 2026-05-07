@@ -1,0 +1,15 @@
+{
+  "phase": "phase1",
+  "stage": "collect",
+  "status": "completed",
+  "started_at": "2026-05-07T02:20:58.641657+00:00",
+  "ended_at": "2026-05-07T02:21:07.390452+00:00",
+  "artifact_paths": [
+    "amem_docs/ds/feishu_im_dataset_v3/batches/batch_20260507_021541740284/cases/case_20260507021541740586_anti_interference/runtime/fetch_records.jsonl",
+    "amem_docs/ds/feishu_im_dataset_v3/batches/batch_20260507_021541740284/cases/case_20260507021541740586_anti_interference/data/collected_messages.jsonl",
+    "amem_docs/ds/feishu_im_dataset_v3/batches/batch_20260507_021541740284/cases/case_20260507021541740586_anti_interference/data/openclaw_message_ingress.jsonl"
+  ],
+  "skipped": false,
+  "run_id": "20260507T022107390501Z",
+  "updated_at": "2026-05-07T02:21:07.390552+00:00"
+}

@@ -4,12 +4,12 @@
 - Task: FEISHU-666
 - Source Type: chat
 - Source Scope: chat:oc_f49b2c4a0d0a92df61e1f27186021348
-- Time Range: 2026-05-07T00:39:53.832Z ~ 2026-05-07T00:44:52.992Z
+- Time Range: 2026-05-07T01:35:31.893Z ~ 2026-05-07T01:40:56.556Z
 - Participants: 王源、高骏、林晨、赵敏
 
 <!-- session-summary:start -->
 ## Session Summary
-按评审纪要执行变更，窗口改期待处理，发布时间5月10日22点UTC，网络配置漂移处理中，合规已发确认函，回滚计划已批准。
+按评审纪要执行变更，窗口时间以Alice为准，发布时间5月10日22点UTC，网络配置漂移处理中，合规已发确认函，回滚计划已批准。
 
 <!-- session-summary:end -->
 ## Memory Blocks
@@ -107,7 +107,7 @@
 ### Memory Block 5: 发布阻塞风险
 
 #### Summary
-发布阻塞风险：network config drift处理中。
+发布阻塞风险：network config drift处理中
 
 #### Status
 ##### Current

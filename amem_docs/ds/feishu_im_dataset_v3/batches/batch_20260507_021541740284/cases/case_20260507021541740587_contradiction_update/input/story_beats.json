@@ -1,0 +1,43 @@
+{
+  "case_id": "case_20260507021541740587_contradiction_update",
+  "family_id": "contradiction_update",
+  "task_id": "FEISHU-687",
+  "beats": [
+    {
+      "beat_id": "beat_001",
+      "target_session_id": "main_chat",
+      "benchmark_role": "final_current_state_turn",
+      "description": "Alice 说 FEISHU-687 由她负责，窗口定在 5月5日。"
+    },
+    {
+      "beat_id": "beat_002",
+      "target_session_id": "main_chat",
+      "benchmark_role": "final_current_state_turn",
+      "description": "Alice 说负责人转交给 Bob，窗口改为 5月7日。"
+    },
+    {
+      "beat_id": "beat_003",
+      "target_session_id": "main_chat",
+      "benchmark_role": "final_current_state_turn",
+      "description": "Xavier 说我接手 FEISHU-687，窗口改到 5月9日，之前的口径作废。"
+    },
+    {
+      "beat_id": "beat_004",
+      "target_session_id": "main_chat",
+      "benchmark_role": "final_current_state_turn",
+      "description": "David 问 FEISHU-688 窗口 5月8日能否行，与 FEISHU-687 无关。"
+    },
+    {
+      "beat_id": "beat_005",
+      "target_session_id": "main_chat",
+      "benchmark_role": "final_current_state_turn",
+      "description": "Bob 说我们以前定的 5月5日冲突了，Xavier 纠正说是 5月9日。"
+    },
+    {
+      "beat_id": "beat_006",
+      "target_session_id": "main_chat",
+      "benchmark_role": "final_current_state_turn",
+      "description": "Xavier 说最终窗口 5月9日，其他全部作废。"
+    }
+  ]
+}

@@ -13,9 +13,34 @@ from feishu_task_wiki_benchmark_builder.io import read_json, read_jsonl
 
 class EndToEndTests(unittest.TestCase):
     def setUp(self) -> None:
+        self.fake_replay_tmp = tempfile.TemporaryDirectory()
+        self.addCleanup(self.fake_replay_tmp.cleanup)
+        fake_replay = Path(self.fake_replay_tmp.name) / "fake_openclaw_replay.mjs"
+        fake_replay.write_text(
+            """
+let body = "";
+process.stdin.setEncoding("utf8");
+process.stdin.on("data", (chunk) => body += chunk);
+process.stdin.on("end", () => {
+  const input = JSON.parse(body);
+  const answers = input.query_benchmark.queries.map((query) => ({
+    query_id: query.query_id,
+    answer: "fixture answer with evidence",
+    supporting_message_ids: query.supporting_message_ids || [],
+    judge_result: { success: true }
+  }));
+  process.stdout.write(JSON.stringify({ baseline_mode: "openclaw_real_replay", answers }));
+});
+""".strip()
+            + "\n",
+            encoding="utf8",
+        )
         self.env_patcher = patch.dict(
             os.environ,
-            {"FEISHU_TASK_WIKI_BENCHMARK_BUILDER_MODEL_BACKEND": "fixture"},
+            {
+                "FEISHU_TASK_WIKI_BENCHMARK_BUILDER_MODEL_BACKEND": "fixture",
+                "OPENCLAW_BENCHMARK_REPLAY_COMMAND": f"node {fake_replay}",
+            },
             clear=False,
         )
         self.env_patcher.start()
@@ -99,9 +124,8 @@ class EndToEndTests(unittest.TestCase):
             self.assertTrue((case_dir / "gold" / "annotation_gold.jsonl").exists())
             self.assertTrue((case_dir / "gold" / "query_benchmark.json").exists())
             self.assertTrue((case_dir / "reports" / "replay_eval.json").exists())
-            self.assertTrue((case_dir / "reports" / "baseline_eval.json").exists())
-            self.assertTrue((case_dir / "reports" / "value_eval.json").exists())
-            self.assertTrue((case_dir / "reports" / "final_benchmark_report.md").exists())
+            self.assertTrue((case_dir / "reports" / "openclaw_baseline_eval.json").exists())
+            self.assertTrue((case_dir / "reports" / "phase3_score.json").exists())
 
     def test_hard_phase1_builds_enterprise_scale_openclaw_ingress(self) -> None:
         with tempfile.TemporaryDirectory() as tmpdir:
@@ -169,8 +193,9 @@ class EndToEndTests(unittest.TestCase):
                 compile_phase2(case_dir=compiled["case_dir"])
                 compile_phase3(case_dir=compiled["case_dir"])
                 case_dir = Path(compiled["case_dir"])
-                report_text = (case_dir / "reports" / "final_benchmark_report.md").read_text(encoding="utf-8")
-                self.assertIn("Project Requirement Mapping", report_text)
+                phase3_score = read_json(case_dir / "reports" / "phase3_score.json")
+                self.assertIn("aggregate_scores", phase3_score)
+                self.assertIn("per_query_scores", phase3_score)
 
 
 if __name__ == "__main__":

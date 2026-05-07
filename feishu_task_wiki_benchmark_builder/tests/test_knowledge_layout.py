@@ -25,6 +25,7 @@ class KnowledgeLayoutTests(unittest.TestCase):
                 "family-selection.md",
                 "pre-annotation-validate.md",
                 "private-info-official-file-context.md",
+                "runtime-eval.md",
                 "spec-generation.md",
                 "state-trajectory.md",
                 "story-beats.md",

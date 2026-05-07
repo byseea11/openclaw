@@ -128,12 +128,12 @@ annotation-gold
 ## Phase 3
 
 ```text
-baseline-eval
--> value-eval
--> benchmark-report
+task-wiki-runtime-eval
+-> openclaw-real-baseline-eval
+-> comparative-score
 ```
 
 - 正式输出：
-  - `reports/baseline_eval.json`
-  - `reports/value_eval.json`
-  - `reports/final_benchmark_report.md`
+  - `runtime/task_wiki_replay/layer_metrics.json`
+  - `reports/openclaw_baseline_eval.json`
+  - `reports/phase3_score.json`

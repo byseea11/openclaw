@@ -1,0 +1,31 @@
+{
+  "baseline_mode": "openclaw_real_replay",
+  "replay_kind": "gateway_agent_rpc",
+  "replay_command_used": false,
+  "gateway_state": {
+    "query_session_key": "agent:main:feishu-benchmark:case_20260506224026669766_private_info_in_official_file:query:evaluator",
+    "failed_session_key": "agent:main:feishu-benchmark:case_20260506224026669766_private_info_in_official_file:source:oc_21fc5cc6becbda6432fe9592c2ea118d:sender:ou_sim_benchmark_root",
+    "sender_session_count": 53,
+    "state_dir": "amem_docs/ds/feishu_im_dataset_v3/cases/case_20260506224026669766_private_info_in_official_file/runtime/openclaw_baseline_state"
+  },
+  "raw_runs": [
+    {
+      "phase": "gateway_health",
+      "command": "pnpm --dir . openclaw gateway call health --params {} --json",
+      "returncode": 0,
+      "stdout": "\n> openclaw@2026.4.12 openclaw /Users/byseea/programscoding/nanobot/openclaw-main\n> node scripts/run-node.mjs gateway call health --params '{}' --json\n\n",
+      "stderr": "[openclaw] Building TypeScript (dist is stale: dirty_watched_tree - dirty watched source tree).\n"
+    },
+    {
+      "phase": "ingest_sender_session",
+      "session_key": "agent:main:feishu-benchmark:case_20260506224026669766_private_info_in_official_file:source:oc_21fc5cc6becbda6432fe9592c2ea118d:sender:ou_sim_benchmark_root",
+      "message_count": 1,
+      "command": "pnpm --dir . openclaw gateway call agent --params <json> --json",
+      "returncode": 1,
+      "stdout": "\n> openclaw@2026.4.12 openclaw /Users/byseea/programscoding/nanobot/openclaw-main\n> node scripts/run-node.mjs gateway call agent --params '{\"message\":\"你是原始 OpenClaw 记忆系统。下面是一批 benchmark observed transcript。\\n请把它们作为当前 OpenClaw session 的记忆上下文保存，后续 query 只能依据这些消息回答。\\n必须保留 message_id、sender_open_id、source session 与原文的对应关系；不要使用 Task Wiki 的 event/wiki/gold artifact。\\n\\nCase: case_20260506224026669766_private_info_in_official_file\\nTask: FEISHU-666\\nFamily: private_info_in_official_file\\n\\nObserved transcript:\\nmessage_id=om_x100b5088e619cca0c4a4983901c05c1 | sender_open_id=ou_sim_benchmark_root | sender=Benchmark Root | session=handoff_thread | chat_id=oc_21fc5cc6becbda6432fe9592c2ea118d | thread_id= | time=1778109140000 | text=交接修正线程：以下回复承载该 source session 的真实 benchmark 消息。\\n\\n回复一个简短 JSON：{\\\"status\\\":\\\"ingested\\\"}\",\"sessionKey\":\"agent:main:feishu-benchmark:case_20260506224026669766_private_info_in_official_file:source:oc_21fc5cc6becbda6432fe9592c2ea118d:sender:ou_sim_benchmark_root\",\"idempotencyKey\":\"phase3-case_20260506224026669766_private_info_in_official_file-ingest-agent-main-feishu-benchmark-case_20260506224026669766_private_info_in_official_f\",\"deliver\":false,\"timeout\":600,\"inputProvenance\":{\"kind\":\"inter_session\",\"sourceSessionKey\":\"agent:main:feishu-benchmark:case_20260506224026669766_private_info_in_official_file:source:oc_21fc5cc6becbda6432fe9592c2ea118d:sender:ou_sim_benchmark_root\",\"sourceChannel\":\"feishu-benchmark\"}}' --json\n\n ELIFECYCLE  Command failed with exit code 1.\n",
+      "stderr": "[openclaw] Building TypeScript (dist is stale: dirty_watched_tree - dirty watched source tree).\ngateway connect failed: GatewayClientRequestError: pairing required\nGateway call failed: Error: gateway closed (1008): pairing required\nGateway target: ws://127.0.0.1:18789\nSource: local loopback\nConfig: /Users/byseea/.openclaw/openclaw.json\nBind: loopback\n"
+    }
+  ],
+  "status": "failed",
+  "failure_path": "amem_docs/ds/feishu_im_dataset_v3/cases/case_20260506224026669766_private_info_in_official_file/runtime/openclaw_baseline/failure.json"
+}
