@@ -8,8 +8,8 @@
   "source_id": "thread:handoff_thread",
   "session_title": "task:FEISHU-666::chat:oc_21fc5cc6becbda6432fe9592c2ea118d",
   "time_range": {
-    "start": "2026-05-07T01:34:56.176Z",
-    "end": "2026-05-07T01:37:59.327Z"
+    "start": "2026-05-07T03:05:32.886Z",
+    "end": "2026-05-07T03:08:44.467Z"
   },
   "participants": [
     "Benchmark Root",
@@ -18,13 +18,12 @@
     "苏禾"
   ],
   "relative_page_path": "sessions/FEISHU-666_chat_oc_21fc5cc6becbda6432fe9592c2ea1-7bdb7dbb/session_wiki.md",
-  "session_summary": "备份计划与验证完成，文档已更新，销售承诺风险待处理，夜间窗口已定。",
+  "session_summary": "备份计划已配置完成；变更时间争议未解决；文档已更新；销售承诺风险待处理。",
   "block_order": [
     "block-备份计划-96cb4224",
-    "block-备份验证-5163d13c",
+    "block-变更时间争议-029978ca",
     "block-文档同步行动项-aba07160",
-    "block-销售承诺风险-3d675c35",
-    "block-夜间窗口-feb525ee"
+    "block-销售承诺风险-3d675c35"
   ],
   "blocks": {
     "block-备份计划-96cb4224": {
@@ -35,7 +34,8 @@
       "event_ids": [
         "evt_2ff85641604efc20",
         "evt_c21a8779269dd2f6",
-        "evt_883cd0db321824e2"
+        "evt_883cd0db321824e2",
+        "evt_4221697d44a5d5cf"
       ],
       "slots": {
         "conclusion": [],
@@ -113,49 +113,7 @@
             "objector": null,
             "status": "已配置好",
             "certainty": null
-          }
-        ],
-        "time": [],
-        "scope": []
-      },
-      "status": "open",
-      "evidence_refs": [
-        {
-          "event_id": "evt_2ff85641604efc20",
-          "event_path": "sessions/FEISHU-666_chat_oc_21fc5cc6becbda6432fe9592c2ea1-7bdb7dbb/session_events.jsonl#evt_2ff85641604efc20",
-          "entry_ref": "[[sessions/FEISHU-666_chat_oc_21fc5cc6becbda6432fe9592c2ea1-7bdb7dbb/session.md#om_x100b5088e44550a4c3574a487cab359|om_x100b5088e44550a4c3574a487cab359]]",
-          "quote": "备份计划不变，使用增量备份。"
-        },
-        {
-          "event_id": "evt_c21a8779269dd2f6",
-          "event_path": "sessions/FEISHU-666_chat_oc_21fc5cc6becbda6432fe9592c2ea1-7bdb7dbb/session_events.jsonl#evt_c21a8779269dd2f6",
-          "entry_ref": "[[sessions/FEISHU-666_chat_oc_21fc5cc6becbda6432fe9592c2ea1-7bdb7dbb/session.md#om_x100b5088e44550a4c3574a487cab359|om_x100b5088e44550a4c3574a487cab359]]",
-          "quote": "我偏好全量"
-        },
-        {
-          "event_id": "evt_883cd0db321824e2",
-          "event_path": "sessions/FEISHU-666_chat_oc_21fc5cc6becbda6432fe9592c2ea1-7bdb7dbb/session_events.jsonl#evt_883cd0db321824e2",
-          "entry_ref": "[[sessions/FEISHU-666_chat_oc_21fc5cc6becbda6432fe9592c2ea1-7bdb7dbb/session.md#om_x100b5088e45960acc215ef3d113f2c2|om_x100b5088e45960acc215ef3d113f2c2]]",
-          "quote": "增量备份已配置好，不会有问题。"
-        }
-      ],
-      "summary": "备份计划维持增量备份，已配置完成，无问题。"
-    },
-    "block-备份验证-5163d13c": {
-      "block_id": "block-备份验证-5163d13c",
-      "anchor_id": "block-备份验证-5163d13c",
-      "topic_key": "备份验证",
-      "topic_title": "备份验证",
-      "event_ids": [
-        "evt_4221697d44a5d5cf"
-      ],
-      "slots": {
-        "conclusion": [],
-        "rationale": [],
-        "objection": [],
-        "constraint": [],
-        "commitment": [],
-        "status": [
+          },
           {
             "event_id": "evt_4221697d44a5d5cf",
             "event_type": "status_event",
@@ -183,8 +141,26 @@
         "time": [],
         "scope": []
       },
-      "status": "resolved",
+      "status": "open",
       "evidence_refs": [
+        {
+          "event_id": "evt_2ff85641604efc20",
+          "event_path": "sessions/FEISHU-666_chat_oc_21fc5cc6becbda6432fe9592c2ea1-7bdb7dbb/session_events.jsonl#evt_2ff85641604efc20",
+          "entry_ref": "[[sessions/FEISHU-666_chat_oc_21fc5cc6becbda6432fe9592c2ea1-7bdb7dbb/session.md#om_x100b5088e44550a4c3574a487cab359|om_x100b5088e44550a4c3574a487cab359]]",
+          "quote": "备份计划不变，使用增量备份。"
+        },
+        {
+          "event_id": "evt_c21a8779269dd2f6",
+          "event_path": "sessions/FEISHU-666_chat_oc_21fc5cc6becbda6432fe9592c2ea1-7bdb7dbb/session_events.jsonl#evt_c21a8779269dd2f6",
+          "entry_ref": "[[sessions/FEISHU-666_chat_oc_21fc5cc6becbda6432fe9592c2ea1-7bdb7dbb/session.md#om_x100b5088e44550a4c3574a487cab359|om_x100b5088e44550a4c3574a487cab359]]",
+          "quote": "我偏好全量"
+        },
+        {
+          "event_id": "evt_883cd0db321824e2",
+          "event_path": "sessions/FEISHU-666_chat_oc_21fc5cc6becbda6432fe9592c2ea1-7bdb7dbb/session_events.jsonl#evt_883cd0db321824e2",
+          "entry_ref": "[[sessions/FEISHU-666_chat_oc_21fc5cc6becbda6432fe9592c2ea1-7bdb7dbb/session.md#om_x100b5088e45960acc215ef3d113f2c2|om_x100b5088e45960acc215ef3d113f2c2]]",
+          "quote": "增量备份已配置好，不会有问题。"
+        },
         {
           "event_id": "evt_4221697d44a5d5cf",
           "event_path": "sessions/FEISHU-666_chat_oc_21fc5cc6becbda6432fe9592c2ea1-7bdb7dbb/session_events.jsonl#evt_4221697d44a5d5cf",
@@ -192,7 +168,91 @@
           "quote": "备份验证已完成。"
         }
       ],
-      "summary": "备份验证已完成。"
+      "summary": "备份计划采用增量备份，已配置并验证完成。"
+    },
+    "block-变更时间争议-029978ca": {
+      "block_id": "block-变更时间争议-029978ca",
+      "anchor_id": "block-变更时间争议-029978ca",
+      "topic_key": "变更时间争议",
+      "topic_title": "变更时间争议",
+      "event_ids": [
+        "evt_3227288e2eeb53d2",
+        "evt_195dbc0ed16d2b2a"
+      ],
+      "slots": {
+        "conclusion": [
+          {
+            "event_id": "evt_195dbc0ed16d2b2a",
+            "event_type": "conclusion_event",
+            "claim": "纪要已定，夜间窗口是正式决定，不因个人偏好改。",
+            "event_time": "1778109140000",
+            "evidence_quote": "纪要已定，夜间窗口是正式决定，不因个人偏好改。",
+            "event_path": "sessions/FEISHU-666_chat_oc_21fc5cc6becbda6432fe9592c2ea1-7bdb7dbb/session_events.jsonl#evt_195dbc0ed16d2b2a",
+            "event_ref": "[[sessions/FEISHU-666_chat_oc_21fc5cc6becbda6432fe9592c2ea1-7bdb7dbb/session_events.jsonl#evt_195dbc0ed16d2b2a|evt_195dbc0ed16d2b2a]]",
+            "entry_ref": "[[sessions/FEISHU-666_chat_oc_21fc5cc6becbda6432fe9592c2ea1-7bdb7dbb/session.md#om_x100b5088e4ae08a0c3388e3378e615f|om_x100b5088e4ae08a0c3388e3378e615f]]",
+            "core_entry_id": "om_x100b5088e4ae08a0c3388e3378e615f",
+            "subject_key": "夜间窗口",
+            "is_current": true,
+            "lifecycle_status": "active",
+            "lifecycle_reason": null,
+            "target": "夜间窗口",
+            "time_target": null,
+            "scope_target": null,
+            "action": null,
+            "owner": null,
+            "objector": null,
+            "status": null,
+            "certainty": null
+          }
+        ],
+        "rationale": [],
+        "objection": [
+          {
+            "event_id": "evt_3227288e2eeb53d2",
+            "event_type": "objection_event",
+            "claim": "夜间变更对我个人效率影响大",
+            "event_time": "1778109140000",
+            "evidence_quote": "夜间变更对我个人效率影响大，能不能改白天？",
+            "event_path": "sessions/FEISHU-666_chat_oc_21fc5cc6becbda6432fe9592c2ea1-7bdb7dbb/session_events.jsonl#evt_3227288e2eeb53d2",
+            "event_ref": "[[sessions/FEISHU-666_chat_oc_21fc5cc6becbda6432fe9592c2ea1-7bdb7dbb/session_events.jsonl#evt_3227288e2eeb53d2|evt_3227288e2eeb53d2]]",
+            "entry_ref": "[[sessions/FEISHU-666_chat_oc_21fc5cc6becbda6432fe9592c2ea1-7bdb7dbb/session.md#om_x100b5088e49590a4c49940e1e916315|om_x100b5088e49590a4c49940e1e916315]]",
+            "core_entry_id": "om_x100b5088e49590a4c49940e1e916315",
+            "subject_key": "变更",
+            "is_current": true,
+            "lifecycle_status": "active",
+            "lifecycle_reason": null,
+            "target": "变更",
+            "time_target": null,
+            "scope_target": null,
+            "action": null,
+            "owner": null,
+            "objector": "赵敏",
+            "status": null,
+            "certainty": null
+          }
+        ],
+        "constraint": [],
+        "commitment": [],
+        "status": [],
+        "time": [],
+        "scope": []
+      },
+      "status": "open",
+      "evidence_refs": [
+        {
+          "event_id": "evt_3227288e2eeb53d2",
+          "event_path": "sessions/FEISHU-666_chat_oc_21fc5cc6becbda6432fe9592c2ea1-7bdb7dbb/session_events.jsonl#evt_3227288e2eeb53d2",
+          "entry_ref": "[[sessions/FEISHU-666_chat_oc_21fc5cc6becbda6432fe9592c2ea1-7bdb7dbb/session.md#om_x100b5088e49590a4c49940e1e916315|om_x100b5088e49590a4c49940e1e916315]]",
+          "quote": "夜间变更对我个人效率影响大，能不能改白天？"
+        },
+        {
+          "event_id": "evt_195dbc0ed16d2b2a",
+          "event_path": "sessions/FEISHU-666_chat_oc_21fc5cc6becbda6432fe9592c2ea1-7bdb7dbb/session_events.jsonl#evt_195dbc0ed16d2b2a",
+          "entry_ref": "[[sessions/FEISHU-666_chat_oc_21fc5cc6becbda6432fe9592c2ea1-7bdb7dbb/session.md#om_x100b5088e4ae08a0c3388e3378e615f|om_x100b5088e4ae08a0c3388e3378e615f]]",
+          "quote": "纪要已定，夜间窗口是正式决定，不因个人偏好改。"
+        }
+      ],
+      "summary": "变更时间争议：纪要已定夜间窗口，不因个人偏好改；有人反对称影响效率。"
     },
     "block-文档同步行动项-aba07160": {
       "block_id": "block-文档同步行动项-aba07160",
@@ -299,65 +359,12 @@
         }
       ],
       "summary": "赵敏承诺安排夜间值班，销售承诺风险待处理。"
-    },
-    "block-夜间窗口-feb525ee": {
-      "block_id": "block-夜间窗口-feb525ee",
-      "anchor_id": "block-夜间窗口-feb525ee",
-      "topic_key": "夜间窗口",
-      "topic_title": "夜间窗口",
-      "event_ids": [
-        "evt_195dbc0ed16d2b2a"
-      ],
-      "slots": {
-        "conclusion": [
-          {
-            "event_id": "evt_195dbc0ed16d2b2a",
-            "event_type": "conclusion_event",
-            "claim": "纪要已定，夜间窗口是正式决定，不因个人偏好改。",
-            "event_time": "1778109140000",
-            "evidence_quote": "纪要已定，夜间窗口是正式决定，不因个人偏好改。",
-            "event_path": "sessions/FEISHU-666_chat_oc_21fc5cc6becbda6432fe9592c2ea1-7bdb7dbb/session_events.jsonl#evt_195dbc0ed16d2b2a",
-            "event_ref": "[[sessions/FEISHU-666_chat_oc_21fc5cc6becbda6432fe9592c2ea1-7bdb7dbb/session_events.jsonl#evt_195dbc0ed16d2b2a|evt_195dbc0ed16d2b2a]]",
-            "entry_ref": "[[sessions/FEISHU-666_chat_oc_21fc5cc6becbda6432fe9592c2ea1-7bdb7dbb/session.md#om_x100b5088e4ae08a0c3388e3378e615f|om_x100b5088e4ae08a0c3388e3378e615f]]",
-            "core_entry_id": "om_x100b5088e4ae08a0c3388e3378e615f",
-            "subject_key": "夜间窗口",
-            "is_current": true,
-            "lifecycle_status": "active",
-            "lifecycle_reason": null,
-            "target": "夜间窗口",
-            "time_target": null,
-            "scope_target": null,
-            "action": null,
-            "owner": null,
-            "objector": null,
-            "status": null,
-            "certainty": null
-          }
-        ],
-        "rationale": [],
-        "objection": [],
-        "constraint": [],
-        "commitment": [],
-        "status": [],
-        "time": [],
-        "scope": []
-      },
-      "status": "active",
-      "evidence_refs": [
-        {
-          "event_id": "evt_195dbc0ed16d2b2a",
-          "event_path": "sessions/FEISHU-666_chat_oc_21fc5cc6becbda6432fe9592c2ea1-7bdb7dbb/session_events.jsonl#evt_195dbc0ed16d2b2a",
-          "entry_ref": "[[sessions/FEISHU-666_chat_oc_21fc5cc6becbda6432fe9592c2ea1-7bdb7dbb/session.md#om_x100b5088e4ae08a0c3388e3378e615f|om_x100b5088e4ae08a0c3388e3378e615f]]",
-          "quote": "纪要已定，夜间窗口是正式决定，不因个人偏好改。"
-        }
-      ],
-      "summary": "夜间窗口已正式决定，不因个人偏好更改。"
     }
   },
   "lifecycle_summary": {
-    "active_event_count": 7,
+    "active_event_count": 8,
     "historical_event_count": 0,
     "invalid_event_count": 0
   },
-  "updated_at": "2026-05-07T01:38:15.318Z"
+  "updated_at": "2026-05-07T03:09:00.514Z"
 }

@@ -11,7 +11,7 @@
           "block_id": "block-备份计划-96cb4224",
           "topic_key": "备份计划",
           "topic_title": "备份计划",
-          "summary": "备份计划维持增量备份，已配置完成，无问题。",
+          "summary": "备份计划采用增量备份，已配置并验证完成。",
           "status": "open",
           "block_link": "sessions/FEISHU-666_chat_oc_21fc5cc6becbda6432fe9592c2ea1-7bdb7dbb/session_wiki.md#block-备份计划-96cb4224",
           "session_wiki_path": "sessions/FEISHU-666_chat_oc_21fc5cc6becbda6432fe9592c2ea1-7bdb7dbb/session_wiki.md",
@@ -35,7 +35,7 @@
                 "session_wiki_path": "sessions/FEISHU-666_chat_oc_21fc5cc6becbda6432fe9592c2ea1-7bdb7dbb/session_wiki.md",
                 "block_anchor": "block-备份计划-96cb4224",
                 "block_link": "sessions/FEISHU-666_chat_oc_21fc5cc6becbda6432fe9592c2ea1-7bdb7dbb/session_wiki.md#block-备份计划-96cb4224",
-                "block_summary": "备份计划维持增量备份，已配置完成，无问题。"
+                "block_summary": "备份计划采用增量备份，已配置并验证完成。"
               }
             ],
             "constraint": [],
@@ -56,7 +56,7 @@
                 "session_wiki_path": "sessions/FEISHU-666_chat_oc_21fc5cc6becbda6432fe9592c2ea1-7bdb7dbb/session_wiki.md",
                 "block_anchor": "block-备份计划-96cb4224",
                 "block_link": "sessions/FEISHU-666_chat_oc_21fc5cc6becbda6432fe9592c2ea1-7bdb7dbb/session_wiki.md#block-备份计划-96cb4224",
-                "block_summary": "备份计划维持增量备份，已配置完成，无问题。"
+                "block_summary": "备份计划采用增量备份，已配置并验证完成。"
               },
               {
                 "slot": "status",
@@ -73,33 +73,12 @@
                 "session_wiki_path": "sessions/FEISHU-666_chat_oc_21fc5cc6becbda6432fe9592c2ea1-7bdb7dbb/session_wiki.md",
                 "block_anchor": "block-备份计划-96cb4224",
                 "block_link": "sessions/FEISHU-666_chat_oc_21fc5cc6becbda6432fe9592c2ea1-7bdb7dbb/session_wiki.md#block-备份计划-96cb4224",
-                "block_summary": "备份计划维持增量备份，已配置完成，无问题。"
-              }
-            ],
-            "time": [],
-            "scope": []
-          }
-        },
-        {
-          "block_id": "block-备份验证-5163d13c",
-          "topic_key": "备份验证",
-          "topic_title": "备份验证",
-          "summary": "备份验证已完成。",
-          "status": "resolved",
-          "block_link": "sessions/FEISHU-666_chat_oc_21fc5cc6becbda6432fe9592c2ea1-7bdb7dbb/session_wiki.md#block-备份验证-5163d13c",
-          "session_wiki_path": "sessions/FEISHU-666_chat_oc_21fc5cc6becbda6432fe9592c2ea1-7bdb7dbb/session_wiki.md",
-          "source_session_id": "task:FEISHU-666::chat:oc_21fc5cc6becbda6432fe9592c2ea118d",
-          "current_items": {
-            "conclusion": [],
-            "rationale": [],
-            "objection": [],
-            "constraint": [],
-            "commitment": [],
-            "status": [
+                "block_summary": "备份计划采用增量备份，已配置并验证完成。"
+              },
               {
                 "slot": "status",
-                "topic_key": "备份验证",
-                "topic_title": "备份验证",
+                "topic_key": "备份计划",
+                "topic_title": "备份计划",
                 "subject_key": "备份验证",
                 "claim": "备份验证已完成。",
                 "event_id": "evt_4221697d44a5d5cf",
@@ -109,11 +88,67 @@
                 "event_ref": "[[sessions/FEISHU-666_chat_oc_21fc5cc6becbda6432fe9592c2ea1-7bdb7dbb/session_events.jsonl#evt_4221697d44a5d5cf|evt_4221697d44a5d5cf]]",
                 "source_session_id": "task:FEISHU-666::chat:oc_21fc5cc6becbda6432fe9592c2ea118d",
                 "session_wiki_path": "sessions/FEISHU-666_chat_oc_21fc5cc6becbda6432fe9592c2ea1-7bdb7dbb/session_wiki.md",
-                "block_anchor": "block-备份验证-5163d13c",
-                "block_link": "sessions/FEISHU-666_chat_oc_21fc5cc6becbda6432fe9592c2ea1-7bdb7dbb/session_wiki.md#block-备份验证-5163d13c",
-                "block_summary": "备份验证已完成。"
+                "block_anchor": "block-备份计划-96cb4224",
+                "block_link": "sessions/FEISHU-666_chat_oc_21fc5cc6becbda6432fe9592c2ea1-7bdb7dbb/session_wiki.md#block-备份计划-96cb4224",
+                "block_summary": "备份计划采用增量备份，已配置并验证完成。"
               }
             ],
+            "time": [],
+            "scope": []
+          }
+        },
+        {
+          "block_id": "block-变更时间争议-029978ca",
+          "topic_key": "变更时间争议",
+          "topic_title": "变更时间争议",
+          "summary": "变更时间争议：纪要已定夜间窗口，不因个人偏好改；有人反对称影响效率。",
+          "status": "open",
+          "block_link": "sessions/FEISHU-666_chat_oc_21fc5cc6becbda6432fe9592c2ea1-7bdb7dbb/session_wiki.md#block-变更时间争议-029978ca",
+          "session_wiki_path": "sessions/FEISHU-666_chat_oc_21fc5cc6becbda6432fe9592c2ea1-7bdb7dbb/session_wiki.md",
+          "source_session_id": "task:FEISHU-666::chat:oc_21fc5cc6becbda6432fe9592c2ea118d",
+          "current_items": {
+            "conclusion": [
+              {
+                "slot": "conclusion",
+                "topic_key": "变更时间争议",
+                "topic_title": "变更时间争议",
+                "subject_key": "夜间窗口",
+                "claim": "纪要已定，夜间窗口是正式决定，不因个人偏好改。",
+                "event_id": "evt_195dbc0ed16d2b2a",
+                "event_time": "1778109140000",
+                "evidence_quote": "纪要已定，夜间窗口是正式决定，不因个人偏好改。",
+                "event_path": "sessions/FEISHU-666_chat_oc_21fc5cc6becbda6432fe9592c2ea1-7bdb7dbb/session_events.jsonl#evt_195dbc0ed16d2b2a",
+                "event_ref": "[[sessions/FEISHU-666_chat_oc_21fc5cc6becbda6432fe9592c2ea1-7bdb7dbb/session_events.jsonl#evt_195dbc0ed16d2b2a|evt_195dbc0ed16d2b2a]]",
+                "source_session_id": "task:FEISHU-666::chat:oc_21fc5cc6becbda6432fe9592c2ea118d",
+                "session_wiki_path": "sessions/FEISHU-666_chat_oc_21fc5cc6becbda6432fe9592c2ea1-7bdb7dbb/session_wiki.md",
+                "block_anchor": "block-变更时间争议-029978ca",
+                "block_link": "sessions/FEISHU-666_chat_oc_21fc5cc6becbda6432fe9592c2ea1-7bdb7dbb/session_wiki.md#block-变更时间争议-029978ca",
+                "block_summary": "变更时间争议：纪要已定夜间窗口，不因个人偏好改；有人反对称影响效率。"
+              }
+            ],
+            "rationale": [],
+            "objection": [
+              {
+                "slot": "objection",
+                "topic_key": "变更时间争议",
+                "topic_title": "变更时间争议",
+                "subject_key": "变更",
+                "claim": "夜间变更对我个人效率影响大",
+                "event_id": "evt_3227288e2eeb53d2",
+                "event_time": "1778109140000",
+                "evidence_quote": "夜间变更对我个人效率影响大，能不能改白天？",
+                "event_path": "sessions/FEISHU-666_chat_oc_21fc5cc6becbda6432fe9592c2ea1-7bdb7dbb/session_events.jsonl#evt_3227288e2eeb53d2",
+                "event_ref": "[[sessions/FEISHU-666_chat_oc_21fc5cc6becbda6432fe9592c2ea1-7bdb7dbb/session_events.jsonl#evt_3227288e2eeb53d2|evt_3227288e2eeb53d2]]",
+                "source_session_id": "task:FEISHU-666::chat:oc_21fc5cc6becbda6432fe9592c2ea118d",
+                "session_wiki_path": "sessions/FEISHU-666_chat_oc_21fc5cc6becbda6432fe9592c2ea1-7bdb7dbb/session_wiki.md",
+                "block_anchor": "block-变更时间争议-029978ca",
+                "block_link": "sessions/FEISHU-666_chat_oc_21fc5cc6becbda6432fe9592c2ea1-7bdb7dbb/session_wiki.md#block-变更时间争议-029978ca",
+                "block_summary": "变更时间争议：纪要已定夜间窗口，不因个人偏好改；有人反对称影响效率。"
+              }
+            ],
+            "constraint": [],
+            "commitment": [],
+            "status": [],
             "time": [],
             "scope": []
           }
@@ -193,47 +228,9 @@
             "time": [],
             "scope": []
           }
-        },
-        {
-          "block_id": "block-夜间窗口-feb525ee",
-          "topic_key": "夜间窗口",
-          "topic_title": "夜间窗口",
-          "summary": "夜间窗口已正式决定，不因个人偏好更改。",
-          "status": "active",
-          "block_link": "sessions/FEISHU-666_chat_oc_21fc5cc6becbda6432fe9592c2ea1-7bdb7dbb/session_wiki.md#block-夜间窗口-feb525ee",
-          "session_wiki_path": "sessions/FEISHU-666_chat_oc_21fc5cc6becbda6432fe9592c2ea1-7bdb7dbb/session_wiki.md",
-          "source_session_id": "task:FEISHU-666::chat:oc_21fc5cc6becbda6432fe9592c2ea118d",
-          "current_items": {
-            "conclusion": [
-              {
-                "slot": "conclusion",
-                "topic_key": "夜间窗口",
-                "topic_title": "夜间窗口",
-                "subject_key": "夜间窗口",
-                "claim": "纪要已定，夜间窗口是正式决定，不因个人偏好改。",
-                "event_id": "evt_195dbc0ed16d2b2a",
-                "event_time": "1778109140000",
-                "evidence_quote": "纪要已定，夜间窗口是正式决定，不因个人偏好改。",
-                "event_path": "sessions/FEISHU-666_chat_oc_21fc5cc6becbda6432fe9592c2ea1-7bdb7dbb/session_events.jsonl#evt_195dbc0ed16d2b2a",
-                "event_ref": "[[sessions/FEISHU-666_chat_oc_21fc5cc6becbda6432fe9592c2ea1-7bdb7dbb/session_events.jsonl#evt_195dbc0ed16d2b2a|evt_195dbc0ed16d2b2a]]",
-                "source_session_id": "task:FEISHU-666::chat:oc_21fc5cc6becbda6432fe9592c2ea118d",
-                "session_wiki_path": "sessions/FEISHU-666_chat_oc_21fc5cc6becbda6432fe9592c2ea1-7bdb7dbb/session_wiki.md",
-                "block_anchor": "block-夜间窗口-feb525ee",
-                "block_link": "sessions/FEISHU-666_chat_oc_21fc5cc6becbda6432fe9592c2ea1-7bdb7dbb/session_wiki.md#block-夜间窗口-feb525ee",
-                "block_summary": "夜间窗口已正式决定，不因个人偏好更改。"
-              }
-            ],
-            "rationale": [],
-            "objection": [],
-            "constraint": [],
-            "commitment": [],
-            "status": [],
-            "time": [],
-            "scope": []
-          }
         }
       ],
-      "updated_at": "2026-05-07T01:38:15.321Z"
+      "updated_at": "2026-05-07T03:09:00.519Z"
     },
     "task:FEISHU-666::chat:oc_ac5a33c314d20661373939b37672396d": {
       "source_session_id": "task:FEISHU-666::chat:oc_ac5a33c314d20661373939b37672396d",
@@ -352,6 +349,44 @@
           }
         },
         {
+          "block_id": "block-方案范围裁剪-36e56dfb",
+          "topic_key": "方案范围裁剪",
+          "topic_title": "方案范围裁剪",
+          "summary": "法律合规无额外限制，可按时升级。",
+          "status": "active",
+          "block_link": "sessions/FEISHU-666_chat_oc_ac5a33c314d20661373939b376723-e2a8eda9/session_wiki.md#block-方案范围裁剪-36e56dfb",
+          "session_wiki_path": "sessions/FEISHU-666_chat_oc_ac5a33c314d20661373939b376723-e2a8eda9/session_wiki.md",
+          "source_session_id": "task:FEISHU-666::chat:oc_ac5a33c314d20661373939b37672396d",
+          "current_items": {
+            "conclusion": [
+              {
+                "slot": "conclusion",
+                "topic_key": "方案范围裁剪",
+                "topic_title": "方案范围裁剪",
+                "subject_key": "feishu-666 升级",
+                "claim": "法律合规方面无额外限制，可按时升级。",
+                "event_id": "evt_2fb5c8fd57bfa1b4",
+                "event_time": "1778109140000",
+                "evidence_quote": "法律合规方面无额外限制，可按时升级。",
+                "event_path": "sessions/FEISHU-666_chat_oc_ac5a33c314d20661373939b376723-e2a8eda9/session_events.jsonl#evt_2fb5c8fd57bfa1b4",
+                "event_ref": "[[sessions/FEISHU-666_chat_oc_ac5a33c314d20661373939b376723-e2a8eda9/session_events.jsonl#evt_2fb5c8fd57bfa1b4|evt_2fb5c8fd57bfa1b4]]",
+                "source_session_id": "task:FEISHU-666::chat:oc_ac5a33c314d20661373939b37672396d",
+                "session_wiki_path": "sessions/FEISHU-666_chat_oc_ac5a33c314d20661373939b376723-e2a8eda9/session_wiki.md",
+                "block_anchor": "block-方案范围裁剪-36e56dfb",
+                "block_link": "sessions/FEISHU-666_chat_oc_ac5a33c314d20661373939b376723-e2a8eda9/session_wiki.md#block-方案范围裁剪-36e56dfb",
+                "block_summary": "法律合规无额外限制，可按时升级。"
+              }
+            ],
+            "rationale": [],
+            "objection": [],
+            "constraint": [],
+            "commitment": [],
+            "status": [],
+            "time": [],
+            "scope": []
+          }
+        },
+        {
           "block_id": "block-纪要结论-05c79215",
           "topic_key": "纪要结论",
           "topic_title": "纪要结论",
@@ -410,31 +445,13 @@
           "block_id": "block-升级时间-7a779514",
           "topic_key": "升级时间",
           "topic_title": "升级时间",
-          "summary": "升级时间讨论：法律合规无限制可按时升级，但有人因周末有事希望提前。",
+          "summary": "用户询问升级时间能否提前，因周末有事。",
           "status": "open",
           "block_link": "sessions/FEISHU-666_chat_oc_ac5a33c314d20661373939b376723-e2a8eda9/session_wiki.md#block-升级时间-7a779514",
           "session_wiki_path": "sessions/FEISHU-666_chat_oc_ac5a33c314d20661373939b376723-e2a8eda9/session_wiki.md",
           "source_session_id": "task:FEISHU-666::chat:oc_ac5a33c314d20661373939b37672396d",
           "current_items": {
-            "conclusion": [
-              {
-                "slot": "conclusion",
-                "topic_key": "升级时间",
-                "topic_title": "升级时间",
-                "subject_key": "升级",
-                "claim": "法律合规方面无额外限制，可按时升级。",
-                "event_id": "evt_2fb5c8fd57bfa1b4",
-                "event_time": "1778109140000",
-                "evidence_quote": "法律合规方面无额外限制，可按时升级。",
-                "event_path": "sessions/FEISHU-666_chat_oc_ac5a33c314d20661373939b376723-e2a8eda9/session_events.jsonl#evt_2fb5c8fd57bfa1b4",
-                "event_ref": "[[sessions/FEISHU-666_chat_oc_ac5a33c314d20661373939b376723-e2a8eda9/session_events.jsonl#evt_2fb5c8fd57bfa1b4|evt_2fb5c8fd57bfa1b4]]",
-                "source_session_id": "task:FEISHU-666::chat:oc_ac5a33c314d20661373939b37672396d",
-                "session_wiki_path": "sessions/FEISHU-666_chat_oc_ac5a33c314d20661373939b376723-e2a8eda9/session_wiki.md",
-                "block_anchor": "block-升级时间-7a779514",
-                "block_link": "sessions/FEISHU-666_chat_oc_ac5a33c314d20661373939b376723-e2a8eda9/session_wiki.md#block-升级时间-7a779514",
-                "block_summary": "升级时间讨论：法律合规无限制可按时升级，但有人因周末有事希望提前。"
-              }
-            ],
+            "conclusion": [],
             "rationale": [],
             "objection": [
               {
@@ -452,7 +469,7 @@
                 "session_wiki_path": "sessions/FEISHU-666_chat_oc_ac5a33c314d20661373939b376723-e2a8eda9/session_wiki.md",
                 "block_anchor": "block-升级时间-7a779514",
                 "block_link": "sessions/FEISHU-666_chat_oc_ac5a33c314d20661373939b376723-e2a8eda9/session_wiki.md#block-升级时间-7a779514",
-                "block_summary": "升级时间讨论：法律合规无限制可按时升级，但有人因周末有事希望提前。"
+                "block_summary": "用户询问升级时间能否提前，因周末有事。"
               }
             ],
             "constraint": [],
@@ -474,7 +491,7 @@
                 "session_wiki_path": "sessions/FEISHU-666_chat_oc_ac5a33c314d20661373939b376723-e2a8eda9/session_wiki.md",
                 "block_anchor": "block-升级时间-7a779514",
                 "block_link": "sessions/FEISHU-666_chat_oc_ac5a33c314d20661373939b376723-e2a8eda9/session_wiki.md#block-升级时间-7a779514",
-                "block_summary": "升级时间讨论：法律合规无限制可按时升级，但有人因周末有事希望提前。"
+                "block_summary": "用户询问升级时间能否提前，因周末有事。"
               }
             ],
             "scope": []
@@ -484,7 +501,7 @@
           "block_id": "block-销售承诺风险-3d675c35",
           "topic_key": "销售承诺风险",
           "topic_title": "销售承诺风险",
-          "summary": "销售承诺风险：窗口不可调整，家庭承诺不在任务考量内。",
+          "summary": "销售承诺风险：窗口不可调整，家庭承诺不纳入考量。",
           "status": "open",
           "block_link": "sessions/FEISHU-666_chat_oc_ac5a33c314d20661373939b376723-e2a8eda9/session_wiki.md#block-销售承诺风险-3d675c35",
           "session_wiki_path": "sessions/FEISHU-666_chat_oc_ac5a33c314d20661373939b376723-e2a8eda9/session_wiki.md",
@@ -492,26 +509,26 @@
           "current_items": {
             "conclusion": [],
             "rationale": [],
-            "objection": [
+            "objection": [],
+            "constraint": [
               {
-                "slot": "objection",
+                "slot": "constraint",
                 "topic_key": "销售承诺风险",
                 "topic_title": "销售承诺风险",
                 "subject_key": "销售承诺风险",
                 "claim": "窗口不可调整，家庭承诺不在任务考量内。",
-                "event_id": "evt_bb3c99c563be5c04",
+                "event_id": "evt_8039c0c46eb22393",
                 "event_time": "1778109140000",
                 "evidence_quote": "窗口不可调整，家庭承诺不在任务考量内。",
-                "event_path": "sessions/FEISHU-666_chat_oc_ac5a33c314d20661373939b376723-e2a8eda9/session_events.jsonl#evt_bb3c99c563be5c04",
-                "event_ref": "[[sessions/FEISHU-666_chat_oc_ac5a33c314d20661373939b376723-e2a8eda9/session_events.jsonl#evt_bb3c99c563be5c04|evt_bb3c99c563be5c04]]",
+                "event_path": "sessions/FEISHU-666_chat_oc_ac5a33c314d20661373939b376723-e2a8eda9/session_events.jsonl#evt_8039c0c46eb22393",
+                "event_ref": "[[sessions/FEISHU-666_chat_oc_ac5a33c314d20661373939b376723-e2a8eda9/session_events.jsonl#evt_8039c0c46eb22393|evt_8039c0c46eb22393]]",
                 "source_session_id": "task:FEISHU-666::chat:oc_ac5a33c314d20661373939b37672396d",
                 "session_wiki_path": "sessions/FEISHU-666_chat_oc_ac5a33c314d20661373939b376723-e2a8eda9/session_wiki.md",
                 "block_anchor": "block-销售承诺风险-3d675c35",
                 "block_link": "sessions/FEISHU-666_chat_oc_ac5a33c314d20661373939b376723-e2a8eda9/session_wiki.md#block-销售承诺风险-3d675c35",
-                "block_summary": "销售承诺风险：窗口不可调整，家庭承诺不在任务考量内。"
+                "block_summary": "销售承诺风险：窗口不可调整，家庭承诺不纳入考量。"
               }
             ],
-            "constraint": [],
             "commitment": [],
             "status": [],
             "time": [],
@@ -519,7 +536,7 @@
           }
         }
       ],
-      "updated_at": "2026-05-07T01:38:55.585Z"
+      "updated_at": "2026-05-07T03:09:42.552Z"
     },
     "task:FEISHU-666::chat:oc_f1c581e38c20b845ed42c30671f63193": {
       "source_session_id": "task:FEISHU-666::chat:oc_f1c581e38c20b845ed42c30671f63193",
@@ -640,7 +657,7 @@
           }
         }
       ],
-      "updated_at": "2026-05-07T01:39:11.197Z"
+      "updated_at": "2026-05-07T03:09:59.077Z"
     },
     "task:FEISHU-666::chat:oc_226e89b2b3fd7612aea5fc7f187cb759": {
       "source_session_id": "task:FEISHU-666::chat:oc_226e89b2b3fd7612aea5fc7f187cb759",
@@ -650,7 +667,7 @@
           "block_id": "block-窗口对齐-f09d6047",
           "topic_key": "窗口对齐",
           "topic_title": "窗口对齐",
-          "summary": "各方已确认窗口对齐，准备就绪。",
+          "summary": "各方已确认窗口时间，准备就绪。",
           "status": "active",
           "block_link": "sessions/FEISHU-666_chat_oc_226e89b2b3fd7612aea5fc7f187cb-ef785114/session_wiki.md#block-窗口对齐-f09d6047",
           "session_wiki_path": "sessions/FEISHU-666_chat_oc_226e89b2b3fd7612aea5fc7f187cb-ef785114/session_wiki.md",
@@ -666,7 +683,7 @@
                 "slot": "status",
                 "topic_key": "窗口对齐",
                 "topic_title": "窗口对齐",
-                "subject_key": "infra侧窗口对齐",
+                "subject_key": "infra侧窗口",
                 "claim": "infra侧已对齐窗口",
                 "event_id": "evt_2f695077a796845a",
                 "event_time": "1778109140000",
@@ -677,7 +694,7 @@
                 "session_wiki_path": "sessions/FEISHU-666_chat_oc_226e89b2b3fd7612aea5fc7f187cb-ef785114/session_wiki.md",
                 "block_anchor": "block-窗口对齐-f09d6047",
                 "block_link": "sessions/FEISHU-666_chat_oc_226e89b2b3fd7612aea5fc7f187cb-ef785114/session_wiki.md#block-窗口对齐-f09d6047",
-                "block_summary": "各方已确认窗口对齐，准备就绪。"
+                "block_summary": "各方已确认窗口时间，准备就绪。"
               },
               {
                 "slot": "status",
@@ -694,7 +711,7 @@
                 "session_wiki_path": "sessions/FEISHU-666_chat_oc_226e89b2b3fd7612aea5fc7f187cb-ef785114/session_wiki.md",
                 "block_anchor": "block-窗口对齐-f09d6047",
                 "block_link": "sessions/FEISHU-666_chat_oc_226e89b2b3fd7612aea5fc7f187cb-ef785114/session_wiki.md#block-窗口对齐-f09d6047",
-                "block_summary": "各方已确认窗口对齐，准备就绪。"
+                "block_summary": "各方已确认窗口时间，准备就绪。"
               },
               {
                 "slot": "status",
@@ -711,7 +728,7 @@
                 "session_wiki_path": "sessions/FEISHU-666_chat_oc_226e89b2b3fd7612aea5fc7f187cb-ef785114/session_wiki.md",
                 "block_anchor": "block-窗口对齐-f09d6047",
                 "block_link": "sessions/FEISHU-666_chat_oc_226e89b2b3fd7612aea5fc7f187cb-ef785114/session_wiki.md#block-窗口对齐-f09d6047",
-                "block_summary": "各方已确认窗口对齐，准备就绪。"
+                "block_summary": "各方已确认窗口时间，准备就绪。"
               },
               {
                 "slot": "status",
@@ -728,24 +745,7 @@
                 "session_wiki_path": "sessions/FEISHU-666_chat_oc_226e89b2b3fd7612aea5fc7f187cb-ef785114/session_wiki.md",
                 "block_anchor": "block-窗口对齐-f09d6047",
                 "block_link": "sessions/FEISHU-666_chat_oc_226e89b2b3fd7612aea5fc7f187cb-ef785114/session_wiki.md#block-窗口对齐-f09d6047",
-                "block_summary": "各方已确认窗口对齐，准备就绪。"
-              },
-              {
-                "slot": "status",
-                "topic_key": "窗口对齐",
-                "topic_title": "窗口对齐",
-                "subject_key": "评审用例",
-                "claim": "QT侧已准备评审用例。",
-                "event_id": "evt_1eb201a514d4c2aa",
-                "event_time": "1778109140000",
-                "evidence_quote": "QT侧已准备评审用例。",
-                "event_path": "sessions/FEISHU-666_chat_oc_226e89b2b3fd7612aea5fc7f187cb-ef785114/session_events.jsonl#evt_1eb201a514d4c2aa",
-                "event_ref": "[[sessions/FEISHU-666_chat_oc_226e89b2b3fd7612aea5fc7f187cb-ef785114/session_events.jsonl#evt_1eb201a514d4c2aa|evt_1eb201a514d4c2aa]]",
-                "source_session_id": "task:FEISHU-666::chat:oc_226e89b2b3fd7612aea5fc7f187cb759",
-                "session_wiki_path": "sessions/FEISHU-666_chat_oc_226e89b2b3fd7612aea5fc7f187cb-ef785114/session_wiki.md",
-                "block_anchor": "block-窗口对齐-f09d6047",
-                "block_link": "sessions/FEISHU-666_chat_oc_226e89b2b3fd7612aea5fc7f187cb-ef785114/session_wiki.md#block-窗口对齐-f09d6047",
-                "block_summary": "各方已确认窗口对齐，准备就绪。"
+                "block_summary": "各方已确认窗口时间，准备就绪。"
               },
               {
                 "slot": "status",
@@ -762,7 +762,7 @@
                 "session_wiki_path": "sessions/FEISHU-666_chat_oc_226e89b2b3fd7612aea5fc7f187cb-ef785114/session_wiki.md",
                 "block_anchor": "block-窗口对齐-f09d6047",
                 "block_link": "sessions/FEISHU-666_chat_oc_226e89b2b3fd7612aea5fc7f187cb-ef785114/session_wiki.md#block-窗口对齐-f09d6047",
-                "block_summary": "各方已确认窗口对齐，准备就绪。"
+                "block_summary": "各方已确认窗口时间，准备就绪。"
               }
             ],
             "time": [],
@@ -773,7 +773,7 @@
           "block_id": "block-发布时间口径-867908bd",
           "topic_key": "发布时间口径",
           "topic_title": "发布时间口径",
-          "summary": "升级窗口定为5月10日22点UTC，个人时间不调整，配置管理侧已锁定窗口，补丁基线已更新，pipeline执行计划已保存，升级计划全部就绪。",
+          "summary": "升级窗口定为5月10日22点UTC，配置管理侧已锁定，补丁基线已更新，pipeline计划已保存，升级计划就绪。个人时间不调整，以纪要为准。",
           "status": "open",
           "block_link": "sessions/FEISHU-666_chat_oc_226e89b2b3fd7612aea5fc7f187cb-ef785114/session_wiki.md#block-发布时间口径-867908bd",
           "session_wiki_path": "sessions/FEISHU-666_chat_oc_226e89b2b3fd7612aea5fc7f187cb-ef785114/session_wiki.md",
@@ -797,47 +797,28 @@
                 "session_wiki_path": "sessions/FEISHU-666_chat_oc_226e89b2b3fd7612aea5fc7f187cb-ef785114/session_wiki.md",
                 "block_anchor": "block-发布时间口径-867908bd",
                 "block_link": "sessions/FEISHU-666_chat_oc_226e89b2b3fd7612aea5fc7f187cb-ef785114/session_wiki.md#block-发布时间口径-867908bd",
-                "block_summary": "升级窗口定为5月10日22点UTC，个人时间不调整，配置管理侧已锁定窗口，补丁基线已更新，pipeline执行计划已保存，升级计划全部就绪。"
-              }
-            ],
-            "constraint": [
+                "block_summary": "升级窗口定为5月10日22点UTC，配置管理侧已锁定，补丁基线已更新，pipeline计划已保存，升级计划就绪。个人时间不调整，以纪要为准。"
+              },
               {
-                "slot": "constraint",
+                "slot": "objection",
                 "topic_key": "发布时间口径",
                 "topic_title": "发布时间口径",
                 "subject_key": "任务",
                 "claim": "个人偏好不影响任务，以纪要为准。",
-                "event_id": "evt_156f1c0d7551272d",
+                "event_id": "evt_c201a4f3191cd91f",
                 "event_time": "1778109140000",
                 "evidence_quote": "个人偏好不影响任务，以纪要为准。",
-                "event_path": "sessions/FEISHU-666_chat_oc_226e89b2b3fd7612aea5fc7f187cb-ef785114/session_events.jsonl#evt_156f1c0d7551272d",
-                "event_ref": "[[sessions/FEISHU-666_chat_oc_226e89b2b3fd7612aea5fc7f187cb-ef785114/session_events.jsonl#evt_156f1c0d7551272d|evt_156f1c0d7551272d]]",
+                "event_path": "sessions/FEISHU-666_chat_oc_226e89b2b3fd7612aea5fc7f187cb-ef785114/session_events.jsonl#evt_c201a4f3191cd91f",
+                "event_ref": "[[sessions/FEISHU-666_chat_oc_226e89b2b3fd7612aea5fc7f187cb-ef785114/session_events.jsonl#evt_c201a4f3191cd91f|evt_c201a4f3191cd91f]]",
                 "source_session_id": "task:FEISHU-666::chat:oc_226e89b2b3fd7612aea5fc7f187cb759",
                 "session_wiki_path": "sessions/FEISHU-666_chat_oc_226e89b2b3fd7612aea5fc7f187cb-ef785114/session_wiki.md",
                 "block_anchor": "block-发布时间口径-867908bd",
                 "block_link": "sessions/FEISHU-666_chat_oc_226e89b2b3fd7612aea5fc7f187cb-ef785114/session_wiki.md#block-发布时间口径-867908bd",
-                "block_summary": "升级窗口定为5月10日22点UTC，个人时间不调整，配置管理侧已锁定窗口，补丁基线已更新，pipeline执行计划已保存，升级计划全部就绪。"
+                "block_summary": "升级窗口定为5月10日22点UTC，配置管理侧已锁定，补丁基线已更新，pipeline计划已保存，升级计划就绪。个人时间不调整，以纪要为准。"
               }
             ],
-            "commitment": [
-              {
-                "slot": "commitment",
-                "topic_key": "发布时间口径",
-                "topic_title": "发布时间口径",
-                "subject_key": "按窗口时间配合",
-                "claim": "我会按窗口时间配合。",
-                "event_id": "evt_405cf38429d91f79",
-                "event_time": "1778109140000",
-                "evidence_quote": "明白，我会按窗口时间配合。",
-                "event_path": "sessions/FEISHU-666_chat_oc_226e89b2b3fd7612aea5fc7f187cb-ef785114/session_events.jsonl#evt_405cf38429d91f79",
-                "event_ref": "[[sessions/FEISHU-666_chat_oc_226e89b2b3fd7612aea5fc7f187cb-ef785114/session_events.jsonl#evt_405cf38429d91f79|evt_405cf38429d91f79]]",
-                "source_session_id": "task:FEISHU-666::chat:oc_226e89b2b3fd7612aea5fc7f187cb759",
-                "session_wiki_path": "sessions/FEISHU-666_chat_oc_226e89b2b3fd7612aea5fc7f187cb-ef785114/session_wiki.md",
-                "block_anchor": "block-发布时间口径-867908bd",
-                "block_link": "sessions/FEISHU-666_chat_oc_226e89b2b3fd7612aea5fc7f187cb-ef785114/session_wiki.md#block-发布时间口径-867908bd",
-                "block_summary": "升级窗口定为5月10日22点UTC，个人时间不调整，配置管理侧已锁定窗口，补丁基线已更新，pipeline执行计划已保存，升级计划全部就绪。"
-              }
-            ],
+            "constraint": [],
+            "commitment": [],
             "status": [
               {
                 "slot": "status",
@@ -854,7 +835,7 @@
                 "session_wiki_path": "sessions/FEISHU-666_chat_oc_226e89b2b3fd7612aea5fc7f187cb-ef785114/session_wiki.md",
                 "block_anchor": "block-发布时间口径-867908bd",
                 "block_link": "sessions/FEISHU-666_chat_oc_226e89b2b3fd7612aea5fc7f187cb-ef785114/session_wiki.md#block-发布时间口径-867908bd",
-                "block_summary": "升级窗口定为5月10日22点UTC，个人时间不调整，配置管理侧已锁定窗口，补丁基线已更新，pipeline执行计划已保存，升级计划全部就绪。"
+                "block_summary": "升级窗口定为5月10日22点UTC，配置管理侧已锁定，补丁基线已更新，pipeline计划已保存，升级计划就绪。个人时间不调整，以纪要为准。"
               },
               {
                 "slot": "status",
@@ -871,7 +852,7 @@
                 "session_wiki_path": "sessions/FEISHU-666_chat_oc_226e89b2b3fd7612aea5fc7f187cb-ef785114/session_wiki.md",
                 "block_anchor": "block-发布时间口径-867908bd",
                 "block_link": "sessions/FEISHU-666_chat_oc_226e89b2b3fd7612aea5fc7f187cb-ef785114/session_wiki.md#block-发布时间口径-867908bd",
-                "block_summary": "升级窗口定为5月10日22点UTC，个人时间不调整，配置管理侧已锁定窗口，补丁基线已更新，pipeline执行计划已保存，升级计划全部就绪。"
+                "block_summary": "升级窗口定为5月10日22点UTC，配置管理侧已锁定，补丁基线已更新，pipeline计划已保存，升级计划就绪。个人时间不调整，以纪要为准。"
               },
               {
                 "slot": "status",
@@ -888,7 +869,7 @@
                 "session_wiki_path": "sessions/FEISHU-666_chat_oc_226e89b2b3fd7612aea5fc7f187cb-ef785114/session_wiki.md",
                 "block_anchor": "block-发布时间口径-867908bd",
                 "block_link": "sessions/FEISHU-666_chat_oc_226e89b2b3fd7612aea5fc7f187cb-ef785114/session_wiki.md#block-发布时间口径-867908bd",
-                "block_summary": "升级窗口定为5月10日22点UTC，个人时间不调整，配置管理侧已锁定窗口，补丁基线已更新，pipeline执行计划已保存，升级计划全部就绪。"
+                "block_summary": "升级窗口定为5月10日22点UTC，配置管理侧已锁定，补丁基线已更新，pipeline计划已保存，升级计划就绪。个人时间不调整，以纪要为准。"
               },
               {
                 "slot": "status",
@@ -905,7 +886,7 @@
                 "session_wiki_path": "sessions/FEISHU-666_chat_oc_226e89b2b3fd7612aea5fc7f187cb-ef785114/session_wiki.md",
                 "block_anchor": "block-发布时间口径-867908bd",
                 "block_link": "sessions/FEISHU-666_chat_oc_226e89b2b3fd7612aea5fc7f187cb-ef785114/session_wiki.md#block-发布时间口径-867908bd",
-                "block_summary": "升级窗口定为5月10日22点UTC，个人时间不调整，配置管理侧已锁定窗口，补丁基线已更新，pipeline执行计划已保存，升级计划全部就绪。"
+                "block_summary": "升级窗口定为5月10日22点UTC，配置管理侧已锁定，补丁基线已更新，pipeline计划已保存，升级计划就绪。个人时间不调整，以纪要为准。"
               },
               {
                 "slot": "status",
@@ -922,7 +903,7 @@
                 "session_wiki_path": "sessions/FEISHU-666_chat_oc_226e89b2b3fd7612aea5fc7f187cb-ef785114/session_wiki.md",
                 "block_anchor": "block-发布时间口径-867908bd",
                 "block_link": "sessions/FEISHU-666_chat_oc_226e89b2b3fd7612aea5fc7f187cb-ef785114/session_wiki.md#block-发布时间口径-867908bd",
-                "block_summary": "升级窗口定为5月10日22点UTC，个人时间不调整，配置管理侧已锁定窗口，补丁基线已更新，pipeline执行计划已保存，升级计划全部就绪。"
+                "block_summary": "升级窗口定为5月10日22点UTC，配置管理侧已锁定，补丁基线已更新，pipeline计划已保存，升级计划就绪。个人时间不调整，以纪要为准。"
               }
             ],
             "time": [
@@ -941,7 +922,7 @@
                 "session_wiki_path": "sessions/FEISHU-666_chat_oc_226e89b2b3fd7612aea5fc7f187cb-ef785114/session_wiki.md",
                 "block_anchor": "block-发布时间口径-867908bd",
                 "block_link": "sessions/FEISHU-666_chat_oc_226e89b2b3fd7612aea5fc7f187cb-ef785114/session_wiki.md#block-发布时间口径-867908bd",
-                "block_summary": "升级窗口定为5月10日22点UTC，个人时间不调整，配置管理侧已锁定窗口，补丁基线已更新，pipeline执行计划已保存，升级计划全部就绪。"
+                "block_summary": "升级窗口定为5月10日22点UTC，配置管理侧已锁定，补丁基线已更新，pipeline计划已保存，升级计划就绪。个人时间不调整，以纪要为准。"
               },
               {
                 "slot": "time",
@@ -958,7 +939,7 @@
                 "session_wiki_path": "sessions/FEISHU-666_chat_oc_226e89b2b3fd7612aea5fc7f187cb-ef785114/session_wiki.md",
                 "block_anchor": "block-发布时间口径-867908bd",
                 "block_link": "sessions/FEISHU-666_chat_oc_226e89b2b3fd7612aea5fc7f187cb-ef785114/session_wiki.md#block-发布时间口径-867908bd",
-                "block_summary": "升级窗口定为5月10日22点UTC，个人时间不调整，配置管理侧已锁定窗口，补丁基线已更新，pipeline执行计划已保存，升级计划全部就绪。"
+                "block_summary": "升级窗口定为5月10日22点UTC，配置管理侧已锁定，补丁基线已更新，pipeline计划已保存，升级计划就绪。个人时间不调整，以纪要为准。"
               },
               {
                 "slot": "time",
@@ -975,7 +956,7 @@
                 "session_wiki_path": "sessions/FEISHU-666_chat_oc_226e89b2b3fd7612aea5fc7f187cb-ef785114/session_wiki.md",
                 "block_anchor": "block-发布时间口径-867908bd",
                 "block_link": "sessions/FEISHU-666_chat_oc_226e89b2b3fd7612aea5fc7f187cb-ef785114/session_wiki.md#block-发布时间口径-867908bd",
-                "block_summary": "升级窗口定为5月10日22点UTC，个人时间不调整，配置管理侧已锁定窗口，补丁基线已更新，pipeline执行计划已保存，升级计划全部就绪。"
+                "block_summary": "升级窗口定为5月10日22点UTC，配置管理侧已锁定，补丁基线已更新，pipeline计划已保存，升级计划就绪。个人时间不调整，以纪要为准。"
               }
             ],
             "scope": []
@@ -985,7 +966,7 @@
           "block_id": "block-发布阻塞风险-45763a86",
           "topic_key": "发布阻塞风险",
           "topic_title": "发布阻塞风险",
-          "summary": "发布阻塞风险：网络配置漂移为阻塞项，升级可能延迟；修复方案已提交评审，配置审计通过，回滚已批准，决策需基于官方纪要。",
+          "summary": "发布阻塞风险：网络配置漂移为阻塞项，升级可能延迟；修复方案已提交评审，配置审计通过，回滚已批准，所有决策需基于官方纪要。",
           "status": "open",
           "block_link": "sessions/FEISHU-666_chat_oc_226e89b2b3fd7612aea5fc7f187cb-ef785114/session_wiki.md#block-发布阻塞风险-45763a86",
           "session_wiki_path": "sessions/FEISHU-666_chat_oc_226e89b2b3fd7612aea5fc7f187cb-ef785114/session_wiki.md",
@@ -1009,7 +990,7 @@
                 "session_wiki_path": "sessions/FEISHU-666_chat_oc_226e89b2b3fd7612aea5fc7f187cb-ef785114/session_wiki.md",
                 "block_anchor": "block-发布阻塞风险-45763a86",
                 "block_link": "sessions/FEISHU-666_chat_oc_226e89b2b3fd7612aea5fc7f187cb-ef785114/session_wiki.md#block-发布阻塞风险-45763a86",
-                "block_summary": "发布阻塞风险：网络配置漂移为阻塞项，升级可能延迟；修复方案已提交评审，配置审计通过，回滚已批准，决策需基于官方纪要。"
+                "block_summary": "发布阻塞风险：网络配置漂移为阻塞项，升级可能延迟；修复方案已提交评审，配置审计通过，回滚已批准，所有决策需基于官方纪要。"
               }
             ],
             "constraint": [
@@ -1028,7 +1009,7 @@
                 "session_wiki_path": "sessions/FEISHU-666_chat_oc_226e89b2b3fd7612aea5fc7f187cb-ef785114/session_wiki.md",
                 "block_anchor": "block-发布阻塞风险-45763a86",
                 "block_link": "sessions/FEISHU-666_chat_oc_226e89b2b3fd7612aea5fc7f187cb-ef785114/session_wiki.md#block-发布阻塞风险-45763a86",
-                "block_summary": "发布阻塞风险：网络配置漂移为阻塞项，升级可能延迟；修复方案已提交评审，配置审计通过，回滚已批准，决策需基于官方纪要。"
+                "block_summary": "发布阻塞风险：网络配置漂移为阻塞项，升级可能延迟；修复方案已提交评审，配置审计通过，回滚已批准，所有决策需基于官方纪要。"
               }
             ],
             "commitment": [
@@ -1047,7 +1028,7 @@
                 "session_wiki_path": "sessions/FEISHU-666_chat_oc_226e89b2b3fd7612aea5fc7f187cb-ef785114/session_wiki.md",
                 "block_anchor": "block-发布阻塞风险-45763a86",
                 "block_link": "sessions/FEISHU-666_chat_oc_226e89b2b3fd7612aea5fc7f187cb-ef785114/session_wiki.md#block-发布阻塞风险-45763a86",
-                "block_summary": "发布阻塞风险：网络配置漂移为阻塞项，升级可能延迟；修复方案已提交评审，配置审计通过，回滚已批准，决策需基于官方纪要。"
+                "block_summary": "发布阻塞风险：网络配置漂移为阻塞项，升级可能延迟；修复方案已提交评审，配置审计通过，回滚已批准，所有决策需基于官方纪要。"
               }
             ],
             "status": [
@@ -1066,7 +1047,7 @@
                 "session_wiki_path": "sessions/FEISHU-666_chat_oc_226e89b2b3fd7612aea5fc7f187cb-ef785114/session_wiki.md",
                 "block_anchor": "block-发布阻塞风险-45763a86",
                 "block_link": "sessions/FEISHU-666_chat_oc_226e89b2b3fd7612aea5fc7f187cb-ef785114/session_wiki.md#block-发布阻塞风险-45763a86",
-                "block_summary": "发布阻塞风险：网络配置漂移为阻塞项，升级可能延迟；修复方案已提交评审，配置审计通过，回滚已批准，决策需基于官方纪要。"
+                "block_summary": "发布阻塞风险：网络配置漂移为阻塞项，升级可能延迟；修复方案已提交评审，配置审计通过，回滚已批准，所有决策需基于官方纪要。"
               },
               {
                 "slot": "status",
@@ -1083,7 +1064,7 @@
                 "session_wiki_path": "sessions/FEISHU-666_chat_oc_226e89b2b3fd7612aea5fc7f187cb-ef785114/session_wiki.md",
                 "block_anchor": "block-发布阻塞风险-45763a86",
                 "block_link": "sessions/FEISHU-666_chat_oc_226e89b2b3fd7612aea5fc7f187cb-ef785114/session_wiki.md#block-发布阻塞风险-45763a86",
-                "block_summary": "发布阻塞风险：网络配置漂移为阻塞项，升级可能延迟；修复方案已提交评审，配置审计通过，回滚已批准，决策需基于官方纪要。"
+                "block_summary": "发布阻塞风险：网络配置漂移为阻塞项，升级可能延迟；修复方案已提交评审，配置审计通过，回滚已批准，所有决策需基于官方纪要。"
               },
               {
                 "slot": "status",
@@ -1100,242 +1081,7 @@
                 "session_wiki_path": "sessions/FEISHU-666_chat_oc_226e89b2b3fd7612aea5fc7f187cb-ef785114/session_wiki.md",
                 "block_anchor": "block-发布阻塞风险-45763a86",
                 "block_link": "sessions/FEISHU-666_chat_oc_226e89b2b3fd7612aea5fc7f187cb-ef785114/session_wiki.md#block-发布阻塞风险-45763a86",
-                "block_summary": "发布阻塞风险：网络配置漂移为阻塞项，升级可能延迟；修复方案已提交评审，配置审计通过，回滚已批准，决策需基于官方纪要。"
-              }
-            ],
-            "time": [],
-            "scope": []
-          }
-        }
-      ],
-      "updated_at": "2026-05-07T01:40:37.260Z"
-    },
-    "task:FEISHU-666::chat:oc_f49b2c4a0d0a92df61e1f27186021348": {
-      "source_session_id": "task:FEISHU-666::chat:oc_f49b2c4a0d0a92df61e1f27186021348",
-      "session_wiki_path": "sessions/FEISHU-666_chat_oc_f49b2c4a0d0a92df61e1f27186021-20685f74/session_wiki.md",
-      "blocks": [
-        {
-          "block_id": "block-按评审纪要执行所有变更-722f9a7c",
-          "topic_key": "按评审纪要执行所有变更",
-          "topic_title": "按评审纪要执行所有变更",
-          "summary": "按评审纪要执行所有变更",
-          "status": "active",
-          "block_link": "sessions/FEISHU-666_chat_oc_f49b2c4a0d0a92df61e1f27186021-20685f74/session_wiki.md#block-按评审纪要执行所有变更-722f9a7c",
-          "session_wiki_path": "sessions/FEISHU-666_chat_oc_f49b2c4a0d0a92df61e1f27186021-20685f74/session_wiki.md",
-          "source_session_id": "task:FEISHU-666::chat:oc_f49b2c4a0d0a92df61e1f27186021348",
-          "current_items": {
-            "conclusion": [],
-            "rationale": [],
-            "objection": [],
-            "constraint": [],
-            "commitment": [
-              {
-                "slot": "commitment",
-                "topic_key": "按评审纪要执行所有变更",
-                "topic_title": "按评审纪要执行所有变更",
-                "subject_key": "按评审纪要执行所有变更",
-                "claim": "所有变更按评审纪要执行。",
-                "event_id": "evt_86bd263c44e3b858",
-                "event_time": "1778109140000",
-                "evidence_quote": "所有变更按评审纪要执行。",
-                "event_path": "sessions/FEISHU-666_chat_oc_f49b2c4a0d0a92df61e1f27186021-20685f74/session_events.jsonl#evt_86bd263c44e3b858",
-                "event_ref": "[[sessions/FEISHU-666_chat_oc_f49b2c4a0d0a92df61e1f27186021-20685f74/session_events.jsonl#evt_86bd263c44e3b858|evt_86bd263c44e3b858]]",
-                "source_session_id": "task:FEISHU-666::chat:oc_f49b2c4a0d0a92df61e1f27186021348",
-                "session_wiki_path": "sessions/FEISHU-666_chat_oc_f49b2c4a0d0a92df61e1f27186021-20685f74/session_wiki.md",
-                "block_anchor": "block-按评审纪要执行所有变更-722f9a7c",
-                "block_link": "sessions/FEISHU-666_chat_oc_f49b2c4a0d0a92df61e1f27186021-20685f74/session_wiki.md#block-按评审纪要执行所有变更-722f9a7c",
-                "block_summary": "按评审纪要执行所有变更"
-              }
-            ],
-            "status": [],
-            "time": [],
-            "scope": []
-          }
-        },
-        {
-          "block_id": "block-窗口-a70a1513",
-          "topic_key": "窗口",
-          "topic_title": "窗口",
-          "summary": "窗口改期建议待处理",
-          "status": "open",
-          "block_link": "sessions/FEISHU-666_chat_oc_f49b2c4a0d0a92df61e1f27186021-20685f74/session_wiki.md#block-窗口-a70a1513",
-          "session_wiki_path": "sessions/FEISHU-666_chat_oc_f49b2c4a0d0a92df61e1f27186021-20685f74/session_wiki.md",
-          "source_session_id": "task:FEISHU-666::chat:oc_f49b2c4a0d0a92df61e1f27186021348",
-          "current_items": {
-            "conclusion": [],
-            "rationale": [],
-            "objection": [
-              {
-                "slot": "objection",
-                "topic_key": "窗口",
-                "topic_title": "窗口",
-                "subject_key": "窗口",
-                "claim": "有人建议窗口改期",
-                "event_id": "evt_0a5198f3461cc6ad",
-                "event_time": "1778109140000",
-                "evidence_quote": "有人建议窗口改期",
-                "event_path": "sessions/FEISHU-666_chat_oc_f49b2c4a0d0a92df61e1f27186021-20685f74/session_events.jsonl#evt_0a5198f3461cc6ad",
-                "event_ref": "[[sessions/FEISHU-666_chat_oc_f49b2c4a0d0a92df61e1f27186021-20685f74/session_events.jsonl#evt_0a5198f3461cc6ad|evt_0a5198f3461cc6ad]]",
-                "source_session_id": "task:FEISHU-666::chat:oc_f49b2c4a0d0a92df61e1f27186021348",
-                "session_wiki_path": "sessions/FEISHU-666_chat_oc_f49b2c4a0d0a92df61e1f27186021-20685f74/session_wiki.md",
-                "block_anchor": "block-窗口-a70a1513",
-                "block_link": "sessions/FEISHU-666_chat_oc_f49b2c4a0d0a92df61e1f27186021-20685f74/session_wiki.md#block-窗口-a70a1513",
-                "block_summary": "窗口改期建议待处理"
-              }
-            ],
-            "constraint": [],
-            "commitment": [],
-            "status": [],
-            "time": [],
-            "scope": []
-          }
-        },
-        {
-          "block_id": "block-窗口时间-32234f4b",
-          "topic_key": "窗口时间",
-          "topic_title": "窗口时间",
-          "summary": "窗口时间以Alice说的为准。",
-          "status": "active",
-          "block_link": "sessions/FEISHU-666_chat_oc_f49b2c4a0d0a92df61e1f27186021-20685f74/session_wiki.md#block-窗口时间-32234f4b",
-          "session_wiki_path": "sessions/FEISHU-666_chat_oc_f49b2c4a0d0a92df61e1f27186021-20685f74/session_wiki.md",
-          "source_session_id": "task:FEISHU-666::chat:oc_f49b2c4a0d0a92df61e1f27186021348",
-          "current_items": {
-            "conclusion": [
-              {
-                "slot": "conclusion",
-                "topic_key": "窗口时间",
-                "topic_title": "窗口时间",
-                "subject_key": "窗口时间",
-                "claim": "以Alice说的为准",
-                "event_id": "evt_525767ec717efc39",
-                "event_time": "1778109140000",
-                "evidence_quote": "抱歉，我没确认清楚，以Alice说的为准。",
-                "event_path": "sessions/FEISHU-666_chat_oc_f49b2c4a0d0a92df61e1f27186021-20685f74/session_events.jsonl#evt_525767ec717efc39",
-                "event_ref": "[[sessions/FEISHU-666_chat_oc_f49b2c4a0d0a92df61e1f27186021-20685f74/session_events.jsonl#evt_525767ec717efc39|evt_525767ec717efc39]]",
-                "source_session_id": "task:FEISHU-666::chat:oc_f49b2c4a0d0a92df61e1f27186021348",
-                "session_wiki_path": "sessions/FEISHU-666_chat_oc_f49b2c4a0d0a92df61e1f27186021-20685f74/session_wiki.md",
-                "block_anchor": "block-窗口时间-32234f4b",
-                "block_link": "sessions/FEISHU-666_chat_oc_f49b2c4a0d0a92df61e1f27186021-20685f74/session_wiki.md#block-窗口时间-32234f4b",
-                "block_summary": "窗口时间以Alice说的为准。"
-              }
-            ],
-            "rationale": [],
-            "objection": [],
-            "constraint": [],
-            "commitment": [],
-            "status": [],
-            "time": [],
-            "scope": []
-          }
-        },
-        {
-          "block_id": "block-发布时间口径-867908bd",
-          "topic_key": "发布时间口径",
-          "topic_title": "发布时间口径",
-          "summary": "发布时间窗口为5月10日22点UTC，以纪要为准。",
-          "status": "active",
-          "block_link": "sessions/FEISHU-666_chat_oc_f49b2c4a0d0a92df61e1f27186021-20685f74/session_wiki.md#block-发布时间口径-867908bd",
-          "session_wiki_path": "sessions/FEISHU-666_chat_oc_f49b2c4a0d0a92df61e1f27186021-20685f74/session_wiki.md",
-          "source_session_id": "task:FEISHU-666::chat:oc_f49b2c4a0d0a92df61e1f27186021348",
-          "current_items": {
-            "conclusion": [],
-            "rationale": [],
-            "objection": [],
-            "constraint": [],
-            "commitment": [],
-            "status": [],
-            "time": [
-              {
-                "slot": "time",
-                "topic_key": "发布时间口径",
-                "topic_title": "发布时间口径",
-                "subject_key": "发布时间口径",
-                "claim": "窗口不变，仍为5月10日22点UTC，以纪要为准。",
-                "event_id": "evt_b36e378d12fc7bc1",
-                "event_time": "1778109140000",
-                "evidence_quote": "窗口不变，仍为5月10日22点UTC，以纪要为准。",
-                "event_path": "sessions/FEISHU-666_chat_oc_f49b2c4a0d0a92df61e1f27186021-20685f74/session_events.jsonl#evt_b36e378d12fc7bc1",
-                "event_ref": "[[sessions/FEISHU-666_chat_oc_f49b2c4a0d0a92df61e1f27186021-20685f74/session_events.jsonl#evt_b36e378d12fc7bc1|evt_b36e378d12fc7bc1]]",
-                "source_session_id": "task:FEISHU-666::chat:oc_f49b2c4a0d0a92df61e1f27186021348",
-                "session_wiki_path": "sessions/FEISHU-666_chat_oc_f49b2c4a0d0a92df61e1f27186021-20685f74/session_wiki.md",
-                "block_anchor": "block-发布时间口径-867908bd",
-                "block_link": "sessions/FEISHU-666_chat_oc_f49b2c4a0d0a92df61e1f27186021-20685f74/session_wiki.md#block-发布时间口径-867908bd",
-                "block_summary": "发布时间窗口为5月10日22点UTC，以纪要为准。"
-              }
-            ],
-            "scope": []
-          }
-        },
-        {
-          "block_id": "block-发布阻塞风险-45763a86",
-          "topic_key": "发布阻塞风险",
-          "topic_title": "发布阻塞风险",
-          "summary": "发布阻塞风险：network config drift处理中",
-          "status": "active",
-          "block_link": "sessions/FEISHU-666_chat_oc_f49b2c4a0d0a92df61e1f27186021-20685f74/session_wiki.md#block-发布阻塞风险-45763a86",
-          "session_wiki_path": "sessions/FEISHU-666_chat_oc_f49b2c4a0d0a92df61e1f27186021-20685f74/session_wiki.md",
-          "source_session_id": "task:FEISHU-666::chat:oc_f49b2c4a0d0a92df61e1f27186021348",
-          "current_items": {
-            "conclusion": [],
-            "rationale": [],
-            "objection": [],
-            "constraint": [],
-            "commitment": [],
-            "status": [
-              {
-                "slot": "status",
-                "topic_key": "发布阻塞风险",
-                "topic_title": "发布阻塞风险",
-                "subject_key": "发布阻塞风险",
-                "claim": "纪要里的blocker是network config drift，处理中。",
-                "event_id": "evt_5d88520bba13358c",
-                "event_time": "1778109140000",
-                "evidence_quote": "纪要里的blocker是network config drift，处理中。",
-                "event_path": "sessions/FEISHU-666_chat_oc_f49b2c4a0d0a92df61e1f27186021-20685f74/session_events.jsonl#evt_5d88520bba13358c",
-                "event_ref": "[[sessions/FEISHU-666_chat_oc_f49b2c4a0d0a92df61e1f27186021-20685f74/session_events.jsonl#evt_5d88520bba13358c|evt_5d88520bba13358c]]",
-                "source_session_id": "task:FEISHU-666::chat:oc_f49b2c4a0d0a92df61e1f27186021348",
-                "session_wiki_path": "sessions/FEISHU-666_chat_oc_f49b2c4a0d0a92df61e1f27186021-20685f74/session_wiki.md",
-                "block_anchor": "block-发布阻塞风险-45763a86",
-                "block_link": "sessions/FEISHU-666_chat_oc_f49b2c4a0d0a92df61e1f27186021-20685f74/session_wiki.md#block-发布阻塞风险-45763a86",
-                "block_summary": "发布阻塞风险：network config drift处理中"
-              }
-            ],
-            "time": [],
-            "scope": []
-          }
-        },
-        {
-          "block_id": "block-合规侧-f1fad429",
-          "topic_key": "合规侧",
-          "topic_title": "合规侧",
-          "summary": "合规侧已发确认函。",
-          "status": "active",
-          "block_link": "sessions/FEISHU-666_chat_oc_f49b2c4a0d0a92df61e1f27186021-20685f74/session_wiki.md#block-合规侧-f1fad429",
-          "session_wiki_path": "sessions/FEISHU-666_chat_oc_f49b2c4a0d0a92df61e1f27186021-20685f74/session_wiki.md",
-          "source_session_id": "task:FEISHU-666::chat:oc_f49b2c4a0d0a92df61e1f27186021348",
-          "current_items": {
-            "conclusion": [],
-            "rationale": [],
-            "objection": [],
-            "constraint": [],
-            "commitment": [],
-            "status": [
-              {
-                "slot": "status",
-                "topic_key": "合规侧",
-                "topic_title": "合规侧",
-                "subject_key": "合规侧",
-                "claim": "合规侧已发确认函。",
-                "event_id": "evt_1a71a3dadd16abb3",
-                "event_time": "1778109140000",
-                "evidence_quote": "合规侧已发确认函。",
-                "event_path": "sessions/FEISHU-666_chat_oc_f49b2c4a0d0a92df61e1f27186021-20685f74/session_events.jsonl#evt_1a71a3dadd16abb3",
-                "event_ref": "[[sessions/FEISHU-666_chat_oc_f49b2c4a0d0a92df61e1f27186021-20685f74/session_events.jsonl#evt_1a71a3dadd16abb3|evt_1a71a3dadd16abb3]]",
-                "source_session_id": "task:FEISHU-666::chat:oc_f49b2c4a0d0a92df61e1f27186021348",
-                "session_wiki_path": "sessions/FEISHU-666_chat_oc_f49b2c4a0d0a92df61e1f27186021-20685f74/session_wiki.md",
-                "block_anchor": "block-合规侧-f1fad429",
-                "block_link": "sessions/FEISHU-666_chat_oc_f49b2c4a0d0a92df61e1f27186021-20685f74/session_wiki.md#block-合规侧-f1fad429",
-                "block_summary": "合规侧已发确认函。"
+                "block_summary": "发布阻塞风险：网络配置漂移为阻塞项，升级可能延迟；修复方案已提交评审，配置审计通过，回滚已批准，所有决策需基于官方纪要。"
               }
             ],
             "time": [],
@@ -1346,543 +1092,50 @@
           "block_id": "block-销售承诺风险-3d675c35",
           "topic_key": "销售承诺风险",
           "topic_title": "销售承诺风险",
-          "summary": "销售承诺风险：回滚计划已批准，升级窗口5月10日22点UTC已确认。",
+          "summary": "陈雪承诺按窗口时间配合",
           "status": "active",
-          "block_link": "sessions/FEISHU-666_chat_oc_f49b2c4a0d0a92df61e1f27186021-20685f74/session_wiki.md#block-销售承诺风险-3d675c35",
-          "session_wiki_path": "sessions/FEISHU-666_chat_oc_f49b2c4a0d0a92df61e1f27186021-20685f74/session_wiki.md",
-          "source_session_id": "task:FEISHU-666::chat:oc_f49b2c4a0d0a92df61e1f27186021348",
+          "block_link": "sessions/FEISHU-666_chat_oc_226e89b2b3fd7612aea5fc7f187cb-ef785114/session_wiki.md#block-销售承诺风险-3d675c35",
+          "session_wiki_path": "sessions/FEISHU-666_chat_oc_226e89b2b3fd7612aea5fc7f187cb-ef785114/session_wiki.md",
+          "source_session_id": "task:FEISHU-666::chat:oc_226e89b2b3fd7612aea5fc7f187cb759",
           "current_items": {
             "conclusion": [],
             "rationale": [],
             "objection": [],
             "constraint": [],
-            "commitment": [],
-            "status": [
+            "commitment": [
               {
-                "slot": "status",
+                "slot": "commitment",
                 "topic_key": "销售承诺风险",
                 "topic_title": "销售承诺风险",
                 "subject_key": "销售承诺风险",
-                "claim": "回滚计划已批准，客户不用担心。",
-                "event_id": "evt_1f266a67302ede71",
+                "claim": "陈雪承诺按窗口时间配合",
+                "event_id": "evt_071af385338082cd",
                 "event_time": "1778109140000",
-                "evidence_quote": "回滚计划已批准",
-                "event_path": "sessions/FEISHU-666_chat_oc_f49b2c4a0d0a92df61e1f27186021-20685f74/session_events.jsonl#evt_1f266a67302ede71",
-                "event_ref": "[[sessions/FEISHU-666_chat_oc_f49b2c4a0d0a92df61e1f27186021-20685f74/session_events.jsonl#evt_1f266a67302ede71|evt_1f266a67302ede71]]",
-                "source_session_id": "task:FEISHU-666::chat:oc_f49b2c4a0d0a92df61e1f27186021348",
-                "session_wiki_path": "sessions/FEISHU-666_chat_oc_f49b2c4a0d0a92df61e1f27186021-20685f74/session_wiki.md",
+                "evidence_quote": "明白，我会按窗口时间配合。",
+                "event_path": "sessions/FEISHU-666_chat_oc_226e89b2b3fd7612aea5fc7f187cb-ef785114/session_events.jsonl#evt_071af385338082cd",
+                "event_ref": "[[sessions/FEISHU-666_chat_oc_226e89b2b3fd7612aea5fc7f187cb-ef785114/session_events.jsonl#evt_071af385338082cd|evt_071af385338082cd]]",
+                "source_session_id": "task:FEISHU-666::chat:oc_226e89b2b3fd7612aea5fc7f187cb759",
+                "session_wiki_path": "sessions/FEISHU-666_chat_oc_226e89b2b3fd7612aea5fc7f187cb-ef785114/session_wiki.md",
                 "block_anchor": "block-销售承诺风险-3d675c35",
-                "block_link": "sessions/FEISHU-666_chat_oc_f49b2c4a0d0a92df61e1f27186021-20685f74/session_wiki.md#block-销售承诺风险-3d675c35",
-                "block_summary": "销售承诺风险：回滚计划已批准，升级窗口5月10日22点UTC已确认。"
+                "block_link": "sessions/FEISHU-666_chat_oc_226e89b2b3fd7612aea5fc7f187cb-ef785114/session_wiki.md#block-销售承诺风险-3d675c35",
+                "block_summary": "陈雪承诺按窗口时间配合"
               }
             ],
-            "time": [
-              {
-                "slot": "time",
-                "topic_key": "销售承诺风险",
-                "topic_title": "销售承诺风险",
-                "subject_key": "销售承诺风险",
-                "claim": "客户，升级窗口5月10日22点UTC，已正式确认。",
-                "event_id": "evt_3f4208fda7f08ab0",
-                "event_time": "1778109140000",
-                "evidence_quote": "升级窗口5月10日22点UTC，已正式确认。",
-                "event_path": "sessions/FEISHU-666_chat_oc_f49b2c4a0d0a92df61e1f27186021-20685f74/session_events.jsonl#evt_3f4208fda7f08ab0",
-                "event_ref": "[[sessions/FEISHU-666_chat_oc_f49b2c4a0d0a92df61e1f27186021-20685f74/session_events.jsonl#evt_3f4208fda7f08ab0|evt_3f4208fda7f08ab0]]",
-                "source_session_id": "task:FEISHU-666::chat:oc_f49b2c4a0d0a92df61e1f27186021348",
-                "session_wiki_path": "sessions/FEISHU-666_chat_oc_f49b2c4a0d0a92df61e1f27186021-20685f74/session_wiki.md",
-                "block_anchor": "block-销售承诺风险-3d675c35",
-                "block_link": "sessions/FEISHU-666_chat_oc_f49b2c4a0d0a92df61e1f27186021-20685f74/session_wiki.md#block-销售承诺风险-3d675c35",
-                "block_summary": "销售承诺风险：回滚计划已批准，升级窗口5月10日22点UTC已确认。"
-              }
-            ],
-            "scope": []
-          }
-        }
-      ],
-      "updated_at": "2026-05-07T01:41:17.304Z"
-    },
-    "task:FEISHU-666::chat:oc_d852908acc34173446bde912b27c9963": {
-      "source_session_id": "task:FEISHU-666::chat:oc_d852908acc34173446bde912b27c9963",
-      "session_wiki_path": "sessions/FEISHU-666_chat_oc_d852908acc34173446bde912b27c9-b602d089/session_wiki.md",
-      "blocks": [
-        {
-          "block_id": "block-发布时间口径-867908bd",
-          "topic_key": "发布时间口径",
-          "topic_title": "发布时间口径",
-          "summary": "发布时间口径：正式窗口确认为5月10日。",
-          "status": "active",
-          "block_link": "sessions/FEISHU-666_chat_oc_d852908acc34173446bde912b27c9-b602d089/session_wiki.md#block-发布时间口径-867908bd",
-          "session_wiki_path": "sessions/FEISHU-666_chat_oc_d852908acc34173446bde912b27c9-b602d089/session_wiki.md",
-          "source_session_id": "task:FEISHU-666::chat:oc_d852908acc34173446bde912b27c9963",
-          "current_items": {
-            "conclusion": [],
-            "rationale": [],
-            "objection": [],
-            "constraint": [],
-            "commitment": [],
-            "status": [],
-            "time": [
-              {
-                "slot": "time",
-                "topic_key": "发布时间口径",
-                "topic_title": "发布时间口径",
-                "subject_key": "发布时间口径",
-                "claim": "正式窗口确认是5月10日。",
-                "event_id": "evt_7d1a63ba41c9c60f",
-                "event_time": "1778109140000",
-                "evidence_quote": "正式窗口确认是5月10日。",
-                "event_path": "sessions/FEISHU-666_chat_oc_d852908acc34173446bde912b27c9-b602d089/session_events.jsonl#evt_7d1a63ba41c9c60f",
-                "event_ref": "[[sessions/FEISHU-666_chat_oc_d852908acc34173446bde912b27c9-b602d089/session_events.jsonl#evt_7d1a63ba41c9c60f|evt_7d1a63ba41c9c60f]]",
-                "source_session_id": "task:FEISHU-666::chat:oc_d852908acc34173446bde912b27c9963",
-                "session_wiki_path": "sessions/FEISHU-666_chat_oc_d852908acc34173446bde912b27c9-b602d089/session_wiki.md",
-                "block_anchor": "block-发布时间口径-867908bd",
-                "block_link": "sessions/FEISHU-666_chat_oc_d852908acc34173446bde912b27c9-b602d089/session_wiki.md#block-发布时间口径-867908bd",
-                "block_summary": "发布时间口径：正式窗口确认为5月10日。"
-              }
-            ],
-            "scope": []
-          }
-        },
-        {
-          "block_id": "block-发布阻塞风险-45763a86",
-          "topic_key": "发布阻塞风险",
-          "topic_title": "发布阻塞风险",
-          "summary": "当前阻塞风险：网络配置漂移",
-          "status": "active",
-          "block_link": "sessions/FEISHU-666_chat_oc_d852908acc34173446bde912b27c9-b602d089/session_wiki.md#block-发布阻塞风险-45763a86",
-          "session_wiki_path": "sessions/FEISHU-666_chat_oc_d852908acc34173446bde912b27c9-b602d089/session_wiki.md",
-          "source_session_id": "task:FEISHU-666::chat:oc_d852908acc34173446bde912b27c9963",
-          "current_items": {
-            "conclusion": [],
-            "rationale": [],
-            "objection": [],
-            "constraint": [],
-            "commitment": [],
-            "status": [
-              {
-                "slot": "status",
-                "topic_key": "发布阻塞风险",
-                "topic_title": "发布阻塞风险",
-                "subject_key": "发布阻塞风险",
-                "claim": "blocker network config drift",
-                "event_id": "evt_c734b2222b5d9da0",
-                "event_time": "1778109140000",
-                "evidence_quote": "blocker network config drift",
-                "event_path": "sessions/FEISHU-666_chat_oc_d852908acc34173446bde912b27c9-b602d089/session_events.jsonl#evt_c734b2222b5d9da0",
-                "event_ref": "[[sessions/FEISHU-666_chat_oc_d852908acc34173446bde912b27c9-b602d089/session_events.jsonl#evt_c734b2222b5d9da0|evt_c734b2222b5d9da0]]",
-                "source_session_id": "task:FEISHU-666::chat:oc_d852908acc34173446bde912b27c9963",
-                "session_wiki_path": "sessions/FEISHU-666_chat_oc_d852908acc34173446bde912b27c9-b602d089/session_wiki.md",
-                "block_anchor": "block-发布阻塞风险-45763a86",
-                "block_link": "sessions/FEISHU-666_chat_oc_d852908acc34173446bde912b27c9-b602d089/session_wiki.md#block-发布阻塞风险-45763a86",
-                "block_summary": "当前阻塞风险：网络配置漂移"
-              }
-            ],
-            "time": [],
-            "scope": []
-          }
-        },
-        {
-          "block_id": "block-计划-c17bb5de",
-          "topic_key": "计划",
-          "topic_title": "计划",
-          "summary": "高层已同意计划。",
-          "status": "active",
-          "block_link": "sessions/FEISHU-666_chat_oc_d852908acc34173446bde912b27c9-b602d089/session_wiki.md#block-计划-c17bb5de",
-          "session_wiki_path": "sessions/FEISHU-666_chat_oc_d852908acc34173446bde912b27c9-b602d089/session_wiki.md",
-          "source_session_id": "task:FEISHU-666::chat:oc_d852908acc34173446bde912b27c9963",
-          "current_items": {
-            "conclusion": [
-              {
-                "slot": "conclusion",
-                "topic_key": "计划",
-                "topic_title": "计划",
-                "subject_key": "计划",
-                "claim": "高层已同意计划。",
-                "event_id": "evt_87da09fae4e1b20e",
-                "event_time": "1778109140000",
-                "evidence_quote": "高层已同意计划。",
-                "event_path": "sessions/FEISHU-666_chat_oc_d852908acc34173446bde912b27c9-b602d089/session_events.jsonl#evt_87da09fae4e1b20e",
-                "event_ref": "[[sessions/FEISHU-666_chat_oc_d852908acc34173446bde912b27c9-b602d089/session_events.jsonl#evt_87da09fae4e1b20e|evt_87da09fae4e1b20e]]",
-                "source_session_id": "task:FEISHU-666::chat:oc_d852908acc34173446bde912b27c9963",
-                "session_wiki_path": "sessions/FEISHU-666_chat_oc_d852908acc34173446bde912b27c9-b602d089/session_wiki.md",
-                "block_anchor": "block-计划-c17bb5de",
-                "block_link": "sessions/FEISHU-666_chat_oc_d852908acc34173446bde912b27c9-b602d089/session_wiki.md#block-计划-c17bb5de",
-                "block_summary": "高层已同意计划。"
-              }
-            ],
-            "rationale": [],
-            "objection": [],
-            "constraint": [],
-            "commitment": [],
             "status": [],
             "time": [],
             "scope": []
           }
-        },
-        {
-          "block_id": "block-任务计划-0339415d",
-          "topic_key": "任务计划",
-          "topic_title": "任务计划",
-          "summary": "任务计划以正式纪要为准，个人偏好和时间不影响任务，资源已按正式窗口安排。",
-          "status": "open",
-          "block_link": "sessions/FEISHU-666_chat_oc_d852908acc34173446bde912b27c9-b602d089/session_wiki.md#block-任务计划-0339415d",
-          "session_wiki_path": "sessions/FEISHU-666_chat_oc_d852908acc34173446bde912b27c9-b602d089/session_wiki.md",
-          "source_session_id": "task:FEISHU-666::chat:oc_d852908acc34173446bde912b27c9963",
-          "current_items": {
-            "conclusion": [],
-            "rationale": [],
-            "objection": [
-              {
-                "slot": "objection",
-                "topic_key": "任务计划",
-                "topic_title": "任务计划",
-                "subject_key": "任务计划",
-                "claim": "正式纪要为准，个人偏好不影响任务计划。",
-                "event_id": "evt_80505149e96ab494",
-                "event_time": "1778109140000",
-                "evidence_quote": "个人偏好不影响任务计划",
-                "event_path": "sessions/FEISHU-666_chat_oc_d852908acc34173446bde912b27c9-b602d089/session_events.jsonl#evt_80505149e96ab494",
-                "event_ref": "[[sessions/FEISHU-666_chat_oc_d852908acc34173446bde912b27c9-b602d089/session_events.jsonl#evt_80505149e96ab494|evt_80505149e96ab494]]",
-                "source_session_id": "task:FEISHU-666::chat:oc_d852908acc34173446bde912b27c9963",
-                "session_wiki_path": "sessions/FEISHU-666_chat_oc_d852908acc34173446bde912b27c9-b602d089/session_wiki.md",
-                "block_anchor": "block-任务计划-0339415d",
-                "block_link": "sessions/FEISHU-666_chat_oc_d852908acc34173446bde912b27c9-b602d089/session_wiki.md#block-任务计划-0339415d",
-                "block_summary": "任务计划以正式纪要为准，个人偏好和时间不影响任务，资源已按正式窗口安排。"
-              }
-            ],
-            "constraint": [],
-            "commitment": [],
-            "status": [
-              {
-                "slot": "status",
-                "topic_key": "任务计划",
-                "topic_title": "任务计划",
-                "subject_key": "任务",
-                "claim": "个人时间不影响任务，资源已按正式窗口安排。",
-                "event_id": "evt_9cb8c72a665d5240",
-                "event_time": "1778109140000",
-                "evidence_quote": "个人时间不影响任务，资源已按正式窗口安排。",
-                "event_path": "sessions/FEISHU-666_chat_oc_d852908acc34173446bde912b27c9-b602d089/session_events.jsonl#evt_9cb8c72a665d5240",
-                "event_ref": "[[sessions/FEISHU-666_chat_oc_d852908acc34173446bde912b27c9-b602d089/session_events.jsonl#evt_9cb8c72a665d5240|evt_9cb8c72a665d5240]]",
-                "source_session_id": "task:FEISHU-666::chat:oc_d852908acc34173446bde912b27c9963",
-                "session_wiki_path": "sessions/FEISHU-666_chat_oc_d852908acc34173446bde912b27c9-b602d089/session_wiki.md",
-                "block_anchor": "block-任务计划-0339415d",
-                "block_link": "sessions/FEISHU-666_chat_oc_d852908acc34173446bde912b27c9-b602d089/session_wiki.md#block-任务计划-0339415d",
-                "block_summary": "任务计划以正式纪要为准，个人偏好和时间不影响任务，资源已按正式窗口安排。"
-              }
-            ],
-            "time": [],
-            "scope": []
-          }
-        },
-        {
-          "block_id": "block-团队资源安排-7d76d8a4",
-          "topic_key": "团队资源安排",
-          "topic_title": "团队资源安排",
-          "summary": "团队资源安排已获管理层批准，但需考虑个人时间限制的影响。",
-          "status": "open",
-          "block_link": "sessions/FEISHU-666_chat_oc_d852908acc34173446bde912b27c9-b602d089/session_wiki.md#block-团队资源安排-7d76d8a4",
-          "session_wiki_path": "sessions/FEISHU-666_chat_oc_d852908acc34173446bde912b27c9-b602d089/session_wiki.md",
-          "source_session_id": "task:FEISHU-666::chat:oc_d852908acc34173446bde912b27c9963",
-          "current_items": {
-            "conclusion": [],
-            "rationale": [],
-            "objection": [
-              {
-                "slot": "objection",
-                "topic_key": "团队资源安排",
-                "topic_title": "团队资源安排",
-                "subject_key": "团队资源安排",
-                "claim": "个人时间限制会不会影响团队资源安排？",
-                "event_id": "evt_b9f78011f2ab424d",
-                "event_time": "1778109140000",
-                "evidence_quote": "个人时间限制会不会影响团队资源安排？",
-                "event_path": "sessions/FEISHU-666_chat_oc_d852908acc34173446bde912b27c9-b602d089/session_events.jsonl#evt_b9f78011f2ab424d",
-                "event_ref": "[[sessions/FEISHU-666_chat_oc_d852908acc34173446bde912b27c9-b602d089/session_events.jsonl#evt_b9f78011f2ab424d|evt_b9f78011f2ab424d]]",
-                "source_session_id": "task:FEISHU-666::chat:oc_d852908acc34173446bde912b27c9963",
-                "session_wiki_path": "sessions/FEISHU-666_chat_oc_d852908acc34173446bde912b27c9-b602d089/session_wiki.md",
-                "block_anchor": "block-团队资源安排-7d76d8a4",
-                "block_link": "sessions/FEISHU-666_chat_oc_d852908acc34173446bde912b27c9-b602d089/session_wiki.md#block-团队资源安排-7d76d8a4",
-                "block_summary": "团队资源安排已获管理层批准，但需考虑个人时间限制的影响。"
-              }
-            ],
-            "constraint": [],
-            "commitment": [],
-            "status": [
-              {
-                "slot": "status",
-                "topic_key": "团队资源安排",
-                "topic_title": "团队资源安排",
-                "subject_key": "资源",
-                "claim": "管理层已批准资源。",
-                "event_id": "evt_4cc90e95bb11fee2",
-                "event_time": "1778109140000",
-                "evidence_quote": "管理层已批准资源。",
-                "event_path": "sessions/FEISHU-666_chat_oc_d852908acc34173446bde912b27c9-b602d089/session_events.jsonl#evt_4cc90e95bb11fee2",
-                "event_ref": "[[sessions/FEISHU-666_chat_oc_d852908acc34173446bde912b27c9-b602d089/session_events.jsonl#evt_4cc90e95bb11fee2|evt_4cc90e95bb11fee2]]",
-                "source_session_id": "task:FEISHU-666::chat:oc_d852908acc34173446bde912b27c9963",
-                "session_wiki_path": "sessions/FEISHU-666_chat_oc_d852908acc34173446bde912b27c9-b602d089/session_wiki.md",
-                "block_anchor": "block-团队资源安排-7d76d8a4",
-                "block_link": "sessions/FEISHU-666_chat_oc_d852908acc34173446bde912b27c9-b602d089/session_wiki.md#block-团队资源安排-7d76d8a4",
-                "block_summary": "团队资源安排已获管理层批准，但需考虑个人时间限制的影响。"
-              }
-            ],
-            "time": [],
-            "scope": []
-          }
-        },
-        {
-          "block_id": "block-依赖项-babc4d11",
-          "topic_key": "依赖项",
-          "topic_title": "依赖项",
-          "summary": "所有依赖项已确认。",
-          "status": "active",
-          "block_link": "sessions/FEISHU-666_chat_oc_d852908acc34173446bde912b27c9-b602d089/session_wiki.md#block-依赖项-babc4d11",
-          "session_wiki_path": "sessions/FEISHU-666_chat_oc_d852908acc34173446bde912b27c9-b602d089/session_wiki.md",
-          "source_session_id": "task:FEISHU-666::chat:oc_d852908acc34173446bde912b27c9963",
-          "current_items": {
-            "conclusion": [],
-            "rationale": [],
-            "objection": [],
-            "constraint": [],
-            "commitment": [],
-            "status": [
-              {
-                "slot": "status",
-                "topic_key": "依赖项",
-                "topic_title": "依赖项",
-                "subject_key": "依赖项",
-                "claim": "所有依赖项已确认。",
-                "event_id": "evt_85f09d56a0dcf170",
-                "event_time": "1778109140000",
-                "evidence_quote": "所有依赖项已确认。",
-                "event_path": "sessions/FEISHU-666_chat_oc_d852908acc34173446bde912b27c9-b602d089/session_events.jsonl#evt_85f09d56a0dcf170",
-                "event_ref": "[[sessions/FEISHU-666_chat_oc_d852908acc34173446bde912b27c9-b602d089/session_events.jsonl#evt_85f09d56a0dcf170|evt_85f09d56a0dcf170]]",
-                "source_session_id": "task:FEISHU-666::chat:oc_d852908acc34173446bde912b27c9963",
-                "session_wiki_path": "sessions/FEISHU-666_chat_oc_d852908acc34173446bde912b27c9-b602d089/session_wiki.md",
-                "block_anchor": "block-依赖项-babc4d11",
-                "block_link": "sessions/FEISHU-666_chat_oc_d852908acc34173446bde912b27c9-b602d089/session_wiki.md#block-依赖项-babc4d11",
-                "block_summary": "所有依赖项已确认。"
-              }
-            ],
-            "time": [],
-            "scope": []
-          }
         }
       ],
-      "updated_at": "2026-05-07T01:41:53.918Z"
-    },
-    "task:FEISHU-666::chat:oc_77fa9b1b12c2e4ce9cd5ef67b44b04b4": {
-      "source_session_id": "task:FEISHU-666::chat:oc_77fa9b1b12c2e4ce9cd5ef67b44b04b4",
-      "session_wiki_path": "sessions/FEISHU-666_chat_oc_77fa9b1b12c2e4ce9cd5ef67b44b0-ca85b840/session_wiki.md",
-      "blocks": [
-        {
-          "block_id": "block-回归测试-647450ba",
-          "topic_key": "回归测试",
-          "topic_title": "回归测试",
-          "summary": "回归测试通过。",
-          "status": "active",
-          "block_link": "sessions/FEISHU-666_chat_oc_77fa9b1b12c2e4ce9cd5ef67b44b0-ca85b840/session_wiki.md#block-回归测试-647450ba",
-          "session_wiki_path": "sessions/FEISHU-666_chat_oc_77fa9b1b12c2e4ce9cd5ef67b44b0-ca85b840/session_wiki.md",
-          "source_session_id": "task:FEISHU-666::chat:oc_77fa9b1b12c2e4ce9cd5ef67b44b04b4",
-          "current_items": {
-            "conclusion": [],
-            "rationale": [],
-            "objection": [],
-            "constraint": [],
-            "commitment": [],
-            "status": [
-              {
-                "slot": "status",
-                "topic_key": "回归测试",
-                "topic_title": "回归测试",
-                "subject_key": "回归测试",
-                "claim": "回归测试通过。",
-                "event_id": "evt_2116670c2ab7affd",
-                "event_time": "1778109140000",
-                "evidence_quote": "回归测试通过。",
-                "event_path": "sessions/FEISHU-666_chat_oc_77fa9b1b12c2e4ce9cd5ef67b44b0-ca85b840/session_events.jsonl#evt_2116670c2ab7affd",
-                "event_ref": "[[sessions/FEISHU-666_chat_oc_77fa9b1b12c2e4ce9cd5ef67b44b0-ca85b840/session_events.jsonl#evt_2116670c2ab7affd|evt_2116670c2ab7affd]]",
-                "source_session_id": "task:FEISHU-666::chat:oc_77fa9b1b12c2e4ce9cd5ef67b44b04b4",
-                "session_wiki_path": "sessions/FEISHU-666_chat_oc_77fa9b1b12c2e4ce9cd5ef67b44b0-ca85b840/session_wiki.md",
-                "block_anchor": "block-回归测试-647450ba",
-                "block_link": "sessions/FEISHU-666_chat_oc_77fa9b1b12c2e4ce9cd5ef67b44b0-ca85b840/session_wiki.md#block-回归测试-647450ba",
-                "block_summary": "回归测试通过。"
-              }
-            ],
-            "time": [],
-            "scope": []
-          }
-        },
-        {
-          "block_id": "block-冒烟测试-420c1e75",
-          "topic_key": "冒烟测试",
-          "topic_title": "冒烟测试",
-          "summary": "冒烟测试通过。",
-          "status": "active",
-          "block_link": "sessions/FEISHU-666_chat_oc_77fa9b1b12c2e4ce9cd5ef67b44b0-ca85b840/session_wiki.md#block-冒烟测试-420c1e75",
-          "session_wiki_path": "sessions/FEISHU-666_chat_oc_77fa9b1b12c2e4ce9cd5ef67b44b0-ca85b840/session_wiki.md",
-          "source_session_id": "task:FEISHU-666::chat:oc_77fa9b1b12c2e4ce9cd5ef67b44b04b4",
-          "current_items": {
-            "conclusion": [],
-            "rationale": [],
-            "objection": [],
-            "constraint": [],
-            "commitment": [],
-            "status": [
-              {
-                "slot": "status",
-                "topic_key": "冒烟测试",
-                "topic_title": "冒烟测试",
-                "subject_key": "冒烟测试",
-                "claim": "冒烟测试通过。",
-                "event_id": "evt_e7525d23bfe48057",
-                "event_time": "1778109140000",
-                "evidence_quote": "冒烟测试通过。",
-                "event_path": "sessions/FEISHU-666_chat_oc_77fa9b1b12c2e4ce9cd5ef67b44b0-ca85b840/session_events.jsonl#evt_e7525d23bfe48057",
-                "event_ref": "[[sessions/FEISHU-666_chat_oc_77fa9b1b12c2e4ce9cd5ef67b44b0-ca85b840/session_events.jsonl#evt_e7525d23bfe48057|evt_e7525d23bfe48057]]",
-                "source_session_id": "task:FEISHU-666::chat:oc_77fa9b1b12c2e4ce9cd5ef67b44b04b4",
-                "session_wiki_path": "sessions/FEISHU-666_chat_oc_77fa9b1b12c2e4ce9cd5ef67b44b0-ca85b840/session_wiki.md",
-                "block_anchor": "block-冒烟测试-420c1e75",
-                "block_link": "sessions/FEISHU-666_chat_oc_77fa9b1b12c2e4ce9cd5ef67b44b0-ca85b840/session_wiki.md#block-冒烟测试-420c1e75",
-                "block_summary": "冒烟测试通过。"
-              }
-            ],
-            "time": [],
-            "scope": []
-          }
-        },
-        {
-          "block_id": "block-QA测试环境-919b56f6",
-          "topic_key": "QA测试环境",
-          "topic_title": "QA测试环境",
-          "summary": "QA测试环境已准备。",
-          "status": "active",
-          "block_link": "sessions/FEISHU-666_chat_oc_77fa9b1b12c2e4ce9cd5ef67b44b0-ca85b840/session_wiki.md#block-QA测试环境-919b56f6",
-          "session_wiki_path": "sessions/FEISHU-666_chat_oc_77fa9b1b12c2e4ce9cd5ef67b44b0-ca85b840/session_wiki.md",
-          "source_session_id": "task:FEISHU-666::chat:oc_77fa9b1b12c2e4ce9cd5ef67b44b04b4",
-          "current_items": {
-            "conclusion": [],
-            "rationale": [],
-            "objection": [],
-            "constraint": [],
-            "commitment": [],
-            "status": [
-              {
-                "slot": "status",
-                "topic_key": "QA测试环境",
-                "topic_title": "QA测试环境",
-                "subject_key": "qa测试环境",
-                "claim": "QA测试环境已准备。",
-                "event_id": "evt_027f8ea2a265d690",
-                "event_time": "1778109140000",
-                "evidence_quote": "QA测试环境已准备。",
-                "event_path": "sessions/FEISHU-666_chat_oc_77fa9b1b12c2e4ce9cd5ef67b44b0-ca85b840/session_events.jsonl#evt_027f8ea2a265d690",
-                "event_ref": "[[sessions/FEISHU-666_chat_oc_77fa9b1b12c2e4ce9cd5ef67b44b0-ca85b840/session_events.jsonl#evt_027f8ea2a265d690|evt_027f8ea2a265d690]]",
-                "source_session_id": "task:FEISHU-666::chat:oc_77fa9b1b12c2e4ce9cd5ef67b44b04b4",
-                "session_wiki_path": "sessions/FEISHU-666_chat_oc_77fa9b1b12c2e4ce9cd5ef67b44b0-ca85b840/session_wiki.md",
-                "block_anchor": "block-QA测试环境-919b56f6",
-                "block_link": "sessions/FEISHU-666_chat_oc_77fa9b1b12c2e4ce9cd5ef67b44b0-ca85b840/session_wiki.md#block-QA测试环境-919b56f6",
-                "block_summary": "QA测试环境已准备。"
-              }
-            ],
-            "time": [],
-            "scope": []
-          }
-        }
-      ],
-      "updated_at": "2026-05-07T01:42:09.388Z"
-    },
-    "task:FEISHU-666::chat:oc_ba31dd2af9ace4d46985b0f11750c043": {
-      "source_session_id": "task:FEISHU-666::chat:oc_ba31dd2af9ace4d46985b0f11750c043",
-      "session_wiki_path": "sessions/FEISHU-666_chat_oc_ba31dd2af9ace4d46985b0f11750c-ef428140/session_wiki.md",
-      "blocks": [
-        {
-          "block_id": "block-上游依赖-885c619f",
-          "topic_key": "上游依赖",
-          "topic_title": "上游依赖",
-          "summary": "上游依赖已确认。",
-          "status": "active",
-          "block_link": "sessions/FEISHU-666_chat_oc_ba31dd2af9ace4d46985b0f11750c-ef428140/session_wiki.md#block-上游依赖-885c619f",
-          "session_wiki_path": "sessions/FEISHU-666_chat_oc_ba31dd2af9ace4d46985b0f11750c-ef428140/session_wiki.md",
-          "source_session_id": "task:FEISHU-666::chat:oc_ba31dd2af9ace4d46985b0f11750c043",
-          "current_items": {
-            "conclusion": [],
-            "rationale": [],
-            "objection": [],
-            "constraint": [],
-            "commitment": [],
-            "status": [
-              {
-                "slot": "status",
-                "topic_key": "上游依赖",
-                "topic_title": "上游依赖",
-                "subject_key": "上游依赖",
-                "claim": "上游依赖已确认。",
-                "event_id": "evt_f2100c777643c270",
-                "event_time": "1778109140000",
-                "evidence_quote": "上游依赖已确认。",
-                "event_path": "sessions/FEISHU-666_chat_oc_ba31dd2af9ace4d46985b0f11750c-ef428140/session_events.jsonl#evt_f2100c777643c270",
-                "event_ref": "[[sessions/FEISHU-666_chat_oc_ba31dd2af9ace4d46985b0f11750c-ef428140/session_events.jsonl#evt_f2100c777643c270|evt_f2100c777643c270]]",
-                "source_session_id": "task:FEISHU-666::chat:oc_ba31dd2af9ace4d46985b0f11750c043",
-                "session_wiki_path": "sessions/FEISHU-666_chat_oc_ba31dd2af9ace4d46985b0f11750c-ef428140/session_wiki.md",
-                "block_anchor": "block-上游依赖-885c619f",
-                "block_link": "sessions/FEISHU-666_chat_oc_ba31dd2af9ace4d46985b0f11750c-ef428140/session_wiki.md#block-上游依赖-885c619f",
-                "block_summary": "上游依赖已确认。"
-              }
-            ],
-            "time": [],
-            "scope": []
-          }
-        },
-        {
-          "block_id": "block-网络依赖项-4ad9be4c",
-          "topic_key": "网络依赖项",
-          "topic_title": "网络依赖项",
-          "summary": "网络依赖项已修复。",
-          "status": "active",
-          "block_link": "sessions/FEISHU-666_chat_oc_ba31dd2af9ace4d46985b0f11750c-ef428140/session_wiki.md#block-网络依赖项-4ad9be4c",
-          "session_wiki_path": "sessions/FEISHU-666_chat_oc_ba31dd2af9ace4d46985b0f11750c-ef428140/session_wiki.md",
-          "source_session_id": "task:FEISHU-666::chat:oc_ba31dd2af9ace4d46985b0f11750c043",
-          "current_items": {
-            "conclusion": [],
-            "rationale": [],
-            "objection": [],
-            "constraint": [],
-            "commitment": [],
-            "status": [
-              {
-                "slot": "status",
-                "topic_key": "网络依赖项",
-                "topic_title": "网络依赖项",
-                "subject_key": "网络依赖项",
-                "claim": "网络依赖项已修复。",
-                "event_id": "evt_2b8f3015db87f8ef",
-                "event_time": "1778109140000",
-                "evidence_quote": "网络依赖项已修复。",
-                "event_path": "sessions/FEISHU-666_chat_oc_ba31dd2af9ace4d46985b0f11750c-ef428140/session_events.jsonl#evt_2b8f3015db87f8ef",
-                "event_ref": "[[sessions/FEISHU-666_chat_oc_ba31dd2af9ace4d46985b0f11750c-ef428140/session_events.jsonl#evt_2b8f3015db87f8ef|evt_2b8f3015db87f8ef]]",
-                "source_session_id": "task:FEISHU-666::chat:oc_ba31dd2af9ace4d46985b0f11750c043",
-                "session_wiki_path": "sessions/FEISHU-666_chat_oc_ba31dd2af9ace4d46985b0f11750c-ef428140/session_wiki.md",
-                "block_anchor": "block-网络依赖项-4ad9be4c",
-                "block_link": "sessions/FEISHU-666_chat_oc_ba31dd2af9ace4d46985b0f11750c-ef428140/session_wiki.md#block-网络依赖项-4ad9be4c",
-                "block_summary": "网络依赖项已修复。"
-              }
-            ],
-            "time": [],
-            "scope": []
-          }
-        }
-      ],
-      "updated_at": "2026-05-07T01:42:20.666Z"
+      "updated_at": "2026-05-07T03:11:13.653Z"
     }
   },
   "sections": {
     "conclusion": [
       {
         "slot": "conclusion",
-        "topic_key": "夜间窗口",
-        "topic_title": "夜间窗口",
+        "topic_key": "变更时间争议",
+        "topic_title": "变更时间争议",
         "subject_key": "夜间窗口",
         "claim": "纪要已定，夜间窗口是正式决定，不因个人偏好改。",
         "event_id": "evt_195dbc0ed16d2b2a",
@@ -1892,9 +1145,9 @@
         "event_ref": "[[sessions/FEISHU-666_chat_oc_21fc5cc6becbda6432fe9592c2ea1-7bdb7dbb/session_events.jsonl#evt_195dbc0ed16d2b2a|evt_195dbc0ed16d2b2a]]",
         "source_session_id": "task:FEISHU-666::chat:oc_21fc5cc6becbda6432fe9592c2ea118d",
         "session_wiki_path": "sessions/FEISHU-666_chat_oc_21fc5cc6becbda6432fe9592c2ea1-7bdb7dbb/session_wiki.md",
-        "block_anchor": "block-夜间窗口-feb525ee",
-        "block_link": "sessions/FEISHU-666_chat_oc_21fc5cc6becbda6432fe9592c2ea1-7bdb7dbb/session_wiki.md#block-夜间窗口-feb525ee",
-        "block_summary": "夜间窗口已正式决定，不因个人偏好更改。"
+        "block_anchor": "block-变更时间争议-029978ca",
+        "block_link": "sessions/FEISHU-666_chat_oc_21fc5cc6becbda6432fe9592c2ea1-7bdb7dbb/session_wiki.md#block-变更时间争议-029978ca",
+        "block_summary": "变更时间争议：纪要已定夜间窗口，不因个人偏好改；有人反对称影响效率。"
       },
       {
         "slot": "conclusion",
@@ -1912,6 +1165,23 @@
         "block_anchor": "block-发布阻塞风险-45763a86",
         "block_link": "sessions/FEISHU-666_chat_oc_ac5a33c314d20661373939b376723-e2a8eda9/session_wiki.md#block-发布阻塞风险-45763a86",
         "block_summary": "发布阻塞风险：风险评估完成，夜间窗口可行，但个人认为风险更高；风险登记表已更新。"
+      },
+      {
+        "slot": "conclusion",
+        "topic_key": "方案范围裁剪",
+        "topic_title": "方案范围裁剪",
+        "subject_key": "feishu-666 升级",
+        "claim": "法律合规方面无额外限制，可按时升级。",
+        "event_id": "evt_2fb5c8fd57bfa1b4",
+        "event_time": "1778109140000",
+        "evidence_quote": "法律合规方面无额外限制，可按时升级。",
+        "event_path": "sessions/FEISHU-666_chat_oc_ac5a33c314d20661373939b376723-e2a8eda9/session_events.jsonl#evt_2fb5c8fd57bfa1b4",
+        "event_ref": "[[sessions/FEISHU-666_chat_oc_ac5a33c314d20661373939b376723-e2a8eda9/session_events.jsonl#evt_2fb5c8fd57bfa1b4|evt_2fb5c8fd57bfa1b4]]",
+        "source_session_id": "task:FEISHU-666::chat:oc_ac5a33c314d20661373939b37672396d",
+        "session_wiki_path": "sessions/FEISHU-666_chat_oc_ac5a33c314d20661373939b376723-e2a8eda9/session_wiki.md",
+        "block_anchor": "block-方案范围裁剪-36e56dfb",
+        "block_link": "sessions/FEISHU-666_chat_oc_ac5a33c314d20661373939b376723-e2a8eda9/session_wiki.md#block-方案范围裁剪-36e56dfb",
+        "block_summary": "法律合规无额外限制，可按时升级。"
       },
       {
         "slot": "conclusion",
@@ -1946,57 +1216,6 @@
         "block_anchor": "block-纪要结论-05c79215",
         "block_link": "sessions/FEISHU-666_chat_oc_ac5a33c314d20661373939b376723-e2a8eda9/session_wiki.md#block-纪要结论-05c79215",
         "block_summary": "评估已做，尊重纪要结论；建议将个人背景备注从纪要中分离。"
-      },
-      {
-        "slot": "conclusion",
-        "topic_key": "升级时间",
-        "topic_title": "升级时间",
-        "subject_key": "升级",
-        "claim": "法律合规方面无额外限制，可按时升级。",
-        "event_id": "evt_2fb5c8fd57bfa1b4",
-        "event_time": "1778109140000",
-        "evidence_quote": "法律合规方面无额外限制，可按时升级。",
-        "event_path": "sessions/FEISHU-666_chat_oc_ac5a33c314d20661373939b376723-e2a8eda9/session_events.jsonl#evt_2fb5c8fd57bfa1b4",
-        "event_ref": "[[sessions/FEISHU-666_chat_oc_ac5a33c314d20661373939b376723-e2a8eda9/session_events.jsonl#evt_2fb5c8fd57bfa1b4|evt_2fb5c8fd57bfa1b4]]",
-        "source_session_id": "task:FEISHU-666::chat:oc_ac5a33c314d20661373939b37672396d",
-        "session_wiki_path": "sessions/FEISHU-666_chat_oc_ac5a33c314d20661373939b376723-e2a8eda9/session_wiki.md",
-        "block_anchor": "block-升级时间-7a779514",
-        "block_link": "sessions/FEISHU-666_chat_oc_ac5a33c314d20661373939b376723-e2a8eda9/session_wiki.md#block-升级时间-7a779514",
-        "block_summary": "升级时间讨论：法律合规无限制可按时升级，但有人因周末有事希望提前。"
-      },
-      {
-        "slot": "conclusion",
-        "topic_key": "窗口时间",
-        "topic_title": "窗口时间",
-        "subject_key": "窗口时间",
-        "claim": "以Alice说的为准",
-        "event_id": "evt_525767ec717efc39",
-        "event_time": "1778109140000",
-        "evidence_quote": "抱歉，我没确认清楚，以Alice说的为准。",
-        "event_path": "sessions/FEISHU-666_chat_oc_f49b2c4a0d0a92df61e1f27186021-20685f74/session_events.jsonl#evt_525767ec717efc39",
-        "event_ref": "[[sessions/FEISHU-666_chat_oc_f49b2c4a0d0a92df61e1f27186021-20685f74/session_events.jsonl#evt_525767ec717efc39|evt_525767ec717efc39]]",
-        "source_session_id": "task:FEISHU-666::chat:oc_f49b2c4a0d0a92df61e1f27186021348",
-        "session_wiki_path": "sessions/FEISHU-666_chat_oc_f49b2c4a0d0a92df61e1f27186021-20685f74/session_wiki.md",
-        "block_anchor": "block-窗口时间-32234f4b",
-        "block_link": "sessions/FEISHU-666_chat_oc_f49b2c4a0d0a92df61e1f27186021-20685f74/session_wiki.md#block-窗口时间-32234f4b",
-        "block_summary": "窗口时间以Alice说的为准。"
-      },
-      {
-        "slot": "conclusion",
-        "topic_key": "计划",
-        "topic_title": "计划",
-        "subject_key": "计划",
-        "claim": "高层已同意计划。",
-        "event_id": "evt_87da09fae4e1b20e",
-        "event_time": "1778109140000",
-        "evidence_quote": "高层已同意计划。",
-        "event_path": "sessions/FEISHU-666_chat_oc_d852908acc34173446bde912b27c9-b602d089/session_events.jsonl#evt_87da09fae4e1b20e",
-        "event_ref": "[[sessions/FEISHU-666_chat_oc_d852908acc34173446bde912b27c9-b602d089/session_events.jsonl#evt_87da09fae4e1b20e|evt_87da09fae4e1b20e]]",
-        "source_session_id": "task:FEISHU-666::chat:oc_d852908acc34173446bde912b27c9963",
-        "session_wiki_path": "sessions/FEISHU-666_chat_oc_d852908acc34173446bde912b27c9-b602d089/session_wiki.md",
-        "block_anchor": "block-计划-c17bb5de",
-        "block_link": "sessions/FEISHU-666_chat_oc_d852908acc34173446bde912b27c9-b602d089/session_wiki.md#block-计划-c17bb5de",
-        "block_summary": "高层已同意计划。"
       }
     ],
     "rationale": [
@@ -2034,7 +1253,24 @@
         "session_wiki_path": "sessions/FEISHU-666_chat_oc_21fc5cc6becbda6432fe9592c2ea1-7bdb7dbb/session_wiki.md",
         "block_anchor": "block-备份计划-96cb4224",
         "block_link": "sessions/FEISHU-666_chat_oc_21fc5cc6becbda6432fe9592c2ea1-7bdb7dbb/session_wiki.md#block-备份计划-96cb4224",
-        "block_summary": "备份计划维持增量备份，已配置完成，无问题。"
+        "block_summary": "备份计划采用增量备份，已配置并验证完成。"
+      },
+      {
+        "slot": "objection",
+        "topic_key": "变更时间争议",
+        "topic_title": "变更时间争议",
+        "subject_key": "变更",
+        "claim": "夜间变更对我个人效率影响大",
+        "event_id": "evt_3227288e2eeb53d2",
+        "event_time": "1778109140000",
+        "evidence_quote": "夜间变更对我个人效率影响大，能不能改白天？",
+        "event_path": "sessions/FEISHU-666_chat_oc_21fc5cc6becbda6432fe9592c2ea1-7bdb7dbb/session_events.jsonl#evt_3227288e2eeb53d2",
+        "event_ref": "[[sessions/FEISHU-666_chat_oc_21fc5cc6becbda6432fe9592c2ea1-7bdb7dbb/session_events.jsonl#evt_3227288e2eeb53d2|evt_3227288e2eeb53d2]]",
+        "source_session_id": "task:FEISHU-666::chat:oc_21fc5cc6becbda6432fe9592c2ea118d",
+        "session_wiki_path": "sessions/FEISHU-666_chat_oc_21fc5cc6becbda6432fe9592c2ea1-7bdb7dbb/session_wiki.md",
+        "block_anchor": "block-变更时间争议-029978ca",
+        "block_link": "sessions/FEISHU-666_chat_oc_21fc5cc6becbda6432fe9592c2ea1-7bdb7dbb/session_wiki.md#block-变更时间争议-029978ca",
+        "block_summary": "变更时间争议：纪要已定夜间窗口，不因个人偏好改；有人反对称影响效率。"
       },
       {
         "slot": "objection",
@@ -2051,24 +1287,7 @@
         "session_wiki_path": "sessions/FEISHU-666_chat_oc_ac5a33c314d20661373939b376723-e2a8eda9/session_wiki.md",
         "block_anchor": "block-升级时间-7a779514",
         "block_link": "sessions/FEISHU-666_chat_oc_ac5a33c314d20661373939b376723-e2a8eda9/session_wiki.md#block-升级时间-7a779514",
-        "block_summary": "升级时间讨论：法律合规无限制可按时升级，但有人因周末有事希望提前。"
-      },
-      {
-        "slot": "objection",
-        "topic_key": "销售承诺风险",
-        "topic_title": "销售承诺风险",
-        "subject_key": "销售承诺风险",
-        "claim": "窗口不可调整，家庭承诺不在任务考量内。",
-        "event_id": "evt_bb3c99c563be5c04",
-        "event_time": "1778109140000",
-        "evidence_quote": "窗口不可调整，家庭承诺不在任务考量内。",
-        "event_path": "sessions/FEISHU-666_chat_oc_ac5a33c314d20661373939b376723-e2a8eda9/session_events.jsonl#evt_bb3c99c563be5c04",
-        "event_ref": "[[sessions/FEISHU-666_chat_oc_ac5a33c314d20661373939b376723-e2a8eda9/session_events.jsonl#evt_bb3c99c563be5c04|evt_bb3c99c563be5c04]]",
-        "source_session_id": "task:FEISHU-666::chat:oc_ac5a33c314d20661373939b37672396d",
-        "session_wiki_path": "sessions/FEISHU-666_chat_oc_ac5a33c314d20661373939b376723-e2a8eda9/session_wiki.md",
-        "block_anchor": "block-销售承诺风险-3d675c35",
-        "block_link": "sessions/FEISHU-666_chat_oc_ac5a33c314d20661373939b376723-e2a8eda9/session_wiki.md#block-销售承诺风险-3d675c35",
-        "block_summary": "销售承诺风险：窗口不可调整，家庭承诺不在任务考量内。"
+        "block_summary": "用户询问升级时间能否提前，因周末有事。"
       },
       {
         "slot": "objection",
@@ -2085,7 +1304,24 @@
         "session_wiki_path": "sessions/FEISHU-666_chat_oc_226e89b2b3fd7612aea5fc7f187cb-ef785114/session_wiki.md",
         "block_anchor": "block-发布时间口径-867908bd",
         "block_link": "sessions/FEISHU-666_chat_oc_226e89b2b3fd7612aea5fc7f187cb-ef785114/session_wiki.md#block-发布时间口径-867908bd",
-        "block_summary": "升级窗口定为5月10日22点UTC，个人时间不调整，配置管理侧已锁定窗口，补丁基线已更新，pipeline执行计划已保存，升级计划全部就绪。"
+        "block_summary": "升级窗口定为5月10日22点UTC，配置管理侧已锁定，补丁基线已更新，pipeline计划已保存，升级计划就绪。个人时间不调整，以纪要为准。"
+      },
+      {
+        "slot": "objection",
+        "topic_key": "发布时间口径",
+        "topic_title": "发布时间口径",
+        "subject_key": "任务",
+        "claim": "个人偏好不影响任务，以纪要为准。",
+        "event_id": "evt_c201a4f3191cd91f",
+        "event_time": "1778109140000",
+        "evidence_quote": "个人偏好不影响任务，以纪要为准。",
+        "event_path": "sessions/FEISHU-666_chat_oc_226e89b2b3fd7612aea5fc7f187cb-ef785114/session_events.jsonl#evt_c201a4f3191cd91f",
+        "event_ref": "[[sessions/FEISHU-666_chat_oc_226e89b2b3fd7612aea5fc7f187cb-ef785114/session_events.jsonl#evt_c201a4f3191cd91f|evt_c201a4f3191cd91f]]",
+        "source_session_id": "task:FEISHU-666::chat:oc_226e89b2b3fd7612aea5fc7f187cb759",
+        "session_wiki_path": "sessions/FEISHU-666_chat_oc_226e89b2b3fd7612aea5fc7f187cb-ef785114/session_wiki.md",
+        "block_anchor": "block-发布时间口径-867908bd",
+        "block_link": "sessions/FEISHU-666_chat_oc_226e89b2b3fd7612aea5fc7f187cb-ef785114/session_wiki.md#block-发布时间口径-867908bd",
+        "block_summary": "升级窗口定为5月10日22点UTC，配置管理侧已锁定，补丁基线已更新，pipeline计划已保存，升级计划就绪。个人时间不调整，以纪要为准。"
       },
       {
         "slot": "objection",
@@ -2102,77 +1338,26 @@
         "session_wiki_path": "sessions/FEISHU-666_chat_oc_226e89b2b3fd7612aea5fc7f187cb-ef785114/session_wiki.md",
         "block_anchor": "block-发布阻塞风险-45763a86",
         "block_link": "sessions/FEISHU-666_chat_oc_226e89b2b3fd7612aea5fc7f187cb-ef785114/session_wiki.md#block-发布阻塞风险-45763a86",
-        "block_summary": "发布阻塞风险：网络配置漂移为阻塞项，升级可能延迟；修复方案已提交评审，配置审计通过，回滚已批准，决策需基于官方纪要。"
-      },
-      {
-        "slot": "objection",
-        "topic_key": "窗口",
-        "topic_title": "窗口",
-        "subject_key": "窗口",
-        "claim": "有人建议窗口改期",
-        "event_id": "evt_0a5198f3461cc6ad",
-        "event_time": "1778109140000",
-        "evidence_quote": "有人建议窗口改期",
-        "event_path": "sessions/FEISHU-666_chat_oc_f49b2c4a0d0a92df61e1f27186021-20685f74/session_events.jsonl#evt_0a5198f3461cc6ad",
-        "event_ref": "[[sessions/FEISHU-666_chat_oc_f49b2c4a0d0a92df61e1f27186021-20685f74/session_events.jsonl#evt_0a5198f3461cc6ad|evt_0a5198f3461cc6ad]]",
-        "source_session_id": "task:FEISHU-666::chat:oc_f49b2c4a0d0a92df61e1f27186021348",
-        "session_wiki_path": "sessions/FEISHU-666_chat_oc_f49b2c4a0d0a92df61e1f27186021-20685f74/session_wiki.md",
-        "block_anchor": "block-窗口-a70a1513",
-        "block_link": "sessions/FEISHU-666_chat_oc_f49b2c4a0d0a92df61e1f27186021-20685f74/session_wiki.md#block-窗口-a70a1513",
-        "block_summary": "窗口改期建议待处理"
-      },
-      {
-        "slot": "objection",
-        "topic_key": "任务计划",
-        "topic_title": "任务计划",
-        "subject_key": "任务计划",
-        "claim": "正式纪要为准，个人偏好不影响任务计划。",
-        "event_id": "evt_80505149e96ab494",
-        "event_time": "1778109140000",
-        "evidence_quote": "个人偏好不影响任务计划",
-        "event_path": "sessions/FEISHU-666_chat_oc_d852908acc34173446bde912b27c9-b602d089/session_events.jsonl#evt_80505149e96ab494",
-        "event_ref": "[[sessions/FEISHU-666_chat_oc_d852908acc34173446bde912b27c9-b602d089/session_events.jsonl#evt_80505149e96ab494|evt_80505149e96ab494]]",
-        "source_session_id": "task:FEISHU-666::chat:oc_d852908acc34173446bde912b27c9963",
-        "session_wiki_path": "sessions/FEISHU-666_chat_oc_d852908acc34173446bde912b27c9-b602d089/session_wiki.md",
-        "block_anchor": "block-任务计划-0339415d",
-        "block_link": "sessions/FEISHU-666_chat_oc_d852908acc34173446bde912b27c9-b602d089/session_wiki.md#block-任务计划-0339415d",
-        "block_summary": "任务计划以正式纪要为准，个人偏好和时间不影响任务，资源已按正式窗口安排。"
-      },
-      {
-        "slot": "objection",
-        "topic_key": "团队资源安排",
-        "topic_title": "团队资源安排",
-        "subject_key": "团队资源安排",
-        "claim": "个人时间限制会不会影响团队资源安排？",
-        "event_id": "evt_b9f78011f2ab424d",
-        "event_time": "1778109140000",
-        "evidence_quote": "个人时间限制会不会影响团队资源安排？",
-        "event_path": "sessions/FEISHU-666_chat_oc_d852908acc34173446bde912b27c9-b602d089/session_events.jsonl#evt_b9f78011f2ab424d",
-        "event_ref": "[[sessions/FEISHU-666_chat_oc_d852908acc34173446bde912b27c9-b602d089/session_events.jsonl#evt_b9f78011f2ab424d|evt_b9f78011f2ab424d]]",
-        "source_session_id": "task:FEISHU-666::chat:oc_d852908acc34173446bde912b27c9963",
-        "session_wiki_path": "sessions/FEISHU-666_chat_oc_d852908acc34173446bde912b27c9-b602d089/session_wiki.md",
-        "block_anchor": "block-团队资源安排-7d76d8a4",
-        "block_link": "sessions/FEISHU-666_chat_oc_d852908acc34173446bde912b27c9-b602d089/session_wiki.md#block-团队资源安排-7d76d8a4",
-        "block_summary": "团队资源安排已获管理层批准，但需考虑个人时间限制的影响。"
+        "block_summary": "发布阻塞风险：网络配置漂移为阻塞项，升级可能延迟；修复方案已提交评审，配置审计通过，回滚已批准，所有决策需基于官方纪要。"
       }
     ],
     "constraint": [
       {
         "slot": "constraint",
-        "topic_key": "发布时间口径",
-        "topic_title": "发布时间口径",
-        "subject_key": "任务",
-        "claim": "个人偏好不影响任务，以纪要为准。",
-        "event_id": "evt_156f1c0d7551272d",
+        "topic_key": "销售承诺风险",
+        "topic_title": "销售承诺风险",
+        "subject_key": "销售承诺风险",
+        "claim": "窗口不可调整，家庭承诺不在任务考量内。",
+        "event_id": "evt_8039c0c46eb22393",
         "event_time": "1778109140000",
-        "evidence_quote": "个人偏好不影响任务，以纪要为准。",
-        "event_path": "sessions/FEISHU-666_chat_oc_226e89b2b3fd7612aea5fc7f187cb-ef785114/session_events.jsonl#evt_156f1c0d7551272d",
-        "event_ref": "[[sessions/FEISHU-666_chat_oc_226e89b2b3fd7612aea5fc7f187cb-ef785114/session_events.jsonl#evt_156f1c0d7551272d|evt_156f1c0d7551272d]]",
-        "source_session_id": "task:FEISHU-666::chat:oc_226e89b2b3fd7612aea5fc7f187cb759",
-        "session_wiki_path": "sessions/FEISHU-666_chat_oc_226e89b2b3fd7612aea5fc7f187cb-ef785114/session_wiki.md",
-        "block_anchor": "block-发布时间口径-867908bd",
-        "block_link": "sessions/FEISHU-666_chat_oc_226e89b2b3fd7612aea5fc7f187cb-ef785114/session_wiki.md#block-发布时间口径-867908bd",
-        "block_summary": "升级窗口定为5月10日22点UTC，个人时间不调整，配置管理侧已锁定窗口，补丁基线已更新，pipeline执行计划已保存，升级计划全部就绪。"
+        "evidence_quote": "窗口不可调整，家庭承诺不在任务考量内。",
+        "event_path": "sessions/FEISHU-666_chat_oc_ac5a33c314d20661373939b376723-e2a8eda9/session_events.jsonl#evt_8039c0c46eb22393",
+        "event_ref": "[[sessions/FEISHU-666_chat_oc_ac5a33c314d20661373939b376723-e2a8eda9/session_events.jsonl#evt_8039c0c46eb22393|evt_8039c0c46eb22393]]",
+        "source_session_id": "task:FEISHU-666::chat:oc_ac5a33c314d20661373939b37672396d",
+        "session_wiki_path": "sessions/FEISHU-666_chat_oc_ac5a33c314d20661373939b376723-e2a8eda9/session_wiki.md",
+        "block_anchor": "block-销售承诺风险-3d675c35",
+        "block_link": "sessions/FEISHU-666_chat_oc_ac5a33c314d20661373939b376723-e2a8eda9/session_wiki.md#block-销售承诺风险-3d675c35",
+        "block_summary": "销售承诺风险：窗口不可调整，家庭承诺不纳入考量。"
       },
       {
         "slot": "constraint",
@@ -2189,7 +1374,7 @@
         "session_wiki_path": "sessions/FEISHU-666_chat_oc_226e89b2b3fd7612aea5fc7f187cb-ef785114/session_wiki.md",
         "block_anchor": "block-发布阻塞风险-45763a86",
         "block_link": "sessions/FEISHU-666_chat_oc_226e89b2b3fd7612aea5fc7f187cb-ef785114/session_wiki.md#block-发布阻塞风险-45763a86",
-        "block_summary": "发布阻塞风险：网络配置漂移为阻塞项，升级可能延迟；修复方案已提交评审，配置审计通过，回滚已批准，决策需基于官方纪要。"
+        "block_summary": "发布阻塞风险：网络配置漂移为阻塞项，升级可能延迟；修复方案已提交评审，配置审计通过，回滚已批准，所有决策需基于官方纪要。"
       }
     ],
     "commitment": [
@@ -2212,23 +1397,6 @@
       },
       {
         "slot": "commitment",
-        "topic_key": "发布时间口径",
-        "topic_title": "发布时间口径",
-        "subject_key": "按窗口时间配合",
-        "claim": "我会按窗口时间配合。",
-        "event_id": "evt_405cf38429d91f79",
-        "event_time": "1778109140000",
-        "evidence_quote": "明白，我会按窗口时间配合。",
-        "event_path": "sessions/FEISHU-666_chat_oc_226e89b2b3fd7612aea5fc7f187cb-ef785114/session_events.jsonl#evt_405cf38429d91f79",
-        "event_ref": "[[sessions/FEISHU-666_chat_oc_226e89b2b3fd7612aea5fc7f187cb-ef785114/session_events.jsonl#evt_405cf38429d91f79|evt_405cf38429d91f79]]",
-        "source_session_id": "task:FEISHU-666::chat:oc_226e89b2b3fd7612aea5fc7f187cb759",
-        "session_wiki_path": "sessions/FEISHU-666_chat_oc_226e89b2b3fd7612aea5fc7f187cb-ef785114/session_wiki.md",
-        "block_anchor": "block-发布时间口径-867908bd",
-        "block_link": "sessions/FEISHU-666_chat_oc_226e89b2b3fd7612aea5fc7f187cb-ef785114/session_wiki.md#block-发布时间口径-867908bd",
-        "block_summary": "升级窗口定为5月10日22点UTC，个人时间不调整，配置管理侧已锁定窗口，补丁基线已更新，pipeline执行计划已保存，升级计划全部就绪。"
-      },
-      {
-        "slot": "commitment",
         "topic_key": "发布阻塞风险",
         "topic_title": "发布阻塞风险",
         "subject_key": "回滚已批准",
@@ -2242,24 +1410,7 @@
         "session_wiki_path": "sessions/FEISHU-666_chat_oc_226e89b2b3fd7612aea5fc7f187cb-ef785114/session_wiki.md",
         "block_anchor": "block-发布阻塞风险-45763a86",
         "block_link": "sessions/FEISHU-666_chat_oc_226e89b2b3fd7612aea5fc7f187cb-ef785114/session_wiki.md#block-发布阻塞风险-45763a86",
-        "block_summary": "发布阻塞风险：网络配置漂移为阻塞项，升级可能延迟；修复方案已提交评审，配置审计通过，回滚已批准，决策需基于官方纪要。"
-      },
-      {
-        "slot": "commitment",
-        "topic_key": "按评审纪要执行所有变更",
-        "topic_title": "按评审纪要执行所有变更",
-        "subject_key": "按评审纪要执行所有变更",
-        "claim": "所有变更按评审纪要执行。",
-        "event_id": "evt_86bd263c44e3b858",
-        "event_time": "1778109140000",
-        "evidence_quote": "所有变更按评审纪要执行。",
-        "event_path": "sessions/FEISHU-666_chat_oc_f49b2c4a0d0a92df61e1f27186021-20685f74/session_events.jsonl#evt_86bd263c44e3b858",
-        "event_ref": "[[sessions/FEISHU-666_chat_oc_f49b2c4a0d0a92df61e1f27186021-20685f74/session_events.jsonl#evt_86bd263c44e3b858|evt_86bd263c44e3b858]]",
-        "source_session_id": "task:FEISHU-666::chat:oc_f49b2c4a0d0a92df61e1f27186021348",
-        "session_wiki_path": "sessions/FEISHU-666_chat_oc_f49b2c4a0d0a92df61e1f27186021-20685f74/session_wiki.md",
-        "block_anchor": "block-按评审纪要执行所有变更-722f9a7c",
-        "block_link": "sessions/FEISHU-666_chat_oc_f49b2c4a0d0a92df61e1f27186021-20685f74/session_wiki.md#block-按评审纪要执行所有变更-722f9a7c",
-        "block_summary": "按评审纪要执行所有变更"
+        "block_summary": "发布阻塞风险：网络配置漂移为阻塞项，升级可能延迟；修复方案已提交评审，配置审计通过，回滚已批准，所有决策需基于官方纪要。"
       }
     ],
     "status": [
@@ -2278,7 +1429,7 @@
         "session_wiki_path": "sessions/FEISHU-666_chat_oc_21fc5cc6becbda6432fe9592c2ea1-7bdb7dbb/session_wiki.md",
         "block_anchor": "block-备份计划-96cb4224",
         "block_link": "sessions/FEISHU-666_chat_oc_21fc5cc6becbda6432fe9592c2ea1-7bdb7dbb/session_wiki.md#block-备份计划-96cb4224",
-        "block_summary": "备份计划维持增量备份，已配置完成，无问题。"
+        "block_summary": "备份计划采用增量备份，已配置并验证完成。"
       },
       {
         "slot": "status",
@@ -2295,12 +1446,12 @@
         "session_wiki_path": "sessions/FEISHU-666_chat_oc_21fc5cc6becbda6432fe9592c2ea1-7bdb7dbb/session_wiki.md",
         "block_anchor": "block-备份计划-96cb4224",
         "block_link": "sessions/FEISHU-666_chat_oc_21fc5cc6becbda6432fe9592c2ea1-7bdb7dbb/session_wiki.md#block-备份计划-96cb4224",
-        "block_summary": "备份计划维持增量备份，已配置完成，无问题。"
+        "block_summary": "备份计划采用增量备份，已配置并验证完成。"
       },
       {
         "slot": "status",
-        "topic_key": "备份验证",
-        "topic_title": "备份验证",
+        "topic_key": "备份计划",
+        "topic_title": "备份计划",
         "subject_key": "备份验证",
         "claim": "备份验证已完成。",
         "event_id": "evt_4221697d44a5d5cf",
@@ -2310,9 +1461,9 @@
         "event_ref": "[[sessions/FEISHU-666_chat_oc_21fc5cc6becbda6432fe9592c2ea1-7bdb7dbb/session_events.jsonl#evt_4221697d44a5d5cf|evt_4221697d44a5d5cf]]",
         "source_session_id": "task:FEISHU-666::chat:oc_21fc5cc6becbda6432fe9592c2ea118d",
         "session_wiki_path": "sessions/FEISHU-666_chat_oc_21fc5cc6becbda6432fe9592c2ea1-7bdb7dbb/session_wiki.md",
-        "block_anchor": "block-备份验证-5163d13c",
-        "block_link": "sessions/FEISHU-666_chat_oc_21fc5cc6becbda6432fe9592c2ea1-7bdb7dbb/session_wiki.md#block-备份验证-5163d13c",
-        "block_summary": "备份验证已完成。"
+        "block_anchor": "block-备份计划-96cb4224",
+        "block_link": "sessions/FEISHU-666_chat_oc_21fc5cc6becbda6432fe9592c2ea1-7bdb7dbb/session_wiki.md#block-备份计划-96cb4224",
+        "block_summary": "备份计划采用增量备份，已配置并验证完成。"
       },
       {
         "slot": "status",
@@ -2420,7 +1571,7 @@
         "slot": "status",
         "topic_key": "窗口对齐",
         "topic_title": "窗口对齐",
-        "subject_key": "infra侧窗口对齐",
+        "subject_key": "infra侧窗口",
         "claim": "infra侧已对齐窗口",
         "event_id": "evt_2f695077a796845a",
         "event_time": "1778109140000",
@@ -2431,7 +1582,7 @@
         "session_wiki_path": "sessions/FEISHU-666_chat_oc_226e89b2b3fd7612aea5fc7f187cb-ef785114/session_wiki.md",
         "block_anchor": "block-窗口对齐-f09d6047",
         "block_link": "sessions/FEISHU-666_chat_oc_226e89b2b3fd7612aea5fc7f187cb-ef785114/session_wiki.md#block-窗口对齐-f09d6047",
-        "block_summary": "各方已确认窗口对齐，准备就绪。"
+        "block_summary": "各方已确认窗口时间，准备就绪。"
       },
       {
         "slot": "status",
@@ -2448,7 +1599,7 @@
         "session_wiki_path": "sessions/FEISHU-666_chat_oc_226e89b2b3fd7612aea5fc7f187cb-ef785114/session_wiki.md",
         "block_anchor": "block-窗口对齐-f09d6047",
         "block_link": "sessions/FEISHU-666_chat_oc_226e89b2b3fd7612aea5fc7f187cb-ef785114/session_wiki.md#block-窗口对齐-f09d6047",
-        "block_summary": "各方已确认窗口对齐，准备就绪。"
+        "block_summary": "各方已确认窗口时间，准备就绪。"
       },
       {
         "slot": "status",
@@ -2465,7 +1616,7 @@
         "session_wiki_path": "sessions/FEISHU-666_chat_oc_226e89b2b3fd7612aea5fc7f187cb-ef785114/session_wiki.md",
         "block_anchor": "block-窗口对齐-f09d6047",
         "block_link": "sessions/FEISHU-666_chat_oc_226e89b2b3fd7612aea5fc7f187cb-ef785114/session_wiki.md#block-窗口对齐-f09d6047",
-        "block_summary": "各方已确认窗口对齐，准备就绪。"
+        "block_summary": "各方已确认窗口时间，准备就绪。"
       },
       {
         "slot": "status",
@@ -2482,24 +1633,7 @@
         "session_wiki_path": "sessions/FEISHU-666_chat_oc_226e89b2b3fd7612aea5fc7f187cb-ef785114/session_wiki.md",
         "block_anchor": "block-窗口对齐-f09d6047",
         "block_link": "sessions/FEISHU-666_chat_oc_226e89b2b3fd7612aea5fc7f187cb-ef785114/session_wiki.md#block-窗口对齐-f09d6047",
-        "block_summary": "各方已确认窗口对齐，准备就绪。"
-      },
-      {
-        "slot": "status",
-        "topic_key": "窗口对齐",
-        "topic_title": "窗口对齐",
-        "subject_key": "评审用例",
-        "claim": "QT侧已准备评审用例。",
-        "event_id": "evt_1eb201a514d4c2aa",
-        "event_time": "1778109140000",
-        "evidence_quote": "QT侧已准备评审用例。",
-        "event_path": "sessions/FEISHU-666_chat_oc_226e89b2b3fd7612aea5fc7f187cb-ef785114/session_events.jsonl#evt_1eb201a514d4c2aa",
-        "event_ref": "[[sessions/FEISHU-666_chat_oc_226e89b2b3fd7612aea5fc7f187cb-ef785114/session_events.jsonl#evt_1eb201a514d4c2aa|evt_1eb201a514d4c2aa]]",
-        "source_session_id": "task:FEISHU-666::chat:oc_226e89b2b3fd7612aea5fc7f187cb759",
-        "session_wiki_path": "sessions/FEISHU-666_chat_oc_226e89b2b3fd7612aea5fc7f187cb-ef785114/session_wiki.md",
-        "block_anchor": "block-窗口对齐-f09d6047",
-        "block_link": "sessions/FEISHU-666_chat_oc_226e89b2b3fd7612aea5fc7f187cb-ef785114/session_wiki.md#block-窗口对齐-f09d6047",
-        "block_summary": "各方已确认窗口对齐，准备就绪。"
+        "block_summary": "各方已确认窗口时间，准备就绪。"
       },
       {
         "slot": "status",
@@ -2516,7 +1650,7 @@
         "session_wiki_path": "sessions/FEISHU-666_chat_oc_226e89b2b3fd7612aea5fc7f187cb-ef785114/session_wiki.md",
         "block_anchor": "block-窗口对齐-f09d6047",
         "block_link": "sessions/FEISHU-666_chat_oc_226e89b2b3fd7612aea5fc7f187cb-ef785114/session_wiki.md#block-窗口对齐-f09d6047",
-        "block_summary": "各方已确认窗口对齐，准备就绪。"
+        "block_summary": "各方已确认窗口时间，准备就绪。"
       },
       {
         "slot": "status",
@@ -2533,7 +1667,7 @@
         "session_wiki_path": "sessions/FEISHU-666_chat_oc_226e89b2b3fd7612aea5fc7f187cb-ef785114/session_wiki.md",
         "block_anchor": "block-发布时间口径-867908bd",
         "block_link": "sessions/FEISHU-666_chat_oc_226e89b2b3fd7612aea5fc7f187cb-ef785114/session_wiki.md#block-发布时间口径-867908bd",
-        "block_summary": "升级窗口定为5月10日22点UTC，个人时间不调整，配置管理侧已锁定窗口，补丁基线已更新，pipeline执行计划已保存，升级计划全部就绪。"
+        "block_summary": "升级窗口定为5月10日22点UTC，配置管理侧已锁定，补丁基线已更新，pipeline计划已保存，升级计划就绪。个人时间不调整，以纪要为准。"
       },
       {
         "slot": "status",
@@ -2550,7 +1684,7 @@
         "session_wiki_path": "sessions/FEISHU-666_chat_oc_226e89b2b3fd7612aea5fc7f187cb-ef785114/session_wiki.md",
         "block_anchor": "block-发布时间口径-867908bd",
         "block_link": "sessions/FEISHU-666_chat_oc_226e89b2b3fd7612aea5fc7f187cb-ef785114/session_wiki.md#block-发布时间口径-867908bd",
-        "block_summary": "升级窗口定为5月10日22点UTC，个人时间不调整，配置管理侧已锁定窗口，补丁基线已更新，pipeline执行计划已保存，升级计划全部就绪。"
+        "block_summary": "升级窗口定为5月10日22点UTC，配置管理侧已锁定，补丁基线已更新，pipeline计划已保存，升级计划就绪。个人时间不调整，以纪要为准。"
       },
       {
         "slot": "status",
@@ -2567,7 +1701,7 @@
         "session_wiki_path": "sessions/FEISHU-666_chat_oc_226e89b2b3fd7612aea5fc7f187cb-ef785114/session_wiki.md",
         "block_anchor": "block-发布时间口径-867908bd",
         "block_link": "sessions/FEISHU-666_chat_oc_226e89b2b3fd7612aea5fc7f187cb-ef785114/session_wiki.md#block-发布时间口径-867908bd",
-        "block_summary": "升级窗口定为5月10日22点UTC，个人时间不调整，配置管理侧已锁定窗口，补丁基线已更新，pipeline执行计划已保存，升级计划全部就绪。"
+        "block_summary": "升级窗口定为5月10日22点UTC，配置管理侧已锁定，补丁基线已更新，pipeline计划已保存，升级计划就绪。个人时间不调整，以纪要为准。"
       },
       {
         "slot": "status",
@@ -2584,7 +1718,7 @@
         "session_wiki_path": "sessions/FEISHU-666_chat_oc_226e89b2b3fd7612aea5fc7f187cb-ef785114/session_wiki.md",
         "block_anchor": "block-发布时间口径-867908bd",
         "block_link": "sessions/FEISHU-666_chat_oc_226e89b2b3fd7612aea5fc7f187cb-ef785114/session_wiki.md#block-发布时间口径-867908bd",
-        "block_summary": "升级窗口定为5月10日22点UTC，个人时间不调整，配置管理侧已锁定窗口，补丁基线已更新，pipeline执行计划已保存，升级计划全部就绪。"
+        "block_summary": "升级窗口定为5月10日22点UTC，配置管理侧已锁定，补丁基线已更新，pipeline计划已保存，升级计划就绪。个人时间不调整，以纪要为准。"
       },
       {
         "slot": "status",
@@ -2601,7 +1735,7 @@
         "session_wiki_path": "sessions/FEISHU-666_chat_oc_226e89b2b3fd7612aea5fc7f187cb-ef785114/session_wiki.md",
         "block_anchor": "block-发布时间口径-867908bd",
         "block_link": "sessions/FEISHU-666_chat_oc_226e89b2b3fd7612aea5fc7f187cb-ef785114/session_wiki.md#block-发布时间口径-867908bd",
-        "block_summary": "升级窗口定为5月10日22点UTC，个人时间不调整，配置管理侧已锁定窗口，补丁基线已更新，pipeline执行计划已保存，升级计划全部就绪。"
+        "block_summary": "升级窗口定为5月10日22点UTC，配置管理侧已锁定，补丁基线已更新，pipeline计划已保存，升级计划就绪。个人时间不调整，以纪要为准。"
       },
       {
         "slot": "status",
@@ -2618,7 +1752,7 @@
         "session_wiki_path": "sessions/FEISHU-666_chat_oc_226e89b2b3fd7612aea5fc7f187cb-ef785114/session_wiki.md",
         "block_anchor": "block-发布阻塞风险-45763a86",
         "block_link": "sessions/FEISHU-666_chat_oc_226e89b2b3fd7612aea5fc7f187cb-ef785114/session_wiki.md#block-发布阻塞风险-45763a86",
-        "block_summary": "发布阻塞风险：网络配置漂移为阻塞项，升级可能延迟；修复方案已提交评审，配置审计通过，回滚已批准，决策需基于官方纪要。"
+        "block_summary": "发布阻塞风险：网络配置漂移为阻塞项，升级可能延迟；修复方案已提交评审，配置审计通过，回滚已批准，所有决策需基于官方纪要。"
       },
       {
         "slot": "status",
@@ -2635,177 +1769,7 @@
         "session_wiki_path": "sessions/FEISHU-666_chat_oc_226e89b2b3fd7612aea5fc7f187cb-ef785114/session_wiki.md",
         "block_anchor": "block-发布阻塞风险-45763a86",
         "block_link": "sessions/FEISHU-666_chat_oc_226e89b2b3fd7612aea5fc7f187cb-ef785114/session_wiki.md#block-发布阻塞风险-45763a86",
-        "block_summary": "发布阻塞风险：网络配置漂移为阻塞项，升级可能延迟；修复方案已提交评审，配置审计通过，回滚已批准，决策需基于官方纪要。"
-      },
-      {
-        "slot": "status",
-        "topic_key": "合规侧",
-        "topic_title": "合规侧",
-        "subject_key": "合规侧",
-        "claim": "合规侧已发确认函。",
-        "event_id": "evt_1a71a3dadd16abb3",
-        "event_time": "1778109140000",
-        "evidence_quote": "合规侧已发确认函。",
-        "event_path": "sessions/FEISHU-666_chat_oc_f49b2c4a0d0a92df61e1f27186021-20685f74/session_events.jsonl#evt_1a71a3dadd16abb3",
-        "event_ref": "[[sessions/FEISHU-666_chat_oc_f49b2c4a0d0a92df61e1f27186021-20685f74/session_events.jsonl#evt_1a71a3dadd16abb3|evt_1a71a3dadd16abb3]]",
-        "source_session_id": "task:FEISHU-666::chat:oc_f49b2c4a0d0a92df61e1f27186021348",
-        "session_wiki_path": "sessions/FEISHU-666_chat_oc_f49b2c4a0d0a92df61e1f27186021-20685f74/session_wiki.md",
-        "block_anchor": "block-合规侧-f1fad429",
-        "block_link": "sessions/FEISHU-666_chat_oc_f49b2c4a0d0a92df61e1f27186021-20685f74/session_wiki.md#block-合规侧-f1fad429",
-        "block_summary": "合规侧已发确认函。"
-      },
-      {
-        "slot": "status",
-        "topic_key": "销售承诺风险",
-        "topic_title": "销售承诺风险",
-        "subject_key": "销售承诺风险",
-        "claim": "回滚计划已批准，客户不用担心。",
-        "event_id": "evt_1f266a67302ede71",
-        "event_time": "1778109140000",
-        "evidence_quote": "回滚计划已批准",
-        "event_path": "sessions/FEISHU-666_chat_oc_f49b2c4a0d0a92df61e1f27186021-20685f74/session_events.jsonl#evt_1f266a67302ede71",
-        "event_ref": "[[sessions/FEISHU-666_chat_oc_f49b2c4a0d0a92df61e1f27186021-20685f74/session_events.jsonl#evt_1f266a67302ede71|evt_1f266a67302ede71]]",
-        "source_session_id": "task:FEISHU-666::chat:oc_f49b2c4a0d0a92df61e1f27186021348",
-        "session_wiki_path": "sessions/FEISHU-666_chat_oc_f49b2c4a0d0a92df61e1f27186021-20685f74/session_wiki.md",
-        "block_anchor": "block-销售承诺风险-3d675c35",
-        "block_link": "sessions/FEISHU-666_chat_oc_f49b2c4a0d0a92df61e1f27186021-20685f74/session_wiki.md#block-销售承诺风险-3d675c35",
-        "block_summary": "销售承诺风险：回滚计划已批准，升级窗口5月10日22点UTC已确认。"
-      },
-      {
-        "slot": "status",
-        "topic_key": "任务计划",
-        "topic_title": "任务计划",
-        "subject_key": "任务",
-        "claim": "个人时间不影响任务，资源已按正式窗口安排。",
-        "event_id": "evt_9cb8c72a665d5240",
-        "event_time": "1778109140000",
-        "evidence_quote": "个人时间不影响任务，资源已按正式窗口安排。",
-        "event_path": "sessions/FEISHU-666_chat_oc_d852908acc34173446bde912b27c9-b602d089/session_events.jsonl#evt_9cb8c72a665d5240",
-        "event_ref": "[[sessions/FEISHU-666_chat_oc_d852908acc34173446bde912b27c9-b602d089/session_events.jsonl#evt_9cb8c72a665d5240|evt_9cb8c72a665d5240]]",
-        "source_session_id": "task:FEISHU-666::chat:oc_d852908acc34173446bde912b27c9963",
-        "session_wiki_path": "sessions/FEISHU-666_chat_oc_d852908acc34173446bde912b27c9-b602d089/session_wiki.md",
-        "block_anchor": "block-任务计划-0339415d",
-        "block_link": "sessions/FEISHU-666_chat_oc_d852908acc34173446bde912b27c9-b602d089/session_wiki.md#block-任务计划-0339415d",
-        "block_summary": "任务计划以正式纪要为准，个人偏好和时间不影响任务，资源已按正式窗口安排。"
-      },
-      {
-        "slot": "status",
-        "topic_key": "团队资源安排",
-        "topic_title": "团队资源安排",
-        "subject_key": "资源",
-        "claim": "管理层已批准资源。",
-        "event_id": "evt_4cc90e95bb11fee2",
-        "event_time": "1778109140000",
-        "evidence_quote": "管理层已批准资源。",
-        "event_path": "sessions/FEISHU-666_chat_oc_d852908acc34173446bde912b27c9-b602d089/session_events.jsonl#evt_4cc90e95bb11fee2",
-        "event_ref": "[[sessions/FEISHU-666_chat_oc_d852908acc34173446bde912b27c9-b602d089/session_events.jsonl#evt_4cc90e95bb11fee2|evt_4cc90e95bb11fee2]]",
-        "source_session_id": "task:FEISHU-666::chat:oc_d852908acc34173446bde912b27c9963",
-        "session_wiki_path": "sessions/FEISHU-666_chat_oc_d852908acc34173446bde912b27c9-b602d089/session_wiki.md",
-        "block_anchor": "block-团队资源安排-7d76d8a4",
-        "block_link": "sessions/FEISHU-666_chat_oc_d852908acc34173446bde912b27c9-b602d089/session_wiki.md#block-团队资源安排-7d76d8a4",
-        "block_summary": "团队资源安排已获管理层批准，但需考虑个人时间限制的影响。"
-      },
-      {
-        "slot": "status",
-        "topic_key": "依赖项",
-        "topic_title": "依赖项",
-        "subject_key": "依赖项",
-        "claim": "所有依赖项已确认。",
-        "event_id": "evt_85f09d56a0dcf170",
-        "event_time": "1778109140000",
-        "evidence_quote": "所有依赖项已确认。",
-        "event_path": "sessions/FEISHU-666_chat_oc_d852908acc34173446bde912b27c9-b602d089/session_events.jsonl#evt_85f09d56a0dcf170",
-        "event_ref": "[[sessions/FEISHU-666_chat_oc_d852908acc34173446bde912b27c9-b602d089/session_events.jsonl#evt_85f09d56a0dcf170|evt_85f09d56a0dcf170]]",
-        "source_session_id": "task:FEISHU-666::chat:oc_d852908acc34173446bde912b27c9963",
-        "session_wiki_path": "sessions/FEISHU-666_chat_oc_d852908acc34173446bde912b27c9-b602d089/session_wiki.md",
-        "block_anchor": "block-依赖项-babc4d11",
-        "block_link": "sessions/FEISHU-666_chat_oc_d852908acc34173446bde912b27c9-b602d089/session_wiki.md#block-依赖项-babc4d11",
-        "block_summary": "所有依赖项已确认。"
-      },
-      {
-        "slot": "status",
-        "topic_key": "回归测试",
-        "topic_title": "回归测试",
-        "subject_key": "回归测试",
-        "claim": "回归测试通过。",
-        "event_id": "evt_2116670c2ab7affd",
-        "event_time": "1778109140000",
-        "evidence_quote": "回归测试通过。",
-        "event_path": "sessions/FEISHU-666_chat_oc_77fa9b1b12c2e4ce9cd5ef67b44b0-ca85b840/session_events.jsonl#evt_2116670c2ab7affd",
-        "event_ref": "[[sessions/FEISHU-666_chat_oc_77fa9b1b12c2e4ce9cd5ef67b44b0-ca85b840/session_events.jsonl#evt_2116670c2ab7affd|evt_2116670c2ab7affd]]",
-        "source_session_id": "task:FEISHU-666::chat:oc_77fa9b1b12c2e4ce9cd5ef67b44b04b4",
-        "session_wiki_path": "sessions/FEISHU-666_chat_oc_77fa9b1b12c2e4ce9cd5ef67b44b0-ca85b840/session_wiki.md",
-        "block_anchor": "block-回归测试-647450ba",
-        "block_link": "sessions/FEISHU-666_chat_oc_77fa9b1b12c2e4ce9cd5ef67b44b0-ca85b840/session_wiki.md#block-回归测试-647450ba",
-        "block_summary": "回归测试通过。"
-      },
-      {
-        "slot": "status",
-        "topic_key": "冒烟测试",
-        "topic_title": "冒烟测试",
-        "subject_key": "冒烟测试",
-        "claim": "冒烟测试通过。",
-        "event_id": "evt_e7525d23bfe48057",
-        "event_time": "1778109140000",
-        "evidence_quote": "冒烟测试通过。",
-        "event_path": "sessions/FEISHU-666_chat_oc_77fa9b1b12c2e4ce9cd5ef67b44b0-ca85b840/session_events.jsonl#evt_e7525d23bfe48057",
-        "event_ref": "[[sessions/FEISHU-666_chat_oc_77fa9b1b12c2e4ce9cd5ef67b44b0-ca85b840/session_events.jsonl#evt_e7525d23bfe48057|evt_e7525d23bfe48057]]",
-        "source_session_id": "task:FEISHU-666::chat:oc_77fa9b1b12c2e4ce9cd5ef67b44b04b4",
-        "session_wiki_path": "sessions/FEISHU-666_chat_oc_77fa9b1b12c2e4ce9cd5ef67b44b0-ca85b840/session_wiki.md",
-        "block_anchor": "block-冒烟测试-420c1e75",
-        "block_link": "sessions/FEISHU-666_chat_oc_77fa9b1b12c2e4ce9cd5ef67b44b0-ca85b840/session_wiki.md#block-冒烟测试-420c1e75",
-        "block_summary": "冒烟测试通过。"
-      },
-      {
-        "slot": "status",
-        "topic_key": "QA测试环境",
-        "topic_title": "QA测试环境",
-        "subject_key": "qa测试环境",
-        "claim": "QA测试环境已准备。",
-        "event_id": "evt_027f8ea2a265d690",
-        "event_time": "1778109140000",
-        "evidence_quote": "QA测试环境已准备。",
-        "event_path": "sessions/FEISHU-666_chat_oc_77fa9b1b12c2e4ce9cd5ef67b44b0-ca85b840/session_events.jsonl#evt_027f8ea2a265d690",
-        "event_ref": "[[sessions/FEISHU-666_chat_oc_77fa9b1b12c2e4ce9cd5ef67b44b0-ca85b840/session_events.jsonl#evt_027f8ea2a265d690|evt_027f8ea2a265d690]]",
-        "source_session_id": "task:FEISHU-666::chat:oc_77fa9b1b12c2e4ce9cd5ef67b44b04b4",
-        "session_wiki_path": "sessions/FEISHU-666_chat_oc_77fa9b1b12c2e4ce9cd5ef67b44b0-ca85b840/session_wiki.md",
-        "block_anchor": "block-QA测试环境-919b56f6",
-        "block_link": "sessions/FEISHU-666_chat_oc_77fa9b1b12c2e4ce9cd5ef67b44b0-ca85b840/session_wiki.md#block-QA测试环境-919b56f6",
-        "block_summary": "QA测试环境已准备。"
-      },
-      {
-        "slot": "status",
-        "topic_key": "上游依赖",
-        "topic_title": "上游依赖",
-        "subject_key": "上游依赖",
-        "claim": "上游依赖已确认。",
-        "event_id": "evt_f2100c777643c270",
-        "event_time": "1778109140000",
-        "evidence_quote": "上游依赖已确认。",
-        "event_path": "sessions/FEISHU-666_chat_oc_ba31dd2af9ace4d46985b0f11750c-ef428140/session_events.jsonl#evt_f2100c777643c270",
-        "event_ref": "[[sessions/FEISHU-666_chat_oc_ba31dd2af9ace4d46985b0f11750c-ef428140/session_events.jsonl#evt_f2100c777643c270|evt_f2100c777643c270]]",
-        "source_session_id": "task:FEISHU-666::chat:oc_ba31dd2af9ace4d46985b0f11750c043",
-        "session_wiki_path": "sessions/FEISHU-666_chat_oc_ba31dd2af9ace4d46985b0f11750c-ef428140/session_wiki.md",
-        "block_anchor": "block-上游依赖-885c619f",
-        "block_link": "sessions/FEISHU-666_chat_oc_ba31dd2af9ace4d46985b0f11750c-ef428140/session_wiki.md#block-上游依赖-885c619f",
-        "block_summary": "上游依赖已确认。"
-      },
-      {
-        "slot": "status",
-        "topic_key": "网络依赖项",
-        "topic_title": "网络依赖项",
-        "subject_key": "网络依赖项",
-        "claim": "网络依赖项已修复。",
-        "event_id": "evt_2b8f3015db87f8ef",
-        "event_time": "1778109140000",
-        "evidence_quote": "网络依赖项已修复。",
-        "event_path": "sessions/FEISHU-666_chat_oc_ba31dd2af9ace4d46985b0f11750c-ef428140/session_events.jsonl#evt_2b8f3015db87f8ef",
-        "event_ref": "[[sessions/FEISHU-666_chat_oc_ba31dd2af9ace4d46985b0f11750c-ef428140/session_events.jsonl#evt_2b8f3015db87f8ef|evt_2b8f3015db87f8ef]]",
-        "source_session_id": "task:FEISHU-666::chat:oc_ba31dd2af9ace4d46985b0f11750c043",
-        "session_wiki_path": "sessions/FEISHU-666_chat_oc_ba31dd2af9ace4d46985b0f11750c-ef428140/session_wiki.md",
-        "block_anchor": "block-网络依赖项-4ad9be4c",
-        "block_link": "sessions/FEISHU-666_chat_oc_ba31dd2af9ace4d46985b0f11750c-ef428140/session_wiki.md#block-网络依赖项-4ad9be4c",
-        "block_summary": "网络依赖项已修复。"
+        "block_summary": "发布阻塞风险：网络配置漂移为阻塞项，升级可能延迟；修复方案已提交评审，配置审计通过，回滚已批准，所有决策需基于官方纪要。"
       }
     ],
     "time": [
@@ -2824,7 +1788,7 @@
         "session_wiki_path": "sessions/FEISHU-666_chat_oc_ac5a33c314d20661373939b376723-e2a8eda9/session_wiki.md",
         "block_anchor": "block-升级时间-7a779514",
         "block_link": "sessions/FEISHU-666_chat_oc_ac5a33c314d20661373939b376723-e2a8eda9/session_wiki.md#block-升级时间-7a779514",
-        "block_summary": "升级时间讨论：法律合规无限制可按时升级，但有人因周末有事希望提前。"
+        "block_summary": "用户询问升级时间能否提前，因周末有事。"
       },
       {
         "slot": "time",
@@ -2841,7 +1805,7 @@
         "session_wiki_path": "sessions/FEISHU-666_chat_oc_226e89b2b3fd7612aea5fc7f187cb-ef785114/session_wiki.md",
         "block_anchor": "block-发布时间口径-867908bd",
         "block_link": "sessions/FEISHU-666_chat_oc_226e89b2b3fd7612aea5fc7f187cb-ef785114/session_wiki.md#block-发布时间口径-867908bd",
-        "block_summary": "升级窗口定为5月10日22点UTC，个人时间不调整，配置管理侧已锁定窗口，补丁基线已更新，pipeline执行计划已保存，升级计划全部就绪。"
+        "block_summary": "升级窗口定为5月10日22点UTC，配置管理侧已锁定，补丁基线已更新，pipeline计划已保存，升级计划就绪。个人时间不调整，以纪要为准。"
       },
       {
         "slot": "time",
@@ -2858,7 +1822,7 @@
         "session_wiki_path": "sessions/FEISHU-666_chat_oc_226e89b2b3fd7612aea5fc7f187cb-ef785114/session_wiki.md",
         "block_anchor": "block-发布时间口径-867908bd",
         "block_link": "sessions/FEISHU-666_chat_oc_226e89b2b3fd7612aea5fc7f187cb-ef785114/session_wiki.md#block-发布时间口径-867908bd",
-        "block_summary": "升级窗口定为5月10日22点UTC，个人时间不调整，配置管理侧已锁定窗口，补丁基线已更新，pipeline执行计划已保存，升级计划全部就绪。"
+        "block_summary": "升级窗口定为5月10日22点UTC，配置管理侧已锁定，补丁基线已更新，pipeline计划已保存，升级计划就绪。个人时间不调整，以纪要为准。"
       },
       {
         "slot": "time",
@@ -2875,82 +1839,38 @@
         "session_wiki_path": "sessions/FEISHU-666_chat_oc_226e89b2b3fd7612aea5fc7f187cb-ef785114/session_wiki.md",
         "block_anchor": "block-发布时间口径-867908bd",
         "block_link": "sessions/FEISHU-666_chat_oc_226e89b2b3fd7612aea5fc7f187cb-ef785114/session_wiki.md#block-发布时间口径-867908bd",
-        "block_summary": "升级窗口定为5月10日22点UTC，个人时间不调整，配置管理侧已锁定窗口，补丁基线已更新，pipeline执行计划已保存，升级计划全部就绪。"
-      },
-      {
-        "slot": "time",
-        "topic_key": "销售承诺风险",
-        "topic_title": "销售承诺风险",
-        "subject_key": "销售承诺风险",
-        "claim": "客户，升级窗口5月10日22点UTC，已正式确认。",
-        "event_id": "evt_3f4208fda7f08ab0",
-        "event_time": "1778109140000",
-        "evidence_quote": "升级窗口5月10日22点UTC，已正式确认。",
-        "event_path": "sessions/FEISHU-666_chat_oc_f49b2c4a0d0a92df61e1f27186021-20685f74/session_events.jsonl#evt_3f4208fda7f08ab0",
-        "event_ref": "[[sessions/FEISHU-666_chat_oc_f49b2c4a0d0a92df61e1f27186021-20685f74/session_events.jsonl#evt_3f4208fda7f08ab0|evt_3f4208fda7f08ab0]]",
-        "source_session_id": "task:FEISHU-666::chat:oc_f49b2c4a0d0a92df61e1f27186021348",
-        "session_wiki_path": "sessions/FEISHU-666_chat_oc_f49b2c4a0d0a92df61e1f27186021-20685f74/session_wiki.md",
-        "block_anchor": "block-销售承诺风险-3d675c35",
-        "block_link": "sessions/FEISHU-666_chat_oc_f49b2c4a0d0a92df61e1f27186021-20685f74/session_wiki.md#block-销售承诺风险-3d675c35",
-        "block_summary": "销售承诺风险：回滚计划已批准，升级窗口5月10日22点UTC已确认。"
+        "block_summary": "升级窗口定为5月10日22点UTC，配置管理侧已锁定，补丁基线已更新，pipeline计划已保存，升级计划就绪。个人时间不调整，以纪要为准。"
       }
     ],
     "scope": []
   },
-  "current_summary": "夜间窗口已正式决定，升级时间5月10日22点UTC，备份使用增量并已验证，存储方案就绪，赵敏承诺夜间值班，所有变更按评审纪要执行。",
+  "current_summary": "纪要确认夜间窗口，个人偏好不影响；备份增量、回滚已批、文档更新、存储就绪；赵敏安排夜间值班。",
   "related_blocks": [
-    {
-      "topic_key": "按评审纪要执行所有变更",
-      "topic_title": "按评审纪要执行所有变更",
-      "summary": "按评审纪要执行所有变更",
-      "block_link": "sessions/FEISHU-666_chat_oc_f49b2c4a0d0a92df61e1f27186021-20685f74/session_wiki.md#block-按评审纪要执行所有变更-722f9a7c",
-      "session_wiki_path": "sessions/FEISHU-666_chat_oc_f49b2c4a0d0a92df61e1f27186021-20685f74/session_wiki.md",
-      "source_session_id": "task:FEISHU-666::chat:oc_f49b2c4a0d0a92df61e1f27186021348",
-      "status": "active"
-    },
     {
       "topic_key": "备份计划",
       "topic_title": "备份计划",
-      "summary": "备份计划维持增量备份，已配置完成，无问题。",
+      "summary": "备份计划采用增量备份，已配置并验证完成。",
       "block_link": "sessions/FEISHU-666_chat_oc_21fc5cc6becbda6432fe9592c2ea1-7bdb7dbb/session_wiki.md#block-备份计划-96cb4224",
       "session_wiki_path": "sessions/FEISHU-666_chat_oc_21fc5cc6becbda6432fe9592c2ea1-7bdb7dbb/session_wiki.md",
       "source_session_id": "task:FEISHU-666::chat:oc_21fc5cc6becbda6432fe9592c2ea118d",
       "status": "open"
     },
     {
-      "topic_key": "备份验证",
-      "topic_title": "备份验证",
-      "summary": "备份验证已完成。",
-      "block_link": "sessions/FEISHU-666_chat_oc_21fc5cc6becbda6432fe9592c2ea1-7bdb7dbb/session_wiki.md#block-备份验证-5163d13c",
+      "topic_key": "变更时间争议",
+      "topic_title": "变更时间争议",
+      "summary": "变更时间争议：纪要已定夜间窗口，不因个人偏好改；有人反对称影响效率。",
+      "block_link": "sessions/FEISHU-666_chat_oc_21fc5cc6becbda6432fe9592c2ea1-7bdb7dbb/session_wiki.md#block-变更时间争议-029978ca",
       "session_wiki_path": "sessions/FEISHU-666_chat_oc_21fc5cc6becbda6432fe9592c2ea1-7bdb7dbb/session_wiki.md",
       "source_session_id": "task:FEISHU-666::chat:oc_21fc5cc6becbda6432fe9592c2ea118d",
-      "status": "resolved"
-    },
-    {
-      "topic_key": "窗口",
-      "topic_title": "窗口",
-      "summary": "窗口改期建议待处理",
-      "block_link": "sessions/FEISHU-666_chat_oc_f49b2c4a0d0a92df61e1f27186021-20685f74/session_wiki.md#block-窗口-a70a1513",
-      "session_wiki_path": "sessions/FEISHU-666_chat_oc_f49b2c4a0d0a92df61e1f27186021-20685f74/session_wiki.md",
-      "source_session_id": "task:FEISHU-666::chat:oc_f49b2c4a0d0a92df61e1f27186021348",
       "status": "open"
     },
     {
       "topic_key": "窗口对齐",
       "topic_title": "窗口对齐",
-      "summary": "各方已确认窗口对齐，准备就绪。",
+      "summary": "各方已确认窗口时间，准备就绪。",
       "block_link": "sessions/FEISHU-666_chat_oc_226e89b2b3fd7612aea5fc7f187cb-ef785114/session_wiki.md#block-窗口对齐-f09d6047",
       "session_wiki_path": "sessions/FEISHU-666_chat_oc_226e89b2b3fd7612aea5fc7f187cb-ef785114/session_wiki.md",
       "source_session_id": "task:FEISHU-666::chat:oc_226e89b2b3fd7612aea5fc7f187cb759",
-      "status": "active"
-    },
-    {
-      "topic_key": "窗口时间",
-      "topic_title": "窗口时间",
-      "summary": "窗口时间以Alice说的为准。",
-      "block_link": "sessions/FEISHU-666_chat_oc_f49b2c4a0d0a92df61e1f27186021-20685f74/session_wiki.md#block-窗口时间-32234f4b",
-      "session_wiki_path": "sessions/FEISHU-666_chat_oc_f49b2c4a0d0a92df61e1f27186021-20685f74/session_wiki.md",
-      "source_session_id": "task:FEISHU-666::chat:oc_f49b2c4a0d0a92df61e1f27186021348",
       "status": "active"
     },
     {
@@ -2965,29 +1885,11 @@
     {
       "topic_key": "发布时间口径",
       "topic_title": "发布时间口径",
-      "summary": "升级窗口定为5月10日22点UTC，个人时间不调整，配置管理侧已锁定窗口，补丁基线已更新，pipeline执行计划已保存，升级计划全部就绪。",
+      "summary": "升级窗口定为5月10日22点UTC，配置管理侧已锁定，补丁基线已更新，pipeline计划已保存，升级计划就绪。个人时间不调整，以纪要为准。",
       "block_link": "sessions/FEISHU-666_chat_oc_226e89b2b3fd7612aea5fc7f187cb-ef785114/session_wiki.md#block-发布时间口径-867908bd",
       "session_wiki_path": "sessions/FEISHU-666_chat_oc_226e89b2b3fd7612aea5fc7f187cb-ef785114/session_wiki.md",
       "source_session_id": "task:FEISHU-666::chat:oc_226e89b2b3fd7612aea5fc7f187cb759",
       "status": "open"
-    },
-    {
-      "topic_key": "发布时间口径",
-      "topic_title": "发布时间口径",
-      "summary": "发布时间窗口为5月10日22点UTC，以纪要为准。",
-      "block_link": "sessions/FEISHU-666_chat_oc_f49b2c4a0d0a92df61e1f27186021-20685f74/session_wiki.md#block-发布时间口径-867908bd",
-      "session_wiki_path": "sessions/FEISHU-666_chat_oc_f49b2c4a0d0a92df61e1f27186021-20685f74/session_wiki.md",
-      "source_session_id": "task:FEISHU-666::chat:oc_f49b2c4a0d0a92df61e1f27186021348",
-      "status": "active"
-    },
-    {
-      "topic_key": "发布时间口径",
-      "topic_title": "发布时间口径",
-      "summary": "发布时间口径：正式窗口确认为5月10日。",
-      "block_link": "sessions/FEISHU-666_chat_oc_d852908acc34173446bde912b27c9-b602d089/session_wiki.md#block-发布时间口径-867908bd",
-      "session_wiki_path": "sessions/FEISHU-666_chat_oc_d852908acc34173446bde912b27c9-b602d089/session_wiki.md",
-      "source_session_id": "task:FEISHU-666::chat:oc_d852908acc34173446bde912b27c9963",
-      "status": "active"
     },
     {
       "topic_key": "发布阻塞风险",
@@ -3001,55 +1903,19 @@
     {
       "topic_key": "发布阻塞风险",
       "topic_title": "发布阻塞风险",
-      "summary": "发布阻塞风险：网络配置漂移为阻塞项，升级可能延迟；修复方案已提交评审，配置审计通过，回滚已批准，决策需基于官方纪要。",
+      "summary": "发布阻塞风险：网络配置漂移为阻塞项，升级可能延迟；修复方案已提交评审，配置审计通过，回滚已批准，所有决策需基于官方纪要。",
       "block_link": "sessions/FEISHU-666_chat_oc_226e89b2b3fd7612aea5fc7f187cb-ef785114/session_wiki.md#block-发布阻塞风险-45763a86",
       "session_wiki_path": "sessions/FEISHU-666_chat_oc_226e89b2b3fd7612aea5fc7f187cb-ef785114/session_wiki.md",
       "source_session_id": "task:FEISHU-666::chat:oc_226e89b2b3fd7612aea5fc7f187cb759",
       "status": "open"
     },
     {
-      "topic_key": "发布阻塞风险",
-      "topic_title": "发布阻塞风险",
-      "summary": "发布阻塞风险：network config drift处理中",
-      "block_link": "sessions/FEISHU-666_chat_oc_f49b2c4a0d0a92df61e1f27186021-20685f74/session_wiki.md#block-发布阻塞风险-45763a86",
-      "session_wiki_path": "sessions/FEISHU-666_chat_oc_f49b2c4a0d0a92df61e1f27186021-20685f74/session_wiki.md",
-      "source_session_id": "task:FEISHU-666::chat:oc_f49b2c4a0d0a92df61e1f27186021348",
-      "status": "active"
-    },
-    {
-      "topic_key": "发布阻塞风险",
-      "topic_title": "发布阻塞风险",
-      "summary": "当前阻塞风险：网络配置漂移",
-      "block_link": "sessions/FEISHU-666_chat_oc_d852908acc34173446bde912b27c9-b602d089/session_wiki.md#block-发布阻塞风险-45763a86",
-      "session_wiki_path": "sessions/FEISHU-666_chat_oc_d852908acc34173446bde912b27c9-b602d089/session_wiki.md",
-      "source_session_id": "task:FEISHU-666::chat:oc_d852908acc34173446bde912b27c9963",
-      "status": "active"
-    },
-    {
-      "topic_key": "合规侧",
-      "topic_title": "合规侧",
-      "summary": "合规侧已发确认函。",
-      "block_link": "sessions/FEISHU-666_chat_oc_f49b2c4a0d0a92df61e1f27186021-20685f74/session_wiki.md#block-合规侧-f1fad429",
-      "session_wiki_path": "sessions/FEISHU-666_chat_oc_f49b2c4a0d0a92df61e1f27186021-20685f74/session_wiki.md",
-      "source_session_id": "task:FEISHU-666::chat:oc_f49b2c4a0d0a92df61e1f27186021348",
-      "status": "active"
-    },
-    {
-      "topic_key": "回归测试",
-      "topic_title": "回归测试",
-      "summary": "回归测试通过。",
-      "block_link": "sessions/FEISHU-666_chat_oc_77fa9b1b12c2e4ce9cd5ef67b44b0-ca85b840/session_wiki.md#block-回归测试-647450ba",
-      "session_wiki_path": "sessions/FEISHU-666_chat_oc_77fa9b1b12c2e4ce9cd5ef67b44b0-ca85b840/session_wiki.md",
-      "source_session_id": "task:FEISHU-666::chat:oc_77fa9b1b12c2e4ce9cd5ef67b44b04b4",
-      "status": "active"
-    },
-    {
-      "topic_key": "计划",
-      "topic_title": "计划",
-      "summary": "高层已同意计划。",
-      "block_link": "sessions/FEISHU-666_chat_oc_d852908acc34173446bde912b27c9-b602d089/session_wiki.md#block-计划-c17bb5de",
-      "session_wiki_path": "sessions/FEISHU-666_chat_oc_d852908acc34173446bde912b27c9-b602d089/session_wiki.md",
-      "source_session_id": "task:FEISHU-666::chat:oc_d852908acc34173446bde912b27c9963",
+      "topic_key": "方案范围裁剪",
+      "topic_title": "方案范围裁剪",
+      "summary": "法律合规无额外限制，可按时升级。",
+      "block_link": "sessions/FEISHU-666_chat_oc_ac5a33c314d20661373939b376723-e2a8eda9/session_wiki.md#block-方案范围裁剪-36e56dfb",
+      "session_wiki_path": "sessions/FEISHU-666_chat_oc_ac5a33c314d20661373939b376723-e2a8eda9/session_wiki.md",
+      "source_session_id": "task:FEISHU-666::chat:oc_ac5a33c314d20661373939b37672396d",
       "status": "active"
     },
     {
@@ -3071,58 +1937,13 @@
       "status": "active"
     },
     {
-      "topic_key": "冒烟测试",
-      "topic_title": "冒烟测试",
-      "summary": "冒烟测试通过。",
-      "block_link": "sessions/FEISHU-666_chat_oc_77fa9b1b12c2e4ce9cd5ef67b44b0-ca85b840/session_wiki.md#block-冒烟测试-420c1e75",
-      "session_wiki_path": "sessions/FEISHU-666_chat_oc_77fa9b1b12c2e4ce9cd5ef67b44b0-ca85b840/session_wiki.md",
-      "source_session_id": "task:FEISHU-666::chat:oc_77fa9b1b12c2e4ce9cd5ef67b44b04b4",
-      "status": "active"
-    },
-    {
-      "topic_key": "任务计划",
-      "topic_title": "任务计划",
-      "summary": "任务计划以正式纪要为准，个人偏好和时间不影响任务，资源已按正式窗口安排。",
-      "block_link": "sessions/FEISHU-666_chat_oc_d852908acc34173446bde912b27c9-b602d089/session_wiki.md#block-任务计划-0339415d",
-      "session_wiki_path": "sessions/FEISHU-666_chat_oc_d852908acc34173446bde912b27c9-b602d089/session_wiki.md",
-      "source_session_id": "task:FEISHU-666::chat:oc_d852908acc34173446bde912b27c9963",
-      "status": "open"
-    },
-    {
-      "topic_key": "上游依赖",
-      "topic_title": "上游依赖",
-      "summary": "上游依赖已确认。",
-      "block_link": "sessions/FEISHU-666_chat_oc_ba31dd2af9ace4d46985b0f11750c-ef428140/session_wiki.md#block-上游依赖-885c619f",
-      "session_wiki_path": "sessions/FEISHU-666_chat_oc_ba31dd2af9ace4d46985b0f11750c-ef428140/session_wiki.md",
-      "source_session_id": "task:FEISHU-666::chat:oc_ba31dd2af9ace4d46985b0f11750c043",
-      "status": "active"
-    },
-    {
       "topic_key": "升级时间",
       "topic_title": "升级时间",
-      "summary": "升级时间讨论：法律合规无限制可按时升级，但有人因周末有事希望提前。",
+      "summary": "用户询问升级时间能否提前，因周末有事。",
       "block_link": "sessions/FEISHU-666_chat_oc_ac5a33c314d20661373939b376723-e2a8eda9/session_wiki.md#block-升级时间-7a779514",
       "session_wiki_path": "sessions/FEISHU-666_chat_oc_ac5a33c314d20661373939b376723-e2a8eda9/session_wiki.md",
       "source_session_id": "task:FEISHU-666::chat:oc_ac5a33c314d20661373939b37672396d",
       "status": "open"
-    },
-    {
-      "topic_key": "团队资源安排",
-      "topic_title": "团队资源安排",
-      "summary": "团队资源安排已获管理层批准，但需考虑个人时间限制的影响。",
-      "block_link": "sessions/FEISHU-666_chat_oc_d852908acc34173446bde912b27c9-b602d089/session_wiki.md#block-团队资源安排-7d76d8a4",
-      "session_wiki_path": "sessions/FEISHU-666_chat_oc_d852908acc34173446bde912b27c9-b602d089/session_wiki.md",
-      "source_session_id": "task:FEISHU-666::chat:oc_d852908acc34173446bde912b27c9963",
-      "status": "open"
-    },
-    {
-      "topic_key": "网络依赖项",
-      "topic_title": "网络依赖项",
-      "summary": "网络依赖项已修复。",
-      "block_link": "sessions/FEISHU-666_chat_oc_ba31dd2af9ace4d46985b0f11750c-ef428140/session_wiki.md#block-网络依赖项-4ad9be4c",
-      "session_wiki_path": "sessions/FEISHU-666_chat_oc_ba31dd2af9ace4d46985b0f11750c-ef428140/session_wiki.md",
-      "source_session_id": "task:FEISHU-666::chat:oc_ba31dd2af9ace4d46985b0f11750c043",
-      "status": "active"
     },
     {
       "topic_key": "文档同步行动项",
@@ -3145,7 +1966,7 @@
     {
       "topic_key": "销售承诺风险",
       "topic_title": "销售承诺风险",
-      "summary": "销售承诺风险：窗口不可调整，家庭承诺不在任务考量内。",
+      "summary": "销售承诺风险：窗口不可调整，家庭承诺不纳入考量。",
       "block_link": "sessions/FEISHU-666_chat_oc_ac5a33c314d20661373939b376723-e2a8eda9/session_wiki.md#block-销售承诺风险-3d675c35",
       "session_wiki_path": "sessions/FEISHU-666_chat_oc_ac5a33c314d20661373939b376723-e2a8eda9/session_wiki.md",
       "source_session_id": "task:FEISHU-666::chat:oc_ac5a33c314d20661373939b37672396d",
@@ -3154,19 +1975,10 @@
     {
       "topic_key": "销售承诺风险",
       "topic_title": "销售承诺风险",
-      "summary": "销售承诺风险：回滚计划已批准，升级窗口5月10日22点UTC已确认。",
-      "block_link": "sessions/FEISHU-666_chat_oc_f49b2c4a0d0a92df61e1f27186021-20685f74/session_wiki.md#block-销售承诺风险-3d675c35",
-      "session_wiki_path": "sessions/FEISHU-666_chat_oc_f49b2c4a0d0a92df61e1f27186021-20685f74/session_wiki.md",
-      "source_session_id": "task:FEISHU-666::chat:oc_f49b2c4a0d0a92df61e1f27186021348",
-      "status": "active"
-    },
-    {
-      "topic_key": "夜间窗口",
-      "topic_title": "夜间窗口",
-      "summary": "夜间窗口已正式决定，不因个人偏好更改。",
-      "block_link": "sessions/FEISHU-666_chat_oc_21fc5cc6becbda6432fe9592c2ea1-7bdb7dbb/session_wiki.md#block-夜间窗口-feb525ee",
-      "session_wiki_path": "sessions/FEISHU-666_chat_oc_21fc5cc6becbda6432fe9592c2ea1-7bdb7dbb/session_wiki.md",
-      "source_session_id": "task:FEISHU-666::chat:oc_21fc5cc6becbda6432fe9592c2ea118d",
+      "summary": "陈雪承诺按窗口时间配合",
+      "block_link": "sessions/FEISHU-666_chat_oc_226e89b2b3fd7612aea5fc7f187cb-ef785114/session_wiki.md#block-销售承诺风险-3d675c35",
+      "session_wiki_path": "sessions/FEISHU-666_chat_oc_226e89b2b3fd7612aea5fc7f187cb-ef785114/session_wiki.md",
+      "source_session_id": "task:FEISHU-666::chat:oc_226e89b2b3fd7612aea5fc7f187cb759",
       "status": "active"
     },
     {
@@ -3179,15 +1991,6 @@
       "status": "active"
     },
     {
-      "topic_key": "依赖项",
-      "topic_title": "依赖项",
-      "summary": "所有依赖项已确认。",
-      "block_link": "sessions/FEISHU-666_chat_oc_d852908acc34173446bde912b27c9-b602d089/session_wiki.md#block-依赖项-babc4d11",
-      "session_wiki_path": "sessions/FEISHU-666_chat_oc_d852908acc34173446bde912b27c9-b602d089/session_wiki.md",
-      "source_session_id": "task:FEISHU-666::chat:oc_d852908acc34173446bde912b27c9963",
-      "status": "active"
-    },
-    {
       "topic_key": "运维窗口",
       "topic_title": "运维窗口",
       "summary": "运维窗口已锁定。",
@@ -3195,16 +1998,7 @@
       "session_wiki_path": "sessions/FEISHU-666_chat_oc_f1c581e38c20b845ed42c30671f63-2f254d48/session_wiki.md",
       "source_session_id": "task:FEISHU-666::chat:oc_f1c581e38c20b845ed42c30671f63193",
       "status": "active"
-    },
-    {
-      "topic_key": "QA测试环境",
-      "topic_title": "QA测试环境",
-      "summary": "QA测试环境已准备。",
-      "block_link": "sessions/FEISHU-666_chat_oc_77fa9b1b12c2e4ce9cd5ef67b44b0-ca85b840/session_wiki.md#block-QA测试环境-919b56f6",
-      "session_wiki_path": "sessions/FEISHU-666_chat_oc_77fa9b1b12c2e4ce9cd5ef67b44b0-ca85b840/session_wiki.md",
-      "source_session_id": "task:FEISHU-666::chat:oc_77fa9b1b12c2e4ce9cd5ef67b44b04b4",
-      "status": "active"
     }
   ],
-  "updated_at": "2026-05-07T01:42:21.747Z"
+  "updated_at": "2026-05-07T03:11:14.896Z"
 }

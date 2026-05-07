@@ -20,6 +20,5 @@
     "returncode": 1,
     "stdout": "",
     "stderr": "真实 OpenClaw baseline 需要已启动且可访问的 Gateway。\n请先运行 openclaw gateway status 或 openclaw gateway call health。\nhealth command=openclaw gateway call health --params {} --json\nstderr=Gateway call failed: Error: gateway closed (1006 abnormal closure (no close frame)): no close reason\nGateway target: ws://127.0.0.1:18789\nSource: local loopback\nConfig: /Users/byseea/.openclaw/openclaw.json\nBind: loopback\n\nstdout=\n"
-  },
-  "failure_artifact_path": "amem_docs/ds/feishu_im_dataset_v3/cases/case_20260506224026669766_private_info_in_official_file/runtime/failures/phase3/openclaw-real-baseline-eval_20260507T030531666887Z.json"
+  }
 }

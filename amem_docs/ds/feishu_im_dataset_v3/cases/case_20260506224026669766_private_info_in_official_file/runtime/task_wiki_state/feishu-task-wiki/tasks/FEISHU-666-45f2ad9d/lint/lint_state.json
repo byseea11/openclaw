@@ -1,11 +1,11 @@
 {
   "version": 1,
-  "generated_at": "2026-05-07T01:42:21.773Z",
+  "generated_at": "2026-05-07T03:11:14.911Z",
   "orphan_event_count": 0,
   "missing_evidence_ref_count": 0,
   "stale_claim_count": 0,
-  "quote_strength_count": 1,
-  "unresolved_objection_count": 8,
+  "quote_strength_count": 2,
+  "unresolved_objection_count": 6,
   "overdue_commitment_count": 0,
   "open_conflict_count": 1,
   "orphan_block_count": 0,
@@ -21,6 +21,12 @@
         "event_id": "evt_9ce95677261b8531",
         "claim": "赵敏承诺安排夜间值班。",
         "evidence_quote": "好吧，我会安排夜间值班。"
+      },
+      {
+        "source_session_id": "task:FEISHU-666::chat:oc_226e89b2b3fd7612aea5fc7f187cb759",
+        "event_id": "evt_071af385338082cd",
+        "claim": "陈雪承诺按窗口时间配合",
+        "evidence_quote": "明白，我会按窗口时间配合。"
       }
     ],
     "unresolved_objections": [
@@ -32,11 +38,25 @@
         "event_id": "evt_c21a8779269dd2f6"
       },
       {
+        "source_session_id": "task:FEISHU-666::chat:oc_21fc5cc6becbda6432fe9592c2ea118d",
+        "block_id": "block-变更时间争议-029978ca",
+        "topic_title": "变更时间争议",
+        "claim": "夜间变更对我个人效率影响大",
+        "event_id": "evt_3227288e2eeb53d2"
+      },
+      {
         "source_session_id": "task:FEISHU-666::chat:oc_226e89b2b3fd7612aea5fc7f187cb759",
         "block_id": "block-发布时间口径-867908bd",
         "topic_title": "发布时间口径",
         "claim": "窗口能挪到周三前吗？我周四有个人面试。",
         "event_id": "evt_f787a9cce9786fdf"
+      },
+      {
+        "source_session_id": "task:FEISHU-666::chat:oc_226e89b2b3fd7612aea5fc7f187cb759",
+        "block_id": "block-发布时间口径-867908bd",
+        "topic_title": "发布时间口径",
+        "claim": "个人偏好不影响任务，以纪要为准。",
+        "event_id": "evt_c201a4f3191cd91f"
       },
       {
         "source_session_id": "task:FEISHU-666::chat:oc_226e89b2b3fd7612aea5fc7f187cb759",
@@ -51,34 +71,6 @@
         "topic_title": "升级时间",
         "claim": "升级时间能提前吗？我周末家里有事。",
         "event_id": "evt_fc93f42aa951ca16"
-      },
-      {
-        "source_session_id": "task:FEISHU-666::chat:oc_ac5a33c314d20661373939b37672396d",
-        "block_id": "block-销售承诺风险-3d675c35",
-        "topic_title": "销售承诺风险",
-        "claim": "窗口不可调整，家庭承诺不在任务考量内。",
-        "event_id": "evt_bb3c99c563be5c04"
-      },
-      {
-        "source_session_id": "task:FEISHU-666::chat:oc_d852908acc34173446bde912b27c9963",
-        "block_id": "block-任务计划-0339415d",
-        "topic_title": "任务计划",
-        "claim": "正式纪要为准，个人偏好不影响任务计划。",
-        "event_id": "evt_80505149e96ab494"
-      },
-      {
-        "source_session_id": "task:FEISHU-666::chat:oc_d852908acc34173446bde912b27c9963",
-        "block_id": "block-团队资源安排-7d76d8a4",
-        "topic_title": "团队资源安排",
-        "claim": "个人时间限制会不会影响团队资源安排？",
-        "event_id": "evt_b9f78011f2ab424d"
-      },
-      {
-        "source_session_id": "task:FEISHU-666::chat:oc_f49b2c4a0d0a92df61e1f27186021348",
-        "block_id": "block-窗口-a70a1513",
-        "topic_title": "窗口",
-        "claim": "有人建议窗口改期",
-        "event_id": "evt_0a5198f3461cc6ad"
       }
     ],
     "overdue_commitments": [],

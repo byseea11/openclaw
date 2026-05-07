@@ -3,7 +3,7 @@
   "phase": "phase3",
   "failed_stage": "openclaw-real-baseline-eval",
   "status": "failed",
-  "failed_at": "2026-05-07T02:25:59.059654+00:00",
+  "failed_at": "2026-05-07T03:05:31.668761+00:00",
   "error_type": "RuntimeScriptError",
-  "error_message": "Phase 3 runtime script failed: command=node /Users/byseea/programscoding/nanobot/openclaw-main/feishu_task_wiki_benchmark_builder/runtime/openclaw_baseline_eval.mjs --case-dir amem_docs/ds/feishu_im_dataset_v3/cases/case_20260506224026669766_private_info_in_official_file --semantic-gold rule --json returncode=1 stderr=真实 OpenClaw gateway sender session ingest 失败 session_key=agent:main:feishu-benchmark:case_20260506224026669766_private_info_in_official_file:source:oc_21fc5cc6becbda6432fe9592c2ea118d:sender:ou_sim_benchmark_root: [openclaw] Building TypeScript (dist is stale: dirty_watched_tree - dirty watched source tree).\ngateway connect failed: GatewayClientRequestError: pairing required\nGateway call failed: Error: gateway closed (1008): pairing required\nGateway target: ws://127.0.0.1:18789\nSource: local loopback\nConfig: /Users/byseea/.openclaw/openclaw.json\nBind: loopback"
+  "error_message": "Phase 3 runtime script failed: command=node /Users/byseea/programscoding/nanobot/openclaw-main/feishu_task_wiki_benchmark_builder/runtime/openclaw_baseline_eval.mjs --case-dir amem_docs/ds/feishu_im_dataset_v3/cases/case_20260506224026669766_private_info_in_official_file --semantic-gold rule --json returncode=1 stderr=真实 OpenClaw baseline 需要已启动且可访问的 Gateway。\n请先运行 openclaw gateway status 或 openclaw gateway call health。\nhealth command=openclaw gateway call health --params {} --json\nstderr=Gateway call failed: Error: gateway closed (1006 abnormal closure (no close frame)): no close reason\nGateway target: ws://127.0.0.1:18789\nSource: local loopback\nConfig: /Users/byseea/.openclaw/openclaw.json\nBind: loopback\n\nstdout="
 }

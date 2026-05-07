@@ -1,11 +1,9 @@
 {
   "case_dir": "amem_docs/ds/feishu_im_dataset_v3/cases/case_20260506224026669766_private_info_in_official_file",
   "semantic_gold_mode": "rule",
-  "status": "needs_review",
-  "health_score": 91.65,
-  "blocking_failures": [
-    "layer3:blocking_lint_findings"
-  ],
+  "status": "passed",
+  "health_score": 94.62,
+  "blocking_failures": [],
   "warnings": [
     "layer3:lint_warnings_present"
   ],
@@ -31,27 +29,23 @@
     "layer2_events": {
       "ingested_count": 83,
       "skipped_count": 0,
-      "candidate_events_returned_during_ingest": 92,
-      "verification_jobs_queued": 80,
-      "candidate_event_count": 92,
-      "verified_event_count": 74,
-      "verification_rate": 0.8043,
+      "candidate_events_returned_during_ingest": 39,
+      "verification_jobs_queued": 39,
+      "candidate_event_count": 39,
+      "verified_event_count": 33,
+      "verification_rate": 0.8462,
       "session_count": 8,
       "sessions_with_events": 8,
       "candidate_validation_breakdown": {
-        "ready_for_verification": 80,
-        "rejected": 12
+        "ready_for_verification": 39
       },
-      "rejected_candidate_count": 16,
-      "ready_for_verification_count": 80,
-      "queued_verification_count": 80,
-      "rejection_reason_breakdown": {
-        "quote_location:missing_entry": 12,
-        "unknown": 4
-      },
+      "rejected_candidate_count": 0,
+      "ready_for_verification_count": 39,
+      "queued_verification_count": 39,
+      "rejection_reason_breakdown": {},
       "missing_field_breakdown": {},
       "status": "passed",
-      "score": 80.43,
+      "score": 84.62,
       "blocking_failures": [],
       "warnings": []
     },
@@ -64,33 +58,29 @@
       "orphan_event_count": 0,
       "missing_evidence_ref_count": 0,
       "stale_claim_count": 0,
-      "quote_strength_count": 1,
-      "unresolved_objection_count": 8,
+      "quote_strength_count": 0,
+      "unresolved_objection_count": 1,
       "overdue_commitment_count": 0,
-      "open_conflict_count": 1,
+      "open_conflict_count": 0,
       "orphan_block_count": 0,
       "missing_cross_ref_count": 0,
       "orphan_session_wiki_count": 0,
-      "lint_blocking_count": 1,
-      "lint_warning_count": 9,
-      "status": "needs_review",
-      "score": 95,
-      "blocking_failures": [
-        "layer3:blocking_lint_findings"
-      ],
+      "lint_blocking_count": 0,
+      "lint_warning_count": 1,
+      "status": "passed",
+      "score": 100,
+      "blocking_failures": [],
       "warnings": [
         "layer3:lint_warnings_present"
       ]
     },
     "overall": {
-      "status": "needs_review",
-      "blocking_failures": [
-        "layer3:blocking_lint_findings"
-      ],
+      "status": "passed",
+      "blocking_failures": [],
       "warnings": [
         "layer3:lint_warnings_present"
       ],
-      "health_score": 91.65
+      "health_score": 94.62
     }
   }
 }

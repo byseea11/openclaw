@@ -8,8 +8,8 @@ chat_id: oc_226e89b2b3fd7612aea5fc7f187cb759
 thread_id: null
 root_id: null
 time_range:
-  start: 2026-05-07T01:34:58.306Z
-  end: 2026-05-07T01:40:00.760Z
+  start: 2026-05-07T03:05:35.284Z
+  end: 2026-05-07T03:10:53.773Z
 participants:
   - 林晨
   - 周宇
@@ -24,10 +24,10 @@ participants:
   - 梁昕
 source_locator: chat:main_chat
 binding_mode: source_id
-created_at: 2026-05-07T01:34:58.306Z
-updated_at: 2026-05-07T01:40:00.772Z
+created_at: 2026-05-07T03:05:35.284Z
+updated_at: 2026-05-07T03:10:53.779Z
 latest_ingest_version: 28
 raw_ingest_count: 28
 visible_ingest_count: 28
-compacted_at: 2026-05-07T01:40:00.772Z
+compacted_at: 2026-05-07T03:10:53.779Z
 retained_entry_count: 28

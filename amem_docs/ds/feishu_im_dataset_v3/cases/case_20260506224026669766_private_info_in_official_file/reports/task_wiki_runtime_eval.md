@@ -13,8 +13,8 @@
 - task_id: FEISHU-666
 - case_dir: amem_docs/ds/feishu_im_dataset_v3/cases/case_20260506224026669766_private_info_in_official_file
 - state_dir: amem_docs/ds/feishu_im_dataset_v3/cases/case_20260506224026669766_private_info_in_official_file/runtime/task_wiki_state
-- status: needs_review
-- health_score: 91.65
+- status: passed
+- health_score: 94.62
 - score_formula: Layer1 * 35% + Layer2 * 35% + Layer3 * 30%
 
 ## Layer 1: Task Binding
@@ -37,23 +37,23 @@ Layer 1 失败时优先检查：
 ## Layer 2: Event Extraction / Verification
 
 - status: passed
-- score: 80.43
+- score: 84.62
 - ingested_count: 83
-- candidate_event_count: 92
-- verified_event_count: 74
-- verification_rate: 0.8043
+- candidate_event_count: 39
+- verified_event_count: 33
+- verification_rate: 0.8462
 - session_count: 8
 - sessions_with_events: 8
-- ready_for_verification_count: 80
-- queued_verification_count: 80
-- rejected_candidate_count: 16
+- ready_for_verification_count: 39
+- queued_verification_count: 39
+- rejected_candidate_count: 0
 - blocking_failures: none
 - warnings: none
 
 ### Candidate Rejection Breakdown
 
-- candidate_validation_breakdown: {"ready_for_verification":80,"rejected":12}
-- rejection_reason_breakdown: {"quote_location:missing_entry":12,"unknown":4}
+- candidate_validation_breakdown: {"ready_for_verification":39}
+- rejection_reason_breakdown: {}
 - missing_field_breakdown: {}
 
 Layer 2 失败时优先检查：
@@ -64,14 +64,14 @@ Layer 2 失败时优先检查：
 
 ## Layer 3: Wiki Projection / Lint
 
-- status: needs_review
-- score: 95
+- status: passed
+- score: 100
 - task_root_count: 1
 - projected_task_count: 1
 - projection_status: projected
-- lint_blocking_count: 1
-- lint_warning_count: 9
-- blocking_failures: layer3:blocking_lint_findings
+- lint_blocking_count: 0
+- lint_warning_count: 1
+- blocking_failures: none
 - warnings: layer3:lint_warnings_present
 
 Layer 3 失败时优先检查：
@@ -82,7 +82,7 @@ Layer 3 失败时优先检查：
 
 ## Overall Health
 
-- blocking_failures: layer3:blocking_lint_findings
+- blocking_failures: none
 - warnings: layer3:lint_warnings_present
 
 ## Output Files

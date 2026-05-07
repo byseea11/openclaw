@@ -4,12 +4,12 @@
 - Task: FEISHU-666
 - Source Type: thread
 - Source Scope: chat:oc_ac5a33c314d20661373939b37672396d
-- Time Range: 2026-05-07T01:34:57.012Z ~ 2026-05-07T01:38:35.688Z
+- Time Range: 2026-05-07T03:05:33.698Z ~ 2026-05-07T03:09:19.924Z
 - Participants: Benchmark Root、何然、林晨、沈嘉、唐越、许薇
 
 <!-- session-summary:start -->
 ## Session Summary
-讨论存储备用方案、发布阻塞风险、纪要结论、升级时间及销售承诺风险，部分议题待定。
+讨论存储备用方案、发布阻塞风险、方案范围裁剪、纪要结论、升级时间及销售承诺风险，部分议题已就绪或更新，部分仍待解决。
 
 <!-- session-summary:end -->
 ## Memory Blocks
@@ -87,9 +87,31 @@
 ---
 
 <!-- block:block-发布阻塞风险-45763a86:end -->
+<!-- block:block-方案范围裁剪-36e56dfb:start -->
+<a id="block-方案范围裁剪-36e56dfb"></a>
+### Memory Block 3: 方案范围裁剪
+
+#### Summary
+法律合规无额外限制，可按时升级。
+
+#### Conclusion
+##### Current
+- [当前] 法律合规方面无额外限制，可按时升级。
+  - Event Ref: [[sessions/FEISHU-666_chat_oc_ac5a33c314d20661373939b376723-e2a8eda9/session_events.jsonl#evt_2fb5c8fd57bfa1b4|evt_2fb5c8fd57bfa1b4]]
+  - Entry Ref: [[sessions/FEISHU-666_chat_oc_ac5a33c314d20661373939b376723-e2a8eda9/session.md#om_x100b5088e5c618a0c3c2f9b2af153d8|om_x100b5088e5c618a0c3c2f9b2af153d8]]
+  - Quote: 法律合规方面无额外限制，可按时升级。
+
+#### Evidence References
+- evt_2fb5c8fd57bfa1b4 → sessions/FEISHU-666_chat_oc_ac5a33c314d20661373939b376723-e2a8eda9/session_events.jsonl#evt_2fb5c8fd57bfa1b4
+  - Entry Ref: [[sessions/FEISHU-666_chat_oc_ac5a33c314d20661373939b376723-e2a8eda9/session.md#om_x100b5088e5c618a0c3c2f9b2af153d8|om_x100b5088e5c618a0c3c2f9b2af153d8]]
+  - Quote: 法律合规方面无额外限制，可按时升级。
+
+---
+
+<!-- block:block-方案范围裁剪-36e56dfb:end -->
 <!-- block:block-纪要结论-05c79215:start -->
 <a id="block-纪要结论-05c79215"></a>
-### Memory Block 3: 纪要结论
+### Memory Block 4: 纪要结论
 
 #### Summary
 评估已做，尊重纪要结论；建议将个人背景备注从纪要中分离。
@@ -118,17 +140,10 @@
 <!-- block:block-纪要结论-05c79215:end -->
 <!-- block:block-升级时间-7a779514:start -->
 <a id="block-升级时间-7a779514"></a>
-### Memory Block 4: 升级时间
+### Memory Block 5: 升级时间
 
 #### Summary
-升级时间讨论：法律合规无限制可按时升级，但有人因周末有事希望提前。
-
-#### Conclusion
-##### Current
-- [当前] 法律合规方面无额外限制，可按时升级。
-  - Event Ref: [[sessions/FEISHU-666_chat_oc_ac5a33c314d20661373939b376723-e2a8eda9/session_events.jsonl#evt_2fb5c8fd57bfa1b4|evt_2fb5c8fd57bfa1b4]]
-  - Entry Ref: [[sessions/FEISHU-666_chat_oc_ac5a33c314d20661373939b376723-e2a8eda9/session.md#om_x100b5088e5c618a0c3c2f9b2af153d8|om_x100b5088e5c618a0c3c2f9b2af153d8]]
-  - Quote: 法律合规方面无额外限制，可按时升级。
+用户询问升级时间能否提前，因周末有事。
 
 #### Objection / Risk
 ##### Current
@@ -151,29 +166,26 @@
 - evt_fc93f42aa951ca16 → sessions/FEISHU-666_chat_oc_ac5a33c314d20661373939b376723-e2a8eda9/session_events.jsonl#evt_fc93f42aa951ca16
   - Entry Ref: [[sessions/FEISHU-666_chat_oc_ac5a33c314d20661373939b376723-e2a8eda9/session.md#om_x100b5088e4080ca8c3a345e3382e68b|om_x100b5088e4080ca8c3a345e3382e68b]]
   - Quote: 我周末家里有事。
-- evt_2fb5c8fd57bfa1b4 → sessions/FEISHU-666_chat_oc_ac5a33c314d20661373939b376723-e2a8eda9/session_events.jsonl#evt_2fb5c8fd57bfa1b4
-  - Entry Ref: [[sessions/FEISHU-666_chat_oc_ac5a33c314d20661373939b376723-e2a8eda9/session.md#om_x100b5088e5c618a0c3c2f9b2af153d8|om_x100b5088e5c618a0c3c2f9b2af153d8]]
-  - Quote: 法律合规方面无额外限制，可按时升级。
 
 ---
 
 <!-- block:block-升级时间-7a779514:end -->
 <!-- block:block-销售承诺风险-3d675c35:start -->
 <a id="block-销售承诺风险-3d675c35"></a>
-### Memory Block 5: 销售承诺风险
+### Memory Block 6: 销售承诺风险
 
 #### Summary
-销售承诺风险：窗口不可调整，家庭承诺不在任务考量内。
+销售承诺风险：窗口不可调整，家庭承诺不纳入考量。
 
-#### Objection / Risk
+#### Constraint
 ##### Current
 - [当前] 窗口不可调整，家庭承诺不在任务考量内。
-  - Event Ref: [[sessions/FEISHU-666_chat_oc_ac5a33c314d20661373939b376723-e2a8eda9/session_events.jsonl#evt_bb3c99c563be5c04|evt_bb3c99c563be5c04]]
+  - Event Ref: [[sessions/FEISHU-666_chat_oc_ac5a33c314d20661373939b376723-e2a8eda9/session_events.jsonl#evt_8039c0c46eb22393|evt_8039c0c46eb22393]]
   - Entry Ref: [[sessions/FEISHU-666_chat_oc_ac5a33c314d20661373939b376723-e2a8eda9/session.md#om_x100b5088e41c30a4c3867767d6d7ce3|om_x100b5088e41c30a4c3867767d6d7ce3]]
   - Quote: 窗口不可调整，家庭承诺不在任务考量内。
 
 #### Evidence References
-- evt_bb3c99c563be5c04 → sessions/FEISHU-666_chat_oc_ac5a33c314d20661373939b376723-e2a8eda9/session_events.jsonl#evt_bb3c99c563be5c04
+- evt_8039c0c46eb22393 → sessions/FEISHU-666_chat_oc_ac5a33c314d20661373939b376723-e2a8eda9/session_events.jsonl#evt_8039c0c46eb22393
   - Entry Ref: [[sessions/FEISHU-666_chat_oc_ac5a33c314d20661373939b376723-e2a8eda9/session.md#om_x100b5088e41c30a4c3867767d6d7ce3|om_x100b5088e41c30a4c3867767d6d7ce3]]
   - Quote: 窗口不可调整，家庭承诺不在任务考量内。
 

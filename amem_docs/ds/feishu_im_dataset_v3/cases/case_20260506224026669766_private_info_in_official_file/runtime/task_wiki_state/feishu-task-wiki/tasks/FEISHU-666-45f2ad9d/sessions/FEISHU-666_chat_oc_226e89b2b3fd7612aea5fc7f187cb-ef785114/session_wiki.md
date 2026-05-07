@@ -4,12 +4,12 @@
 - Task: FEISHU-666
 - Source Type: chat
 - Source Scope: chat:oc_226e89b2b3fd7612aea5fc7f187cb759
-- Time Range: 2026-05-07T01:34:58.306Z ~ 2026-05-07T01:40:00.760Z
+- Time Range: 2026-05-07T03:05:35.284Z ~ 2026-05-07T03:10:53.773Z
 - Participants: 林晨、周宇、陈雪、秦怡、唐越、许薇、王源、罗天、苏禾、沈嘉、梁昕
 
 <!-- session-summary:start -->
 ## Session Summary
-窗口对齐就绪，发布时间口径已定，网络配置漂移为阻塞风险。
+会议确认窗口对齐，发布时间口径已定，网络配置漂移为阻塞风险，销售承诺配合。
 
 <!-- session-summary:end -->
 ## Memory Blocks
@@ -19,7 +19,7 @@
 ### Memory Block 1: 窗口对齐
 
 #### Summary
-各方已确认窗口对齐，准备就绪。
+各方已确认窗口时间，准备就绪。
 
 #### Status
 ##### Current
@@ -39,10 +39,6 @@
   - Event Ref: [[sessions/FEISHU-666_chat_oc_226e89b2b3fd7612aea5fc7f187cb-ef785114/session_events.jsonl#evt_3603cfcf1e6f4f00|evt_3603cfcf1e6f4f00]]
   - Entry Ref: [[sessions/FEISHU-666_chat_oc_226e89b2b3fd7612aea5fc7f187cb-ef785114/session.md#om_x100b5088e6cd3cb0c10de3a90887d4d|om_x100b5088e6cd3cb0c10de3a90887d4d]]
   - Quote: vendor侧已同步窗口，没有问题。
-- [当前] QT侧已准备评审用例。
-  - Event Ref: [[sessions/FEISHU-666_chat_oc_226e89b2b3fd7612aea5fc7f187cb-ef785114/session_events.jsonl#evt_1eb201a514d4c2aa|evt_1eb201a514d4c2aa]]
-  - Entry Ref: [[sessions/FEISHU-666_chat_oc_226e89b2b3fd7612aea5fc7f187cb-ef785114/session.md#om_x100b5088e6bfa0a8c2dab79196a2ddf|om_x100b5088e6bfa0a8c2dab79196a2ddf]]
-  - Quote: QT侧已准备评审用例。
 - [当前] vendor已确认时间。
   - Event Ref: [[sessions/FEISHU-666_chat_oc_226e89b2b3fd7612aea5fc7f187cb-ef785114/session_events.jsonl#evt_e58dc3f2e715fef5|evt_e58dc3f2e715fef5]]
   - Entry Ref: [[sessions/FEISHU-666_chat_oc_226e89b2b3fd7612aea5fc7f187cb-ef785114/session.md#om_x100b5088e6b1b0a0c148d47cbba2316|om_x100b5088e6b1b0a0c148d47cbba2316]]
@@ -61,9 +57,6 @@
 - evt_3603cfcf1e6f4f00 → sessions/FEISHU-666_chat_oc_226e89b2b3fd7612aea5fc7f187cb-ef785114/session_events.jsonl#evt_3603cfcf1e6f4f00
   - Entry Ref: [[sessions/FEISHU-666_chat_oc_226e89b2b3fd7612aea5fc7f187cb-ef785114/session.md#om_x100b5088e6cd3cb0c10de3a90887d4d|om_x100b5088e6cd3cb0c10de3a90887d4d]]
   - Quote: vendor侧已同步窗口，没有问题。
-- evt_1eb201a514d4c2aa → sessions/FEISHU-666_chat_oc_226e89b2b3fd7612aea5fc7f187cb-ef785114/session_events.jsonl#evt_1eb201a514d4c2aa
-  - Entry Ref: [[sessions/FEISHU-666_chat_oc_226e89b2b3fd7612aea5fc7f187cb-ef785114/session.md#om_x100b5088e6bfa0a8c2dab79196a2ddf|om_x100b5088e6bfa0a8c2dab79196a2ddf]]
-  - Quote: QT侧已准备评审用例。
 - evt_e58dc3f2e715fef5 → sessions/FEISHU-666_chat_oc_226e89b2b3fd7612aea5fc7f187cb-ef785114/session_events.jsonl#evt_e58dc3f2e715fef5
   - Entry Ref: [[sessions/FEISHU-666_chat_oc_226e89b2b3fd7612aea5fc7f187cb-ef785114/session.md#om_x100b5088e6b1b0a0c148d47cbba2316|om_x100b5088e6b1b0a0c148d47cbba2316]]
   - Quote: vendor已确认时间。
@@ -76,7 +69,7 @@
 ### Memory Block 2: 发布时间口径
 
 #### Summary
-升级窗口定为5月10日22点UTC，个人时间不调整，配置管理侧已锁定窗口，补丁基线已更新，pipeline执行计划已保存，升级计划全部就绪。
+升级窗口定为5月10日22点UTC，配置管理侧已锁定，补丁基线已更新，pipeline计划已保存，升级计划就绪。个人时间不调整，以纪要为准。
 
 #### Objection / Risk
 ##### Current
@@ -84,20 +77,10 @@
   - Event Ref: [[sessions/FEISHU-666_chat_oc_226e89b2b3fd7612aea5fc7f187cb-ef785114/session_events.jsonl#evt_f787a9cce9786fdf|evt_f787a9cce9786fdf]]
   - Entry Ref: [[sessions/FEISHU-666_chat_oc_226e89b2b3fd7612aea5fc7f187cb-ef785114/session.md#om_x100b5088e9571530c3ccc93a7863317|om_x100b5088e9571530c3ccc93a7863317]]
   - Quote: 我周四有个人面试。
-
-#### Constraint
-##### Current
 - [当前] 个人偏好不影响任务，以纪要为准。
-  - Event Ref: [[sessions/FEISHU-666_chat_oc_226e89b2b3fd7612aea5fc7f187cb-ef785114/session_events.jsonl#evt_156f1c0d7551272d|evt_156f1c0d7551272d]]
+  - Event Ref: [[sessions/FEISHU-666_chat_oc_226e89b2b3fd7612aea5fc7f187cb-ef785114/session_events.jsonl#evt_c201a4f3191cd91f|evt_c201a4f3191cd91f]]
   - Entry Ref: [[sessions/FEISHU-666_chat_oc_226e89b2b3fd7612aea5fc7f187cb-ef785114/session.md#om_x100b5088e68bc8a8c2ac16538e606f6|om_x100b5088e68bc8a8c2ac16538e606f6]]
   - Quote: 个人偏好不影响任务，以纪要为准。
-
-#### Commitment
-##### Current
-- [当前] 我会按窗口时间配合。
-  - Event Ref: [[sessions/FEISHU-666_chat_oc_226e89b2b3fd7612aea5fc7f187cb-ef785114/session_events.jsonl#evt_405cf38429d91f79|evt_405cf38429d91f79]]
-  - Entry Ref: [[sessions/FEISHU-666_chat_oc_226e89b2b3fd7612aea5fc7f187cb-ef785114/session.md#om_x100b5088e97d50a0c4d6191cfe25069|om_x100b5088e97d50a0c4d6191cfe25069]]
-  - Quote: 明白，我会按窗口时间配合。
 
 #### Status
 ##### Current
@@ -166,9 +149,6 @@
 - evt_c12b6b52513dc918 → sessions/FEISHU-666_chat_oc_226e89b2b3fd7612aea5fc7f187cb-ef785114/session_events.jsonl#evt_c12b6b52513dc918
   - Entry Ref: [[sessions/FEISHU-666_chat_oc_226e89b2b3fd7612aea5fc7f187cb-ef785114/session.md#om_x100b5088e968b8a0c35a293dbbc1fbd|om_x100b5088e968b8a0c35a293dbbc1fbd]]
   - Quote: 个人时间不调整
-- evt_405cf38429d91f79 → sessions/FEISHU-666_chat_oc_226e89b2b3fd7612aea5fc7f187cb-ef785114/session_events.jsonl#evt_405cf38429d91f79
-  - Entry Ref: [[sessions/FEISHU-666_chat_oc_226e89b2b3fd7612aea5fc7f187cb-ef785114/session.md#om_x100b5088e97d50a0c4d6191cfe25069|om_x100b5088e97d50a0c4d6191cfe25069]]
-  - Quote: 明白，我会按窗口时间配合。
 - evt_afd2d9ec07f8b314 → sessions/FEISHU-666_chat_oc_226e89b2b3fd7612aea5fc7f187cb-ef785114/session_events.jsonl#evt_afd2d9ec07f8b314
   - Entry Ref: [[sessions/FEISHU-666_chat_oc_226e89b2b3fd7612aea5fc7f187cb-ef785114/session.md#om_x100b5088e90ad4a4c228b3d264dfc12|om_x100b5088e90ad4a4c228b3d264dfc12]]
   - Quote: 窗口不变
@@ -184,7 +164,7 @@
 - evt_adf987fec8526287 → sessions/FEISHU-666_chat_oc_226e89b2b3fd7612aea5fc7f187cb-ef785114/session_events.jsonl#evt_adf987fec8526287
   - Entry Ref: [[sessions/FEISHU-666_chat_oc_226e89b2b3fd7612aea5fc7f187cb-ef785114/session.md#om_x100b5088e6e39cacc4c0a2e8475b8ac|om_x100b5088e6e39cacc4c0a2e8475b8ac]]
   - Quote: 升级窗口5月10日22点UTC。
-- evt_156f1c0d7551272d → sessions/FEISHU-666_chat_oc_226e89b2b3fd7612aea5fc7f187cb-ef785114/session_events.jsonl#evt_156f1c0d7551272d
+- evt_c201a4f3191cd91f → sessions/FEISHU-666_chat_oc_226e89b2b3fd7612aea5fc7f187cb-ef785114/session_events.jsonl#evt_c201a4f3191cd91f
   - Entry Ref: [[sessions/FEISHU-666_chat_oc_226e89b2b3fd7612aea5fc7f187cb-ef785114/session.md#om_x100b5088e68bc8a8c2ac16538e606f6|om_x100b5088e68bc8a8c2ac16538e606f6]]
   - Quote: 个人偏好不影响任务，以纪要为准。
 - evt_0e963f6641a7f253 → sessions/FEISHU-666_chat_oc_226e89b2b3fd7612aea5fc7f187cb-ef785114/session_events.jsonl#evt_0e963f6641a7f253
@@ -205,7 +185,7 @@
 ### Memory Block 3: 发布阻塞风险
 
 #### Summary
-发布阻塞风险：网络配置漂移为阻塞项，升级可能延迟；修复方案已提交评审，配置审计通过，回滚已批准，决策需基于官方纪要。
+发布阻塞风险：网络配置漂移为阻塞项，升级可能延迟；修复方案已提交评审，配置审计通过，回滚已批准，所有决策需基于官方纪要。
 
 #### Objection / Risk
 ##### Current
@@ -247,7 +227,7 @@
 - [历史] blocker为network config drift，回滚计划已批。
   - Event Ref: [[sessions/FEISHU-666_chat_oc_226e89b2b3fd7612aea5fc7f187cb-ef785114/session_events.jsonl#evt_348243f38b4f40c1|evt_348243f38b4f40c1]]
   - Entry Ref: [[sessions/FEISHU-666_chat_oc_226e89b2b3fd7612aea5fc7f187cb-ef785114/session.md#om_x100b5088e949dca4c2d388cef31abb0|om_x100b5088e949dca4c2d388cef31abb0]]
-  - Quote: blocker为network config drift，回滚计划已批。
+  - Quote: 回滚计划已批
 - [历史] blocker正在解决
   - Event Ref: [[sessions/FEISHU-666_chat_oc_226e89b2b3fd7612aea5fc7f187cb-ef785114/session_events.jsonl#evt_2ab5c4e25be9d091|evt_2ab5c4e25be9d091]]
   - Entry Ref: [[sessions/FEISHU-666_chat_oc_226e89b2b3fd7612aea5fc7f187cb-ef785114/session.md#om_x100b5088e90ad4a4c228b3d264dfc12|om_x100b5088e90ad4a4c228b3d264dfc12]]
@@ -263,7 +243,7 @@
   - Quote: 上线风险评审纪要已发
 - evt_348243f38b4f40c1 → sessions/FEISHU-666_chat_oc_226e89b2b3fd7612aea5fc7f187cb-ef785114/session_events.jsonl#evt_348243f38b4f40c1
   - Entry Ref: [[sessions/FEISHU-666_chat_oc_226e89b2b3fd7612aea5fc7f187cb-ef785114/session.md#om_x100b5088e949dca4c2d388cef31abb0|om_x100b5088e949dca4c2d388cef31abb0]]
-  - Quote: blocker为network config drift，回滚计划已批。
+  - Quote: 回滚计划已批
 - evt_337c0bd09e04f6ec → sessions/FEISHU-666_chat_oc_226e89b2b3fd7612aea5fc7f187cb-ef785114/session_events.jsonl#evt_337c0bd09e04f6ec
   - Entry Ref: [[sessions/FEISHU-666_chat_oc_226e89b2b3fd7612aea5fc7f187cb-ef785114/session.md#om_x100b5088e97628a4c31efc041cb5d18|om_x100b5088e97628a4c31efc041cb5d18]]
   - Quote: 网络配置漂移是blocker，升级会不会延迟？
@@ -289,3 +269,25 @@
 ---
 
 <!-- block:block-发布阻塞风险-45763a86:end -->
+<!-- block:block-销售承诺风险-3d675c35:start -->
+<a id="block-销售承诺风险-3d675c35"></a>
+### Memory Block 4: 销售承诺风险
+
+#### Summary
+陈雪承诺按窗口时间配合
+
+#### Commitment
+##### Current
+- [当前] 陈雪承诺按窗口时间配合
+  - Event Ref: [[sessions/FEISHU-666_chat_oc_226e89b2b3fd7612aea5fc7f187cb-ef785114/session_events.jsonl#evt_071af385338082cd|evt_071af385338082cd]]
+  - Entry Ref: [[sessions/FEISHU-666_chat_oc_226e89b2b3fd7612aea5fc7f187cb-ef785114/session.md#om_x100b5088e97d50a0c4d6191cfe25069|om_x100b5088e97d50a0c4d6191cfe25069]]
+  - Quote: 明白，我会按窗口时间配合。
+
+#### Evidence References
+- evt_071af385338082cd → sessions/FEISHU-666_chat_oc_226e89b2b3fd7612aea5fc7f187cb-ef785114/session_events.jsonl#evt_071af385338082cd
+  - Entry Ref: [[sessions/FEISHU-666_chat_oc_226e89b2b3fd7612aea5fc7f187cb-ef785114/session.md#om_x100b5088e97d50a0c4d6191cfe25069|om_x100b5088e97d50a0c4d6191cfe25069]]
+  - Quote: 明白，我会按窗口时间配合。
+
+---
+
+<!-- block:block-销售承诺风险-3d675c35:end -->

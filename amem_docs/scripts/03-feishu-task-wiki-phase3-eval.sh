@@ -30,6 +30,11 @@ usage() {
       OpenClaw real baseline 使用已启动 Gateway，按 sender_open_id + source session 保留多人物记忆边界，再检查 query answers 和 evidence traces。
       Comparative score 比较两套系统在 answer / evidence / safety / efficiency 上的表现。
 
+  phase3 --task-wiki-only
+  phase3 --stage task-wiki-runtime-eval
+      只执行 Task Wiki 三层 runtime eval，不启动或调用 OpenClaw baseline。
+      适合先验证 `task_wiki_3_layer` 本身效果，输出 runtime/task_wiki_replay/* 和 reports/task_wiki_runtime_eval.md。
+
 评估口径：
   - answer correctness 和 evidence correctness 分开评分。
   - 答案对但没有证据，只能算弱通过。
@@ -50,6 +55,12 @@ usage() {
 
   --continue-on-error
       默认 fail-fast；开启后单个 case 失败会记录到 batch summary 并继续处理后续 case。
+
+  --task-wiki-only
+      只跑三层方法，不跑 OpenClaw baseline 和 comparative-score。
+
+  --stage task-wiki-runtime-eval
+      等价于 --task-wiki-only。
 
 输出：
   <case_dir>/runtime/task_wiki_replay/*
@@ -85,6 +96,8 @@ usage() {
 
 示例：
   amem_docs/scripts/03-feishu-task-wiki-phase3-eval.sh
+  amem_docs/scripts/03-feishu-task-wiki-phase3-eval.sh --task-wiki-only
+  amem_docs/scripts/03-feishu-task-wiki-phase3-eval.sh --stage task-wiki-runtime-eval --case-dir amem_docs/ds/feishu_im_dataset_v3/cases/<case_id>
   amem_docs/scripts/03-feishu-task-wiki-phase3-eval.sh --case-dir amem_docs/ds/feishu_im_dataset_v3/cases/<case_id>
   amem_docs/scripts/03-feishu-task-wiki-phase3-eval.sh --batch-dir amem_docs/ds/feishu_im_dataset_v3/batches/<batch_id>
   amem_docs/scripts/03-feishu-task-wiki-phase3-eval.sh --dataset-root amem_docs/ds/feishu_im_dataset_v3
@@ -98,4 +111,46 @@ case "${1:-}" in
     ;;
 esac
 
-python3 -m feishu_task_wiki_benchmark_builder.cli phase3 "$@"
+mode="full"
+forward_args=()
+task_wiki_unsupported_args=()
+while (($# > 0)); do
+  case "$1" in
+    --task-wiki-only|--task-wiki-runtime-eval)
+      mode="task_wiki_only"
+      shift
+      ;;
+    --stage)
+      if [[ "${2:-}" != "task-wiki-runtime-eval" ]]; then
+        echo "--stage 当前只支持 task-wiki-runtime-eval；完整 Phase3 请不传 --stage。" >&2
+        exit 2
+      fi
+      mode="task_wiki_only"
+      shift 2
+      ;;
+    --batch-dir|--continue-on-error|--force)
+      task_wiki_unsupported_args+=("$1")
+      forward_args+=("$1")
+      if [[ "$1" == "--batch-dir" ]]; then
+        forward_args+=("${2:-}")
+        shift 2
+      else
+        shift
+      fi
+      ;;
+    *)
+      forward_args+=("$1")
+      shift
+      ;;
+  esac
+done
+
+if [[ "${mode}" == "task_wiki_only" ]]; then
+  if ((${#task_wiki_unsupported_args[@]} > 0)); then
+    echo "只跑 task-wiki-runtime-eval 时不支持：${task_wiki_unsupported_args[*]}；请改用完整 Phase3 或逐个传 --case-dir。" >&2
+    exit 2
+  fi
+  node feishu_task_wiki_benchmark_builder/runtime/task_wiki_runtime_eval.mjs "${forward_args[@]}"
+else
+  python3 -m feishu_task_wiki_benchmark_builder.cli phase3 "${forward_args[@]}"
+fi

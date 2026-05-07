@@ -8,8 +8,8 @@
   "source_id": "thread:risk_review_thread",
   "session_title": "task:FEISHU-666::chat:oc_ac5a33c314d20661373939b37672396d",
   "time_range": {
-    "start": "2026-05-07T01:34:57.012Z",
-    "end": "2026-05-07T01:38:35.688Z"
+    "start": "2026-05-07T03:05:33.698Z",
+    "end": "2026-05-07T03:09:19.924Z"
   },
   "participants": [
     "Benchmark Root",
@@ -20,10 +20,11 @@
     "许薇"
   ],
   "relative_page_path": "sessions/FEISHU-666_chat_oc_ac5a33c314d20661373939b376723-e2a8eda9/session_wiki.md",
-  "session_summary": "讨论存储备用方案、发布阻塞风险、纪要结论、升级时间及销售承诺风险，部分议题待定。",
+  "session_summary": "讨论存储备用方案、发布阻塞风险、方案范围裁剪、纪要结论、升级时间及销售承诺风险，部分议题已就绪或更新，部分仍待解决。",
   "block_order": [
     "block-存储侧备用方案-8436427d",
     "block-发布阻塞风险-45763a86",
+    "block-方案范围裁剪-36e56dfb",
     "block-纪要结论-05c79215",
     "block-升级时间-7a779514",
     "block-销售承诺风险-3d675c35"
@@ -64,7 +65,7 @@
             "action": null,
             "owner": null,
             "objector": null,
-            "status": "已就绪",
+            "status": "就绪",
             "certainty": null
           }
         ],
@@ -132,7 +133,7 @@
             "is_current": false,
             "lifecycle_status": "active",
             "lifecycle_reason": null,
-            "target": "架构侧",
+            "target": "FEISHU-666 交接修正线程",
             "time_target": null,
             "scope_target": null,
             "action": null,
@@ -227,6 +228,59 @@
       ],
       "summary": "发布阻塞风险：风险评估完成，夜间窗口可行，但个人认为风险更高；风险登记表已更新。"
     },
+    "block-方案范围裁剪-36e56dfb": {
+      "block_id": "block-方案范围裁剪-36e56dfb",
+      "anchor_id": "block-方案范围裁剪-36e56dfb",
+      "topic_key": "方案范围裁剪",
+      "topic_title": "方案范围裁剪",
+      "event_ids": [
+        "evt_2fb5c8fd57bfa1b4"
+      ],
+      "slots": {
+        "conclusion": [
+          {
+            "event_id": "evt_2fb5c8fd57bfa1b4",
+            "event_type": "conclusion_event",
+            "claim": "法律合规方面无额外限制，可按时升级。",
+            "event_time": "1778109140000",
+            "evidence_quote": "法律合规方面无额外限制，可按时升级。",
+            "event_path": "sessions/FEISHU-666_chat_oc_ac5a33c314d20661373939b376723-e2a8eda9/session_events.jsonl#evt_2fb5c8fd57bfa1b4",
+            "event_ref": "[[sessions/FEISHU-666_chat_oc_ac5a33c314d20661373939b376723-e2a8eda9/session_events.jsonl#evt_2fb5c8fd57bfa1b4|evt_2fb5c8fd57bfa1b4]]",
+            "entry_ref": "[[sessions/FEISHU-666_chat_oc_ac5a33c314d20661373939b376723-e2a8eda9/session.md#om_x100b5088e5c618a0c3c2f9b2af153d8|om_x100b5088e5c618a0c3c2f9b2af153d8]]",
+            "core_entry_id": "om_x100b5088e5c618a0c3c2f9b2af153d8",
+            "subject_key": "feishu-666 升级",
+            "is_current": true,
+            "lifecycle_status": "active",
+            "lifecycle_reason": null,
+            "target": "FEISHU-666 升级",
+            "time_target": null,
+            "scope_target": null,
+            "action": null,
+            "owner": null,
+            "objector": null,
+            "status": null,
+            "certainty": null
+          }
+        ],
+        "rationale": [],
+        "objection": [],
+        "constraint": [],
+        "commitment": [],
+        "status": [],
+        "time": [],
+        "scope": []
+      },
+      "status": "active",
+      "evidence_refs": [
+        {
+          "event_id": "evt_2fb5c8fd57bfa1b4",
+          "event_path": "sessions/FEISHU-666_chat_oc_ac5a33c314d20661373939b376723-e2a8eda9/session_events.jsonl#evt_2fb5c8fd57bfa1b4",
+          "entry_ref": "[[sessions/FEISHU-666_chat_oc_ac5a33c314d20661373939b376723-e2a8eda9/session.md#om_x100b5088e5c618a0c3c2f9b2af153d8|om_x100b5088e5c618a0c3c2f9b2af153d8]]",
+          "quote": "法律合规方面无额外限制，可按时升级。"
+        }
+      ],
+      "summary": "法律合规无额外限制，可按时升级。"
+    },
     "block-纪要结论-05c79215": {
       "block_id": "block-纪要结论-05c79215",
       "anchor_id": "block-纪要结论-05c79215",
@@ -317,35 +371,10 @@
       "topic_title": "升级时间",
       "event_ids": [
         "evt_82c7f93d80cb1886",
-        "evt_fc93f42aa951ca16",
-        "evt_2fb5c8fd57bfa1b4"
+        "evt_fc93f42aa951ca16"
       ],
       "slots": {
-        "conclusion": [
-          {
-            "event_id": "evt_2fb5c8fd57bfa1b4",
-            "event_type": "conclusion_event",
-            "claim": "法律合规方面无额外限制，可按时升级。",
-            "event_time": "1778109140000",
-            "evidence_quote": "法律合规方面无额外限制，可按时升级。",
-            "event_path": "sessions/FEISHU-666_chat_oc_ac5a33c314d20661373939b376723-e2a8eda9/session_events.jsonl#evt_2fb5c8fd57bfa1b4",
-            "event_ref": "[[sessions/FEISHU-666_chat_oc_ac5a33c314d20661373939b376723-e2a8eda9/session_events.jsonl#evt_2fb5c8fd57bfa1b4|evt_2fb5c8fd57bfa1b4]]",
-            "entry_ref": "[[sessions/FEISHU-666_chat_oc_ac5a33c314d20661373939b376723-e2a8eda9/session.md#om_x100b5088e5c618a0c3c2f9b2af153d8|om_x100b5088e5c618a0c3c2f9b2af153d8]]",
-            "core_entry_id": "om_x100b5088e5c618a0c3c2f9b2af153d8",
-            "subject_key": "升级",
-            "is_current": true,
-            "lifecycle_status": "active",
-            "lifecycle_reason": null,
-            "target": "升级",
-            "time_target": null,
-            "scope_target": null,
-            "action": null,
-            "owner": null,
-            "objector": null,
-            "status": null,
-            "certainty": null
-          }
-        ],
+        "conclusion": [],
         "rationale": [],
         "objection": [
           {
@@ -415,15 +444,9 @@
           "event_path": "sessions/FEISHU-666_chat_oc_ac5a33c314d20661373939b376723-e2a8eda9/session_events.jsonl#evt_fc93f42aa951ca16",
           "entry_ref": "[[sessions/FEISHU-666_chat_oc_ac5a33c314d20661373939b376723-e2a8eda9/session.md#om_x100b5088e4080ca8c3a345e3382e68b|om_x100b5088e4080ca8c3a345e3382e68b]]",
           "quote": "我周末家里有事。"
-        },
-        {
-          "event_id": "evt_2fb5c8fd57bfa1b4",
-          "event_path": "sessions/FEISHU-666_chat_oc_ac5a33c314d20661373939b376723-e2a8eda9/session_events.jsonl#evt_2fb5c8fd57bfa1b4",
-          "entry_ref": "[[sessions/FEISHU-666_chat_oc_ac5a33c314d20661373939b376723-e2a8eda9/session.md#om_x100b5088e5c618a0c3c2f9b2af153d8|om_x100b5088e5c618a0c3c2f9b2af153d8]]",
-          "quote": "法律合规方面无额外限制，可按时升级。"
         }
       ],
-      "summary": "升级时间讨论：法律合规无限制可按时升级，但有人因周末有事希望提前。"
+      "summary": "用户询问升级时间能否提前，因周末有事。"
     },
     "block-销售承诺风险-3d675c35": {
       "block_id": "block-销售承诺风险-3d675c35",
@@ -431,37 +454,37 @@
       "topic_key": "销售承诺风险",
       "topic_title": "销售承诺风险",
       "event_ids": [
-        "evt_bb3c99c563be5c04"
+        "evt_8039c0c46eb22393"
       ],
       "slots": {
         "conclusion": [],
         "rationale": [],
-        "objection": [
+        "objection": [],
+        "constraint": [
           {
-            "event_id": "evt_bb3c99c563be5c04",
-            "event_type": "objection_event",
+            "event_id": "evt_8039c0c46eb22393",
+            "event_type": "constraint_event",
             "claim": "窗口不可调整，家庭承诺不在任务考量内。",
             "event_time": "1778109140000",
             "evidence_quote": "窗口不可调整，家庭承诺不在任务考量内。",
-            "event_path": "sessions/FEISHU-666_chat_oc_ac5a33c314d20661373939b376723-e2a8eda9/session_events.jsonl#evt_bb3c99c563be5c04",
-            "event_ref": "[[sessions/FEISHU-666_chat_oc_ac5a33c314d20661373939b376723-e2a8eda9/session_events.jsonl#evt_bb3c99c563be5c04|evt_bb3c99c563be5c04]]",
+            "event_path": "sessions/FEISHU-666_chat_oc_ac5a33c314d20661373939b376723-e2a8eda9/session_events.jsonl#evt_8039c0c46eb22393",
+            "event_ref": "[[sessions/FEISHU-666_chat_oc_ac5a33c314d20661373939b376723-e2a8eda9/session_events.jsonl#evt_8039c0c46eb22393|evt_8039c0c46eb22393]]",
             "entry_ref": "[[sessions/FEISHU-666_chat_oc_ac5a33c314d20661373939b376723-e2a8eda9/session.md#om_x100b5088e41c30a4c3867767d6d7ce3|om_x100b5088e41c30a4c3867767d6d7ce3]]",
             "core_entry_id": "om_x100b5088e41c30a4c3867767d6d7ce3",
             "subject_key": "销售承诺风险",
             "is_current": true,
             "lifecycle_status": "active",
             "lifecycle_reason": null,
-            "target": "窗口",
+            "target": "升级时间",
             "time_target": null,
             "scope_target": null,
             "action": null,
             "owner": null,
-            "objector": "林晨",
+            "objector": null,
             "status": null,
             "certainty": null
           }
         ],
-        "constraint": [],
         "commitment": [],
         "status": [],
         "time": [],
@@ -470,13 +493,13 @@
       "status": "open",
       "evidence_refs": [
         {
-          "event_id": "evt_bb3c99c563be5c04",
-          "event_path": "sessions/FEISHU-666_chat_oc_ac5a33c314d20661373939b376723-e2a8eda9/session_events.jsonl#evt_bb3c99c563be5c04",
+          "event_id": "evt_8039c0c46eb22393",
+          "event_path": "sessions/FEISHU-666_chat_oc_ac5a33c314d20661373939b376723-e2a8eda9/session_events.jsonl#evt_8039c0c46eb22393",
           "entry_ref": "[[sessions/FEISHU-666_chat_oc_ac5a33c314d20661373939b376723-e2a8eda9/session.md#om_x100b5088e41c30a4c3867767d6d7ce3|om_x100b5088e41c30a4c3867767d6d7ce3]]",
           "quote": "窗口不可调整，家庭承诺不在任务考量内。"
         }
       ],
-      "summary": "销售承诺风险：窗口不可调整，家庭承诺不在任务考量内。"
+      "summary": "销售承诺风险：窗口不可调整，家庭承诺不纳入考量。"
     }
   },
   "lifecycle_summary": {
@@ -484,5 +507,5 @@
     "historical_event_count": 0,
     "invalid_event_count": 0
   },
-  "updated_at": "2026-05-07T01:38:55.567Z"
+  "updated_at": "2026-05-07T03:09:42.544Z"
 }
