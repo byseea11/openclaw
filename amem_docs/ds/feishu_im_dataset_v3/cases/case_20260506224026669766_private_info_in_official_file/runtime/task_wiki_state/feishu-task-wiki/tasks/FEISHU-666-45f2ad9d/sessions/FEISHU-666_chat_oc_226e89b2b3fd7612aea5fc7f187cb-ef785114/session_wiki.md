@@ -9,7 +9,7 @@
 
 <!-- session-summary:start -->
 ## Session Summary
-会议确认窗口对齐，发布时间口径已定，网络配置漂移为阻塞风险，销售承诺配合。
+会议确认窗口对齐，发布口径与阻塞风险待处理，销售承诺已就绪。
 
 <!-- session-summary:end -->
 ## Memory Blocks

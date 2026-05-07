@@ -203,3 +203,52 @@
 ## [2026-05-07] refresh | task_wiki.md
 ## [2026-05-07] lint | 9 findings
 ## [2026-05-07] verify | 31 candidates processed for task:FEISHU-666::chat:oc_226e89b2b3fd7612aea5fc7f187cb759
+## [2026-05-07] update | sessions/FEISHU-666_chat_oc_226e89b2b3fd7612aea5fc7f187cb-ef785114/session_wiki.md
+## [2026-05-07] refresh | index.md
+## [2026-05-07] refresh | task_wiki.md
+## [2026-05-07] lint | 9 findings
+## [2026-05-07] session_event_write | 10 verified session_events for task:FEISHU-666::chat:oc_f49b2c4a0d0a92df61e1f27186021348
+## [2026-05-07] fallback_rebuild | index.md
+## [2026-05-07] update | sessions/FEISHU-666_chat_oc_f49b2c4a0d0a92df61e1f27186021-20685f74/session_wiki.md
+## [2026-05-07] refresh | index.md
+## [2026-05-07] refresh | task_wiki.md
+## [2026-05-07] lint | 10 findings
+## [2026-05-07] verify | 11 candidates processed for task:FEISHU-666::chat:oc_f49b2c4a0d0a92df61e1f27186021348
+## [2026-05-07] update | sessions/FEISHU-666_chat_oc_f49b2c4a0d0a92df61e1f27186021-20685f74/session_wiki.md
+## [2026-05-07] refresh | index.md
+## [2026-05-07] refresh | task_wiki.md
+## [2026-05-07] lint | 10 findings
+## [2026-05-07] session_event_write | 11 verified session_events for task:FEISHU-666::chat:oc_d852908acc34173446bde912b27c9963
+## [2026-05-07] fallback_rebuild | index.md
+## [2026-05-07] update | sessions/FEISHU-666_chat_oc_d852908acc34173446bde912b27c9-b602d089/session_wiki.md
+## [2026-05-07] refresh | index.md
+## [2026-05-07] refresh | task_wiki.md
+## [2026-05-07] lint | 11 findings
+## [2026-05-07] verify | 11 candidates processed for task:FEISHU-666::chat:oc_d852908acc34173446bde912b27c9963
+## [2026-05-07] update | sessions/FEISHU-666_chat_oc_d852908acc34173446bde912b27c9-b602d089/session_wiki.md
+## [2026-05-07] refresh | index.md
+## [2026-05-07] refresh | task_wiki.md
+## [2026-05-07] lint | 11 findings
+## [2026-05-07] session_event_write | 3 verified session_events for task:FEISHU-666::chat:oc_77fa9b1b12c2e4ce9cd5ef67b44b04b4
+## [2026-05-07] fallback_rebuild | index.md
+## [2026-05-07] update | sessions/FEISHU-666_chat_oc_77fa9b1b12c2e4ce9cd5ef67b44b0-ca85b840/session_wiki.md
+## [2026-05-07] refresh | index.md
+## [2026-05-07] refresh | task_wiki.md
+## [2026-05-07] lint | 11 findings
+## [2026-05-07] verify | 3 candidates processed for task:FEISHU-666::chat:oc_77fa9b1b12c2e4ce9cd5ef67b44b04b4
+## [2026-05-07] update | sessions/FEISHU-666_chat_oc_77fa9b1b12c2e4ce9cd5ef67b44b0-ca85b840/session_wiki.md
+## [2026-05-07] refresh | index.md
+## [2026-05-07] refresh | task_wiki.md
+## [2026-05-07] lint | 11 findings
+## [2026-05-07] session_event_write | 2 verified session_events for task:FEISHU-666::chat:oc_ba31dd2af9ace4d46985b0f11750c043
+## [2026-05-07] fallback_rebuild | index.md
+## [2026-05-07] update | sessions/FEISHU-666_chat_oc_ba31dd2af9ace4d46985b0f11750c-ef428140/session_wiki.md
+## [2026-05-07] refresh | index.md
+## [2026-05-07] refresh | task_wiki.md
+## [2026-05-07] lint | 11 findings
+## [2026-05-07] verify | 2 candidates processed for task:FEISHU-666::chat:oc_ba31dd2af9ace4d46985b0f11750c043
+## [2026-05-07] update | sessions/FEISHU-666_chat_oc_ba31dd2af9ace4d46985b0f11750c-ef428140/session_wiki.md
+## [2026-05-07] refresh | index.md
+## [2026-05-07] refresh | task_wiki.md
+## [2026-05-07] lint | 11 findings
+## [2026-05-07] lint | 11 findings

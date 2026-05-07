@@ -1,11 +1,11 @@
 {
   "version": 1,
-  "generated_at": "2026-05-07T03:11:14.911Z",
+  "generated_at": "2026-05-07T03:13:19.347Z",
   "orphan_event_count": 0,
   "missing_evidence_ref_count": 0,
   "stale_claim_count": 0,
   "quote_strength_count": 2,
-  "unresolved_objection_count": 6,
+  "unresolved_objection_count": 8,
   "overdue_commitment_count": 0,
   "open_conflict_count": 1,
   "orphan_block_count": 0,
@@ -71,6 +71,20 @@
         "topic_title": "升级时间",
         "claim": "升级时间能提前吗？我周末家里有事。",
         "event_id": "evt_fc93f42aa951ca16"
+      },
+      {
+        "source_session_id": "task:FEISHU-666::chat:oc_d852908acc34173446bde912b27c9963",
+        "block_id": "block-任务计划-0339415d",
+        "topic_title": "任务计划",
+        "claim": "个人偏好不影响任务计划。",
+        "event_id": "evt_32800c597d78576a"
+      },
+      {
+        "source_session_id": "task:FEISHU-666::chat:oc_f49b2c4a0d0a92df61e1f27186021348",
+        "block_id": "block-窗口-a70a1513",
+        "topic_title": "窗口",
+        "claim": "有人建议窗口改期",
+        "event_id": "evt_0a5198f3461cc6ad"
       }
     ],
     "overdue_commitments": [],

@@ -2,7 +2,7 @@
 
 <!-- task-summary:start -->
 ## Current Summary
-纪要确认夜间窗口，个人偏好不影响；备份增量、回滚已批、文档更新、存储就绪；赵敏安排夜间值班。
+任务FEISHU-666：升级窗口定于5月10日22点UTC，按评审纪要执行，使用增量备份，回滚已批准，存储备用方案就绪，文档已更新。个人偏好不影响决策。
 
 <!-- task-summary:end -->
 <!-- task-section:conclusion:start -->
@@ -22,27 +22,53 @@
 - 建议将个人背景备注从纪要中分离，避免混淆。 ([[sessions/FEISHU-666_chat_oc_ac5a33c314d20661373939b376723-e2a8eda9/session_wiki.md#block-纪要结论-05c79215|纪要结论]])
   - Block Ref: [[sessions/FEISHU-666_chat_oc_ac5a33c314d20661373939b376723-e2a8eda9/session_wiki.md#block-纪要结论-05c79215|纪要结论]]
   - Event Ref: [[sessions/FEISHU-666_chat_oc_ac5a33c314d20661373939b376723-e2a8eda9/session_events.jsonl#evt_f9b7672d7658e55d|evt_f9b7672d7658e55d]]
+- 以Alice说的为准 ([[sessions/FEISHU-666_chat_oc_f49b2c4a0d0a92df61e1f27186021-20685f74/session_wiki.md#block-窗口时间-32234f4b|窗口时间]])
+  - Block Ref: [[sessions/FEISHU-666_chat_oc_f49b2c4a0d0a92df61e1f27186021-20685f74/session_wiki.md#block-窗口时间-32234f4b|窗口时间]]
+  - Event Ref: [[sessions/FEISHU-666_chat_oc_f49b2c4a0d0a92df61e1f27186021-20685f74/session_events.jsonl#evt_525767ec717efc39|evt_525767ec717efc39]]
+- 高层已同意计划。 ([[sessions/FEISHU-666_chat_oc_d852908acc34173446bde912b27c9-b602d089/session_wiki.md#block-计划-c17bb5de|计划]])
+  - Block Ref: [[sessions/FEISHU-666_chat_oc_d852908acc34173446bde912b27c9-b602d089/session_wiki.md#block-计划-c17bb5de|计划]]
+  - Event Ref: [[sessions/FEISHU-666_chat_oc_d852908acc34173446bde912b27c9-b602d089/session_events.jsonl#evt_87da09fae4e1b20e|evt_87da09fae4e1b20e]]
 
 <!-- task-section:conclusion:end -->
 <!-- task-section:key-decisions:start -->
 ## Key Decisions
+- [[sessions/FEISHU-666_chat_oc_f49b2c4a0d0a92df61e1f27186021-20685f74/session_wiki.md#block-按评审纪要执行所有变更-722f9a7c|按评审纪要执行所有变更]]：所有变更按评审纪要执行。
 - [[sessions/FEISHU-666_chat_oc_21fc5cc6becbda6432fe9592c2ea1-7bdb7dbb/session_wiki.md#block-备份计划-96cb4224|备份计划]]：备份计划采用增量备份，已配置并验证完成。
 - [[sessions/FEISHU-666_chat_oc_21fc5cc6becbda6432fe9592c2ea1-7bdb7dbb/session_wiki.md#block-变更时间争议-029978ca|变更时间争议]]：变更时间争议：纪要已定夜间窗口，不因个人偏好改；有人反对称影响效率。
+- [[sessions/FEISHU-666_chat_oc_f49b2c4a0d0a92df61e1f27186021-20685f74/session_wiki.md#block-窗口-a70a1513|窗口]]：窗口改期建议待处理
 - [[sessions/FEISHU-666_chat_oc_226e89b2b3fd7612aea5fc7f187cb-ef785114/session_wiki.md#block-窗口对齐-f09d6047|窗口对齐]]：各方已确认窗口时间，准备就绪。
+- [[sessions/FEISHU-666_chat_oc_f49b2c4a0d0a92df61e1f27186021-20685f74/session_wiki.md#block-窗口时间-32234f4b|窗口时间]]：窗口时间以Alice说的为准
 - [[sessions/FEISHU-666_chat_oc_ac5a33c314d20661373939b376723-e2a8eda9/session_wiki.md#block-存储侧备用方案-8436427d|存储侧备用方案]]：存储侧备用方案已就绪。
 - [[sessions/FEISHU-666_chat_oc_226e89b2b3fd7612aea5fc7f187cb-ef785114/session_wiki.md#block-发布时间口径-867908bd|发布时间口径]]：升级窗口定为5月10日22点UTC，配置管理侧已锁定，补丁基线已更新，pipeline计划已保存，升级计划就绪。个人时间不调整，以纪要为准。
+- [[sessions/FEISHU-666_chat_oc_f49b2c4a0d0a92df61e1f27186021-20685f74/session_wiki.md#block-发布时间口径-867908bd|发布时间口径]]：发布时间窗口仍为5月10日22点UTC，以纪要为准。
+- [[sessions/FEISHU-666_chat_oc_d852908acc34173446bde912b27c9-b602d089/session_wiki.md#block-发布时间口径-867908bd|发布时间口径]]：发布时间口径：窗口可能调至周三前，正式确认5月10日。
 - [[sessions/FEISHU-666_chat_oc_ac5a33c314d20661373939b376723-e2a8eda9/session_wiki.md#block-发布阻塞风险-45763a86|发布阻塞风险]]：发布阻塞风险：风险评估完成，夜间窗口可行，但个人认为风险更高；风险登记表已更新。
 - [[sessions/FEISHU-666_chat_oc_226e89b2b3fd7612aea5fc7f187cb-ef785114/session_wiki.md#block-发布阻塞风险-45763a86|发布阻塞风险]]：发布阻塞风险：网络配置漂移为阻塞项，升级可能延迟；修复方案已提交评审，配置审计通过，回滚已批准，所有决策需基于官方纪要。
+- [[sessions/FEISHU-666_chat_oc_f49b2c4a0d0a92df61e1f27186021-20685f74/session_wiki.md#block-发布阻塞风险-45763a86|发布阻塞风险]]：发布阻塞风险：network config drift处理中
+- [[sessions/FEISHU-666_chat_oc_d852908acc34173446bde912b27c9-b602d089/session_wiki.md#block-发布阻塞风险-45763a86|发布阻塞风险]]：发布阻塞风险：网络配置漂移阻塞
 - [[sessions/FEISHU-666_chat_oc_ac5a33c314d20661373939b376723-e2a8eda9/session_wiki.md#block-方案范围裁剪-36e56dfb|方案范围裁剪]]：法律合规无额外限制，可按时升级。
+- [[sessions/FEISHU-666_chat_oc_f49b2c4a0d0a92df61e1f27186021-20685f74/session_wiki.md#block-合规侧-f1fad429|合规侧]]：合规侧已发确认函。
+- [[sessions/FEISHU-666_chat_oc_77fa9b1b12c2e4ce9cd5ef67b44b0-ca85b840/session_wiki.md#block-回归测试-647450ba|回归测试]]：回归测试通过。
+- [[sessions/FEISHU-666_chat_oc_d852908acc34173446bde912b27c9-b602d089/session_wiki.md#block-回滚计划-6a3e3027|回滚计划]]：回滚计划已批准，无变更。
+- [[sessions/FEISHU-666_chat_oc_d852908acc34173446bde912b27c9-b602d089/session_wiki.md#block-计划-c17bb5de|计划]]：高层已同意计划。
 - [[sessions/FEISHU-666_chat_oc_ac5a33c314d20661373939b376723-e2a8eda9/session_wiki.md#block-纪要结论-05c79215|纪要结论]]：评估已做，尊重纪要结论；建议将个人背景备注从纪要中分离。
 - [[sessions/FEISHU-666_chat_oc_f1c581e38c20b845ed42c30671f63-2f254d48/session_wiki.md#block-监控告警阈值-87c59730|监控告警阈值]]：监控告警阈值已调整。
+- [[sessions/FEISHU-666_chat_oc_77fa9b1b12c2e4ce9cd5ef67b44b0-ca85b840/session_wiki.md#block-冒烟测试-420c1e75|冒烟测试]]：冒烟测试通过。
+- [[sessions/FEISHU-666_chat_oc_d852908acc34173446bde912b27c9-b602d089/session_wiki.md#block-任务计划-0339415d|任务计划]]：任务计划状态为开放，当前有两条主张：个人偏好不影响任务计划，个人时间不影响任务且资源已按正式窗口安排。
+- [[sessions/FEISHU-666_chat_oc_ba31dd2af9ace4d46985b0f11750c-ef428140/session_wiki.md#block-上游依赖-885c619f|上游依赖]]：上游依赖已确认
 - [[sessions/FEISHU-666_chat_oc_ac5a33c314d20661373939b376723-e2a8eda9/session_wiki.md#block-升级时间-7a779514|升级时间]]：用户询问升级时间能否提前，因周末有事。
+- [[sessions/FEISHU-666_chat_oc_ba31dd2af9ace4d46985b0f11750c-ef428140/session_wiki.md#block-网络依赖项-4ad9be4c|网络依赖项]]：网络依赖项已修复。
 - [[sessions/FEISHU-666_chat_oc_21fc5cc6becbda6432fe9592c2ea1-7bdb7dbb/session_wiki.md#block-文档同步行动项-aba07160|文档同步行动项]]：交接文档已更新。
 - [[sessions/FEISHU-666_chat_oc_21fc5cc6becbda6432fe9592c2ea1-7bdb7dbb/session_wiki.md#block-销售承诺风险-3d675c35|销售承诺风险]]：赵敏承诺安排夜间值班，销售承诺风险待处理。
 - [[sessions/FEISHU-666_chat_oc_ac5a33c314d20661373939b376723-e2a8eda9/session_wiki.md#block-销售承诺风险-3d675c35|销售承诺风险]]：销售承诺风险：窗口不可调整，家庭承诺不纳入考量。
 - [[sessions/FEISHU-666_chat_oc_226e89b2b3fd7612aea5fc7f187cb-ef785114/session_wiki.md#block-销售承诺风险-3d675c35|销售承诺风险]]：陈雪承诺按窗口时间配合
+- [[sessions/FEISHU-666_chat_oc_f49b2c4a0d0a92df61e1f27186021-20685f74/session_wiki.md#block-销售承诺风险-3d675c35|销售承诺风险]]：销售承诺风险：回滚计划已批准，升级窗口5月10日22点UTC已确认。
 - [[sessions/FEISHU-666_chat_oc_f1c581e38c20b845ed42c30671f63-2f254d48/session_wiki.md#block-夜间值班-e40c7b8d|夜间值班]]：夜间值班已排班。
+- [[sessions/FEISHU-666_chat_oc_d852908acc34173446bde912b27c9-b602d089/session_wiki.md#block-依赖项-babc4d11|依赖项]]：所有依赖项已确认。
 - [[sessions/FEISHU-666_chat_oc_f1c581e38c20b845ed42c30671f63-2f254d48/session_wiki.md#block-运维窗口-27c5ac35|运维窗口]]：运维窗口已锁定。
+- [[sessions/FEISHU-666_chat_oc_d852908acc34173446bde912b27c9-b602d089/session_wiki.md#block-照常执行-f7515873|照常执行]]：照常执行
+- [[sessions/FEISHU-666_chat_oc_d852908acc34173446bde912b27c9-b602d089/session_wiki.md#block-资源-c5ca3950|资源]]：管理层已批准资源。
+- [[sessions/FEISHU-666_chat_oc_77fa9b1b12c2e4ce9cd5ef67b44b0-ca85b840/session_wiki.md#block-QA测试环境-919b56f6|QA测试环境]]：QA测试环境已准备。
 
 <!-- task-section:key-decisions:end -->
 <!-- task-section:rationale:start -->
@@ -72,6 +98,12 @@
 - 网络配置漂移是blocker，升级会不会延迟？ ([[sessions/FEISHU-666_chat_oc_226e89b2b3fd7612aea5fc7f187cb-ef785114/session_wiki.md#block-发布阻塞风险-45763a86|发布阻塞风险]])
   - Block Ref: [[sessions/FEISHU-666_chat_oc_226e89b2b3fd7612aea5fc7f187cb-ef785114/session_wiki.md#block-发布阻塞风险-45763a86|发布阻塞风险]]
   - Event Ref: [[sessions/FEISHU-666_chat_oc_226e89b2b3fd7612aea5fc7f187cb-ef785114/session_events.jsonl#evt_337c0bd09e04f6ec|evt_337c0bd09e04f6ec]]
+- 有人建议窗口改期 ([[sessions/FEISHU-666_chat_oc_f49b2c4a0d0a92df61e1f27186021-20685f74/session_wiki.md#block-窗口-a70a1513|窗口]])
+  - Block Ref: [[sessions/FEISHU-666_chat_oc_f49b2c4a0d0a92df61e1f27186021-20685f74/session_wiki.md#block-窗口-a70a1513|窗口]]
+  - Event Ref: [[sessions/FEISHU-666_chat_oc_f49b2c4a0d0a92df61e1f27186021-20685f74/session_events.jsonl#evt_0a5198f3461cc6ad|evt_0a5198f3461cc6ad]]
+- 个人偏好不影响任务计划。 ([[sessions/FEISHU-666_chat_oc_d852908acc34173446bde912b27c9-b602d089/session_wiki.md#block-任务计划-0339415d|任务计划]])
+  - Block Ref: [[sessions/FEISHU-666_chat_oc_d852908acc34173446bde912b27c9-b602d089/session_wiki.md#block-任务计划-0339415d|任务计划]]
+  - Event Ref: [[sessions/FEISHU-666_chat_oc_d852908acc34173446bde912b27c9-b602d089/session_events.jsonl#evt_32800c597d78576a|evt_32800c597d78576a]]
 
 <!-- task-section:objection:end -->
 <!-- task-section:constraint:start -->
@@ -92,6 +124,12 @@
 - 回滚已批准 ([[sessions/FEISHU-666_chat_oc_226e89b2b3fd7612aea5fc7f187cb-ef785114/session_wiki.md#block-发布阻塞风险-45763a86|发布阻塞风险]])
   - Block Ref: [[sessions/FEISHU-666_chat_oc_226e89b2b3fd7612aea5fc7f187cb-ef785114/session_wiki.md#block-发布阻塞风险-45763a86|发布阻塞风险]]
   - Event Ref: [[sessions/FEISHU-666_chat_oc_226e89b2b3fd7612aea5fc7f187cb-ef785114/session_events.jsonl#evt_7416ae5ed155e3b2|evt_7416ae5ed155e3b2]]
+- 所有变更按评审纪要执行。 ([[sessions/FEISHU-666_chat_oc_f49b2c4a0d0a92df61e1f27186021-20685f74/session_wiki.md#block-按评审纪要执行所有变更-722f9a7c|按评审纪要执行所有变更]])
+  - Block Ref: [[sessions/FEISHU-666_chat_oc_f49b2c4a0d0a92df61e1f27186021-20685f74/session_wiki.md#block-按评审纪要执行所有变更-722f9a7c|按评审纪要执行所有变更]]
+  - Event Ref: [[sessions/FEISHU-666_chat_oc_f49b2c4a0d0a92df61e1f27186021-20685f74/session_events.jsonl#evt_86bd263c44e3b858|evt_86bd263c44e3b858]]
+- 照常执行 ([[sessions/FEISHU-666_chat_oc_d852908acc34173446bde912b27c9-b602d089/session_wiki.md#block-照常执行-f7515873|照常执行]])
+  - Block Ref: [[sessions/FEISHU-666_chat_oc_d852908acc34173446bde912b27c9-b602d089/session_wiki.md#block-照常执行-f7515873|照常执行]]
+  - Event Ref: [[sessions/FEISHU-666_chat_oc_d852908acc34173446bde912b27c9-b602d089/session_events.jsonl#evt_8dd33a7c77b98226|evt_8dd33a7c77b98226]]
 
 <!-- task-section:commitment:end -->
 <!-- task-section:time:start -->
@@ -108,26 +146,49 @@
 - 窗口不变 ([[sessions/FEISHU-666_chat_oc_226e89b2b3fd7612aea5fc7f187cb-ef785114/session_wiki.md#block-发布时间口径-867908bd|发布时间口径]])
   - Block Ref: [[sessions/FEISHU-666_chat_oc_226e89b2b3fd7612aea5fc7f187cb-ef785114/session_wiki.md#block-发布时间口径-867908bd|发布时间口径]]
   - Event Ref: [[sessions/FEISHU-666_chat_oc_226e89b2b3fd7612aea5fc7f187cb-ef785114/session_events.jsonl#evt_afd2d9ec07f8b314|evt_afd2d9ec07f8b314]]
+- 客户，升级窗口5月10日22点UTC，已正式确认。 ([[sessions/FEISHU-666_chat_oc_f49b2c4a0d0a92df61e1f27186021-20685f74/session_wiki.md#block-销售承诺风险-3d675c35|销售承诺风险]])
+  - Block Ref: [[sessions/FEISHU-666_chat_oc_f49b2c4a0d0a92df61e1f27186021-20685f74/session_wiki.md#block-销售承诺风险-3d675c35|销售承诺风险]]
+  - Event Ref: [[sessions/FEISHU-666_chat_oc_f49b2c4a0d0a92df61e1f27186021-20685f74/session_events.jsonl#evt_3f4208fda7f08ab0|evt_3f4208fda7f08ab0]]
 
 <!-- task-section:time:end -->
 <!-- task-section:related-blocks:start -->
 ## Related Session Wikis / Memory Blocks
+- [[sessions/FEISHU-666_chat_oc_f49b2c4a0d0a92df61e1f27186021-20685f74/session_wiki.md#block-按评审纪要执行所有变更-722f9a7c|按评审纪要执行所有变更]] ([[sessions/FEISHU-666_chat_oc_f49b2c4a0d0a92df61e1f27186021-20685f74/session_wiki.md|task:FEISHU-666::chat:oc_f49b2c4a0d0a92df61e1f27186021348]])
 - [[sessions/FEISHU-666_chat_oc_21fc5cc6becbda6432fe9592c2ea1-7bdb7dbb/session_wiki.md#block-备份计划-96cb4224|备份计划]] ([[sessions/FEISHU-666_chat_oc_21fc5cc6becbda6432fe9592c2ea1-7bdb7dbb/session_wiki.md|task:FEISHU-666::chat:oc_21fc5cc6becbda6432fe9592c2ea118d]])
 - [[sessions/FEISHU-666_chat_oc_21fc5cc6becbda6432fe9592c2ea1-7bdb7dbb/session_wiki.md#block-变更时间争议-029978ca|变更时间争议]] ([[sessions/FEISHU-666_chat_oc_21fc5cc6becbda6432fe9592c2ea1-7bdb7dbb/session_wiki.md|task:FEISHU-666::chat:oc_21fc5cc6becbda6432fe9592c2ea118d]])
+- [[sessions/FEISHU-666_chat_oc_f49b2c4a0d0a92df61e1f27186021-20685f74/session_wiki.md#block-窗口-a70a1513|窗口]] ([[sessions/FEISHU-666_chat_oc_f49b2c4a0d0a92df61e1f27186021-20685f74/session_wiki.md|task:FEISHU-666::chat:oc_f49b2c4a0d0a92df61e1f27186021348]])
 - [[sessions/FEISHU-666_chat_oc_226e89b2b3fd7612aea5fc7f187cb-ef785114/session_wiki.md#block-窗口对齐-f09d6047|窗口对齐]] ([[sessions/FEISHU-666_chat_oc_226e89b2b3fd7612aea5fc7f187cb-ef785114/session_wiki.md|task:FEISHU-666::chat:oc_226e89b2b3fd7612aea5fc7f187cb759]])
+- [[sessions/FEISHU-666_chat_oc_f49b2c4a0d0a92df61e1f27186021-20685f74/session_wiki.md#block-窗口时间-32234f4b|窗口时间]] ([[sessions/FEISHU-666_chat_oc_f49b2c4a0d0a92df61e1f27186021-20685f74/session_wiki.md|task:FEISHU-666::chat:oc_f49b2c4a0d0a92df61e1f27186021348]])
 - [[sessions/FEISHU-666_chat_oc_ac5a33c314d20661373939b376723-e2a8eda9/session_wiki.md#block-存储侧备用方案-8436427d|存储侧备用方案]] ([[sessions/FEISHU-666_chat_oc_ac5a33c314d20661373939b376723-e2a8eda9/session_wiki.md|task:FEISHU-666::chat:oc_ac5a33c314d20661373939b37672396d]])
 - [[sessions/FEISHU-666_chat_oc_226e89b2b3fd7612aea5fc7f187cb-ef785114/session_wiki.md#block-发布时间口径-867908bd|发布时间口径]] ([[sessions/FEISHU-666_chat_oc_226e89b2b3fd7612aea5fc7f187cb-ef785114/session_wiki.md|task:FEISHU-666::chat:oc_226e89b2b3fd7612aea5fc7f187cb759]])
+- [[sessions/FEISHU-666_chat_oc_f49b2c4a0d0a92df61e1f27186021-20685f74/session_wiki.md#block-发布时间口径-867908bd|发布时间口径]] ([[sessions/FEISHU-666_chat_oc_f49b2c4a0d0a92df61e1f27186021-20685f74/session_wiki.md|task:FEISHU-666::chat:oc_f49b2c4a0d0a92df61e1f27186021348]])
+- [[sessions/FEISHU-666_chat_oc_d852908acc34173446bde912b27c9-b602d089/session_wiki.md#block-发布时间口径-867908bd|发布时间口径]] ([[sessions/FEISHU-666_chat_oc_d852908acc34173446bde912b27c9-b602d089/session_wiki.md|task:FEISHU-666::chat:oc_d852908acc34173446bde912b27c9963]])
 - [[sessions/FEISHU-666_chat_oc_ac5a33c314d20661373939b376723-e2a8eda9/session_wiki.md#block-发布阻塞风险-45763a86|发布阻塞风险]] ([[sessions/FEISHU-666_chat_oc_ac5a33c314d20661373939b376723-e2a8eda9/session_wiki.md|task:FEISHU-666::chat:oc_ac5a33c314d20661373939b37672396d]])
 - [[sessions/FEISHU-666_chat_oc_226e89b2b3fd7612aea5fc7f187cb-ef785114/session_wiki.md#block-发布阻塞风险-45763a86|发布阻塞风险]] ([[sessions/FEISHU-666_chat_oc_226e89b2b3fd7612aea5fc7f187cb-ef785114/session_wiki.md|task:FEISHU-666::chat:oc_226e89b2b3fd7612aea5fc7f187cb759]])
+- [[sessions/FEISHU-666_chat_oc_f49b2c4a0d0a92df61e1f27186021-20685f74/session_wiki.md#block-发布阻塞风险-45763a86|发布阻塞风险]] ([[sessions/FEISHU-666_chat_oc_f49b2c4a0d0a92df61e1f27186021-20685f74/session_wiki.md|task:FEISHU-666::chat:oc_f49b2c4a0d0a92df61e1f27186021348]])
+- [[sessions/FEISHU-666_chat_oc_d852908acc34173446bde912b27c9-b602d089/session_wiki.md#block-发布阻塞风险-45763a86|发布阻塞风险]] ([[sessions/FEISHU-666_chat_oc_d852908acc34173446bde912b27c9-b602d089/session_wiki.md|task:FEISHU-666::chat:oc_d852908acc34173446bde912b27c9963]])
 - [[sessions/FEISHU-666_chat_oc_ac5a33c314d20661373939b376723-e2a8eda9/session_wiki.md#block-方案范围裁剪-36e56dfb|方案范围裁剪]] ([[sessions/FEISHU-666_chat_oc_ac5a33c314d20661373939b376723-e2a8eda9/session_wiki.md|task:FEISHU-666::chat:oc_ac5a33c314d20661373939b37672396d]])
+- [[sessions/FEISHU-666_chat_oc_f49b2c4a0d0a92df61e1f27186021-20685f74/session_wiki.md#block-合规侧-f1fad429|合规侧]] ([[sessions/FEISHU-666_chat_oc_f49b2c4a0d0a92df61e1f27186021-20685f74/session_wiki.md|task:FEISHU-666::chat:oc_f49b2c4a0d0a92df61e1f27186021348]])
+- [[sessions/FEISHU-666_chat_oc_77fa9b1b12c2e4ce9cd5ef67b44b0-ca85b840/session_wiki.md#block-回归测试-647450ba|回归测试]] ([[sessions/FEISHU-666_chat_oc_77fa9b1b12c2e4ce9cd5ef67b44b0-ca85b840/session_wiki.md|task:FEISHU-666::chat:oc_77fa9b1b12c2e4ce9cd5ef67b44b04b4]])
+- [[sessions/FEISHU-666_chat_oc_d852908acc34173446bde912b27c9-b602d089/session_wiki.md#block-回滚计划-6a3e3027|回滚计划]] ([[sessions/FEISHU-666_chat_oc_d852908acc34173446bde912b27c9-b602d089/session_wiki.md|task:FEISHU-666::chat:oc_d852908acc34173446bde912b27c9963]])
+- [[sessions/FEISHU-666_chat_oc_d852908acc34173446bde912b27c9-b602d089/session_wiki.md#block-计划-c17bb5de|计划]] ([[sessions/FEISHU-666_chat_oc_d852908acc34173446bde912b27c9-b602d089/session_wiki.md|task:FEISHU-666::chat:oc_d852908acc34173446bde912b27c9963]])
 - [[sessions/FEISHU-666_chat_oc_ac5a33c314d20661373939b376723-e2a8eda9/session_wiki.md#block-纪要结论-05c79215|纪要结论]] ([[sessions/FEISHU-666_chat_oc_ac5a33c314d20661373939b376723-e2a8eda9/session_wiki.md|task:FEISHU-666::chat:oc_ac5a33c314d20661373939b37672396d]])
 - [[sessions/FEISHU-666_chat_oc_f1c581e38c20b845ed42c30671f63-2f254d48/session_wiki.md#block-监控告警阈值-87c59730|监控告警阈值]] ([[sessions/FEISHU-666_chat_oc_f1c581e38c20b845ed42c30671f63-2f254d48/session_wiki.md|task:FEISHU-666::chat:oc_f1c581e38c20b845ed42c30671f63193]])
+- [[sessions/FEISHU-666_chat_oc_77fa9b1b12c2e4ce9cd5ef67b44b0-ca85b840/session_wiki.md#block-冒烟测试-420c1e75|冒烟测试]] ([[sessions/FEISHU-666_chat_oc_77fa9b1b12c2e4ce9cd5ef67b44b0-ca85b840/session_wiki.md|task:FEISHU-666::chat:oc_77fa9b1b12c2e4ce9cd5ef67b44b04b4]])
+- [[sessions/FEISHU-666_chat_oc_d852908acc34173446bde912b27c9-b602d089/session_wiki.md#block-任务计划-0339415d|任务计划]] ([[sessions/FEISHU-666_chat_oc_d852908acc34173446bde912b27c9-b602d089/session_wiki.md|task:FEISHU-666::chat:oc_d852908acc34173446bde912b27c9963]])
+- [[sessions/FEISHU-666_chat_oc_ba31dd2af9ace4d46985b0f11750c-ef428140/session_wiki.md#block-上游依赖-885c619f|上游依赖]] ([[sessions/FEISHU-666_chat_oc_ba31dd2af9ace4d46985b0f11750c-ef428140/session_wiki.md|task:FEISHU-666::chat:oc_ba31dd2af9ace4d46985b0f11750c043]])
 - [[sessions/FEISHU-666_chat_oc_ac5a33c314d20661373939b376723-e2a8eda9/session_wiki.md#block-升级时间-7a779514|升级时间]] ([[sessions/FEISHU-666_chat_oc_ac5a33c314d20661373939b376723-e2a8eda9/session_wiki.md|task:FEISHU-666::chat:oc_ac5a33c314d20661373939b37672396d]])
+- [[sessions/FEISHU-666_chat_oc_ba31dd2af9ace4d46985b0f11750c-ef428140/session_wiki.md#block-网络依赖项-4ad9be4c|网络依赖项]] ([[sessions/FEISHU-666_chat_oc_ba31dd2af9ace4d46985b0f11750c-ef428140/session_wiki.md|task:FEISHU-666::chat:oc_ba31dd2af9ace4d46985b0f11750c043]])
 - [[sessions/FEISHU-666_chat_oc_21fc5cc6becbda6432fe9592c2ea1-7bdb7dbb/session_wiki.md#block-文档同步行动项-aba07160|文档同步行动项]] ([[sessions/FEISHU-666_chat_oc_21fc5cc6becbda6432fe9592c2ea1-7bdb7dbb/session_wiki.md|task:FEISHU-666::chat:oc_21fc5cc6becbda6432fe9592c2ea118d]])
 - [[sessions/FEISHU-666_chat_oc_21fc5cc6becbda6432fe9592c2ea1-7bdb7dbb/session_wiki.md#block-销售承诺风险-3d675c35|销售承诺风险]] ([[sessions/FEISHU-666_chat_oc_21fc5cc6becbda6432fe9592c2ea1-7bdb7dbb/session_wiki.md|task:FEISHU-666::chat:oc_21fc5cc6becbda6432fe9592c2ea118d]])
 - [[sessions/FEISHU-666_chat_oc_ac5a33c314d20661373939b376723-e2a8eda9/session_wiki.md#block-销售承诺风险-3d675c35|销售承诺风险]] ([[sessions/FEISHU-666_chat_oc_ac5a33c314d20661373939b376723-e2a8eda9/session_wiki.md|task:FEISHU-666::chat:oc_ac5a33c314d20661373939b37672396d]])
 - [[sessions/FEISHU-666_chat_oc_226e89b2b3fd7612aea5fc7f187cb-ef785114/session_wiki.md#block-销售承诺风险-3d675c35|销售承诺风险]] ([[sessions/FEISHU-666_chat_oc_226e89b2b3fd7612aea5fc7f187cb-ef785114/session_wiki.md|task:FEISHU-666::chat:oc_226e89b2b3fd7612aea5fc7f187cb759]])
+- [[sessions/FEISHU-666_chat_oc_f49b2c4a0d0a92df61e1f27186021-20685f74/session_wiki.md#block-销售承诺风险-3d675c35|销售承诺风险]] ([[sessions/FEISHU-666_chat_oc_f49b2c4a0d0a92df61e1f27186021-20685f74/session_wiki.md|task:FEISHU-666::chat:oc_f49b2c4a0d0a92df61e1f27186021348]])
 - [[sessions/FEISHU-666_chat_oc_f1c581e38c20b845ed42c30671f63-2f254d48/session_wiki.md#block-夜间值班-e40c7b8d|夜间值班]] ([[sessions/FEISHU-666_chat_oc_f1c581e38c20b845ed42c30671f63-2f254d48/session_wiki.md|task:FEISHU-666::chat:oc_f1c581e38c20b845ed42c30671f63193]])
+- [[sessions/FEISHU-666_chat_oc_d852908acc34173446bde912b27c9-b602d089/session_wiki.md#block-依赖项-babc4d11|依赖项]] ([[sessions/FEISHU-666_chat_oc_d852908acc34173446bde912b27c9-b602d089/session_wiki.md|task:FEISHU-666::chat:oc_d852908acc34173446bde912b27c9963]])
 - [[sessions/FEISHU-666_chat_oc_f1c581e38c20b845ed42c30671f63-2f254d48/session_wiki.md#block-运维窗口-27c5ac35|运维窗口]] ([[sessions/FEISHU-666_chat_oc_f1c581e38c20b845ed42c30671f63-2f254d48/session_wiki.md|task:FEISHU-666::chat:oc_f1c581e38c20b845ed42c30671f63193]])
+- [[sessions/FEISHU-666_chat_oc_d852908acc34173446bde912b27c9-b602d089/session_wiki.md#block-照常执行-f7515873|照常执行]] ([[sessions/FEISHU-666_chat_oc_d852908acc34173446bde912b27c9-b602d089/session_wiki.md|task:FEISHU-666::chat:oc_d852908acc34173446bde912b27c9963]])
+- [[sessions/FEISHU-666_chat_oc_d852908acc34173446bde912b27c9-b602d089/session_wiki.md#block-资源-c5ca3950|资源]] ([[sessions/FEISHU-666_chat_oc_d852908acc34173446bde912b27c9-b602d089/session_wiki.md|task:FEISHU-666::chat:oc_d852908acc34173446bde912b27c9963]])
+- [[sessions/FEISHU-666_chat_oc_77fa9b1b12c2e4ce9cd5ef67b44b0-ca85b840/session_wiki.md#block-QA测试环境-919b56f6|QA测试环境]] ([[sessions/FEISHU-666_chat_oc_77fa9b1b12c2e4ce9cd5ef67b44b0-ca85b840/session_wiki.md|task:FEISHU-666::chat:oc_77fa9b1b12c2e4ce9cd5ef67b44b04b4]])
 
 <!-- task-section:related-blocks:end -->

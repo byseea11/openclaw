@@ -9,44 +9,44 @@
     {
       "sessionDir": "/Users/byseea/programscoding/nanobot/openclaw-main/amem_docs/ds/feishu_im_dataset_v3/cases/case_20260506224026669766_private_info_in_official_file/runtime/task_wiki_state/feishu-task-wiki/tasks/FEISHU-666-45f2ad9d/sessions/FEISHU-666_chat_oc_21fc5cc6becbda6432fe9592c2ea1-7bdb7dbb",
       "queuedJobs": 0,
-      "completedJobs": 4,
-      "verifiedEvents": 4
+      "completedJobs": 8,
+      "verifiedEvents": 8
     },
     {
       "sessionDir": "/Users/byseea/programscoding/nanobot/openclaw-main/amem_docs/ds/feishu_im_dataset_v3/cases/case_20260506224026669766_private_info_in_official_file/runtime/task_wiki_state/feishu-task-wiki/tasks/FEISHU-666-45f2ad9d/sessions/FEISHU-666_chat_oc_ac5a33c314d20661373939b376723-e2a8eda9",
       "queuedJobs": 0,
-      "completedJobs": 4,
-      "verifiedEvents": 4
+      "completedJobs": 12,
+      "verifiedEvents": 11
     },
     {
       "sessionDir": "/Users/byseea/programscoding/nanobot/openclaw-main/amem_docs/ds/feishu_im_dataset_v3/cases/case_20260506224026669766_private_info_in_official_file/runtime/task_wiki_state/feishu-task-wiki/tasks/FEISHU-666-45f2ad9d/sessions/FEISHU-666_chat_oc_f1c581e38c20b845ed42c30671f63-2f254d48",
       "queuedJobs": 0,
-      "completedJobs": 2,
-      "verifiedEvents": 2
+      "completedJobs": 3,
+      "verifiedEvents": 3
     },
     {
       "sessionDir": "/Users/byseea/programscoding/nanobot/openclaw-main/amem_docs/ds/feishu_im_dataset_v3/cases/case_20260506224026669766_private_info_in_official_file/runtime/task_wiki_state/feishu-task-wiki/tasks/FEISHU-666-45f2ad9d/sessions/FEISHU-666_chat_oc_226e89b2b3fd7612aea5fc7f187cb-ef785114",
       "queuedJobs": 0,
-      "completedJobs": 15,
-      "verifiedEvents": 12
+      "completedJobs": 31,
+      "verifiedEvents": 28
     },
     {
       "sessionDir": "/Users/byseea/programscoding/nanobot/openclaw-main/amem_docs/ds/feishu_im_dataset_v3/cases/case_20260506224026669766_private_info_in_official_file/runtime/task_wiki_state/feishu-task-wiki/tasks/FEISHU-666-45f2ad9d/sessions/FEISHU-666_chat_oc_f49b2c4a0d0a92df61e1f27186021-20685f74",
       "queuedJobs": 0,
-      "completedJobs": 5,
-      "verifiedEvents": 4
+      "completedJobs": 11,
+      "verifiedEvents": 10
     },
     {
       "sessionDir": "/Users/byseea/programscoding/nanobot/openclaw-main/amem_docs/ds/feishu_im_dataset_v3/cases/case_20260506224026669766_private_info_in_official_file/runtime/task_wiki_state/feishu-task-wiki/tasks/FEISHU-666-45f2ad9d/sessions/FEISHU-666_chat_oc_d852908acc34173446bde912b27c9-b602d089",
       "queuedJobs": 0,
-      "completedJobs": 6,
-      "verifiedEvents": 4
+      "completedJobs": 11,
+      "verifiedEvents": 11
     },
     {
       "sessionDir": "/Users/byseea/programscoding/nanobot/openclaw-main/amem_docs/ds/feishu_im_dataset_v3/cases/case_20260506224026669766_private_info_in_official_file/runtime/task_wiki_state/feishu-task-wiki/tasks/FEISHU-666-45f2ad9d/sessions/FEISHU-666_chat_oc_77fa9b1b12c2e4ce9cd5ef67b44b0-ca85b840",
       "queuedJobs": 0,
-      "completedJobs": 1,
-      "verifiedEvents": 1
+      "completedJobs": 3,
+      "verifiedEvents": 3
     },
     {
       "sessionDir": "/Users/byseea/programscoding/nanobot/openclaw-main/amem_docs/ds/feishu_im_dataset_v3/cases/case_20260506224026669766_private_info_in_official_file/runtime/task_wiki_state/feishu-task-wiki/tasks/FEISHU-666-45f2ad9d/sessions/FEISHU-666_chat_oc_ba31dd2af9ace4d46985b0f11750c-ef428140",
@@ -57,73 +57,16 @@
   ],
   "verified_events": [
     {
-      "event_id": "evt_47fe2f2ac236dcf6",
-      "task_ref": "FEISHU-666",
-      "source_session_id": "task:FEISHU-666::chat:oc_f49b2c4a0d0a92df61e1f27186021348",
-      "ingest_version": 1,
-      "event_type": "status_event",
-      "claim": "客户，升级窗口5月10日22点UTC，已正式确认",
-      "core_entry_id": "om_x100b5088e620a8a4c1458760d56af29",
-      "evidence_quote": "客户，升级窗口5月10日22点UTC，已正式确认",
-      "context_quotes": [],
-      "participants": [
-        "王源"
-      ],
-      "event_time": "1778109140000",
-      "source": {
-        "source_type": "chat",
-        "source_id": "chat:customer_sync_chat",
-        "chat_id": "oc_f49b2c4a0d0a92df61e1f27186021348",
-        "thread_id": null,
-        "root_id": null,
-        "locator": "chat:customer_sync_chat"
-      },
-      "confidence": 0.72,
-      "verification": {
-        "core_quote_found": true,
-        "claim_supported_by_quote": true,
-        "context_only_generation": false,
-        "single_atomic_claim": true,
-        "required_fields_complete": true,
-        "no_unsupported_inference": true,
-        "verdict": "verified",
-        "resolved_core_entry_id": "om_x100b5088e620a8a4c1458760d56af29",
-        "quote_match_type": "exact",
-        "missing_required_fields": [],
-        "rejection_reasons": [],
-        "unsupported_parts": [],
-        "verifier_reason": ""
-      },
-      "status": "客户，升级窗口5月10日22点UTC，已正式确认",
-      "target": "升级窗口",
-      "programmatic_validation": {
-        "verdict": "ready_for_verification",
-        "evidence_quote_in_core": true,
-        "required_fields_complete": true,
-        "single_atomic_claim": true,
-        "missing_required_fields": [],
-        "rejection_reasons": []
-      },
-      "ingest_id": "task:FEISHU-666::chat:oc_f49b2c4a0d0a92df61e1f27186021348::1",
-      "task_id": "task:FEISHU-666",
-      "source_scope": "chat:oc_f49b2c4a0d0a92df61e1f27186021348",
-      "processing_status": "pending_verification",
-      "verification_job_id": "verify_1e9cff01b1643639",
-      "verified_at": "2026-05-07T03:04:59.598Z"
-    },
-    {
-      "event_id": "evt_79942b431a6b1b8e",
+      "event_id": "evt_3f4208fda7f08ab0",
       "task_ref": "FEISHU-666",
       "source_session_id": "task:FEISHU-666::chat:oc_f49b2c4a0d0a92df61e1f27186021348",
       "ingest_version": 1,
       "event_type": "time_event",
-      "claim": "客户，升级窗口5月10日22点UTC，已正式确认",
+      "claim": "客户，升级窗口5月10日22点UTC，已正式确认。",
       "core_entry_id": "om_x100b5088e620a8a4c1458760d56af29",
-      "evidence_quote": "客户，升级窗口5月10日22点UTC，已正式确认",
+      "evidence_quote": "升级窗口5月10日22点UTC，已正式确认。",
       "context_quotes": [],
-      "participants": [
-        "王源"
-      ],
+      "participants": [],
       "event_time": "1778109140000",
       "source": {
         "source_type": "chat",
@@ -146,12 +89,14 @@
         "quote_match_type": "exact",
         "missing_required_fields": [],
         "rejection_reasons": [],
-        "unsupported_parts": [],
-        "verifier_reason": ""
+        "unsupported_parts": [
+          "certainty"
+        ],
+        "verifier_reason": "The evidence quote '升级窗口5月10日22点UTC，已正式确认。' directly supports the claim that the upgrade window is confirmed for May 10 at 22:00 UTC."
       },
       "time_target": "升级窗口",
       "time_value": "5月10日22点UTC",
-      "certainty": "确认",
+      "certainty": "confirmed",
       "programmatic_validation": {
         "verdict": "ready_for_verification",
         "evidence_quote_in_core": true,
@@ -164,38 +109,129 @@
       "task_id": "task:FEISHU-666",
       "source_scope": "chat:oc_f49b2c4a0d0a92df61e1f27186021348",
       "processing_status": "pending_verification",
-      "verification_job_id": "verify_ebb7e322073a0f31",
-      "verified_at": "2026-05-07T03:04:59.599Z"
+      "verification_job_id": "verify_a33528fd73bf18f2",
+      "verified_at": "2026-05-07T03:11:32.612Z"
     },
     {
-      "event_id": "evt_6b45a606a63d0d89",
+      "event_id": "evt_86bd263c44e3b858",
+      "task_ref": "FEISHU-666",
+      "source_session_id": "task:FEISHU-666::chat:oc_f49b2c4a0d0a92df61e1f27186021348",
+      "ingest_version": 2,
+      "event_type": "commitment_event",
+      "claim": "所有变更按评审纪要执行。",
+      "core_entry_id": "om_x100b5088e635d4a0c324d31995cde4c",
+      "evidence_quote": "所有变更按评审纪要执行。",
+      "context_quotes": [],
+      "participants": [],
+      "event_time": "1778109140000",
+      "source": {
+        "source_type": "chat",
+        "source_id": "chat:customer_sync_chat",
+        "chat_id": "oc_f49b2c4a0d0a92df61e1f27186021348",
+        "thread_id": null,
+        "root_id": null,
+        "locator": "chat:customer_sync_chat"
+      },
+      "confidence": 0.72,
+      "verification": {
+        "core_quote_found": true,
+        "claim_supported_by_quote": true,
+        "context_only_generation": false,
+        "single_atomic_claim": true,
+        "required_fields_complete": true,
+        "no_unsupported_inference": true,
+        "verdict": "verified",
+        "resolved_core_entry_id": "om_x100b5088e635d4a0c324d31995cde4c",
+        "quote_match_type": "exact",
+        "missing_required_fields": [],
+        "rejection_reasons": [],
+        "unsupported_parts": [
+          "owner",
+          "action"
+        ],
+        "verifier_reason": "The claim '所有变更按评审纪要执行。' is directly supported by the core entry with exact quote match. No additional context is needed."
+      },
+      "owner": "王源",
+      "action": "按评审纪要执行所有变更",
+      "programmatic_validation": {
+        "verdict": "ready_for_verification",
+        "evidence_quote_in_core": true,
+        "required_fields_complete": true,
+        "single_atomic_claim": true,
+        "missing_required_fields": [],
+        "rejection_reasons": []
+      },
+      "ingest_id": "task:FEISHU-666::chat:oc_f49b2c4a0d0a92df61e1f27186021348::2",
+      "task_id": "task:FEISHU-666",
+      "source_scope": "chat:oc_f49b2c4a0d0a92df61e1f27186021348",
+      "processing_status": "pending_verification",
+      "verification_job_id": "verify_beb0e8a25e87d81e",
+      "verified_at": "2026-05-07T03:11:33.970Z"
+    },
+    {
+      "event_id": "evt_5d88520bba13358c",
+      "task_ref": "FEISHU-666",
+      "source_session_id": "task:FEISHU-666::chat:oc_f49b2c4a0d0a92df61e1f27186021348",
+      "ingest_version": 3,
+      "event_type": "status_event",
+      "claim": "纪要里的blocker是network config drift，处理中。",
+      "core_entry_id": "om_x100b5088e7cf6ca0c42e3952044414d",
+      "evidence_quote": "纪要里的blocker是network config drift，处理中。",
+      "context_quotes": [],
+      "participants": [],
+      "event_time": "1778109140000",
+      "source": {
+        "source_type": "chat",
+        "source_id": "chat:customer_sync_chat",
+        "chat_id": "oc_f49b2c4a0d0a92df61e1f27186021348",
+        "thread_id": null,
+        "root_id": null,
+        "locator": "chat:customer_sync_chat"
+      },
+      "confidence": 0.72,
+      "verification": {
+        "core_quote_found": true,
+        "claim_supported_by_quote": true,
+        "context_only_generation": false,
+        "single_atomic_claim": true,
+        "required_fields_complete": true,
+        "no_unsupported_inference": true,
+        "verdict": "verified",
+        "resolved_core_entry_id": "om_x100b5088e7cf6ca0c42e3952044414d",
+        "quote_match_type": "exact",
+        "missing_required_fields": [],
+        "rejection_reasons": [],
+        "unsupported_parts": [],
+        "verifier_reason": "The evidence_quote exactly matches the core entry text, directly supporting the claim that the blocker is 'network config drift' and its status is '处理中'. No context is needed."
+      },
+      "status": "处理中",
+      "target": "network config drift",
+      "programmatic_validation": {
+        "verdict": "ready_for_verification",
+        "evidence_quote_in_core": true,
+        "required_fields_complete": true,
+        "single_atomic_claim": true,
+        "missing_required_fields": [],
+        "rejection_reasons": []
+      },
+      "ingest_id": "task:FEISHU-666::chat:oc_f49b2c4a0d0a92df61e1f27186021348::3",
+      "task_id": "task:FEISHU-666",
+      "source_scope": "chat:oc_f49b2c4a0d0a92df61e1f27186021348",
+      "processing_status": "pending_verification",
+      "verification_job_id": "verify_24cd7ccf3e9777e5",
+      "verified_at": "2026-05-07T03:11:35.444Z"
+    },
+    {
+      "event_id": "evt_1f266a67302ede71",
       "task_ref": "FEISHU-666",
       "source_session_id": "task:FEISHU-666::chat:oc_f49b2c4a0d0a92df61e1f27186021348",
       "ingest_version": 4,
       "event_type": "status_event",
-      "claim": "回滚计划已批准，客户不用担心",
+      "claim": "回滚计划已批准，客户不用担心。",
       "core_entry_id": "om_x100b5088e7c3fca0c354d4b84d4fbad",
-      "evidence_quote": "回滚计划已批准，客户不用担心",
-      "context_quotes": [
-        {
-          "entry_id": "om_x100b5088e620a8a4c1458760d56af29",
-          "quote": "客户，升级窗口5月10日22点UTC，已正式确认。",
-          "role": "disambiguation"
-        },
-        {
-          "entry_id": "om_x100b5088e635d4a0c324d31995cde4c",
-          "quote": "所有变更按评审纪要执行。",
-          "role": "disambiguation"
-        },
-        {
-          "entry_id": "om_x100b5088e7cf6ca0c42e3952044414d",
-          "quote": "纪要里的blocker是network config drift，处理中。",
-          "role": "disambiguation"
-        }
-      ],
-      "participants": [
-        "高骏"
-      ],
+      "evidence_quote": "回滚计划已批准",
+      "context_quotes": [],
+      "participants": [],
       "event_time": "1778109140000",
       "source": {
         "source_type": "chat",
@@ -219,9 +255,9 @@
         "missing_required_fields": [],
         "rejection_reasons": [],
         "unsupported_parts": [],
-        "verifier_reason": ""
+        "verifier_reason": "The evidence_quote '回滚计划已批准' is exactly present in the core entry text '回滚计划已批准，客户不用担心。', directly supporting the claim that the rollback plan has been approved. No additional context is needed."
       },
-      "status": "回滚计划已批准，客户不用担心",
+      "status": "已批准",
       "target": "回滚计划",
       "programmatic_validation": {
         "verdict": "ready_for_verification",
@@ -235,38 +271,185 @@
       "task_id": "task:FEISHU-666",
       "source_scope": "chat:oc_f49b2c4a0d0a92df61e1f27186021348",
       "processing_status": "pending_verification",
-      "verification_job_id": "verify_a96a27c38d5d9144",
-      "verified_at": "2026-05-07T03:04:59.600Z"
+      "verification_job_id": "verify_becd4bd5613b63a8",
+      "verified_at": "2026-05-07T03:11:37.095Z"
     },
     {
-      "event_id": "evt_b8e73c66019e85e6",
+      "event_id": "evt_0a5198f3461cc6ad",
+      "task_ref": "FEISHU-666",
+      "source_session_id": "task:FEISHU-666::chat:oc_f49b2c4a0d0a92df61e1f27186021348",
+      "ingest_version": 5,
+      "event_type": "objection_event",
+      "claim": "有人建议窗口改期",
+      "core_entry_id": "om_x100b5088e7d760a0c4f49c9709480b5",
+      "evidence_quote": "有人建议窗口改期",
+      "context_quotes": [],
+      "participants": [],
+      "event_time": "1778109140000",
+      "source": {
+        "source_type": "chat",
+        "source_id": "chat:customer_sync_chat",
+        "chat_id": "oc_f49b2c4a0d0a92df61e1f27186021348",
+        "thread_id": null,
+        "root_id": null,
+        "locator": "chat:customer_sync_chat"
+      },
+      "confidence": 0.72,
+      "verification": {
+        "core_quote_found": true,
+        "claim_supported_by_quote": true,
+        "context_only_generation": false,
+        "single_atomic_claim": true,
+        "required_fields_complete": true,
+        "no_unsupported_inference": true,
+        "verdict": "verified",
+        "resolved_core_entry_id": "om_x100b5088e7d760a0c4f49c9709480b5",
+        "quote_match_type": "exact",
+        "missing_required_fields": [],
+        "rejection_reasons": [],
+        "unsupported_parts": [],
+        "verifier_reason": "The claim '有人建议窗口改期' is directly supported by the evidence_quote in the core entry, which is an exact match. No additional context is needed."
+      },
+      "objection": "窗口改期",
+      "objector": "有人",
+      "target": "窗口",
+      "programmatic_validation": {
+        "verdict": "ready_for_verification",
+        "evidence_quote_in_core": true,
+        "required_fields_complete": true,
+        "single_atomic_claim": true,
+        "missing_required_fields": [],
+        "rejection_reasons": []
+      },
+      "ingest_id": "task:FEISHU-666::chat:oc_f49b2c4a0d0a92df61e1f27186021348::5",
+      "task_id": "task:FEISHU-666",
+      "source_scope": "chat:oc_f49b2c4a0d0a92df61e1f27186021348",
+      "processing_status": "pending_verification",
+      "verification_job_id": "verify_022f2b5e950b7b11",
+      "verified_at": "2026-05-07T03:11:38.382Z"
+    },
+    {
+      "event_id": "evt_b36e378d12fc7bc1",
+      "task_ref": "FEISHU-666",
+      "source_session_id": "task:FEISHU-666::chat:oc_f49b2c4a0d0a92df61e1f27186021348",
+      "ingest_version": 6,
+      "event_type": "time_event",
+      "claim": "窗口不变，仍为5月10日22点UTC，以纪要为准。",
+      "core_entry_id": "om_x100b5088e7ea34a4c3648780388d7a8",
+      "evidence_quote": "窗口不变，仍为5月10日22点UTC，以纪要为准。",
+      "context_quotes": [],
+      "participants": [],
+      "event_time": "1778109140000",
+      "source": {
+        "source_type": "chat",
+        "source_id": "chat:customer_sync_chat",
+        "chat_id": "oc_f49b2c4a0d0a92df61e1f27186021348",
+        "thread_id": null,
+        "root_id": null,
+        "locator": "chat:customer_sync_chat"
+      },
+      "confidence": 0.72,
+      "verification": {
+        "core_quote_found": true,
+        "claim_supported_by_quote": true,
+        "context_only_generation": false,
+        "single_atomic_claim": true,
+        "required_fields_complete": true,
+        "no_unsupported_inference": true,
+        "verdict": "verified",
+        "resolved_core_entry_id": "om_x100b5088e7ea34a4c3648780388d7a8",
+        "quote_match_type": "exact",
+        "missing_required_fields": [],
+        "rejection_reasons": [],
+        "unsupported_parts": [
+          "certainty"
+        ],
+        "verifier_reason": "The claim '窗口不变，仍为5月10日22点UTC，以纪要为准。' is directly supported by the evidence_quote from the core entry. The context entries do not contradict this, and the claim is atomic and complete."
+      },
+      "time_target": "窗口",
+      "time_value": "5月10日22点UTC",
+      "certainty": "certain",
+      "programmatic_validation": {
+        "verdict": "ready_for_verification",
+        "evidence_quote_in_core": true,
+        "required_fields_complete": true,
+        "single_atomic_claim": true,
+        "missing_required_fields": [],
+        "rejection_reasons": []
+      },
+      "ingest_id": "task:FEISHU-666::chat:oc_f49b2c4a0d0a92df61e1f27186021348::6",
+      "task_id": "task:FEISHU-666",
+      "source_scope": "chat:oc_f49b2c4a0d0a92df61e1f27186021348",
+      "processing_status": "pending_verification",
+      "verification_job_id": "verify_89043ce3b4e46ce5",
+      "verified_at": "2026-05-07T03:11:40.196Z"
+    },
+    {
+      "event_id": "evt_525767ec717efc39",
+      "task_ref": "FEISHU-666",
+      "source_session_id": "task:FEISHU-666::chat:oc_f49b2c4a0d0a92df61e1f27186021348",
+      "ingest_version": 7,
+      "event_type": "conclusion_event",
+      "claim": "以Alice说的为准",
+      "core_entry_id": "om_x100b5088e7ff2ca4c37cd01a0c60720",
+      "evidence_quote": "抱歉，我没确认清楚，以Alice说的为准。",
+      "context_quotes": [],
+      "participants": [],
+      "event_time": "1778109140000",
+      "source": {
+        "source_type": "chat",
+        "source_id": "chat:customer_sync_chat",
+        "chat_id": "oc_f49b2c4a0d0a92df61e1f27186021348",
+        "thread_id": null,
+        "root_id": null,
+        "locator": "chat:customer_sync_chat"
+      },
+      "confidence": 0.72,
+      "verification": {
+        "core_quote_found": true,
+        "claim_supported_by_quote": true,
+        "context_only_generation": false,
+        "single_atomic_claim": true,
+        "required_fields_complete": true,
+        "no_unsupported_inference": true,
+        "verdict": "verified",
+        "resolved_core_entry_id": "om_x100b5088e7ff2ca4c37cd01a0c60720",
+        "quote_match_type": "exact",
+        "missing_required_fields": [],
+        "rejection_reasons": [],
+        "unsupported_parts": [
+          "target"
+        ],
+        "verifier_reason": "The claim '以Alice说的为准' is directly supported by the evidence_quote in the core entry. The context entry from Alice confirms the window time, but the claim itself is about deferring to Alice's statement, which is explicitly stated in the core entry."
+      },
+      "conclusion": "以Alice说的为准",
+      "target": "窗口时间",
+      "programmatic_validation": {
+        "verdict": "ready_for_verification",
+        "evidence_quote_in_core": true,
+        "required_fields_complete": true,
+        "single_atomic_claim": true,
+        "missing_required_fields": [],
+        "rejection_reasons": []
+      },
+      "ingest_id": "task:FEISHU-666::chat:oc_f49b2c4a0d0a92df61e1f27186021348::7",
+      "task_id": "task:FEISHU-666",
+      "source_scope": "chat:oc_f49b2c4a0d0a92df61e1f27186021348",
+      "processing_status": "pending_verification",
+      "verification_job_id": "verify_fcd780d78daf9f9e",
+      "verified_at": "2026-05-07T03:11:41.706Z"
+    },
+    {
+      "event_id": "evt_3d022650a64c57a0",
       "task_ref": "FEISHU-666",
       "source_session_id": "task:FEISHU-666::chat:oc_f49b2c4a0d0a92df61e1f27186021348",
       "ingest_version": 9,
       "event_type": "status_event",
-      "claim": "客户已确认窗口",
+      "claim": "客户已确认窗口。",
       "core_entry_id": "om_x100b5088e784b8a4c4f549e9ec285bd",
-      "evidence_quote": "客户已确认窗口",
-      "context_quotes": [
-        {
-          "entry_id": "om_x100b5088e7ea34a4c3648780388d7a8",
-          "quote": "窗口不变，仍为5月10日22点UTC，以纪要为准。",
-          "role": "disambiguation"
-        },
-        {
-          "entry_id": "om_x100b5088e7ff2ca4c37cd01a0c60720",
-          "quote": "抱歉，我没确认清楚，以Alice说的为准。",
-          "role": "disambiguation"
-        },
-        {
-          "entry_id": "om_x100b5088e7f13910c316f1e785f64c2",
-          "quote": "跟客户再确认一下：所有以评审纪要为准。",
-          "role": "disambiguation"
-        }
-      ],
-      "participants": [
-        "王源"
-      ],
+      "evidence_quote": "客户已确认窗口。",
+      "context_quotes": [],
+      "participants": [],
       "event_time": "1778109140000",
       "source": {
         "source_type": "chat",
@@ -289,10 +472,12 @@
         "quote_match_type": "exact",
         "missing_required_fields": [],
         "rejection_reasons": [],
-        "unsupported_parts": [],
-        "verifier_reason": ""
+        "unsupported_parts": [
+          "status"
+        ],
+        "verifier_reason": "The claim '客户已确认窗口。' is directly supported by the evidence_quote from the core entry, which is an exact match. The context entries further confirm the window details but are not needed for verification."
       },
-      "status": "客户已确认窗口",
+      "status": "confirmed",
       "target": "窗口",
       "programmatic_validation": {
         "verdict": "ready_for_verification",
@@ -306,28 +491,128 @@
       "task_id": "task:FEISHU-666",
       "source_scope": "chat:oc_f49b2c4a0d0a92df61e1f27186021348",
       "processing_status": "pending_verification",
-      "verification_job_id": "verify_798ae01b87dc4201",
-      "verified_at": "2026-05-07T03:04:59.601Z"
+      "verification_job_id": "verify_32bbcfe79c630481",
+      "verified_at": "2026-05-07T03:11:45.436Z"
     },
     {
-      "event_id": "evt_94ce14f31062f8ce",
+      "event_id": "evt_1a71a3dadd16abb3",
+      "task_ref": "FEISHU-666",
+      "source_session_id": "task:FEISHU-666::chat:oc_f49b2c4a0d0a92df61e1f27186021348",
+      "ingest_version": 10,
+      "event_type": "status_event",
+      "claim": "合规侧已发确认函。",
+      "core_entry_id": "om_x100b5088e798f0a4c4c5d0460c9a433",
+      "evidence_quote": "合规侧已发确认函。",
+      "context_quotes": [],
+      "participants": [],
+      "event_time": "1778109140000",
+      "source": {
+        "source_type": "chat",
+        "source_id": "chat:customer_sync_chat",
+        "chat_id": "oc_f49b2c4a0d0a92df61e1f27186021348",
+        "thread_id": null,
+        "root_id": null,
+        "locator": "chat:customer_sync_chat"
+      },
+      "confidence": 0.72,
+      "verification": {
+        "core_quote_found": true,
+        "claim_supported_by_quote": true,
+        "context_only_generation": false,
+        "single_atomic_claim": true,
+        "required_fields_complete": true,
+        "no_unsupported_inference": true,
+        "verdict": "verified",
+        "resolved_core_entry_id": "om_x100b5088e798f0a4c4c5d0460c9a433",
+        "quote_match_type": "exact",
+        "missing_required_fields": [],
+        "rejection_reasons": [],
+        "unsupported_parts": [],
+        "verifier_reason": "The claim '合规侧已发确认函。' is directly supported by the evidence_quote from the core entry, which is an exact match. No context is needed."
+      },
+      "status": "已发确认函",
+      "target": "合规侧",
+      "programmatic_validation": {
+        "verdict": "ready_for_verification",
+        "evidence_quote_in_core": true,
+        "required_fields_complete": true,
+        "single_atomic_claim": true,
+        "missing_required_fields": [],
+        "rejection_reasons": []
+      },
+      "ingest_id": "task:FEISHU-666::chat:oc_f49b2c4a0d0a92df61e1f27186021348::10",
+      "task_id": "task:FEISHU-666",
+      "source_scope": "chat:oc_f49b2c4a0d0a92df61e1f27186021348",
+      "processing_status": "pending_verification",
+      "verification_job_id": "verify_7f7b89ae690b429e",
+      "verified_at": "2026-05-07T03:11:46.789Z"
+    },
+    {
+      "event_id": "evt_67d4ec8369ea7a75",
+      "task_ref": "FEISHU-666",
+      "source_session_id": "task:FEISHU-666::chat:oc_f49b2c4a0d0a92df61e1f27186021348",
+      "ingest_version": 11,
+      "event_type": "status_event",
+      "claim": "客户确认收到窗口通知。",
+      "core_entry_id": "om_x100b5088e7afaca4c33bbb304a687d6",
+      "evidence_quote": "客户确认收到窗口通知。",
+      "context_quotes": [],
+      "participants": [],
+      "event_time": "1778109140000",
+      "source": {
+        "source_type": "chat",
+        "source_id": "chat:customer_sync_chat",
+        "chat_id": "oc_f49b2c4a0d0a92df61e1f27186021348",
+        "thread_id": null,
+        "root_id": null,
+        "locator": "chat:customer_sync_chat"
+      },
+      "confidence": 0.72,
+      "verification": {
+        "core_quote_found": true,
+        "claim_supported_by_quote": true,
+        "context_only_generation": false,
+        "single_atomic_claim": true,
+        "required_fields_complete": true,
+        "no_unsupported_inference": true,
+        "verdict": "verified",
+        "resolved_core_entry_id": "om_x100b5088e7afaca4c33bbb304a687d6",
+        "quote_match_type": "exact",
+        "missing_required_fields": [],
+        "rejection_reasons": [],
+        "unsupported_parts": [
+          "status"
+        ],
+        "verifier_reason": "The claim '客户确认收到窗口通知。' is directly supported by the evidence_quote from the core entry, which is an exact match. No context is needed."
+      },
+      "status": "confirmed",
+      "target": "窗口通知",
+      "programmatic_validation": {
+        "verdict": "ready_for_verification",
+        "evidence_quote_in_core": true,
+        "required_fields_complete": true,
+        "single_atomic_claim": true,
+        "missing_required_fields": [],
+        "rejection_reasons": []
+      },
+      "ingest_id": "task:FEISHU-666::chat:oc_f49b2c4a0d0a92df61e1f27186021348::11",
+      "task_id": "task:FEISHU-666",
+      "source_scope": "chat:oc_f49b2c4a0d0a92df61e1f27186021348",
+      "processing_status": "pending_verification",
+      "verification_job_id": "verify_40a0cf7c51375a4c",
+      "verified_at": "2026-05-07T03:11:48.223Z"
+    },
+    {
+      "event_id": "evt_e7ec01a2ca7fda5a",
       "task_ref": "FEISHU-666",
       "source_session_id": "task:FEISHU-666::chat:oc_f1c581e38c20b845ed42c30671f63193",
       "ingest_version": 2,
       "event_type": "status_event",
-      "claim": "运维窗口已锁定",
+      "claim": "运维窗口已锁定。",
       "core_entry_id": "om_x100b5088e5a344a0c4dcea951c8bed1",
-      "evidence_quote": "运维窗口已锁定",
-      "context_quotes": [
-        {
-          "entry_id": "om_x100b5088e4d410a4c4a3f5b6ead9444",
-          "quote": "运维窗口线程：以下回复承载该 source session 的真实 benchmark 消息。",
-          "role": "disambiguation"
-        }
-      ],
-      "participants": [
-        "周宇"
-      ],
+      "evidence_quote": "运维窗口已锁定。",
+      "context_quotes": [],
+      "participants": [],
       "event_time": "1778109140000",
       "source": {
         "source_type": "thread",
@@ -350,10 +635,12 @@
         "quote_match_type": "exact",
         "missing_required_fields": [],
         "rejection_reasons": [],
-        "unsupported_parts": [],
-        "verifier_reason": ""
+        "unsupported_parts": [
+          "status"
+        ],
+        "verifier_reason": "The claim '运维窗口已锁定。' is directly supported by the evidence_quote from the core entry, which is an exact match. No context is needed."
       },
-      "status": "运维窗口已锁定",
+      "status": "locked",
       "target": "运维窗口",
       "programmatic_validation": {
         "verdict": "ready_for_verification",
@@ -367,33 +654,20 @@
       "task_id": "task:FEISHU-666",
       "source_scope": "chat:oc_f1c581e38c20b845ed42c30671f63193",
       "processing_status": "pending_verification",
-      "verification_job_id": "verify_77426f3ac28f8e0c",
-      "verified_at": "2026-05-07T03:04:59.536Z"
+      "verification_job_id": "verify_7ea2bea8aa87da98",
+      "verified_at": "2026-05-07T03:09:45.536Z"
     },
     {
-      "event_id": "evt_0780b82ab2d064d3",
+      "event_id": "evt_5eced51de18ff486",
       "task_ref": "FEISHU-666",
       "source_session_id": "task:FEISHU-666::chat:oc_f1c581e38c20b845ed42c30671f63193",
       "ingest_version": 3,
       "event_type": "status_event",
-      "claim": "监控告警阈值已调整",
+      "claim": "监控告警阈值已调整。",
       "core_entry_id": "om_x100b5088e5b470a4c22b49aeb2e2dca",
-      "evidence_quote": "监控告警阈值已调整",
-      "context_quotes": [
-        {
-          "entry_id": "om_x100b5088e4d410a4c4a3f5b6ead9444",
-          "quote": "运维窗口线程：以下回复承载该 source session 的真实 benchmark 消息。",
-          "role": "disambiguation"
-        },
-        {
-          "entry_id": "om_x100b5088e5a344a0c4dcea951c8bed1",
-          "quote": "运维窗口已锁定。",
-          "role": "disambiguation"
-        }
-      ],
-      "participants": [
-        "唐越"
-      ],
+      "evidence_quote": "监控告警阈值已调整。",
+      "context_quotes": [],
+      "participants": [],
       "event_time": "1778109140000",
       "source": {
         "source_type": "thread",
@@ -417,9 +691,9 @@
         "missing_required_fields": [],
         "rejection_reasons": [],
         "unsupported_parts": [],
-        "verifier_reason": ""
+        "verifier_reason": "The claim '监控告警阈值已调整。' is directly supported by the evidence_quote from the core entry, which is an exact match. No context is needed."
       },
-      "status": "监控告警阈值已调整",
+      "status": "已调整",
       "target": "监控告警阈值",
       "programmatic_validation": {
         "verdict": "ready_for_verification",
@@ -433,28 +707,127 @@
       "task_id": "task:FEISHU-666",
       "source_scope": "chat:oc_f1c581e38c20b845ed42c30671f63193",
       "processing_status": "pending_verification",
-      "verification_job_id": "verify_9ab1d06a06eb74cd",
-      "verified_at": "2026-05-07T03:04:59.537Z"
+      "verification_job_id": "verify_a66e65a03b2feca7",
+      "verified_at": "2026-05-07T03:09:46.928Z"
     },
     {
-      "event_id": "evt_81ef6afcd23cb501",
+      "event_id": "evt_386231beb0736a14",
+      "task_ref": "FEISHU-666",
+      "source_session_id": "task:FEISHU-666::chat:oc_f1c581e38c20b845ed42c30671f63193",
+      "ingest_version": 4,
+      "event_type": "status_event",
+      "claim": "夜间值班已排班。",
+      "core_entry_id": "om_x100b5088e548a4a4c3346a37b922ddf",
+      "evidence_quote": "夜间值班已排班。",
+      "context_quotes": [],
+      "participants": [],
+      "event_time": "1778109140000",
+      "source": {
+        "source_type": "thread",
+        "source_id": "thread:ops_window_thread",
+        "chat_id": "oc_f1c581e38c20b845ed42c30671f63193",
+        "thread_id": "om_x100b5088e548a4a4c3346a37b922ddf",
+        "root_id": "om_x100b5088e548a4a4c3346a37b922ddf",
+        "locator": "thread:ops_window_thread"
+      },
+      "confidence": 0.72,
+      "verification": {
+        "core_quote_found": true,
+        "claim_supported_by_quote": true,
+        "context_only_generation": false,
+        "single_atomic_claim": true,
+        "required_fields_complete": true,
+        "no_unsupported_inference": true,
+        "verdict": "verified",
+        "resolved_core_entry_id": "om_x100b5088e548a4a4c3346a37b922ddf",
+        "quote_match_type": "exact",
+        "missing_required_fields": [],
+        "rejection_reasons": [],
+        "unsupported_parts": [],
+        "verifier_reason": "The claim '夜间值班已排班。' is directly supported by the evidence_quote from the core entry, which is an exact match. No context is needed."
+      },
+      "status": "已排班",
+      "target": "夜间值班",
+      "programmatic_validation": {
+        "verdict": "ready_for_verification",
+        "evidence_quote_in_core": true,
+        "required_fields_complete": true,
+        "single_atomic_claim": true,
+        "missing_required_fields": [],
+        "rejection_reasons": []
+      },
+      "ingest_id": "task:FEISHU-666::chat:oc_f1c581e38c20b845ed42c30671f63193::4",
+      "task_id": "task:FEISHU-666",
+      "source_scope": "chat:oc_f1c581e38c20b845ed42c30671f63193",
+      "processing_status": "pending_verification",
+      "verification_job_id": "verify_3c7f1a3207706113",
+      "verified_at": "2026-05-07T03:09:48.360Z"
+    },
+    {
+      "event_id": "evt_3aebb7a8720a4db5",
+      "task_ref": "FEISHU-666",
+      "source_session_id": "task:FEISHU-666::chat:oc_d852908acc34173446bde912b27c9963",
+      "ingest_version": 1,
+      "event_type": "time_event",
+      "claim": "听Carol提过窗口可能调到周三前",
+      "core_entry_id": "om_x100b5088e7a0c8a8c4572b662f77ee4",
+      "evidence_quote": "听Carol提过窗口可能调到周三前",
+      "context_quotes": [],
+      "participants": [],
+      "event_time": "1778109140000",
+      "source": {
+        "source_type": "chat",
+        "source_id": "chat:exec_sync_chat",
+        "chat_id": "oc_d852908acc34173446bde912b27c9963",
+        "thread_id": null,
+        "root_id": null,
+        "locator": "chat:exec_sync_chat"
+      },
+      "confidence": 0.72,
+      "verification": {
+        "core_quote_found": true,
+        "claim_supported_by_quote": true,
+        "context_only_generation": false,
+        "single_atomic_claim": true,
+        "required_fields_complete": true,
+        "no_unsupported_inference": true,
+        "verdict": "verified",
+        "resolved_core_entry_id": "om_x100b5088e7a0c8a8c4572b662f77ee4",
+        "quote_match_type": "exact",
+        "missing_required_fields": [],
+        "rejection_reasons": [],
+        "unsupported_parts": [],
+        "verifier_reason": "The claim '听Carol提过窗口可能调到周三前' is directly supported by the evidence_quote in the core entry, which is an exact match. No context is needed."
+      },
+      "time_target": "窗口",
+      "time_value": "周三前",
+      "certainty": "可能",
+      "programmatic_validation": {
+        "verdict": "ready_for_verification",
+        "evidence_quote_in_core": true,
+        "required_fields_complete": true,
+        "single_atomic_claim": true,
+        "missing_required_fields": [],
+        "rejection_reasons": []
+      },
+      "ingest_id": "task:FEISHU-666::chat:oc_d852908acc34173446bde912b27c9963::1",
+      "task_id": "task:FEISHU-666",
+      "source_scope": "chat:oc_d852908acc34173446bde912b27c9963",
+      "processing_status": "pending_verification",
+      "verification_job_id": "verify_02b0f1abdc83f21a",
+      "verified_at": "2026-05-07T03:12:13.028Z"
+    },
+    {
+      "event_id": "evt_7d1a63ba41c9c60f",
       "task_ref": "FEISHU-666",
       "source_session_id": "task:FEISHU-666::chat:oc_d852908acc34173446bde912b27c9963",
       "ingest_version": 2,
       "event_type": "time_event",
-      "claim": "那是Carol个人请求，正式窗口确认是5月10日",
+      "claim": "正式窗口确认是5月10日。",
       "core_entry_id": "om_x100b5088e7b57ca0c3c45b8cb21f5a9",
-      "evidence_quote": "那是Carol个人请求，正式窗口确认是5月10日",
-      "context_quotes": [
-        {
-          "entry_id": "om_x100b5088e7a0c8a8c4572b662f77ee4",
-          "quote": "听Carol提过窗口可能调到周三前，你们知道吗？",
-          "role": "disambiguation"
-        }
-      ],
-      "participants": [
-        "罗天"
-      ],
+      "evidence_quote": "正式窗口确认是5月10日。",
+      "context_quotes": [],
+      "participants": [],
       "event_time": "1778109140000",
       "source": {
         "source_type": "chat",
@@ -477,12 +850,14 @@
         "quote_match_type": "exact",
         "missing_required_fields": [],
         "rejection_reasons": [],
-        "unsupported_parts": [],
-        "verifier_reason": ""
+        "unsupported_parts": [
+          "certainty"
+        ],
+        "verifier_reason": "The claim '正式窗口确认是5月10日。' is directly supported by the evidence quote from the core entry. The context entry mentions a possible adjustment but does not contradict the confirmed date."
       },
-      "time_target": "窗口",
+      "time_target": "正式窗口",
       "time_value": "5月10日",
-      "certainty": "确认",
+      "certainty": "confirmed",
       "programmatic_validation": {
         "verdict": "ready_for_verification",
         "evidence_quote_in_core": true,
@@ -495,38 +870,185 @@
       "task_id": "task:FEISHU-666",
       "source_scope": "chat:oc_d852908acc34173446bde912b27c9963",
       "processing_status": "pending_verification",
-      "verification_job_id": "verify_133d876d61c9dc8d",
-      "verified_at": "2026-05-07T03:04:59.635Z"
+      "verification_job_id": "verify_e02466102243f4f4",
+      "verified_at": "2026-05-07T03:12:14.695Z"
     },
     {
-      "event_id": "evt_21c5fced40725bfb",
+      "event_id": "evt_32800c597d78576a",
+      "task_ref": "FEISHU-666",
+      "source_session_id": "task:FEISHU-666::chat:oc_d852908acc34173446bde912b27c9963",
+      "ingest_version": 3,
+      "event_type": "objection_event",
+      "claim": "个人偏好不影响任务计划。",
+      "core_entry_id": "om_x100b5088e74e7ca8c4f7a1b5b1ff429",
+      "evidence_quote": "个人偏好不影响任务计划。",
+      "context_quotes": [],
+      "participants": [],
+      "event_time": "1778109140000",
+      "source": {
+        "source_type": "chat",
+        "source_id": "chat:exec_sync_chat",
+        "chat_id": "oc_d852908acc34173446bde912b27c9963",
+        "thread_id": null,
+        "root_id": null,
+        "locator": "chat:exec_sync_chat"
+      },
+      "confidence": 0.72,
+      "verification": {
+        "core_quote_found": true,
+        "claim_supported_by_quote": true,
+        "context_only_generation": false,
+        "single_atomic_claim": true,
+        "required_fields_complete": true,
+        "no_unsupported_inference": true,
+        "verdict": "verified",
+        "resolved_core_entry_id": "om_x100b5088e74e7ca8c4f7a1b5b1ff429",
+        "quote_match_type": "exact",
+        "missing_required_fields": [],
+        "rejection_reasons": [],
+        "unsupported_parts": [
+          "objector"
+        ],
+        "verifier_reason": "The claim '个人偏好不影响任务计划。' is directly supported by the evidence quote from the core entry. The context entries discuss a window adjustment but do not contradict the claim. The claim is atomic and fully supported."
+      },
+      "objection": "个人偏好",
+      "objector": "梁昕",
+      "target": "任务计划",
+      "programmatic_validation": {
+        "verdict": "ready_for_verification",
+        "evidence_quote_in_core": true,
+        "required_fields_complete": true,
+        "single_atomic_claim": true,
+        "missing_required_fields": [],
+        "rejection_reasons": []
+      },
+      "ingest_id": "task:FEISHU-666::chat:oc_d852908acc34173446bde912b27c9963::3",
+      "task_id": "task:FEISHU-666",
+      "source_scope": "chat:oc_d852908acc34173446bde912b27c9963",
+      "processing_status": "pending_verification",
+      "verification_job_id": "verify_d3cda9ba124b2e27",
+      "verified_at": "2026-05-07T03:12:16.332Z"
+    },
+    {
+      "event_id": "evt_79ce26ce366171bb",
+      "task_ref": "FEISHU-666",
+      "source_session_id": "task:FEISHU-666::chat:oc_d852908acc34173446bde912b27c9963",
+      "ingest_version": 5,
+      "event_type": "time_event",
+      "claim": "窗口5月10日22点",
+      "core_entry_id": "om_x100b5088e75628a4c492973f3ac044e",
+      "evidence_quote": "窗口5月10日22点",
+      "context_quotes": [],
+      "participants": [],
+      "event_time": "1778109140000",
+      "source": {
+        "source_type": "chat",
+        "source_id": "chat:exec_sync_chat",
+        "chat_id": "oc_d852908acc34173446bde912b27c9963",
+        "thread_id": null,
+        "root_id": null,
+        "locator": "chat:exec_sync_chat"
+      },
+      "confidence": 0.72,
+      "verification": {
+        "core_quote_found": true,
+        "claim_supported_by_quote": true,
+        "context_only_generation": false,
+        "single_atomic_claim": true,
+        "required_fields_complete": true,
+        "no_unsupported_inference": true,
+        "verdict": "verified",
+        "resolved_core_entry_id": "om_x100b5088e75628a4c492973f3ac044e",
+        "quote_match_type": "exact",
+        "missing_required_fields": [],
+        "rejection_reasons": [],
+        "unsupported_parts": [
+          "certainty"
+        ],
+        "verifier_reason": "The evidence_quote '窗口5月10日22点' exactly matches the core entry text, directly supporting the claim. No context needed."
+      },
+      "time_target": "窗口",
+      "time_value": "5月10日22点",
+      "certainty": "confirmed",
+      "programmatic_validation": {
+        "verdict": "ready_for_verification",
+        "evidence_quote_in_core": true,
+        "required_fields_complete": true,
+        "single_atomic_claim": true,
+        "missing_required_fields": [],
+        "rejection_reasons": []
+      },
+      "ingest_id": "task:FEISHU-666::chat:oc_d852908acc34173446bde912b27c9963::5",
+      "task_id": "task:FEISHU-666",
+      "source_scope": "chat:oc_d852908acc34173446bde912b27c9963",
+      "processing_status": "pending_verification",
+      "verification_job_id": "verify_f605a3c30aa15d4d",
+      "verified_at": "2026-05-07T03:12:17.668Z"
+    },
+    {
+      "event_id": "evt_c734b2222b5d9da0",
+      "task_ref": "FEISHU-666",
+      "source_session_id": "task:FEISHU-666::chat:oc_d852908acc34173446bde912b27c9963",
+      "ingest_version": 5,
+      "event_type": "status_event",
+      "claim": "blocker network config drift",
+      "core_entry_id": "om_x100b5088e75628a4c492973f3ac044e",
+      "evidence_quote": "blocker network config drift",
+      "context_quotes": [],
+      "participants": [],
+      "event_time": "1778109140000",
+      "source": {
+        "source_type": "chat",
+        "source_id": "chat:exec_sync_chat",
+        "chat_id": "oc_d852908acc34173446bde912b27c9963",
+        "thread_id": null,
+        "root_id": null,
+        "locator": "chat:exec_sync_chat"
+      },
+      "confidence": 0.72,
+      "verification": {
+        "core_quote_found": true,
+        "claim_supported_by_quote": true,
+        "context_only_generation": false,
+        "single_atomic_claim": true,
+        "required_fields_complete": true,
+        "no_unsupported_inference": true,
+        "verdict": "verified",
+        "resolved_core_entry_id": "om_x100b5088e75628a4c492973f3ac044e",
+        "quote_match_type": "exact",
+        "missing_required_fields": [],
+        "rejection_reasons": [],
+        "unsupported_parts": [],
+        "verifier_reason": "The claim 'blocker network config drift' is directly supported by the evidence_quote in the core entry, which states 'blocker network config drift'. The context entries confirm the window date but do not contradict the claim. The event is a valid status_event with all required fields complete."
+      },
+      "status": "blocker",
+      "target": "network config drift",
+      "programmatic_validation": {
+        "verdict": "ready_for_verification",
+        "evidence_quote_in_core": true,
+        "required_fields_complete": true,
+        "single_atomic_claim": true,
+        "missing_required_fields": [],
+        "rejection_reasons": []
+      },
+      "ingest_id": "task:FEISHU-666::chat:oc_d852908acc34173446bde912b27c9963::5",
+      "task_id": "task:FEISHU-666",
+      "source_scope": "chat:oc_d852908acc34173446bde912b27c9963",
+      "processing_status": "pending_verification",
+      "verification_job_id": "verify_029f13f7dd3afcdd",
+      "verified_at": "2026-05-07T03:12:19.520Z"
+    },
+    {
+      "event_id": "evt_bd87555774b0f387",
       "task_ref": "FEISHU-666",
       "source_session_id": "task:FEISHU-666::chat:oc_d852908acc34173446bde912b27c9963",
       "ingest_version": 6,
       "event_type": "status_event",
-      "claim": "回滚计划已批，无变更",
+      "claim": "回滚计划已批，无变更。",
       "core_entry_id": "om_x100b5088e76b60a0c49b8006b3c330c",
-      "evidence_quote": "回滚计划已批，无变更",
-      "context_quotes": [
-        {
-          "entry_id": "om_x100b5088e74e7ca8c4f7a1b5b1ff429",
-          "quote": "正式纪要为准，个人偏好不影响任务计划。",
-          "role": "disambiguation"
-        },
-        {
-          "entry_id": "om_x100b5088e742c8a4c2e3b295176fa22",
-          "quote": "明白了，是我听错了，抱歉。",
-          "role": "disambiguation"
-        },
-        {
-          "entry_id": "om_x100b5088e75628a4c492973f3ac044e",
-          "quote": "总结一下：窗口5月10日22点，blocker network config drift。",
-          "role": "disambiguation"
-        }
-      ],
-      "participants": [
-        "何然"
-      ],
+      "evidence_quote": "回滚计划已批，无变更。",
+      "context_quotes": [],
+      "participants": [],
       "event_time": "1778109140000",
       "source": {
         "source_type": "chat",
@@ -549,10 +1071,12 @@
         "quote_match_type": "exact",
         "missing_required_fields": [],
         "rejection_reasons": [],
-        "unsupported_parts": [],
-        "verifier_reason": ""
+        "unsupported_parts": [
+          "status"
+        ],
+        "verifier_reason": "The claim '回滚计划已批，无变更。' is directly supported by the evidence_quote from the core entry, which is an exact match. No context is needed."
       },
-      "status": "回滚计划已批，无变更",
+      "status": "已批准",
       "target": "回滚计划",
       "programmatic_validation": {
         "verdict": "ready_for_verification",
@@ -566,38 +1090,20 @@
       "task_id": "task:FEISHU-666",
       "source_scope": "chat:oc_d852908acc34173446bde912b27c9963",
       "processing_status": "pending_verification",
-      "verification_job_id": "verify_a47d01a8e2083d2a",
-      "verified_at": "2026-05-07T03:04:59.637Z"
+      "verification_job_id": "verify_0e8c31f689de235a",
+      "verified_at": "2026-05-07T03:12:21.111Z"
     },
     {
-      "event_id": "evt_2f367167c5edb1f0",
+      "event_id": "evt_9cb8c72a665d5240",
       "task_ref": "FEISHU-666",
       "source_session_id": "task:FEISHU-666::chat:oc_d852908acc34173446bde912b27c9963",
       "ingest_version": 8,
       "event_type": "status_event",
-      "claim": "个人时间不影响任务，资源已按正式窗口安排",
+      "claim": "个人时间不影响任务，资源已按正式窗口安排。",
       "core_entry_id": "om_x100b5088e770d0a0c22b19a26bde9ee",
-      "evidence_quote": "个人时间不影响任务，资源已按正式窗口安排",
-      "context_quotes": [
-        {
-          "entry_id": "om_x100b5088e75628a4c492973f3ac044e",
-          "quote": "总结一下：窗口5月10日22点，blocker network config drift。",
-          "role": "disambiguation"
-        },
-        {
-          "entry_id": "om_x100b5088e76b60a0c49b8006b3c330c",
-          "quote": "回滚计划已批，无变更。",
-          "role": "disambiguation"
-        },
-        {
-          "entry_id": "om_x100b5088e77f88a0c2ddf782b4c73b4",
-          "quote": "个人时间限制会不会影响团队资源安排？",
-          "role": "disambiguation"
-        }
-      ],
-      "participants": [
-        "林晨"
-      ],
+      "evidence_quote": "个人时间不影响任务，资源已按正式窗口安排。",
+      "context_quotes": [],
+      "participants": [],
       "event_time": "1778109140000",
       "source": {
         "source_type": "chat",
@@ -621,10 +1127,10 @@
         "missing_required_fields": [],
         "rejection_reasons": [],
         "unsupported_parts": [],
-        "verifier_reason": ""
+        "verifier_reason": "The claim is directly supported by the evidence quote from the core entry, which states '个人时间不影响任务，资源已按正式窗口安排。' The context entries provide background but are not needed for verification."
       },
-      "status": "个人时间不影响任务，资源已按正式窗口安排",
-      "target": "窗口",
+      "status": "不影响",
+      "target": "任务",
       "programmatic_validation": {
         "verdict": "ready_for_verification",
         "evidence_quote_in_core": true,
@@ -637,38 +1143,128 @@
       "task_id": "task:FEISHU-666",
       "source_scope": "chat:oc_d852908acc34173446bde912b27c9963",
       "processing_status": "pending_verification",
-      "verification_job_id": "verify_db9ef3ee2ce66f5b",
-      "verified_at": "2026-05-07T03:04:59.638Z"
+      "verification_job_id": "verify_694f3b10a555780a",
+      "verified_at": "2026-05-07T03:12:22.706Z"
     },
     {
-      "event_id": "evt_f57572068a368c30",
+      "event_id": "evt_8dd33a7c77b98226",
+      "task_ref": "FEISHU-666",
+      "source_session_id": "task:FEISHU-666::chat:oc_d852908acc34173446bde912b27c9963",
+      "ingest_version": 9,
+      "event_type": "commitment_event",
+      "claim": "照常执行",
+      "core_entry_id": "om_x100b5088e70aaca4c49d9bad8b9530f",
+      "evidence_quote": "明白，那照常执行。",
+      "context_quotes": [],
+      "participants": [],
+      "event_time": "1778109140000",
+      "source": {
+        "source_type": "chat",
+        "source_id": "chat:exec_sync_chat",
+        "chat_id": "oc_d852908acc34173446bde912b27c9963",
+        "thread_id": null,
+        "root_id": null,
+        "locator": "chat:exec_sync_chat"
+      },
+      "confidence": 0.72,
+      "verification": {
+        "core_quote_found": true,
+        "claim_supported_by_quote": true,
+        "context_only_generation": false,
+        "single_atomic_claim": true,
+        "required_fields_complete": true,
+        "no_unsupported_inference": true,
+        "verdict": "verified",
+        "resolved_core_entry_id": "om_x100b5088e70aaca4c49d9bad8b9530f",
+        "quote_match_type": "exact",
+        "missing_required_fields": [],
+        "rejection_reasons": [],
+        "unsupported_parts": [
+          "owner"
+        ],
+        "verifier_reason": "核心条目明确包含'照常执行'，且上下文中的'回滚计划已批，无变更'和'资源已按正式窗口安排'支持该承诺的合理性，无需额外推断。"
+      },
+      "owner": "秦怡",
+      "action": "照常执行",
+      "programmatic_validation": {
+        "verdict": "ready_for_verification",
+        "evidence_quote_in_core": true,
+        "required_fields_complete": true,
+        "single_atomic_claim": true,
+        "missing_required_fields": [],
+        "rejection_reasons": []
+      },
+      "ingest_id": "task:FEISHU-666::chat:oc_d852908acc34173446bde912b27c9963::9",
+      "task_id": "task:FEISHU-666",
+      "source_scope": "chat:oc_d852908acc34173446bde912b27c9963",
+      "processing_status": "pending_verification",
+      "verification_job_id": "verify_5f58e97a4a0640f2",
+      "verified_at": "2026-05-07T03:12:24.247Z"
+    },
+    {
+      "event_id": "evt_4cc90e95bb11fee2",
+      "task_ref": "FEISHU-666",
+      "source_session_id": "task:FEISHU-666::chat:oc_d852908acc34173446bde912b27c9963",
+      "ingest_version": 10,
+      "event_type": "status_event",
+      "claim": "管理层已批准资源。",
+      "core_entry_id": "om_x100b5088e71eb134c3df64c4fc8ac7a",
+      "evidence_quote": "管理层已批准资源。",
+      "context_quotes": [],
+      "participants": [],
+      "event_time": "1778109140000",
+      "source": {
+        "source_type": "chat",
+        "source_id": "chat:exec_sync_chat",
+        "chat_id": "oc_d852908acc34173446bde912b27c9963",
+        "thread_id": null,
+        "root_id": null,
+        "locator": "chat:exec_sync_chat"
+      },
+      "confidence": 0.72,
+      "verification": {
+        "core_quote_found": true,
+        "claim_supported_by_quote": true,
+        "context_only_generation": false,
+        "single_atomic_claim": true,
+        "required_fields_complete": true,
+        "no_unsupported_inference": true,
+        "verdict": "verified",
+        "resolved_core_entry_id": "om_x100b5088e71eb134c3df64c4fc8ac7a",
+        "quote_match_type": "exact",
+        "missing_required_fields": [],
+        "rejection_reasons": [],
+        "unsupported_parts": [],
+        "verifier_reason": "核心条目明确包含'管理层已批准资源'，与候选事件的声明和证据引用完全匹配，且上下文条目未提供矛盾信息。"
+      },
+      "status": "已批准",
+      "target": "资源",
+      "programmatic_validation": {
+        "verdict": "ready_for_verification",
+        "evidence_quote_in_core": true,
+        "required_fields_complete": true,
+        "single_atomic_claim": true,
+        "missing_required_fields": [],
+        "rejection_reasons": []
+      },
+      "ingest_id": "task:FEISHU-666::chat:oc_d852908acc34173446bde912b27c9963::10",
+      "task_id": "task:FEISHU-666",
+      "source_scope": "chat:oc_d852908acc34173446bde912b27c9963",
+      "processing_status": "pending_verification",
+      "verification_job_id": "verify_a39657cba10c08dc",
+      "verified_at": "2026-05-07T03:12:25.681Z"
+    },
+    {
+      "event_id": "evt_85f09d56a0dcf170",
       "task_ref": "FEISHU-666",
       "source_session_id": "task:FEISHU-666::chat:oc_d852908acc34173446bde912b27c9963",
       "ingest_version": 11,
       "event_type": "status_event",
-      "claim": "所有依赖项已确认",
+      "claim": "所有依赖项已确认。",
       "core_entry_id": "om_x100b5088e72d0ca4c42177bffed686b",
-      "evidence_quote": "所有依赖项已确认",
-      "context_quotes": [
-        {
-          "entry_id": "om_x100b5088e770d0a0c22b19a26bde9ee",
-          "quote": "个人时间不影响任务，资源已按正式窗口安排。",
-          "role": "disambiguation"
-        },
-        {
-          "entry_id": "om_x100b5088e70aaca4c49d9bad8b9530f",
-          "quote": "明白，那照常执行。",
-          "role": "disambiguation"
-        },
-        {
-          "entry_id": "om_x100b5088e71eb134c3df64c4fc8ac7a",
-          "quote": "管理层已批准资源。",
-          "role": "disambiguation"
-        }
-      ],
-      "participants": [
-        "罗天"
-      ],
+      "evidence_quote": "所有依赖项已确认。",
+      "context_quotes": [],
+      "participants": [],
       "event_time": "1778109140000",
       "source": {
         "source_type": "chat",
@@ -691,10 +1287,12 @@
         "quote_match_type": "exact",
         "missing_required_fields": [],
         "rejection_reasons": [],
-        "unsupported_parts": [],
-        "verifier_reason": ""
+        "unsupported_parts": [
+          "status"
+        ],
+        "verifier_reason": "The claim '所有依赖项已确认。' is directly supported by the evidence_quote from the core entry, which is an exact match. No additional context is needed."
       },
-      "status": "所有依赖项已确认",
+      "status": "confirmed",
       "target": "依赖项",
       "programmatic_validation": {
         "verdict": "ready_for_verification",
@@ -708,22 +1306,73 @@
       "task_id": "task:FEISHU-666",
       "source_scope": "chat:oc_d852908acc34173446bde912b27c9963",
       "processing_status": "pending_verification",
-      "verification_job_id": "verify_07a3bce6ecdf72d6",
-      "verified_at": "2026-05-07T03:04:59.639Z"
+      "verification_job_id": "verify_39176f36545fdaec",
+      "verified_at": "2026-05-07T03:12:27.228Z"
     },
     {
-      "event_id": "evt_d60b60054c5ecf0d",
+      "event_id": "evt_87da09fae4e1b20e",
+      "task_ref": "FEISHU-666",
+      "source_session_id": "task:FEISHU-666::chat:oc_d852908acc34173446bde912b27c9963",
+      "ingest_version": 12,
+      "event_type": "conclusion_event",
+      "claim": "高层已同意计划。",
+      "core_entry_id": "om_x100b5088e72770a4c4e8c1d5516f98f",
+      "evidence_quote": "高层已同意计划。",
+      "context_quotes": [],
+      "participants": [],
+      "event_time": "1778109140000",
+      "source": {
+        "source_type": "chat",
+        "source_id": "chat:exec_sync_chat",
+        "chat_id": "oc_d852908acc34173446bde912b27c9963",
+        "thread_id": null,
+        "root_id": null,
+        "locator": "chat:exec_sync_chat"
+      },
+      "confidence": 0.72,
+      "verification": {
+        "core_quote_found": true,
+        "claim_supported_by_quote": true,
+        "context_only_generation": false,
+        "single_atomic_claim": true,
+        "required_fields_complete": true,
+        "no_unsupported_inference": true,
+        "verdict": "verified",
+        "resolved_core_entry_id": "om_x100b5088e72770a4c4e8c1d5516f98f",
+        "quote_match_type": "exact",
+        "missing_required_fields": [],
+        "rejection_reasons": [],
+        "unsupported_parts": [],
+        "verifier_reason": "The claim '高层已同意计划' is directly supported by the evidence_quote from the core entry, which is an exact match. No additional context is needed."
+      },
+      "conclusion": "高层已同意计划",
+      "target": "计划",
+      "programmatic_validation": {
+        "verdict": "ready_for_verification",
+        "evidence_quote_in_core": true,
+        "required_fields_complete": true,
+        "single_atomic_claim": true,
+        "missing_required_fields": [],
+        "rejection_reasons": []
+      },
+      "ingest_id": "task:FEISHU-666::chat:oc_d852908acc34173446bde912b27c9963::12",
+      "task_id": "task:FEISHU-666",
+      "source_scope": "chat:oc_d852908acc34173446bde912b27c9963",
+      "processing_status": "pending_verification",
+      "verification_job_id": "verify_4c009de8b824e3c2",
+      "verified_at": "2026-05-07T03:12:28.423Z"
+    },
+    {
+      "event_id": "evt_2b8f3015db87f8ef",
       "task_ref": "FEISHU-666",
       "source_session_id": "task:FEISHU-666::chat:oc_ba31dd2af9ace4d46985b0f11750c043",
       "ingest_version": 1,
       "event_type": "status_event",
-      "claim": "网络依赖项已修复",
+      "claim": "网络依赖项已修复。",
       "core_entry_id": "om_x100b5088e4eb7ca0c21728b71257073",
-      "evidence_quote": "网络依赖项已修复",
+      "evidence_quote": "网络依赖项已修复。",
       "context_quotes": [],
-      "participants": [
-        "陈雪"
-      ],
+      "participants": [],
       "event_time": "1778109140000",
       "source": {
         "source_type": "chat",
@@ -747,9 +1396,9 @@
         "missing_required_fields": [],
         "rejection_reasons": [],
         "unsupported_parts": [],
-        "verifier_reason": ""
+        "verifier_reason": "The claim '网络依赖项已修复。' is directly supported by the evidence_quote from the core entry, which is an exact match. No context is needed."
       },
-      "status": "网络依赖项已修复",
+      "status": "已修复",
       "target": "网络依赖项",
       "programmatic_validation": {
         "verdict": "ready_for_verification",
@@ -763,28 +1412,20 @@
       "task_id": "task:FEISHU-666",
       "source_scope": "chat:oc_ba31dd2af9ace4d46985b0f11750c043",
       "processing_status": "pending_verification",
-      "verification_job_id": "verify_ce292fcf04676f5e",
-      "verified_at": "2026-05-07T03:04:59.686Z"
+      "verification_job_id": "verify_23da045fa163dfbd",
+      "verified_at": "2026-05-07T03:13:08.979Z"
     },
     {
-      "event_id": "evt_f6b374c095179905",
+      "event_id": "evt_f2100c777643c270",
       "task_ref": "FEISHU-666",
       "source_session_id": "task:FEISHU-666::chat:oc_ba31dd2af9ace4d46985b0f11750c043",
-      "ingest_version": 2,
+      "ingest_version": 3,
       "event_type": "status_event",
-      "claim": "存储依赖无阻塞",
-      "core_entry_id": "om_x100b5088e4f8b0a4c2b99fe76c4dd03",
-      "evidence_quote": "存储依赖无阻塞",
-      "context_quotes": [
-        {
-          "entry_id": "om_x100b5088e4eb7ca0c21728b71257073",
-          "quote": "网络依赖项已修复。",
-          "role": "disambiguation"
-        }
-      ],
-      "participants": [
-        "王源"
-      ],
+      "claim": "上游依赖已确认。",
+      "core_entry_id": "om_x100b5088e4f2d130c42a35df9ff9428",
+      "evidence_quote": "上游依赖已确认。",
+      "context_quotes": [],
+      "participants": [],
       "event_time": "1778109140000",
       "source": {
         "source_type": "chat",
@@ -803,15 +1444,15 @@
         "required_fields_complete": true,
         "no_unsupported_inference": true,
         "verdict": "verified",
-        "resolved_core_entry_id": "om_x100b5088e4f8b0a4c2b99fe76c4dd03",
+        "resolved_core_entry_id": "om_x100b5088e4f2d130c42a35df9ff9428",
         "quote_match_type": "exact",
         "missing_required_fields": [],
         "rejection_reasons": [],
         "unsupported_parts": [],
-        "verifier_reason": ""
+        "verifier_reason": "The claim '上游依赖已确认。' is directly supported by the evidence_quote from the core entry, which is an exact match. No additional context is needed."
       },
-      "status": "存储依赖无阻塞",
-      "target": "存储依赖",
+      "status": "已确认",
+      "target": "上游依赖",
       "programmatic_validation": {
         "verdict": "ready_for_verification",
         "evidence_quote_in_core": true,
@@ -820,47 +1461,189 @@
         "missing_required_fields": [],
         "rejection_reasons": []
       },
-      "ingest_id": "task:FEISHU-666::chat:oc_ba31dd2af9ace4d46985b0f11750c043::2",
+      "ingest_id": "task:FEISHU-666::chat:oc_ba31dd2af9ace4d46985b0f11750c043::3",
       "task_id": "task:FEISHU-666",
       "source_scope": "chat:oc_ba31dd2af9ace4d46985b0f11750c043",
       "processing_status": "pending_verification",
-      "verification_job_id": "verify_9468c46a4b012771",
-      "verified_at": "2026-05-07T03:04:59.687Z"
+      "verification_job_id": "verify_12c8887181d260ba",
+      "verified_at": "2026-05-07T03:13:10.280Z"
     },
     {
-      "event_id": "evt_10a005b4def388f5",
+      "event_id": "evt_82c7f93d80cb1886",
+      "task_ref": "FEISHU-666",
+      "source_session_id": "task:FEISHU-666::chat:oc_ac5a33c314d20661373939b37672396d",
+      "ingest_version": 2,
+      "event_type": "time_event",
+      "claim": "升级时间能提前吗？我周末家里有事。",
+      "core_entry_id": "om_x100b5088e4080ca8c3a345e3382e68b",
+      "evidence_quote": "升级时间能提前吗？我周末家里有事。",
+      "context_quotes": [],
+      "participants": [],
+      "event_time": "1778109140000",
+      "source": {
+        "source_type": "thread",
+        "source_id": "thread:risk_review_thread",
+        "chat_id": "oc_ac5a33c314d20661373939b37672396d",
+        "thread_id": "om_x100b5088e4080ca8c3a345e3382e68b",
+        "root_id": "om_x100b5088e4080ca8c3a345e3382e68b",
+        "locator": "thread:risk_review_thread"
+      },
+      "confidence": 0.72,
+      "verification": {
+        "core_quote_found": true,
+        "claim_supported_by_quote": true,
+        "context_only_generation": false,
+        "single_atomic_claim": true,
+        "required_fields_complete": true,
+        "no_unsupported_inference": true,
+        "verdict": "verified",
+        "resolved_core_entry_id": "om_x100b5088e4080ca8c3a345e3382e68b",
+        "quote_match_type": "exact",
+        "missing_required_fields": [],
+        "rejection_reasons": [],
+        "unsupported_parts": [
+          "certainty"
+        ],
+        "verifier_reason": "The evidence_quote exactly matches the core entry text, and the claim is directly supported by the quote without requiring context."
+      },
+      "time_target": "升级时间",
+      "time_value": "提前",
+      "certainty": "request",
+      "programmatic_validation": {
+        "verdict": "ready_for_verification",
+        "evidence_quote_in_core": true,
+        "required_fields_complete": true,
+        "single_atomic_claim": true,
+        "missing_required_fields": [],
+        "rejection_reasons": []
+      },
+      "ingest_id": "task:FEISHU-666::chat:oc_ac5a33c314d20661373939b37672396d::2",
+      "task_id": "task:FEISHU-666",
+      "source_scope": "chat:oc_ac5a33c314d20661373939b37672396d",
+      "processing_status": "pending_verification",
+      "verification_job_id": "verify_0584bc4d46827bd5",
+      "verified_at": "2026-05-07T03:09:02.839Z"
+    },
+    {
+      "event_id": "evt_fc93f42aa951ca16",
+      "task_ref": "FEISHU-666",
+      "source_session_id": "task:FEISHU-666::chat:oc_ac5a33c314d20661373939b37672396d",
+      "ingest_version": 2,
+      "event_type": "objection_event",
+      "claim": "升级时间能提前吗？我周末家里有事。",
+      "core_entry_id": "om_x100b5088e4080ca8c3a345e3382e68b",
+      "evidence_quote": "我周末家里有事。",
+      "context_quotes": [],
+      "participants": [],
+      "event_time": "1778109140000",
+      "source": {
+        "source_type": "thread",
+        "source_id": "thread:risk_review_thread",
+        "chat_id": "oc_ac5a33c314d20661373939b37672396d",
+        "thread_id": "om_x100b5088e4080ca8c3a345e3382e68b",
+        "root_id": "om_x100b5088e4080ca8c3a345e3382e68b",
+        "locator": "thread:risk_review_thread"
+      },
+      "confidence": 0.72,
+      "verification": {
+        "core_quote_found": true,
+        "claim_supported_by_quote": true,
+        "context_only_generation": false,
+        "single_atomic_claim": true,
+        "required_fields_complete": true,
+        "no_unsupported_inference": true,
+        "verdict": "verified",
+        "resolved_core_entry_id": "om_x100b5088e4080ca8c3a345e3382e68b",
+        "quote_match_type": "exact",
+        "missing_required_fields": [],
+        "rejection_reasons": [],
+        "unsupported_parts": [
+          "objector"
+        ],
+        "verifier_reason": "The evidence_quote '我周末家里有事。' is exactly present in the core entry text, directly supporting the claim that the user has a personal conflict on the weekend, which constitutes an objection to the upgrade time."
+      },
+      "objection": "周末家里有事",
+      "objector": "何然",
+      "target": "升级时间",
+      "programmatic_validation": {
+        "verdict": "ready_for_verification",
+        "evidence_quote_in_core": true,
+        "required_fields_complete": true,
+        "single_atomic_claim": true,
+        "missing_required_fields": [],
+        "rejection_reasons": []
+      },
+      "ingest_id": "task:FEISHU-666::chat:oc_ac5a33c314d20661373939b37672396d::2",
+      "task_id": "task:FEISHU-666",
+      "source_scope": "chat:oc_ac5a33c314d20661373939b37672396d",
+      "processing_status": "pending_verification",
+      "verification_job_id": "verify_944768ba15e7ba82",
+      "verified_at": "2026-05-07T03:09:04.372Z"
+    },
+    {
+      "event_id": "evt_8039c0c46eb22393",
+      "task_ref": "FEISHU-666",
+      "source_session_id": "task:FEISHU-666::chat:oc_ac5a33c314d20661373939b37672396d",
+      "ingest_version": 3,
+      "event_type": "constraint_event",
+      "claim": "窗口不可调整，家庭承诺不在任务考量内。",
+      "core_entry_id": "om_x100b5088e41c30a4c3867767d6d7ce3",
+      "evidence_quote": "窗口不可调整，家庭承诺不在任务考量内。",
+      "context_quotes": [],
+      "participants": [],
+      "event_time": "1778109140000",
+      "source": {
+        "source_type": "thread",
+        "source_id": "thread:risk_review_thread",
+        "chat_id": "oc_ac5a33c314d20661373939b37672396d",
+        "thread_id": "om_x100b5088e41c30a4c3867767d6d7ce3",
+        "root_id": "om_x100b5088e41c30a4c3867767d6d7ce3",
+        "locator": "thread:risk_review_thread"
+      },
+      "confidence": 0.72,
+      "verification": {
+        "core_quote_found": true,
+        "claim_supported_by_quote": true,
+        "context_only_generation": false,
+        "single_atomic_claim": true,
+        "required_fields_complete": true,
+        "no_unsupported_inference": true,
+        "verdict": "verified",
+        "resolved_core_entry_id": "om_x100b5088e41c30a4c3867767d6d7ce3",
+        "quote_match_type": "exact",
+        "missing_required_fields": [],
+        "rejection_reasons": [],
+        "unsupported_parts": [],
+        "verifier_reason": "The claim '窗口不可调整，家庭承诺不在任务考量内。' is directly supported by the evidence_quote from the core entry, which is an exact match. The context entry from 何然 asking about upgrading time provides background but is not needed for verification. The claim is atomic and fully supported."
+      },
+      "constraint": "窗口不可调整",
+      "target": "升级时间",
+      "programmatic_validation": {
+        "verdict": "ready_for_verification",
+        "evidence_quote_in_core": true,
+        "required_fields_complete": true,
+        "single_atomic_claim": true,
+        "missing_required_fields": [],
+        "rejection_reasons": []
+      },
+      "ingest_id": "task:FEISHU-666::chat:oc_ac5a33c314d20661373939b37672396d::3",
+      "task_id": "task:FEISHU-666",
+      "source_scope": "chat:oc_ac5a33c314d20661373939b37672396d",
+      "processing_status": "pending_verification",
+      "verification_job_id": "verify_94f5492a37ad4dd7",
+      "verified_at": "2026-05-07T03:09:05.997Z"
+    },
+    {
+      "event_id": "evt_ceec897d372c4df4",
       "task_ref": "FEISHU-666",
       "source_session_id": "task:FEISHU-666::chat:oc_ac5a33c314d20661373939b37672396d",
       "ingest_version": 5,
-      "event_type": "objection_event",
-      "claim": "我个人认为夜间变更风险更高，但这是个人观点",
+      "event_type": "rationale_event",
+      "claim": "我个人认为夜间变更风险更高",
       "core_entry_id": "om_x100b5088e425e4a0c31256b128d3c21",
-      "evidence_quote": "我个人认为夜间变更风险更高，但这是个人观点",
-      "context_quotes": [
-        {
-          "entry_id": "om_x100b5088e62c80a0c219ad11485476c",
-          "quote": "风险复核线程：以下回复承载该 source session 的真实 benchmark 消息。",
-          "role": "disambiguation"
-        },
-        {
-          "entry_id": "om_x100b5088e4080ca8c3a345e3382e68b",
-          "quote": "升级时间能提前吗？我周末家里有事。",
-          "role": "disambiguation"
-        },
-        {
-          "entry_id": "om_x100b5088e41c30a4c3867767d6d7ce3",
-          "quote": "窗口不可调整，家庭承诺不在任务考量内。",
-          "role": "disambiguation"
-        },
-        {
-          "entry_id": "om_x100b5088e41178a4c383ae51c9f169e",
-          "quote": "理解，我协调好家庭时间。",
-          "role": "disambiguation"
-        }
-      ],
-      "participants": [
-        "沈嘉"
-      ],
+      "evidence_quote": "我个人认为夜间变更风险更高",
+      "context_quotes": [],
+      "participants": [],
       "event_time": "1778109140000",
       "source": {
         "source_type": "thread",
@@ -884,11 +1667,9 @@
         "missing_required_fields": [],
         "rejection_reasons": [],
         "unsupported_parts": [],
-        "verifier_reason": ""
+        "verifier_reason": "The claim '我个人认为夜间变更风险更高' is directly supported by the evidence_quote from the core entry, which is an exact match. No context is needed."
       },
-      "objection": "我个人认为夜间变更风险更高，但这是个人观点",
-      "target": "风险",
-      "objector": "我个人",
+      "reason": "夜间变更风险更高",
       "programmatic_validation": {
         "verdict": "ready_for_verification",
         "evidence_quote_in_core": true,
@@ -901,43 +1682,73 @@
       "task_id": "task:FEISHU-666",
       "source_scope": "chat:oc_ac5a33c314d20661373939b37672396d",
       "processing_status": "pending_verification",
-      "verification_job_id": "verify_6b4d3d78352288ea",
-      "verified_at": "2026-05-07T03:04:59.515Z"
+      "verification_job_id": "verify_5663f85becec3743",
+      "verified_at": "2026-05-07T03:09:09.406Z"
     },
     {
-      "event_id": "evt_ba01338dfe7a4a32",
+      "event_id": "evt_571231e130d5bb70",
+      "task_ref": "FEISHU-666",
+      "source_session_id": "task:FEISHU-666::chat:oc_ac5a33c314d20661373939b37672396d",
+      "ingest_version": 6,
+      "event_type": "conclusion_event",
+      "claim": "评估已做，我尊重纪要结论。",
+      "core_entry_id": "om_x100b5088e439a8a0c21f1cc63203bd9",
+      "evidence_quote": "不过评估已做，我尊重纪要结论。",
+      "context_quotes": [],
+      "participants": [],
+      "event_time": "1778109140000",
+      "source": {
+        "source_type": "thread",
+        "source_id": "thread:risk_review_thread",
+        "chat_id": "oc_ac5a33c314d20661373939b37672396d",
+        "thread_id": "om_x100b5088e439a8a0c21f1cc63203bd9",
+        "root_id": "om_x100b5088e439a8a0c21f1cc63203bd9",
+        "locator": "thread:risk_review_thread"
+      },
+      "confidence": 0.72,
+      "verification": {
+        "core_quote_found": true,
+        "claim_supported_by_quote": true,
+        "context_only_generation": false,
+        "single_atomic_claim": true,
+        "required_fields_complete": true,
+        "no_unsupported_inference": true,
+        "verdict": "verified",
+        "resolved_core_entry_id": "om_x100b5088e439a8a0c21f1cc63203bd9",
+        "quote_match_type": "exact",
+        "missing_required_fields": [],
+        "rejection_reasons": [],
+        "unsupported_parts": [],
+        "verifier_reason": "The claim '评估已做，我尊重纪要结论' is directly supported by the evidence_quote from the core entry. No context is needed."
+      },
+      "conclusion": "尊重纪要结论",
+      "target": "纪要结论",
+      "programmatic_validation": {
+        "verdict": "ready_for_verification",
+        "evidence_quote_in_core": true,
+        "required_fields_complete": true,
+        "single_atomic_claim": true,
+        "missing_required_fields": [],
+        "rejection_reasons": []
+      },
+      "ingest_id": "task:FEISHU-666::chat:oc_ac5a33c314d20661373939b37672396d::6",
+      "task_id": "task:FEISHU-666",
+      "source_scope": "chat:oc_ac5a33c314d20661373939b37672396d",
+      "processing_status": "pending_verification",
+      "verification_job_id": "verify_435ecd1e4ee34448",
+      "verified_at": "2026-05-07T03:09:10.767Z"
+    },
+    {
+      "event_id": "evt_f784c7d1d6853452",
       "task_ref": "FEISHU-666",
       "source_session_id": "task:FEISHU-666::chat:oc_ac5a33c314d20661373939b37672396d",
       "ingest_version": 7,
       "event_type": "conclusion_event",
-      "claim": "风险评估已完成，纪要结论是夜间窗口可行",
+      "claim": "风险评估已完成，纪要结论是夜间窗口可行。",
       "core_entry_id": "om_x100b5088e5cd44a0c104f53547a03ea",
-      "evidence_quote": "风险评估已完成，纪要结论是夜间窗口可行",
-      "context_quotes": [
-        {
-          "entry_id": "om_x100b5088e41c30a4c3867767d6d7ce3",
-          "quote": "窗口不可调整，家庭承诺不在任务考量内。",
-          "role": "disambiguation"
-        },
-        {
-          "entry_id": "om_x100b5088e41178a4c383ae51c9f169e",
-          "quote": "理解，我协调好家庭时间。",
-          "role": "disambiguation"
-        },
-        {
-          "entry_id": "om_x100b5088e425e4a0c31256b128d3c21",
-          "quote": "我个人认为夜间变更风险更高，但这是个人观点。",
-          "role": "disambiguation"
-        },
-        {
-          "entry_id": "om_x100b5088e439a8a0c21f1cc63203bd9",
-          "quote": "不过评估已做，我尊重纪要结论。",
-          "role": "disambiguation"
-        }
-      ],
-      "participants": [
-        "林晨"
-      ],
+      "evidence_quote": "风险评估已完成，纪要结论是夜间窗口可行。",
+      "context_quotes": [],
+      "participants": [],
       "event_time": "1778109140000",
       "source": {
         "source_type": "thread",
@@ -961,9 +1772,9 @@
         "missing_required_fields": [],
         "rejection_reasons": [],
         "unsupported_parts": [],
-        "verifier_reason": ""
+        "verifier_reason": "The claim is directly supported by the evidence_quote in the core entry, which states '风险评估已完成，纪要结论是夜间窗口可行。' No additional context is needed."
       },
-      "conclusion": "风险评估已完成，纪要结论是夜间窗口可行",
+      "conclusion": "夜间窗口可行",
       "target": "夜间窗口",
       "programmatic_validation": {
         "verdict": "ready_for_verification",
@@ -977,50 +1788,27 @@
       "task_id": "task:FEISHU-666",
       "source_scope": "chat:oc_ac5a33c314d20661373939b37672396d",
       "processing_status": "pending_verification",
-      "verification_job_id": "verify_f3338e31fe5b3b2b",
-      "verified_at": "2026-05-07T03:04:59.515Z"
+      "verification_job_id": "verify_73d05fd83e9b84bb",
+      "verified_at": "2026-05-07T03:09:12.310Z"
     },
     {
-      "event_id": "evt_1baf7067a47d0518",
+      "event_id": "evt_2fb5c8fd57bfa1b4",
       "task_ref": "FEISHU-666",
       "source_session_id": "task:FEISHU-666::chat:oc_ac5a33c314d20661373939b37672396d",
-      "ingest_version": 7,
-      "event_type": "status_event",
-      "claim": "风险评估已完成，纪要结论是夜间窗口可行",
-      "core_entry_id": "om_x100b5088e5cd44a0c104f53547a03ea",
-      "evidence_quote": "风险评估已完成，纪要结论是夜间窗口可行",
-      "context_quotes": [
-        {
-          "entry_id": "om_x100b5088e41c30a4c3867767d6d7ce3",
-          "quote": "窗口不可调整，家庭承诺不在任务考量内。",
-          "role": "disambiguation"
-        },
-        {
-          "entry_id": "om_x100b5088e41178a4c383ae51c9f169e",
-          "quote": "理解，我协调好家庭时间。",
-          "role": "disambiguation"
-        },
-        {
-          "entry_id": "om_x100b5088e425e4a0c31256b128d3c21",
-          "quote": "我个人认为夜间变更风险更高，但这是个人观点。",
-          "role": "disambiguation"
-        },
-        {
-          "entry_id": "om_x100b5088e439a8a0c21f1cc63203bd9",
-          "quote": "不过评估已做，我尊重纪要结论。",
-          "role": "disambiguation"
-        }
-      ],
-      "participants": [
-        "林晨"
-      ],
+      "ingest_version": 8,
+      "event_type": "conclusion_event",
+      "claim": "法律合规方面无额外限制，可按时升级。",
+      "core_entry_id": "om_x100b5088e5c618a0c3c2f9b2af153d8",
+      "evidence_quote": "法律合规方面无额外限制，可按时升级。",
+      "context_quotes": [],
+      "participants": [],
       "event_time": "1778109140000",
       "source": {
         "source_type": "thread",
         "source_id": "thread:risk_review_thread",
         "chat_id": "oc_ac5a33c314d20661373939b37672396d",
-        "thread_id": "om_x100b5088e5cd44a0c104f53547a03ea",
-        "root_id": "om_x100b5088e5cd44a0c104f53547a03ea",
+        "thread_id": "om_x100b5088e5c618a0c3c2f9b2af153d8",
+        "root_id": "om_x100b5088e5c618a0c3c2f9b2af153d8",
         "locator": "thread:risk_review_thread"
       },
       "confidence": 0.72,
@@ -1032,15 +1820,17 @@
         "required_fields_complete": true,
         "no_unsupported_inference": true,
         "verdict": "verified",
-        "resolved_core_entry_id": "om_x100b5088e5cd44a0c104f53547a03ea",
+        "resolved_core_entry_id": "om_x100b5088e5c618a0c3c2f9b2af153d8",
         "quote_match_type": "exact",
         "missing_required_fields": [],
         "rejection_reasons": [],
-        "unsupported_parts": [],
-        "verifier_reason": ""
+        "unsupported_parts": [
+          "target"
+        ],
+        "verifier_reason": "The claim is directly supported by the evidence quote from the core entry, which states '法律合规方面无额外限制，可按时升级。' No additional context is needed."
       },
-      "status": "风险评估已完成，纪要结论是夜间窗口可行",
-      "target": "夜间窗口",
+      "conclusion": "可按时升级",
+      "target": "FEISHU-666 升级",
       "programmatic_validation": {
         "verdict": "ready_for_verification",
         "evidence_quote_in_core": true,
@@ -1049,47 +1839,185 @@
         "missing_required_fields": [],
         "rejection_reasons": []
       },
-      "ingest_id": "task:FEISHU-666::chat:oc_ac5a33c314d20661373939b37672396d::7",
+      "ingest_id": "task:FEISHU-666::chat:oc_ac5a33c314d20661373939b37672396d::8",
       "task_id": "task:FEISHU-666",
       "source_scope": "chat:oc_ac5a33c314d20661373939b37672396d",
       "processing_status": "pending_verification",
-      "verification_job_id": "verify_537af066a991a910",
-      "verified_at": "2026-05-07T03:04:59.516Z"
+      "verification_job_id": "verify_768dd4eb49791a16",
+      "verified_at": "2026-05-07T03:09:13.881Z"
     },
     {
-      "event_id": "evt_4a40a74a069eef0b",
+      "event_id": "evt_f9b7672d7658e55d",
+      "task_ref": "FEISHU-666",
+      "source_session_id": "task:FEISHU-666::chat:oc_ac5a33c314d20661373939b37672396d",
+      "ingest_version": 9,
+      "event_type": "conclusion_event",
+      "claim": "建议将个人背景备注从纪要中分离，避免混淆。",
+      "core_entry_id": "om_x100b5088e5d53ca0c1036919fe1d396",
+      "evidence_quote": "建议将个人背景备注从纪要中分离，避免混淆。",
+      "context_quotes": [],
+      "participants": [],
+      "event_time": "1778109140000",
+      "source": {
+        "source_type": "thread",
+        "source_id": "thread:risk_review_thread",
+        "chat_id": "oc_ac5a33c314d20661373939b37672396d",
+        "thread_id": "om_x100b5088e5d53ca0c1036919fe1d396",
+        "root_id": "om_x100b5088e5d53ca0c1036919fe1d396",
+        "locator": "thread:risk_review_thread"
+      },
+      "confidence": 0.72,
+      "verification": {
+        "core_quote_found": true,
+        "claim_supported_by_quote": true,
+        "context_only_generation": false,
+        "single_atomic_claim": true,
+        "required_fields_complete": true,
+        "no_unsupported_inference": true,
+        "verdict": "verified",
+        "resolved_core_entry_id": "om_x100b5088e5d53ca0c1036919fe1d396",
+        "quote_match_type": "exact",
+        "missing_required_fields": [],
+        "rejection_reasons": [],
+        "unsupported_parts": [],
+        "verifier_reason": "The candidate event's claim is directly supported by the evidence_quote from the core entry, which is an exact match. No context is needed."
+      },
+      "conclusion": "将个人背景备注从纪要中分离",
+      "target": "纪要",
+      "programmatic_validation": {
+        "verdict": "ready_for_verification",
+        "evidence_quote_in_core": true,
+        "required_fields_complete": true,
+        "single_atomic_claim": true,
+        "missing_required_fields": [],
+        "rejection_reasons": []
+      },
+      "ingest_id": "task:FEISHU-666::chat:oc_ac5a33c314d20661373939b37672396d::9",
+      "task_id": "task:FEISHU-666",
+      "source_scope": "chat:oc_ac5a33c314d20661373939b37672396d",
+      "processing_status": "pending_verification",
+      "verification_job_id": "verify_706b69222ad07ba7",
+      "verified_at": "2026-05-07T03:09:15.415Z"
+    },
+    {
+      "event_id": "evt_1af75c26594cf4a4",
+      "task_ref": "FEISHU-666",
+      "source_session_id": "task:FEISHU-666::chat:oc_ac5a33c314d20661373939b37672396d",
+      "ingest_version": 10,
+      "event_type": "status_event",
+      "claim": "存储侧备用方案已就绪。",
+      "core_entry_id": "om_x100b5088e5ee5ca8c113dd2094df301",
+      "evidence_quote": "存储侧备用方案已就绪。",
+      "context_quotes": [],
+      "participants": [],
+      "event_time": "1778109140000",
+      "source": {
+        "source_type": "thread",
+        "source_id": "thread:risk_review_thread",
+        "chat_id": "oc_ac5a33c314d20661373939b37672396d",
+        "thread_id": "om_x100b5088e5ee5ca8c113dd2094df301",
+        "root_id": "om_x100b5088e5ee5ca8c113dd2094df301",
+        "locator": "thread:risk_review_thread"
+      },
+      "confidence": 0.72,
+      "verification": {
+        "core_quote_found": true,
+        "claim_supported_by_quote": true,
+        "context_only_generation": false,
+        "single_atomic_claim": true,
+        "required_fields_complete": true,
+        "no_unsupported_inference": true,
+        "verdict": "verified",
+        "resolved_core_entry_id": "om_x100b5088e5ee5ca8c113dd2094df301",
+        "quote_match_type": "exact",
+        "missing_required_fields": [],
+        "rejection_reasons": [],
+        "unsupported_parts": [],
+        "verifier_reason": "The claim '存储侧备用方案已就绪。' is directly supported by the evidence_quote from the core entry, which is an exact match. No additional context is needed."
+      },
+      "status": "就绪",
+      "target": "存储侧备用方案",
+      "programmatic_validation": {
+        "verdict": "ready_for_verification",
+        "evidence_quote_in_core": true,
+        "required_fields_complete": true,
+        "single_atomic_claim": true,
+        "missing_required_fields": [],
+        "rejection_reasons": []
+      },
+      "ingest_id": "task:FEISHU-666::chat:oc_ac5a33c314d20661373939b37672396d::10",
+      "task_id": "task:FEISHU-666",
+      "source_scope": "chat:oc_ac5a33c314d20661373939b37672396d",
+      "processing_status": "pending_verification",
+      "verification_job_id": "verify_4668a46c77f963dc",
+      "verified_at": "2026-05-07T03:09:17.077Z"
+    },
+    {
+      "event_id": "evt_2cf826c8a357396e",
+      "task_ref": "FEISHU-666",
+      "source_session_id": "task:FEISHU-666::chat:oc_ac5a33c314d20661373939b37672396d",
+      "ingest_version": 11,
+      "event_type": "conclusion_event",
+      "claim": "架构侧无额外风险。",
+      "core_entry_id": "om_x100b5088e5e2f0a4c3fcb9cb3765389",
+      "evidence_quote": "架构侧无额外风险。",
+      "context_quotes": [],
+      "participants": [],
+      "event_time": "1778109140000",
+      "source": {
+        "source_type": "thread",
+        "source_id": "thread:risk_review_thread",
+        "chat_id": "oc_ac5a33c314d20661373939b37672396d",
+        "thread_id": "om_x100b5088e5e2f0a4c3fcb9cb3765389",
+        "root_id": "om_x100b5088e5e2f0a4c3fcb9cb3765389",
+        "locator": "thread:risk_review_thread"
+      },
+      "confidence": 0.72,
+      "verification": {
+        "core_quote_found": true,
+        "claim_supported_by_quote": true,
+        "context_only_generation": false,
+        "single_atomic_claim": true,
+        "required_fields_complete": true,
+        "no_unsupported_inference": true,
+        "verdict": "verified",
+        "resolved_core_entry_id": "om_x100b5088e5e2f0a4c3fcb9cb3765389",
+        "quote_match_type": "exact",
+        "missing_required_fields": [],
+        "rejection_reasons": [],
+        "unsupported_parts": [
+          "target"
+        ],
+        "verifier_reason": "The claim '架构侧无额外风险。' is directly supported by the evidence_quote from the core entry, which is an exact match. No context is needed."
+      },
+      "conclusion": "架构侧无额外风险",
+      "target": "FEISHU-666 交接修正线程",
+      "programmatic_validation": {
+        "verdict": "ready_for_verification",
+        "evidence_quote_in_core": true,
+        "required_fields_complete": true,
+        "single_atomic_claim": true,
+        "missing_required_fields": [],
+        "rejection_reasons": []
+      },
+      "ingest_id": "task:FEISHU-666::chat:oc_ac5a33c314d20661373939b37672396d::11",
+      "task_id": "task:FEISHU-666",
+      "source_scope": "chat:oc_ac5a33c314d20661373939b37672396d",
+      "processing_status": "pending_verification",
+      "verification_job_id": "verify_c046844f59f47681",
+      "verified_at": "2026-05-07T03:09:18.571Z"
+    },
+    {
+      "event_id": "evt_8432639dd704e5ca",
       "task_ref": "FEISHU-666",
       "source_session_id": "task:FEISHU-666::chat:oc_ac5a33c314d20661373939b37672396d",
       "ingest_version": 12,
       "event_type": "status_event",
-      "claim": "风险登记表已更新",
+      "claim": "风险登记表已更新。",
       "core_entry_id": "om_x100b5088e5f6a0a0c37399c4ad6855d",
-      "evidence_quote": "风险登记表已更新",
-      "context_quotes": [
-        {
-          "entry_id": "om_x100b5088e5c618a0c3c2f9b2af153d8",
-          "quote": "法律合规方面无额外限制，可按时升级。",
-          "role": "disambiguation"
-        },
-        {
-          "entry_id": "om_x100b5088e5d53ca0c1036919fe1d396",
-          "quote": "建议将个人背景备注从纪要中分离，避免混淆。",
-          "role": "disambiguation"
-        },
-        {
-          "entry_id": "om_x100b5088e5ee5ca8c113dd2094df301",
-          "quote": "存储侧备用方案已就绪。",
-          "role": "disambiguation"
-        },
-        {
-          "entry_id": "om_x100b5088e5e2f0a4c3fcb9cb3765389",
-          "quote": "架构侧无额外风险。",
-          "role": "disambiguation"
-        }
-      ],
-      "participants": [
-        "许薇"
-      ],
+      "evidence_quote": "风险登记表已更新。",
+      "context_quotes": [],
+      "participants": [],
       "event_time": "1778109140000",
       "source": {
         "source_type": "thread",
@@ -1112,11 +2040,13 @@
         "quote_match_type": "exact",
         "missing_required_fields": [],
         "rejection_reasons": [],
-        "unsupported_parts": [],
-        "verifier_reason": ""
+        "unsupported_parts": [
+          "status"
+        ],
+        "verifier_reason": "The claim '风险登记表已更新。' is directly supported by the evidence quote from the core entry, which is an exact match. No context is needed."
       },
-      "status": "风险登记表已更新",
-      "target": "风险",
+      "status": "updated",
+      "target": "风险登记表",
       "programmatic_validation": {
         "verdict": "ready_for_verification",
         "evidence_quote_in_core": true,
@@ -1129,22 +2059,20 @@
       "task_id": "task:FEISHU-666",
       "source_scope": "chat:oc_ac5a33c314d20661373939b37672396d",
       "processing_status": "pending_verification",
-      "verification_job_id": "verify_7beef3305376441b",
-      "verified_at": "2026-05-07T03:04:59.517Z"
+      "verification_job_id": "verify_11d1e49c60bc0508",
+      "verified_at": "2026-05-07T03:09:19.924Z"
     },
     {
-      "event_id": "evt_0d8c4963e922bc76",
+      "event_id": "evt_027f8ea2a265d690",
       "task_ref": "FEISHU-666",
       "source_session_id": "task:FEISHU-666::chat:oc_77fa9b1b12c2e4ce9cd5ef67b44b04b4",
       "ingest_version": 1,
       "event_type": "status_event",
-      "claim": "QA测试环境已准备",
+      "claim": "QA测试环境已准备。",
       "core_entry_id": "om_x100b5088e73ae0a0c4f1a2cff4619af",
-      "evidence_quote": "QA测试环境已准备",
+      "evidence_quote": "QA测试环境已准备。",
       "context_quotes": [],
-      "participants": [
-        "秦怡"
-      ],
+      "participants": [],
       "event_time": "1778109140000",
       "source": {
         "source_type": "chat",
@@ -1167,10 +2095,12 @@
         "quote_match_type": "exact",
         "missing_required_fields": [],
         "rejection_reasons": [],
-        "unsupported_parts": [],
-        "verifier_reason": ""
+        "unsupported_parts": [
+          "status"
+        ],
+        "verifier_reason": "The evidence_quote exactly matches the core entry text, and the claim is directly supported by the quote without requiring additional context."
       },
-      "status": "QA测试环境已准备",
+      "status": "ready",
       "target": "QA测试环境",
       "programmatic_validation": {
         "verdict": "ready_for_verification",
@@ -1184,22 +2114,126 @@
       "task_id": "task:FEISHU-666",
       "source_scope": "chat:oc_77fa9b1b12c2e4ce9cd5ef67b44b04b4",
       "processing_status": "pending_verification",
-      "verification_job_id": "verify_86c8ac10030f8e49",
-      "verified_at": "2026-05-07T03:04:59.666Z"
+      "verification_job_id": "verify_22cdb841a491d3a3",
+      "verified_at": "2026-05-07T03:12:53.841Z"
     },
     {
-      "event_id": "evt_17bd761bef86b917",
+      "event_id": "evt_e7525d23bfe48057",
+      "task_ref": "FEISHU-666",
+      "source_session_id": "task:FEISHU-666::chat:oc_77fa9b1b12c2e4ce9cd5ef67b44b04b4",
+      "ingest_version": 2,
+      "event_type": "status_event",
+      "claim": "冒烟测试通过。",
+      "core_entry_id": "om_x100b5088e4cfa534c31aa6112a50235",
+      "evidence_quote": "冒烟测试通过。",
+      "context_quotes": [],
+      "participants": [],
+      "event_time": "1778109140000",
+      "source": {
+        "source_type": "chat",
+        "source_id": "chat:qa_triage_chat",
+        "chat_id": "oc_77fa9b1b12c2e4ce9cd5ef67b44b04b4",
+        "thread_id": null,
+        "root_id": null,
+        "locator": "chat:qa_triage_chat"
+      },
+      "confidence": 0.72,
+      "verification": {
+        "core_quote_found": true,
+        "claim_supported_by_quote": true,
+        "context_only_generation": false,
+        "single_atomic_claim": true,
+        "required_fields_complete": true,
+        "no_unsupported_inference": true,
+        "verdict": "verified",
+        "resolved_core_entry_id": "om_x100b5088e4cfa534c31aa6112a50235",
+        "quote_match_type": "exact",
+        "missing_required_fields": [],
+        "rejection_reasons": [],
+        "unsupported_parts": [],
+        "verifier_reason": "The claim '冒烟测试通过。' is directly supported by the evidence_quote from the core entry, which is an exact match. No context is needed."
+      },
+      "status": "通过",
+      "target": "冒烟测试",
+      "programmatic_validation": {
+        "verdict": "ready_for_verification",
+        "evidence_quote_in_core": true,
+        "required_fields_complete": true,
+        "single_atomic_claim": true,
+        "missing_required_fields": [],
+        "rejection_reasons": []
+      },
+      "ingest_id": "task:FEISHU-666::chat:oc_77fa9b1b12c2e4ce9cd5ef67b44b04b4::2",
+      "task_id": "task:FEISHU-666",
+      "source_scope": "chat:oc_77fa9b1b12c2e4ce9cd5ef67b44b04b4",
+      "processing_status": "pending_verification",
+      "verification_job_id": "verify_9e5f782f356db72f",
+      "verified_at": "2026-05-07T03:12:55.176Z"
+    },
+    {
+      "event_id": "evt_2116670c2ab7affd",
+      "task_ref": "FEISHU-666",
+      "source_session_id": "task:FEISHU-666::chat:oc_77fa9b1b12c2e4ce9cd5ef67b44b04b4",
+      "ingest_version": 3,
+      "event_type": "status_event",
+      "claim": "回归测试通过。",
+      "core_entry_id": "om_x100b5088e4c380a4c35b87e8d77ff38",
+      "evidence_quote": "回归测试通过。",
+      "context_quotes": [],
+      "participants": [],
+      "event_time": "1778109140000",
+      "source": {
+        "source_type": "chat",
+        "source_id": "chat:qa_triage_chat",
+        "chat_id": "oc_77fa9b1b12c2e4ce9cd5ef67b44b04b4",
+        "thread_id": null,
+        "root_id": null,
+        "locator": "chat:qa_triage_chat"
+      },
+      "confidence": 0.72,
+      "verification": {
+        "core_quote_found": true,
+        "claim_supported_by_quote": true,
+        "context_only_generation": false,
+        "single_atomic_claim": true,
+        "required_fields_complete": true,
+        "no_unsupported_inference": true,
+        "verdict": "verified",
+        "resolved_core_entry_id": "om_x100b5088e4c380a4c35b87e8d77ff38",
+        "quote_match_type": "exact",
+        "missing_required_fields": [],
+        "rejection_reasons": [],
+        "unsupported_parts": [],
+        "verifier_reason": "The claim '回归测试通过。' is directly supported by the core entry with exact quote match. No context is needed."
+      },
+      "status": "通过",
+      "target": "回归测试",
+      "programmatic_validation": {
+        "verdict": "ready_for_verification",
+        "evidence_quote_in_core": true,
+        "required_fields_complete": true,
+        "single_atomic_claim": true,
+        "missing_required_fields": [],
+        "rejection_reasons": []
+      },
+      "ingest_id": "task:FEISHU-666::chat:oc_77fa9b1b12c2e4ce9cd5ef67b44b04b4::3",
+      "task_id": "task:FEISHU-666",
+      "source_scope": "chat:oc_77fa9b1b12c2e4ce9cd5ef67b44b04b4",
+      "processing_status": "pending_verification",
+      "verification_job_id": "verify_7265e556ece268ea",
+      "verified_at": "2026-05-07T03:12:56.820Z"
+    },
+    {
+      "event_id": "evt_24b7ef11b5668f8e",
       "task_ref": "FEISHU-666",
       "source_session_id": "task:FEISHU-666::chat:oc_226e89b2b3fd7612aea5fc7f187cb759",
       "ingest_version": 1,
       "event_type": "status_event",
-      "claim": "上线风险评审纪要已发，升级窗口5月10日22点UTC",
+      "claim": "上线风险评审纪要已发",
       "core_entry_id": "om_x100b5088e9b49ca0c3c717fc60f401e",
-      "evidence_quote": "上线风险评审纪要已发，升级窗口5月10日22点UTC",
+      "evidence_quote": "上线风险评审纪要已发",
       "context_quotes": [],
-      "participants": [
-        "林晨"
-      ],
+      "participants": [],
       "event_time": "1778109140000",
       "source": {
         "source_type": "chat",
@@ -1222,11 +2256,13 @@
         "quote_match_type": "exact",
         "missing_required_fields": [],
         "rejection_reasons": [],
-        "unsupported_parts": [],
-        "verifier_reason": ""
+        "unsupported_parts": [
+          "status"
+        ],
+        "verifier_reason": "The claim '上线风险评审纪要已发' is directly supported by the exact evidence quote from the core entry."
       },
-      "status": "上线风险评审纪要已发，升级窗口5月10日22点UTC",
-      "target": "升级窗口",
+      "status": "completed",
+      "target": "上线风险评审纪要",
       "programmatic_validation": {
         "verdict": "ready_for_verification",
         "evidence_quote_in_core": true,
@@ -1239,28 +2275,76 @@
       "task_id": "task:FEISHU-666",
       "source_scope": "chat:oc_226e89b2b3fd7612aea5fc7f187cb759",
       "processing_status": "pending_verification",
-      "verification_job_id": "verify_52bb0087b2223b10",
-      "verified_at": "2026-05-07T03:04:59.555Z"
+      "verification_job_id": "verify_6cc014fa085f67cf",
+      "verified_at": "2026-05-07T03:10:01.828Z"
     },
     {
-      "event_id": "evt_0d8249127c470565",
+      "event_id": "evt_883add3daab5b13a",
+      "task_ref": "FEISHU-666",
+      "source_session_id": "task:FEISHU-666::chat:oc_226e89b2b3fd7612aea5fc7f187cb759",
+      "ingest_version": 1,
+      "event_type": "time_event",
+      "claim": "升级窗口5月10日22点UTC",
+      "core_entry_id": "om_x100b5088e9b49ca0c3c717fc60f401e",
+      "evidence_quote": "升级窗口5月10日22点UTC",
+      "context_quotes": [],
+      "participants": [],
+      "event_time": "1778109140000",
+      "source": {
+        "source_type": "chat",
+        "source_id": "chat:main_chat",
+        "chat_id": "oc_226e89b2b3fd7612aea5fc7f187cb759",
+        "thread_id": null,
+        "root_id": null,
+        "locator": "chat:main_chat"
+      },
+      "confidence": 0.72,
+      "verification": {
+        "core_quote_found": true,
+        "claim_supported_by_quote": true,
+        "context_only_generation": false,
+        "single_atomic_claim": true,
+        "required_fields_complete": true,
+        "no_unsupported_inference": true,
+        "verdict": "verified",
+        "resolved_core_entry_id": "om_x100b5088e9b49ca0c3c717fc60f401e",
+        "quote_match_type": "exact",
+        "missing_required_fields": [],
+        "rejection_reasons": [],
+        "unsupported_parts": [
+          "certainty"
+        ],
+        "verifier_reason": "The evidence_quote '升级窗口5月10日22点UTC' exactly matches the core entry text, directly supporting the claim. No context needed."
+      },
+      "time_target": "升级窗口",
+      "time_value": "5月10日22点UTC",
+      "certainty": "confirmed",
+      "programmatic_validation": {
+        "verdict": "ready_for_verification",
+        "evidence_quote_in_core": true,
+        "required_fields_complete": true,
+        "single_atomic_claim": true,
+        "missing_required_fields": [],
+        "rejection_reasons": []
+      },
+      "ingest_id": "task:FEISHU-666::chat:oc_226e89b2b3fd7612aea5fc7f187cb759::1",
+      "task_id": "task:FEISHU-666",
+      "source_scope": "chat:oc_226e89b2b3fd7612aea5fc7f187cb759",
+      "processing_status": "pending_verification",
+      "verification_job_id": "verify_78df3595a336e8e8",
+      "verified_at": "2026-05-07T03:10:03.824Z"
+    },
+    {
+      "event_id": "evt_348243f38b4f40c1",
       "task_ref": "FEISHU-666",
       "source_session_id": "task:FEISHU-666::chat:oc_226e89b2b3fd7612aea5fc7f187cb759",
       "ingest_version": 2,
       "event_type": "status_event",
-      "claim": "blocker为network config drift，回滚计划已批",
+      "claim": "blocker为network config drift，回滚计划已批。",
       "core_entry_id": "om_x100b5088e949dca4c2d388cef31abb0",
-      "evidence_quote": "blocker为network config drift，回滚计划已批",
-      "context_quotes": [
-        {
-          "entry_id": "om_x100b5088e9b49ca0c3c717fc60f401e",
-          "quote": "上线风险评审纪要已发，升级窗口5月10日22点UTC。",
-          "role": "disambiguation"
-        }
-      ],
-      "participants": [
-        "林晨"
-      ],
+      "evidence_quote": "回滚计划已批",
+      "context_quotes": [],
+      "participants": [],
       "event_time": "1778109140000",
       "source": {
         "source_type": "chat",
@@ -1284,10 +2368,10 @@
         "missing_required_fields": [],
         "rejection_reasons": [],
         "unsupported_parts": [],
-        "verifier_reason": ""
+        "verifier_reason": "The claim 'blocker为network config drift，回滚计划已批' is directly supported by the core entry text 'blocker为network config drift，回滚计划已批。' and the evidence_quote '回滚计划已批' is an exact match. No context needed."
       },
-      "status": "blocker为network config drift，回滚计划已批",
-      "target": "blocker",
+      "status": "已批",
+      "target": "回滚计划",
       "programmatic_validation": {
         "verdict": "ready_for_verification",
         "evidence_quote_in_core": true,
@@ -1300,33 +2384,20 @@
       "task_id": "task:FEISHU-666",
       "source_scope": "chat:oc_226e89b2b3fd7612aea5fc7f187cb759",
       "processing_status": "pending_verification",
-      "verification_job_id": "verify_68d988e84ee6e9e8",
-      "verified_at": "2026-05-07T03:04:59.557Z"
+      "verification_job_id": "verify_cc423fb88069237b",
+      "verified_at": "2026-05-07T03:10:05.620Z"
     },
     {
-      "event_id": "evt_d28f59c89178f15c",
+      "event_id": "evt_2f695077a796845a",
       "task_ref": "FEISHU-666",
       "source_session_id": "task:FEISHU-666::chat:oc_226e89b2b3fd7612aea5fc7f187cb759",
       "ingest_version": 3,
       "event_type": "status_event",
-      "claim": "收到，我确认infra侧已对齐窗口",
+      "claim": "infra侧已对齐窗口",
       "core_entry_id": "om_x100b5088e942f0a0c2a4ea00cf388e0",
-      "evidence_quote": "收到，我确认infra侧已对齐窗口",
-      "context_quotes": [
-        {
-          "entry_id": "om_x100b5088e9b49ca0c3c717fc60f401e",
-          "quote": "上线风险评审纪要已发，升级窗口5月10日22点UTC。",
-          "role": "disambiguation"
-        },
-        {
-          "entry_id": "om_x100b5088e949dca4c2d388cef31abb0",
-          "quote": "blocker为network config drift，回滚计划已批。",
-          "role": "disambiguation"
-        }
-      ],
-      "participants": [
-        "周宇"
-      ],
+      "evidence_quote": "我确认infra侧已对齐窗口",
+      "context_quotes": [],
+      "participants": [],
       "event_time": "1778109140000",
       "source": {
         "source_type": "chat",
@@ -1349,11 +2420,14 @@
         "quote_match_type": "exact",
         "missing_required_fields": [],
         "rejection_reasons": [],
-        "unsupported_parts": [],
-        "verifier_reason": ""
+        "unsupported_parts": [
+          "status",
+          "target"
+        ],
+        "verifier_reason": "The claim 'infra侧已对齐窗口' is directly supported by the evidence_quote '我确认infra侧已对齐窗口' from the core entry. The context entries provide additional background about the upgrade window and blocker but are not needed for verification."
       },
-      "status": "收到，我确认infra侧已对齐窗口",
-      "target": "窗口",
+      "status": "aligned",
+      "target": "infra侧窗口",
       "programmatic_validation": {
         "verdict": "ready_for_verification",
         "evidence_quote_in_core": true,
@@ -1366,38 +2440,185 @@
       "task_id": "task:FEISHU-666",
       "source_scope": "chat:oc_226e89b2b3fd7612aea5fc7f187cb759",
       "processing_status": "pending_verification",
-      "verification_job_id": "verify_1917c66f6edd9f51",
-      "verified_at": "2026-05-07T03:04:59.557Z"
+      "verification_job_id": "verify_8ac414f796d6746e",
+      "verified_at": "2026-05-07T03:10:07.394Z"
     },
     {
-      "event_id": "evt_2c9359ccaea5495b",
+      "event_id": "evt_e22d5125fdd37f53",
+      "task_ref": "FEISHU-666",
+      "source_session_id": "task:FEISHU-666::chat:oc_226e89b2b3fd7612aea5fc7f187cb759",
+      "ingest_version": 4,
+      "event_type": "time_event",
+      "claim": "窗口能挪到周三前吗？我周四有个人面试。",
+      "core_entry_id": "om_x100b5088e9571530c3ccc93a7863317",
+      "evidence_quote": "窗口能挪到周三前吗？我周四有个人面试。",
+      "context_quotes": [],
+      "participants": [],
+      "event_time": "1778109140000",
+      "source": {
+        "source_type": "chat",
+        "source_id": "chat:main_chat",
+        "chat_id": "oc_226e89b2b3fd7612aea5fc7f187cb759",
+        "thread_id": null,
+        "root_id": null,
+        "locator": "chat:main_chat"
+      },
+      "confidence": 0.72,
+      "verification": {
+        "core_quote_found": true,
+        "claim_supported_by_quote": true,
+        "context_only_generation": false,
+        "single_atomic_claim": true,
+        "required_fields_complete": true,
+        "no_unsupported_inference": true,
+        "verdict": "verified",
+        "resolved_core_entry_id": "om_x100b5088e9571530c3ccc93a7863317",
+        "quote_match_type": "exact",
+        "missing_required_fields": [],
+        "rejection_reasons": [],
+        "unsupported_parts": [
+          "certainty"
+        ],
+        "verifier_reason": "核心条目中陈雪明确请求将窗口挪到周三前，并给出理由（周四有面试）。上下文条目中林晨提到升级窗口为5月10日22点UTC，但未指定星期几，不过陈雪的请求直接针对该窗口，且证据引用完整支撑了时间调整的请求。"
+      },
+      "time_target": "升级窗口",
+      "time_value": "周三前",
+      "certainty": "request",
+      "programmatic_validation": {
+        "verdict": "ready_for_verification",
+        "evidence_quote_in_core": true,
+        "required_fields_complete": true,
+        "single_atomic_claim": true,
+        "missing_required_fields": [],
+        "rejection_reasons": []
+      },
+      "ingest_id": "task:FEISHU-666::chat:oc_226e89b2b3fd7612aea5fc7f187cb759::4",
+      "task_id": "task:FEISHU-666",
+      "source_scope": "chat:oc_226e89b2b3fd7612aea5fc7f187cb759",
+      "processing_status": "pending_verification",
+      "verification_job_id": "verify_b00545cdb512c416",
+      "verified_at": "2026-05-07T03:10:09.829Z"
+    },
+    {
+      "event_id": "evt_f787a9cce9786fdf",
+      "task_ref": "FEISHU-666",
+      "source_session_id": "task:FEISHU-666::chat:oc_226e89b2b3fd7612aea5fc7f187cb759",
+      "ingest_version": 4,
+      "event_type": "objection_event",
+      "claim": "窗口能挪到周三前吗？我周四有个人面试。",
+      "core_entry_id": "om_x100b5088e9571530c3ccc93a7863317",
+      "evidence_quote": "我周四有个人面试。",
+      "context_quotes": [],
+      "participants": [],
+      "event_time": "1778109140000",
+      "source": {
+        "source_type": "chat",
+        "source_id": "chat:main_chat",
+        "chat_id": "oc_226e89b2b3fd7612aea5fc7f187cb759",
+        "thread_id": null,
+        "root_id": null,
+        "locator": "chat:main_chat"
+      },
+      "confidence": 0.72,
+      "verification": {
+        "core_quote_found": true,
+        "claim_supported_by_quote": true,
+        "context_only_generation": false,
+        "single_atomic_claim": true,
+        "required_fields_complete": true,
+        "no_unsupported_inference": true,
+        "verdict": "verified",
+        "resolved_core_entry_id": "om_x100b5088e9571530c3ccc93a7863317",
+        "quote_match_type": "exact",
+        "missing_required_fields": [],
+        "rejection_reasons": [],
+        "unsupported_parts": [
+          "objector"
+        ],
+        "verifier_reason": "The evidence_quote '我周四有个人面试。' directly supports the claim that the speaker has a personal interview on Thursday, which is the reason for requesting the window move to before Wednesday. The context confirms the window is on May 10, which is a Thursday, making the objection valid."
+      },
+      "objection": "个人面试",
+      "objector": "陈雪",
+      "target": "升级窗口",
+      "programmatic_validation": {
+        "verdict": "ready_for_verification",
+        "evidence_quote_in_core": true,
+        "required_fields_complete": true,
+        "single_atomic_claim": true,
+        "missing_required_fields": [],
+        "rejection_reasons": []
+      },
+      "ingest_id": "task:FEISHU-666::chat:oc_226e89b2b3fd7612aea5fc7f187cb759::4",
+      "task_id": "task:FEISHU-666",
+      "source_scope": "chat:oc_226e89b2b3fd7612aea5fc7f187cb759",
+      "processing_status": "pending_verification",
+      "verification_job_id": "verify_ba19207d2018f619",
+      "verified_at": "2026-05-07T03:10:11.744Z"
+    },
+    {
+      "event_id": "evt_c12b6b52513dc918",
+      "task_ref": "FEISHU-666",
+      "source_session_id": "task:FEISHU-666::chat:oc_226e89b2b3fd7612aea5fc7f187cb759",
+      "ingest_version": 5,
+      "event_type": "status_event",
+      "claim": "窗口正式确定，个人时间不调整。以纪要为准。",
+      "core_entry_id": "om_x100b5088e968b8a0c35a293dbbc1fbd",
+      "evidence_quote": "个人时间不调整",
+      "context_quotes": [],
+      "participants": [],
+      "event_time": "1778109140000",
+      "source": {
+        "source_type": "chat",
+        "source_id": "chat:main_chat",
+        "chat_id": "oc_226e89b2b3fd7612aea5fc7f187cb759",
+        "thread_id": null,
+        "root_id": null,
+        "locator": "chat:main_chat"
+      },
+      "confidence": 0.72,
+      "verification": {
+        "core_quote_found": true,
+        "claim_supported_by_quote": true,
+        "context_only_generation": false,
+        "single_atomic_claim": true,
+        "required_fields_complete": true,
+        "no_unsupported_inference": true,
+        "verdict": "verified",
+        "resolved_core_entry_id": "om_x100b5088e968b8a0c35a293dbbc1fbd",
+        "quote_match_type": "exact",
+        "missing_required_fields": [],
+        "rejection_reasons": [],
+        "unsupported_parts": [],
+        "verifier_reason": "The evidence_quote '个人时间不调整' is exactly present in the core entry, directly supporting the claim that personal time is not adjusted. No context is needed."
+      },
+      "status": "不调整",
+      "target": "个人时间",
+      "programmatic_validation": {
+        "verdict": "ready_for_verification",
+        "evidence_quote_in_core": true,
+        "required_fields_complete": true,
+        "single_atomic_claim": true,
+        "missing_required_fields": [],
+        "rejection_reasons": []
+      },
+      "ingest_id": "task:FEISHU-666::chat:oc_226e89b2b3fd7612aea5fc7f187cb759::5",
+      "task_id": "task:FEISHU-666",
+      "source_scope": "chat:oc_226e89b2b3fd7612aea5fc7f187cb759",
+      "processing_status": "pending_verification",
+      "verification_job_id": "verify_f4d1ec6b7f477c24",
+      "verified_at": "2026-05-07T03:10:15.595Z"
+    },
+    {
+      "event_id": "evt_071af385338082cd",
       "task_ref": "FEISHU-666",
       "source_session_id": "task:FEISHU-666::chat:oc_226e89b2b3fd7612aea5fc7f187cb759",
       "ingest_version": 6,
       "event_type": "commitment_event",
-      "claim": "明白，我会按窗口时间配合",
+      "claim": "陈雪承诺按窗口时间配合",
       "core_entry_id": "om_x100b5088e97d50a0c4d6191cfe25069",
-      "evidence_quote": "明白，我会按窗口时间配合",
-      "context_quotes": [
-        {
-          "entry_id": "om_x100b5088e942f0a0c2a4ea00cf388e0",
-          "quote": "收到，我确认infra侧已对齐窗口。",
-          "role": "disambiguation"
-        },
-        {
-          "entry_id": "om_x100b5088e9571530c3ccc93a7863317",
-          "quote": "窗口能挪到周三前吗？我周四有个人面试。",
-          "role": "disambiguation"
-        },
-        {
-          "entry_id": "om_x100b5088e968b8a0c35a293dbbc1fbd",
-          "quote": "窗口正式确定，个人时间不调整。以纪要为准。",
-          "role": "disambiguation"
-        }
-      ],
-      "participants": [
-        "陈雪"
-      ],
+      "evidence_quote": "明白，我会按窗口时间配合。",
+      "context_quotes": [],
+      "participants": [],
       "event_time": "1778109140000",
       "source": {
         "source_type": "chat",
@@ -1421,10 +2642,10 @@
         "missing_required_fields": [],
         "rejection_reasons": [],
         "unsupported_parts": [],
-        "verifier_reason": ""
+        "verifier_reason": "The evidence_quote '明白，我会按窗口时间配合。' from core_entry directly supports the claim that 陈雪承诺按窗口时间配合. The context shows that '窗口' refers to a previously discussed time window, and the quote is a clear commitment. No unsupported inference is made."
       },
       "owner": "陈雪",
-      "action": "明白，我会按窗口时间配合",
+      "action": "按窗口时间配合",
       "programmatic_validation": {
         "verdict": "ready_for_verification",
         "evidence_quote_in_core": true,
@@ -1437,38 +2658,76 @@
       "task_id": "task:FEISHU-666",
       "source_scope": "chat:oc_226e89b2b3fd7612aea5fc7f187cb759",
       "processing_status": "pending_verification",
-      "verification_job_id": "verify_597ba31fc59abf8a",
-      "verified_at": "2026-05-07T03:04:59.559Z"
+      "verification_job_id": "verify_6307884a2b17eba3",
+      "verified_at": "2026-05-07T03:10:17.850Z"
     },
     {
-      "event_id": "evt_9d3b6eedca4f29dd",
+      "event_id": "evt_337c0bd09e04f6ec",
+      "task_ref": "FEISHU-666",
+      "source_session_id": "task:FEISHU-666::chat:oc_226e89b2b3fd7612aea5fc7f187cb759",
+      "ingest_version": 7,
+      "event_type": "objection_event",
+      "claim": "网络配置漂移是blocker，升级会不会延迟？",
+      "core_entry_id": "om_x100b5088e97628a4c31efc041cb5d18",
+      "evidence_quote": "网络配置漂移是blocker，升级会不会延迟？",
+      "context_quotes": [],
+      "participants": [],
+      "event_time": "1778109140000",
+      "source": {
+        "source_type": "chat",
+        "source_id": "chat:main_chat",
+        "chat_id": "oc_226e89b2b3fd7612aea5fc7f187cb759",
+        "thread_id": null,
+        "root_id": null,
+        "locator": "chat:main_chat"
+      },
+      "confidence": 0.72,
+      "verification": {
+        "core_quote_found": true,
+        "claim_supported_by_quote": true,
+        "context_only_generation": false,
+        "single_atomic_claim": true,
+        "required_fields_complete": true,
+        "no_unsupported_inference": true,
+        "verdict": "verified",
+        "resolved_core_entry_id": "om_x100b5088e97628a4c31efc041cb5d18",
+        "quote_match_type": "exact",
+        "missing_required_fields": [],
+        "rejection_reasons": [],
+        "unsupported_parts": [
+          "objector"
+        ],
+        "verifier_reason": "The claim '网络配置漂移是blocker，升级会不会延迟？' is directly supported by the evidence_quote from the core entry, which is an exact match. The context entries do not contradict or alter the claim. The event is a valid objection_event with all required fields present."
+      },
+      "objection": "网络配置漂移是blocker",
+      "objector": "秦怡",
+      "target": "升级",
+      "programmatic_validation": {
+        "verdict": "ready_for_verification",
+        "evidence_quote_in_core": true,
+        "required_fields_complete": true,
+        "single_atomic_claim": true,
+        "missing_required_fields": [],
+        "rejection_reasons": []
+      },
+      "ingest_id": "task:FEISHU-666::chat:oc_226e89b2b3fd7612aea5fc7f187cb759::7",
+      "task_id": "task:FEISHU-666",
+      "source_scope": "chat:oc_226e89b2b3fd7612aea5fc7f187cb759",
+      "processing_status": "pending_verification",
+      "verification_job_id": "verify_e3884da6fbecfd4f",
+      "verified_at": "2026-05-07T03:10:19.700Z"
+    },
+    {
+      "event_id": "evt_2ab5c4e25be9d091",
       "task_ref": "FEISHU-666",
       "source_session_id": "task:FEISHU-666::chat:oc_226e89b2b3fd7612aea5fc7f187cb759",
       "ingest_version": 8,
       "event_type": "status_event",
-      "claim": "blocker正在解决，回滚已批准，窗口不变",
+      "claim": "blocker正在解决",
       "core_entry_id": "om_x100b5088e90ad4a4c228b3d264dfc12",
-      "evidence_quote": "blocker正在解决，回滚已批准，窗口不变",
-      "context_quotes": [
-        {
-          "entry_id": "om_x100b5088e968b8a0c35a293dbbc1fbd",
-          "quote": "窗口正式确定，个人时间不调整。以纪要为准。",
-          "role": "disambiguation"
-        },
-        {
-          "entry_id": "om_x100b5088e97d50a0c4d6191cfe25069",
-          "quote": "明白，我会按窗口时间配合。",
-          "role": "disambiguation"
-        },
-        {
-          "entry_id": "om_x100b5088e97628a4c31efc041cb5d18",
-          "quote": "网络配置漂移是blocker，升级会不会延迟？",
-          "role": "disambiguation"
-        }
-      ],
-      "participants": [
-        "周宇"
-      ],
+      "evidence_quote": "blocker正在解决",
+      "context_quotes": [],
+      "participants": [],
       "event_time": "1778109140000",
       "source": {
         "source_type": "chat",
@@ -1492,9 +2751,9 @@
         "missing_required_fields": [],
         "rejection_reasons": [],
         "unsupported_parts": [],
-        "verifier_reason": ""
+        "verifier_reason": "The claim 'blocker正在解决' is directly supported by the exact evidence quote from the core entry. No context is needed."
       },
-      "status": "blocker正在解决，回滚已批准，窗口不变",
+      "status": "正在解决",
       "target": "blocker",
       "programmatic_validation": {
         "verdict": "ready_for_verification",
@@ -1508,38 +2767,131 @@
       "task_id": "task:FEISHU-666",
       "source_scope": "chat:oc_226e89b2b3fd7612aea5fc7f187cb759",
       "processing_status": "pending_verification",
-      "verification_job_id": "verify_b1b1b6f41e7655a9",
-      "verified_at": "2026-05-07T03:04:59.560Z"
+      "verification_job_id": "verify_a7b06a0f74d18fc3",
+      "verified_at": "2026-05-07T03:10:21.182Z"
     },
     {
-      "event_id": "evt_42bd6cb23bf0d6e0",
+      "event_id": "evt_7416ae5ed155e3b2",
+      "task_ref": "FEISHU-666",
+      "source_session_id": "task:FEISHU-666::chat:oc_226e89b2b3fd7612aea5fc7f187cb759",
+      "ingest_version": 8,
+      "event_type": "commitment_event",
+      "claim": "回滚已批准",
+      "core_entry_id": "om_x100b5088e90ad4a4c228b3d264dfc12",
+      "evidence_quote": "回滚已批准",
+      "context_quotes": [],
+      "participants": [],
+      "event_time": "1778109140000",
+      "source": {
+        "source_type": "chat",
+        "source_id": "chat:main_chat",
+        "chat_id": "oc_226e89b2b3fd7612aea5fc7f187cb759",
+        "thread_id": null,
+        "root_id": null,
+        "locator": "chat:main_chat"
+      },
+      "confidence": 0.72,
+      "verification": {
+        "core_quote_found": true,
+        "claim_supported_by_quote": true,
+        "context_only_generation": false,
+        "single_atomic_claim": true,
+        "required_fields_complete": true,
+        "no_unsupported_inference": true,
+        "verdict": "verified",
+        "resolved_core_entry_id": "om_x100b5088e90ad4a4c228b3d264dfc12",
+        "quote_match_type": "exact",
+        "missing_required_fields": [],
+        "rejection_reasons": [],
+        "unsupported_parts": [
+          "owner"
+        ],
+        "verifier_reason": "The claim '回滚已批准' is directly supported by the evidence_quote in the core entry from 周宇. No context is needed."
+      },
+      "owner": "周宇",
+      "action": "回滚已批准",
+      "programmatic_validation": {
+        "verdict": "ready_for_verification",
+        "evidence_quote_in_core": true,
+        "required_fields_complete": true,
+        "single_atomic_claim": true,
+        "missing_required_fields": [],
+        "rejection_reasons": []
+      },
+      "ingest_id": "task:FEISHU-666::chat:oc_226e89b2b3fd7612aea5fc7f187cb759::8",
+      "task_id": "task:FEISHU-666",
+      "source_scope": "chat:oc_226e89b2b3fd7612aea5fc7f187cb759",
+      "processing_status": "pending_verification",
+      "verification_job_id": "verify_9a76d81da332facb",
+      "verified_at": "2026-05-07T03:10:22.468Z"
+    },
+    {
+      "event_id": "evt_afd2d9ec07f8b314",
+      "task_ref": "FEISHU-666",
+      "source_session_id": "task:FEISHU-666::chat:oc_226e89b2b3fd7612aea5fc7f187cb759",
+      "ingest_version": 8,
+      "event_type": "time_event",
+      "claim": "窗口不变",
+      "core_entry_id": "om_x100b5088e90ad4a4c228b3d264dfc12",
+      "evidence_quote": "窗口不变",
+      "context_quotes": [],
+      "participants": [],
+      "event_time": "1778109140000",
+      "source": {
+        "source_type": "chat",
+        "source_id": "chat:main_chat",
+        "chat_id": "oc_226e89b2b3fd7612aea5fc7f187cb759",
+        "thread_id": null,
+        "root_id": null,
+        "locator": "chat:main_chat"
+      },
+      "confidence": 0.72,
+      "verification": {
+        "core_quote_found": true,
+        "claim_supported_by_quote": true,
+        "context_only_generation": false,
+        "single_atomic_claim": true,
+        "required_fields_complete": true,
+        "no_unsupported_inference": true,
+        "verdict": "verified",
+        "resolved_core_entry_id": "om_x100b5088e90ad4a4c228b3d264dfc12",
+        "quote_match_type": "exact",
+        "missing_required_fields": [],
+        "rejection_reasons": [],
+        "unsupported_parts": [
+          "certainty"
+        ],
+        "verifier_reason": "核心条目中明确提到'窗口不变'，与candidate_event的claim和evidence_quote完全匹配，且上下文无矛盾。"
+      },
+      "time_target": "窗口",
+      "time_value": "不变",
+      "certainty": "确定",
+      "programmatic_validation": {
+        "verdict": "ready_for_verification",
+        "evidence_quote_in_core": true,
+        "required_fields_complete": true,
+        "single_atomic_claim": true,
+        "missing_required_fields": [],
+        "rejection_reasons": []
+      },
+      "ingest_id": "task:FEISHU-666::chat:oc_226e89b2b3fd7612aea5fc7f187cb759::8",
+      "task_id": "task:FEISHU-666",
+      "source_scope": "chat:oc_226e89b2b3fd7612aea5fc7f187cb759",
+      "processing_status": "pending_verification",
+      "verification_job_id": "verify_6b3cbb257ad7da3a",
+      "verified_at": "2026-05-07T03:10:23.934Z"
+    },
+    {
+      "event_id": "evt_f5e47135b8731604",
       "task_ref": "FEISHU-666",
       "source_session_id": "task:FEISHU-666::chat:oc_226e89b2b3fd7612aea5fc7f187cb759",
       "ingest_version": 9,
       "event_type": "status_event",
-      "claim": "监控侧已根据窗口时间做好准备",
+      "claim": "监控侧已根据窗口时间做好准备。",
       "core_entry_id": "om_x100b5088e91c5ca0c141a2978a13ddd",
-      "evidence_quote": "监控侧已根据窗口时间做好准备",
-      "context_quotes": [
-        {
-          "entry_id": "om_x100b5088e97d50a0c4d6191cfe25069",
-          "quote": "明白，我会按窗口时间配合。",
-          "role": "disambiguation"
-        },
-        {
-          "entry_id": "om_x100b5088e97628a4c31efc041cb5d18",
-          "quote": "网络配置漂移是blocker，升级会不会延迟？",
-          "role": "disambiguation"
-        },
-        {
-          "entry_id": "om_x100b5088e90ad4a4c228b3d264dfc12",
-          "quote": "blocker正在解决，回滚已批准，窗口不变。",
-          "role": "disambiguation"
-        }
-      ],
-      "participants": [
-        "唐越"
-      ],
+      "evidence_quote": "监控侧已根据窗口时间做好准备。",
+      "context_quotes": [],
+      "participants": [],
       "event_time": "1778109140000",
       "source": {
         "source_type": "chat",
@@ -1562,11 +2914,13 @@
         "quote_match_type": "exact",
         "missing_required_fields": [],
         "rejection_reasons": [],
-        "unsupported_parts": [],
-        "verifier_reason": ""
+        "unsupported_parts": [
+          "status"
+        ],
+        "verifier_reason": "The claim '监控侧已根据窗口时间做好准备。' is directly supported by the evidence_quote from the core entry, which is an exact match. The context entries confirm the existence of a window time and that other parties are coordinating, but the claim itself is fully supported by the core entry alone."
       },
-      "status": "监控侧已根据窗口时间做好准备",
-      "target": "窗口",
+      "status": "ready",
+      "target": "监控侧",
       "programmatic_validation": {
         "verdict": "ready_for_verification",
         "evidence_quote_in_core": true,
@@ -1579,38 +2933,132 @@
       "task_id": "task:FEISHU-666",
       "source_scope": "chat:oc_226e89b2b3fd7612aea5fc7f187cb759",
       "processing_status": "pending_verification",
-      "verification_job_id": "verify_f324919af66c6570",
-      "verified_at": "2026-05-07T03:04:59.560Z"
+      "verification_job_id": "verify_4c29d2a6037dc3f9",
+      "verified_at": "2026-05-07T03:10:26.082Z"
     },
     {
-      "event_id": "evt_69798fb9da593f5d",
+      "event_id": "evt_bafd8deae95fd59c",
+      "task_ref": "FEISHU-666",
+      "source_session_id": "task:FEISHU-666::chat:oc_226e89b2b3fd7612aea5fc7f187cb759",
+      "ingest_version": 10,
+      "event_type": "time_event",
+      "claim": "CI/CD pipeline已配置为5月10日22点触发。",
+      "core_entry_id": "om_x100b5088e91094a0c4e594225b29ec2",
+      "evidence_quote": "CI/CD pipeline已配置为5月10日22点触发。",
+      "context_quotes": [],
+      "participants": [],
+      "event_time": "1778109140000",
+      "source": {
+        "source_type": "chat",
+        "source_id": "chat:main_chat",
+        "chat_id": "oc_226e89b2b3fd7612aea5fc7f187cb759",
+        "thread_id": null,
+        "root_id": null,
+        "locator": "chat:main_chat"
+      },
+      "confidence": 0.72,
+      "verification": {
+        "core_quote_found": true,
+        "claim_supported_by_quote": true,
+        "context_only_generation": false,
+        "single_atomic_claim": true,
+        "required_fields_complete": true,
+        "no_unsupported_inference": true,
+        "verdict": "verified",
+        "resolved_core_entry_id": "om_x100b5088e91094a0c4e594225b29ec2",
+        "quote_match_type": "exact",
+        "missing_required_fields": [],
+        "rejection_reasons": [],
+        "unsupported_parts": [
+          "time_target",
+          "certainty"
+        ],
+        "verifier_reason": "The candidate event's claim is directly supported by the evidence_quote from the core entry, which states 'CI/CD pipeline已配置为5月10日22点触发。' This is an exact match, and the context entries do not contradict or alter the claim. All required fields are present, and the claim is atomic and supported."
+      },
+      "time_target": "CI/CD pipeline触发",
+      "time_value": "5月10日22点",
+      "certainty": "confirmed",
+      "programmatic_validation": {
+        "verdict": "ready_for_verification",
+        "evidence_quote_in_core": true,
+        "required_fields_complete": true,
+        "single_atomic_claim": true,
+        "missing_required_fields": [],
+        "rejection_reasons": []
+      },
+      "ingest_id": "task:FEISHU-666::chat:oc_226e89b2b3fd7612aea5fc7f187cb759::10",
+      "task_id": "task:FEISHU-666",
+      "source_scope": "chat:oc_226e89b2b3fd7612aea5fc7f187cb759",
+      "processing_status": "pending_verification",
+      "verification_job_id": "verify_5e1bfc275ff12e93",
+      "verified_at": "2026-05-07T03:10:28.037Z"
+    },
+    {
+      "event_id": "evt_179adb4941ff004b",
+      "task_ref": "FEISHU-666",
+      "source_session_id": "task:FEISHU-666::chat:oc_226e89b2b3fd7612aea5fc7f187cb759",
+      "ingest_version": 11,
+      "event_type": "status_event",
+      "claim": "网络配置漂移修复方案已提交，正在评审。",
+      "core_entry_id": "om_x100b5088e927b4a0c14f02c9a72e408",
+      "evidence_quote": "网络配置漂移修复方案已提交，正在评审。",
+      "context_quotes": [],
+      "participants": [],
+      "event_time": "1778109140000",
+      "source": {
+        "source_type": "chat",
+        "source_id": "chat:main_chat",
+        "chat_id": "oc_226e89b2b3fd7612aea5fc7f187cb759",
+        "thread_id": null,
+        "root_id": null,
+        "locator": "chat:main_chat"
+      },
+      "confidence": 0.72,
+      "verification": {
+        "core_quote_found": true,
+        "claim_supported_by_quote": true,
+        "context_only_generation": false,
+        "single_atomic_claim": true,
+        "required_fields_complete": true,
+        "no_unsupported_inference": true,
+        "verdict": "verified",
+        "resolved_core_entry_id": "om_x100b5088e927b4a0c14f02c9a72e408",
+        "quote_match_type": "exact",
+        "missing_required_fields": [],
+        "rejection_reasons": [],
+        "unsupported_parts": [
+          "status"
+        ],
+        "verifier_reason": "The claim is directly supported by the evidence_quote from the core entry, which states '网络配置漂移修复方案已提交，正在评审。' This is an exact match, and no context is needed. The event type 'status_event' with status '评审中' is consistent with the claim."
+      },
+      "status": "评审中",
+      "target": "网络配置漂移修复方案",
+      "programmatic_validation": {
+        "verdict": "ready_for_verification",
+        "evidence_quote_in_core": true,
+        "required_fields_complete": true,
+        "single_atomic_claim": true,
+        "missing_required_fields": [],
+        "rejection_reasons": []
+      },
+      "ingest_id": "task:FEISHU-666::chat:oc_226e89b2b3fd7612aea5fc7f187cb759::11",
+      "task_id": "task:FEISHU-666",
+      "source_scope": "chat:oc_226e89b2b3fd7612aea5fc7f187cb759",
+      "processing_status": "pending_verification",
+      "verification_job_id": "verify_41331e1600c44ef0",
+      "verified_at": "2026-05-07T03:10:29.803Z"
+    },
+    {
+      "event_id": "evt_80799169f6357cbf",
       "task_ref": "FEISHU-666",
       "source_session_id": "task:FEISHU-666::chat:oc_226e89b2b3fd7612aea5fc7f187cb759",
       "ingest_version": 12,
       "event_type": "status_event",
-      "claim": "存储侧已就绪，等待窗口",
+      "claim": "存储侧已就绪，等待窗口。",
       "core_entry_id": "om_x100b5088e93b8ca8c32e954c7e9af1d",
-      "evidence_quote": "存储侧已就绪，等待窗口",
-      "context_quotes": [
-        {
-          "entry_id": "om_x100b5088e91c5ca0c141a2978a13ddd",
-          "quote": "监控侧已根据窗口时间做好准备。",
-          "role": "disambiguation"
-        },
-        {
-          "entry_id": "om_x100b5088e91094a0c4e594225b29ec2",
-          "quote": "CI/CD pipeline已配置为5月10日22点触发。",
-          "role": "disambiguation"
-        },
-        {
-          "entry_id": "om_x100b5088e927b4a0c14f02c9a72e408",
-          "quote": "网络配置漂移修复方案已提交，正在评审。",
-          "role": "disambiguation"
-        }
-      ],
-      "participants": [
-        "王源"
-      ],
+      "evidence_quote": "存储侧已就绪，等待窗口。",
+      "context_quotes": [],
+      "participants": [],
       "event_time": "1778109140000",
       "source": {
         "source_type": "chat",
@@ -1634,10 +3082,10 @@
         "missing_required_fields": [],
         "rejection_reasons": [],
         "unsupported_parts": [],
-        "verifier_reason": ""
+        "verifier_reason": "The claim '存储侧已就绪，等待窗口。' is directly supported by the evidence_quote from the core entry, which is an exact match. No context is needed."
       },
-      "status": "存储侧已就绪，等待窗口",
-      "target": "窗口",
+      "status": "就绪",
+      "target": "存储侧",
       "programmatic_validation": {
         "verdict": "ready_for_verification",
         "evidence_quote_in_core": true,
@@ -1650,38 +3098,20 @@
       "task_id": "task:FEISHU-666",
       "source_scope": "chat:oc_226e89b2b3fd7612aea5fc7f187cb759",
       "processing_status": "pending_verification",
-      "verification_job_id": "verify_437ec6b304d647e3",
-      "verified_at": "2026-05-07T03:04:59.561Z"
+      "verification_job_id": "verify_32ea9a3f78a7e081",
+      "verified_at": "2026-05-07T03:10:31.102Z"
     },
     {
-      "event_id": "evt_c6ab63ecb39530f5",
+      "event_id": "evt_3603cfcf1e6f4f00",
       "task_ref": "FEISHU-666",
       "source_session_id": "task:FEISHU-666::chat:oc_226e89b2b3fd7612aea5fc7f187cb759",
       "ingest_version": 13,
       "event_type": "status_event",
-      "claim": "vendor侧已同步窗口，没有问题",
+      "claim": "vendor侧已同步窗口，没有问题。",
       "core_entry_id": "om_x100b5088e6cd3cb0c10de3a90887d4d",
-      "evidence_quote": "vendor侧已同步窗口，没有问题",
-      "context_quotes": [
-        {
-          "entry_id": "om_x100b5088e91094a0c4e594225b29ec2",
-          "quote": "CI/CD pipeline已配置为5月10日22点触发。",
-          "role": "disambiguation"
-        },
-        {
-          "entry_id": "om_x100b5088e927b4a0c14f02c9a72e408",
-          "quote": "网络配置漂移修复方案已提交，正在评审。",
-          "role": "disambiguation"
-        },
-        {
-          "entry_id": "om_x100b5088e93b8ca8c32e954c7e9af1d",
-          "quote": "存储侧已就绪，等待窗口。",
-          "role": "disambiguation"
-        }
-      ],
-      "participants": [
-        "罗天"
-      ],
+      "evidence_quote": "vendor侧已同步窗口，没有问题。",
+      "context_quotes": [],
+      "participants": [],
       "event_time": "1778109140000",
       "source": {
         "source_type": "chat",
@@ -1705,9 +3135,9 @@
         "missing_required_fields": [],
         "rejection_reasons": [],
         "unsupported_parts": [],
-        "verifier_reason": ""
+        "verifier_reason": "The claim 'vendor侧已同步窗口，没有问题。' is directly supported by the evidence_quote from the core entry, which is an exact match. No context is needed."
       },
-      "status": "vendor侧已同步窗口，没有问题",
+      "status": "已同步",
       "target": "窗口",
       "programmatic_validation": {
         "verdict": "ready_for_verification",
@@ -1721,38 +3151,73 @@
       "task_id": "task:FEISHU-666",
       "source_scope": "chat:oc_226e89b2b3fd7612aea5fc7f187cb759",
       "processing_status": "pending_verification",
-      "verification_job_id": "verify_39b6563b9f431890",
-      "verified_at": "2026-05-07T03:04:59.563Z"
+      "verification_job_id": "verify_393f7fdc77000bf6",
+      "verified_at": "2026-05-07T03:10:32.737Z"
     },
     {
-      "event_id": "evt_fd894872b347e66e",
+      "event_id": "evt_f247782dd6d22a5d",
+      "task_ref": "FEISHU-666",
+      "source_session_id": "task:FEISHU-666::chat:oc_226e89b2b3fd7612aea5fc7f187cb759",
+      "ingest_version": 14,
+      "event_type": "constraint_event",
+      "claim": "所有决策需基于官方纪要。",
+      "core_entry_id": "om_x100b5088e6c660a0c2e7bde53596934",
+      "evidence_quote": "外部审计提醒：所有决策需基于官方纪要。",
+      "context_quotes": [],
+      "participants": [],
+      "event_time": "1778109140000",
+      "source": {
+        "source_type": "chat",
+        "source_id": "chat:main_chat",
+        "chat_id": "oc_226e89b2b3fd7612aea5fc7f187cb759",
+        "thread_id": null,
+        "root_id": null,
+        "locator": "chat:main_chat"
+      },
+      "confidence": 0.72,
+      "verification": {
+        "core_quote_found": true,
+        "claim_supported_by_quote": true,
+        "context_only_generation": false,
+        "single_atomic_claim": true,
+        "required_fields_complete": true,
+        "no_unsupported_inference": true,
+        "verdict": "verified",
+        "resolved_core_entry_id": "om_x100b5088e6c660a0c2e7bde53596934",
+        "quote_match_type": "exact",
+        "missing_required_fields": [],
+        "rejection_reasons": [],
+        "unsupported_parts": [],
+        "verifier_reason": "The claim '所有决策需基于官方纪要' is directly supported by the evidence_quote from the core entry, which is an exact match. No context is needed."
+      },
+      "constraint": "所有决策需基于官方纪要",
+      "target": "网络配置漂移修复方案",
+      "programmatic_validation": {
+        "verdict": "ready_for_verification",
+        "evidence_quote_in_core": true,
+        "required_fields_complete": true,
+        "single_atomic_claim": true,
+        "missing_required_fields": [],
+        "rejection_reasons": []
+      },
+      "ingest_id": "task:FEISHU-666::chat:oc_226e89b2b3fd7612aea5fc7f187cb759::14",
+      "task_id": "task:FEISHU-666",
+      "source_scope": "chat:oc_226e89b2b3fd7612aea5fc7f187cb759",
+      "processing_status": "pending_verification",
+      "verification_job_id": "verify_a43b49f48a24d9f1",
+      "verified_at": "2026-05-07T03:10:34.000Z"
+    },
+    {
+      "event_id": "evt_6ee0781ea3fb5025",
       "task_ref": "FEISHU-666",
       "source_session_id": "task:FEISHU-666::chat:oc_226e89b2b3fd7612aea5fc7f187cb759",
       "ingest_version": 15,
       "event_type": "status_event",
-      "claim": "配置管理侧已锁定正式窗口",
+      "claim": "配置管理侧已锁定正式窗口。",
       "core_entry_id": "om_x100b5088e6da5ca0c2d839e4824f12b",
-      "evidence_quote": "配置管理侧已锁定正式窗口",
-      "context_quotes": [
-        {
-          "entry_id": "om_x100b5088e93b8ca8c32e954c7e9af1d",
-          "quote": "存储侧已就绪，等待窗口。",
-          "role": "disambiguation"
-        },
-        {
-          "entry_id": "om_x100b5088e6cd3cb0c10de3a90887d4d",
-          "quote": "vendor侧已同步窗口，没有问题。",
-          "role": "disambiguation"
-        },
-        {
-          "entry_id": "om_x100b5088e6c660a0c2e7bde53596934",
-          "quote": "外部审计提醒：所有决策需基于官方纪要。",
-          "role": "disambiguation"
-        }
-      ],
-      "participants": [
-        "沈嘉"
-      ],
+      "evidence_quote": "配置管理侧已锁定正式窗口。",
+      "context_quotes": [],
+      "participants": [],
       "event_time": "1778109140000",
       "source": {
         "source_type": "chat",
@@ -1776,10 +3241,10 @@
         "missing_required_fields": [],
         "rejection_reasons": [],
         "unsupported_parts": [],
-        "verifier_reason": ""
+        "verifier_reason": "The claim '配置管理侧已锁定正式窗口' is directly supported by the evidence_quote from the core entry, which is an exact match. No context is needed."
       },
-      "status": "配置管理侧已锁定正式窗口",
-      "target": "窗口",
+      "status": "已锁定",
+      "target": "正式窗口",
       "programmatic_validation": {
         "verdict": "ready_for_verification",
         "evidence_quote_in_core": true,
@@ -1792,38 +3257,20 @@
       "task_id": "task:FEISHU-666",
       "source_scope": "chat:oc_226e89b2b3fd7612aea5fc7f187cb759",
       "processing_status": "pending_verification",
-      "verification_job_id": "verify_996dfa645790f335",
-      "verified_at": "2026-05-07T03:04:59.563Z"
+      "verification_job_id": "verify_140822544598ea67",
+      "verified_at": "2026-05-07T03:10:35.270Z"
     },
     {
-      "event_id": "evt_940fa6d22116f041",
+      "event_id": "evt_f5309af8d594c56e",
       "task_ref": "FEISHU-666",
       "source_session_id": "task:FEISHU-666::chat:oc_226e89b2b3fd7612aea5fc7f187cb759",
       "ingest_version": 16,
       "event_type": "status_event",
-      "claim": "补丁基线已更新至窗口日期",
+      "claim": "补丁基线已更新至窗口日期。",
       "core_entry_id": "om_x100b5088e6ef58a0c3a3e6d0e720670",
-      "evidence_quote": "补丁基线已更新至窗口日期",
-      "context_quotes": [
-        {
-          "entry_id": "om_x100b5088e6cd3cb0c10de3a90887d4d",
-          "quote": "vendor侧已同步窗口，没有问题。",
-          "role": "disambiguation"
-        },
-        {
-          "entry_id": "om_x100b5088e6c660a0c2e7bde53596934",
-          "quote": "外部审计提醒：所有决策需基于官方纪要。",
-          "role": "disambiguation"
-        },
-        {
-          "entry_id": "om_x100b5088e6da5ca0c2d839e4824f12b",
-          "quote": "配置管理侧已锁定正式窗口。",
-          "role": "disambiguation"
-        }
-      ],
-      "participants": [
-        "梁昕"
-      ],
+      "evidence_quote": "补丁基线已更新至窗口日期。",
+      "context_quotes": [],
+      "participants": [],
       "event_time": "1778109140000",
       "source": {
         "source_type": "chat",
@@ -1847,10 +3294,10 @@
         "missing_required_fields": [],
         "rejection_reasons": [],
         "unsupported_parts": [],
-        "verifier_reason": ""
+        "verifier_reason": "The claim '补丁基线已更新至窗口日期。' is directly supported by the evidence_quote from the core entry, which is an exact match. No context is needed."
       },
-      "status": "补丁基线已更新至窗口日期",
-      "target": "窗口",
+      "status": "已更新",
+      "target": "补丁基线",
       "programmatic_validation": {
         "verdict": "ready_for_verification",
         "evidence_quote_in_core": true,
@@ -1863,38 +3310,76 @@
       "task_id": "task:FEISHU-666",
       "source_scope": "chat:oc_226e89b2b3fd7612aea5fc7f187cb759",
       "processing_status": "pending_verification",
-      "verification_job_id": "verify_50cade72f4a452cc",
-      "verified_at": "2026-05-07T03:04:59.564Z"
+      "verification_job_id": "verify_3bbcb91ae5d7b0c6",
+      "verified_at": "2026-05-07T03:10:36.911Z"
     },
     {
-      "event_id": "evt_fb9b336fd357d27d",
+      "event_id": "evt_adf987fec8526287",
+      "task_ref": "FEISHU-666",
+      "source_session_id": "task:FEISHU-666::chat:oc_226e89b2b3fd7612aea5fc7f187cb759",
+      "ingest_version": 17,
+      "event_type": "time_event",
+      "claim": "升级窗口5月10日22点UTC。",
+      "core_entry_id": "om_x100b5088e6e39cacc4c0a2e8475b8ac",
+      "evidence_quote": "升级窗口5月10日22点UTC。",
+      "context_quotes": [],
+      "participants": [],
+      "event_time": "1778109140000",
+      "source": {
+        "source_type": "chat",
+        "source_id": "chat:main_chat",
+        "chat_id": "oc_226e89b2b3fd7612aea5fc7f187cb759",
+        "thread_id": null,
+        "root_id": null,
+        "locator": "chat:main_chat"
+      },
+      "confidence": 0.72,
+      "verification": {
+        "core_quote_found": true,
+        "claim_supported_by_quote": true,
+        "context_only_generation": false,
+        "single_atomic_claim": true,
+        "required_fields_complete": true,
+        "no_unsupported_inference": true,
+        "verdict": "verified",
+        "resolved_core_entry_id": "om_x100b5088e6e39cacc4c0a2e8475b8ac",
+        "quote_match_type": "exact",
+        "missing_required_fields": [],
+        "rejection_reasons": [],
+        "unsupported_parts": [
+          "certainty"
+        ],
+        "verifier_reason": "The claim '升级窗口5月10日22点UTC' is directly supported by the evidence_quote from the core entry, which is an exact match. The context entries provide additional support but are not needed for verification."
+      },
+      "time_target": "升级窗口",
+      "time_value": "5月10日22点UTC",
+      "certainty": "confirmed",
+      "programmatic_validation": {
+        "verdict": "ready_for_verification",
+        "evidence_quote_in_core": true,
+        "required_fields_complete": true,
+        "single_atomic_claim": true,
+        "missing_required_fields": [],
+        "rejection_reasons": []
+      },
+      "ingest_id": "task:FEISHU-666::chat:oc_226e89b2b3fd7612aea5fc7f187cb759::17",
+      "task_id": "task:FEISHU-666",
+      "source_scope": "chat:oc_226e89b2b3fd7612aea5fc7f187cb759",
+      "processing_status": "pending_verification",
+      "verification_job_id": "verify_930eefcdeb0d9f62",
+      "verified_at": "2026-05-07T03:10:39.476Z"
+    },
+    {
+      "event_id": "evt_af788b2c7604db56",
       "task_ref": "FEISHU-666",
       "source_session_id": "task:FEISHU-666::chat:oc_226e89b2b3fd7612aea5fc7f187cb759",
       "ingest_version": 18,
       "event_type": "status_event",
-      "claim": "blocker network config drift，回滚计划已批",
+      "claim": "blocker network config drift，回滚计划已批。",
       "core_entry_id": "om_x100b5088e6f728a8c310c9b3def45a4",
-      "evidence_quote": "blocker network config drift，回滚计划已批",
-      "context_quotes": [
-        {
-          "entry_id": "om_x100b5088e6da5ca0c2d839e4824f12b",
-          "quote": "配置管理侧已锁定正式窗口。",
-          "role": "disambiguation"
-        },
-        {
-          "entry_id": "om_x100b5088e6ef58a0c3a3e6d0e720670",
-          "quote": "补丁基线已更新至窗口日期。",
-          "role": "disambiguation"
-        },
-        {
-          "entry_id": "om_x100b5088e6e39cacc4c0a2e8475b8ac",
-          "quote": "最终总结：升级窗口5月10日22点UTC。",
-          "role": "disambiguation"
-        }
-      ],
-      "participants": [
-        "林晨"
-      ],
+      "evidence_quote": "回滚计划已批",
+      "context_quotes": [],
+      "participants": [],
       "event_time": "1778109140000",
       "source": {
         "source_type": "chat",
@@ -1918,10 +3403,10 @@
         "missing_required_fields": [],
         "rejection_reasons": [],
         "unsupported_parts": [],
-        "verifier_reason": ""
+        "verifier_reason": "The evidence quote '回滚计划已批' exactly matches the core entry text, directly supporting the claim that the rollback plan has been approved."
       },
-      "status": "blocker network config drift，回滚计划已批",
-      "target": "blocker",
+      "status": "已批",
+      "target": "回滚计划",
       "programmatic_validation": {
         "verdict": "ready_for_verification",
         "evidence_quote_in_core": true,
@@ -1934,38 +3419,20 @@
       "task_id": "task:FEISHU-666",
       "source_scope": "chat:oc_226e89b2b3fd7612aea5fc7f187cb759",
       "processing_status": "pending_verification",
-      "verification_job_id": "verify_e8bdc0e9f71ccb1c",
-      "verified_at": "2026-05-07T03:04:59.566Z"
+      "verification_job_id": "verify_d8a10be02775c0f2",
+      "verified_at": "2026-05-07T03:10:41.110Z"
     },
     {
-      "event_id": "evt_be81444d32e36ded",
+      "event_id": "evt_c201a4f3191cd91f",
       "task_ref": "FEISHU-666",
       "source_session_id": "task:FEISHU-666::chat:oc_226e89b2b3fd7612aea5fc7f187cb759",
-      "ingest_version": 21,
-      "event_type": "commitment_event",
-      "claim": "好的，我会按时参与",
-      "core_entry_id": "om_x100b5088e6a50ca4c36e942bcb63211",
-      "evidence_quote": "好的，我会按时参与",
-      "context_quotes": [
-        {
-          "entry_id": "om_x100b5088e6f728a8c310c9b3def45a4",
-          "quote": "blocker network config drift，回滚计划已批。",
-          "role": "disambiguation"
-        },
-        {
-          "entry_id": "om_x100b5088e68bc8a8c2ac16538e606f6",
-          "quote": "个人偏好不影响任务，以纪要为准。",
-          "role": "disambiguation"
-        },
-        {
-          "entry_id": "om_x100b5088e696b8a8c4d74d31bb1f194",
-          "quote": "同意，按Alice说的执行。",
-          "role": "disambiguation"
-        }
-      ],
-      "participants": [
-        "陈雪"
-      ],
+      "ingest_version": 19,
+      "event_type": "objection_event",
+      "claim": "个人偏好不影响任务，以纪要为准。",
+      "core_entry_id": "om_x100b5088e68bc8a8c2ac16538e606f6",
+      "evidence_quote": "个人偏好不影响任务，以纪要为准。",
+      "context_quotes": [],
+      "participants": [],
       "event_time": "1778109140000",
       "source": {
         "source_type": "chat",
@@ -1984,15 +3451,18 @@
         "required_fields_complete": true,
         "no_unsupported_inference": true,
         "verdict": "verified",
-        "resolved_core_entry_id": "om_x100b5088e6a50ca4c36e942bcb63211",
+        "resolved_core_entry_id": "om_x100b5088e68bc8a8c2ac16538e606f6",
         "quote_match_type": "exact",
         "missing_required_fields": [],
         "rejection_reasons": [],
-        "unsupported_parts": [],
-        "verifier_reason": ""
+        "unsupported_parts": [
+          "objector"
+        ],
+        "verifier_reason": "The evidence_quote exactly matches the core entry text, directly supporting the claim that personal preferences do not affect the task and the minutes shall prevail."
       },
-      "owner": "陈雪",
-      "action": "好的，我会按时参与",
+      "objection": "个人偏好",
+      "objector": "林晨",
+      "target": "任务",
       "programmatic_validation": {
         "verdict": "ready_for_verification",
         "evidence_quote_in_core": true,
@@ -2001,37 +3471,349 @@
         "missing_required_fields": [],
         "rejection_reasons": []
       },
-      "ingest_id": "task:FEISHU-666::chat:oc_226e89b2b3fd7612aea5fc7f187cb759::21",
+      "ingest_id": "task:FEISHU-666::chat:oc_226e89b2b3fd7612aea5fc7f187cb759::19",
       "task_id": "task:FEISHU-666",
       "source_scope": "chat:oc_226e89b2b3fd7612aea5fc7f187cb759",
       "processing_status": "pending_verification",
-      "verification_job_id": "verify_3c3c834bdb22e9d3",
-      "verified_at": "2026-05-07T03:04:59.567Z"
+      "verification_job_id": "verify_95b5d60a2adf5dfb",
+      "verified_at": "2026-05-07T03:10:42.627Z"
     },
     {
-      "event_id": "evt_8971c6d05a56f207",
+      "event_id": "evt_e58dc3f2e715fef5",
+      "task_ref": "FEISHU-666",
+      "source_session_id": "task:FEISHU-666::chat:oc_226e89b2b3fd7612aea5fc7f187cb759",
+      "ingest_version": 23,
+      "event_type": "status_event",
+      "claim": "vendor已确认时间。",
+      "core_entry_id": "om_x100b5088e6b1b0a0c148d47cbba2316",
+      "evidence_quote": "vendor已确认时间。",
+      "context_quotes": [],
+      "participants": [],
+      "event_time": "1778109140000",
+      "source": {
+        "source_type": "chat",
+        "source_id": "chat:main_chat",
+        "chat_id": "oc_226e89b2b3fd7612aea5fc7f187cb759",
+        "thread_id": null,
+        "root_id": null,
+        "locator": "chat:main_chat"
+      },
+      "confidence": 0.72,
+      "verification": {
+        "core_quote_found": true,
+        "claim_supported_by_quote": true,
+        "context_only_generation": false,
+        "single_atomic_claim": true,
+        "required_fields_complete": true,
+        "no_unsupported_inference": true,
+        "verdict": "verified",
+        "resolved_core_entry_id": "om_x100b5088e6b1b0a0c148d47cbba2316",
+        "quote_match_type": "exact",
+        "missing_required_fields": [],
+        "rejection_reasons": [],
+        "unsupported_parts": [
+          "status",
+          "target"
+        ],
+        "verifier_reason": "The claim 'vendor已确认时间。' is directly supported by the evidence_quote from the core entry, which is an exact match. No context is needed."
+      },
+      "status": "confirmed",
+      "target": "vendor时间",
+      "programmatic_validation": {
+        "verdict": "ready_for_verification",
+        "evidence_quote_in_core": true,
+        "required_fields_complete": true,
+        "single_atomic_claim": true,
+        "missing_required_fields": [],
+        "rejection_reasons": []
+      },
+      "ingest_id": "task:FEISHU-666::chat:oc_226e89b2b3fd7612aea5fc7f187cb759::23",
+      "task_id": "task:FEISHU-666",
+      "source_scope": "chat:oc_226e89b2b3fd7612aea5fc7f187cb759",
+      "processing_status": "pending_verification",
+      "verification_job_id": "verify_f22b87c89c3aa032",
+      "verified_at": "2026-05-07T03:10:47.989Z"
+    },
+    {
+      "event_id": "evt_4cbfa71232ca9484",
+      "task_ref": "FEISHU-666",
+      "source_session_id": "task:FEISHU-666::chat:oc_226e89b2b3fd7612aea5fc7f187cb759",
+      "ingest_version": 24,
+      "event_type": "status_event",
+      "claim": "配置审计通过。",
+      "core_entry_id": "om_x100b5088e65d74a0c35994fce755cba",
+      "evidence_quote": "配置审计通过。",
+      "context_quotes": [],
+      "participants": [],
+      "event_time": "1778109140000",
+      "source": {
+        "source_type": "chat",
+        "source_id": "chat:main_chat",
+        "chat_id": "oc_226e89b2b3fd7612aea5fc7f187cb759",
+        "thread_id": null,
+        "root_id": null,
+        "locator": "chat:main_chat"
+      },
+      "confidence": 0.72,
+      "verification": {
+        "core_quote_found": true,
+        "claim_supported_by_quote": true,
+        "context_only_generation": false,
+        "single_atomic_claim": true,
+        "required_fields_complete": true,
+        "no_unsupported_inference": true,
+        "verdict": "verified",
+        "resolved_core_entry_id": "om_x100b5088e65d74a0c35994fce755cba",
+        "quote_match_type": "exact",
+        "missing_required_fields": [],
+        "rejection_reasons": [],
+        "unsupported_parts": [],
+        "verifier_reason": "The core entry explicitly states '配置审计通过。', which directly supports the claim. No additional context is needed."
+      },
+      "status": "通过",
+      "target": "配置审计",
+      "programmatic_validation": {
+        "verdict": "ready_for_verification",
+        "evidence_quote_in_core": true,
+        "required_fields_complete": true,
+        "single_atomic_claim": true,
+        "missing_required_fields": [],
+        "rejection_reasons": []
+      },
+      "ingest_id": "task:FEISHU-666::chat:oc_226e89b2b3fd7612aea5fc7f187cb759::24",
+      "task_id": "task:FEISHU-666",
+      "source_scope": "chat:oc_226e89b2b3fd7612aea5fc7f187cb759",
+      "processing_status": "pending_verification",
+      "verification_job_id": "verify_1789e8c8ac7afc25",
+      "verified_at": "2026-05-07T03:10:49.601Z"
+    },
+    {
+      "event_id": "evt_0e963f6641a7f253",
+      "task_ref": "FEISHU-666",
+      "source_session_id": "task:FEISHU-666::chat:oc_226e89b2b3fd7612aea5fc7f187cb759",
+      "ingest_version": 25,
+      "event_type": "status_event",
+      "claim": "补丁基线确认无误。",
+      "core_entry_id": "om_x100b5088e66c00a0c2d130c90be72c7",
+      "evidence_quote": "补丁基线确认无误。",
+      "context_quotes": [],
+      "participants": [],
+      "event_time": "1778109140000",
+      "source": {
+        "source_type": "chat",
+        "source_id": "chat:main_chat",
+        "chat_id": "oc_226e89b2b3fd7612aea5fc7f187cb759",
+        "thread_id": null,
+        "root_id": null,
+        "locator": "chat:main_chat"
+      },
+      "confidence": 0.72,
+      "verification": {
+        "core_quote_found": true,
+        "claim_supported_by_quote": true,
+        "context_only_generation": false,
+        "single_atomic_claim": true,
+        "required_fields_complete": true,
+        "no_unsupported_inference": true,
+        "verdict": "verified",
+        "resolved_core_entry_id": "om_x100b5088e66c00a0c2d130c90be72c7",
+        "quote_match_type": "exact",
+        "missing_required_fields": [],
+        "rejection_reasons": [],
+        "unsupported_parts": [],
+        "verifier_reason": "The claim '补丁基线确认无误。' is directly supported by the evidence_quote from the core entry, which is an exact match. No context is needed."
+      },
+      "status": "确认无误",
+      "target": "补丁基线",
+      "programmatic_validation": {
+        "verdict": "ready_for_verification",
+        "evidence_quote_in_core": true,
+        "required_fields_complete": true,
+        "single_atomic_claim": true,
+        "missing_required_fields": [],
+        "rejection_reasons": []
+      },
+      "ingest_id": "task:FEISHU-666::chat:oc_226e89b2b3fd7612aea5fc7f187cb759::25",
+      "task_id": "task:FEISHU-666",
+      "source_scope": "chat:oc_226e89b2b3fd7612aea5fc7f187cb759",
+      "processing_status": "pending_verification",
+      "verification_job_id": "verify_3a3e71f85b416e57",
+      "verified_at": "2026-05-07T03:10:50.935Z"
+    },
+    {
+      "event_id": "evt_291ad67276c8f424",
+      "task_ref": "FEISHU-666",
+      "source_session_id": "task:FEISHU-666::chat:oc_226e89b2b3fd7612aea5fc7f187cb759",
+      "ingest_version": 26,
+      "event_type": "status_event",
+      "claim": "pipeline执行计划已保存。",
+      "core_entry_id": "om_x100b5088e67feca4c3c67cce72f6be0",
+      "evidence_quote": "pipeline执行计划已保存。",
+      "context_quotes": [],
+      "participants": [],
+      "event_time": "1778109140000",
+      "source": {
+        "source_type": "chat",
+        "source_id": "chat:main_chat",
+        "chat_id": "oc_226e89b2b3fd7612aea5fc7f187cb759",
+        "thread_id": null,
+        "root_id": null,
+        "locator": "chat:main_chat"
+      },
+      "confidence": 0.72,
+      "verification": {
+        "core_quote_found": true,
+        "claim_supported_by_quote": true,
+        "context_only_generation": false,
+        "single_atomic_claim": true,
+        "required_fields_complete": true,
+        "no_unsupported_inference": true,
+        "verdict": "verified",
+        "resolved_core_entry_id": "om_x100b5088e67feca4c3c67cce72f6be0",
+        "quote_match_type": "exact",
+        "missing_required_fields": [],
+        "rejection_reasons": [],
+        "unsupported_parts": [],
+        "verifier_reason": "The claim 'pipeline执行计划已保存。' is directly supported by the evidence_quote from the core entry, which is an exact match. No additional context is needed."
+      },
+      "status": "已保存",
+      "target": "pipeline执行计划",
+      "programmatic_validation": {
+        "verdict": "ready_for_verification",
+        "evidence_quote_in_core": true,
+        "required_fields_complete": true,
+        "single_atomic_claim": true,
+        "missing_required_fields": [],
+        "rejection_reasons": []
+      },
+      "ingest_id": "task:FEISHU-666::chat:oc_226e89b2b3fd7612aea5fc7f187cb759::26",
+      "task_id": "task:FEISHU-666",
+      "source_scope": "chat:oc_226e89b2b3fd7612aea5fc7f187cb759",
+      "processing_status": "pending_verification",
+      "verification_job_id": "verify_2d92c5a00ce653d6",
+      "verified_at": "2026-05-07T03:10:52.447Z"
+    },
+    {
+      "event_id": "evt_32e4bd5aa175220c",
+      "task_ref": "FEISHU-666",
+      "source_session_id": "task:FEISHU-666::chat:oc_226e89b2b3fd7612aea5fc7f187cb759",
+      "ingest_version": 28,
+      "event_type": "status_event",
+      "claim": "升级计划全部就绪，按窗口执行。",
+      "core_entry_id": "om_x100b5088e60558b0c3a94b7976b0ee4",
+      "evidence_quote": "升级计划全部就绪，按窗口执行。",
+      "context_quotes": [],
+      "participants": [],
+      "event_time": "1778109140000",
+      "source": {
+        "source_type": "chat",
+        "source_id": "chat:main_chat",
+        "chat_id": "oc_226e89b2b3fd7612aea5fc7f187cb759",
+        "thread_id": null,
+        "root_id": null,
+        "locator": "chat:main_chat"
+      },
+      "confidence": 0.72,
+      "verification": {
+        "core_quote_found": true,
+        "claim_supported_by_quote": true,
+        "context_only_generation": false,
+        "single_atomic_claim": true,
+        "required_fields_complete": true,
+        "no_unsupported_inference": true,
+        "verdict": "verified",
+        "resolved_core_entry_id": "om_x100b5088e60558b0c3a94b7976b0ee4",
+        "quote_match_type": "exact",
+        "missing_required_fields": [],
+        "rejection_reasons": [],
+        "unsupported_parts": [],
+        "verifier_reason": "The claim '升级计划全部就绪，按窗口执行。' is directly supported by the evidence_quote from the core entry, which is an exact match. No context is needed."
+      },
+      "status": "就绪",
+      "target": "升级计划",
+      "programmatic_validation": {
+        "verdict": "ready_for_verification",
+        "evidence_quote_in_core": true,
+        "required_fields_complete": true,
+        "single_atomic_claim": true,
+        "missing_required_fields": [],
+        "rejection_reasons": []
+      },
+      "ingest_id": "task:FEISHU-666::chat:oc_226e89b2b3fd7612aea5fc7f187cb759::28",
+      "task_id": "task:FEISHU-666",
+      "source_scope": "chat:oc_226e89b2b3fd7612aea5fc7f187cb759",
+      "processing_status": "pending_verification",
+      "verification_job_id": "verify_12d16c74fc34087d",
+      "verified_at": "2026-05-07T03:10:53.773Z"
+    },
+    {
+      "event_id": "evt_3227288e2eeb53d2",
+      "task_ref": "FEISHU-666",
+      "source_session_id": "task:FEISHU-666::chat:oc_21fc5cc6becbda6432fe9592c2ea118d",
+      "ingest_version": 2,
+      "event_type": "objection_event",
+      "claim": "夜间变更对我个人效率影响大",
+      "core_entry_id": "om_x100b5088e49590a4c49940e1e916315",
+      "evidence_quote": "夜间变更对我个人效率影响大，能不能改白天？",
+      "context_quotes": [],
+      "participants": [],
+      "event_time": "1778109140000",
+      "source": {
+        "source_type": "thread",
+        "source_id": "thread:handoff_thread",
+        "chat_id": "oc_21fc5cc6becbda6432fe9592c2ea118d",
+        "thread_id": "om_x100b5088e49590a4c49940e1e916315",
+        "root_id": "om_x100b5088e49590a4c49940e1e916315",
+        "locator": "thread:handoff_thread"
+      },
+      "confidence": 0.72,
+      "verification": {
+        "core_quote_found": true,
+        "claim_supported_by_quote": true,
+        "context_only_generation": false,
+        "single_atomic_claim": true,
+        "required_fields_complete": true,
+        "no_unsupported_inference": true,
+        "verdict": "verified",
+        "resolved_core_entry_id": "om_x100b5088e49590a4c49940e1e916315",
+        "quote_match_type": "exact",
+        "missing_required_fields": [],
+        "rejection_reasons": [],
+        "unsupported_parts": [
+          "objection",
+          "objector"
+        ],
+        "verifier_reason": "The claim '夜间变更对我个人效率影响大' is directly supported by the evidence_quote from the core entry, which is an exact match. No context was needed."
+      },
+      "objection": "夜间变更影响个人效率",
+      "objector": "赵敏",
+      "target": "变更",
+      "programmatic_validation": {
+        "verdict": "ready_for_verification",
+        "evidence_quote_in_core": true,
+        "required_fields_complete": true,
+        "single_atomic_claim": true,
+        "missing_required_fields": [],
+        "rejection_reasons": []
+      },
+      "ingest_id": "task:FEISHU-666::chat:oc_21fc5cc6becbda6432fe9592c2ea118d::2",
+      "task_id": "task:FEISHU-666",
+      "source_scope": "chat:oc_21fc5cc6becbda6432fe9592c2ea118d",
+      "processing_status": "pending_verification",
+      "verification_job_id": "verify_5cfe54dd54b07b48",
+      "verified_at": "2026-05-07T03:08:33.726Z"
+    },
+    {
+      "event_id": "evt_195dbc0ed16d2b2a",
       "task_ref": "FEISHU-666",
       "source_session_id": "task:FEISHU-666::chat:oc_21fc5cc6becbda6432fe9592c2ea118d",
       "ingest_version": 3,
       "event_type": "conclusion_event",
-      "claim": "纪要已定，夜间窗口是正式决定，不因个人偏好改",
+      "claim": "纪要已定，夜间窗口是正式决定，不因个人偏好改。",
       "core_entry_id": "om_x100b5088e4ae08a0c3388e3378e615f",
-      "evidence_quote": "纪要已定，夜间窗口是正式决定，不因个人偏好改",
-      "context_quotes": [
-        {
-          "entry_id": "om_x100b5088e619cca0c4a4983901c05c1",
-          "quote": "交接修正线程：以下回复承载该 source session 的真实 benchmark 消息。",
-          "role": "disambiguation"
-        },
-        {
-          "entry_id": "om_x100b5088e49590a4c49940e1e916315",
-          "quote": "夜间变更对我个人效率影响大，能不能改白天？",
-          "role": "disambiguation"
-        }
-      ],
-      "participants": [
-        "周宇"
-      ],
+      "evidence_quote": "纪要已定，夜间窗口是正式决定，不因个人偏好改。",
+      "context_quotes": [],
+      "participants": [],
       "event_time": "1778109140000",
       "source": {
         "source_type": "thread",
@@ -2055,9 +3837,9 @@
         "missing_required_fields": [],
         "rejection_reasons": [],
         "unsupported_parts": [],
-        "verifier_reason": ""
+        "verifier_reason": "The claim is directly supported by the evidence_quote from the core entry, which states '纪要已定，夜间窗口是正式决定，不因个人偏好改。' The context entries do not contradict this, and the claim is atomic and complete."
       },
-      "conclusion": "纪要已定，夜间窗口是正式决定，不因个人偏好改",
+      "conclusion": "夜间窗口是正式决定",
       "target": "夜间窗口",
       "programmatic_validation": {
         "verdict": "ready_for_verification",
@@ -2071,104 +3853,20 @@
       "task_id": "task:FEISHU-666",
       "source_scope": "chat:oc_21fc5cc6becbda6432fe9592c2ea118d",
       "processing_status": "pending_verification",
-      "verification_job_id": "verify_cb5c23e6ee800800",
-      "verified_at": "2026-05-07T03:04:59.480Z"
+      "verification_job_id": "verify_74f408bd7cd70fc2",
+      "verified_at": "2026-05-07T03:08:35.498Z"
     },
     {
-      "event_id": "evt_4926a6fef084841e",
-      "task_ref": "FEISHU-666",
-      "source_session_id": "task:FEISHU-666::chat:oc_21fc5cc6becbda6432fe9592c2ea118d",
-      "ingest_version": 3,
-      "event_type": "status_event",
-      "claim": "纪要已定，夜间窗口是正式决定，不因个人偏好改",
-      "core_entry_id": "om_x100b5088e4ae08a0c3388e3378e615f",
-      "evidence_quote": "纪要已定，夜间窗口是正式决定，不因个人偏好改",
-      "context_quotes": [
-        {
-          "entry_id": "om_x100b5088e619cca0c4a4983901c05c1",
-          "quote": "交接修正线程：以下回复承载该 source session 的真实 benchmark 消息。",
-          "role": "disambiguation"
-        },
-        {
-          "entry_id": "om_x100b5088e49590a4c49940e1e916315",
-          "quote": "夜间变更对我个人效率影响大，能不能改白天？",
-          "role": "disambiguation"
-        }
-      ],
-      "participants": [
-        "周宇"
-      ],
-      "event_time": "1778109140000",
-      "source": {
-        "source_type": "thread",
-        "source_id": "thread:handoff_thread",
-        "chat_id": "oc_21fc5cc6becbda6432fe9592c2ea118d",
-        "thread_id": "om_x100b5088e4ae08a0c3388e3378e615f",
-        "root_id": "om_x100b5088e4ae08a0c3388e3378e615f",
-        "locator": "thread:handoff_thread"
-      },
-      "confidence": 0.72,
-      "verification": {
-        "core_quote_found": true,
-        "claim_supported_by_quote": true,
-        "context_only_generation": false,
-        "single_atomic_claim": true,
-        "required_fields_complete": true,
-        "no_unsupported_inference": true,
-        "verdict": "verified",
-        "resolved_core_entry_id": "om_x100b5088e4ae08a0c3388e3378e615f",
-        "quote_match_type": "exact",
-        "missing_required_fields": [],
-        "rejection_reasons": [],
-        "unsupported_parts": [],
-        "verifier_reason": ""
-      },
-      "status": "纪要已定，夜间窗口是正式决定，不因个人偏好改",
-      "target": "夜间窗口",
-      "programmatic_validation": {
-        "verdict": "ready_for_verification",
-        "evidence_quote_in_core": true,
-        "required_fields_complete": true,
-        "single_atomic_claim": true,
-        "missing_required_fields": [],
-        "rejection_reasons": []
-      },
-      "ingest_id": "task:FEISHU-666::chat:oc_21fc5cc6becbda6432fe9592c2ea118d::3",
-      "task_id": "task:FEISHU-666",
-      "source_scope": "chat:oc_21fc5cc6becbda6432fe9592c2ea118d",
-      "processing_status": "pending_verification",
-      "verification_job_id": "verify_e150e5e7c5735528",
-      "verified_at": "2026-05-07T03:04:59.481Z"
-    },
-    {
-      "event_id": "evt_e3c14e5d737e13ea",
+      "event_id": "evt_9ce95677261b8531",
       "task_ref": "FEISHU-666",
       "source_session_id": "task:FEISHU-666::chat:oc_21fc5cc6becbda6432fe9592c2ea118d",
       "ingest_version": 4,
       "event_type": "commitment_event",
-      "claim": "好吧，我会安排夜间值班",
+      "claim": "赵敏承诺安排夜间值班。",
       "core_entry_id": "om_x100b5088e4a330a4c14eb0ea348ad5d",
-      "evidence_quote": "好吧，我会安排夜间值班",
-      "context_quotes": [
-        {
-          "entry_id": "om_x100b5088e619cca0c4a4983901c05c1",
-          "quote": "交接修正线程：以下回复承载该 source session 的真实 benchmark 消息。",
-          "role": "disambiguation"
-        },
-        {
-          "entry_id": "om_x100b5088e49590a4c49940e1e916315",
-          "quote": "夜间变更对我个人效率影响大，能不能改白天？",
-          "role": "disambiguation"
-        },
-        {
-          "entry_id": "om_x100b5088e4ae08a0c3388e3378e615f",
-          "quote": "纪要已定，夜间窗口是正式决定，不因个人偏好改。",
-          "role": "disambiguation"
-        }
-      ],
-      "participants": [
-        "赵敏"
-      ],
+      "evidence_quote": "好吧，我会安排夜间值班。",
+      "context_quotes": [],
+      "participants": [],
       "event_time": "1778109140000",
       "source": {
         "source_type": "thread",
@@ -2192,10 +3890,10 @@
         "missing_required_fields": [],
         "rejection_reasons": [],
         "unsupported_parts": [],
-        "verifier_reason": ""
+        "verifier_reason": "核心条目中赵敏明确说'好吧，我会安排夜间值班'，证据引用完全匹配，且上下文显示夜间值班是正式决定，因此承诺成立。"
       },
       "owner": "赵敏",
-      "action": "好吧，我会安排夜间值班",
+      "action": "安排夜间值班",
       "programmatic_validation": {
         "verdict": "ready_for_verification",
         "evidence_quote_in_core": true,
@@ -2208,50 +3906,27 @@
       "task_id": "task:FEISHU-666",
       "source_scope": "chat:oc_21fc5cc6becbda6432fe9592c2ea118d",
       "processing_status": "pending_verification",
-      "verification_job_id": "verify_5061dc88c3bf6df4",
-      "verified_at": "2026-05-07T03:04:59.482Z"
+      "verification_job_id": "verify_26f32f3f1dbda17f",
+      "verified_at": "2026-05-07T03:08:37.283Z"
     },
     {
-      "event_id": "evt_ed7501ddb90a99e2",
+      "event_id": "evt_2ff85641604efc20",
       "task_ref": "FEISHU-666",
       "source_session_id": "task:FEISHU-666::chat:oc_21fc5cc6becbda6432fe9592c2ea118d",
-      "ingest_version": 5,
-      "event_type": "rationale_event",
-      "claim": "备份策略会不会因为时间调整有变",
-      "core_entry_id": "om_x100b5088e4b61ca0c220a0b77fb0a1e",
-      "evidence_quote": "备份策略会不会因为时间调整有变",
-      "context_quotes": [
-        {
-          "entry_id": "om_x100b5088e619cca0c4a4983901c05c1",
-          "quote": "交接修正线程：以下回复承载该 source session 的真实 benchmark 消息。",
-          "role": "disambiguation"
-        },
-        {
-          "entry_id": "om_x100b5088e49590a4c49940e1e916315",
-          "quote": "夜间变更对我个人效率影响大，能不能改白天？",
-          "role": "disambiguation"
-        },
-        {
-          "entry_id": "om_x100b5088e4ae08a0c3388e3378e615f",
-          "quote": "纪要已定，夜间窗口是正式决定，不因个人偏好改。",
-          "role": "disambiguation"
-        },
-        {
-          "entry_id": "om_x100b5088e4a330a4c14eb0ea348ad5d",
-          "quote": "好吧，我会安排夜间值班。",
-          "role": "disambiguation"
-        }
-      ],
-      "participants": [
-        "周宇"
-      ],
+      "ingest_version": 6,
+      "event_type": "status_event",
+      "claim": "备份计划不变，使用增量备份。",
+      "core_entry_id": "om_x100b5088e44550a4c3574a487cab359",
+      "evidence_quote": "备份计划不变，使用增量备份。",
+      "context_quotes": [],
+      "participants": [],
       "event_time": "1778109140000",
       "source": {
         "source_type": "thread",
         "source_id": "thread:handoff_thread",
         "chat_id": "oc_21fc5cc6becbda6432fe9592c2ea118d",
-        "thread_id": "om_x100b5088e4b61ca0c220a0b77fb0a1e",
-        "root_id": "om_x100b5088e4b61ca0c220a0b77fb0a1e",
+        "thread_id": "om_x100b5088e44550a4c3574a487cab359",
+        "root_id": "om_x100b5088e44550a4c3574a487cab359",
         "locator": "thread:handoff_thread"
       },
       "confidence": 0.72,
@@ -2263,14 +3938,15 @@
         "required_fields_complete": true,
         "no_unsupported_inference": true,
         "verdict": "verified",
-        "resolved_core_entry_id": "om_x100b5088e4b61ca0c220a0b77fb0a1e",
+        "resolved_core_entry_id": "om_x100b5088e44550a4c3574a487cab359",
         "quote_match_type": "exact",
         "missing_required_fields": [],
         "rejection_reasons": [],
         "unsupported_parts": [],
-        "verifier_reason": ""
+        "verifier_reason": "The claim '备份计划不变，使用增量备份。' is directly supported by the evidence_quote in the core entry, which is an exact match. No context is needed."
       },
-      "reason": "时间调整有变",
+      "status": "不变",
+      "target": "备份计划",
       "programmatic_validation": {
         "verdict": "ready_for_verification",
         "evidence_quote_in_core": true,
@@ -2279,26 +3955,245 @@
         "missing_required_fields": [],
         "rejection_reasons": []
       },
-      "ingest_id": "task:FEISHU-666::chat:oc_21fc5cc6becbda6432fe9592c2ea118d::5",
+      "ingest_id": "task:FEISHU-666::chat:oc_21fc5cc6becbda6432fe9592c2ea118d::6",
       "task_id": "task:FEISHU-666",
       "source_scope": "chat:oc_21fc5cc6becbda6432fe9592c2ea118d",
       "processing_status": "pending_verification",
-      "verification_job_id": "verify_f836fcc6e067c792",
-      "verified_at": "2026-05-07T03:04:59.483Z"
+      "verification_job_id": "verify_772a424cee17d68c",
+      "verified_at": "2026-05-07T03:08:38.659Z"
+    },
+    {
+      "event_id": "evt_c21a8779269dd2f6",
+      "task_ref": "FEISHU-666",
+      "source_session_id": "task:FEISHU-666::chat:oc_21fc5cc6becbda6432fe9592c2ea118d",
+      "ingest_version": 6,
+      "event_type": "objection_event",
+      "claim": "我偏好全量，但流程允许增量。",
+      "core_entry_id": "om_x100b5088e44550a4c3574a487cab359",
+      "evidence_quote": "我偏好全量",
+      "context_quotes": [],
+      "participants": [],
+      "event_time": "1778109140000",
+      "source": {
+        "source_type": "thread",
+        "source_id": "thread:handoff_thread",
+        "chat_id": "oc_21fc5cc6becbda6432fe9592c2ea118d",
+        "thread_id": "om_x100b5088e44550a4c3574a487cab359",
+        "root_id": "om_x100b5088e44550a4c3574a487cab359",
+        "locator": "thread:handoff_thread"
+      },
+      "confidence": 0.72,
+      "verification": {
+        "core_quote_found": true,
+        "claim_supported_by_quote": true,
+        "context_only_generation": false,
+        "single_atomic_claim": true,
+        "required_fields_complete": true,
+        "no_unsupported_inference": true,
+        "verdict": "verified",
+        "resolved_core_entry_id": "om_x100b5088e44550a4c3574a487cab359",
+        "quote_match_type": "exact",
+        "missing_required_fields": [],
+        "rejection_reasons": [],
+        "unsupported_parts": [
+          "objection",
+          "objector",
+          "target"
+        ],
+        "verifier_reason": "The evidence_quote '我偏好全量' exactly matches the core entry text, supporting the claim of a personal preference for full backup. The context entries confirm the backup plan discussion but are not needed for this claim."
+      },
+      "objection": "偏好全量备份",
+      "objector": "苏禾",
+      "target": "备份计划",
+      "programmatic_validation": {
+        "verdict": "ready_for_verification",
+        "evidence_quote_in_core": true,
+        "required_fields_complete": true,
+        "single_atomic_claim": true,
+        "missing_required_fields": [],
+        "rejection_reasons": []
+      },
+      "ingest_id": "task:FEISHU-666::chat:oc_21fc5cc6becbda6432fe9592c2ea118d::6",
+      "task_id": "task:FEISHU-666",
+      "source_scope": "chat:oc_21fc5cc6becbda6432fe9592c2ea118d",
+      "processing_status": "pending_verification",
+      "verification_job_id": "verify_4011f34baa21e42e",
+      "verified_at": "2026-05-07T03:08:40.184Z"
+    },
+    {
+      "event_id": "evt_883cd0db321824e2",
+      "task_ref": "FEISHU-666",
+      "source_session_id": "task:FEISHU-666::chat:oc_21fc5cc6becbda6432fe9592c2ea118d",
+      "ingest_version": 7,
+      "event_type": "status_event",
+      "claim": "增量备份已配置好，不会有问题。",
+      "core_entry_id": "om_x100b5088e45960acc215ef3d113f2c2",
+      "evidence_quote": "增量备份已配置好，不会有问题。",
+      "context_quotes": [],
+      "participants": [],
+      "event_time": "1778109140000",
+      "source": {
+        "source_type": "thread",
+        "source_id": "thread:handoff_thread",
+        "chat_id": "oc_21fc5cc6becbda6432fe9592c2ea118d",
+        "thread_id": "om_x100b5088e45960acc215ef3d113f2c2",
+        "root_id": "om_x100b5088e45960acc215ef3d113f2c2",
+        "locator": "thread:handoff_thread"
+      },
+      "confidence": 0.72,
+      "verification": {
+        "core_quote_found": true,
+        "claim_supported_by_quote": true,
+        "context_only_generation": false,
+        "single_atomic_claim": true,
+        "required_fields_complete": true,
+        "no_unsupported_inference": true,
+        "verdict": "verified",
+        "resolved_core_entry_id": "om_x100b5088e45960acc215ef3d113f2c2",
+        "quote_match_type": "exact",
+        "missing_required_fields": [],
+        "rejection_reasons": [],
+        "unsupported_parts": [],
+        "verifier_reason": "The claim '增量备份已配置好，不会有问题。' is directly supported by the evidence_quote from the core entry, which is an exact match. No context is needed."
+      },
+      "status": "已配置好",
+      "target": "增量备份",
+      "programmatic_validation": {
+        "verdict": "ready_for_verification",
+        "evidence_quote_in_core": true,
+        "required_fields_complete": true,
+        "single_atomic_claim": true,
+        "missing_required_fields": [],
+        "rejection_reasons": []
+      },
+      "ingest_id": "task:FEISHU-666::chat:oc_21fc5cc6becbda6432fe9592c2ea118d::7",
+      "task_id": "task:FEISHU-666",
+      "source_scope": "chat:oc_21fc5cc6becbda6432fe9592c2ea118d",
+      "processing_status": "pending_verification",
+      "verification_job_id": "verify_1551d8a553239fd4",
+      "verified_at": "2026-05-07T03:08:41.770Z"
+    },
+    {
+      "event_id": "evt_4221697d44a5d5cf",
+      "task_ref": "FEISHU-666",
+      "source_session_id": "task:FEISHU-666::chat:oc_21fc5cc6becbda6432fe9592c2ea118d",
+      "ingest_version": 9,
+      "event_type": "status_event",
+      "claim": "备份验证已完成。",
+      "core_entry_id": "om_x100b5088e46344a0c4450678f3039ef",
+      "evidence_quote": "备份验证已完成。",
+      "context_quotes": [],
+      "participants": [],
+      "event_time": "1778109140000",
+      "source": {
+        "source_type": "thread",
+        "source_id": "thread:handoff_thread",
+        "chat_id": "oc_21fc5cc6becbda6432fe9592c2ea118d",
+        "thread_id": "om_x100b5088e46344a0c4450678f3039ef",
+        "root_id": "om_x100b5088e46344a0c4450678f3039ef",
+        "locator": "thread:handoff_thread"
+      },
+      "confidence": 0.72,
+      "verification": {
+        "core_quote_found": true,
+        "claim_supported_by_quote": true,
+        "context_only_generation": false,
+        "single_atomic_claim": true,
+        "required_fields_complete": true,
+        "no_unsupported_inference": true,
+        "verdict": "verified",
+        "resolved_core_entry_id": "om_x100b5088e46344a0c4450678f3039ef",
+        "quote_match_type": "exact",
+        "missing_required_fields": [],
+        "rejection_reasons": [],
+        "unsupported_parts": [],
+        "verifier_reason": "The claim '备份验证已完成。' is directly supported by the evidence_quote from the core entry, which is an exact match. No context is needed."
+      },
+      "status": "已完成",
+      "target": "备份验证",
+      "programmatic_validation": {
+        "verdict": "ready_for_verification",
+        "evidence_quote_in_core": true,
+        "required_fields_complete": true,
+        "single_atomic_claim": true,
+        "missing_required_fields": [],
+        "rejection_reasons": []
+      },
+      "ingest_id": "task:FEISHU-666::chat:oc_21fc5cc6becbda6432fe9592c2ea118d::9",
+      "task_id": "task:FEISHU-666",
+      "source_scope": "chat:oc_21fc5cc6becbda6432fe9592c2ea118d",
+      "processing_status": "pending_verification",
+      "verification_job_id": "verify_79a40907acf41872",
+      "verified_at": "2026-05-07T03:08:43.256Z"
+    },
+    {
+      "event_id": "evt_b47edf215106ef2c",
+      "task_ref": "FEISHU-666",
+      "source_session_id": "task:FEISHU-666::chat:oc_21fc5cc6becbda6432fe9592c2ea118d",
+      "ingest_version": 10,
+      "event_type": "status_event",
+      "claim": "交接文档已更新。",
+      "core_entry_id": "om_x100b5088e47474a0c3d3ab1d48aa695",
+      "evidence_quote": "交接文档已更新。",
+      "context_quotes": [],
+      "participants": [],
+      "event_time": "1778109140000",
+      "source": {
+        "source_type": "thread",
+        "source_id": "thread:handoff_thread",
+        "chat_id": "oc_21fc5cc6becbda6432fe9592c2ea118d",
+        "thread_id": "om_x100b5088e47474a0c3d3ab1d48aa695",
+        "root_id": "om_x100b5088e47474a0c3d3ab1d48aa695",
+        "locator": "thread:handoff_thread"
+      },
+      "confidence": 0.72,
+      "verification": {
+        "core_quote_found": true,
+        "claim_supported_by_quote": true,
+        "context_only_generation": false,
+        "single_atomic_claim": true,
+        "required_fields_complete": true,
+        "no_unsupported_inference": true,
+        "verdict": "verified",
+        "resolved_core_entry_id": "om_x100b5088e47474a0c3d3ab1d48aa695",
+        "quote_match_type": "exact",
+        "missing_required_fields": [],
+        "rejection_reasons": [],
+        "unsupported_parts": [
+          "status"
+        ],
+        "verifier_reason": "The claim '交接文档已更新。' is directly supported by the evidence_quote from the core entry, which is an exact match. No context is needed."
+      },
+      "status": "updated",
+      "target": "交接文档",
+      "programmatic_validation": {
+        "verdict": "ready_for_verification",
+        "evidence_quote_in_core": true,
+        "required_fields_complete": true,
+        "single_atomic_claim": true,
+        "missing_required_fields": [],
+        "rejection_reasons": []
+      },
+      "ingest_id": "task:FEISHU-666::chat:oc_21fc5cc6becbda6432fe9592c2ea118d::10",
+      "task_id": "task:FEISHU-666",
+      "source_scope": "chat:oc_21fc5cc6becbda6432fe9592c2ea118d",
+      "processing_status": "pending_verification",
+      "verification_job_id": "verify_9baeb43f30c72307",
+      "verified_at": "2026-05-07T03:08:44.467Z"
     }
   ],
   "lint_results": [
     {
       "taskRootDir": "/Users/byseea/programscoding/nanobot/openclaw-main/amem_docs/ds/feishu_im_dataset_v3/cases/case_20260506224026669766_private_info_in_official_file/runtime/task_wiki_state/feishu-task-wiki/tasks/FEISHU-666-45f2ad9d",
       "version": 1,
-      "generated_at": "2026-05-07T03:04:59.711Z",
+      "generated_at": "2026-05-07T03:13:19.347Z",
       "orphan_event_count": 0,
       "missing_evidence_ref_count": 0,
       "stale_claim_count": 0,
-      "quote_strength_count": 0,
-      "unresolved_objection_count": 1,
+      "quote_strength_count": 2,
+      "unresolved_objection_count": 8,
       "overdue_commitment_count": 0,
-      "open_conflict_count": 0,
+      "open_conflict_count": 1,
       "orphan_block_count": 0,
       "missing_cross_ref_count": 0,
       "orphan_session_wiki_count": 0,
@@ -2306,18 +4201,99 @@
         "orphan_events": [],
         "missing_evidence_refs": [],
         "stale_claims": [],
-        "quote_strength": [],
+        "quote_strength": [
+          {
+            "source_session_id": "task:FEISHU-666::chat:oc_21fc5cc6becbda6432fe9592c2ea118d",
+            "event_id": "evt_9ce95677261b8531",
+            "claim": "赵敏承诺安排夜间值班。",
+            "evidence_quote": "好吧，我会安排夜间值班。"
+          },
+          {
+            "source_session_id": "task:FEISHU-666::chat:oc_226e89b2b3fd7612aea5fc7f187cb759",
+            "event_id": "evt_071af385338082cd",
+            "claim": "陈雪承诺按窗口时间配合",
+            "evidence_quote": "明白，我会按窗口时间配合。"
+          }
+        ],
         "unresolved_objections": [
           {
-            "source_session_id": "task:FEISHU-666::chat:oc_ac5a33c314d20661373939b37672396d",
+            "source_session_id": "task:FEISHU-666::chat:oc_21fc5cc6becbda6432fe9592c2ea118d",
+            "block_id": "block-备份计划-96cb4224",
+            "topic_title": "备份计划",
+            "claim": "我偏好全量，但流程允许增量。",
+            "event_id": "evt_c21a8779269dd2f6"
+          },
+          {
+            "source_session_id": "task:FEISHU-666::chat:oc_21fc5cc6becbda6432fe9592c2ea118d",
+            "block_id": "block-变更时间争议-029978ca",
+            "topic_title": "变更时间争议",
+            "claim": "夜间变更对我个人效率影响大",
+            "event_id": "evt_3227288e2eeb53d2"
+          },
+          {
+            "source_session_id": "task:FEISHU-666::chat:oc_226e89b2b3fd7612aea5fc7f187cb759",
+            "block_id": "block-发布时间口径-867908bd",
+            "topic_title": "发布时间口径",
+            "claim": "窗口能挪到周三前吗？我周四有个人面试。",
+            "event_id": "evt_f787a9cce9786fdf"
+          },
+          {
+            "source_session_id": "task:FEISHU-666::chat:oc_226e89b2b3fd7612aea5fc7f187cb759",
+            "block_id": "block-发布时间口径-867908bd",
+            "topic_title": "发布时间口径",
+            "claim": "个人偏好不影响任务，以纪要为准。",
+            "event_id": "evt_c201a4f3191cd91f"
+          },
+          {
+            "source_session_id": "task:FEISHU-666::chat:oc_226e89b2b3fd7612aea5fc7f187cb759",
             "block_id": "block-发布阻塞风险-45763a86",
             "topic_title": "发布阻塞风险",
-            "claim": "我个人认为夜间变更风险更高，但这是个人观点",
-            "event_id": "evt_10a005b4def388f5"
+            "claim": "网络配置漂移是blocker，升级会不会延迟？",
+            "event_id": "evt_337c0bd09e04f6ec"
+          },
+          {
+            "source_session_id": "task:FEISHU-666::chat:oc_ac5a33c314d20661373939b37672396d",
+            "block_id": "block-升级时间-7a779514",
+            "topic_title": "升级时间",
+            "claim": "升级时间能提前吗？我周末家里有事。",
+            "event_id": "evt_fc93f42aa951ca16"
+          },
+          {
+            "source_session_id": "task:FEISHU-666::chat:oc_d852908acc34173446bde912b27c9963",
+            "block_id": "block-任务计划-0339415d",
+            "topic_title": "任务计划",
+            "claim": "个人偏好不影响任务计划。",
+            "event_id": "evt_32800c597d78576a"
+          },
+          {
+            "source_session_id": "task:FEISHU-666::chat:oc_f49b2c4a0d0a92df61e1f27186021348",
+            "block_id": "block-窗口-a70a1513",
+            "topic_title": "窗口",
+            "claim": "有人建议窗口改期",
+            "event_id": "evt_0a5198f3461cc6ad"
           }
         ],
         "overdue_commitments": [],
-        "open_conflicts": [],
+        "open_conflicts": [
+          {
+            "topic_key": "纪要结论",
+            "topic_title": "纪要结论",
+            "claims": [
+              {
+                "topic_title": "纪要结论",
+                "claim": "评估已做，我尊重纪要结论。",
+                "event_id": "evt_571231e130d5bb70",
+                "source_session_id": "task:FEISHU-666::chat:oc_ac5a33c314d20661373939b37672396d"
+              },
+              {
+                "topic_title": "纪要结论",
+                "claim": "建议将个人背景备注从纪要中分离，避免混淆。",
+                "event_id": "evt_f9b7672d7658e55d",
+                "source_session_id": "task:FEISHU-666::chat:oc_ac5a33c314d20661373939b37672396d"
+              }
+            ]
+          }
+        ],
         "orphan_blocks": [],
         "missing_cross_refs": [],
         "orphan_session_wikis": []
