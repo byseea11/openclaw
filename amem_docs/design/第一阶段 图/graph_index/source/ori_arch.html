@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <title>统一采集与协作状态图谱架构</title>
+    <style>
+        :root {
+            /* 主题配色 */
+            --bg-page: #f4f7f9;
+            /* 干净的浅灰蓝色纯色背景 */
+            --text-main: #333333;
+            --text-sub: #666666;
+
+            --blue-bg: #bacde3;
+            --blue-border: #9fb8d5;
+
+            --green-bg: #b9cfc3;
+            --green-border: #9cbca9;
+
+            --orange-bg: #e2cbbb;
+            --orange-border: #cfb19d;
+
+            --light-blue-bg: #e3f0fa;
+            --light-blue-border: #baddf8;
+
+            --card-bg: #ffffff;
+            --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.06);
+            --shadow-md: 0 6px 16px rgba(0, 0, 0, 0.12);
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            color: var(--text-main);
+            margin: 0;
+            padding: 40px 20px;
+            display: flex;
+            justify-content: center;
+            background-color: var(--bg-page);
+        }
+
+        .container {
+            width: 100%;
+            max-width: 900px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* 顶部：多源协作信号标题 */
+        .source-header {
+            font-size: 15px;
+            font-weight: 600;
+            color: var(--text-sub);
+            margin-bottom: 12px;
+        }
+
+        /* 修改点：适配整体配色的外框 */
+        .sources-box {
+            background-color: #eaf0f6;
+            /* 柔和的浅蓝灰色，融入整体背景 */
+            border: 2px dashed #c0d1e0;
+            /* 使用虚线边框增强“采集/汇聚”的语义 */
+            border-radius: 12px;
+            padding: 20px 24px;
+            width: 100%;
+            box-sizing: border-box;
+            box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.02);
+            /* 轻微内阴影 */
+            display: flex;
+            justify-content: center;
+        }
+
+        .sources-row {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 0;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        /* 修改点：内部标签改为纯白，在浅蓝灰底色上更突出 */
+        .source-tag {
+            background: #ffffff;
+            padding: 10px 16px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            border: 1px solid #dce3eb;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .source-tag:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-sm);
+        }
+
+        /* 箭头连接器 */
+        .connector {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            height: 40px;
+            position: relative;
+            width: 100%;
+        }
+
+        .connector-line {
+            width: 2px;
+            height: 100%;
+            background-color: #a0aab5;
+        }
+
+        .connector-arrow {
+            position: absolute;
+            bottom: -5px;
+            width: 0;
+            height: 0;
+            border-left: 6px solid transparent;
+            border-right: 6px solid transparent;
+            border-top: 8px solid #a0aab5;
+        }
+
+        .connector-badge {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            border: 1px solid #cbd5e1;
+            border-radius: 4px;
+            padding: 2px 8px;
+            font-size: 12px;
+            color: #64748b;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+
+        /* 主体层级通用样式 */
+        .layer-box {
+            width: 100%;
+            border-radius: 12px;
+            padding: 24px;
+            box-sizing: border-box;
+            box-shadow: var(--shadow-md);
+            position: relative;
+            margin: 5px 0;
+        }
+
+        .layer-title {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 4px;
+            color: #1a1a1a;
+        }
+
+        .layer-subtitle {
+            font-size: 13px;
+            color: #444;
+            margin-bottom: 20px;
+        }
+
+        /* 层级内部卡片网格 */
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 16px;
+        }
+
+        .layer-card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 8px;
+            padding: 16px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            box-shadow: var(--shadow-sm);
+            transition: transform 0.2s;
+        }
+
+        .layer-card:hover {
+            transform: translateY(-2px);
+        }
+
+        .card-icon {
+            font-size: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background: #f5f7fa;
+            border-radius: 50%;
+        }
+
+        .card-content {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card-title {
+            font-size: 15px;
+            font-weight: 600;
+            color: #222;
+        }
+
+        .card-sub {
+            font-size: 12px;
+            color: var(--text-sub);
+            margin-top: 2px;
+        }
+
+        /* 各层颜色覆写 */
+        .layer-1 {
+            background-color: var(--blue-bg);
+            border: 1px solid var(--blue-border);
+        }
+
+        .layer-2 {
+            background-color: var(--green-bg);
+            border: 1px solid var(--green-border);
+        }
+
+        .layer-3 {
+            background-color: var(--orange-bg);
+            border: 1px solid var(--orange-border);
+        }
+
+        /* 绿层的底部横条 */
+        .authoritative-bar {
+            background: rgba(255, 255, 255, 0.85);
+            margin-top: 16px;
+            padding: 14px 20px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 1), 0 2px 6px rgba(0, 0, 0, 0.05);
+        }
+
+        .auth-title {
+            font-weight: bold;
+            font-size: 14px;
+            margin-right: 16px;
+        }
+
+        .auth-text {
+            font-size: 13px;
+            color: #444;
+            flex-grow: 1;
+        }
+
+        .auth-icon {
+            font-size: 20px;
+            color: #4b8b6b;
+        }
+
+        /* 底部输出结论 */
+        .output-box {
+            width: 100%;
+            background-color: var(--light-blue-bg);
+            border: 2px solid var(--light-blue-border);
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+            box-sizing: border-box;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .output-title {
+            font-size: 18px;
+            font-weight: bold;
+            color: #1c5282;
+            margin-bottom: 10px;
+        }
+
+        .output-details {
+            font-size: 13px;
+            color: #2b6cb0;
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .watermark {
+            position: absolute;
+            right: 20px;
+            bottom: 5px;
+            font-size: 32px;
+            font-weight: 900;
+            color: rgba(186, 221, 248, 0.6);
+            transform: rotate(-15deg);
+            pointer-events: none;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+
+        <div class="source-header">多源协作信号</div>
+
+        <div class="sources-box">
+            <div class="sources-row">
+                <div class="source-tag">🎙️ 会话</div>
+                <div class="source-tag">📄 文档</div>
+                <div class="source-tag">🛠️ 工具调用</div>
+                <div class="source-tag">✍️ 审批系统</div>
+                <div class="source-tag">📅 项目管理</div>
+                <div class="source-tag">💻 代码平台</div>
+            </div>
+        </div>
+
+        <div class="connector">
+            <div class="connector-line"></div>
+            <div class="connector-badge">①</div>
+            <div class="connector-arrow"></div>
+        </div>
+
+        <div class="layer-box layer-1">
+            <div class="layer-title">① 统一采集更新层</div>
+            <div class="layer-subtitle">保留运行时增量主链：先轻量标脏，再批量抽取，确保可恢复</div>
+
+            <div class="cards-grid">
+                <div class="layer-card">
+                    <div class="card-icon">🔍</div>
+                    <div class="card-content">
+                        <span class="card-title">增量检测</span>
+                        <span class="card-sub">先判断是否进入 graph</span>
+                    </div>
+                </div>
+                <div class="layer-card">
+                    <div class="card-icon">📥</div>
+                    <div class="card-content">
+                        <span class="card-title">批量抽取</span>
+                        <span class="card-sub">recall / strong / idle / compaction</span>
+                    </div>
+                </div>
+                <div class="layer-card">
+                    <div class="card-icon">🔐</div>
+                    <div class="card-content">
+                        <span class="card-title">事务一致性写入</span>
+                        <span class="card-sub">projection_inbox</span>
+                    </div>
+                </div>
+                <div class="layer-card">
+                    <div class="card-icon">🔄</div>
+                    <div class="card-content">
+                        <span class="card-title">可恢复更新</span>
+                        <span class="card-sub">source_projection_state</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="connector">
+            <div class="connector-line"></div>
+            <div class="connector-badge">②</div>
+            <div class="connector-arrow"></div>
+        </div>
+
+        <div class="layer-box layer-2">
+            <div class="layer-title">② 状态图谱建模层</div>
+            <div class="layer-subtitle">事件-状态-关系 三位一体、沉淀统一协作状态</div>
+
+            <div class="cards-grid">
+                <div class="layer-card">
+                    <div class="card-icon">📑</div>
+                    <div class="card-content">
+                        <span class="card-title">证据 + 事件账本</span>
+                        <span class="card-sub">evidence / event</span>
+                    </div>
+                </div>
+                <div class="layer-card">
+                    <div class="card-icon">👁️</div>
+                    <div class="card-content">
+                        <span class="card-title">Workflow 当前视图</span>
+                        <span class="card-sub">slot patch / upsert</span>
+                    </div>
+                </div>
+                <div class="layer-card">
+                    <div class="card-icon">🕸️</div>
+                    <div class="card-content">
+                        <span class="card-title">实体与关系图谱</span>
+                        <span class="card-sub">entities / edges</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="authoritative-bar">
+                <span class="auth-title">权威状态层</span>
+                <span class="auth-text">任务阶段 · 责任人 · 阻塞点 · 审批状态 · 下一步动作</span>
+                <span class="auth-icon">🏅</span>
+            </div>
+        </div>
+
+        <div class="connector">
+            <div class="connector-line"></div>
+            <div class="connector-badge">③</div>
+            <div class="connector-arrow"></div>
+        </div>
+
+        <div class="layer-box layer-3">
+            <div class="layer-title">③ 证据链条恢复层</div>
+            <div class="layer-subtitle">query layer：先分类问题，再解析实体，最后按问题类型走不同表链</div>
+
+            <div class="cards-grid">
+                <div class="layer-card">
+                    <div class="card-icon">💬</div>
+                    <div class="card-content">
+                        <span class="card-title">状态查询</span>
+                        <span class="card-sub">当前是什么</span>
+                    </div>
+                </div>
+                <div class="layer-card">
+                    <div class="card-icon">📋</div>
+                    <div class="card-content">
+                        <span class="card-title">列表查询</span>
+                        <span class="card-sub">符合条件集合</span>
+                    </div>
+                </div>
+                <div class="layer-card">
+                    <div class="card-icon">⏱️</div>
+                    <div class="card-content">
+                        <span class="card-title">时间线查询</span>
+                        <span class="card-sub">如何演进</span>
+                    </div>
+                </div>
+                <div class="layer-card">
+                    <div class="card-icon">🚧</div>
+                    <div class="card-content">
+                        <span class="card-title">阻塞原因查询</span>
+                        <span class="card-sub">为何卡住</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="connector">
+            <div class="connector-line"></div>
+            <div class="connector-arrow"></div>
+        </div>
+
+        <div class="output-box">
+            <div class="output-title">可信协作结论</div>
+            <div class="output-details">
+                <span>• 谁负责</span>
+                <span>• 何时改</span>
+                <span>• 为什么</span>
+                <span>• 当前状态</span>
+                <span>• 证据来源</span>
+            </div>
+            <div class="watermark">trusted</div>
+        </div>
+
+    </div>
+
+</body>
+
+</html>

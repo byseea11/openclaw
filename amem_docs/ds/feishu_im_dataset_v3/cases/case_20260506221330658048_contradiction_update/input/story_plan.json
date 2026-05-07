@@ -1,0 +1,374 @@
+{
+  "story_id": "story_case_20260506221330658048_contradiction_update",
+  "case_id": "case_20260506221330658048_contradiction_update",
+  "family_id": "contradiction_update",
+  "task": {
+    "task_id": "FEISHU-448",
+    "task_name": "支付灰度放量计划",
+    "role": "target_task"
+  },
+  "actors": [
+    {
+      "actor_id": "alice",
+      "display_name": "Alice",
+      "role": "project_manager"
+    },
+    {
+      "actor_id": "bob",
+      "display_name": "Bob",
+      "role": "initial_technical_owner"
+    },
+    {
+      "actor_id": "carol",
+      "display_name": "Carol",
+      "role": "historical_technical_owner"
+    },
+    {
+      "actor_id": "david",
+      "display_name": "David",
+      "role": "current_technical_owner"
+    },
+    {
+      "actor_id": "eve",
+      "display_name": "Eve",
+      "role": "release_delivery_manager"
+    },
+    {
+      "actor_id": "frank",
+      "display_name": "Frank",
+      "role": "qa_lead"
+    },
+    {
+      "actor_id": "grace",
+      "display_name": "Grace",
+      "role": "security_officer"
+    },
+    {
+      "actor_id": "henry",
+      "display_name": "Henry",
+      "role": "devops_engineer"
+    },
+    {
+      "actor_id": "isabel",
+      "display_name": "Isabel",
+      "role": "product_manager"
+    },
+    {
+      "actor_id": "jack",
+      "display_name": "Jack",
+      "role": "operations_lead"
+    },
+    {
+      "actor_id": "karen",
+      "display_name": "Karen",
+      "role": "compliance_officer"
+    },
+    {
+      "actor_id": "leo",
+      "display_name": "Leo",
+      "role": "infrastructure_owner"
+    },
+    {
+      "actor_id": "maria",
+      "display_name": "Maria",
+      "role": "data_analyst"
+    },
+    {
+      "actor_id": "nathan",
+      "display_name": "Nathan",
+      "role": "customer_support_lead"
+    },
+    {
+      "actor_id": "olivia",
+      "display_name": "Olivia",
+      "role": "risk_manager"
+    },
+    {
+      "actor_id": "paul",
+      "display_name": "Paul",
+      "role": "finance_controller"
+    },
+    {
+      "actor_id": "quinn",
+      "display_name": "Quinn",
+      "role": "vendor_coordinator"
+    },
+    {
+      "actor_id": "rachel",
+      "display_name": "Rachel",
+      "role": "hr_representative"
+    },
+    {
+      "actor_id": "sam",
+      "display_name": "Sam",
+      "role": "legal_advisor"
+    },
+    {
+      "actor_id": "tina",
+      "display_name": "Tina",
+      "role": "marketing_lead"
+    },
+    {
+      "actor_id": "uma",
+      "display_name": "Uma",
+      "role": "training_coordinator"
+    },
+    {
+      "actor_id": "victor",
+      "display_name": "Victor",
+      "role": "external_auditor"
+    },
+    {
+      "actor_id": "wendy",
+      "display_name": "Wendy",
+      "role": "regional_manager"
+    },
+    {
+      "actor_id": "xavier",
+      "display_name": "Xavier",
+      "role": "ceo_office_representative"
+    },
+    {
+      "actor_id": "yvonne",
+      "display_name": "Yvonne",
+      "role": "project_sponsor"
+    },
+    {
+      "actor_id": "zack",
+      "display_name": "Zack",
+      "role": "it_support_lead"
+    },
+    {
+      "actor_id": "amy",
+      "display_name": "Amy",
+      "role": "procurement_officer"
+    },
+    {
+      "actor_id": "brian",
+      "display_name": "Brian",
+      "role": "architect"
+    }
+  ],
+  "task_actor_layout": {
+    "target_task_id": "FEISHU-448",
+    "shared_actors": [
+      "alice",
+      "eve",
+      "david"
+    ],
+    "revision_context_blocks": [
+      {
+        "context_ref": "ctx_owner_handoff",
+        "field": "owner",
+        "revision_role": "historical_update",
+        "relationship_to_target": "Bob 最初是技术负责人，后交接给 Carol，最终由 David 接手。历史 owner 信息容易被系统保留为当前值。"
+      },
+      {
+        "context_ref": "ctx_window_shift",
+        "field": "release_window",
+        "revision_role": "superseded_schedule",
+        "relationship_to_target": "放量窗口从6月5日调整为6月12日，再调整为6月19日。较早的具体日期容易在弱记忆系统中残留。"
+      },
+      {
+        "context_ref": "ctx_resource_change",
+        "field": "resource_allocation",
+        "revision_role": "historical_update",
+        "relationship_to_target": "QA 资源从 Frank 的团队临时调整到 Grace 的团队，后又调回。资源分配的历史变动可能被误认为当前状态。"
+      },
+      {
+        "context_ref": "ctx_risk_level",
+        "field": "risk_level",
+        "revision_role": "superseded_schedule",
+        "relationship_to_target": "风险等级从低调整到中，再到高。每次调整都有明确消息，但早期等级可能被错误保留。"
+      }
+    ],
+    "supersession_clues": [
+      "之前口径作废",
+      "最终确认以本轮为准",
+      "旧负责人只算历史信息",
+      "前面的安排取消",
+      "以最新消息为准"
+    ],
+    "actor_task_roles": [
+      {
+        "actor_id": "bob",
+        "task_id": "FEISHU-448",
+        "role": "initial_owner"
+      },
+      {
+        "actor_id": "carol",
+        "task_id": "FEISHU-448",
+        "role": "historical_owner"
+      },
+      {
+        "actor_id": "david",
+        "task_id": "FEISHU-448",
+        "role": "current_owner"
+      },
+      {
+        "actor_id": "alice",
+        "task_id": "FEISHU-448",
+        "role": "project_manager"
+      },
+      {
+        "actor_id": "eve",
+        "task_id": "FEISHU-448",
+        "role": "delivery_manager"
+      }
+    ]
+  },
+  "state_changes": [
+    {
+      "task_id": "FEISHU-448",
+      "field": "owner",
+      "sequence": [
+        {
+          "value": "Bob",
+          "status": "initial"
+        },
+        {
+          "value": "Carol",
+          "status": "historical"
+        },
+        {
+          "value": "David",
+          "status": "current"
+        }
+      ]
+    },
+    {
+      "task_id": "FEISHU-448",
+      "field": "release_window",
+      "sequence": [
+        {
+          "value": "6月5日",
+          "status": "initial"
+        },
+        {
+          "value": "6月12日",
+          "status": "historical"
+        },
+        {
+          "value": "6月19日",
+          "status": "current"
+        }
+      ]
+    },
+    {
+      "task_id": "FEISHU-448",
+      "field": "resource_allocation",
+      "sequence": [
+        {
+          "value": "Frank 团队",
+          "status": "initial"
+        },
+        {
+          "value": "Grace 团队",
+          "status": "historical"
+        },
+        {
+          "value": "Frank 团队",
+          "status": "current"
+        }
+      ]
+    },
+    {
+      "task_id": "FEISHU-448",
+      "field": "risk_level",
+      "sequence": [
+        {
+          "value": "低",
+          "status": "initial"
+        },
+        {
+          "value": "中",
+          "status": "historical"
+        },
+        {
+          "value": "高",
+          "status": "current"
+        }
+      ]
+    }
+  ],
+  "message_beats": [
+    {
+      "beat_id": "beat_001",
+      "speaker": "Alice",
+      "session_id": "main_chat",
+      "message_intent": "FEISHU-448 最初由 Bob 负责技术，放量窗口初定6月5日，QA 资源由 Frank 团队支持，风险等级低。",
+      "purpose": "FEISHU-448 最初由 Bob 负责技术，放量窗口初定6月5日，QA 资源由 Frank 团队支持，风险等级低。",
+      "speaker_actor_id": "alice"
+    },
+    {
+      "beat_id": "beat_002",
+      "speaker": "Alice",
+      "session_id": "main_chat",
+      "message_intent": "Bob 下周要转去另一个项目，FEISHU-448 的技术负责人改为 Carol，放量窗口顺延到6月12日。",
+      "purpose": "Bob 下周要转去另一个项目，FEISHU-448 的技术负责人改为 Carol，放量窗口顺延到6月12日。",
+      "speaker_actor_id": "alice"
+    },
+    {
+      "beat_id": "beat_003",
+      "speaker": "Carol",
+      "session_id": "main_chat",
+      "message_intent": "由于安全评审延迟，窗口再调整到6月19日，QA 资源临时从 Frank 团队调整到 Grace 团队，风险等级调整为中。",
+      "purpose": "由于安全评审延迟，窗口再调整到6月19日，QA 资源临时从 Frank 团队调整到 Grace 团队，风险等级调整为中。",
+      "speaker_actor_id": "carol"
+    },
+    {
+      "beat_id": "beat_004",
+      "speaker": "David",
+      "session_id": "thread_release",
+      "message_intent": "最终确认：FEISHU-448 由 David 收口，正式放量窗口以6月19日为准，之前口径作废。旧负责人 Bob 和 Carol 只算历史信息，当前资源回到 Frank 团队，风险等级升为高。",
+      "purpose": "最终确认：FEISHU-448 由 David 收口，正式放量窗口以6月19日为准，之前口径作废。旧负责人 Bob 和 Carol 只算历史信息，当前资源回到 Frank 团队，风险等级升为高。",
+      "speaker_actor_id": "david"
+    },
+    {
+      "beat_id": "beat_005",
+      "speaker": "Eve",
+      "session_id": "thread_release",
+      "message_intent": "同意 David 的确认，以最新消息为准，前面的安排取消。",
+      "purpose": "同意 David 的确认，以最新消息为准，前面的安排取消。",
+      "speaker_actor_id": "eve"
+    },
+    {
+      "beat_id": "beat_006",
+      "speaker": "Alice",
+      "session_id": "customer_sync_chat",
+      "message_intent": "针对客户询问，当前 FEISHU-448 的负责人是 David，窗口6月19日，其余细节以最终确认为准。",
+      "purpose": "针对客户询问，当前 FEISHU-448 的负责人是 David，窗口6月19日，其余细节以最终确认为准。",
+      "speaker_actor_id": "alice"
+    },
+    {
+      "beat_id": "beat_007",
+      "speaker": "Grace",
+      "session_id": "risk_review_thread",
+      "message_intent": "风险等级已经是高，需要额外审批，之前的低风险等级不再适用。",
+      "purpose": "风险等级已经是高，需要额外审批，之前的低风险等级不再适用。",
+      "speaker_actor_id": "grace"
+    },
+    {
+      "beat_id": "beat_008",
+      "speaker": "David",
+      "session_id": "exec_sync_chat",
+      "message_intent": "向 exec 同步：FEISHU-448 当前状态已更新，旧负责人和旧窗口已作废，重点关注高风险。",
+      "purpose": "向 exec 同步：FEISHU-448 当前状态已更新，旧负责人和旧窗口已作废，重点关注高风险。",
+      "speaker_actor_id": "david"
+    }
+  ],
+  "planned_probe_queries": [
+    {
+      "query": "FEISHU-448 当前技术负责人是谁？Bob 和 Carol 现在是否还负责？放量窗口最终是哪一天？从哪一轮开始旧口径已经失效？",
+      "expected_good_behavior": "回答 David 是当前技术负责人，Bob 和 Carol 只属于历史状态；放量窗口最终是6月19日；从 David 在 thread_release 中的确认开始旧口径已失效。"
+    },
+    {
+      "query": "FEISHU-448 当前的 QA 资源由哪个团队支持？之前有过哪些调整？",
+      "expected_good_behavior": "当前由 Frank 团队支持；之前从 Frank 团队调整为 Grace 团队，后又调回 Frank 团队。"
+    },
+    {
+      "query": "FEISHU-448 当前的风险等级是什么？历史风险等级有哪些？为什么最终确定为高？",
+      "expected_good_behavior": "当前风险等级为高；历史有低、中；最终确定为高是因为安全评审延迟和额外审批要求。"
+    }
+  ]
+}

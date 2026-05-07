@@ -1,0 +1,35 @@
+{
+  "case_id": "case_20260506221330658048_contradiction_update",
+  "family_id": "contradiction_update",
+  "task_id": "FEISHU-448",
+  "required_case_structure": [
+    "target_task",
+    "owner_or_schedule_field",
+    "multi_step_update_sequence",
+    "supersedes_relation"
+  ],
+  "message_beat_ids": [
+    "beat_001",
+    "beat_002",
+    "beat_003",
+    "beat_004",
+    "beat_005",
+    "beat_006",
+    "beat_007",
+    "beat_008"
+  ],
+  "probe_queries": [
+    {
+      "query": "FEISHU-448 当前技术负责人是谁？Bob 和 Carol 现在是否还负责？放量窗口最终是哪一天？从哪一轮开始旧口径已经失效？",
+      "expected_good_behavior": "回答 David 是当前技术负责人，Bob 和 Carol 只属于历史状态；放量窗口最终是6月19日；从 David 在 thread_release 中的确认开始旧口径已失效。"
+    },
+    {
+      "query": "FEISHU-448 当前的 QA 资源由哪个团队支持？之前有过哪些调整？",
+      "expected_good_behavior": "当前由 Frank 团队支持；之前从 Frank 团队调整为 Grace 团队，后又调回 Frank 团队。"
+    },
+    {
+      "query": "FEISHU-448 当前的风险等级是什么？历史风险等级有哪些？为什么最终确定为高？",
+      "expected_good_behavior": "当前风险等级为高；历史有低、中；最终确定为高是因为安全评审延迟和额外审批要求。"
+    }
+  ]
+}

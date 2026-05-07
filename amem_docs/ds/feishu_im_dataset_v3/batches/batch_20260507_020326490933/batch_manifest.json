@@ -1,0 +1,137 @@
+{
+  "batch_id": "batch_20260507_020326490933",
+  "dataset_root": "amem_docs/ds/feishu_im_dataset_v3",
+  "batch_dir": "amem_docs/ds/feishu_im_dataset_v3/batches/batch_20260507_020326490933",
+  "difficulty": "hard",
+  "base_seed": 20260507020326491308,
+  "family_policy": "all",
+  "case_count": 12,
+  "cases": [
+    {
+      "case_id": "case_20260507020326491308_anti_interference",
+      "case_dir": "amem_docs/ds/feishu_im_dataset_v3/batches/batch_20260507_020326490933/cases/case_20260507020326491308_anti_interference",
+      "family_id": "anti_interference",
+      "seed": 20260507020326491308,
+      "status": "failed",
+      "phase1": {
+        "status": "failed",
+        "error": "story-plan payload validation failed: story_plan.task is required",
+        "completed_at": "2026-05-07T02:03:56.347409+00:00"
+      },
+      "phase2": {},
+      "phase3": {}
+    },
+    {
+      "case_id": "case_20260507020326491309_contradiction_update",
+      "case_dir": "amem_docs/ds/feishu_im_dataset_v3/batches/batch_20260507_020326490933/cases/case_20260507020326491309_contradiction_update",
+      "family_id": "contradiction_update",
+      "seed": 20260507020326491309,
+      "status": "planned",
+      "phase1": {},
+      "phase2": {},
+      "phase3": {}
+    },
+    {
+      "case_id": "case_20260507020326491310_evidence_dependency_reasoning",
+      "case_dir": "amem_docs/ds/feishu_im_dataset_v3/batches/batch_20260507_020326490933/cases/case_20260507020326491310_evidence_dependency_reasoning",
+      "family_id": "evidence_dependency_reasoning",
+      "seed": 20260507020326491310,
+      "status": "planned",
+      "phase1": {},
+      "phase2": {},
+      "phase3": {}
+    },
+    {
+      "case_id": "case_20260507020326491311_private_info_in_official_file",
+      "case_dir": "amem_docs/ds/feishu_im_dataset_v3/batches/batch_20260507_020326490933/cases/case_20260507020326491311_private_info_in_official_file",
+      "family_id": "private_info_in_official_file",
+      "seed": 20260507020326491311,
+      "status": "planned",
+      "phase1": {},
+      "phase2": {},
+      "phase3": {}
+    },
+    {
+      "case_id": "case_20260507020326491312_anti_interference",
+      "case_dir": "amem_docs/ds/feishu_im_dataset_v3/batches/batch_20260507_020326490933/cases/case_20260507020326491312_anti_interference",
+      "family_id": "anti_interference",
+      "seed": 20260507020326491312,
+      "status": "planned",
+      "phase1": {},
+      "phase2": {},
+      "phase3": {}
+    },
+    {
+      "case_id": "case_20260507020326491313_contradiction_update",
+      "case_dir": "amem_docs/ds/feishu_im_dataset_v3/batches/batch_20260507_020326490933/cases/case_20260507020326491313_contradiction_update",
+      "family_id": "contradiction_update",
+      "seed": 20260507020326491313,
+      "status": "planned",
+      "phase1": {},
+      "phase2": {},
+      "phase3": {}
+    },
+    {
+      "case_id": "case_20260507020326491314_evidence_dependency_reasoning",
+      "case_dir": "amem_docs/ds/feishu_im_dataset_v3/batches/batch_20260507_020326490933/cases/case_20260507020326491314_evidence_dependency_reasoning",
+      "family_id": "evidence_dependency_reasoning",
+      "seed": 20260507020326491314,
+      "status": "planned",
+      "phase1": {},
+      "phase2": {},
+      "phase3": {}
+    },
+    {
+      "case_id": "case_20260507020326491315_private_info_in_official_file",
+      "case_dir": "amem_docs/ds/feishu_im_dataset_v3/batches/batch_20260507_020326490933/cases/case_20260507020326491315_private_info_in_official_file",
+      "family_id": "private_info_in_official_file",
+      "seed": 20260507020326491315,
+      "status": "planned",
+      "phase1": {},
+      "phase2": {},
+      "phase3": {}
+    },
+    {
+      "case_id": "case_20260507020326491316_anti_interference",
+      "case_dir": "amem_docs/ds/feishu_im_dataset_v3/batches/batch_20260507_020326490933/cases/case_20260507020326491316_anti_interference",
+      "family_id": "anti_interference",
+      "seed": 20260507020326491316,
+      "status": "planned",
+      "phase1": {},
+      "phase2": {},
+      "phase3": {}
+    },
+    {
+      "case_id": "case_20260507020326491317_contradiction_update",
+      "case_dir": "amem_docs/ds/feishu_im_dataset_v3/batches/batch_20260507_020326490933/cases/case_20260507020326491317_contradiction_update",
+      "family_id": "contradiction_update",
+      "seed": 20260507020326491317,
+      "status": "planned",
+      "phase1": {},
+      "phase2": {},
+      "phase3": {}
+    },
+    {
+      "case_id": "case_20260507020326491318_evidence_dependency_reasoning",
+      "case_dir": "amem_docs/ds/feishu_im_dataset_v3/batches/batch_20260507_020326490933/cases/case_20260507020326491318_evidence_dependency_reasoning",
+      "family_id": "evidence_dependency_reasoning",
+      "seed": 20260507020326491318,
+      "status": "planned",
+      "phase1": {},
+      "phase2": {},
+      "phase3": {}
+    },
+    {
+      "case_id": "case_20260507020326491319_private_info_in_official_file",
+      "case_dir": "amem_docs/ds/feishu_im_dataset_v3/batches/batch_20260507_020326490933/cases/case_20260507020326491319_private_info_in_official_file",
+      "family_id": "private_info_in_official_file",
+      "seed": 20260507020326491319,
+      "status": "planned",
+      "phase1": {},
+      "phase2": {},
+      "phase3": {}
+    }
+  ],
+  "created_at": "2026-05-07T02:03:26.491554+00:00",
+  "updated_at": "2026-05-07T02:03:56.347793+00:00"
+}

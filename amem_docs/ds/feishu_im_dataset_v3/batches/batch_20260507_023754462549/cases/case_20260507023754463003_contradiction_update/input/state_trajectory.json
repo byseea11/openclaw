@@ -1,0 +1,61 @@
+{
+  "case_id": "case_20260507023754463003_contradiction_update",
+  "family_id": "contradiction_update",
+  "task_id": "FEISHU-703",
+  "state_changes": [
+    {
+      "task_id": "FEISHU-703",
+      "field": "owner",
+      "sequence": [
+        {
+          "value": "Bob",
+          "status": "initial"
+        },
+        {
+          "value": "Alice",
+          "status": "historical"
+        },
+        {
+          "value": "Xavier",
+          "status": "current"
+        }
+      ]
+    },
+    {
+      "task_id": "FEISHU-703",
+      "field": "release_window",
+      "sequence": [
+        {
+          "value": "2025-06-01至2025-06-15",
+          "status": "initial"
+        },
+        {
+          "value": "2025-06-10至2025-06-20",
+          "status": "historical"
+        },
+        {
+          "value": "2025-07-01至2025-07-15",
+          "status": "current"
+        }
+      ]
+    },
+    {
+      "task_id": "FEISHU-703",
+      "field": "status",
+      "sequence": [
+        {
+          "value": "规划中",
+          "status": "initial"
+        },
+        {
+          "value": "开发中",
+          "status": "historical"
+        },
+        {
+          "value": "测试中",
+          "status": "current"
+        }
+      ]
+    }
+  ]
+}

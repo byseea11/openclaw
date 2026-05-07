@@ -1,0 +1,37 @@
+{
+  "batch_id": "batch_20260507_021507319232",
+  "dataset_root": "amem_docs/ds/feishu_im_dataset_v3",
+  "batch_dir": "amem_docs/ds/feishu_im_dataset_v3/batches/batch_20260507_021507319232",
+  "difficulty": "hard",
+  "base_seed": 20260507021507319512,
+  "family_policy": "all",
+  "case_count": 2,
+  "cases": [
+    {
+      "case_id": "case_20260507021507319512_anti_interference",
+      "case_dir": "amem_docs/ds/feishu_im_dataset_v3/batches/batch_20260507_021507319232/cases/case_20260507021507319512_anti_interference",
+      "family_id": "anti_interference",
+      "seed": 20260507021507319512,
+      "status": "failed",
+      "phase1": {
+        "status": "failed",
+        "error": "OpenAI backend failed for auth-check: [Errno 8] nodename nor servname provided, or not known",
+        "completed_at": "2026-05-07T02:15:07.341969+00:00"
+      },
+      "phase2": {},
+      "phase3": {}
+    },
+    {
+      "case_id": "case_20260507021507319513_contradiction_update",
+      "case_dir": "amem_docs/ds/feishu_im_dataset_v3/batches/batch_20260507_021507319232/cases/case_20260507021507319513_contradiction_update",
+      "family_id": "contradiction_update",
+      "seed": 20260507021507319513,
+      "status": "planned",
+      "phase1": {},
+      "phase2": {},
+      "phase3": {}
+    }
+  ],
+  "created_at": "2026-05-07T02:15:07.319726+00:00",
+  "updated_at": "2026-05-07T02:15:07.342082+00:00"
+}

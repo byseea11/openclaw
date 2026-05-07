@@ -1,0 +1,11 @@
+{
+  "case_id": "case_20260506213901711117_anti_interference",
+  "family_id": "anti_interference",
+  "system": "task_wiki",
+  "query_count": 5,
+  "metrics": {
+    "query_success_rate": 1.0,
+    "evidence_trace_rate": 1.0,
+    "current_state_accuracy": 1.0
+  }
+}

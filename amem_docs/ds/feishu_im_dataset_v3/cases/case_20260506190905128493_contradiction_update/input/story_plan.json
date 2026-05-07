@@ -1,0 +1,127 @@
+{
+  "story_id": "story_case_20260506190905128493_contradiction_update",
+  "case_id": "case_20260506190905128493_contradiction_update",
+  "family_id": "contradiction_update",
+  "task": {
+    "task_id": "FEISHU-293",
+    "task_name": "全局变量迁移计划",
+    "role": "target_task"
+  },
+  "actors": [
+    {
+      "actor_id": "alice",
+      "display_name": "Alice",
+      "role": "project_manager"
+    },
+    {
+      "actor_id": "bob",
+      "display_name": "Bob",
+      "role": "initial_owner"
+    },
+    {
+      "actor_id": "carol",
+      "display_name": "Carol",
+      "role": "current_owner"
+    }
+  ],
+  "task_actor_layout": {
+    "target_task_id": "FEISHU-293",
+    "shared_actors": [
+      "alice",
+      "bob",
+      "carol"
+    ],
+    "revision_context_blocks": [
+      {
+        "context_ref": "ctx_owner_handoff",
+        "field": "owner",
+        "revision_role": "historical_update",
+        "relationship_to_target": "Bob 被 Alice 指定为 owner，后又转给 Carol，历史 owner 可能被误认为当前 owner。"
+      },
+      {
+        "context_ref": "ctx_deadline_shift",
+        "field": "deadline",
+        "revision_role": "superseded_schedule",
+        "relationship_to_target": "截止日期从 6 月 1 日改为 6 月 15 日，早期日期可能残留。"
+      }
+    ],
+    "supersession_clues": [
+      "之前口径作废",
+      "最终确认以本轮为准",
+      "旧 owner 只算历史信息"
+    ],
+    "actor_task_roles": [
+      {
+        "actor_id": "bob",
+        "task_id": "FEISHU-293",
+        "role": "initial_owner"
+      },
+      {
+        "actor_id": "carol",
+        "task_id": "FEISHU-293",
+        "role": "current_owner"
+      },
+      {
+        "actor_id": "alice",
+        "task_id": "FEISHU-293",
+        "role": "assigner"
+      }
+    ]
+  },
+  "state_changes": [
+    {
+      "task_id": "FEISHU-293",
+      "field": "owner",
+      "sequence": [
+        {
+          "value": "Bob",
+          "status": "initial"
+        },
+        {
+          "value": "Carol",
+          "status": "current"
+        }
+      ]
+    },
+    {
+      "task_id": "FEISHU-293",
+      "field": "deadline",
+      "sequence": [
+        {
+          "value": "6 月 1 日",
+          "status": "initial"
+        },
+        {
+          "value": "6 月 15 日",
+          "status": "current"
+        }
+      ]
+    }
+  ],
+  "message_beats": [
+    {
+      "beat_id": "beat_001",
+      "speaker": "Alice",
+      "session_id": "main_chat",
+      "message_intent": "FEISHU-293 全局变量迁移计划由 Bob 负责，截止日期暂定 6 月 1 日。"
+    },
+    {
+      "beat_id": "beat_002",
+      "speaker": "Alice",
+      "session_id": "main_chat",
+      "message_intent": "Bob 下周要休假，FEISHU-293 转给 Carol 接管，截止日期调整为 6 月 15 日。"
+    },
+    {
+      "beat_id": "beat_003",
+      "speaker": "Alice",
+      "session_id": "main_chat",
+      "message_intent": "之前口径作废，最终确认 FEISHU-293 由 Carol 负责，以 6 月 15 日为准。旧 owner 只算历史信息。"
+    }
+  ],
+  "planned_probe_queries": [
+    {
+      "query": "FEISHU-293 当前负责人是谁？截止日期是哪一天？Bob 和 6 月 1 日是否还有效？为什么？",
+      "expected_good_behavior": "回答 Carol 是当前负责人、6 月 15 日是当前截止日期，明确 Bob 和 6 月 1 日已失效，因为 Alice 最终消息声明了之前口径作废。"
+    }
+  ]
+}

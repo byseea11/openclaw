@@ -1,0 +1,9 @@
+{
+  "case_dir": "amem_docs/ds/feishu_im_dataset_v3/batches/batch_20260507_021541740284/cases/case_20260507021541740586_anti_interference",
+  "phase": "phase3",
+  "failed_stage": "task-wiki-runtime-eval",
+  "status": "failed",
+  "failed_at": "2026-05-07T02:18:26.886285+00:00",
+  "error_type": "RuntimeScriptError",
+  "error_message": "Phase 3 runtime script failed: command=node /Users/byseea/programscoding/nanobot/openclaw-main/feishu_task_wiki_benchmark_builder/runtime/task_wiki_runtime_eval.mjs --case-dir amem_docs/ds/feishu_im_dataset_v3/batches/batch_20260507_021541740284/cases/case_20260507021541740586_anti_interference --semantic-gold rule --json returncode=1 stderr=No replay ingress rows found: /Users/byseea/programscoding/nanobot/openclaw-main/amem_docs/ds/feishu_im_dataset_v3/batches/batch_20260507_021541740284/cases/case_20260507021541740586_anti_interference/data/openclaw_message_ingress.jsonl"
+}

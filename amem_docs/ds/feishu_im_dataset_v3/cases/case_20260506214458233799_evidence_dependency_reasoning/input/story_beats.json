@@ -1,0 +1,67 @@
+{
+  "case_id": "case_20260506214458233799_evidence_dependency_reasoning",
+  "family_id": "evidence_dependency_reasoning",
+  "task_id": "FEISHU-499",
+  "beats": [
+    {
+      "beat_id": "beat_001",
+      "target_session_id": "main_chat",
+      "benchmark_role": "context_only_turn",
+      "description": "正式确认：上游迁移窗口今天仍未锁定，FEISHU-499 暂不能承诺 6 月 15 日灰度。"
+    },
+    {
+      "beat_id": "beat_002",
+      "target_session_id": "main_chat",
+      "benchmark_role": "context_only_turn",
+      "description": "听 DBA 说窗口可能这两天就锁定了，可以开始准备对外沟通了吧？但我没看到正式邮件。"
+    },
+    {
+      "beat_id": "beat_003",
+      "target_session_id": "handoff_thread",
+      "benchmark_role": "context_only_turn",
+      "description": "窗口风险感觉不大，但确实还没锁定，我们暂时先不对外确认。"
+    },
+    {
+      "beat_id": "beat_004",
+      "target_session_id": "handoff_thread",
+      "benchmark_role": "context_only_turn",
+      "description": "如果 FEISHU-499 不能按时灰度，回滚预案验收也得一起顺延，Kate 那边 QA 资源要重新排。"
+    },
+    {
+      "beat_id": "beat_005",
+      "target_session_id": "handoff_thread",
+      "benchmark_role": "context_only_turn",
+      "description": "安全审批基本快完了，就差最后一个签字。不过还没正式下来，你们别当已完成。"
+    },
+    {
+      "beat_id": "beat_006",
+      "target_session_id": "customer_sync_chat",
+      "benchmark_role": "context_only_turn",
+      "description": "VP 说预算大概率能过，但正式批复邮件还没发。先按这个方向准备，别对外说。"
+    },
+    {
+      "beat_id": "beat_007",
+      "target_session_id": "risk_review_thread",
+      "benchmark_role": "context_only_turn",
+      "description": "总结：当前 verified blocker 是 Carol 确认的迁移窗口未锁定，这会直接推迟 FEISHU-499 灰度，导致回滚验收顺延。Bob 和 Grace 的传闻、Alice 和 Eve 的模糊判断都不能替代正式确认。"
+    },
+    {
+      "beat_id": "beat_008",
+      "target_session_id": "risk_review_thread",
+      "benchmark_role": "context_only_turn",
+      "description": "收到，回滚验收资源已重新排期，等窗口锁定通知即可启动。"
+    },
+    {
+      "beat_id": "beat_009",
+      "target_session_id": "exec_sync_chat",
+      "benchmark_role": "context_only_turn",
+      "description": "合规角度我们同意 Xavier 的结论：目前唯一正式依据是 Carol 的确认。窗口锁定后才能对外承诺，建议同步给各区域运营团队。"
+    },
+    {
+      "beat_id": "beat_010",
+      "target_session_id": "main_chat",
+      "benchmark_role": "context_only_turn",
+      "description": "补充：窗口未锁定是因为亚太区域还有一条索引变更未验证，预计需要 3-5 个工作日。这是 Carol 团队评估后得出的。"
+    }
+  ]
+}

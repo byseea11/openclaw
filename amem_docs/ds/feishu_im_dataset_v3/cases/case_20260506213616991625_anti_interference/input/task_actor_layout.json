@@ -1,0 +1,294 @@
+{
+  "case_id": "case_20260506213616991625_anti_interference",
+  "family_id": "anti_interference",
+  "task_id": "FEISHU-825",
+  "actors": [
+    {
+      "actor_id": "alice",
+      "display_name": "Alice",
+      "role": "project_manager"
+    },
+    {
+      "actor_id": "bob",
+      "display_name": "Bob",
+      "role": "ops_manager"
+    },
+    {
+      "actor_id": "carol",
+      "display_name": "Carol",
+      "role": "release_manager"
+    },
+    {
+      "actor_id": "david",
+      "display_name": "David",
+      "role": "qa_lead"
+    },
+    {
+      "actor_id": "eve",
+      "display_name": "Eve",
+      "role": "security_engineer"
+    },
+    {
+      "actor_id": "frank",
+      "display_name": "Frank",
+      "role": "backend_dev"
+    },
+    {
+      "actor_id": "grace",
+      "display_name": "Grace",
+      "role": "frontend_dev"
+    },
+    {
+      "actor_id": "heidi",
+      "display_name": "Heidi",
+      "role": "doc_review_lead"
+    },
+    {
+      "actor_id": "ivan",
+      "display_name": "Ivan",
+      "role": "ops_rehearsal_lead"
+    },
+    {
+      "actor_id": "judy",
+      "display_name": "Judy",
+      "role": "release_sync_coordinator"
+    },
+    {
+      "actor_id": "ken",
+      "display_name": "Ken",
+      "role": "compliance_officer"
+    },
+    {
+      "actor_id": "laura",
+      "display_name": "Laura",
+      "role": "customer_support"
+    },
+    {
+      "actor_id": "mike",
+      "display_name": "Mike",
+      "role": "infra_engineer"
+    },
+    {
+      "actor_id": "nina",
+      "display_name": "Nina",
+      "role": "data_analyst"
+    },
+    {
+      "actor_id": "oscar",
+      "display_name": "Oscar",
+      "role": "network_engineer"
+    },
+    {
+      "actor_id": "paul",
+      "display_name": "Paul",
+      "role": "product_manager"
+    },
+    {
+      "actor_id": "quinn",
+      "display_name": "Quinn",
+      "role": "designer"
+    },
+    {
+      "actor_id": "rachel",
+      "display_name": "Rachel",
+      "role": "tech_writer"
+    },
+    {
+      "actor_id": "sam",
+      "display_name": "Sam",
+      "role": "external_auditor"
+    },
+    {
+      "actor_id": "tina",
+      "display_name": "Tina",
+      "role": "legal_advisor"
+    },
+    {
+      "actor_id": "uma",
+      "display_name": "Uma",
+      "role": "hr_business_partner"
+    },
+    {
+      "actor_id": "victor",
+      "display_name": "Victor",
+      "role": "finance_controller"
+    },
+    {
+      "actor_id": "wendy",
+      "display_name": "Wendy",
+      "role": "procurement_specialist"
+    },
+    {
+      "actor_id": "xander",
+      "display_name": "Xander",
+      "role": "vendor_coordinator"
+    },
+    {
+      "actor_id": "yvonne",
+      "display_name": "Yvonne",
+      "role": "marketing_lead"
+    },
+    {
+      "actor_id": "zack",
+      "display_name": "Zack",
+      "role": "training_lead"
+    },
+    {
+      "actor_id": "abby",
+      "display_name": "Abby",
+      "role": "risk_analyst"
+    },
+    {
+      "actor_id": "ben",
+      "display_name": "Ben",
+      "role": "internal_auditor"
+    }
+  ],
+  "task_actor_layout": {
+    "target_task_id": "FEISHU-825",
+    "shared_actors": [
+      "alice",
+      "bob",
+      "carol",
+      "david",
+      "eve",
+      "frank",
+      "grace"
+    ],
+    "interference_context_blocks": [
+      {
+        "context_ref": "ctx_doc_review",
+        "context_label": "并行文档收口讨论",
+        "noise_source_type": "shared_actor_noise",
+        "relationship_to_target": "Alice 在文档收口里是 reviewer，容易误当成 FEISHU-825 的 owner 再次变更。"
+      },
+      {
+        "context_ref": "ctx_ops_rehearsal",
+        "context_label": "运维演练 blocker 讨论",
+        "noise_source_type": "similar_wording_noise",
+        "relationship_to_target": "Bob 和 Ivan 在此讨论 blocker 和 ready，与 FEISHU-825 的 blocker 混淆。"
+      },
+      {
+        "context_ref": "ctx_release_sync",
+        "context_label": "并行发布节奏同步",
+        "noise_source_type": "parallel_discussion_noise",
+        "relationship_to_target": "Judy 和 Paul 在此同步 window/ready，易与 FEISHU-825 混淆。"
+      },
+      {
+        "context_ref": "ctx_security_review",
+        "context_label": "安全评审线程",
+        "noise_source_type": "parallel_discussion_noise",
+        "relationship_to_target": "Eve 和 Ken 在讨论安全 review blocker，可能被误认为 FEISHU-825 的 blocker。"
+      },
+      {
+        "context_ref": "ctx_vendor_sync",
+        "context_label": "供应商协调侧聊",
+        "noise_source_type": "shared_actor_noise",
+        "relationship_to_target": "Frank 和 Xander 在谈支付模块依赖，与 FEISHU-825 的依赖混淆。"
+      },
+      {
+        "context_ref": "ctx_qat_planning",
+        "context_label": "质量验收计划讨论",
+        "noise_source_type": "similar_wording_noise",
+        "relationship_to_target": "David 和 Abby 用 'blocker' 讨论测试环境准备，干扰 FEISHU-825。"
+      }
+    ],
+    "actor_task_roles": [
+      {
+        "actor_id": "alice",
+        "task_id": "FEISHU-825",
+        "role": "target_owner"
+      },
+      {
+        "actor_id": "alice",
+        "context_ref": "ctx_doc_review",
+        "role": "reviewer"
+      },
+      {
+        "actor_id": "bob",
+        "context_ref": "ctx_ops_rehearsal",
+        "role": "ops_owner"
+      },
+      {
+        "actor_id": "carol",
+        "context_ref": "ctx_release_sync",
+        "role": "release_coordinator"
+      },
+      {
+        "actor_id": "david",
+        "task_id": "FEISHU-825",
+        "role": "qa_contact"
+      },
+      {
+        "actor_id": "david",
+        "context_ref": "ctx_qat_planning",
+        "role": "qa_lead"
+      },
+      {
+        "actor_id": "eve",
+        "task_id": "FEISHU-825",
+        "role": "security_contact"
+      },
+      {
+        "actor_id": "eve",
+        "context_ref": "ctx_security_review",
+        "role": "security_owner"
+      },
+      {
+        "actor_id": "frank",
+        "task_id": "FEISHU-825",
+        "role": "backend_dev"
+      },
+      {
+        "actor_id": "frank",
+        "context_ref": "ctx_vendor_sync",
+        "role": "tech_contact"
+      },
+      {
+        "actor_id": "grace",
+        "task_id": "FEISHU-825",
+        "role": "frontend_dev"
+      },
+      {
+        "actor_id": "grace",
+        "context_ref": "ctx_vendor_sync",
+        "role": "ui_contact"
+      },
+      {
+        "actor_id": "ivan",
+        "context_ref": "ctx_ops_rehearsal",
+        "role": "rehearsal_lead"
+      },
+      {
+        "actor_id": "judy",
+        "context_ref": "ctx_release_sync",
+        "role": "sync_owner"
+      },
+      {
+        "actor_id": "heidi",
+        "context_ref": "ctx_doc_review",
+        "role": "doc_lead"
+      },
+      {
+        "actor_id": "paul",
+        "context_ref": "ctx_release_sync",
+        "role": "product_owner"
+      },
+      {
+        "actor_id": "ken",
+        "context_ref": "ctx_security_review",
+        "role": "compliance_owner"
+      },
+      {
+        "actor_id": "abby",
+        "context_ref": "ctx_qat_planning",
+        "role": "risk_owner"
+      },
+      {
+        "actor_id": "xander",
+        "context_ref": "ctx_vendor_sync",
+        "role": "vendor_owner"
+      }
+    ]
+  }
+}

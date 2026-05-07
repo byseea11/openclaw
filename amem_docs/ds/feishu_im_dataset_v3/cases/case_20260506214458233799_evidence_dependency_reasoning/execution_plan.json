@@ -1,0 +1,442 @@
+{
+  "case_id": "case_20260506214458233799_evidence_dependency_reasoning",
+  "operator_identity": "user",
+  "delivery_mode": "prefixed_single_operator",
+  "actions": [
+    {
+      "action_id": "step_001",
+      "action_type": "create_chat",
+      "depends_on": [],
+      "params": {
+        "chat_ref": "chat_main_chat",
+        "name": "主群协调",
+        "members": [
+          "alice",
+          "amy",
+          "bob",
+          "brian",
+          "carol",
+          "dave",
+          "eve",
+          "frank",
+          "grace",
+          "henry",
+          "ivy",
+          "jack",
+          "kate",
+          "leo",
+          "mia",
+          "nick",
+          "olivia",
+          "paul",
+          "quinn",
+          "rachel",
+          "sam",
+          "tina",
+          "ulysses",
+          "victor",
+          "wendy",
+          "xavier",
+          "yara",
+          "zack"
+        ]
+      },
+      "output_ref": "chat_main_chat"
+    },
+    {
+      "action_id": "step_002",
+      "action_type": "create_chat",
+      "depends_on": [],
+      "params": {
+        "chat_ref": "chat_handoff_thread",
+        "name": "交接修正线程",
+        "members": [
+          "alice",
+          "amy",
+          "bob",
+          "brian",
+          "carol",
+          "dave",
+          "eve",
+          "frank",
+          "grace",
+          "henry",
+          "ivy",
+          "jack",
+          "kate",
+          "leo",
+          "mia",
+          "nick",
+          "olivia",
+          "paul",
+          "quinn",
+          "rachel",
+          "sam",
+          "tina",
+          "ulysses",
+          "victor",
+          "wendy",
+          "xavier",
+          "yara",
+          "zack"
+        ]
+      },
+      "output_ref": "chat_handoff_thread"
+    },
+    {
+      "action_id": "step_003",
+      "action_type": "create_chat",
+      "depends_on": [],
+      "params": {
+        "chat_ref": "chat_customer_sync_chat",
+        "name": "客户同步侧群",
+        "members": [
+          "alice",
+          "amy",
+          "bob",
+          "brian",
+          "carol",
+          "dave",
+          "eve",
+          "frank",
+          "grace",
+          "henry",
+          "ivy",
+          "jack",
+          "kate",
+          "leo",
+          "mia",
+          "nick",
+          "olivia",
+          "paul",
+          "quinn",
+          "rachel",
+          "sam",
+          "tina",
+          "ulysses",
+          "victor",
+          "wendy",
+          "xavier",
+          "yara",
+          "zack"
+        ]
+      },
+      "output_ref": "chat_customer_sync_chat"
+    },
+    {
+      "action_id": "step_004",
+      "action_type": "create_chat",
+      "depends_on": [],
+      "params": {
+        "chat_ref": "chat_risk_review_thread",
+        "name": "风险复核线程",
+        "members": [
+          "alice",
+          "amy",
+          "bob",
+          "brian",
+          "carol",
+          "dave",
+          "eve",
+          "frank",
+          "grace",
+          "henry",
+          "ivy",
+          "jack",
+          "kate",
+          "leo",
+          "mia",
+          "nick",
+          "olivia",
+          "paul",
+          "quinn",
+          "rachel",
+          "sam",
+          "tina",
+          "ulysses",
+          "victor",
+          "wendy",
+          "xavier",
+          "yara",
+          "zack"
+        ]
+      },
+      "output_ref": "chat_risk_review_thread"
+    },
+    {
+      "action_id": "step_005",
+      "action_type": "create_chat",
+      "depends_on": [],
+      "params": {
+        "chat_ref": "chat_exec_sync_chat",
+        "name": "管理层同步侧群",
+        "members": [
+          "alice",
+          "amy",
+          "bob",
+          "brian",
+          "carol",
+          "dave",
+          "eve",
+          "frank",
+          "grace",
+          "henry",
+          "ivy",
+          "jack",
+          "kate",
+          "leo",
+          "mia",
+          "nick",
+          "olivia",
+          "paul",
+          "quinn",
+          "rachel",
+          "sam",
+          "tina",
+          "ulysses",
+          "victor",
+          "wendy",
+          "xavier",
+          "yara",
+          "zack"
+        ]
+      },
+      "output_ref": "chat_exec_sync_chat"
+    },
+    {
+      "action_id": "step_006",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_002"
+      ],
+      "params": {
+        "chat_ref": "chat_handoff_thread",
+        "sender_ref": "benchmark_root",
+        "content_text": "【benchmark/root】交接修正线程：以下回复承载该 source session 的真实 benchmark 消息。"
+      },
+      "output_ref": "thread_root_handoff_thread"
+    },
+    {
+      "action_id": "step_007",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_004"
+      ],
+      "params": {
+        "chat_ref": "chat_risk_review_thread",
+        "sender_ref": "benchmark_root",
+        "content_text": "【benchmark/root】风险复核线程：以下回复承载该 source session 的真实 benchmark 消息。"
+      },
+      "output_ref": "thread_root_risk_review_thread"
+    },
+    {
+      "action_id": "step_008",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_001"
+      ],
+      "params": {
+        "chat_ref": "chat_main_chat",
+        "sender_ref": "carol",
+        "content_text": "【migration_owner/Carol】正式确认：上游迁移窗口今天仍未锁定，FEISHU-499 暂不能承诺 6 月 15 日灰度。"
+      },
+      "output_ref": "msg_turn_001"
+    },
+    {
+      "action_id": "step_009",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_001"
+      ],
+      "params": {
+        "chat_ref": "chat_main_chat",
+        "sender_ref": "bob",
+        "content_text": "【ops_partner/Bob】听 DBA 说窗口可能这两天就锁定了，可以开始准备对外沟通了吧？但我没看到正式邮件。"
+      },
+      "output_ref": "msg_turn_002"
+    },
+    {
+      "action_id": "step_010",
+      "action_type": "reply_in_thread",
+      "depends_on": [
+        "step_002",
+        "step_006"
+      ],
+      "params": {
+        "chat_ref": "chat_handoff_thread",
+        "sender_ref": "alice",
+        "content_text": "【release_pm/Alice】窗口风险感觉不大，但确实还没锁定，我们暂时先不对外确认。",
+        "root_message_ref": "thread_root_handoff_thread"
+      },
+      "output_ref": "msg_turn_003"
+    },
+    {
+      "action_id": "step_011",
+      "action_type": "reply_in_thread",
+      "depends_on": [
+        "step_002",
+        "step_006"
+      ],
+      "params": {
+        "chat_ref": "chat_handoff_thread",
+        "sender_ref": "alice",
+        "content_text": "【release_pm/Alice】如果 FEISHU-499 不能按时灰度，回滚预案验收也得一起顺延，Kate 那边 QA 资源要重新排。",
+        "root_message_ref": "thread_root_handoff_thread"
+      },
+      "output_ref": "msg_turn_004"
+    },
+    {
+      "action_id": "step_012",
+      "action_type": "reply_in_thread",
+      "depends_on": [
+        "step_002",
+        "step_006"
+      ],
+      "params": {
+        "chat_ref": "chat_handoff_thread",
+        "sender_ref": "eve",
+        "content_text": "【security_officer/Eve】安全审批基本快完了，就差最后一个签字。不过还没正式下来，你们别当已完成。",
+        "root_message_ref": "thread_root_handoff_thread"
+      },
+      "output_ref": "msg_turn_005"
+    },
+    {
+      "action_id": "step_013",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_003"
+      ],
+      "params": {
+        "chat_ref": "chat_customer_sync_chat",
+        "sender_ref": "grace",
+        "content_text": "【finance_controller/Grace】VP 说预算大概率能过，但正式批复邮件还没发。先按这个方向准备，别对外说。"
+      },
+      "output_ref": "msg_turn_006"
+    },
+    {
+      "action_id": "step_014",
+      "action_type": "reply_in_thread",
+      "depends_on": [
+        "step_004",
+        "step_007"
+      ],
+      "params": {
+        "chat_ref": "chat_risk_review_thread",
+        "sender_ref": "xavier",
+        "content_text": "【target_owner/Xavier】总结：当前 verified blocker 是 Carol 确认的迁移窗口未锁定，这会直接推迟 FEISHU-499 灰度，导致回滚验收顺延。Bob 和 Grace 的传闻、Alice 和 Eve 的模糊判断都不能替代正式确认。",
+        "root_message_ref": "thread_root_risk_review_thread"
+      },
+      "output_ref": "msg_turn_007"
+    },
+    {
+      "action_id": "step_015",
+      "action_type": "reply_in_thread",
+      "depends_on": [
+        "step_004",
+        "step_007"
+      ],
+      "params": {
+        "chat_ref": "chat_risk_review_thread",
+        "sender_ref": "kate",
+        "content_text": "【qa_lead/Kate】收到，回滚验收资源已重新排期，等窗口锁定通知即可启动。",
+        "root_message_ref": "thread_root_risk_review_thread"
+      },
+      "output_ref": "msg_turn_008"
+    },
+    {
+      "action_id": "step_016",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_005"
+      ],
+      "params": {
+        "chat_ref": "chat_exec_sync_chat",
+        "sender_ref": "frank",
+        "content_text": "【compliance_lead/Frank】合规角度我们同意 Xavier 的结论：目前唯一正式依据是 Carol 的确认。窗口锁定后才能对外承诺，建议同步给各区域运营团队。"
+      },
+      "output_ref": "msg_turn_009"
+    },
+    {
+      "action_id": "step_017",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_001"
+      ],
+      "params": {
+        "chat_ref": "chat_main_chat",
+        "sender_ref": "dave",
+        "content_text": "【dba_lead/Dave】补充：窗口未锁定是因为亚太区域还有一条索引变更未验证，预计需要 3-5 个工作日。这是 Carol 团队评估后得出的。"
+      },
+      "output_ref": "msg_turn_010"
+    },
+    {
+      "action_id": "step_018",
+      "action_type": "fetch_chat_messages",
+      "depends_on": [
+        "step_001",
+        "step_008",
+        "step_009",
+        "step_017"
+      ],
+      "params": {
+        "chat_ref": "chat_main_chat"
+      },
+      "output_ref": ""
+    },
+    {
+      "action_id": "step_019",
+      "action_type": "fetch_chat_messages",
+      "depends_on": [
+        "step_003",
+        "step_013"
+      ],
+      "params": {
+        "chat_ref": "chat_customer_sync_chat"
+      },
+      "output_ref": ""
+    },
+    {
+      "action_id": "step_020",
+      "action_type": "fetch_chat_messages",
+      "depends_on": [
+        "step_005",
+        "step_016"
+      ],
+      "params": {
+        "chat_ref": "chat_exec_sync_chat"
+      },
+      "output_ref": ""
+    },
+    {
+      "action_id": "step_021",
+      "action_type": "fetch_thread_messages",
+      "depends_on": [
+        "step_002",
+        "step_006",
+        "step_010",
+        "step_011",
+        "step_012"
+      ],
+      "params": {
+        "chat_ref": "chat_handoff_thread",
+        "root_message_ref": "thread_root_handoff_thread"
+      },
+      "output_ref": ""
+    },
+    {
+      "action_id": "step_022",
+      "action_type": "fetch_thread_messages",
+      "depends_on": [
+        "step_004",
+        "step_007",
+        "step_014",
+        "step_015"
+      ],
+      "params": {
+        "chat_ref": "chat_risk_review_thread",
+        "root_message_ref": "thread_root_risk_review_thread"
+      },
+      "output_ref": ""
+    }
+  ]
+}

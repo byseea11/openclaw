@@ -1,0 +1,111 @@
+{
+  "case_id": "case_20260506213616991625_anti_interference",
+  "family_id": "anti_interference",
+  "task_id": "FEISHU-825",
+  "sessions": [
+    {
+      "session_id": "main_chat",
+      "session_type": "main_chat",
+      "title": "主群协调",
+      "session_purpose": "沉淀目标任务的主线协作信息和最终 current state。"
+    },
+    {
+      "session_id": "handoff_thread",
+      "session_type": "handoff_thread",
+      "title": "交接修正线程",
+      "session_purpose": "承载 owner 交接、旧状态修正和 supersession 说明。"
+    },
+    {
+      "session_id": "qa_thread",
+      "session_type": "thread",
+      "title": "qa_thread 线程",
+      "session_purpose": "承载局部修正、依赖或补充说明。"
+    },
+    {
+      "session_id": "vendor_sync_chat",
+      "session_type": "chat",
+      "title": "vendor_sync_chat 会话",
+      "session_purpose": "承载目标任务相关的补充协作上下文。"
+    },
+    {
+      "session_id": "exec_sync_chat",
+      "session_type": "exec_sync_chat",
+      "title": "管理层同步侧群",
+      "session_purpose": "承载跨部门升级、相似措辞和并行决策噪声。"
+    }
+  ],
+  "turns": [
+    {
+      "turn_id": "turn_001",
+      "beat_id": "beat_001",
+      "sequence_no": 1,
+      "session_id": "main_chat",
+      "speaker_actor_id": "alice",
+      "speaker": "Alice",
+      "planned_message_text": "FEISHU-825 当前由 Alice 负责收口，真正 blocker 还是支付风控回归没有完成，上线窗口暂时定不了。"
+    },
+    {
+      "turn_id": "turn_002",
+      "beat_id": "beat_002",
+      "sequence_no": 2,
+      "session_id": "main_chat",
+      "speaker_actor_id": "bob",
+      "speaker": "Bob",
+      "planned_message_text": "运维演练那边也卡在 blocker，但这是另外一条并行讨论，不是 FEISHU-825 的 owner 变更。"
+    },
+    {
+      "turn_id": "turn_003",
+      "beat_id": "beat_003",
+      "sequence_no": 3,
+      "session_id": "main_chat",
+      "speaker_actor_id": "carol",
+      "speaker": "Carol",
+      "planned_message_text": "发布节奏同步会上提到的窗口调整是针对其它发布，跟 FEISHU-825 的时间无关。"
+    },
+    {
+      "turn_id": "turn_004",
+      "beat_id": "beat_004",
+      "sequence_no": 4,
+      "session_id": "handoff_thread",
+      "speaker_actor_id": "alice",
+      "speaker": "Alice",
+      "planned_message_text": "Alice 只是 FEISHU-825 的 owner，文档收口那边她只是 reviewer，不要混淆。"
+    },
+    {
+      "turn_id": "turn_005",
+      "beat_id": "beat_005",
+      "sequence_no": 5,
+      "session_id": "main_chat",
+      "speaker_actor_id": "eve",
+      "speaker": "Eve",
+      "planned_message_text": "安全 review 的 blocker 不是支付风控回归，那是两回事，FEISHU-825 的 blocker 还是支付风控回归。"
+    },
+    {
+      "turn_id": "turn_006",
+      "beat_id": "beat_006",
+      "sequence_no": 6,
+      "session_id": "qa_thread",
+      "speaker_actor_id": "david",
+      "speaker": "David",
+      "planned_message_text": "质量验收计划里的 blocker 是测试环境问题，跟 FEISHU-825 的支付风控回归无关。"
+    },
+    {
+      "turn_id": "turn_007",
+      "beat_id": "beat_007",
+      "sequence_no": 7,
+      "session_id": "vendor_sync_chat",
+      "speaker_actor_id": "frank",
+      "speaker": "Frank",
+      "planned_message_text": "供应商那边的依赖是另一个模块，不影响 FEISHU-825 的 blocker 状态。"
+    },
+    {
+      "turn_id": "turn_008",
+      "beat_id": "beat_008",
+      "sequence_no": 8,
+      "session_id": "exec_sync_chat",
+      "speaker_actor_id": "alice",
+      "speaker": "Alice",
+      "planned_message_text": "最终确认：FEISHU-825 当前 owner 是 Alice，blocker 是支付风控回归未完成，其它并行讨论里的 blocker、ready、窗口变更都不要混进来。"
+    }
+  ]
+}

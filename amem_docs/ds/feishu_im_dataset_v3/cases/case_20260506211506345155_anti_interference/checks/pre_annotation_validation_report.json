@@ -1,0 +1,21 @@
+{
+  "case_id": "case_20260506211506345155_anti_interference",
+  "is_valid": true,
+  "checks": [
+    {
+      "check_id": "message_beat_coverage",
+      "passed": true,
+      "details": "所有 story plan beats 都已落地。"
+    },
+    {
+      "check_id": "probe_queries_present",
+      "passed": true,
+      "details": "story plan 已包含 planned probe queries。"
+    },
+    {
+      "check_id": "state_changes_present",
+      "passed": true,
+      "details": "story plan 已包含 state_changes。"
+    }
+  ]
+}

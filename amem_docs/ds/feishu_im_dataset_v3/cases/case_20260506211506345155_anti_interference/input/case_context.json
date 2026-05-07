@@ -1,0 +1,37 @@
+{
+  "family_id": "anti_interference",
+  "benchmark_requirement_name": "抗干扰测试",
+  "benchmark_requirement_summary": "在大量无关任务、共享角色和相似字段噪音下，仍然准确捞取目标任务的关键记忆。",
+  "report_display_name": "抗干扰测试",
+  "capability_under_test": "在共享角色和相似任务并存时，只回答目标任务的当前上下文，不把噪音任务的信息混入答案。",
+  "why_memory_systems_may_fail": "系统容易把共享角色在其他任务上的信息误并入目标任务，导致回答范围污染，即使相关消息都被记住了也会答偏。",
+  "generation_rules": [
+    "正式 contract 里只能有 1 个目标任务，不能把 distractor task 当成并列正式 task。",
+    "必须存在 shared actors、跨任务噪声或相似措辞来源，让系统需要做 task boundary 判断。",
+    "query 不能只问显式字段，必须逼系统区分目标任务和其他任务上下文的边界。"
+  ],
+  "required_case_structure": [
+    "target_task",
+    "distractor_context",
+    "shared_actors",
+    "scope_limited_query_need"
+  ],
+  "probe_strategy": [
+    "让 query 同时提到目标任务和相似任务背景。",
+    "要求系统明确排除非目标任务信息。"
+  ],
+  "expected_good_system_behavior": [
+    "只回答目标任务的当前负责人、状态和阻塞。",
+    "显式说明相似任务的信息不应混入当前答案。"
+  ],
+  "case_id": "case_20260506211506345155_anti_interference",
+  "task_id": "FEISHU-655",
+  "seed": 20260506211506345155,
+  "difficulty": "hard",
+  "comparison_target": "default_memory_architectures",
+  "organization": "Globex Corporation",
+  "team": "大中华区基础架构部与安全合规部联合项目组",
+  "business_goal": "在并行推进多个基础设施升级项目期间，确保每个任务的负责人、阻塞项和交付状态不被跨任务干扰混淆。",
+  "scenario_summary": "Globex 大中华区正在进行多个并行基础设施升级项目，包括支付网关灰度放量、数据中心迁移、全球合规取证支持等。这些项目共享多位核心工程师和运维人员，且部分项目使用了相似的负责人代码、阻塞项表述和收口进度说法，容易在跨项目集成环境中造成任务级记忆污染。需要设计抗干扰能力，确保系统能精准回答每个任务独立的当前状态。",
+  "family_fit_explanation": "多项目并行、共享角色、相似字段表述的场景天然产生 shared_actor_noise、similar_wording_noise 和 parallel_discussion_noise，与 anti_interference 家族的测试目标高度吻合。"
+}

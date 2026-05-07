@@ -1,0 +1,79 @@
+{
+  "case_id": "case_20260506211506345155_anti_interference",
+  "family_id": "anti_interference",
+  "task_id": "FEISHU-655",
+  "beats": [
+    {
+      "beat_id": "beat_001",
+      "target_session_id": "main_chat",
+      "benchmark_role": "memory_pollution_turn",
+      "description": "FEISHU-655 当前由 Alice 负责收口，真正 blocker 是支付风控回归测试还没跑完，窗口暂时锁定不了。"
+    },
+    {
+      "beat_id": "beat_002",
+      "target_session_id": "main_chat",
+      "benchmark_role": "memory_pollution_turn",
+      "description": "运维演练那边也卡在 blocker，不过那是一条并行讨论，不是 FEISHU-655 的变更。"
+    },
+    {
+      "beat_id": "beat_003",
+      "target_session_id": "thread_release",
+      "benchmark_role": "memory_pollution_turn",
+      "description": "Alice 晚上还要审文档收口，但那只是 reviewer 身份，不代表 FEISHU-655 再次换 owner。"
+    },
+    {
+      "beat_id": "beat_004",
+      "target_session_id": "main_chat",
+      "benchmark_role": "memory_pollution_turn",
+      "description": "合规取证那边 blocker 是法规文件不齐，这个和 FEISHU-655 没关系，别混在一起。"
+    },
+    {
+      "beat_id": "beat_005",
+      "target_session_id": "thread_network",
+      "benchmark_role": "memory_pollution_turn",
+      "description": "骨干网络升级的窗口计划在下周一，这个时间点不是 FEISHU-655 的放量窗口。"
+    },
+    {
+      "beat_id": "beat_006",
+      "target_session_id": "thread_db",
+      "benchmark_role": "memory_pollution_turn",
+      "description": "数据库升级的收口负责人是 Grace，不是 Alice，两个任务不要搞混。"
+    },
+    {
+      "beat_id": "beat_007",
+      "target_session_id": "thread_vendor",
+      "benchmark_role": "memory_pollution_turn",
+      "description": "供应商评审的 blocker 是合同条款，与 FEISHU-655 的风控回归无关。"
+    },
+    {
+      "beat_id": "beat_008",
+      "target_session_id": "thread_release",
+      "benchmark_role": "memory_pollution_turn",
+      "description": "注意：FEISHU-655 的 owner 没有变化，还是 Alice，其他讨论的 owner 变更都是不同任务的。"
+    },
+    {
+      "beat_id": "beat_009",
+      "target_session_id": "main_chat",
+      "benchmark_role": "memory_pollution_turn",
+      "description": "FEISHU-655 的 blocker 只有风控回归，数据迁移和合规取证的 blocker 都不是本任务的。"
+    },
+    {
+      "beat_id": "beat_010",
+      "target_session_id": "main_chat",
+      "benchmark_role": "memory_pollution_turn",
+      "description": "迁移任务的 blocker 是机房电力，不是支付风控，大家记住两个任务是独立的。"
+    },
+    {
+      "beat_id": "beat_011",
+      "target_session_id": "main_chat",
+      "benchmark_role": "memory_pollution_turn",
+      "description": "FEISHU-655 的最新状态：Alice 是 owner，风控回归 blocker，窗口待定。其他项目的状态不要混入本条消息。"
+    },
+    {
+      "beat_id": "beat_012",
+      "target_session_id": "thread_release",
+      "benchmark_role": "memory_pollution_turn",
+      "description": "我确认 FEISHU-655 的当前状态就是 Alice 负责、风控回归 blocker，没有其他干扰项。"
+    }
+  ]
+}

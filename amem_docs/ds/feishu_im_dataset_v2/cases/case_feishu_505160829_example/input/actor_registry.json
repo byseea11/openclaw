@@ -1,0 +1,112 @@
+{
+  "case_id": "case_feishu_505160829_example",
+  "actors": [
+    {
+      "person_id": "pm_li_wei",
+      "simulated_open_id": "ou_sim_pm_li_wei",
+      "name": "李伟",
+      "department": "产品",
+      "role": "产品经理",
+      "default_channels": [
+        "session_main_chat",
+        "session_exec_sync_chat"
+      ]
+    },
+    {
+      "person_id": "dev_wang_fang",
+      "simulated_open_id": "ou_sim_dev_wang_fang",
+      "name": "王芳",
+      "department": "研发",
+      "role": "技术负责人",
+      "default_channels": [
+        "session_main_chat",
+        "session_launch_window_thread"
+      ]
+    },
+    {
+      "person_id": "sec_zhang_qiang",
+      "simulated_open_id": "ou_sim_sec_zhang_qiang",
+      "name": "张强",
+      "department": "安全",
+      "role": "安全工程师",
+      "default_channels": [
+        "session_risk_review_thread",
+        "session_main_chat"
+      ]
+    },
+    {
+      "person_id": "comp_liu_mei",
+      "simulated_open_id": "ou_sim_comp_liu_mei",
+      "name": "刘梅",
+      "department": "合规",
+      "role": "合规专员",
+      "default_channels": [
+        "session_main_chat",
+        "session_launch_window_thread"
+      ]
+    },
+    {
+      "person_id": "risk_chen_hao",
+      "simulated_open_id": "ou_sim_risk_chen_hao",
+      "name": "陈浩",
+      "department": "风控",
+      "role": "风控经理",
+      "default_channels": [
+        "session_customer_sync_chat",
+        "session_main_chat"
+      ]
+    },
+    {
+      "person_id": "ops_zhao_lin",
+      "simulated_open_id": "ou_sim_ops_zhao_lin",
+      "name": "赵林",
+      "department": "运维",
+      "role": "运维主管",
+      "default_channels": [
+        "session_main_chat",
+        "session_risk_review_thread"
+      ]
+    },
+    {
+      "person_id": "data_sun_li",
+      "simulated_open_id": "ou_sim_data_sun_li",
+      "name": "孙丽",
+      "department": "数据平台",
+      "role": "数据工程师",
+      "default_channels": [
+        "session_launch_window_thread"
+      ]
+    },
+    {
+      "person_id": "test_zhou_jie",
+      "simulated_open_id": "ou_sim_test_zhou_jie",
+      "name": "周杰",
+      "department": "测试",
+      "role": "测试负责人",
+      "default_channels": [
+        "session_main_chat"
+      ]
+    },
+    {
+      "person_id": "legal_wu_fan",
+      "simulated_open_id": "ou_sim_legal_wu_fan",
+      "name": "吴凡",
+      "department": "法务",
+      "role": "法务顾问",
+      "default_channels": [
+        "session_main_chat"
+      ]
+    },
+    {
+      "person_id": "product_manager_01",
+      "simulated_open_id": "ou_sim_product_manager_01",
+      "name": "许薇",
+      "department": "产品",
+      "role": "产品经理",
+      "default_channels": [
+        "main_chat",
+        "customer_sync_chat"
+      ]
+    }
+  ]
+}

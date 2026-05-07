@@ -1,0 +1,267 @@
+{
+  "case_id": "case_20260506213133524022_anti_interference",
+  "family_id": "anti_interference",
+  "task_id": "FEISHU-822",
+  "actors": [
+    {
+      "actor_id": "alice",
+      "display_name": "Alice",
+      "role": "project_manager"
+    },
+    {
+      "actor_id": "bob",
+      "display_name": "Bob",
+      "role": "ops_manager"
+    },
+    {
+      "actor_id": "carol",
+      "display_name": "Carol",
+      "role": "release_manager"
+    },
+    {
+      "actor_id": "david",
+      "display_name": "David",
+      "role": "infra_engineer"
+    },
+    {
+      "actor_id": "eve",
+      "display_name": "Eve",
+      "role": "qa_lead"
+    },
+    {
+      "actor_id": "frank",
+      "display_name": "Frank",
+      "role": "security_engineer"
+    },
+    {
+      "actor_id": "grace",
+      "display_name": "Grace",
+      "role": "compliance_officer"
+    },
+    {
+      "actor_id": "heidi",
+      "display_name": "Heidi",
+      "role": "customer_support"
+    },
+    {
+      "actor_id": "ivan",
+      "display_name": "Ivan",
+      "role": "vendor_coordinator"
+    },
+    {
+      "actor_id": "judy",
+      "display_name": "Judy",
+      "role": "document_reviewer"
+    },
+    {
+      "actor_id": "karen",
+      "display_name": "Karen",
+      "role": "release_coordinator"
+    },
+    {
+      "actor_id": "leo",
+      "display_name": "Leo",
+      "role": "ops_engineer"
+    },
+    {
+      "actor_id": "mia",
+      "display_name": "Mia",
+      "role": "finance_analyst"
+    },
+    {
+      "actor_id": "nick",
+      "display_name": "Nick",
+      "role": "legal_counsel"
+    },
+    {
+      "actor_id": "olivia",
+      "display_name": "Olivia",
+      "role": "hr_partner"
+    },
+    {
+      "actor_id": "peter",
+      "display_name": "Peter",
+      "role": "marketing_lead"
+    },
+    {
+      "actor_id": "quinn",
+      "display_name": "Quinn",
+      "role": "executive_assistant"
+    },
+    {
+      "actor_id": "rachel",
+      "display_name": "Rachel",
+      "role": "data_engineer"
+    },
+    {
+      "actor_id": "sam",
+      "display_name": "Sam",
+      "role": "devops_engineer"
+    },
+    {
+      "actor_id": "tina",
+      "display_name": "Tina",
+      "role": "product_manager"
+    },
+    {
+      "actor_id": "ulysses",
+      "display_name": "Ulysses",
+      "role": "architect"
+    },
+    {
+      "actor_id": "victor",
+      "display_name": "Victor",
+      "role": "network_engineer"
+    },
+    {
+      "actor_id": "wendy",
+      "display_name": "Wendy",
+      "role": "training_coordinator"
+    },
+    {
+      "actor_id": "xavier",
+      "display_name": "Xavier",
+      "role": "risk_analyst"
+    },
+    {
+      "actor_id": "yvonne",
+      "display_name": "Yvonne",
+      "role": "procurement"
+    },
+    {
+      "actor_id": "zack",
+      "display_name": "Zack",
+      "role": "support_engineer"
+    },
+    {
+      "actor_id": "amy",
+      "display_name": "Amy",
+      "role": "comms_lead"
+    },
+    {
+      "actor_id": "brian",
+      "display_name": "Brian",
+      "role": "vendor_manager"
+    }
+  ],
+  "task_actor_layout": {
+    "target_task_id": "FEISHU-201",
+    "shared_actors": [
+      "alice",
+      "bob",
+      "carol",
+      "david",
+      "eve",
+      "frank"
+    ],
+    "interference_context_blocks": [
+      {
+        "context_ref": "ctx_doc_review",
+        "context_label": "并行文档收口讨论",
+        "noise_source_type": "shared_actor_noise",
+        "relationship_to_target": "Alice 在这里是 reviewer，不应被误当成 FEISHU-201 的 owner 变更。"
+      },
+      {
+        "context_ref": "ctx_ops_rehearsal",
+        "context_label": "运维演练 blocker 讨论",
+        "noise_source_type": "similar_wording_noise",
+        "relationship_to_target": "Bob 和 Eve 讨论的 blocker/ready 不是 FEISHU-201 的当前 blocker。"
+      },
+      {
+        "context_ref": "ctx_release_sync",
+        "context_label": "并行发布节奏同步",
+        "noise_source_type": "parallel_discussion_noise",
+        "relationship_to_target": "Carol 和 Karen 的同步会反复提到 window/ready，容易与 FEISHU-201 混淆。"
+      },
+      {
+        "context_ref": "ctx_infra_upgrade",
+        "context_label": "基础设施升级讨论",
+        "noise_source_type": "shared_actor_noise",
+        "relationship_to_target": "David 和 Frank 在基础设施升级中也是关键角色，但他们讨论的依赖和 blocker 不涉及支付灰度。"
+      },
+      {
+        "context_ref": "ctx_customer_escalation",
+        "context_label": "客户升级案例",
+        "noise_source_type": "similar_wording_noise",
+        "relationship_to_target": "Heidi 和 Grace 处理的客户问题也用到 ready/blocker 措辞，但实际与 FEISHU-201 无关。"
+      }
+    ],
+    "actor_task_roles": [
+      {
+        "actor_id": "alice",
+        "task_id": "FEISHU-201",
+        "role": "target_owner"
+      },
+      {
+        "actor_id": "alice",
+        "context_ref": "ctx_doc_review",
+        "role": "reviewer"
+      },
+      {
+        "actor_id": "bob",
+        "context_ref": "ctx_ops_rehearsal",
+        "role": "ops_owner"
+      },
+      {
+        "actor_id": "bob",
+        "task_id": "FEISHU-201",
+        "role": "ops_partner"
+      },
+      {
+        "actor_id": "carol",
+        "context_ref": "ctx_release_sync",
+        "role": "release_coordinator"
+      },
+      {
+        "actor_id": "carol",
+        "task_id": "FEISHU-201",
+        "role": "release_contact"
+      },
+      {
+        "actor_id": "david",
+        "context_ref": "ctx_infra_upgrade",
+        "role": "infra_owner"
+      },
+      {
+        "actor_id": "david",
+        "task_id": "FEISHU-201",
+        "role": "infra_dependency"
+      },
+      {
+        "actor_id": "eve",
+        "context_ref": "ctx_ops_rehearsal",
+        "role": "qa_observer"
+      },
+      {
+        "actor_id": "frank",
+        "context_ref": "ctx_infra_upgrade",
+        "role": "security_reviewer"
+      },
+      {
+        "actor_id": "frank",
+        "task_id": "FEISHU-201",
+        "role": "security_contact"
+      },
+      {
+        "actor_id": "heidi",
+        "context_ref": "ctx_customer_escalation",
+        "role": "support_lead"
+      },
+      {
+        "actor_id": "grace",
+        "context_ref": "ctx_customer_escalation",
+        "role": "compliance_observer"
+      },
+      {
+        "actor_id": "judy",
+        "context_ref": "ctx_doc_review",
+        "role": "doc_owner"
+      },
+      {
+        "actor_id": "karen",
+        "context_ref": "ctx_release_sync",
+        "role": "sync_facilitator"
+      }
+    ]
+  }
+}

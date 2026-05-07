@@ -1,0 +1,28 @@
+task_id: task:FEISHU-666
+task_key: FEISHU-666
+source_session_id: task:FEISHU-666::chat:oc_d852908acc34173446bde912b27c9963
+source_scope: chat:oc_d852908acc34173446bde912b27c9963
+source_type: chat
+source_id: chat:exec_sync_chat
+chat_id: oc_d852908acc34173446bde912b27c9963
+thread_id: null
+root_id: null
+time_range:
+  start: 2026-05-07T05:34:44.773Z
+  end: 2026-05-07T05:40:52.572Z
+participants:
+  - 苏禾
+  - 罗天
+  - 梁昕
+  - 何然
+  - 秦怡
+  - 林晨
+source_locator: chat:exec_sync_chat
+binding_mode: source_id
+created_at: 2026-05-07T05:34:44.774Z
+updated_at: 2026-05-07T05:40:52.579Z
+latest_ingest_version: 12
+raw_ingest_count: 12
+visible_ingest_count: 12
+compacted_at: 2026-05-07T05:40:52.579Z
+retained_entry_count: 12

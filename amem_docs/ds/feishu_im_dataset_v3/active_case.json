@@ -1,0 +1,9 @@
+{
+  "case_id": "case_20260506224026669766_private_info_in_official_file",
+  "case_dir": "amem_docs/ds/feishu_im_dataset_v3/cases/case_20260506224026669766_private_info_in_official_file",
+  "family_id": "private_info_in_official_file",
+  "task_id": "FEISHU-666",
+  "seed": 20260506224026669766,
+  "last_completed_stage": "comparative-score",
+  "updated_at": "2026-05-07T05:45:27.111087+00:00"
+}

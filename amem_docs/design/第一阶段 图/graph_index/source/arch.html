@@ -1,0 +1,730 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <title>统一采集与协作状态图谱架构</title>
+    <style>
+        :root {
+            /* 主题配色 */
+            --bg-page: #f4f7f9;
+            /* 干净的浅灰蓝色纯色背景 */
+            --text-main: #333333;
+            --text-sub: #666666;
+
+            --blue-bg: #bacde3;
+            --blue-border: #9fb8d5;
+
+            --green-bg: #b9cfc3;
+            --green-border: #9cbca9;
+
+            --orange-bg: #e2cbbb;
+            --orange-border: #cfb19d;
+
+            --light-blue-bg: #e3f0fa;
+            --light-blue-border: #baddf8;
+
+            --card-bg: #ffffff;
+            --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.06);
+            --shadow-md: 0 6px 16px rgba(0, 0, 0, 0.12);
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            color: var(--text-main);
+            margin: 0;
+            padding: 40px 20px;
+            display: flex;
+            justify-content: center;
+            background-color: var(--bg-page);
+        }
+
+        .container {
+            width: 100%;
+            max-width: 900px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* 顶部：多源协作信号标题 */
+        .source-header {
+            font-size: 15px;
+            font-weight: 600;
+            color: var(--text-sub);
+            margin-bottom: 12px;
+        }
+
+        /* 修改点：适配整体配色的外框 */
+        .sources-box {
+            background-color: #eaf0f6;
+            /* 柔和的浅蓝灰色，融入整体背景 */
+            border: 2px dashed #c0d1e0;
+            /* 使用虚线边框增强“采集/汇聚”的语义 */
+            border-radius: 12px;
+            padding: 20px 24px;
+            width: 100%;
+            box-sizing: border-box;
+            box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.02);
+            /* 轻微内阴影 */
+            display: flex;
+            justify-content: center;
+        }
+
+        .sources-row {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 0;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        /* 修改点：内部标签改为纯白，在浅蓝灰底色上更突出 */
+        .source-tag {
+            background: #ffffff;
+            padding: 10px 16px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            border: 1px solid #dce3eb;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .source-tag:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-sm);
+        }
+
+        /* 箭头连接器 */
+        .connector {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            height: 40px;
+            position: relative;
+            width: 100%;
+        }
+
+        .connector-line {
+            width: 2px;
+            height: 100%;
+            background-color: #a0aab5;
+        }
+
+        .connector-arrow {
+            position: absolute;
+            bottom: -5px;
+            width: 0;
+            height: 0;
+            border-left: 6px solid transparent;
+            border-right: 6px solid transparent;
+            border-top: 8px solid #a0aab5;
+        }
+
+        .connector-badge {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            border: 1px solid #cbd5e1;
+            border-radius: 4px;
+            padding: 2px 8px;
+            font-size: 12px;
+            color: #64748b;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+
+        /* 主体层级通用样式 */
+        .layer-box {
+            width: 100%;
+            border-radius: 12px;
+            padding: 24px;
+            box-sizing: border-box;
+            box-shadow: var(--shadow-md);
+            position: relative;
+            margin: 5px 0;
+        }
+
+        .layer-title {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 4px;
+            color: #1a1a1a;
+        }
+
+        .layer-subtitle {
+            font-size: 13px;
+            color: #444;
+            margin-bottom: 20px;
+        }
+
+        /* 层级内部卡片网格 */
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 16px;
+        }
+
+        .layer-card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 8px;
+            padding: 16px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            box-shadow: var(--shadow-sm);
+            transition: transform 0.2s;
+        }
+
+        .layer-card:hover {
+            transform: translateY(-2px);
+        }
+
+        .detail-panel {
+            background: rgba(255, 255, 255, 0.82);
+            border: 1px solid rgba(255, 255, 255, 0.92);
+            border-radius: 10px;
+            margin-top: 18px;
+            padding: 18px 20px;
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.75), 0 2px 8px rgba(0, 0, 0, 0.04);
+        }
+
+        .detail-title {
+            font-size: 15px;
+            font-weight: 700;
+            color: #1f2933;
+            margin-bottom: 10px;
+        }
+
+        .detail-text {
+            font-size: 13px;
+            line-height: 1.72;
+            color: #344054;
+            margin: 0 0 12px 0;
+        }
+
+        .detail-list {
+            margin: 0;
+            padding-left: 18px;
+            font-size: 13px;
+            line-height: 1.72;
+            color: #344054;
+        }
+
+        .detail-list li {
+            margin: 5px 0;
+        }
+
+        .code-pill {
+            display: inline-block;
+            font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+            font-size: 12px;
+            background: rgba(15, 23, 42, 0.08);
+            border: 1px solid rgba(15, 23, 42, 0.08);
+            border-radius: 6px;
+            padding: 1px 5px;
+            color: #1f2937;
+            white-space: nowrap;
+        }
+
+        .table-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+            gap: 10px;
+            margin-top: 12px;
+        }
+
+        .table-chip {
+            background: rgba(255, 255, 255, 0.7);
+            border: 1px solid rgba(15, 23, 42, 0.08);
+            border-radius: 8px;
+            padding: 10px 12px;
+            font-size: 12px;
+            line-height: 1.55;
+            color: #3b4654;
+        }
+
+        .table-chip strong {
+            display: block;
+            color: #1f2937;
+            font-size: 13px;
+            margin-bottom: 3px;
+        }
+
+        .flow-line {
+            background: rgba(255, 255, 255, 0.7);
+            border-radius: 8px;
+            padding: 10px 12px;
+            font-size: 12px;
+            line-height: 1.6;
+            color: #334155;
+            margin-top: 12px;
+        }
+
+        .card-icon {
+            font-size: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background: #f5f7fa;
+            border-radius: 50%;
+        }
+
+        .card-content {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card-title {
+            font-size: 15px;
+            font-weight: 600;
+            color: #222;
+        }
+
+        .card-sub {
+            font-size: 12px;
+            color: var(--text-sub);
+            margin-top: 2px;
+        }
+
+        /* 各层颜色覆写 */
+        .layer-1 {
+            background-color: var(--blue-bg);
+            border: 1px solid var(--blue-border);
+        }
+
+        .layer-2 {
+            background-color: var(--green-bg);
+            border: 1px solid var(--green-border);
+        }
+
+        .layer-3 {
+            background-color: var(--orange-bg);
+            border: 1px solid var(--orange-border);
+        }
+
+        /* 绿层的底部横条 */
+        .authoritative-bar {
+            background: rgba(255, 255, 255, 0.85);
+            margin-top: 16px;
+            padding: 14px 20px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 1), 0 2px 6px rgba(0, 0, 0, 0.05);
+        }
+
+        .auth-title {
+            font-weight: bold;
+            font-size: 14px;
+            margin-right: 16px;
+        }
+
+        .auth-text {
+            font-size: 13px;
+            color: #444;
+            flex-grow: 1;
+        }
+
+        .auth-icon {
+            font-size: 20px;
+            color: #4b8b6b;
+        }
+
+        /* 底部输出结论 */
+        .output-box {
+            width: 100%;
+            background-color: var(--light-blue-bg);
+            border: 2px solid var(--light-blue-border);
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+            box-sizing: border-box;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .output-title {
+            font-size: 18px;
+            font-weight: bold;
+            color: #1c5282;
+            margin-bottom: 10px;
+        }
+
+        .output-details {
+            font-size: 13px;
+            color: #2b6cb0;
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .watermark {
+            position: absolute;
+            right: 20px;
+            bottom: 5px;
+            font-size: 32px;
+            font-weight: 900;
+            color: rgba(186, 221, 248, 0.6);
+            transform: rotate(-15deg);
+            pointer-events: none;
+        }
+
+        @media (max-width: 640px) {
+            body {
+                padding: 24px 12px;
+            }
+
+            .layer-box {
+                padding: 18px;
+            }
+
+            .detail-panel {
+                padding: 14px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+
+        <div class="source-header">多源协作信号</div>
+
+        <div class="sources-box">
+            <div class="sources-row">
+                <div class="source-tag">🎙️ 会话 Transcript</div>
+                <div class="source-tag">🛠️ 工具调用</div>
+                <div class="source-tag">✍️ 审批系统</div>
+                <div class="source-tag">📅 项目管理</div>
+                <div class="source-tag">💻 代码平台</div>
+            </div>
+        </div>
+
+        <div class="connector">
+            <div class="connector-line"></div>
+            <div class="connector-badge">①</div>
+            <div class="connector-arrow"></div>
+        </div>
+
+        <div class="layer-box layer-1">
+            <div class="layer-title">① 统一采集更新层</div>
+            <div class="layer-subtitle">保留运行时增量主链：先轻量标脏，再批量抽取，确保可恢复</div>
+
+            <div class="cards-grid">
+                <div class="layer-card">
+                    <div class="card-icon">🔍</div>
+                    <div class="card-content">
+                        <span class="card-title">L0 增量检测</span>
+                        <span class="card-sub">先判断是否进入 graph</span>
+                    </div>
+                </div>
+                <div class="layer-card">
+                    <div class="card-icon">📥</div>
+                    <div class="card-content">
+                        <span class="card-title">projection_inbox</span>
+                        <span class="card-sub">保存待抽 transcript span</span>
+                    </div>
+                </div>
+                <div class="layer-card">
+                    <div class="card-icon">🔐</div>
+                    <div class="card-content">
+                        <span class="card-title">source_projection_state</span>
+                        <span class="card-sub">cursor / dirty / draining</span>
+                    </div>
+                </div>
+                <div class="layer-card">
+                    <div class="card-icon">🔄</div>
+                    <div class="card-content">
+                        <span class="card-title">drain 批量抽取</span>
+                        <span class="card-sub">recall / strong / idle / compaction</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="detail-panel">
+                <div class="detail-title">第一层当前实现链路</div>
+                <p class="detail-text">
+                    Graph Index 的运行时输入已经收口为 transcript span。每轮消息不会直接写入业务语义表，
+                    而是由 <span class="code-pill">handleGraphAfterTurn</span> 先做 L0 signal detection：
+                    检查消息、tool result、任务号、状态词、owner、blocked、done、due 等信号，只有命中后才进入 graph 更新队列。
+                </p>
+                <ul class="detail-list">
+                    <li>
+                        <span class="code-pill">projection_inbox</span> 是待处理 span 队列。
+                        它保存 source、first/last entry、entries_json、dirty_reason、signal_strength、strong_event。
+                        目的不是存最终语义，而是把“哪些 session transcript span 还没有投影成 evidence/event”稳定落盘，
+                        让后续 drain 不依赖 host 重新回读历史 transcript。
+                    </li>
+                    <li>
+                        <span class="code-pill">source_projection_state</span> 是每个 source 一行的恢复状态机。
+                        它记录 covered_until_entry_id、dirty_since_entry_id、last_projected_at、projection_version、status。
+                        这张表保证进程重启、失败、并发 drain 后仍能知道这个 session 当前是 clean、dirty、draining 还是 failed。
+                    </li>
+                    <li>
+                        不能只靠一个队列顺序抽取：队列只能说明“有哪些 span 待处理”，不能可靠表达
+                        “这个 session 已经覆盖到哪里、是否正在 drain、失败后从哪里恢复、recall 前是否必须补齐”。
+                        因此 inbox 负责 pending work，state 负责 source-level cursor。
+                    </li>
+                    <li>
+                        <span class="code-pill">drainPendingGraphUpdates</span> 是唯一批量抽取入口。
+                        它按 source 汇总 pending inbox，解析 entries_json，渲染为 transcript batch，调用 extractor，
+                        再进入 <span class="code-pill">canonicalizeV2</span> 和
+                        <span class="code-pill">persistSemanticBatchV2</span>。
+                    </li>
+                    <li>
+                        drain 触发点包括 recall 前同步补齐、strong_event 异步 drain、dirty_threshold、idle、beforeCompaction。
+                        beforeCompaction 会强制把即将压缩的 transcript span 先入 inbox，再同步 drain，避免 compaction 后丢失细粒度事件。
+                    </li>
+                </ul>
+                <div class="flow-line">
+                    更新流：afterTurn / beforeCompaction → L0 检测 → projection_inbox + source_projection_state →
+                    drain 批量抽取 → V2 semantic persist → cursor advanced。
+                </div>
+            </div>
+        </div>
+
+        <div class="connector">
+            <div class="connector-line"></div>
+            <div class="connector-badge">②</div>
+            <div class="connector-arrow"></div>
+        </div>
+
+        <div class="layer-box layer-2">
+            <div class="layer-title">② 状态图谱建模层</div>
+            <div class="layer-subtitle">V2 semantic 主路径：证据、事件、状态、实体、关系全部由 event 驱动</div>
+
+            <div class="cards-grid">
+                <div class="layer-card">
+                    <div class="card-icon">📑</div>
+                    <div class="card-content">
+                        <span class="card-title">证据 + 事件账本</span>
+                        <span class="card-sub">evidence / event</span>
+                    </div>
+                </div>
+                <div class="layer-card">
+                    <div class="card-icon">👁️</div>
+                    <div class="card-content">
+                        <span class="card-title">Workflow 当前视图</span>
+                        <span class="card-sub">slot patch / upsert</span>
+                    </div>
+                </div>
+                <div class="layer-card">
+                    <div class="card-icon">🕸️</div>
+                    <div class="card-content">
+                        <span class="card-title">实体与关系图谱</span>
+                        <span class="card-sub">entities / edges</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="detail-panel">
+                <div class="detail-title">第二层当前实现链路</div>
+                <p class="detail-text">
+                    第二层已经不再以旧 <span class="code-pill">event_records</span> /
+                    <span class="code-pill">entity_states</span> 为主语义层，而是固定为 V2 六张表。
+                    其中核心事实链是三张表：证据、事件类型注册、事件账本；图谱视图是三张派生表：workflow state、entity、edge。
+                </p>
+                <div class="table-grid">
+                    <div class="table-chip">
+                        <strong>evidence_records</strong>
+                        证据层。由 transcript batch 生成，保存 content_text、content_json、source_locator_json。
+                        使用 evidence_fingerprint 幂等去重，运行时不再接收 flush graph 输入。
+                    </div>
+                    <div class="table-chip">
+                        <strong>event_type_registry</strong>
+                        受控事件类型注册表。当前固定 owner_changed、stage_changed、approval_status_updated、
+                        blocked、unblocked、next_action_set。
+                    </div>
+                    <div class="table-chip">
+                        <strong>event_records_v2</strong>
+                        唯一事实层。append-only，通过 event_fingerprint 去重。
+                        subject_ref / actor_ref / object_ref 都是 typed business key。
+                    </div>
+                    <div class="table-chip">
+                        <strong>workflow_state_view_v2</strong>
+                        当前 workflow 状态视图。只能由 event slot patch/upsert 得出，
+                        维护 owner、stage、approval、blocker、next_action、slot_versions_json。
+                    </div>
+                    <div class="table-chip">
+                        <strong>graph_entities_v2</strong>
+                        typed business object anchor。由 evidence/event 驱动 upsert，
+                        用于后续 query resolve entity_ref。
+                    </div>
+                    <div class="table-chip">
+                        <strong>graph_edges_v2</strong>
+                        当前关系视图。由 event 派生，支持 upsert/close，
+                        只表达当前 active relation，完整历史回到 event_records_v2。
+                    </div>
+                </div>
+                <ul class="detail-list">
+                    <li>
+                        创建图时先写 <span class="code-pill">evidence_records</span> 和
+                        <span class="code-pill">event_records_v2</span>，再由 projector 统一生成
+                        workflow state、entities、edges。
+                    </li>
+                    <li>
+                        state 不能被 evidence 直接写入，只能由 event 按槽位投影；
+                        edge 不能被 evidence 直接写入，只能由 event 派生；
+                        entity 由 event/evidence upsert。
+                    </li>
+                    <li>
+                        更新不是覆盖事实。event append-only，state 是当前视图，edge 是当前关系视图。
+                        关系失效时 close edge，状态槽位由更晚的 event_fingerprint / occurred_at 版本覆盖。
+                    </li>
+                    <li>
+                        旧 semantic 表已经退出主路径；历史旧事件只通过 migration 转成 V2 evidence/event，
+                        然后重放 projector 生成 V2 state/entity/edge。
+                    </li>
+                </ul>
+            </div>
+
+            <div class="authoritative-bar">
+                <span class="auth-title">权威状态层</span>
+                <span class="auth-text">任务阶段 · 责任人 · 阻塞点 · 审批状态 · 下一步动作</span>
+                <span class="auth-icon">🏅</span>
+            </div>
+        </div>
+
+        <div class="connector">
+            <div class="connector-line"></div>
+            <div class="connector-badge">③</div>
+            <div class="connector-arrow"></div>
+        </div>
+
+        <div class="layer-box layer-3">
+            <div class="layer-title">③ 证据链条恢复层</div>
+            <div class="layer-subtitle">V2 query layer：先分类问题，再解析实体，最后按问题类型走不同表链</div>
+
+            <div class="cards-grid">
+                <div class="layer-card">
+                    <div class="card-icon">💬</div>
+                    <div class="card-content">
+                        <span class="card-title">状态查询</span>
+                        <span class="card-sub">当前是什么</span>
+                    </div>
+                </div>
+                <div class="layer-card">
+                    <div class="card-icon">📋</div>
+                    <div class="card-content">
+                        <span class="card-title">列表查询</span>
+                        <span class="card-sub">符合条件集合</span>
+                    </div>
+                </div>
+                <div class="layer-card">
+                    <div class="card-icon">⏱️</div>
+                    <div class="card-content">
+                        <span class="card-title">时间线查询</span>
+                        <span class="card-sub">如何演进</span>
+                    </div>
+                </div>
+                <div class="layer-card">
+                    <div class="card-icon">🚧</div>
+                    <div class="card-content">
+                        <span class="card-title">阻塞原因查询</span>
+                        <span class="card-sub">为何卡住</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="detail-panel">
+                <div class="detail-title">第三层当前实现链路</div>
+                <p class="detail-text">
+                    检索层不再走旧的 event FTS + entity_states。当前
+                    <span class="code-pill">memory_search</span> 的 graph branch 会先检查当前 session
+                    是否还有 pending projection；如果有，会先同步
+                    <span class="code-pill">drainPendingGraphUpdates(reason="recall")</span>，
+                    再调用 <span class="code-pill">searchGraphV2</span>。
+                </p>
+                <ul class="detail-list">
+                    <li>
+                        <span class="code-pill">classifyQueryV2</span> 将问题分成 state、why、timeline、list_relation。
+                        默认是 state；包含“为什么 / blocked / blocker / 原因”走 why；包含“历史 / timeline / changed”走 timeline；
+                        包含“哪些 / 列出 / related / 关系”走 list_relation。
+                    </li>
+                    <li>
+                        <span class="code-pill">resolveEntityRefV2</span> 先识别显式任务号和审批号，
+                        再查 <span class="code-pill">graph_entities_v2</span> 的 entity_ref、canonical_name、alias_json，
+                        解析出 task、approval、person、blocker。
+                    </li>
+                    <li>
+                        state 查询读取 <span class="code-pill">workflow_state_view_v2</span>，
+                        返回当前 owner、stage、approval、blocker、next_action，并可通过 last_event_id 回到 event/evidence。
+                    </li>
+                    <li>
+                        why 查询读取 workflow 的 <span class="code-pill">slot_versions_json</span>，
+                        找到导致当前 blocker、approval_status、stage、next_action 的 event，
+                        再 join <span class="code-pill">evidence_records</span> 给出证据片段。
+                    </li>
+                    <li>
+                        timeline 查询按 subject_ref / object_ref / related_refs_json 查
+                        <span class="code-pill">event_records_v2</span>，按 occurred_at 排序，再补 evidence。
+                    </li>
+                    <li>
+                        list_relation 查询分两类：列表类直接扫 workflow_state_view_v2；
+                        关系类走 graph_edges_v2 并回连 graph_entities_v2。
+                    </li>
+                </ul>
+                <div class="flow-line">
+                    淘汰与清理：projection_inbox 的 row drain 后标记 drained_at，不再参与 pending；
+                    source_projection_state 推进 covered_until；recent_graph_hits 记录召回结果并按 TTL 清理；
+                    event/evidence 作为事实层不主动淘汰，state/edge 是可重建的当前视图。
+                </div>
+                <div class="table-grid">
+                    <div class="table-chip">
+                        <strong>存储</strong>
+                        第一层保存 pending transcript span 和 source cursor；
+                        第二层保存 V2 evidence/event 事实和由 event 派生的当前视图。
+                    </div>
+                    <div class="table-chip">
+                        <strong>更新</strong>
+                        新消息先过 L0 detector，命中后入 inbox；
+                        drain 批量抽取并事务化写入 V2，再推进 cursor。
+                    </div>
+                    <div class="table-chip">
+                        <strong>检索</strong>
+                        recall 前先补齐 pending drain；
+                        query 先分类、再 resolve entity_ref、最后按 state/why/timeline/list_relation 路由。
+                    </div>
+                    <div class="table-chip">
+                        <strong>淘汰</strong>
+                        pending span drain 后软清理；usage hit 按 TTL 清理；
+                        evidence/event 保留为事实层，state/edge 可由 event 重建。
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="connector">
+            <div class="connector-line"></div>
+            <div class="connector-arrow"></div>
+        </div>
+
+        <div class="output-box">
+            <div class="output-title">可信协作结论</div>
+            <div class="output-details">
+                <span>• 谁负责</span>
+                <span>• 何时改</span>
+                <span>• 为什么</span>
+                <span>• 当前状态</span>
+                <span>• 证据来源</span>
+                <span>• 可恢复更新</span>
+            </div>
+            <div class="watermark">trusted</div>
+        </div>
+
+    </div>
+
+</body>
+
+</html>

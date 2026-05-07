@@ -1,0 +1,41 @@
+{
+  "version": 1,
+  "generated_at": "2026-05-07T05:41:49.102Z",
+  "orphan_event_count": 0,
+  "missing_evidence_ref_count": 0,
+  "stale_claim_count": 0,
+  "quote_strength_count": 0,
+  "unresolved_objection_count": 2,
+  "overdue_commitment_count": 0,
+  "open_conflict_count": 0,
+  "orphan_block_count": 0,
+  "missing_cross_ref_count": 0,
+  "orphan_session_wiki_count": 0,
+  "findings": {
+    "orphan_events": [],
+    "missing_evidence_refs": [],
+    "stale_claims": [],
+    "quote_strength": [],
+    "unresolved_objections": [
+      {
+        "source_session_id": "task:FEISHU-666::chat:oc_226e89b2b3fd7612aea5fc7f187cb759",
+        "block_id": "block-发布阻塞风险-45763a86",
+        "topic_title": "发布阻塞风险",
+        "claim": "网络配置漂移是blocker，升级会不会延迟？",
+        "event_id": "evt_337c0bd09e04f6ec"
+      },
+      {
+        "source_session_id": "task:FEISHU-666::chat:oc_ac5a33c314d20661373939b37672396d",
+        "block_id": "block-正式升级窗口-930e601a",
+        "topic_title": "正式升级窗口",
+        "claim": "升级时间能提前吗？我周末家里有事。",
+        "event_id": "evt_fc93f42aa951ca16"
+      }
+    ],
+    "overdue_commitments": [],
+    "open_conflicts": [],
+    "orphan_blocks": [],
+    "missing_cross_refs": [],
+    "orphan_session_wikis": []
+  }
+}

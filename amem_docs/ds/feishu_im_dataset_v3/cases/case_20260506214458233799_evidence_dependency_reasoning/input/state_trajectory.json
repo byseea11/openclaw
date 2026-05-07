@@ -1,0 +1,77 @@
+{
+  "case_id": "case_20260506214458233799_evidence_dependency_reasoning",
+  "family_id": "evidence_dependency_reasoning",
+  "task_id": "FEISHU-499",
+  "state_changes": [
+    {
+      "task_id": "FEISHU-499",
+      "field": "upstream_dependency_status",
+      "sequence": [
+        {
+          "value": "待确认",
+          "status": "initial"
+        },
+        {
+          "value": "Carol 确认迁移窗口未锁定",
+          "status": "current"
+        }
+      ]
+    },
+    {
+      "task_id": "FEISHU-499",
+      "field": "release_commitment",
+      "sequence": [
+        {
+          "value": "计划 6 月 15 日灰度",
+          "status": "initial"
+        },
+        {
+          "value": "等待窗口确认后承诺",
+          "status": "current"
+        }
+      ]
+    },
+    {
+      "task_id": "FEISHU-499",
+      "field": "rollback_drill_schedule",
+      "sequence": [
+        {
+          "value": "计划 6 月 10 日前完成",
+          "status": "initial"
+        },
+        {
+          "value": "顺延至窗口确认后另行安排",
+          "status": "current"
+        }
+      ]
+    },
+    {
+      "task_id": "FEISHU-499",
+      "field": "security_approval_status",
+      "sequence": [
+        {
+          "value": "进行中",
+          "status": "initial"
+        },
+        {
+          "value": "接近完成（Eve 口头表示尚未签字）",
+          "status": "current"
+        }
+      ]
+    },
+    {
+      "task_id": "FEISHU-499",
+      "field": "finance_approval_status",
+      "sequence": [
+        {
+          "value": "待审批",
+          "status": "initial"
+        },
+        {
+          "value": "传闻即将通过（无正式确认）",
+          "status": "current"
+        }
+      ]
+    }
+  ]
+}

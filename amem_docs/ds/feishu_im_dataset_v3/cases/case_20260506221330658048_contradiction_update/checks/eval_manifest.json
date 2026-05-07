@@ -1,0 +1,14 @@
+{
+  "case_id": "case_20260506221330658048_contradiction_update",
+  "family_id": "contradiction_update",
+  "annotation_count": 18,
+  "query_count": 3,
+  "stage_contract": [
+    "annotation-gold",
+    "query-benchmark",
+    "build-checks",
+    "gold-validate",
+    "replay-runtime",
+    "replay-eval"
+  ]
+}

@@ -1,0 +1,61 @@
+{
+  "batch_id": "batch_20260507_021541740284",
+  "dataset_root": "amem_docs/ds/feishu_im_dataset_v3",
+  "batch_dir": "amem_docs/ds/feishu_im_dataset_v3/batches/batch_20260507_021541740284",
+  "difficulty": "hard",
+  "base_seed": 20260507021541740586,
+  "family_policy": "all",
+  "case_count": 2,
+  "cases": [
+    {
+      "case_id": "case_20260507021541740586_anti_interference",
+      "case_dir": "amem_docs/ds/feishu_im_dataset_v3/batches/batch_20260507_021541740284/cases/case_20260507021541740586_anti_interference",
+      "family_id": "anti_interference",
+      "seed": 20260507021541740586,
+      "status": "completed",
+      "phase1": {
+        "status": "completed",
+        "completed_stages": [
+          "spec-generation",
+          "family-selection",
+          "capability-brief",
+          "task-actor-layout",
+          "case-world",
+          "characters",
+          "state-trajectory",
+          "coverage-spec",
+          "story-beats",
+          "conversation-plan",
+          "command-plan",
+          "execute",
+          "collect",
+          "pre-annotation-validate"
+        ],
+        "outputs": {
+          "case_dir": "amem_docs/ds/feishu_im_dataset_v3/batches/batch_20260507_021541740284/cases/case_20260507021541740586_anti_interference",
+          "model_call_log_path": "amem_docs/ds/feishu_im_dataset_v3/batches/batch_20260507_021541740284/cases/case_20260507021541740586_anti_interference/logs/model_call_log.jsonl",
+          "active_case_path": "amem_docs/ds/feishu_im_dataset_v3/batches/batch_20260507_021541740284/active_case.json"
+        },
+        "completed_at": "2026-05-07T02:21:07.396628+00:00"
+      },
+      "phase2": {},
+      "phase3": {}
+    },
+    {
+      "case_id": "case_20260507021541740587_contradiction_update",
+      "case_dir": "amem_docs/ds/feishu_im_dataset_v3/batches/batch_20260507_021541740284/cases/case_20260507021541740587_contradiction_update",
+      "family_id": "contradiction_update",
+      "seed": 20260507021541740587,
+      "status": "failed",
+      "phase1": {
+        "status": "failed",
+        "error": "conversation_plan turn turn_064 references unknown person_id: paula",
+        "completed_at": "2026-05-07T02:24:21.260452+00:00"
+      },
+      "phase2": {},
+      "phase3": {}
+    }
+  ],
+  "created_at": "2026-05-07T02:15:41.740789+00:00",
+  "updated_at": "2026-05-07T02:24:21.260748+00:00"
+}

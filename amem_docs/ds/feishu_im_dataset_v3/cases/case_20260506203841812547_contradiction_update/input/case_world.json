@@ -1,0 +1,36 @@
+{
+  "case_id": "case_20260506203841812547_contradiction_update",
+  "family_id": "contradiction_update",
+  "task_id": "FEISHU-447",
+  "organization": "NexGen Solutions",
+  "team": "Platform Engineering",
+  "business_goal": "确保跨团队项目调度数据始终反映最新决策，避免因旧口径残留导致交付延误。",
+  "scenario_summary": "在涉及16个部门、28个角色的复杂多任务环境中，项目经理 Alice 和发布经理 Xavier 先后通过飞书主群和子线程对关键发布任务 FEISHU-202 的负责人和上线窗口进行多轮修改，最终 Xavier 在子线程中明确宣布旧口径作废。系统需要在多部门协作的噪声中准确识别当前有效信息。",
+  "family_fit_explanation": "该场景需要处理多个按时间顺序发生的状态更新，并有明确的 supersede 关系，属于 contradiction_update 范畴。多部门、多 session 的协作结构天然导致状态口径的多次修正，并且旧口径容易被误认为是当前状态。",
+  "source_sessions": [
+    {
+      "session_id": "main_chat",
+      "session_type": "main_chat",
+      "title": "主群协调",
+      "session_purpose": "沉淀目标任务的主线协作信息和最终 current state。"
+    },
+    {
+      "session_id": "handoff_thread",
+      "session_type": "handoff_thread",
+      "title": "交接修正线程",
+      "session_purpose": "承载 owner 交接、旧状态修正和 supersession 说明。"
+    },
+    {
+      "session_id": "risk_review_thread",
+      "session_type": "risk_review_thread",
+      "title": "风险复核线程",
+      "session_purpose": "承载依赖、风险和证据分层补充信息。"
+    },
+    {
+      "session_id": "customer_sync_chat",
+      "session_type": "customer_sync_chat",
+      "title": "客户同步侧群",
+      "session_purpose": "承接外部压力、模糊口径和对外同步上下文。"
+    }
+  ]
+}

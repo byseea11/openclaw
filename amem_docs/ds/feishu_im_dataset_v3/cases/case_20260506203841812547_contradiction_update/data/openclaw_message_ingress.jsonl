@@ -1,0 +1,9 @@
+{"message_id": "msg_001", "content": "FEISHU-447 由 Alice 负责，初版上线窗口定在5月8日，blocker是安全审查未完成，优先级P1。", "source_session": "main_chat", "captured_at": "2026-05-06T09:07:00+00:00"}
+{"message_id": "msg_002", "content": "Alice 下周要休假，FEISHU-447 先交给 Carol 接手，窗口顺延到5月10日，blocker变为网络延迟优化，优先级降至P2。", "source_session": "main_chat", "captured_at": "2026-05-06T09:14:00+00:00"}
+{"message_id": "msg_003", "content": "接 Alice 消息，Carol 确认暂时负责 FEISHU-447，但架构评审工作繁重需要协助。", "source_session": "main_chat", "captured_at": "2026-05-06T09:21:00+00:00"}
+{"message_id": "msg_004", "content": "Carol 建议由 Xavier 最终收口，Xavier 在子线程中接手 FEISHU-447，窗口暂定5月12日，blocker更新为遗留API兼容问题，优先级重新升回P1。", "source_session": "handoff_thread", "captured_at": "2026-05-06T09:28:00+00:00"}
+{"message_id": "msg_005", "content": "客户 escalation 要求尽快上线，但安全团队反馈遗留API兼容问题至少需要一周，因此窗口再推迟到5月14日。之前口径作废，最终确认以本轮为准。旧 owner 只算历史信息。以上一轮的结论已不适用。请以我最新消息为准。", "source_session": "risk_review_thread", "captured_at": "2026-05-06T09:35:00+00:00"}
+{"message_id": "msg_006", "content": "QA 确认遗留API兼容问题是真正的 blocker，安全审查和网络延迟都已解决。", "source_session": "risk_review_thread", "captured_at": "2026-05-06T09:42:00+00:00"}
+{"message_id": "msg_007", "content": "客户催促5月14日上线，压力较大，但 Xavier 坚持必须等 blocker 解决。", "source_session": "customer_sync_chat", "captured_at": "2026-05-06T09:49:00+00:00"}
+{"message_id": "msg_008", "content": "Alice 休假回来，确认 FEISHU-447 已由 Xavier 全权负责，自己不再参与。", "source_session": "main_chat", "captured_at": "2026-05-06T09:56:00+00:00"}
+{"message_id": "msg_009", "content": "最终状态：FEISHU-447 owner Xavier，窗口5月14日，blocker遗留API兼容问题，优先级P1。所有之前的分配和日期已作废。", "source_session": "handoff_thread", "captured_at": "2026-05-06T10:03:00+00:00"}

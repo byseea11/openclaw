@@ -1,0 +1,67 @@
+{
+  "case_id": "case_20260506213133524022_anti_interference",
+  "family_id": "anti_interference",
+  "task_id": "FEISHU-822",
+  "beats": [
+    {
+      "beat_id": "beat_001",
+      "target_session_id": "main_chat",
+      "benchmark_role": "memory_pollution_turn",
+      "description": "FEISHU-201 当前由 Alice 负责收口，真正 blocker 还是支付风控回归没有完成。"
+    },
+    {
+      "beat_id": "beat_002",
+      "target_session_id": "main_chat",
+      "benchmark_role": "memory_pollution_turn",
+      "description": "运维演练那边也卡在 blocker，但这是另外一条并行讨论，不是 FEISHU-201 的 owner 变更。"
+    },
+    {
+      "beat_id": "beat_003",
+      "target_session_id": "thread_docs",
+      "benchmark_role": "memory_pollution_turn",
+      "description": "Alice 晚上还要审文档收口，不过那只是 reviewer 身份，不代表 FEISHU-201 再次换 owner。"
+    },
+    {
+      "beat_id": "beat_004",
+      "target_session_id": "main_chat",
+      "benchmark_role": "memory_pollution_turn",
+      "description": "运维演练的 blocker 已经解决了，但这是演练的事，不是 FEISHU-201 的。"
+    },
+    {
+      "beat_id": "beat_005",
+      "target_session_id": "thread_infra",
+      "benchmark_role": "memory_pollution_turn",
+      "description": "基础设施升级的依赖还没有完全就绪，但那是独立的项目，不影响支付灰度。"
+    },
+    {
+      "beat_id": "beat_006",
+      "target_session_id": "thread_infra",
+      "benchmark_role": "memory_pollution_turn",
+      "description": "安全审查通过了，不过这是针对基础设施升级的，与 FEISHU-201 无关。"
+    },
+    {
+      "beat_id": "beat_007",
+      "target_session_id": "thread_customer",
+      "benchmark_role": "memory_pollution_turn",
+      "description": "客户案例的 blocker 已解决，但现在可以对外承诺了吗？这是客户问题，不是灰度。"
+    },
+    {
+      "beat_id": "beat_008",
+      "target_session_id": "thread_customer",
+      "benchmark_role": "memory_pollution_turn",
+      "description": "合规要求已经满足，但客户案例与支付灰度无关。"
+    },
+    {
+      "beat_id": "beat_009",
+      "target_session_id": "main_chat",
+      "benchmark_role": "memory_pollution_turn",
+      "description": "发布节奏同步会上提到的 window 是另一个项目的，FEISHU-201 的窗口还在待定。"
+    },
+    {
+      "beat_id": "beat_010",
+      "target_session_id": "main_chat",
+      "benchmark_role": "memory_pollution_turn",
+      "description": "再次确认：FEISHU-201 的 owner 是我，blocker 是支付风控回归，这些信息不要和其他讨论混淆。"
+    }
+  ]
+}

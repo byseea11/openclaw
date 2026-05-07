@@ -1,0 +1,29 @@
+{
+  "case_id": "case_20260506213133524022_anti_interference",
+  "family_id": "anti_interference",
+  "task_id": "FEISHU-822",
+  "required_case_structure": [
+    "target_task",
+    "distractor_context",
+    "shared_actors",
+    "scope_limited_query_need"
+  ],
+  "message_beat_ids": [
+    "beat_001",
+    "beat_002",
+    "beat_003",
+    "beat_004",
+    "beat_005",
+    "beat_006",
+    "beat_007",
+    "beat_008",
+    "beat_009",
+    "beat_010"
+  ],
+  "probe_queries": [
+    {
+      "query": "FEISHU-201 当前 owner 和 blocker 是什么？哪些上下文不应该混入当前答案？为什么文档收口和运维演练里的说法不属于 FEISHU-201？",
+      "expected_good_behavior": "只回答 Alice 是当前 owner、支付风控回归未完成是当前 blocker，并明确排除文档收口 reviewer 身份、运维演练 blocker 讨论、基础设施升级、客户案例等其他上下文。"
+    }
+  ]
+}

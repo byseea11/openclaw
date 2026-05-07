@@ -1,0 +1,1688 @@
+{
+  "case_id": "case_20260507023754463002_anti_interference",
+  "operator_identity": "user",
+  "delivery_mode": "prefixed_single_operator",
+  "actions": [
+    {
+      "action_id": "step_001",
+      "action_type": "create_chat",
+      "depends_on": [],
+      "params": {
+        "chat_ref": "chat_main_chat",
+        "name": "主群协调",
+        "members": [
+          "aaron",
+          "alice",
+          "bella",
+          "bob",
+          "carol",
+          "dave",
+          "eve",
+          "frank",
+          "grace",
+          "henry",
+          "iris",
+          "jack",
+          "kate",
+          "leo",
+          "mia",
+          "nina",
+          "oscar",
+          "paul",
+          "quinn",
+          "rose",
+          "sam",
+          "tina",
+          "uma",
+          "victor",
+          "wendy",
+          "xander",
+          "yara",
+          "zack"
+        ]
+      },
+      "output_ref": "chat_main_chat"
+    },
+    {
+      "action_id": "step_002",
+      "action_type": "create_chat",
+      "depends_on": [],
+      "params": {
+        "chat_ref": "chat_thread_security",
+        "name": "thread_security 会话",
+        "members": [
+          "aaron",
+          "alice",
+          "bella",
+          "bob",
+          "carol",
+          "dave",
+          "eve",
+          "frank",
+          "grace",
+          "henry",
+          "iris",
+          "jack",
+          "kate",
+          "leo",
+          "mia",
+          "nina",
+          "oscar",
+          "paul",
+          "quinn",
+          "rose",
+          "sam",
+          "tina",
+          "uma",
+          "victor",
+          "wendy",
+          "xander",
+          "yara",
+          "zack"
+        ]
+      },
+      "output_ref": "chat_thread_security"
+    },
+    {
+      "action_id": "step_003",
+      "action_type": "create_chat",
+      "depends_on": [],
+      "params": {
+        "chat_ref": "chat_thread_doc_review",
+        "name": "thread_doc_review 会话",
+        "members": [
+          "aaron",
+          "alice",
+          "bella",
+          "bob",
+          "carol",
+          "dave",
+          "eve",
+          "frank",
+          "grace",
+          "henry",
+          "iris",
+          "jack",
+          "kate",
+          "leo",
+          "mia",
+          "nina",
+          "oscar",
+          "paul",
+          "quinn",
+          "rose",
+          "sam",
+          "tina",
+          "uma",
+          "victor",
+          "wendy",
+          "xander",
+          "yara",
+          "zack"
+        ]
+      },
+      "output_ref": "chat_thread_doc_review"
+    },
+    {
+      "action_id": "step_004",
+      "action_type": "create_chat",
+      "depends_on": [],
+      "params": {
+        "chat_ref": "chat_thread_ops_rehearsal",
+        "name": "thread_ops_rehearsal 会话",
+        "members": [
+          "aaron",
+          "alice",
+          "bella",
+          "bob",
+          "carol",
+          "dave",
+          "eve",
+          "frank",
+          "grace",
+          "henry",
+          "iris",
+          "jack",
+          "kate",
+          "leo",
+          "mia",
+          "nina",
+          "oscar",
+          "paul",
+          "quinn",
+          "rose",
+          "sam",
+          "tina",
+          "uma",
+          "victor",
+          "wendy",
+          "xander",
+          "yara",
+          "zack"
+        ]
+      },
+      "output_ref": "chat_thread_ops_rehearsal"
+    },
+    {
+      "action_id": "step_005",
+      "action_type": "create_chat",
+      "depends_on": [],
+      "params": {
+        "chat_ref": "chat_thread_prod_issue",
+        "name": "thread_prod_issue 会话",
+        "members": [
+          "aaron",
+          "alice",
+          "bella",
+          "bob",
+          "carol",
+          "dave",
+          "eve",
+          "frank",
+          "grace",
+          "henry",
+          "iris",
+          "jack",
+          "kate",
+          "leo",
+          "mia",
+          "nina",
+          "oscar",
+          "paul",
+          "quinn",
+          "rose",
+          "sam",
+          "tina",
+          "uma",
+          "victor",
+          "wendy",
+          "xander",
+          "yara",
+          "zack"
+        ]
+      },
+      "output_ref": "chat_thread_prod_issue"
+    },
+    {
+      "action_id": "step_006",
+      "action_type": "create_chat",
+      "depends_on": [],
+      "params": {
+        "chat_ref": "chat_thread_qa",
+        "name": "thread_qa 会话",
+        "members": [
+          "aaron",
+          "alice",
+          "bella",
+          "bob",
+          "carol",
+          "dave",
+          "eve",
+          "frank",
+          "grace",
+          "henry",
+          "iris",
+          "jack",
+          "kate",
+          "leo",
+          "mia",
+          "nina",
+          "oscar",
+          "paul",
+          "quinn",
+          "rose",
+          "sam",
+          "tina",
+          "uma",
+          "victor",
+          "wendy",
+          "xander",
+          "yara",
+          "zack"
+        ]
+      },
+      "output_ref": "chat_thread_qa"
+    },
+    {
+      "action_id": "step_007",
+      "action_type": "create_chat",
+      "depends_on": [],
+      "params": {
+        "chat_ref": "chat_thread_infra",
+        "name": "thread_infra 会话",
+        "members": [
+          "aaron",
+          "alice",
+          "bella",
+          "bob",
+          "carol",
+          "dave",
+          "eve",
+          "frank",
+          "grace",
+          "henry",
+          "iris",
+          "jack",
+          "kate",
+          "leo",
+          "mia",
+          "nina",
+          "oscar",
+          "paul",
+          "quinn",
+          "rose",
+          "sam",
+          "tina",
+          "uma",
+          "victor",
+          "wendy",
+          "xander",
+          "yara",
+          "zack"
+        ]
+      },
+      "output_ref": "chat_thread_infra"
+    },
+    {
+      "action_id": "step_008",
+      "action_type": "create_chat",
+      "depends_on": [],
+      "params": {
+        "chat_ref": "chat_thread_monitoring",
+        "name": "thread_monitoring 会话",
+        "members": [
+          "aaron",
+          "alice",
+          "bella",
+          "bob",
+          "carol",
+          "dave",
+          "eve",
+          "frank",
+          "grace",
+          "henry",
+          "iris",
+          "jack",
+          "kate",
+          "leo",
+          "mia",
+          "nina",
+          "oscar",
+          "paul",
+          "quinn",
+          "rose",
+          "sam",
+          "tina",
+          "uma",
+          "victor",
+          "wendy",
+          "xander",
+          "yara",
+          "zack"
+        ]
+      },
+      "output_ref": "chat_thread_monitoring"
+    },
+    {
+      "action_id": "step_009",
+      "action_type": "create_chat",
+      "depends_on": [],
+      "params": {
+        "chat_ref": "chat_thread_product",
+        "name": "thread_product 会话",
+        "members": [
+          "aaron",
+          "alice",
+          "bella",
+          "bob",
+          "carol",
+          "dave",
+          "eve",
+          "frank",
+          "grace",
+          "henry",
+          "iris",
+          "jack",
+          "kate",
+          "leo",
+          "mia",
+          "nina",
+          "oscar",
+          "paul",
+          "quinn",
+          "rose",
+          "sam",
+          "tina",
+          "uma",
+          "victor",
+          "wendy",
+          "xander",
+          "yara",
+          "zack"
+        ]
+      },
+      "output_ref": "chat_thread_product"
+    },
+    {
+      "action_id": "step_010",
+      "action_type": "create_chat",
+      "depends_on": [],
+      "params": {
+        "chat_ref": "chat_thread_platform",
+        "name": "thread_platform 会话",
+        "members": [
+          "aaron",
+          "alice",
+          "bella",
+          "bob",
+          "carol",
+          "dave",
+          "eve",
+          "frank",
+          "grace",
+          "henry",
+          "iris",
+          "jack",
+          "kate",
+          "leo",
+          "mia",
+          "nina",
+          "oscar",
+          "paul",
+          "quinn",
+          "rose",
+          "sam",
+          "tina",
+          "uma",
+          "victor",
+          "wendy",
+          "xander",
+          "yara",
+          "zack"
+        ]
+      },
+      "output_ref": "chat_thread_platform"
+    },
+    {
+      "action_id": "step_011",
+      "action_type": "create_chat",
+      "depends_on": [],
+      "params": {
+        "chat_ref": "chat_thread_compliance",
+        "name": "thread_compliance 会话",
+        "members": [
+          "aaron",
+          "alice",
+          "bella",
+          "bob",
+          "carol",
+          "dave",
+          "eve",
+          "frank",
+          "grace",
+          "henry",
+          "iris",
+          "jack",
+          "kate",
+          "leo",
+          "mia",
+          "nina",
+          "oscar",
+          "paul",
+          "quinn",
+          "rose",
+          "sam",
+          "tina",
+          "uma",
+          "victor",
+          "wendy",
+          "xander",
+          "yara",
+          "zack"
+        ]
+      },
+      "output_ref": "chat_thread_compliance"
+    },
+    {
+      "action_id": "step_012",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_001"
+      ],
+      "params": {
+        "chat_ref": "chat_main_chat",
+        "sender_ref": "alice",
+        "content_text": "【项目管理/林晨】FEISHU-702 今天起代码冻结，只修 P0 阻塞缺陷。"
+      },
+      "output_ref": "msg_turn_001"
+    },
+    {
+      "action_id": "step_013",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_001"
+      ],
+      "params": {
+        "chat_ref": "chat_main_chat",
+        "sender_ref": "kate",
+        "content_text": "【项目管理/唐越】收到，我会通知团队停止合入。"
+      },
+      "output_ref": "msg_turn_002"
+    },
+    {
+      "action_id": "step_014",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_001"
+      ],
+      "params": {
+        "chat_ref": "chat_main_chat",
+        "sender_ref": "grace",
+        "content_text": "【质量保障/何然】FEISHU-702 回归测试全部通过，无新问题。"
+      },
+      "output_ref": "msg_turn_003"
+    },
+    {
+      "action_id": "step_015",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_001"
+      ],
+      "params": {
+        "chat_ref": "chat_main_chat",
+        "sender_ref": "alice",
+        "content_text": "【项目管理/林晨】好，回归通过我就放心了。"
+      },
+      "output_ref": "msg_turn_004"
+    },
+    {
+      "action_id": "step_016",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_002"
+      ],
+      "params": {
+        "chat_ref": "chat_thread_security",
+        "sender_ref": "alice",
+        "content_text": "【项目管理/林晨】陈雪，FEISHU-702 安全审计何时出结果？"
+      },
+      "output_ref": "msg_turn_005"
+    },
+    {
+      "action_id": "step_017",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_002"
+      ],
+      "params": {
+        "chat_ref": "chat_thread_security",
+        "sender_ref": "carol",
+        "content_text": "【安全合规/陈雪】FEISHU-702 安全审计已通过，无高危问题。"
+      },
+      "output_ref": "msg_turn_006"
+    },
+    {
+      "action_id": "step_018",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_002"
+      ],
+      "params": {
+        "chat_ref": "chat_thread_security",
+        "sender_ref": "alice",
+        "content_text": "【项目管理/林晨】太好了，审计通过我们就可以继续。"
+      },
+      "output_ref": "msg_turn_007"
+    },
+    {
+      "action_id": "step_019",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_001"
+      ],
+      "params": {
+        "chat_ref": "chat_main_chat",
+        "sender_ref": "bob",
+        "content_text": "【运维保障/周宇】FEISHU-702 发布窗口定在本周五晚 10 点。"
+      },
+      "output_ref": "msg_turn_008"
+    },
+    {
+      "action_id": "step_020",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_001"
+      ],
+      "params": {
+        "chat_ref": "chat_main_chat",
+        "sender_ref": "alice",
+        "content_text": "【项目管理/林晨】收到，窗口预占好，我记下了。"
+      },
+      "output_ref": "msg_turn_009"
+    },
+    {
+      "action_id": "step_021",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_001"
+      ],
+      "params": {
+        "chat_ref": "chat_main_chat",
+        "sender_ref": "henry",
+        "content_text": "【企业协作/秦怡】产品验收我已经通过了，可以发布。"
+      },
+      "output_ref": "msg_turn_010"
+    },
+    {
+      "action_id": "step_022",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_001"
+      ],
+      "params": {
+        "chat_ref": "chat_main_chat",
+        "sender_ref": "alice",
+        "content_text": "【项目管理/林晨】确认产品验收通过，发布条件已满足。"
+      },
+      "output_ref": "msg_turn_011"
+    },
+    {
+      "action_id": "step_023",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_003"
+      ],
+      "params": {
+        "chat_ref": "chat_thread_doc_review",
+        "sender_ref": "dave",
+        "content_text": "【知识管理/王源】文档评审 reviewer 原定 林晨，但她太忙，我建议 周宇 来评。"
+      },
+      "output_ref": "msg_turn_012"
+    },
+    {
+      "action_id": "step_024",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_003"
+      ],
+      "params": {
+        "chat_ref": "chat_thread_doc_review",
+        "sender_ref": "alice",
+        "content_text": "【项目管理/林晨】我确实没时间审文档，周宇 你接手吧。"
+      },
+      "output_ref": "msg_turn_013"
+    },
+    {
+      "action_id": "step_025",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_003"
+      ],
+      "params": {
+        "chat_ref": "chat_thread_doc_review",
+        "sender_ref": "bob",
+        "content_text": "【运维保障/周宇】好的，我来做文档评审。"
+      },
+      "output_ref": "msg_turn_014"
+    },
+    {
+      "action_id": "step_026",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_003"
+      ],
+      "params": {
+        "chat_ref": "chat_thread_doc_review",
+        "sender_ref": "dave",
+        "content_text": "【知识管理/王源】既然 林晨 不审了，文档 owner 暂时挂我名下。"
+      },
+      "output_ref": "msg_turn_015"
+    },
+    {
+      "action_id": "step_027",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_004"
+      ],
+      "params": {
+        "chat_ref": "chat_thread_ops_rehearsal",
+        "sender_ref": "eve",
+        "content_text": "【研发平台/高骏】运维演练 blocker：数据库权限未打通，阻塞演练。"
+      },
+      "output_ref": "msg_turn_016"
+    },
+    {
+      "action_id": "step_028",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_004"
+      ],
+      "params": {
+        "chat_ref": "chat_thread_ops_rehearsal",
+        "sender_ref": "alice",
+        "content_text": "【项目管理/林晨】演练我这边安排好了，随时可以开始。"
+      },
+      "output_ref": "msg_turn_017"
+    },
+    {
+      "action_id": "step_029",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_004"
+      ],
+      "params": {
+        "chat_ref": "chat_thread_ops_rehearsal",
+        "sender_ref": "bob",
+        "content_text": "【运维保障/周宇】演练 owner 我已指定给 高骏，我退出。"
+      },
+      "output_ref": "msg_turn_018"
+    },
+    {
+      "action_id": "step_030",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_004"
+      ],
+      "params": {
+        "chat_ref": "chat_thread_ops_rehearsal",
+        "sender_ref": "bob",
+        "content_text": "【运维保障/周宇】演练另一个 blocker：网络延时，已解决。"
+      },
+      "output_ref": "msg_turn_019"
+    },
+    {
+      "action_id": "step_031",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_004"
+      ],
+      "params": {
+        "chat_ref": "chat_thread_ops_rehearsal",
+        "sender_ref": "eve",
+        "content_text": "【研发平台/高骏】收到，网络问题已修复，继续演练。"
+      },
+      "output_ref": "msg_turn_020"
+    },
+    {
+      "action_id": "step_032",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_005"
+      ],
+      "params": {
+        "chat_ref": "chat_thread_prod_issue",
+        "sender_ref": "frank",
+        "content_text": "【研发平台/赵敏】支付模块 hotfix 已 ready，待审批后部署。"
+      },
+      "output_ref": "msg_turn_021"
+    },
+    {
+      "action_id": "step_033",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_005"
+      ],
+      "params": {
+        "chat_ref": "chat_thread_prod_issue",
+        "sender_ref": "alice",
+        "content_text": "【项目管理/林晨】这个 hotfix 走紧急流程，尽快发。"
+      },
+      "output_ref": "msg_turn_022"
+    },
+    {
+      "action_id": "step_034",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_002"
+      ],
+      "params": {
+        "chat_ref": "chat_thread_security",
+        "sender_ref": "paul",
+        "content_text": "【研发平台/周宇】另一个项目安全审计有 blocker，等厂商修复。"
+      },
+      "output_ref": "msg_turn_023"
+    },
+    {
+      "action_id": "step_035",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_002"
+      ],
+      "params": {
+        "chat_ref": "chat_thread_security",
+        "sender_ref": "alice",
+        "content_text": "【项目管理/林晨】那个 blocker 我们之前也遇到过，方案可复用。"
+      },
+      "output_ref": "msg_turn_024"
+    },
+    {
+      "action_id": "step_036",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_002"
+      ],
+      "params": {
+        "chat_ref": "chat_thread_security",
+        "sender_ref": "paul",
+        "content_text": "【研发平台/周宇】好，我找他们要厂商修复时间。"
+      },
+      "output_ref": "msg_turn_025"
+    },
+    {
+      "action_id": "step_037",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_006"
+      ],
+      "params": {
+        "chat_ref": "chat_thread_qa",
+        "sender_ref": "grace",
+        "content_text": "【质量保障/何然】FEISHU-702 回归测试还有几个 case 没跑完。"
+      },
+      "output_ref": "msg_turn_026"
+    },
+    {
+      "action_id": "step_038",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_006"
+      ],
+      "params": {
+        "chat_ref": "chat_thread_qa",
+        "sender_ref": "kate",
+        "content_text": "【项目管理/唐越】抓紧跑，今天要出结果。"
+      },
+      "output_ref": "msg_turn_027"
+    },
+    {
+      "action_id": "step_039",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_007"
+      ],
+      "params": {
+        "chat_ref": "chat_thread_infra",
+        "sender_ref": "jack",
+        "content_text": "【研发平台/苏禾】网络延迟已修复，不影响本周发布窗口。"
+      },
+      "output_ref": "msg_turn_028"
+    },
+    {
+      "action_id": "step_040",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_007"
+      ],
+      "params": {
+        "chat_ref": "chat_thread_infra",
+        "sender_ref": "bob",
+        "content_text": "【运维保障/周宇】那就好，窗口不会受影响了。"
+      },
+      "output_ref": "msg_turn_029"
+    },
+    {
+      "action_id": "step_041",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_001"
+      ],
+      "params": {
+        "chat_ref": "chat_main_chat",
+        "sender_ref": "alice",
+        "content_text": "【项目管理/林晨】FEISHU-702 所有条件满足，周五按计划发布。"
+      },
+      "output_ref": "msg_turn_030"
+    },
+    {
+      "action_id": "step_042",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_001"
+      ],
+      "params": {
+        "chat_ref": "chat_main_chat",
+        "sender_ref": "bob",
+        "content_text": "【运维保障/周宇】收到，周五晚窗口已锁定。"
+      },
+      "output_ref": "msg_turn_031"
+    },
+    {
+      "action_id": "step_043",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_001"
+      ],
+      "params": {
+        "chat_ref": "chat_main_chat",
+        "sender_ref": "alice",
+        "content_text": "【项目管理/林晨】重申：FEISHU-702 owner 是我，代码冻结，周五晚发布。"
+      },
+      "output_ref": "msg_turn_032"
+    },
+    {
+      "action_id": "step_044",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_001"
+      ],
+      "params": {
+        "chat_ref": "chat_main_chat",
+        "sender_ref": "kate",
+        "content_text": "【项目管理/唐越】确认，owner 是你，状态冻结。"
+      },
+      "output_ref": "msg_turn_033"
+    },
+    {
+      "action_id": "step_045",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_001"
+      ],
+      "params": {
+        "chat_ref": "chat_main_chat",
+        "sender_ref": "henry",
+        "content_text": "【企业协作/秦怡】FEISHU-702 产品验收通过，可以发布。"
+      },
+      "output_ref": "msg_turn_034"
+    },
+    {
+      "action_id": "step_046",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_001"
+      ],
+      "params": {
+        "chat_ref": "chat_main_chat",
+        "sender_ref": "alice",
+        "content_text": "【项目管理/林晨】收到，产品验收已确认。"
+      },
+      "output_ref": "msg_turn_035"
+    },
+    {
+      "action_id": "step_047",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_006"
+      ],
+      "params": {
+        "chat_ref": "chat_thread_qa",
+        "sender_ref": "kate",
+        "content_text": "【项目管理/唐越】FEISHU-702 release note 已写好，在文档里。"
+      },
+      "output_ref": "msg_turn_036"
+    },
+    {
+      "action_id": "step_048",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_006"
+      ],
+      "params": {
+        "chat_ref": "chat_thread_qa",
+        "sender_ref": "alice",
+        "content_text": "【项目管理/林晨】好，release note 我回头看看。"
+      },
+      "output_ref": "msg_turn_037"
+    },
+    {
+      "action_id": "step_049",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_008"
+      ],
+      "params": {
+        "chat_ref": "chat_thread_monitoring",
+        "sender_ref": "zack",
+        "content_text": "【研发平台/许薇】生产环境单点故障 blocker，已回滚。"
+      },
+      "output_ref": "msg_turn_038"
+    },
+    {
+      "action_id": "step_050",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_008"
+      ],
+      "params": {
+        "chat_ref": "chat_thread_monitoring",
+        "sender_ref": "bob",
+        "content_text": "【运维保障/周宇】哪个服务？影响大吗？"
+      },
+      "output_ref": "msg_turn_039"
+    },
+    {
+      "action_id": "step_051",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_008"
+      ],
+      "params": {
+        "chat_ref": "chat_thread_monitoring",
+        "sender_ref": "zack",
+        "content_text": "【研发平台/许薇】老版支付网关，已回滚，不影响新版。"
+      },
+      "output_ref": "msg_turn_040"
+    },
+    {
+      "action_id": "step_052",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_001"
+      ],
+      "params": {
+        "chat_ref": "chat_main_chat",
+        "sender_ref": "alice",
+        "content_text": "【项目管理/林晨】FEISHU-702 最终状态：owner 林晨，无 blocker，代码冻结，周五晚发布。"
+      },
+      "output_ref": "msg_turn_041"
+    },
+    {
+      "action_id": "step_053",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_001"
+      ],
+      "params": {
+        "chat_ref": "chat_main_chat",
+        "sender_ref": "grace",
+        "content_text": "【质量保障/何然】确认，无 blocker，测试通过。"
+      },
+      "output_ref": "msg_turn_042"
+    },
+    {
+      "action_id": "step_054",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_001"
+      ],
+      "params": {
+        "chat_ref": "chat_main_chat",
+        "sender_ref": "bob",
+        "content_text": "【运维保障/周宇】窗口已锁定，一切就绪。"
+      },
+      "output_ref": "msg_turn_043"
+    },
+    {
+      "action_id": "step_055",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_009"
+      ],
+      "params": {
+        "chat_ref": "chat_thread_product",
+        "sender_ref": "henry",
+        "content_text": "【企业协作/秦怡】FEISHU-702 owner 我打算换成 赵敏。"
+      },
+      "output_ref": "msg_turn_044"
+    },
+    {
+      "action_id": "step_056",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_009"
+      ],
+      "params": {
+        "chat_ref": "chat_thread_product",
+        "sender_ref": "frank",
+        "content_text": "【研发平台/赵敏】可以，我接下来做 FEISHU-702。"
+      },
+      "output_ref": "msg_turn_045"
+    },
+    {
+      "action_id": "step_057",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_010"
+      ],
+      "params": {
+        "chat_ref": "chat_thread_platform",
+        "sender_ref": "frank",
+        "content_text": "【研发平台/赵敏】FEISHU-702 代码已合入，我是 owner。"
+      },
+      "output_ref": "msg_turn_046"
+    },
+    {
+      "action_id": "step_058",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_010"
+      ],
+      "params": {
+        "chat_ref": "chat_thread_platform",
+        "sender_ref": "bob",
+        "content_text": "【运维保障/周宇】好的，FEISHU-702 归你了。"
+      },
+      "output_ref": "msg_turn_047"
+    },
+    {
+      "action_id": "step_059",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_001"
+      ],
+      "params": {
+        "chat_ref": "chat_main_chat",
+        "sender_ref": "grace",
+        "content_text": "【质量保障/何然】FEISHU-702 无 blocker，可以发布。"
+      },
+      "output_ref": "msg_turn_048"
+    },
+    {
+      "action_id": "step_060",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_001"
+      ],
+      "params": {
+        "chat_ref": "chat_main_chat",
+        "sender_ref": "alice",
+        "content_text": "【项目管理/林晨】收到，QA 确认无 blocker。"
+      },
+      "output_ref": "msg_turn_049"
+    },
+    {
+      "action_id": "step_061",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_011"
+      ],
+      "params": {
+        "chat_ref": "chat_thread_compliance",
+        "sender_ref": "iris",
+        "content_text": "【安全合规/罗天】合规审批需要 林晨 协调各团队。"
+      },
+      "output_ref": "msg_turn_050"
+    },
+    {
+      "action_id": "step_062",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_011"
+      ],
+      "params": {
+        "chat_ref": "chat_thread_compliance",
+        "sender_ref": "alice",
+        "content_text": "【项目管理/林晨】好，我来协调合规审批事项。"
+      },
+      "output_ref": "msg_turn_051"
+    },
+    {
+      "action_id": "step_063",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_011"
+      ],
+      "params": {
+        "chat_ref": "chat_thread_compliance",
+        "sender_ref": "iris",
+        "content_text": "【安全合规/罗天】时间比较紧，希望本周内完成。"
+      },
+      "output_ref": "msg_turn_052"
+    },
+    {
+      "action_id": "step_064",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_001"
+      ],
+      "params": {
+        "chat_ref": "chat_main_chat",
+        "sender_ref": "kate",
+        "content_text": "【项目管理/唐越】发布前还有没有其他风险项？"
+      },
+      "output_ref": "msg_turn_053"
+    },
+    {
+      "action_id": "step_065",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_001"
+      ],
+      "params": {
+        "chat_ref": "chat_main_chat",
+        "sender_ref": "alice",
+        "content_text": "【项目管理/林晨】目前没有，都清了。"
+      },
+      "output_ref": "msg_turn_054"
+    },
+    {
+      "action_id": "step_066",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_001"
+      ],
+      "params": {
+        "chat_ref": "chat_main_chat",
+        "sender_ref": "bob",
+        "content_text": "【运维保障/周宇】那周五按计划执行。"
+      },
+      "output_ref": "msg_turn_055"
+    },
+    {
+      "action_id": "step_067",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_001"
+      ],
+      "params": {
+        "chat_ref": "chat_main_chat",
+        "sender_ref": "henry",
+        "content_text": "【企业协作/秦怡】收到，发布流程没问题了。"
+      },
+      "output_ref": "msg_turn_056"
+    },
+    {
+      "action_id": "step_068",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_001"
+      ],
+      "params": {
+        "chat_ref": "chat_main_chat",
+        "sender_ref": "frank",
+        "content_text": "【研发平台/赵敏】各位加油，FEISHU-702 顺利发布。"
+      },
+      "output_ref": "msg_turn_057"
+    },
+    {
+      "action_id": "step_069",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_001"
+      ],
+      "params": {
+        "chat_ref": "chat_main_chat",
+        "sender_ref": "grace",
+        "content_text": "【质量保障/何然】QA 随时待命，发布时监控。"
+      },
+      "output_ref": "msg_turn_058"
+    },
+    {
+      "action_id": "step_070",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_002"
+      ],
+      "params": {
+        "chat_ref": "chat_thread_security",
+        "sender_ref": "carol",
+        "content_text": "【安全合规/陈雪】安全审计报告已上传，大家可查阅。"
+      },
+      "output_ref": "msg_turn_059"
+    },
+    {
+      "action_id": "step_071",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_002"
+      ],
+      "params": {
+        "chat_ref": "chat_thread_security",
+        "sender_ref": "alice",
+        "content_text": "【项目管理/林晨】收到，我下载存档。"
+      },
+      "output_ref": "msg_turn_060"
+    },
+    {
+      "action_id": "step_072",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_002"
+      ],
+      "params": {
+        "chat_ref": "chat_thread_security",
+        "sender_ref": "paul",
+        "content_text": "【研发平台/周宇】厂商还没回复 blocker 修复时间。"
+      },
+      "output_ref": "msg_turn_061"
+    },
+    {
+      "action_id": "step_073",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_002"
+      ],
+      "params": {
+        "chat_ref": "chat_thread_security",
+        "sender_ref": "alice",
+        "content_text": "【项目管理/林晨】继续催厂商，必要时升级。"
+      },
+      "output_ref": "msg_turn_062"
+    },
+    {
+      "action_id": "step_074",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_003"
+      ],
+      "params": {
+        "chat_ref": "chat_thread_doc_review",
+        "sender_ref": "bob",
+        "content_text": "【运维保障/周宇】文档评审我快完成了，明天出结果。"
+      },
+      "output_ref": "msg_turn_063"
+    },
+    {
+      "action_id": "step_075",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_003"
+      ],
+      "params": {
+        "chat_ref": "chat_thread_doc_review",
+        "sender_ref": "dave",
+        "content_text": "【知识管理/王源】好的，完成后我更新 owner。"
+      },
+      "output_ref": "msg_turn_064"
+    },
+    {
+      "action_id": "step_076",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_004"
+      ],
+      "params": {
+        "chat_ref": "chat_thread_ops_rehearsal",
+        "sender_ref": "eve",
+        "content_text": "【研发平台/高骏】演练完成，所有问题已记录。"
+      },
+      "output_ref": "msg_turn_065"
+    },
+    {
+      "action_id": "step_077",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_004"
+      ],
+      "params": {
+        "chat_ref": "chat_thread_ops_rehearsal",
+        "sender_ref": "alice",
+        "content_text": "【项目管理/林晨】辛苦了，总结一下关键问题。"
+      },
+      "output_ref": "msg_turn_066"
+    },
+    {
+      "action_id": "step_078",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_005"
+      ],
+      "params": {
+        "chat_ref": "chat_thread_prod_issue",
+        "sender_ref": "frank",
+        "content_text": "【研发平台/赵敏】hotfix 已部署，生产恢复。"
+      },
+      "output_ref": "msg_turn_067"
+    },
+    {
+      "action_id": "step_079",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_005"
+      ],
+      "params": {
+        "chat_ref": "chat_thread_prod_issue",
+        "sender_ref": "alice",
+        "content_text": "【项目管理/林晨】确认，这次 hotfix 不影响 FEISHU-702。"
+      },
+      "output_ref": "msg_turn_068"
+    },
+    {
+      "action_id": "step_080",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_006"
+      ],
+      "params": {
+        "chat_ref": "chat_thread_qa",
+        "sender_ref": "grace",
+        "content_text": "【质量保障/何然】FEISHU-702 测试 case 全跑完了，通过。"
+      },
+      "output_ref": "msg_turn_069"
+    },
+    {
+      "action_id": "step_081",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_006"
+      ],
+      "params": {
+        "chat_ref": "chat_thread_qa",
+        "sender_ref": "kate",
+        "content_text": "【项目管理/唐越】好的，FEISHU-702 没问题。"
+      },
+      "output_ref": "msg_turn_070"
+    },
+    {
+      "action_id": "step_082",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_007"
+      ],
+      "params": {
+        "chat_ref": "chat_thread_infra",
+        "sender_ref": "jack",
+        "content_text": "【研发平台/苏禾】网络监控正常，无异常。"
+      },
+      "output_ref": "msg_turn_071"
+    },
+    {
+      "action_id": "step_083",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_007"
+      ],
+      "params": {
+        "chat_ref": "chat_thread_infra",
+        "sender_ref": "bob",
+        "content_text": "【运维保障/周宇】确认，网络没问题。"
+      },
+      "output_ref": "msg_turn_072"
+    },
+    {
+      "action_id": "step_084",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_008"
+      ],
+      "params": {
+        "chat_ref": "chat_thread_monitoring",
+        "sender_ref": "zack",
+        "content_text": "【研发平台/许薇】回滚后生产稳定，持续监控。"
+      },
+      "output_ref": "msg_turn_073"
+    },
+    {
+      "action_id": "step_085",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_008"
+      ],
+      "params": {
+        "chat_ref": "chat_thread_monitoring",
+        "sender_ref": "bob",
+        "content_text": "【运维保障/周宇】收到，注意后续。"
+      },
+      "output_ref": "msg_turn_074"
+    },
+    {
+      "action_id": "step_086",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_009"
+      ],
+      "params": {
+        "chat_ref": "chat_thread_product",
+        "sender_ref": "frank",
+        "content_text": "【研发平台/赵敏】FEISHU-702 我看了需求，周五开始做。"
+      },
+      "output_ref": "msg_turn_075"
+    },
+    {
+      "action_id": "step_087",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_009"
+      ],
+      "params": {
+        "chat_ref": "chat_thread_product",
+        "sender_ref": "henry",
+        "content_text": "【企业协作/秦怡】好，周五启动 FEISHU-702。"
+      },
+      "output_ref": "msg_turn_076"
+    },
+    {
+      "action_id": "step_088",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_010"
+      ],
+      "params": {
+        "chat_ref": "chat_thread_platform",
+        "sender_ref": "frank",
+        "content_text": "【研发平台/赵敏】FEISHU-702 合入后无回归问题。"
+      },
+      "output_ref": "msg_turn_077"
+    },
+    {
+      "action_id": "step_089",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_010"
+      ],
+      "params": {
+        "chat_ref": "chat_thread_platform",
+        "sender_ref": "bob",
+        "content_text": "【运维保障/周宇】好的，通知集成测试团队。"
+      },
+      "output_ref": "msg_turn_078"
+    },
+    {
+      "action_id": "step_090",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_011"
+      ],
+      "params": {
+        "chat_ref": "chat_thread_compliance",
+        "sender_ref": "iris",
+        "content_text": "【安全合规/罗天】合规审批进度：各团队已反馈，就差一个签字。"
+      },
+      "output_ref": "msg_turn_079"
+    },
+    {
+      "action_id": "step_091",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_011"
+      ],
+      "params": {
+        "chat_ref": "chat_thread_compliance",
+        "sender_ref": "alice",
+        "content_text": "【项目管理/林晨】我下午去催一下签字人。"
+      },
+      "output_ref": "msg_turn_080"
+    },
+    {
+      "action_id": "step_092",
+      "action_type": "fetch_chat_messages",
+      "depends_on": [
+        "step_001",
+        "step_012",
+        "step_013",
+        "step_014",
+        "step_015",
+        "step_019",
+        "step_020",
+        "step_021",
+        "step_022",
+        "step_041",
+        "step_042",
+        "step_043",
+        "step_044",
+        "step_045",
+        "step_046",
+        "step_052",
+        "step_053",
+        "step_054",
+        "step_059",
+        "step_060",
+        "step_064",
+        "step_065",
+        "step_066",
+        "step_067",
+        "step_068",
+        "step_069"
+      ],
+      "params": {
+        "chat_ref": "chat_main_chat"
+      },
+      "output_ref": ""
+    },
+    {
+      "action_id": "step_093",
+      "action_type": "fetch_chat_messages",
+      "depends_on": [
+        "step_002",
+        "step_016",
+        "step_017",
+        "step_018",
+        "step_034",
+        "step_035",
+        "step_036",
+        "step_070",
+        "step_071",
+        "step_072",
+        "step_073"
+      ],
+      "params": {
+        "chat_ref": "chat_thread_security"
+      },
+      "output_ref": ""
+    },
+    {
+      "action_id": "step_094",
+      "action_type": "fetch_chat_messages",
+      "depends_on": [
+        "step_003",
+        "step_023",
+        "step_024",
+        "step_025",
+        "step_026",
+        "step_074",
+        "step_075"
+      ],
+      "params": {
+        "chat_ref": "chat_thread_doc_review"
+      },
+      "output_ref": ""
+    },
+    {
+      "action_id": "step_095",
+      "action_type": "fetch_chat_messages",
+      "depends_on": [
+        "step_004",
+        "step_027",
+        "step_028",
+        "step_029",
+        "step_030",
+        "step_031",
+        "step_076",
+        "step_077"
+      ],
+      "params": {
+        "chat_ref": "chat_thread_ops_rehearsal"
+      },
+      "output_ref": ""
+    },
+    {
+      "action_id": "step_096",
+      "action_type": "fetch_chat_messages",
+      "depends_on": [
+        "step_005",
+        "step_032",
+        "step_033",
+        "step_078",
+        "step_079"
+      ],
+      "params": {
+        "chat_ref": "chat_thread_prod_issue"
+      },
+      "output_ref": ""
+    },
+    {
+      "action_id": "step_097",
+      "action_type": "fetch_chat_messages",
+      "depends_on": [
+        "step_006",
+        "step_037",
+        "step_038",
+        "step_047",
+        "step_048",
+        "step_080",
+        "step_081"
+      ],
+      "params": {
+        "chat_ref": "chat_thread_qa"
+      },
+      "output_ref": ""
+    },
+    {
+      "action_id": "step_098",
+      "action_type": "fetch_chat_messages",
+      "depends_on": [
+        "step_007",
+        "step_039",
+        "step_040",
+        "step_082",
+        "step_083"
+      ],
+      "params": {
+        "chat_ref": "chat_thread_infra"
+      },
+      "output_ref": ""
+    },
+    {
+      "action_id": "step_099",
+      "action_type": "fetch_chat_messages",
+      "depends_on": [
+        "step_008",
+        "step_049",
+        "step_050",
+        "step_051",
+        "step_084",
+        "step_085"
+      ],
+      "params": {
+        "chat_ref": "chat_thread_monitoring"
+      },
+      "output_ref": ""
+    },
+    {
+      "action_id": "step_100",
+      "action_type": "fetch_chat_messages",
+      "depends_on": [
+        "step_009",
+        "step_055",
+        "step_056",
+        "step_086",
+        "step_087"
+      ],
+      "params": {
+        "chat_ref": "chat_thread_product"
+      },
+      "output_ref": ""
+    },
+    {
+      "action_id": "step_101",
+      "action_type": "fetch_chat_messages",
+      "depends_on": [
+        "step_010",
+        "step_057",
+        "step_058",
+        "step_088",
+        "step_089"
+      ],
+      "params": {
+        "chat_ref": "chat_thread_platform"
+      },
+      "output_ref": ""
+    },
+    {
+      "action_id": "step_102",
+      "action_type": "fetch_chat_messages",
+      "depends_on": [
+        "step_011",
+        "step_061",
+        "step_062",
+        "step_063",
+        "step_090",
+        "step_091"
+      ],
+      "params": {
+        "chat_ref": "chat_thread_compliance"
+      },
+      "output_ref": ""
+    }
+  ]
+}

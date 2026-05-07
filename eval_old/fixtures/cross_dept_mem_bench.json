@@ -1,0 +1,2888 @@
+{
+  "benchmark_name": "CrossDeptMemBench",
+  "version": "1.0",
+  "description": "Enterprise cross-department collaboration memory benchmark",
+  "num_samples": 10,
+  "samples": [
+    {
+      "sample_id": "product_launch_v1",
+      "scenario": "跨部门产品上线审批流",
+      "departments": [
+        "product",
+        "dev",
+        "ops"
+      ],
+      "actors": [
+        "alice@pm",
+        "bob@dev",
+        "carol@ops"
+      ],
+      "history": [
+        {
+          "timestamp": "2026-04-01T10:00:00Z",
+          "actor": "alice@pm",
+          "department": "product",
+          "content": "创建任务 PROD-123：Q2 新功能上线，需要研发评估工作量",
+          "entities": [
+            "task:PROD-123"
+          ],
+          "events": [
+            {
+              "type": "task_created",
+              "subject": "task:PROD-123",
+              "actor": "alice@pm"
+            }
+          ]
+        },
+        {
+          "timestamp": "2026-04-02T14:30:00Z",
+          "actor": "bob@dev",
+          "department": "dev",
+          "content": "PROD-123 评估完成，预计 2 周开发，但需要先完成 AP-456 的技术审批",
+          "entities": [
+            "task:PROD-123",
+            "approval:AP-456"
+          ],
+          "events": [
+            {
+              "type": "blocked",
+              "subject": "task:PROD-123",
+              "object": "approval:AP-456"
+            },
+            {
+              "type": "owner_changed",
+              "subject": "task:PROD-123",
+              "new_owner": "bob@dev"
+            }
+          ]
+        },
+        {
+          "timestamp": "2026-04-05T09:00:00Z",
+          "actor": "carol@ops",
+          "department": "ops",
+          "content": "AP-456 审批通过，但运营侧需要先完成数据迁移 TASK-789",
+          "entities": [
+            "approval:AP-456",
+            "task:TASK-789"
+          ],
+          "events": [
+            {
+              "type": "approval_status_updated",
+              "subject": "approval:AP-456",
+              "status": "approved"
+            },
+            {
+              "type": "blocked",
+              "subject": "task:PROD-123",
+              "object": "task:TASK-789"
+            }
+          ]
+        },
+        {
+          "timestamp": "2026-04-10T16:00:00Z",
+          "actor": "bob@dev",
+          "department": "dev",
+          "content": "TASK-789 已完成，PROD-123 可以开始开发了",
+          "entities": [
+            "task:TASK-789",
+            "task:PROD-123"
+          ],
+          "events": [
+            {
+              "type": "stage_changed",
+              "subject": "task:TASK-789",
+              "new_stage": "done"
+            },
+            {
+              "type": "unblocked",
+              "subject": "task:PROD-123"
+            }
+          ]
+        }
+      ],
+      "queries": [
+        {
+          "query_id": "q1",
+          "question": "PROD-123 现在被什么阻塞了？",
+          "query_type": "state",
+          "gold_answer": "已解除阻塞，可以开始开发",
+          "gold_evidence": [
+            "history[3]"
+          ],
+          "reasoning": "需要追踪最新的阻塞状态，TASK-789 完成后 PROD-123 已解除阻塞"
+        },
+        {
+          "query_id": "q2",
+          "question": "PROD-123 为什么一直没有启动？",
+          "query_type": "why",
+          "gold_answer": "先被 AP-456 阻塞，审批通过后又被 TASK-789 阻塞，现在已解除",
+          "gold_evidence": [
+            "history[1]",
+            "history[2]",
+            "history[3]"
+          ],
+          "reasoning": "需要追溯完整的阻塞链，理解依赖关系"
+        },
+        {
+          "query_id": "q3",
+          "question": "PROD-123 的负责人是谁？",
+          "query_type": "state",
+          "gold_answer": "bob@dev",
+          "gold_evidence": [
+            "history[1]"
+          ],
+          "reasoning": "需要找到最近一次 owner_changed 事件"
+        }
+      ],
+      "platform": "feishu",
+      "chat": {
+        "chat_id": "oc_product_launch_v1",
+        "chat_type": "group",
+        "chat_name": "跨部门产品上线审批流"
+      },
+      "messages": [
+        {
+          "message_id": "om_product_launch_v1_001",
+          "chat_id": "oc_product_launch_v1",
+          "chat_type": "group",
+          "thread_id": "omt_product_launch_v1_task_prod_123",
+          "root_id": "om_product_launch_v1_001",
+          "parent_id": null,
+          "created_at": "2026-04-01T10:00:00Z",
+          "message_type": "post",
+          "sender": {
+            "open_id": "ou_alice_pm",
+            "display_name": "Alice",
+            "department": "product",
+            "actor_ref": "alice@pm"
+          },
+          "mentions": [
+            {
+              "open_id": "ou_bob_dev",
+              "display_name": "Bob",
+              "actor_ref": "bob@dev"
+            }
+          ],
+          "content_text": "@Bob 先拉个线程，PROD-123 这个需求我先建单了。这周想推进上线，麻烦帮忙评估一下工作量。",
+          "content_json": {
+            "title": "协作更新",
+            "body": "@Bob 先拉个线程，PROD-123 这个需求我先建单了。这周想推进上线，麻烦帮忙评估一下工作量。"
+          },
+          "semantic_refs": {
+            "entities": [
+              "task:PROD-123"
+            ],
+            "events": [
+              {
+                "type": "task_created",
+                "subject": "task:PROD-123",
+                "actor": "alice@pm"
+              }
+            ],
+            "history_index": 0
+          }
+        },
+        {
+          "message_id": "om_product_launch_v1_002",
+          "chat_id": "oc_product_launch_v1",
+          "chat_type": "group",
+          "thread_id": "omt_product_launch_v1_task_prod_123",
+          "root_id": "om_product_launch_v1_001",
+          "parent_id": "om_product_launch_v1_001",
+          "created_at": "2026-04-02T14:30:00Z",
+          "message_type": "text",
+          "sender": {
+            "open_id": "ou_bob_dev",
+            "display_name": "Bob",
+            "department": "dev",
+            "actor_ref": "bob@dev"
+          },
+          "mentions": [
+            {
+              "open_id": "ou_carol_ops",
+              "display_name": "Carol",
+              "actor_ref": "carol@ops"
+            }
+          ],
+          "content_text": "@Carol PROD-123 我这边先评完了，当前还是卡在 AP-456。审批过了我再继续往下推。",
+          "content_json": {
+            "text": "@Carol PROD-123 我这边先评完了，当前还是卡在 AP-456。审批过了我再继续往下推。"
+          },
+          "semantic_refs": {
+            "entities": [
+              "task:PROD-123",
+              "approval:AP-456"
+            ],
+            "events": [
+              {
+                "type": "blocked",
+                "subject": "task:PROD-123",
+                "object": "approval:AP-456"
+              },
+              {
+                "type": "owner_changed",
+                "subject": "task:PROD-123",
+                "new_owner": "bob@dev"
+              }
+            ],
+            "history_index": 1
+          }
+        },
+        {
+          "message_id": "om_product_launch_v1_003",
+          "chat_id": "oc_product_launch_v1",
+          "chat_type": "group",
+          "thread_id": "omt_product_launch_v1_approval_ap_456",
+          "root_id": "om_product_launch_v1_003",
+          "parent_id": null,
+          "created_at": "2026-04-05T09:00:00Z",
+          "message_type": "interactive",
+          "sender": {
+            "open_id": "ou_carol_ops",
+            "display_name": "Carol",
+            "department": "ops",
+            "actor_ref": "carol@ops"
+          },
+          "mentions": [
+            {
+              "open_id": "ou_bob_dev",
+              "display_name": "Bob",
+              "actor_ref": "bob@dev"
+            }
+          ],
+          "content_text": "@Bob 审批卡片更新：AP-456 已通过。 不过还得先把 TASK-789 处理掉。",
+          "content_json": {
+            "card_type": "approval_update",
+            "summary": "@Bob 审批卡片更新：AP-456 已通过。 不过还得先把 TASK-789 处理掉。"
+          },
+          "semantic_refs": {
+            "entities": [
+              "approval:AP-456",
+              "task:TASK-789"
+            ],
+            "events": [
+              {
+                "type": "approval_status_updated",
+                "subject": "approval:AP-456",
+                "status": "approved"
+              },
+              {
+                "type": "blocked",
+                "subject": "task:PROD-123",
+                "object": "task:TASK-789"
+              }
+            ],
+            "history_index": 2
+          }
+        },
+        {
+          "message_id": "om_product_launch_v1_004",
+          "chat_id": "oc_product_launch_v1",
+          "chat_type": "group",
+          "thread_id": "omt_product_launch_v1_task_task_789",
+          "root_id": "om_product_launch_v1_004",
+          "parent_id": null,
+          "created_at": "2026-04-10T16:00:00Z",
+          "message_type": "text",
+          "sender": {
+            "open_id": "ou_bob_dev",
+            "display_name": "Bob",
+            "department": "dev",
+            "actor_ref": "bob@dev"
+          },
+          "mentions": [],
+          "content_text": "TASK-789 这边已经 done 了，PROD-123 可以继续推进了。",
+          "content_json": {
+            "text": "TASK-789 这边已经 done 了，PROD-123 可以继续推进了。"
+          },
+          "semantic_refs": {
+            "entities": [
+              "task:TASK-789",
+              "task:PROD-123"
+            ],
+            "events": [
+              {
+                "type": "stage_changed",
+                "subject": "task:TASK-789",
+                "new_stage": "done"
+              },
+              {
+                "type": "unblocked",
+                "subject": "task:PROD-123"
+              }
+            ],
+            "history_index": 3
+          }
+        }
+      ]
+    },
+    {
+      "sample_id": "tech_approval_v1",
+      "scenario": "技术方案审批流程",
+      "departments": [
+        "dev",
+        "ops"
+      ],
+      "actors": [
+        "bob@dev",
+        "carol@ops"
+      ],
+      "history": [
+        {
+          "timestamp": "2026-04-01T10:00:00Z",
+          "actor": "bob@dev",
+          "department": "dev",
+          "content": "提交技术方案 TECH-100，需要运营审核资源需求",
+          "entities": [
+            "approval:TECH-100"
+          ],
+          "events": [
+            {
+              "type": "approval_created",
+              "subject": "approval:TECH-100",
+              "actor": "bob@dev"
+            }
+          ]
+        },
+        {
+          "timestamp": "2026-04-03T14:00:00Z",
+          "actor": "carol@ops",
+          "department": "ops",
+          "content": "TECH-100 资源需求审核通过，可以开始实施",
+          "entities": [
+            "approval:TECH-100"
+          ],
+          "events": [
+            {
+              "type": "approval_status_updated",
+              "subject": "approval:TECH-100",
+              "status": "approved"
+            }
+          ]
+        }
+      ],
+      "queries": [
+        {
+          "query_id": "q1",
+          "question": "TECH-100 的审批状态是什么？",
+          "query_type": "state",
+          "gold_answer": "已通过",
+          "gold_evidence": [
+            "history[1]"
+          ],
+          "reasoning": "需要找到最新的审批状态"
+        },
+        {
+          "query_id": "q2",
+          "question": "运营部门在 TECH-100 中做了什么？",
+          "query_type": "list_relation",
+          "gold_answer": "审核资源需求并通过审批",
+          "gold_evidence": [
+            "history[1]"
+          ],
+          "reasoning": "需要筛选特定部门的参与记录"
+        }
+      ],
+      "platform": "feishu",
+      "chat": {
+        "chat_id": "oc_tech_approval_v1",
+        "chat_type": "group",
+        "chat_name": "技术方案审批流程"
+      },
+      "messages": [
+        {
+          "message_id": "om_tech_approval_v1_001",
+          "chat_id": "oc_tech_approval_v1",
+          "chat_type": "group",
+          "thread_id": "omt_tech_approval_v1_approval_tech_100",
+          "root_id": "om_tech_approval_v1_001",
+          "parent_id": null,
+          "created_at": "2026-04-01T10:00:00Z",
+          "message_type": "post",
+          "sender": {
+            "open_id": "ou_bob_dev",
+            "display_name": "Bob",
+            "department": "dev",
+            "actor_ref": "bob@dev"
+          },
+          "mentions": [
+            {
+              "open_id": "ou_carol_ops",
+              "display_name": "Carol",
+              "actor_ref": "carol@ops"
+            }
+          ],
+          "content_text": "@Carol TECH-100 这个审批我先提了，大家有空帮忙看下，别卡太久。",
+          "content_json": {
+            "title": "协作更新",
+            "body": "@Carol TECH-100 这个审批我先提了，大家有空帮忙看下，别卡太久。"
+          },
+          "semantic_refs": {
+            "entities": [
+              "approval:TECH-100"
+            ],
+            "events": [
+              {
+                "type": "approval_created",
+                "subject": "approval:TECH-100",
+                "actor": "bob@dev"
+              }
+            ],
+            "history_index": 0
+          }
+        },
+        {
+          "message_id": "om_tech_approval_v1_002",
+          "chat_id": "oc_tech_approval_v1",
+          "chat_type": "group",
+          "thread_id": "omt_tech_approval_v1_approval_tech_100",
+          "root_id": "om_tech_approval_v1_001",
+          "parent_id": "om_tech_approval_v1_001",
+          "created_at": "2026-04-03T14:00:00Z",
+          "message_type": "interactive",
+          "sender": {
+            "open_id": "ou_carol_ops",
+            "display_name": "Carol",
+            "department": "ops",
+            "actor_ref": "carol@ops"
+          },
+          "mentions": [
+            {
+              "open_id": "ou_bob_dev",
+              "display_name": "Bob",
+              "actor_ref": "bob@dev"
+            }
+          ],
+          "content_text": "@Bob 审批卡片更新：TECH-100 已通过。",
+          "content_json": {
+            "card_type": "approval_update",
+            "summary": "@Bob 审批卡片更新：TECH-100 已通过。"
+          },
+          "semantic_refs": {
+            "entities": [
+              "approval:TECH-100"
+            ],
+            "events": [
+              {
+                "type": "approval_status_updated",
+                "subject": "approval:TECH-100",
+                "status": "approved"
+              }
+            ],
+            "history_index": 1
+          }
+        }
+      ]
+    },
+    {
+      "sample_id": "security_review_v1",
+      "scenario": "安全审核流程",
+      "departments": [
+        "dev",
+        "security",
+        "ops"
+      ],
+      "actors": [
+        "bob@dev",
+        "david@security",
+        "carol@ops"
+      ],
+      "history": [
+        {
+          "timestamp": "2026-04-01T09:00:00Z",
+          "actor": "bob@dev",
+          "department": "dev",
+          "content": "提交 DEV-200 安全审核申请，涉及用户数据访问权限变更",
+          "entities": [
+            "task:DEV-200"
+          ],
+          "events": [
+            {
+              "type": "task_created",
+              "subject": "task:DEV-200",
+              "actor": "bob@dev"
+            }
+          ]
+        },
+        {
+          "timestamp": "2026-04-02T11:00:00Z",
+          "actor": "david@security",
+          "department": "security",
+          "content": "DEV-200 安全风险评估中，发现需要补充数据加密方案",
+          "entities": [
+            "task:DEV-200",
+            "blocker:ENCRYPT-001"
+          ],
+          "events": [
+            {
+              "type": "blocked",
+              "subject": "task:DEV-200",
+              "object": "blocker:ENCRYPT-001"
+            }
+          ]
+        },
+        {
+          "timestamp": "2026-04-05T15:00:00Z",
+          "actor": "bob@dev",
+          "department": "dev",
+          "content": "已补充加密方案文档，重新提交审核",
+          "entities": [
+            "task:DEV-200",
+            "blocker:ENCRYPT-001"
+          ],
+          "events": [
+            {
+              "type": "unblocked",
+              "subject": "task:DEV-200"
+            }
+          ]
+        },
+        {
+          "timestamp": "2026-04-06T10:00:00Z",
+          "actor": "david@security",
+          "department": "security",
+          "content": "DEV-200 安全审核通过，可以上线",
+          "entities": [
+            "task:DEV-200"
+          ],
+          "events": [
+            {
+              "type": "stage_changed",
+              "subject": "task:DEV-200",
+              "new_stage": "approved"
+            }
+          ]
+        }
+      ],
+      "queries": [
+        {
+          "query_id": "q1",
+          "question": "DEV-200 经历了哪些阶段？",
+          "query_type": "timeline",
+          "gold_answer": "提交审核 → 发现加密问题被阻塞 → 补充方案解除阻塞 → 审核通过",
+          "gold_evidence": [
+            "history[0]",
+            "history[1]",
+            "history[2]",
+            "history[3]"
+          ],
+          "reasoning": "需要按时间顺序重建完整的状态演进"
+        },
+        {
+          "query_id": "q2",
+          "question": "DEV-200 为什么被阻塞？",
+          "query_type": "why",
+          "gold_answer": "需要补充数据加密方案",
+          "gold_evidence": [
+            "history[1]"
+          ],
+          "reasoning": "需要找到阻塞的原因"
+        }
+      ],
+      "platform": "feishu",
+      "chat": {
+        "chat_id": "oc_security_review_v1",
+        "chat_type": "group",
+        "chat_name": "安全审核流程"
+      },
+      "messages": [
+        {
+          "message_id": "om_security_review_v1_001",
+          "chat_id": "oc_security_review_v1",
+          "chat_type": "group",
+          "thread_id": "omt_security_review_v1_task_dev_200",
+          "root_id": "om_security_review_v1_001",
+          "parent_id": null,
+          "created_at": "2026-04-01T09:00:00Z",
+          "message_type": "post",
+          "sender": {
+            "open_id": "ou_bob_dev",
+            "display_name": "Bob",
+            "department": "dev",
+            "actor_ref": "bob@dev"
+          },
+          "mentions": [],
+          "content_text": "先拉个线程，DEV-200 这个需求我先建单了。这周想推进上线，麻烦帮忙评估一下工作量。",
+          "content_json": {
+            "title": "协作更新",
+            "body": "先拉个线程，DEV-200 这个需求我先建单了。这周想推进上线，麻烦帮忙评估一下工作量。"
+          },
+          "semantic_refs": {
+            "entities": [
+              "task:DEV-200"
+            ],
+            "events": [
+              {
+                "type": "task_created",
+                "subject": "task:DEV-200",
+                "actor": "bob@dev"
+              }
+            ],
+            "history_index": 0
+          }
+        },
+        {
+          "message_id": "om_security_review_v1_002",
+          "chat_id": "oc_security_review_v1",
+          "chat_type": "group",
+          "thread_id": "omt_security_review_v1_task_dev_200",
+          "root_id": "om_security_review_v1_001",
+          "parent_id": "om_security_review_v1_001",
+          "created_at": "2026-04-02T11:00:00Z",
+          "message_type": "text",
+          "sender": {
+            "open_id": "ou_david_security",
+            "display_name": "David",
+            "department": "security",
+            "actor_ref": "david@security"
+          },
+          "mentions": [
+            {
+              "open_id": "ou_carol_ops",
+              "display_name": "Carol",
+              "actor_ref": "carol@ops"
+            }
+          ],
+          "content_text": "@Carol DEV-200 暂时先卡住，缺 ENCRYPT-001 这块补充。",
+          "content_json": {
+            "text": "@Carol DEV-200 暂时先卡住，缺 ENCRYPT-001 这块补充。"
+          },
+          "semantic_refs": {
+            "entities": [
+              "task:DEV-200",
+              "blocker:ENCRYPT-001"
+            ],
+            "events": [
+              {
+                "type": "blocked",
+                "subject": "task:DEV-200",
+                "object": "blocker:ENCRYPT-001"
+              }
+            ],
+            "history_index": 1
+          }
+        },
+        {
+          "message_id": "om_security_review_v1_003",
+          "chat_id": "oc_security_review_v1",
+          "chat_type": "group",
+          "thread_id": "omt_security_review_v1_task_dev_200",
+          "root_id": "om_security_review_v1_001",
+          "parent_id": "om_security_review_v1_002",
+          "created_at": "2026-04-05T15:00:00Z",
+          "message_type": "text",
+          "sender": {
+            "open_id": "ou_bob_dev",
+            "display_name": "Bob",
+            "department": "dev",
+            "actor_ref": "bob@dev"
+          },
+          "mentions": [],
+          "content_text": "DEV-200 可以继续推进了。",
+          "content_json": {
+            "text": "DEV-200 可以继续推进了。"
+          },
+          "semantic_refs": {
+            "entities": [
+              "task:DEV-200",
+              "blocker:ENCRYPT-001"
+            ],
+            "events": [
+              {
+                "type": "unblocked",
+                "subject": "task:DEV-200"
+              }
+            ],
+            "history_index": 2
+          }
+        },
+        {
+          "message_id": "om_security_review_v1_004",
+          "chat_id": "oc_security_review_v1",
+          "chat_type": "group",
+          "thread_id": "omt_security_review_v1_task_dev_200",
+          "root_id": "om_security_review_v1_001",
+          "parent_id": "om_security_review_v1_003",
+          "created_at": "2026-04-06T10:00:00Z",
+          "message_type": "text",
+          "sender": {
+            "open_id": "ou_david_security",
+            "display_name": "David",
+            "department": "security",
+            "actor_ref": "david@security"
+          },
+          "mentions": [],
+          "content_text": "DEV-200 状态我先更新了，大家按最新进度往下走。",
+          "content_json": {
+            "text": "DEV-200 状态我先更新了，大家按最新进度往下走。"
+          },
+          "semantic_refs": {
+            "entities": [
+              "task:DEV-200"
+            ],
+            "events": [
+              {
+                "type": "stage_changed",
+                "subject": "task:DEV-200",
+                "new_stage": "approved"
+              }
+            ],
+            "history_index": 3
+          }
+        }
+      ]
+    },
+    {
+      "sample_id": "marketing_campaign_v1",
+      "scenario": "市场活动跨部门协同",
+      "departments": [
+        "marketing",
+        "product",
+        "ops"
+      ],
+      "actors": [
+        "eve@marketing",
+        "alice@pm",
+        "carol@ops"
+      ],
+      "history": [
+        {
+          "timestamp": "2026-04-01T10:00:00Z",
+          "actor": "eve@marketing",
+          "department": "marketing",
+          "content": "创建 Q2 营销活动任务 MKT-300，需要产品提供功能支持",
+          "entities": [
+            "task:MKT-300"
+          ],
+          "events": [
+            {
+              "type": "task_created",
+              "subject": "task:MKT-300",
+              "actor": "eve@marketing"
+            }
+          ]
+        },
+        {
+          "timestamp": "2026-04-03T14:00:00Z",
+          "actor": "alice@pm",
+          "department": "product",
+          "content": "MKT-300 需要的功能在 PROD-456 中，预计 4 月 15 日完成",
+          "entities": [
+            "task:MKT-300",
+            "task:PROD-456"
+          ],
+          "events": [
+            {
+              "type": "blocked",
+              "subject": "task:MKT-300",
+              "object": "task:PROD-456"
+            }
+          ]
+        },
+        {
+          "timestamp": "2026-04-16T09:00:00Z",
+          "actor": "alice@pm",
+          "department": "product",
+          "content": "PROD-456 已完成，MKT-300 可以开始准备了",
+          "entities": [
+            "task:PROD-456",
+            "task:MKT-300"
+          ],
+          "events": [
+            {
+              "type": "stage_changed",
+              "subject": "task:PROD-456",
+              "new_stage": "done"
+            },
+            {
+              "type": "unblocked",
+              "subject": "task:MKT-300"
+            }
+          ]
+        },
+        {
+          "timestamp": "2026-04-17T11:00:00Z",
+          "actor": "carol@ops",
+          "department": "ops",
+          "content": "MKT-300 运营资源已就位，活动可以启动",
+          "entities": [
+            "task:MKT-300"
+          ],
+          "events": [
+            {
+              "type": "stage_changed",
+              "subject": "task:MKT-300",
+              "new_stage": "ready"
+            }
+          ]
+        }
+      ],
+      "queries": [
+        {
+          "query_id": "q1",
+          "question": "MKT-300 现在的状态是什么？",
+          "query_type": "state",
+          "gold_answer": "ready，可以启动",
+          "gold_evidence": [
+            "history[3]"
+          ],
+          "reasoning": "需要找到最新的状态"
+        },
+        {
+          "query_id": "q2",
+          "question": "产品部门在 MKT-300 中做了什么？",
+          "query_type": "list_relation",
+          "gold_answer": "提供功能支持，完成 PROD-456 后解除阻塞",
+          "gold_evidence": [
+            "history[1]",
+            "history[2]"
+          ],
+          "reasoning": "需要筛选产品部门的参与记录"
+        }
+      ],
+      "platform": "feishu",
+      "chat": {
+        "chat_id": "oc_marketing_campaign_v1",
+        "chat_type": "group",
+        "chat_name": "市场活动跨部门协同"
+      },
+      "messages": [
+        {
+          "message_id": "om_marketing_campaign_v1_001",
+          "chat_id": "oc_marketing_campaign_v1",
+          "chat_type": "group",
+          "thread_id": "omt_marketing_campaign_v1_task_mkt_300",
+          "root_id": "om_marketing_campaign_v1_001",
+          "parent_id": null,
+          "created_at": "2026-04-01T10:00:00Z",
+          "message_type": "post",
+          "sender": {
+            "open_id": "ou_eve_marketing",
+            "display_name": "Eve",
+            "department": "marketing",
+            "actor_ref": "eve@marketing"
+          },
+          "mentions": [],
+          "content_text": "先拉个线程，MKT-300 这个需求我先建单了。这周想推进上线，麻烦帮忙评估一下工作量。",
+          "content_json": {
+            "title": "协作更新",
+            "body": "先拉个线程，MKT-300 这个需求我先建单了。这周想推进上线，麻烦帮忙评估一下工作量。"
+          },
+          "semantic_refs": {
+            "entities": [
+              "task:MKT-300"
+            ],
+            "events": [
+              {
+                "type": "task_created",
+                "subject": "task:MKT-300",
+                "actor": "eve@marketing"
+              }
+            ],
+            "history_index": 0
+          }
+        },
+        {
+          "message_id": "om_marketing_campaign_v1_002",
+          "chat_id": "oc_marketing_campaign_v1",
+          "chat_type": "group",
+          "thread_id": "omt_marketing_campaign_v1_task_mkt_300",
+          "root_id": "om_marketing_campaign_v1_001",
+          "parent_id": "om_marketing_campaign_v1_001",
+          "created_at": "2026-04-03T14:00:00Z",
+          "message_type": "text",
+          "sender": {
+            "open_id": "ou_alice_pm",
+            "display_name": "Alice",
+            "department": "product",
+            "actor_ref": "alice@pm"
+          },
+          "mentions": [
+            {
+              "open_id": "ou_carol_ops",
+              "display_name": "Carol",
+              "actor_ref": "carol@ops"
+            }
+          ],
+          "content_text": "@Carol MKT-300 这边先别往下发了，现在还依赖 PROD-456。那边处理完我再同步进度。",
+          "content_json": {
+            "text": "@Carol MKT-300 这边先别往下发了，现在还依赖 PROD-456。那边处理完我再同步进度。"
+          },
+          "semantic_refs": {
+            "entities": [
+              "task:MKT-300",
+              "task:PROD-456"
+            ],
+            "events": [
+              {
+                "type": "blocked",
+                "subject": "task:MKT-300",
+                "object": "task:PROD-456"
+              }
+            ],
+            "history_index": 1
+          }
+        },
+        {
+          "message_id": "om_marketing_campaign_v1_003",
+          "chat_id": "oc_marketing_campaign_v1",
+          "chat_type": "group",
+          "thread_id": "omt_marketing_campaign_v1_task_prod_456",
+          "root_id": "om_marketing_campaign_v1_003",
+          "parent_id": null,
+          "created_at": "2026-04-16T09:00:00Z",
+          "message_type": "text",
+          "sender": {
+            "open_id": "ou_alice_pm",
+            "display_name": "Alice",
+            "department": "product",
+            "actor_ref": "alice@pm"
+          },
+          "mentions": [],
+          "content_text": "PROD-456 这边已经 done 了，MKT-300 可以继续推进了。",
+          "content_json": {
+            "text": "PROD-456 这边已经 done 了，MKT-300 可以继续推进了。"
+          },
+          "semantic_refs": {
+            "entities": [
+              "task:PROD-456",
+              "task:MKT-300"
+            ],
+            "events": [
+              {
+                "type": "stage_changed",
+                "subject": "task:PROD-456",
+                "new_stage": "done"
+              },
+              {
+                "type": "unblocked",
+                "subject": "task:MKT-300"
+              }
+            ],
+            "history_index": 2
+          }
+        },
+        {
+          "message_id": "om_marketing_campaign_v1_004",
+          "chat_id": "oc_marketing_campaign_v1",
+          "chat_type": "group",
+          "thread_id": "omt_marketing_campaign_v1_task_mkt_300",
+          "root_id": "om_marketing_campaign_v1_001",
+          "parent_id": "om_marketing_campaign_v1_002",
+          "created_at": "2026-04-17T11:00:00Z",
+          "message_type": "text",
+          "sender": {
+            "open_id": "ou_carol_ops",
+            "display_name": "Carol",
+            "department": "ops",
+            "actor_ref": "carol@ops"
+          },
+          "mentions": [],
+          "content_text": "MKT-300 状态我先更新了，大家按最新进度往下走。",
+          "content_json": {
+            "text": "MKT-300 状态我先更新了，大家按最新进度往下走。"
+          },
+          "semantic_refs": {
+            "entities": [
+              "task:MKT-300"
+            ],
+            "events": [
+              {
+                "type": "stage_changed",
+                "subject": "task:MKT-300",
+                "new_stage": "ready"
+              }
+            ],
+            "history_index": 3
+          }
+        }
+      ]
+    },
+    {
+      "sample_id": "bug_fix_urgent_v1",
+      "scenario": "紧急 Bug 修复流程",
+      "departments": [
+        "dev",
+        "ops",
+        "product"
+      ],
+      "actors": [
+        "bob@dev",
+        "carol@ops",
+        "alice@pm"
+      ],
+      "history": [
+        {
+          "timestamp": "2026-04-10T08:00:00Z",
+          "actor": "carol@ops",
+          "department": "ops",
+          "content": "发现线上严重 Bug BUG-500，影响用户支付功能",
+          "entities": [
+            "task:BUG-500"
+          ],
+          "events": [
+            {
+              "type": "task_created",
+              "subject": "task:BUG-500",
+              "actor": "carol@ops",
+              "priority": "urgent"
+            }
+          ]
+        },
+        {
+          "timestamp": "2026-04-10T08:30:00Z",
+          "actor": "bob@dev",
+          "department": "dev",
+          "content": "BUG-500 已分配给我，正在紧急修复",
+          "entities": [
+            "task:BUG-500"
+          ],
+          "events": [
+            {
+              "type": "owner_changed",
+              "subject": "task:BUG-500",
+              "new_owner": "bob@dev"
+            }
+          ]
+        },
+        {
+          "timestamp": "2026-04-10T10:00:00Z",
+          "actor": "bob@dev",
+          "department": "dev",
+          "content": "BUG-500 修复完成，等待产品验收",
+          "entities": [
+            "task:BUG-500"
+          ],
+          "events": [
+            {
+              "type": "stage_changed",
+              "subject": "task:BUG-500",
+              "new_stage": "testing"
+            }
+          ]
+        },
+        {
+          "timestamp": "2026-04-10T11:00:00Z",
+          "actor": "alice@pm",
+          "department": "product",
+          "content": "BUG-500 验收通过，可以上线",
+          "entities": [
+            "task:BUG-500"
+          ],
+          "events": [
+            {
+              "type": "stage_changed",
+              "subject": "task:BUG-500",
+              "new_stage": "approved"
+            }
+          ]
+        },
+        {
+          "timestamp": "2026-04-10T11:30:00Z",
+          "actor": "carol@ops",
+          "department": "ops",
+          "content": "BUG-500 已上线，问题解决",
+          "entities": [
+            "task:BUG-500"
+          ],
+          "events": [
+            {
+              "type": "stage_changed",
+              "subject": "task:BUG-500",
+              "new_stage": "done"
+            }
+          ]
+        }
+      ],
+      "queries": [
+        {
+          "query_id": "q1",
+          "question": "BUG-500 从发现到解决用了多长时间？",
+          "query_type": "timeline",
+          "gold_answer": "3.5 小时（8:00 发现，11:30 解决）",
+          "gold_evidence": [
+            "history[0]",
+            "history[4]"
+          ],
+          "reasoning": "需要计算首尾时间差"
+        },
+        {
+          "query_id": "q2",
+          "question": "BUG-500 的负责人是谁？",
+          "query_type": "state",
+          "gold_answer": "bob@dev",
+          "gold_evidence": [
+            "history[1]"
+          ],
+          "reasoning": "需要找到 owner_changed 事件"
+        }
+      ],
+      "platform": "feishu",
+      "chat": {
+        "chat_id": "oc_bug_fix_urgent_v1",
+        "chat_type": "group",
+        "chat_name": "紧急 Bug 修复流程"
+      },
+      "messages": [
+        {
+          "message_id": "om_bug_fix_urgent_v1_001",
+          "chat_id": "oc_bug_fix_urgent_v1",
+          "chat_type": "group",
+          "thread_id": "omt_bug_fix_urgent_v1_task_bug_500",
+          "root_id": "om_bug_fix_urgent_v1_001",
+          "parent_id": null,
+          "created_at": "2026-04-10T08:00:00Z",
+          "message_type": "post",
+          "sender": {
+            "open_id": "ou_carol_ops",
+            "display_name": "Carol",
+            "department": "ops",
+            "actor_ref": "carol@ops"
+          },
+          "mentions": [
+            {
+              "open_id": "ou_bob_dev",
+              "display_name": "Bob",
+              "actor_ref": "bob@dev"
+            }
+          ],
+          "content_text": "@Bob 先拉个线程，BUG-500 这个需求我先建单了。这周想推进上线，麻烦帮忙评估一下工作量。",
+          "content_json": {
+            "title": "协作更新",
+            "body": "@Bob 先拉个线程，BUG-500 这个需求我先建单了。这周想推进上线，麻烦帮忙评估一下工作量。"
+          },
+          "semantic_refs": {
+            "entities": [
+              "task:BUG-500"
+            ],
+            "events": [
+              {
+                "type": "task_created",
+                "subject": "task:BUG-500",
+                "actor": "carol@ops",
+                "priority": "urgent"
+              }
+            ],
+            "history_index": 0
+          }
+        },
+        {
+          "message_id": "om_bug_fix_urgent_v1_002",
+          "chat_id": "oc_bug_fix_urgent_v1",
+          "chat_type": "group",
+          "thread_id": "omt_bug_fix_urgent_v1_task_bug_500",
+          "root_id": "om_bug_fix_urgent_v1_001",
+          "parent_id": "om_bug_fix_urgent_v1_001",
+          "created_at": "2026-04-10T08:30:00Z",
+          "message_type": "text",
+          "sender": {
+            "open_id": "ou_bob_dev",
+            "display_name": "Bob",
+            "department": "dev",
+            "actor_ref": "bob@dev"
+          },
+          "mentions": [],
+          "content_text": "BUG-500 我先接着跟一下，这个线程后面我来推进。",
+          "content_json": {
+            "text": "BUG-500 我先接着跟一下，这个线程后面我来推进。"
+          },
+          "semantic_refs": {
+            "entities": [
+              "task:BUG-500"
+            ],
+            "events": [
+              {
+                "type": "owner_changed",
+                "subject": "task:BUG-500",
+                "new_owner": "bob@dev"
+              }
+            ],
+            "history_index": 1
+          }
+        },
+        {
+          "message_id": "om_bug_fix_urgent_v1_003",
+          "chat_id": "oc_bug_fix_urgent_v1",
+          "chat_type": "group",
+          "thread_id": "omt_bug_fix_urgent_v1_task_bug_500",
+          "root_id": "om_bug_fix_urgent_v1_001",
+          "parent_id": "om_bug_fix_urgent_v1_002",
+          "created_at": "2026-04-10T10:00:00Z",
+          "message_type": "text",
+          "sender": {
+            "open_id": "ou_bob_dev",
+            "display_name": "Bob",
+            "department": "dev",
+            "actor_ref": "bob@dev"
+          },
+          "mentions": [],
+          "content_text": "BUG-500 状态我先更新了，大家按最新进度往下走。",
+          "content_json": {
+            "text": "BUG-500 状态我先更新了，大家按最新进度往下走。"
+          },
+          "semantic_refs": {
+            "entities": [
+              "task:BUG-500"
+            ],
+            "events": [
+              {
+                "type": "stage_changed",
+                "subject": "task:BUG-500",
+                "new_stage": "testing"
+              }
+            ],
+            "history_index": 2
+          }
+        },
+        {
+          "message_id": "om_bug_fix_urgent_v1_004",
+          "chat_id": "oc_bug_fix_urgent_v1",
+          "chat_type": "group",
+          "thread_id": "omt_bug_fix_urgent_v1_task_bug_500",
+          "root_id": "om_bug_fix_urgent_v1_001",
+          "parent_id": "om_bug_fix_urgent_v1_003",
+          "created_at": "2026-04-10T11:00:00Z",
+          "message_type": "text",
+          "sender": {
+            "open_id": "ou_alice_pm",
+            "display_name": "Alice",
+            "department": "product",
+            "actor_ref": "alice@pm"
+          },
+          "mentions": [],
+          "content_text": "BUG-500 状态我先更新了，大家按最新进度往下走。",
+          "content_json": {
+            "text": "BUG-500 状态我先更新了，大家按最新进度往下走。"
+          },
+          "semantic_refs": {
+            "entities": [
+              "task:BUG-500"
+            ],
+            "events": [
+              {
+                "type": "stage_changed",
+                "subject": "task:BUG-500",
+                "new_stage": "approved"
+              }
+            ],
+            "history_index": 3
+          }
+        },
+        {
+          "message_id": "om_bug_fix_urgent_v1_005",
+          "chat_id": "oc_bug_fix_urgent_v1",
+          "chat_type": "group",
+          "thread_id": "omt_bug_fix_urgent_v1_task_bug_500",
+          "root_id": "om_bug_fix_urgent_v1_001",
+          "parent_id": "om_bug_fix_urgent_v1_004",
+          "created_at": "2026-04-10T11:30:00Z",
+          "message_type": "text",
+          "sender": {
+            "open_id": "ou_carol_ops",
+            "display_name": "Carol",
+            "department": "ops",
+            "actor_ref": "carol@ops"
+          },
+          "mentions": [],
+          "content_text": "BUG-500 状态我先更新了，大家按最新进度往下走。",
+          "content_json": {
+            "text": "BUG-500 状态我先更新了，大家按最新进度往下走。"
+          },
+          "semantic_refs": {
+            "entities": [
+              "task:BUG-500"
+            ],
+            "events": [
+              {
+                "type": "stage_changed",
+                "subject": "task:BUG-500",
+                "new_stage": "done"
+              }
+            ],
+            "history_index": 4
+          }
+        }
+      ]
+    },
+    {
+      "sample_id": "data_migration_v1",
+      "scenario": "数据迁移项目",
+      "departments": [
+        "ops",
+        "dev",
+        "dba"
+      ],
+      "actors": [
+        "carol@ops",
+        "bob@dev",
+        "frank@dba"
+      ],
+      "history": [
+        {
+          "timestamp": "2026-04-01T09:00:00Z",
+          "actor": "carol@ops",
+          "department": "ops",
+          "content": "创建数据迁移任务 DATA-600，需要 DBA 评估风险",
+          "entities": [
+            "task:DATA-600"
+          ],
+          "events": [
+            {
+              "type": "task_created",
+              "subject": "task:DATA-600",
+              "actor": "carol@ops"
+            }
+          ]
+        },
+        {
+          "timestamp": "2026-04-02T10:00:00Z",
+          "actor": "frank@dba",
+          "department": "dba",
+          "content": "DATA-600 风险评估完成，需要先备份数据库",
+          "entities": [
+            "task:DATA-600",
+            "task:BACKUP-001"
+          ],
+          "events": [
+            {
+              "type": "blocked",
+              "subject": "task:DATA-600",
+              "object": "task:BACKUP-001"
+            }
+          ]
+        },
+        {
+          "timestamp": "2026-04-03T14:00:00Z",
+          "actor": "frank@dba",
+          "department": "dba",
+          "content": "BACKUP-001 完成，数据库已备份",
+          "entities": [
+            "task:BACKUP-001"
+          ],
+          "events": [
+            {
+              "type": "stage_changed",
+              "subject": "task:BACKUP-001",
+              "new_stage": "done"
+            }
+          ]
+        },
+        {
+          "timestamp": "2026-04-04T09:00:00Z",
+          "actor": "bob@dev",
+          "department": "dev",
+          "content": "DATA-600 迁移脚本已准备好，等待执行窗口",
+          "entities": [
+            "task:DATA-600"
+          ],
+          "events": [
+            {
+              "type": "stage_changed",
+              "subject": "task:DATA-600",
+              "new_stage": "ready"
+            }
+          ]
+        },
+        {
+          "timestamp": "2026-04-05T02:00:00Z",
+          "actor": "carol@ops",
+          "department": "ops",
+          "content": "DATA-600 迁移执行中，预计 4 小时完成",
+          "entities": [
+            "task:DATA-600"
+          ],
+          "events": [
+            {
+              "type": "stage_changed",
+              "subject": "task:DATA-600",
+              "new_stage": "in_progress"
+            }
+          ]
+        },
+        {
+          "timestamp": "2026-04-05T06:00:00Z",
+          "actor": "carol@ops",
+          "department": "ops",
+          "content": "DATA-600 迁移完成，数据验证通过",
+          "entities": [
+            "task:DATA-600"
+          ],
+          "events": [
+            {
+              "type": "stage_changed",
+              "subject": "task:DATA-600",
+              "new_stage": "done"
+            }
+          ]
+        }
+      ],
+      "queries": [
+        {
+          "query_id": "q1",
+          "question": "DATA-600 为什么需要先备份？",
+          "query_type": "why",
+          "gold_answer": "DBA 风险评估要求先备份数据库",
+          "gold_evidence": [
+            "history[1]"
+          ],
+          "reasoning": "需要找到阻塞的原因"
+        },
+        {
+          "query_id": "q2",
+          "question": "DATA-600 经历了哪些阶段？",
+          "query_type": "timeline",
+          "gold_answer": "创建 → 等待备份 → 备份完成 → 准备就绪 → 执行中 → 完成",
+          "gold_evidence": [
+            "history[0]",
+            "history[1]",
+            "history[2]",
+            "history[3]",
+            "history[4]",
+            "history[5]"
+          ],
+          "reasoning": "需要按时间顺序重建完整流程"
+        },
+        {
+          "query_id": "q3",
+          "question": "DBA 在 DATA-600 中做了什么？",
+          "query_type": "list_relation",
+          "gold_answer": "风险评估、要求备份、完成备份",
+          "gold_evidence": [
+            "history[1]",
+            "history[2]"
+          ],
+          "reasoning": "需要筛选 DBA 部门的参与记录"
+        }
+      ],
+      "platform": "feishu",
+      "chat": {
+        "chat_id": "oc_data_migration_v1",
+        "chat_type": "group",
+        "chat_name": "数据迁移项目"
+      },
+      "messages": [
+        {
+          "message_id": "om_data_migration_v1_001",
+          "chat_id": "oc_data_migration_v1",
+          "chat_type": "group",
+          "thread_id": "omt_data_migration_v1_task_data_600",
+          "root_id": "om_data_migration_v1_001",
+          "parent_id": null,
+          "created_at": "2026-04-01T09:00:00Z",
+          "message_type": "post",
+          "sender": {
+            "open_id": "ou_carol_ops",
+            "display_name": "Carol",
+            "department": "ops",
+            "actor_ref": "carol@ops"
+          },
+          "mentions": [
+            {
+              "open_id": "ou_bob_dev",
+              "display_name": "Bob",
+              "actor_ref": "bob@dev"
+            }
+          ],
+          "content_text": "@Bob 先拉个线程，DATA-600 这个需求我先建单了。这周想推进上线，麻烦帮忙评估一下工作量。",
+          "content_json": {
+            "title": "协作更新",
+            "body": "@Bob 先拉个线程，DATA-600 这个需求我先建单了。这周想推进上线，麻烦帮忙评估一下工作量。"
+          },
+          "semantic_refs": {
+            "entities": [
+              "task:DATA-600"
+            ],
+            "events": [
+              {
+                "type": "task_created",
+                "subject": "task:DATA-600",
+                "actor": "carol@ops"
+              }
+            ],
+            "history_index": 0
+          }
+        },
+        {
+          "message_id": "om_data_migration_v1_002",
+          "chat_id": "oc_data_migration_v1",
+          "chat_type": "group",
+          "thread_id": "omt_data_migration_v1_task_data_600",
+          "root_id": "om_data_migration_v1_001",
+          "parent_id": "om_data_migration_v1_001",
+          "created_at": "2026-04-02T10:00:00Z",
+          "message_type": "text",
+          "sender": {
+            "open_id": "ou_frank_dba",
+            "display_name": "Frank",
+            "department": "dba",
+            "actor_ref": "frank@dba"
+          },
+          "mentions": [
+            {
+              "open_id": "ou_carol_ops",
+              "display_name": "Carol",
+              "actor_ref": "carol@ops"
+            }
+          ],
+          "content_text": "@Carol DATA-600 这边先别往下发了，现在还依赖 BACKUP-001。那边处理完我再同步进度。",
+          "content_json": {
+            "text": "@Carol DATA-600 这边先别往下发了，现在还依赖 BACKUP-001。那边处理完我再同步进度。"
+          },
+          "semantic_refs": {
+            "entities": [
+              "task:DATA-600",
+              "task:BACKUP-001"
+            ],
+            "events": [
+              {
+                "type": "blocked",
+                "subject": "task:DATA-600",
+                "object": "task:BACKUP-001"
+              }
+            ],
+            "history_index": 1
+          }
+        },
+        {
+          "message_id": "om_data_migration_v1_003",
+          "chat_id": "oc_data_migration_v1",
+          "chat_type": "group",
+          "thread_id": "omt_data_migration_v1_task_backup_001",
+          "root_id": "om_data_migration_v1_003",
+          "parent_id": null,
+          "created_at": "2026-04-03T14:00:00Z",
+          "message_type": "text",
+          "sender": {
+            "open_id": "ou_frank_dba",
+            "display_name": "Frank",
+            "department": "dba",
+            "actor_ref": "frank@dba"
+          },
+          "mentions": [],
+          "content_text": "BACKUP-001 状态我先更新了，大家按最新进度往下走。",
+          "content_json": {
+            "text": "BACKUP-001 状态我先更新了，大家按最新进度往下走。"
+          },
+          "semantic_refs": {
+            "entities": [
+              "task:BACKUP-001"
+            ],
+            "events": [
+              {
+                "type": "stage_changed",
+                "subject": "task:BACKUP-001",
+                "new_stage": "done"
+              }
+            ],
+            "history_index": 2
+          }
+        },
+        {
+          "message_id": "om_data_migration_v1_004",
+          "chat_id": "oc_data_migration_v1",
+          "chat_type": "group",
+          "thread_id": "omt_data_migration_v1_task_data_600",
+          "root_id": "om_data_migration_v1_001",
+          "parent_id": "om_data_migration_v1_002",
+          "created_at": "2026-04-04T09:00:00Z",
+          "message_type": "text",
+          "sender": {
+            "open_id": "ou_bob_dev",
+            "display_name": "Bob",
+            "department": "dev",
+            "actor_ref": "bob@dev"
+          },
+          "mentions": [],
+          "content_text": "DATA-600 状态我先更新了，大家按最新进度往下走。",
+          "content_json": {
+            "text": "DATA-600 状态我先更新了，大家按最新进度往下走。"
+          },
+          "semantic_refs": {
+            "entities": [
+              "task:DATA-600"
+            ],
+            "events": [
+              {
+                "type": "stage_changed",
+                "subject": "task:DATA-600",
+                "new_stage": "ready"
+              }
+            ],
+            "history_index": 3
+          }
+        },
+        {
+          "message_id": "om_data_migration_v1_005",
+          "chat_id": "oc_data_migration_v1",
+          "chat_type": "group",
+          "thread_id": "omt_data_migration_v1_task_data_600",
+          "root_id": "om_data_migration_v1_001",
+          "parent_id": "om_data_migration_v1_004",
+          "created_at": "2026-04-05T02:00:00Z",
+          "message_type": "text",
+          "sender": {
+            "open_id": "ou_carol_ops",
+            "display_name": "Carol",
+            "department": "ops",
+            "actor_ref": "carol@ops"
+          },
+          "mentions": [],
+          "content_text": "DATA-600 状态我先更新了，大家按最新进度往下走。",
+          "content_json": {
+            "text": "DATA-600 状态我先更新了，大家按最新进度往下走。"
+          },
+          "semantic_refs": {
+            "entities": [
+              "task:DATA-600"
+            ],
+            "events": [
+              {
+                "type": "stage_changed",
+                "subject": "task:DATA-600",
+                "new_stage": "in_progress"
+              }
+            ],
+            "history_index": 4
+          }
+        },
+        {
+          "message_id": "om_data_migration_v1_006",
+          "chat_id": "oc_data_migration_v1",
+          "chat_type": "group",
+          "thread_id": "omt_data_migration_v1_task_data_600",
+          "root_id": "om_data_migration_v1_001",
+          "parent_id": "om_data_migration_v1_005",
+          "created_at": "2026-04-05T06:00:00Z",
+          "message_type": "text",
+          "sender": {
+            "open_id": "ou_carol_ops",
+            "display_name": "Carol",
+            "department": "ops",
+            "actor_ref": "carol@ops"
+          },
+          "mentions": [],
+          "content_text": "DATA-600 状态我先更新了，大家按最新进度往下走。",
+          "content_json": {
+            "text": "DATA-600 状态我先更新了，大家按最新进度往下走。"
+          },
+          "semantic_refs": {
+            "entities": [
+              "task:DATA-600"
+            ],
+            "events": [
+              {
+                "type": "stage_changed",
+                "subject": "task:DATA-600",
+                "new_stage": "done"
+              }
+            ],
+            "history_index": 5
+          }
+        }
+      ]
+    },
+    {
+      "sample_id": "feature_rollback_v1",
+      "scenario": "功能回滚决策",
+      "departments": [
+        "product",
+        "dev",
+        "ops"
+      ],
+      "actors": [
+        "alice@pm",
+        "bob@dev",
+        "carol@ops"
+      ],
+      "history": [
+        {
+          "timestamp": "2026-04-10T09:00:00Z",
+          "actor": "carol@ops",
+          "department": "ops",
+          "content": "新功能 FEAT-700 上线后用户投诉增加 30%",
+          "entities": [
+            "task:FEAT-700"
+          ],
+          "events": [
+            {
+              "type": "issue_reported",
+              "subject": "task:FEAT-700",
+              "severity": "high"
+            }
+          ]
+        },
+        {
+          "timestamp": "2026-04-10T10:00:00Z",
+          "actor": "alice@pm",
+          "department": "product",
+          "content": "决定回滚 FEAT-700，创建回滚任务 ROLLBACK-701",
+          "entities": [
+            "task:FEAT-700",
+            "task:ROLLBACK-701"
+          ],
+          "events": [
+            {
+              "type": "task_created",
+              "subject": "task:ROLLBACK-701",
+              "actor": "alice@pm"
+            },
+            {
+              "type": "stage_changed",
+              "subject": "task:FEAT-700",
+              "new_stage": "rollback_pending"
+            }
+          ]
+        },
+        {
+          "timestamp": "2026-04-10T11:00:00Z",
+          "actor": "bob@dev",
+          "department": "dev",
+          "content": "ROLLBACK-701 回滚脚本已准备，等待执行",
+          "entities": [
+            "task:ROLLBACK-701"
+          ],
+          "events": [
+            {
+              "type": "stage_changed",
+              "subject": "task:ROLLBACK-701",
+              "new_stage": "ready"
+            }
+          ]
+        },
+        {
+          "timestamp": "2026-04-10T12:00:00Z",
+          "actor": "carol@ops",
+          "department": "ops",
+          "content": "ROLLBACK-701 执行完成，FEAT-700 已回滚",
+          "entities": [
+            "task:ROLLBACK-701",
+            "task:FEAT-700"
+          ],
+          "events": [
+            {
+              "type": "stage_changed",
+              "subject": "task:ROLLBACK-701",
+              "new_stage": "done"
+            },
+            {
+              "type": "stage_changed",
+              "subject": "task:FEAT-700",
+              "new_stage": "rolled_back"
+            }
+          ]
+        }
+      ],
+      "queries": [
+        {
+          "query_id": "q1",
+          "question": "FEAT-700 为什么被回滚？",
+          "query_type": "why",
+          "gold_answer": "上线后用户投诉增加 30%",
+          "gold_evidence": [
+            "history[0]"
+          ],
+          "reasoning": "需要找到回滚的原因"
+        },
+        {
+          "query_id": "q2",
+          "question": "FEAT-700 现在的状态是什么？",
+          "query_type": "state",
+          "gold_answer": "rolled_back，已回滚",
+          "gold_evidence": [
+            "history[3]"
+          ],
+          "reasoning": "需要找到最新状态"
+        }
+      ],
+      "platform": "feishu",
+      "chat": {
+        "chat_id": "oc_feature_rollback_v1",
+        "chat_type": "group",
+        "chat_name": "功能回滚决策"
+      },
+      "messages": [
+        {
+          "message_id": "om_feature_rollback_v1_001",
+          "chat_id": "oc_feature_rollback_v1",
+          "chat_type": "group",
+          "thread_id": "omt_feature_rollback_v1_task_feat_700",
+          "root_id": "om_feature_rollback_v1_001",
+          "parent_id": null,
+          "created_at": "2026-04-10T09:00:00Z",
+          "message_type": "text",
+          "sender": {
+            "open_id": "ou_carol_ops",
+            "display_name": "Carol",
+            "department": "ops",
+            "actor_ref": "carol@ops"
+          },
+          "mentions": [],
+          "content_text": "新功能 FEAT-700 上线后用户投诉增加 30%",
+          "content_json": {
+            "text": "新功能 FEAT-700 上线后用户投诉增加 30%"
+          },
+          "semantic_refs": {
+            "entities": [
+              "task:FEAT-700"
+            ],
+            "events": [
+              {
+                "type": "issue_reported",
+                "subject": "task:FEAT-700",
+                "severity": "high"
+              }
+            ],
+            "history_index": 0
+          }
+        },
+        {
+          "message_id": "om_feature_rollback_v1_002",
+          "chat_id": "oc_feature_rollback_v1",
+          "chat_type": "group",
+          "thread_id": "omt_feature_rollback_v1_task_feat_700",
+          "root_id": "om_feature_rollback_v1_001",
+          "parent_id": "om_feature_rollback_v1_001",
+          "created_at": "2026-04-10T10:00:00Z",
+          "message_type": "post",
+          "sender": {
+            "open_id": "ou_alice_pm",
+            "display_name": "Alice",
+            "department": "product",
+            "actor_ref": "alice@pm"
+          },
+          "mentions": [
+            {
+              "open_id": "ou_bob_dev",
+              "display_name": "Bob",
+              "actor_ref": "bob@dev"
+            }
+          ],
+          "content_text": "@Bob 先拉个线程，ROLLBACK-701 这个需求我先建单了。这周想推进上线，麻烦帮忙评估一下工作量。",
+          "content_json": {
+            "title": "协作更新",
+            "body": "@Bob 先拉个线程，ROLLBACK-701 这个需求我先建单了。这周想推进上线，麻烦帮忙评估一下工作量。"
+          },
+          "semantic_refs": {
+            "entities": [
+              "task:FEAT-700",
+              "task:ROLLBACK-701"
+            ],
+            "events": [
+              {
+                "type": "task_created",
+                "subject": "task:ROLLBACK-701",
+                "actor": "alice@pm"
+              },
+              {
+                "type": "stage_changed",
+                "subject": "task:FEAT-700",
+                "new_stage": "rollback_pending"
+              }
+            ],
+            "history_index": 1
+          }
+        },
+        {
+          "message_id": "om_feature_rollback_v1_003",
+          "chat_id": "oc_feature_rollback_v1",
+          "chat_type": "group",
+          "thread_id": "omt_feature_rollback_v1_task_rollback_701",
+          "root_id": "om_feature_rollback_v1_003",
+          "parent_id": null,
+          "created_at": "2026-04-10T11:00:00Z",
+          "message_type": "text",
+          "sender": {
+            "open_id": "ou_bob_dev",
+            "display_name": "Bob",
+            "department": "dev",
+            "actor_ref": "bob@dev"
+          },
+          "mentions": [],
+          "content_text": "ROLLBACK-701 状态我先更新了，大家按最新进度往下走。",
+          "content_json": {
+            "text": "ROLLBACK-701 状态我先更新了，大家按最新进度往下走。"
+          },
+          "semantic_refs": {
+            "entities": [
+              "task:ROLLBACK-701"
+            ],
+            "events": [
+              {
+                "type": "stage_changed",
+                "subject": "task:ROLLBACK-701",
+                "new_stage": "ready"
+              }
+            ],
+            "history_index": 2
+          }
+        },
+        {
+          "message_id": "om_feature_rollback_v1_004",
+          "chat_id": "oc_feature_rollback_v1",
+          "chat_type": "group",
+          "thread_id": "omt_feature_rollback_v1_task_rollback_701",
+          "root_id": "om_feature_rollback_v1_003",
+          "parent_id": "om_feature_rollback_v1_003",
+          "created_at": "2026-04-10T12:00:00Z",
+          "message_type": "text",
+          "sender": {
+            "open_id": "ou_carol_ops",
+            "display_name": "Carol",
+            "department": "ops",
+            "actor_ref": "carol@ops"
+          },
+          "mentions": [],
+          "content_text": "ROLLBACK-701 状态我先更新了，大家按最新进度往下走。",
+          "content_json": {
+            "text": "ROLLBACK-701 状态我先更新了，大家按最新进度往下走。"
+          },
+          "semantic_refs": {
+            "entities": [
+              "task:ROLLBACK-701",
+              "task:FEAT-700"
+            ],
+            "events": [
+              {
+                "type": "stage_changed",
+                "subject": "task:ROLLBACK-701",
+                "new_stage": "done"
+              },
+              {
+                "type": "stage_changed",
+                "subject": "task:FEAT-700",
+                "new_stage": "rolled_back"
+              }
+            ],
+            "history_index": 3
+          }
+        }
+      ]
+    },
+    {
+      "sample_id": "api_integration_v1",
+      "scenario": "第三方 API 集成",
+      "departments": [
+        "dev",
+        "ops",
+        "security"
+      ],
+      "actors": [
+        "bob@dev",
+        "carol@ops",
+        "david@security"
+      ],
+      "history": [
+        {
+          "timestamp": "2026-04-01T10:00:00Z",
+          "actor": "bob@dev",
+          "department": "dev",
+          "content": "创建第三方支付 API 集成任务 API-800",
+          "entities": [
+            "task:API-800"
+          ],
+          "events": [
+            {
+              "type": "task_created",
+              "subject": "task:API-800",
+              "actor": "bob@dev"
+            }
+          ]
+        },
+        {
+          "timestamp": "2026-04-02T14:00:00Z",
+          "actor": "david@security",
+          "department": "security",
+          "content": "API-800 需要安全审核，创建审核任务 SEC-801",
+          "entities": [
+            "task:API-800",
+            "approval:SEC-801"
+          ],
+          "events": [
+            {
+              "type": "approval_created",
+              "subject": "approval:SEC-801",
+              "actor": "david@security"
+            },
+            {
+              "type": "blocked",
+              "subject": "task:API-800",
+              "object": "approval:SEC-801"
+            }
+          ]
+        },
+        {
+          "timestamp": "2026-04-04T10:00:00Z",
+          "actor": "david@security",
+          "department": "security",
+          "content": "SEC-801 审核通过，API 密钥管理方案符合要求",
+          "entities": [
+            "approval:SEC-801"
+          ],
+          "events": [
+            {
+              "type": "approval_status_updated",
+              "subject": "approval:SEC-801",
+              "status": "approved"
+            }
+          ]
+        },
+        {
+          "timestamp": "2026-04-05T09:00:00Z",
+          "actor": "bob@dev",
+          "department": "dev",
+          "content": "API-800 开发完成，等待测试环境部署",
+          "entities": [
+            "task:API-800"
+          ],
+          "events": [
+            {
+              "type": "stage_changed",
+              "subject": "task:API-800",
+              "new_stage": "testing"
+            }
+          ]
+        },
+        {
+          "timestamp": "2026-04-06T11:00:00Z",
+          "actor": "carol@ops",
+          "department": "ops",
+          "content": "API-800 测试环境部署完成，可以开始测试",
+          "entities": [
+            "task:API-800"
+          ],
+          "events": [
+            {
+              "type": "stage_changed",
+              "subject": "task:API-800",
+              "new_stage": "test_ready"
+            }
+          ]
+        }
+      ],
+      "queries": [
+        {
+          "query_id": "q1",
+          "question": "API-800 现在的状态是什么？",
+          "query_type": "state",
+          "gold_answer": "test_ready，可以开始测试",
+          "gold_evidence": [
+            "history[4]"
+          ],
+          "reasoning": "需要找到最新状态"
+        },
+        {
+          "query_id": "q2",
+          "question": "安全部门在 API-800 中做了什么？",
+          "query_type": "list_relation",
+          "gold_answer": "创建安全审核任务，审核 API 密钥管理方案并通过",
+          "gold_evidence": [
+            "history[1]",
+            "history[2]"
+          ],
+          "reasoning": "需要筛选安全部门的参与记录"
+        },
+        {
+          "query_id": "q3",
+          "question": "API-800 经历了哪些阶段？",
+          "query_type": "timeline",
+          "gold_answer": "创建 → 等待安全审核 → 审核通过 → 开发完成 → 测试环境就绪",
+          "gold_evidence": [
+            "history[0]",
+            "history[1]",
+            "history[2]",
+            "history[3]",
+            "history[4]"
+          ],
+          "reasoning": "需要按时间顺序重建完整流程"
+        }
+      ],
+      "platform": "feishu",
+      "chat": {
+        "chat_id": "oc_api_integration_v1",
+        "chat_type": "group",
+        "chat_name": "第三方 API 集成"
+      },
+      "messages": [
+        {
+          "message_id": "om_api_integration_v1_001",
+          "chat_id": "oc_api_integration_v1",
+          "chat_type": "group",
+          "thread_id": "omt_api_integration_v1_task_api_800",
+          "root_id": "om_api_integration_v1_001",
+          "parent_id": null,
+          "created_at": "2026-04-01T10:00:00Z",
+          "message_type": "post",
+          "sender": {
+            "open_id": "ou_bob_dev",
+            "display_name": "Bob",
+            "department": "dev",
+            "actor_ref": "bob@dev"
+          },
+          "mentions": [],
+          "content_text": "先拉个线程，API-800 这个需求我先建单了。这周想推进上线，麻烦帮忙评估一下工作量。",
+          "content_json": {
+            "title": "协作更新",
+            "body": "先拉个线程，API-800 这个需求我先建单了。这周想推进上线，麻烦帮忙评估一下工作量。"
+          },
+          "semantic_refs": {
+            "entities": [
+              "task:API-800"
+            ],
+            "events": [
+              {
+                "type": "task_created",
+                "subject": "task:API-800",
+                "actor": "bob@dev"
+              }
+            ],
+            "history_index": 0
+          }
+        },
+        {
+          "message_id": "om_api_integration_v1_002",
+          "chat_id": "oc_api_integration_v1",
+          "chat_type": "group",
+          "thread_id": "omt_api_integration_v1_task_api_800",
+          "root_id": "om_api_integration_v1_001",
+          "parent_id": "om_api_integration_v1_001",
+          "created_at": "2026-04-02T14:00:00Z",
+          "message_type": "post",
+          "sender": {
+            "open_id": "ou_david_security",
+            "display_name": "David",
+            "department": "security",
+            "actor_ref": "david@security"
+          },
+          "mentions": [
+            {
+              "open_id": "ou_carol_ops",
+              "display_name": "Carol",
+              "actor_ref": "carol@ops"
+            }
+          ],
+          "content_text": "@Carol SEC-801 这个审批我先提了，大家有空帮忙看下，别卡太久。",
+          "content_json": {
+            "title": "协作更新",
+            "body": "@Carol SEC-801 这个审批我先提了，大家有空帮忙看下，别卡太久。"
+          },
+          "semantic_refs": {
+            "entities": [
+              "task:API-800",
+              "approval:SEC-801"
+            ],
+            "events": [
+              {
+                "type": "approval_created",
+                "subject": "approval:SEC-801",
+                "actor": "david@security"
+              },
+              {
+                "type": "blocked",
+                "subject": "task:API-800",
+                "object": "approval:SEC-801"
+              }
+            ],
+            "history_index": 1
+          }
+        },
+        {
+          "message_id": "om_api_integration_v1_003",
+          "chat_id": "oc_api_integration_v1",
+          "chat_type": "group",
+          "thread_id": "omt_api_integration_v1_approval_sec_801",
+          "root_id": "om_api_integration_v1_003",
+          "parent_id": null,
+          "created_at": "2026-04-04T10:00:00Z",
+          "message_type": "interactive",
+          "sender": {
+            "open_id": "ou_david_security",
+            "display_name": "David",
+            "department": "security",
+            "actor_ref": "david@security"
+          },
+          "mentions": [
+            {
+              "open_id": "ou_bob_dev",
+              "display_name": "Bob",
+              "actor_ref": "bob@dev"
+            }
+          ],
+          "content_text": "@Bob 审批卡片更新：SEC-801 已通过。",
+          "content_json": {
+            "card_type": "approval_update",
+            "summary": "@Bob 审批卡片更新：SEC-801 已通过。"
+          },
+          "semantic_refs": {
+            "entities": [
+              "approval:SEC-801"
+            ],
+            "events": [
+              {
+                "type": "approval_status_updated",
+                "subject": "approval:SEC-801",
+                "status": "approved"
+              }
+            ],
+            "history_index": 2
+          }
+        },
+        {
+          "message_id": "om_api_integration_v1_004",
+          "chat_id": "oc_api_integration_v1",
+          "chat_type": "group",
+          "thread_id": "omt_api_integration_v1_task_api_800",
+          "root_id": "om_api_integration_v1_001",
+          "parent_id": "om_api_integration_v1_002",
+          "created_at": "2026-04-05T09:00:00Z",
+          "message_type": "text",
+          "sender": {
+            "open_id": "ou_bob_dev",
+            "display_name": "Bob",
+            "department": "dev",
+            "actor_ref": "bob@dev"
+          },
+          "mentions": [],
+          "content_text": "API-800 状态我先更新了，大家按最新进度往下走。",
+          "content_json": {
+            "text": "API-800 状态我先更新了，大家按最新进度往下走。"
+          },
+          "semantic_refs": {
+            "entities": [
+              "task:API-800"
+            ],
+            "events": [
+              {
+                "type": "stage_changed",
+                "subject": "task:API-800",
+                "new_stage": "testing"
+              }
+            ],
+            "history_index": 3
+          }
+        },
+        {
+          "message_id": "om_api_integration_v1_005",
+          "chat_id": "oc_api_integration_v1",
+          "chat_type": "group",
+          "thread_id": "omt_api_integration_v1_task_api_800",
+          "root_id": "om_api_integration_v1_001",
+          "parent_id": "om_api_integration_v1_004",
+          "created_at": "2026-04-06T11:00:00Z",
+          "message_type": "text",
+          "sender": {
+            "open_id": "ou_carol_ops",
+            "display_name": "Carol",
+            "department": "ops",
+            "actor_ref": "carol@ops"
+          },
+          "mentions": [],
+          "content_text": "API-800 状态我先更新了，大家按最新进度往下走。",
+          "content_json": {
+            "text": "API-800 状态我先更新了，大家按最新进度往下走。"
+          },
+          "semantic_refs": {
+            "entities": [
+              "task:API-800"
+            ],
+            "events": [
+              {
+                "type": "stage_changed",
+                "subject": "task:API-800",
+                "new_stage": "test_ready"
+              }
+            ],
+            "history_index": 4
+          }
+        }
+      ]
+    },
+    {
+      "sample_id": "performance_optimization_v1",
+      "scenario": "性能优化项目",
+      "departments": [
+        "dev",
+        "ops",
+        "dba"
+      ],
+      "actors": [
+        "bob@dev",
+        "carol@ops",
+        "frank@dba"
+      ],
+      "history": [
+        {
+          "timestamp": "2026-04-01T09:00:00Z",
+          "actor": "carol@ops",
+          "department": "ops",
+          "content": "系统响应时间超过 3 秒，创建性能优化任务 PERF-900",
+          "entities": [
+            "task:PERF-900"
+          ],
+          "events": [
+            {
+              "type": "task_created",
+              "subject": "task:PERF-900",
+              "actor": "carol@ops"
+            }
+          ]
+        },
+        {
+          "timestamp": "2026-04-02T10:00:00Z",
+          "actor": "bob@dev",
+          "department": "dev",
+          "content": "PERF-900 分析发现是数据库查询慢，需要 DBA 优化索引",
+          "entities": [
+            "task:PERF-900",
+            "task:DB-OPT-901"
+          ],
+          "events": [
+            {
+              "type": "task_created",
+              "subject": "task:DB-OPT-901",
+              "actor": "bob@dev"
+            },
+            {
+              "type": "blocked",
+              "subject": "task:PERF-900",
+              "object": "task:DB-OPT-901"
+            }
+          ]
+        },
+        {
+          "timestamp": "2026-04-03T14:00:00Z",
+          "actor": "frank@dba",
+          "department": "dba",
+          "content": "DB-OPT-901 索引优化完成，查询时间从 2.5s 降到 0.3s",
+          "entities": [
+            "task:DB-OPT-901"
+          ],
+          "events": [
+            {
+              "type": "stage_changed",
+              "subject": "task:DB-OPT-901",
+              "new_stage": "done"
+            }
+          ]
+        },
+        {
+          "timestamp": "2026-04-04T09:00:00Z",
+          "actor": "bob@dev",
+          "department": "dev",
+          "content": "PERF-900 代码层面优化完成，整体响应时间降到 0.5s",
+          "entities": [
+            "task:PERF-900"
+          ],
+          "events": [
+            {
+              "type": "stage_changed",
+              "subject": "task:PERF-900",
+              "new_stage": "done"
+            }
+          ]
+        }
+      ],
+      "queries": [
+        {
+          "query_id": "q1",
+          "question": "PERF-900 为什么需要 DBA 参与？",
+          "query_type": "why",
+          "gold_answer": "分析发现是数据库查询慢，需要优化索引",
+          "gold_evidence": [
+            "history[1]"
+          ],
+          "reasoning": "需要找到需要 DBA 的原因"
+        },
+        {
+          "query_id": "q2",
+          "question": "性能优化后响应时间是多少？",
+          "query_type": "state",
+          "gold_answer": "0.5s",
+          "gold_evidence": [
+            "history[3]"
+          ],
+          "reasoning": "需要找到最终的性能数据"
+        }
+      ],
+      "platform": "feishu",
+      "chat": {
+        "chat_id": "oc_performance_optimization_v1",
+        "chat_type": "group",
+        "chat_name": "性能优化项目"
+      },
+      "messages": [
+        {
+          "message_id": "om_performance_optimization_v1_001",
+          "chat_id": "oc_performance_optimization_v1",
+          "chat_type": "group",
+          "thread_id": "omt_performance_optimization_v1_task_perf_900",
+          "root_id": "om_performance_optimization_v1_001",
+          "parent_id": null,
+          "created_at": "2026-04-01T09:00:00Z",
+          "message_type": "post",
+          "sender": {
+            "open_id": "ou_carol_ops",
+            "display_name": "Carol",
+            "department": "ops",
+            "actor_ref": "carol@ops"
+          },
+          "mentions": [
+            {
+              "open_id": "ou_bob_dev",
+              "display_name": "Bob",
+              "actor_ref": "bob@dev"
+            }
+          ],
+          "content_text": "@Bob 先拉个线程，PERF-900 这个需求我先建单了。这周想推进上线，麻烦帮忙评估一下工作量。",
+          "content_json": {
+            "title": "协作更新",
+            "body": "@Bob 先拉个线程，PERF-900 这个需求我先建单了。这周想推进上线，麻烦帮忙评估一下工作量。"
+          },
+          "semantic_refs": {
+            "entities": [
+              "task:PERF-900"
+            ],
+            "events": [
+              {
+                "type": "task_created",
+                "subject": "task:PERF-900",
+                "actor": "carol@ops"
+              }
+            ],
+            "history_index": 0
+          }
+        },
+        {
+          "message_id": "om_performance_optimization_v1_002",
+          "chat_id": "oc_performance_optimization_v1",
+          "chat_type": "group",
+          "thread_id": "omt_performance_optimization_v1_task_perf_900",
+          "root_id": "om_performance_optimization_v1_001",
+          "parent_id": "om_performance_optimization_v1_001",
+          "created_at": "2026-04-02T10:00:00Z",
+          "message_type": "post",
+          "sender": {
+            "open_id": "ou_bob_dev",
+            "display_name": "Bob",
+            "department": "dev",
+            "actor_ref": "bob@dev"
+          },
+          "mentions": [
+            {
+              "open_id": "ou_carol_ops",
+              "display_name": "Carol",
+              "actor_ref": "carol@ops"
+            }
+          ],
+          "content_text": "@Carol 先拉个线程，PERF-900 这个需求我先建单了。这周想推进上线，麻烦帮忙评估一下工作量。",
+          "content_json": {
+            "title": "协作更新",
+            "body": "@Carol 先拉个线程，PERF-900 这个需求我先建单了。这周想推进上线，麻烦帮忙评估一下工作量。"
+          },
+          "semantic_refs": {
+            "entities": [
+              "task:PERF-900",
+              "task:DB-OPT-901"
+            ],
+            "events": [
+              {
+                "type": "task_created",
+                "subject": "task:DB-OPT-901",
+                "actor": "bob@dev"
+              },
+              {
+                "type": "blocked",
+                "subject": "task:PERF-900",
+                "object": "task:DB-OPT-901"
+              }
+            ],
+            "history_index": 1
+          }
+        },
+        {
+          "message_id": "om_performance_optimization_v1_003",
+          "chat_id": "oc_performance_optimization_v1",
+          "chat_type": "group",
+          "thread_id": "omt_performance_optimization_v1_task_db_opt_901",
+          "root_id": "om_performance_optimization_v1_003",
+          "parent_id": null,
+          "created_at": "2026-04-03T14:00:00Z",
+          "message_type": "text",
+          "sender": {
+            "open_id": "ou_frank_dba",
+            "display_name": "Frank",
+            "department": "dba",
+            "actor_ref": "frank@dba"
+          },
+          "mentions": [],
+          "content_text": "DB-OPT-901 状态我先更新了，大家按最新进度往下走。",
+          "content_json": {
+            "text": "DB-OPT-901 状态我先更新了，大家按最新进度往下走。"
+          },
+          "semantic_refs": {
+            "entities": [
+              "task:DB-OPT-901"
+            ],
+            "events": [
+              {
+                "type": "stage_changed",
+                "subject": "task:DB-OPT-901",
+                "new_stage": "done"
+              }
+            ],
+            "history_index": 2
+          }
+        },
+        {
+          "message_id": "om_performance_optimization_v1_004",
+          "chat_id": "oc_performance_optimization_v1",
+          "chat_type": "group",
+          "thread_id": "omt_performance_optimization_v1_task_perf_900",
+          "root_id": "om_performance_optimization_v1_001",
+          "parent_id": "om_performance_optimization_v1_002",
+          "created_at": "2026-04-04T09:00:00Z",
+          "message_type": "text",
+          "sender": {
+            "open_id": "ou_bob_dev",
+            "display_name": "Bob",
+            "department": "dev",
+            "actor_ref": "bob@dev"
+          },
+          "mentions": [],
+          "content_text": "PERF-900 状态我先更新了，大家按最新进度往下走。",
+          "content_json": {
+            "text": "PERF-900 状态我先更新了，大家按最新进度往下走。"
+          },
+          "semantic_refs": {
+            "entities": [
+              "task:PERF-900"
+            ],
+            "events": [
+              {
+                "type": "stage_changed",
+                "subject": "task:PERF-900",
+                "new_stage": "done"
+              }
+            ],
+            "history_index": 3
+          }
+        }
+      ]
+    },
+    {
+      "sample_id": "data_migration_v1",
+      "scenario": "数据迁移项目",
+      "departments": [
+        "dev",
+        "ops",
+        "dba"
+      ],
+      "actors": [
+        "bob@dev",
+        "carol@ops",
+        "frank@dba"
+      ],
+      "history": [
+        {
+          "timestamp": "2026-04-01T09:00:00Z",
+          "actor": "frank@dba",
+          "department": "dba",
+          "content": "创建数据迁移任务 DATA-900，需要开发提供迁移脚本",
+          "entities": [
+            "task:DATA-900"
+          ],
+          "events": [
+            {
+              "type": "task_created",
+              "subject": "task:DATA-900",
+              "actor": "frank@dba"
+            }
+          ]
+        },
+        {
+          "timestamp": "2026-04-03T10:00:00Z",
+          "actor": "bob@dev",
+          "department": "dev",
+          "content": "DATA-900 迁移脚本开发完成，等待 DBA 审核",
+          "entities": [
+            "task:DATA-900"
+          ],
+          "events": [
+            {
+              "type": "stage_changed",
+              "subject": "task:DATA-900",
+              "new_stage": "review"
+            }
+          ]
+        },
+        {
+          "timestamp": "2026-04-05T14:00:00Z",
+          "actor": "frank@dba",
+          "department": "dba",
+          "content": "DATA-900 脚本审核通过，但需要运营确认迁移时间窗口",
+          "entities": [
+            "task:DATA-900",
+            "blocker:TIME-WINDOW"
+          ],
+          "events": [
+            {
+              "type": "blocked",
+              "subject": "task:DATA-900",
+              "object": "blocker:TIME-WINDOW"
+            }
+          ]
+        },
+        {
+          "timestamp": "2026-04-07T09:00:00Z",
+          "actor": "carol@ops",
+          "department": "ops",
+          "content": "DATA-900 迁移时间窗口确认为 4 月 10 日凌晨 2-4 点",
+          "entities": [
+            "task:DATA-900"
+          ],
+          "events": [
+            {
+              "type": "unblocked",
+              "subject": "task:DATA-900"
+            }
+          ]
+        },
+        {
+          "timestamp": "2026-04-10T04:00:00Z",
+          "actor": "frank@dba",
+          "department": "dba",
+          "content": "DATA-900 迁移完成，数据验证通过",
+          "entities": [
+            "task:DATA-900"
+          ],
+          "events": [
+            {
+              "type": "stage_changed",
+              "subject": "task:DATA-900",
+              "new_stage": "done"
+            }
+          ]
+        }
+      ],
+      "queries": [
+        {
+          "query_id": "q1",
+          "question": "DATA-900 的当前状态是什么？",
+          "query_type": "state",
+          "gold_answer": "已完成",
+          "gold_evidence": [
+            "history[4]"
+          ],
+          "reasoning": "需要找到最新的状态"
+        },
+        {
+          "query_id": "q2",
+          "question": "DATA-900 为什么延迟了？",
+          "query_type": "why",
+          "gold_answer": "需要等待运营确认迁移时间窗口",
+          "gold_evidence": [
+            "history[2]",
+            "history[3]"
+          ],
+          "reasoning": "需要找到阻塞原因"
+        }
+      ],
+      "platform": "feishu",
+      "chat": {
+        "chat_id": "oc_data_migration_v1",
+        "chat_type": "group",
+        "chat_name": "数据迁移项目"
+      },
+      "messages": [
+        {
+          "message_id": "om_data_migration_v1_001",
+          "chat_id": "oc_data_migration_v1",
+          "chat_type": "group",
+          "thread_id": "omt_data_migration_v1_task_data_900",
+          "root_id": "om_data_migration_v1_001",
+          "parent_id": null,
+          "created_at": "2026-04-01T09:00:00Z",
+          "message_type": "post",
+          "sender": {
+            "open_id": "ou_frank_dba",
+            "display_name": "Frank",
+            "department": "dba",
+            "actor_ref": "frank@dba"
+          },
+          "mentions": [
+            {
+              "open_id": "ou_bob_dev",
+              "display_name": "Bob",
+              "actor_ref": "bob@dev"
+            }
+          ],
+          "content_text": "@Bob 先拉个线程，DATA-900 这个需求我先建单了。这周想推进上线，麻烦帮忙评估一下工作量。",
+          "content_json": {
+            "title": "协作更新",
+            "body": "@Bob 先拉个线程，DATA-900 这个需求我先建单了。这周想推进上线，麻烦帮忙评估一下工作量。"
+          },
+          "semantic_refs": {
+            "entities": [
+              "task:DATA-900"
+            ],
+            "events": [
+              {
+                "type": "task_created",
+                "subject": "task:DATA-900",
+                "actor": "frank@dba"
+              }
+            ],
+            "history_index": 0
+          }
+        },
+        {
+          "message_id": "om_data_migration_v1_002",
+          "chat_id": "oc_data_migration_v1",
+          "chat_type": "group",
+          "thread_id": "omt_data_migration_v1_task_data_900",
+          "root_id": "om_data_migration_v1_001",
+          "parent_id": "om_data_migration_v1_001",
+          "created_at": "2026-04-03T10:00:00Z",
+          "message_type": "text",
+          "sender": {
+            "open_id": "ou_bob_dev",
+            "display_name": "Bob",
+            "department": "dev",
+            "actor_ref": "bob@dev"
+          },
+          "mentions": [],
+          "content_text": "DATA-900 状态我先更新了，大家按最新进度往下走。",
+          "content_json": {
+            "text": "DATA-900 状态我先更新了，大家按最新进度往下走。"
+          },
+          "semantic_refs": {
+            "entities": [
+              "task:DATA-900"
+            ],
+            "events": [
+              {
+                "type": "stage_changed",
+                "subject": "task:DATA-900",
+                "new_stage": "review"
+              }
+            ],
+            "history_index": 1
+          }
+        },
+        {
+          "message_id": "om_data_migration_v1_003",
+          "chat_id": "oc_data_migration_v1",
+          "chat_type": "group",
+          "thread_id": "omt_data_migration_v1_task_data_900",
+          "root_id": "om_data_migration_v1_001",
+          "parent_id": "om_data_migration_v1_002",
+          "created_at": "2026-04-05T14:00:00Z",
+          "message_type": "text",
+          "sender": {
+            "open_id": "ou_frank_dba",
+            "display_name": "Frank",
+            "department": "dba",
+            "actor_ref": "frank@dba"
+          },
+          "mentions": [
+            {
+              "open_id": "ou_carol_ops",
+              "display_name": "Carol",
+              "actor_ref": "carol@ops"
+            }
+          ],
+          "content_text": "@Carol DATA-900 暂时先卡住，缺 TIME-WINDOW 这块补充。",
+          "content_json": {
+            "text": "@Carol DATA-900 暂时先卡住，缺 TIME-WINDOW 这块补充。"
+          },
+          "semantic_refs": {
+            "entities": [
+              "task:DATA-900",
+              "blocker:TIME-WINDOW"
+            ],
+            "events": [
+              {
+                "type": "blocked",
+                "subject": "task:DATA-900",
+                "object": "blocker:TIME-WINDOW"
+              }
+            ],
+            "history_index": 2
+          }
+        },
+        {
+          "message_id": "om_data_migration_v1_004",
+          "chat_id": "oc_data_migration_v1",
+          "chat_type": "group",
+          "thread_id": "omt_data_migration_v1_task_data_900",
+          "root_id": "om_data_migration_v1_001",
+          "parent_id": "om_data_migration_v1_003",
+          "created_at": "2026-04-07T09:00:00Z",
+          "message_type": "text",
+          "sender": {
+            "open_id": "ou_carol_ops",
+            "display_name": "Carol",
+            "department": "ops",
+            "actor_ref": "carol@ops"
+          },
+          "mentions": [
+            {
+              "open_id": "ou_bob_dev",
+              "display_name": "Bob",
+              "actor_ref": "bob@dev"
+            }
+          ],
+          "content_text": "@Bob DATA-900 可以继续推进了。",
+          "content_json": {
+            "text": "@Bob DATA-900 可以继续推进了。"
+          },
+          "semantic_refs": {
+            "entities": [
+              "task:DATA-900"
+            ],
+            "events": [
+              {
+                "type": "unblocked",
+                "subject": "task:DATA-900"
+              }
+            ],
+            "history_index": 3
+          }
+        },
+        {
+          "message_id": "om_data_migration_v1_005",
+          "chat_id": "oc_data_migration_v1",
+          "chat_type": "group",
+          "thread_id": "omt_data_migration_v1_task_data_900",
+          "root_id": "om_data_migration_v1_001",
+          "parent_id": "om_data_migration_v1_004",
+          "created_at": "2026-04-10T04:00:00Z",
+          "message_type": "text",
+          "sender": {
+            "open_id": "ou_frank_dba",
+            "display_name": "Frank",
+            "department": "dba",
+            "actor_ref": "frank@dba"
+          },
+          "mentions": [],
+          "content_text": "DATA-900 状态我先更新了，大家按最新进度往下走。",
+          "content_json": {
+            "text": "DATA-900 状态我先更新了，大家按最新进度往下走。"
+          },
+          "semantic_refs": {
+            "entities": [
+              "task:DATA-900"
+            ],
+            "events": [
+              {
+                "type": "stage_changed",
+                "subject": "task:DATA-900",
+                "new_stage": "done"
+              }
+            ],
+            "history_index": 4
+          }
+        }
+      ]
+    }
+  ]
+}

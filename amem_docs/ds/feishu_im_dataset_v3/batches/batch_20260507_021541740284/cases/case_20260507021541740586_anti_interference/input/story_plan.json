@@ -1,0 +1,487 @@
+{
+  "story_id": "story_case_20260507021541740586_anti_interference",
+  "case_id": "case_20260507021541740586_anti_interference",
+  "family_id": "anti_interference",
+  "task": {
+    "task_id": "FEISHU-686",
+    "task_name": "平台工程团队文档自动化收口",
+    "role": "target_task"
+  },
+  "actors": [
+    {
+      "actor_id": "alice_liu",
+      "display_name": "Alice Liu",
+      "role": "release_pm"
+    },
+    {
+      "actor_id": "bob_chen",
+      "display_name": "Bob Chen",
+      "role": "platform_engineer"
+    },
+    {
+      "actor_id": "carol_wang",
+      "display_name": "Carol Wang",
+      "role": "qa_lead"
+    },
+    {
+      "actor_id": "david_zhang",
+      "display_name": "David Zhang",
+      "role": "devops_engineer"
+    },
+    {
+      "actor_id": "eve_li",
+      "display_name": "Eve Li",
+      "role": "engineering_director"
+    },
+    {
+      "actor_id": "frank_lin",
+      "display_name": "Frank Lin",
+      "role": "product_manager"
+    },
+    {
+      "actor_id": "grace_huang",
+      "display_name": "Grace Huang",
+      "role": "tech_writer"
+    },
+    {
+      "actor_id": "henry_zhou",
+      "display_name": "Henry Zhou",
+      "role": "backend_engineer"
+    },
+    {
+      "actor_id": "iris_wu",
+      "display_name": "Iris Wu",
+      "role": "frontend_engineer"
+    },
+    {
+      "actor_id": "jack_sun",
+      "display_name": "Jack Sun",
+      "role": "infra_engineer"
+    },
+    {
+      "actor_id": "kate_li",
+      "display_name": "Kate Li",
+      "role": "security_engineer"
+    },
+    {
+      "actor_id": "leo_xu",
+      "display_name": "Leo Xu",
+      "role": "data_analyst"
+    },
+    {
+      "actor_id": "mia_zhao",
+      "display_name": "Mia Zhao",
+      "role": "designer"
+    },
+    {
+      "actor_id": "nina_li",
+      "display_name": "Nina Li",
+      "role": "hr_bp"
+    },
+    {
+      "actor_id": "oliver_li",
+      "display_name": "Oliver Li",
+      "role": "finance_controller"
+    },
+    {
+      "actor_id": "peter_cai",
+      "display_name": "Peter Cai",
+      "role": "legal_counsel"
+    },
+    {
+      "actor_id": "quinn_tao",
+      "display_name": "Quinn Tao",
+      "role": "vendor_coordinator"
+    },
+    {
+      "actor_id": "ray_feng",
+      "display_name": "Ray Feng",
+      "role": "customer_success"
+    },
+    {
+      "actor_id": "sara_hong",
+      "display_name": "Sara Hong",
+      "role": "support_engineer"
+    },
+    {
+      "actor_id": "tom_liang",
+      "display_name": "Tom Liang",
+      "role": "operations_lead"
+    },
+    {
+      "actor_id": "uma_ma",
+      "display_name": "Uma Ma",
+      "role": "release_train_engineer"
+    },
+    {
+      "actor_id": "victor_hu",
+      "display_name": "Victor Hu",
+      "role": "compliance_officer"
+    },
+    {
+      "actor_id": "wendy_yan",
+      "display_name": "Wendy Yan",
+      "role": "documentation_manager"
+    },
+    {
+      "actor_id": "xander_du",
+      "display_name": "Xander Du",
+      "role": "test_engineer"
+    },
+    {
+      "actor_id": "yuki_shi",
+      "display_name": "Yuki Shi",
+      "role": "site_reliability_engineer"
+    },
+    {
+      "actor_id": "zara_guo",
+      "display_name": "Zara Guo",
+      "role": "release_manager"
+    },
+    {
+      "actor_id": "adam_wu",
+      "display_name": "Adam Wu",
+      "role": "senior_platform_architect"
+    },
+    {
+      "actor_id": "bella_li",
+      "display_name": "Bella Li",
+      "role": "project_coordinator"
+    }
+  ],
+  "task_actor_layout": {
+    "target_task_id": "FEISHU-686",
+    "shared_actors": [
+      "alice_liu",
+      "bob_chen",
+      "carol_wang",
+      "david_zhang",
+      "henry_zhou",
+      "iris_wu",
+      "jack_sun",
+      "leo_xu",
+      "sara_hong"
+    ],
+    "interference_context_blocks": [
+      {
+        "context_ref": "ctx_doc_review_parallel",
+        "context_label": "并行文档审阅收口讨论",
+        "noise_source_type": "shared_actor_noise",
+        "relationship_to_target": "Alice和Bob也参与另一个并行文档审阅收口任务，该任务有相似的owner变更和截止日期讨论，易与 FEISHU-686 混淆。"
+      },
+      {
+        "context_ref": "ctx_ops_rehearsal",
+        "context_label": "运维演练准备讨论",
+        "noise_source_type": "similar_wording_noise",
+        "relationship_to_target": "讨论中频繁出现'blocker'、'ready'、'收口'等相似措辞，但属于不同任务。"
+      },
+      {
+        "context_ref": "ctx_database_migration",
+        "context_label": "数据库迁移计划讨论",
+        "noise_source_type": "shared_actor_noise",
+        "relationship_to_target": "Carol和David同时参与数据库迁移任务，该任务也有截止日期和负责人变更。"
+      },
+      {
+        "context_ref": "ctx_perf_testing",
+        "context_label": "性能测试结果讨论",
+        "noise_source_type": "parallel_discussion_noise",
+        "relationship_to_target": "与 FEISHU-686 几乎同时进行的性能测试讨论，涉及相同团队，容易导致时间线混淆。"
+      }
+    ],
+    "actor_task_roles": [
+      {
+        "actor_id": "alice_liu",
+        "task_id": "FEISHU-686",
+        "role": "target_owner"
+      },
+      {
+        "actor_id": "bob_chen",
+        "task_id": "FEISHU-686",
+        "role": "target_contributor"
+      },
+      {
+        "actor_id": "carol_wang",
+        "task_id": "FEISHU-686",
+        "role": "target_reviewer"
+      },
+      {
+        "actor_id": "david_zhang",
+        "task_id": "FEISHU-686",
+        "role": "infra_support"
+      },
+      {
+        "actor_id": "alice_liu",
+        "context_ref": "ctx_doc_review_parallel",
+        "role": "reviewer"
+      },
+      {
+        "actor_id": "bob_chen",
+        "context_ref": "ctx_doc_review_parallel",
+        "role": "contributor"
+      },
+      {
+        "actor_id": "bob_chen",
+        "context_ref": "ctx_ops_rehearsal",
+        "role": "ops_owner"
+      },
+      {
+        "actor_id": "carol_wang",
+        "context_ref": "ctx_database_migration",
+        "role": "migration_lead"
+      },
+      {
+        "actor_id": "david_zhang",
+        "context_ref": "ctx_database_migration",
+        "role": "migration_engineer"
+      },
+      {
+        "actor_id": "david_zhang",
+        "context_ref": "ctx_perf_testing",
+        "role": "perf_test_coordinator"
+      },
+      {
+        "actor_id": "henry_zhou",
+        "task_id": "FEISHU-686",
+        "role": "target_backend_owner"
+      },
+      {
+        "actor_id": "iris_wu",
+        "task_id": "FEISHU-686",
+        "role": "target_frontend_owner"
+      },
+      {
+        "actor_id": "jack_sun",
+        "task_id": "FEISHU-686",
+        "role": "infra_engineer"
+      },
+      {
+        "actor_id": "leo_xu",
+        "task_id": "FEISHU-686",
+        "role": "data_analyst"
+      },
+      {
+        "actor_id": "sara_hong",
+        "task_id": "FEISHU-686",
+        "role": "support_engineer"
+      }
+    ]
+  },
+  "state_changes": [
+    {
+      "task_id": "FEISHU-686",
+      "field": "owner",
+      "sequence": [
+        {
+          "value": "Alice Liu",
+          "status": "current"
+        }
+      ]
+    },
+    {
+      "task_id": "FEISHU-686",
+      "field": "blocker",
+      "sequence": [
+        {
+          "value": "内部文档API认证流程修改",
+          "status": "current"
+        }
+      ]
+    },
+    {
+      "task_id": "FEISHU-686",
+      "field": "window",
+      "sequence": [
+        {
+          "value": "未锁定，等待安全评审",
+          "status": "current"
+        }
+      ]
+    },
+    {
+      "task_id": "FEISHU-686",
+      "field": "status",
+      "sequence": [
+        {
+          "value": "进行中",
+          "status": "current"
+        }
+      ]
+    }
+  ],
+  "message_beats": [
+    {
+      "beat_id": "beat_001",
+      "purpose": "Alice 在 FEISHU-686 主群正式确认自己是 owner，且 blocker 是内部文档API认证流程修改",
+      "speaker_actor_id": "alice_liu",
+      "session_id": "main_chat",
+      "message_intent": "大家好，FEISHU-686 我接手了，当前 blocker 是内部文档API认证流程修改，需要安全评审通过才能推进。",
+      "speaker": "Alice Liu"
+    },
+    {
+      "beat_id": "beat_002",
+      "purpose": "Bob 确认参与并提到窗口未锁定",
+      "speaker_actor_id": "bob_chen",
+      "session_id": "main_chat",
+      "message_intent": "收到 Alice，我这边已经在对接认证团队，窗口暂时还没锁定，等安全评审结果。",
+      "speaker": "Bob Chen"
+    },
+    {
+      "beat_id": "beat_003",
+      "purpose": "Carol 在 FEISHU-686 线程中确认审核进度",
+      "speaker_actor_id": "carol_wang",
+      "session_id": "main_chat",
+      "message_intent": "我看了 draft，认证流程改动部分还需要补充测试用例，预计下周可以完成 review。",
+      "speaker": "Carol Wang"
+    },
+    {
+      "beat_id": "beat_004",
+      "purpose": "David 确认基础设施支持",
+      "speaker_actor_id": "david_zhang",
+      "session_id": "main_chat",
+      "message_intent": "基础设施方面我已经预配了新的 API 网关，认证改动后可以直接部署。",
+      "speaker": "David Zhang"
+    },
+    {
+      "beat_id": "beat_005",
+      "purpose": "Alice 在 FEISHU-686 主群中要求显式排除其他任务信息",
+      "speaker_actor_id": "alice_liu",
+      "session_id": "main_chat",
+      "message_intent": "注意，这个任务是 FEISHU-686，与之前的文档审阅收口（FEISHU-680）是分开的，不要混。",
+      "speaker": "Alice Liu"
+    },
+    {
+      "beat_id": "beat_006",
+      "purpose": "Alice 在并行文档审阅收口（FEISHU-680）线程中参与讨论，造成 shared actor 噪音",
+      "speaker_actor_id": "alice_liu",
+      "session_id": "thread_doc_review",
+      "message_intent": "FEISHU-680 我这边审完了，人员充沛，下周三可以收口，所有文档已归入。",
+      "speaker": "Alice Liu"
+    },
+    {
+      "beat_id": "beat_007",
+      "purpose": "Bob 在并行文档审阅收口（FEISHU-680）中回复，进一步混淆",
+      "speaker_actor_id": "bob_chen",
+      "session_id": "thread_doc_review",
+      "message_intent": "好，我确认下内容，没遗漏就标记 Ready。",
+      "speaker": "Bob Chen"
+    },
+    {
+      "beat_id": "beat_008",
+      "purpose": "Bob 在运维演练（FEISHU-682）线程中讨论 blocker，使用相似措辞",
+      "speaker_actor_id": "bob_chen",
+      "session_id": "thread_ops_rehearsal",
+      "message_intent": "演练 blocker 是环境问题，已经解决，窗口已锁定，可以按计划收口。",
+      "speaker": "Bob Chen"
+    },
+    {
+      "beat_id": "beat_009",
+      "purpose": "Carol 在数据库迁移（FEISHU-683）主群中讨论截止日期和负责人变更",
+      "speaker_actor_id": "carol_wang",
+      "session_id": "main_chat",
+      "message_intent": "FEISHU-683 迁移窗口改成下周一，负责人改为 David，我这边测试完成。",
+      "speaker": "Carol Wang"
+    },
+    {
+      "beat_id": "beat_010",
+      "purpose": "David 在性能测试（FEISHU-684）线程中讨论阻塞和进度",
+      "speaker_actor_id": "david_zhang",
+      "session_id": "thread_perf_testing",
+      "message_intent": "性能测试 blocker 是资源瓶颈，已扩容，预计本周收口。",
+      "speaker": "David Zhang"
+    },
+    {
+      "beat_id": "beat_011",
+      "purpose": "Alice 在 FEISHU-686 主群中重申最新状态",
+      "speaker_actor_id": "alice_liu",
+      "session_id": "main_chat",
+      "message_intent": "再同步一下：FEISHU-686 我还是 owner，blocker 没变，窗口仍在等安全评审。",
+      "speaker": "Alice Liu"
+    },
+    {
+      "beat_id": "beat_012",
+      "purpose": "Henry 确认后端改动完成，制造更多目标信息",
+      "speaker_actor_id": "henry_zhou",
+      "session_id": "main_chat",
+      "message_intent": "后端认证模块改动已准备就绪，安全评审通过就能合入。",
+      "speaker": "Henry Zhou"
+    },
+    {
+      "beat_id": "beat_013",
+      "purpose": "Iris 确认前端兼容性完成",
+      "speaker_actor_id": "iris_wu",
+      "session_id": "main_chat",
+      "message_intent": "前端侧已做兼容测试，API 变更后直接对接。",
+      "speaker": "Iris Wu"
+    },
+    {
+      "beat_id": "beat_014",
+      "purpose": "Jack 确认基础设施已就绪",
+      "speaker_actor_id": "jack_sun",
+      "session_id": "main_chat",
+      "message_intent": "Infra 全部已做预配置，可随时上线。",
+      "speaker": "Jack Sun"
+    },
+    {
+      "beat_id": "beat_015",
+      "purpose": "Leo 发送数据分析报告，辅助上下文",
+      "speaker_actor_id": "leo_xu",
+      "session_id": "main_chat",
+      "message_intent": "这是 API 认证流程调用频率数据，安全评审可能需要参考。",
+      "speaker": "Leo Xu"
+    },
+    {
+      "beat_id": "beat_016",
+      "purpose": "Sara 提供用户反馈，作为追加信息",
+      "speaker_actor_id": "sara_hong",
+      "session_id": "main_chat",
+      "message_intent": "用户反馈认证流程有时超时，这次改动正好能解决。",
+      "speaker": "Sara Hong"
+    },
+    {
+      "beat_id": "beat_017",
+      "purpose": "Frank 在 FEISHU-686 中询问整体进度",
+      "speaker_actor_id": "frank_lin",
+      "session_id": "main_chat",
+      "message_intent": "FEISHU-686 的收口时间大概能确定吗？",
+      "speaker": "Frank Lin"
+    },
+    {
+      "beat_id": "beat_018",
+      "purpose": "Alice 回复 Frank，进一步强化目标状态",
+      "speaker_actor_id": "alice_liu",
+      "session_id": "main_chat",
+      "message_intent": "等安全评审通过窗口锁定后才行，目前暂不能承诺。",
+      "speaker": "Alice Liu"
+    },
+    {
+      "beat_id": "beat_019",
+      "purpose": "Eve 在 FEISHU-686 中询问 blockers",
+      "speaker_actor_id": "eve_li",
+      "session_id": "main_chat",
+      "message_intent": "当前只有 API 认证流程这一个 blocker 吗？",
+      "speaker": "Eve Li"
+    },
+    {
+      "beat_id": "beat_020",
+      "purpose": "Alice 回复确认",
+      "speaker_actor_id": "alice_liu",
+      "session_id": "main_chat",
+      "message_intent": "对，只有这一个，其他都就绪了。",
+      "speaker": "Alice Liu"
+    }
+  ],
+  "planned_probe_queries": [
+    {
+      "query": "FEISHU-686 的当前负责人是谁？当前 blocker 是什么？窗口是否已锁定？",
+      "expected_good_behavior": "回答负责人为 Alice Liu，blocker 为内部文档API认证流程修改，窗口未锁定；不会混入 FEISHU-680、FEISHU-682、FEISHU-683、FEISHU-684 等任务的信息。"
+    },
+    {
+      "query": "FEISHU-686 的当前状态是什么？与 FEISHU-680 相比，FEISHU-686 的负责人是否相同？",
+      "expected_good_behavior": "负责人是 Alice Liu 且是当前状态，但必须明确区分 FEISHU-680 的负责人也是 Alice Liu 但属于不同任务，并指出两者不应混淆。"
+    },
+    {
+      "query": "FEISHU-686 是否有任何人提到'收口'？如果有，请说明上下文",
+      "expected_good_behavior": "指出 Alice 和 Bob 在 FEISHU-686 中讨论收口，但需明确该任务收口依赖安全评审，不同于其他任务的收口。"
+    }
+  ]
+}

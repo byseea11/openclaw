@@ -1,0 +1,393 @@
+{
+  "story_id": "story_case_20260506203841812547_contradiction_update",
+  "case_id": "case_20260506203841812547_contradiction_update",
+  "family_id": "contradiction_update",
+  "task": {
+    "task_id": "FEISHU-447",
+    "task_name": "全球支付网关灰度发布",
+    "role": "target_task"
+  },
+  "actors": [
+    {
+      "actor_id": "alice",
+      "display_name": "Alice",
+      "role": "release_pm"
+    },
+    {
+      "actor_id": "bob",
+      "display_name": "Bob",
+      "role": "ops_lead"
+    },
+    {
+      "actor_id": "carol",
+      "display_name": "Carol",
+      "role": "platform_architect"
+    },
+    {
+      "actor_id": "xavier",
+      "display_name": "Xavier",
+      "role": "release_manager"
+    },
+    {
+      "actor_id": "dave",
+      "display_name": "Dave",
+      "role": "qa_lead"
+    },
+    {
+      "actor_id": "eve",
+      "display_name": "Eve",
+      "role": "security_lead"
+    },
+    {
+      "actor_id": "frank",
+      "display_name": "Frank",
+      "role": "network_lead"
+    },
+    {
+      "actor_id": "grace",
+      "display_name": "Grace",
+      "role": "compliance_officer"
+    },
+    {
+      "actor_id": "henry",
+      "display_name": "Henry",
+      "role": "customer_support_lead"
+    },
+    {
+      "actor_id": "ivy",
+      "display_name": "Ivy",
+      "role": "data_platform_lead"
+    },
+    {
+      "actor_id": "jack",
+      "display_name": "Jack",
+      "role": "dev_lead"
+    },
+    {
+      "actor_id": "kelly",
+      "display_name": "Kelly",
+      "role": "product_manager"
+    },
+    {
+      "actor_id": "leo",
+      "display_name": "Leo",
+      "role": "infra_lead"
+    },
+    {
+      "actor_id": "mia",
+      "display_name": "Mia",
+      "role": "frontend_lead"
+    },
+    {
+      "actor_id": "nick",
+      "display_name": "Nick",
+      "role": "backend_lead"
+    },
+    {
+      "actor_id": "olivia",
+      "display_name": "Olivia",
+      "role": "integration_lead"
+    },
+    {
+      "actor_id": "peter",
+      "display_name": "Peter",
+      "role": "testing_lead"
+    },
+    {
+      "actor_id": "quinn",
+      "display_name": "Quinn",
+      "role": "sre_lead"
+    },
+    {
+      "actor_id": "rachel",
+      "display_name": "Rachel",
+      "role": "finance_lead"
+    },
+    {
+      "actor_id": "sam",
+      "display_name": "Sam",
+      "role": "legal_lead"
+    },
+    {
+      "actor_id": "tina",
+      "display_name": "Tina",
+      "role": "hr_lead"
+    },
+    {
+      "actor_id": "uma",
+      "display_name": "Uma",
+      "role": "marketing_lead"
+    },
+    {
+      "actor_id": "victor",
+      "display_name": "Victor",
+      "role": "sales_lead"
+    },
+    {
+      "actor_id": "wendy",
+      "display_name": "Wendy",
+      "role": "support_lead"
+    },
+    {
+      "actor_id": "xander",
+      "display_name": "Xander",
+      "role": "devops_lead"
+    },
+    {
+      "actor_id": "yara",
+      "display_name": "Yara",
+      "role": "analytics_lead"
+    },
+    {
+      "actor_id": "zara",
+      "display_name": "Zara",
+      "role": "localization_lead"
+    },
+    {
+      "actor_id": "aaron",
+      "display_name": "Aaron",
+      "role": "vendor_coordinator"
+    }
+  ],
+  "task_actor_layout": {
+    "target_task_id": "FEISHU-447",
+    "shared_actors": [
+      "alice",
+      "xavier",
+      "carol",
+      "dave",
+      "eve",
+      "frank",
+      "grace",
+      "henry"
+    ],
+    "revision_context_blocks": [
+      {
+        "context_ref": "ctx_owner_handoff",
+        "field": "owner",
+        "revision_role": "historical_update",
+        "relationship_to_target": "Alice 最初负责，后移交 Xavier，但期间 Carol 曾临时接手，最终 Xavier 确认。"
+      },
+      {
+        "context_ref": "ctx_window_shift",
+        "field": "release_window",
+        "revision_role": "superseded_schedule",
+        "relationship_to_target": "窗口从 5月8日 → 5月10日 → 5月12日 → 5月14日，多次调整。"
+      },
+      {
+        "context_ref": "ctx_blocker_change",
+        "field": "blocker",
+        "revision_role": "superseded_blocker",
+        "relationship_to_target": "最初 blocker 是安全审查，后变为网络延迟，最终确认遗留 API 兼容。"
+      },
+      {
+        "context_ref": "ctx_priority_change",
+        "field": "priority",
+        "revision_role": "historical_update",
+        "relationship_to_target": "优先级从 P1 → P2 → P1，因客户 escalation 回退。"
+      }
+    ],
+    "supersession_clues": [
+      "之前口径作废",
+      "最终确认以本轮为准",
+      "旧 owner 只算历史信息",
+      "以上一轮的结论已不适用",
+      "请以我最新消息为准"
+    ],
+    "actor_task_roles": [
+      {
+        "actor_id": "alice",
+        "task_id": "FEISHU-447",
+        "role": "initial_owner"
+      },
+      {
+        "actor_id": "carol",
+        "task_id": "FEISHU-447",
+        "role": "interim_owner"
+      },
+      {
+        "actor_id": "xavier",
+        "task_id": "FEISHU-447",
+        "role": "current_owner"
+      },
+      {
+        "actor_id": "dave",
+        "context_ref": "ctx_blocker_change",
+        "role": "qa_verifier"
+      },
+      {
+        "actor_id": "eve",
+        "context_ref": "ctx_blocker_change",
+        "role": "security_reviewer"
+      },
+      {
+        "actor_id": "frank",
+        "context_ref": "ctx_blocker_change",
+        "role": "network_engineer"
+      },
+      {
+        "actor_id": "grace",
+        "context_ref": "ctx_priority_change",
+        "role": "compliance_check"
+      },
+      {
+        "actor_id": "henry",
+        "context_ref": "ctx_priority_change",
+        "role": "customer_escalation"
+      }
+    ]
+  },
+  "state_changes": [
+    {
+      "task_id": "FEISHU-447",
+      "field": "owner",
+      "sequence": [
+        {
+          "value": "Alice",
+          "status": "initial"
+        },
+        {
+          "value": "Carol",
+          "status": "historical"
+        },
+        {
+          "value": "Xavier",
+          "status": "current"
+        }
+      ]
+    },
+    {
+      "task_id": "FEISHU-447",
+      "field": "release_window",
+      "sequence": [
+        {
+          "value": "5月8日",
+          "status": "initial"
+        },
+        {
+          "value": "5月10日",
+          "status": "historical"
+        },
+        {
+          "value": "5月12日",
+          "status": "historical"
+        },
+        {
+          "value": "5月14日",
+          "status": "current"
+        }
+      ]
+    },
+    {
+      "task_id": "FEISHU-447",
+      "field": "blocker",
+      "sequence": [
+        {
+          "value": "安全审查未完成",
+          "status": "initial"
+        },
+        {
+          "value": "网络延迟优化",
+          "status": "historical"
+        },
+        {
+          "value": "遗留API兼容问题",
+          "status": "current"
+        }
+      ]
+    },
+    {
+      "task_id": "FEISHU-447",
+      "field": "priority",
+      "sequence": [
+        {
+          "value": "P1",
+          "status": "initial"
+        },
+        {
+          "value": "P2",
+          "status": "historical"
+        },
+        {
+          "value": "P1",
+          "status": "current"
+        }
+      ]
+    }
+  ],
+  "message_beats": [
+    {
+      "beat_id": "beat_001",
+      "speaker_actor_id": "alice",
+      "speaker": "Alice",
+      "session_id": "main_chat",
+      "message_intent": "FEISHU-447 由 Alice 负责，初版上线窗口定在5月8日，blocker是安全审查未完成，优先级P1。"
+    },
+    {
+      "beat_id": "beat_002",
+      "speaker_actor_id": "alice",
+      "speaker": "Alice",
+      "session_id": "main_chat",
+      "message_intent": "Alice 下周要休假，FEISHU-447 先交给 Carol 接手，窗口顺延到5月10日，blocker变为网络延迟优化，优先级降至P2。"
+    },
+    {
+      "beat_id": "beat_003",
+      "speaker_actor_id": "carol",
+      "speaker": "Carol",
+      "session_id": "main_chat",
+      "message_intent": "接 Alice 消息，Carol 确认暂时负责 FEISHU-447，但架构评审工作繁重需要协助。"
+    },
+    {
+      "beat_id": "beat_004",
+      "speaker_actor_id": "xavier",
+      "speaker": "Xavier",
+      "session_id": "handoff_thread",
+      "message_intent": "Carol 建议由 Xavier 最终收口，Xavier 在子线程中接手 FEISHU-447，窗口暂定5月12日，blocker更新为遗留API兼容问题，优先级重新升回P1。"
+    },
+    {
+      "beat_id": "beat_005",
+      "speaker_actor_id": "xavier",
+      "speaker": "Xavier",
+      "session_id": "risk_review_thread",
+      "message_intent": "客户 escalation 要求尽快上线，但安全团队反馈遗留API兼容问题至少需要一周，因此窗口再推迟到5月14日。之前口径作废，最终确认以本轮为准。旧 owner 只算历史信息。以上一轮的结论已不适用。请以我最新消息为准。"
+    },
+    {
+      "beat_id": "beat_006",
+      "speaker_actor_id": "dave",
+      "speaker": "Dave",
+      "session_id": "risk_review_thread",
+      "message_intent": "QA 确认遗留API兼容问题是真正的 blocker，安全审查和网络延迟都已解决。"
+    },
+    {
+      "beat_id": "beat_007",
+      "speaker_actor_id": "henry",
+      "speaker": "Henry",
+      "session_id": "customer_sync_chat",
+      "message_intent": "客户催促5月14日上线，压力较大，但 Xavier 坚持必须等 blocker 解决。"
+    },
+    {
+      "beat_id": "beat_008",
+      "speaker_actor_id": "alice",
+      "speaker": "Alice",
+      "session_id": "main_chat",
+      "message_intent": "Alice 休假回来，确认 FEISHU-447 已由 Xavier 全权负责，自己不再参与。"
+    },
+    {
+      "beat_id": "beat_009",
+      "speaker_actor_id": "xavier",
+      "speaker": "Xavier",
+      "session_id": "handoff_thread",
+      "message_intent": "最终状态：FEISHU-447 owner Xavier，窗口5月14日，blocker遗留API兼容问题，优先级P1。所有之前的分配和日期已作废。"
+    }
+  ],
+  "planned_probe_queries": [
+    {
+      "query": "FEISHU-447 当前负责人是谁？Alice 和 Carol 现在还负责吗？上线窗口最终以哪一天为准？从哪一轮开始旧口径已经失效？当前的 blocker 是什么？之前的 blocker 有哪些已被解决？优先级最终是多少？历史上有过哪些不同的优先级？",
+      "expected_good_behavior": "回答 Xavier 是当前负责人，Alice 和 Carol 已不再是负责人；当前上线窗口为5月14日，自 Xavier 在子线程中宣布旧口径作废后（beat_005）所有之前的窗口、负责人、blocker均失效；当前 blocker 是遗留API兼容问题；之前的 blocker 安全审查和网络延迟已解决；当前优先级P1；历史上优先级曾从P1降为P2再升回P1。"
+    },
+    {
+      "query": "请列出 FEISHU-447 所有历史 owner、窗口、blocker 和 priority 的变化过程，并标明哪些是 current，哪些是 historical。",
+      "expected_good_behavior": "完整列出序列：owner 初始Alice，historical Carol，current Xavier；窗口 5月8日→5月10日→5月12日→5月14日，current 5月14日；blocker 安全审查→网络延迟→遗留API兼容，current 遗留API兼容；priority P1→P2→P1，current P1。强调历史状态已经失效。"
+    }
+  ]
+}

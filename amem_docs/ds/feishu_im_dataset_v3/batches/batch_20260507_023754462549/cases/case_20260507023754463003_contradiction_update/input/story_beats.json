@@ -1,0 +1,115 @@
+{
+  "case_id": "case_20260507023754463003_contradiction_update",
+  "family_id": "contradiction_update",
+  "task_id": "FEISHU-703",
+  "beats": [
+    {
+      "beat_id": "beat_001",
+      "target_session_id": "main_chat",
+      "benchmark_role": "final_current_state_turn",
+      "description": "FEISHU-703自动部署脚本由Bob负责开发，预计6月初交付。"
+    },
+    {
+      "beat_id": "beat_002",
+      "target_session_id": "main_chat",
+      "benchmark_role": "final_current_state_turn",
+      "description": "交付窗口暂定6月1日至6月15日。"
+    },
+    {
+      "beat_id": "beat_003",
+      "target_session_id": "main_chat",
+      "benchmark_role": "final_current_state_turn",
+      "description": "我这边资源紧张，FEISHU-703暂时交给Alice跟进。"
+    },
+    {
+      "beat_id": "beat_004",
+      "target_session_id": "main_chat",
+      "benchmark_role": "final_current_state_turn",
+      "description": "收到，我来接手FEISHU-703，窗口调整到6月10日至6月20日。"
+    },
+    {
+      "beat_id": "beat_005",
+      "target_session_id": "main_chat",
+      "benchmark_role": "final_current_state_turn",
+      "description": "安全审计要求增加，FEISHU-703窗口推迟到7月1日至7月15日。"
+    },
+    {
+      "beat_id": "beat_006",
+      "target_session_id": "main_chat",
+      "benchmark_role": "final_current_state_turn",
+      "description": "我下月转去其他项目，FEISHU-703后续由Xavier负责。"
+    },
+    {
+      "beat_id": "beat_007",
+      "target_session_id": "main_chat",
+      "benchmark_role": "final_current_state_turn",
+      "description": "确认接手FEISHU-703，目前代码已开发完成进入测试阶段。"
+    },
+    {
+      "beat_id": "beat_008",
+      "target_session_id": "main_chat",
+      "benchmark_role": "final_current_state_turn",
+      "description": "FEISHU-704的前端任务由Frank负责。"
+    },
+    {
+      "beat_id": "beat_009",
+      "target_session_id": "main_chat",
+      "benchmark_role": "final_current_state_turn",
+      "description": "FEISHU-701的发布窗口提前到6月5日。"
+    },
+    {
+      "beat_id": "beat_010",
+      "target_session_id": "main_chat",
+      "benchmark_role": "final_current_state_turn",
+      "description": "Jenkins流水线升级后，所有项目的部署时间缩短了一半。"
+    },
+    {
+      "beat_id": "beat_011",
+      "target_session_id": "main_chat",
+      "benchmark_role": "final_current_state_turn",
+      "description": "Alice之前布置的部署检查项我已经完成。"
+    },
+    {
+      "beat_id": "beat_012",
+      "target_session_id": "main_chat",
+      "benchmark_role": "final_current_state_turn",
+      "description": "Bob最初设计的那套脚本方案还需要review吗？"
+    },
+    {
+      "beat_id": "beat_013",
+      "target_session_id": "main_chat",
+      "benchmark_role": "final_current_state_turn",
+      "description": "FEISHU-706的数据库变更依赖FEISHU-703的脚本完成。"
+    },
+    {
+      "beat_id": "beat_014",
+      "target_session_id": "main_chat",
+      "benchmark_role": "final_current_state_turn",
+      "description": "后端API本周五完成联调，FEISHU-703的对接稍后。"
+    },
+    {
+      "beat_id": "beat_015",
+      "target_session_id": "risk_review_thread",
+      "benchmark_role": "final_current_state_turn",
+      "description": "根据6月份的窗口计划，我们供应商时间来不及。"
+    },
+    {
+      "beat_id": "beat_016",
+      "target_session_id": "risk_review_thread",
+      "benchmark_role": "final_current_state_turn",
+      "description": "窗口已调整至7月，供应商时间应该足够。"
+    },
+    {
+      "beat_id": "beat_017",
+      "target_session_id": "main_chat",
+      "benchmark_role": "final_current_state_turn",
+      "description": "FEISHU-703已进入测试，发现的问题正在修复中。"
+    },
+    {
+      "beat_id": "beat_018",
+      "target_session_id": "main_chat",
+      "benchmark_role": "final_current_state_turn",
+      "description": "自动化测试框架的文档已更新。"
+    }
+  ]
+}

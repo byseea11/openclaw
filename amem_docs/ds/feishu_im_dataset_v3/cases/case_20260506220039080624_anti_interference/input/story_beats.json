@@ -1,0 +1,55 @@
+{
+  "case_id": "case_20260506220039080624_anti_interference",
+  "family_id": "anti_interference",
+  "task_id": "FEISHU-724",
+  "beats": [
+    {
+      "beat_id": "beat_001",
+      "target_session_id": "main_chat",
+      "benchmark_role": "memory_pollution_turn",
+      "description": "FEISHU-724 当前由 Alice 负责收口，真正 blocker 还是支付风控回归没有完成。"
+    },
+    {
+      "beat_id": "beat_002",
+      "target_session_id": "main_chat",
+      "benchmark_role": "memory_pollution_turn",
+      "description": "运维演练那边也卡在 blocker，但这是另外一条并行讨论，不是 FEISHU-724 的 owner 变更。"
+    },
+    {
+      "beat_id": "beat_003",
+      "target_session_id": "thread_docs",
+      "benchmark_role": "memory_pollution_turn",
+      "description": "Alice 晚上还要审文档收口，不过那只是 reviewer 身份，不代表 FEISHU-724 再次换 owner。"
+    },
+    {
+      "beat_id": "beat_004",
+      "target_session_id": "main_chat",
+      "benchmark_role": "memory_pollution_turn",
+      "description": "QA 角度：FEISHU-724 的回归测试还在进行，风控回归是当前卡点。"
+    },
+    {
+      "beat_id": "beat_005",
+      "target_session_id": "thread_release",
+      "benchmark_role": "memory_pollution_turn",
+      "description": "开发侧，FEISHU-724 代码已冻结，等风控回归完成即可。"
+    },
+    {
+      "beat_id": "beat_006",
+      "target_session_id": "handoff_thread",
+      "benchmark_role": "memory_pollution_turn",
+      "description": "文档收口已全部完成，我作为 reviewer 签字了，但这是另一件事，不涉及 FEISHU-724 的 owner 变更。"
+    },
+    {
+      "beat_id": "beat_007",
+      "target_session_id": "risk_review_thread",
+      "benchmark_role": "memory_pollution_turn",
+      "description": "安全审查发现几个 low risk 项，需要 Alice 跟进，但这不影响 FEISHU-724 的当前 block。"
+    },
+    {
+      "beat_id": "beat_008",
+      "target_session_id": "customer_sync_chat",
+      "benchmark_role": "memory_pollution_turn",
+      "description": "第三方供应商对接进度有个 blocker，但不是 FEISHU-724 的。"
+    }
+  ]
+}
