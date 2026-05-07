@@ -8,6 +8,7 @@ from pathlib import Path
 from typing import Any, Callable
 
 from .builder_settings import resolve_default_difficulty
+from .builder_settings import resolve_difficulty_settings
 from .config import DEFAULT_DATASET_ROOT
 from .io import ensure_dir, read_json, read_jsonl, write_json, write_jsonl, write_text
 from .llm import (
@@ -29,6 +30,7 @@ from .schemas import (
     validate_characters,
     validate_conversation_plan_artifact,
     validate_case_context,
+    validate_official_file_plan,
     validate_pre_annotation_report,
     validate_replay_eval,
     validate_story_beats_artifact,
@@ -42,7 +44,7 @@ from .stages.case_context import generate_case_context
 from .stages.case_spec import build_case_spec
 from .stages.case_world import build_case_world_artifact
 from .stages.command_plan import build_command_plan
-from .stages.conversation_plan import build_conversation_plan_artifact
+from .stages.conversation_plan import generate_conversation_plan
 from .stages.common import (
     active_case_path_for,
     build_case_id,
@@ -55,9 +57,11 @@ from .stages.dataset_plan import build_dataset_generation_plan
 from .stages.family_selection import select_family
 from .stages.capability_brief import build_memory_capability_brief
 from .stages.observed_validation import build_pre_annotation_validation_report
+from .stages.official_file_plan import build_official_file_plan
 from .stages.plan_mapper import build_execution_plan_from_command_plan
 from .stages.query_benchmark import build_query_benchmark
 from .stages.replay_eval import build_replay_eval
+from .stages.semantic_gold import generate_semantic_gold
 from .stages.story_beats import build_story_beats_artifact
 from .stages.story_plan import generate_story_plan
 from .stages.task_actor_layout import build_task_actor_layout_artifact
@@ -88,10 +92,10 @@ PHASE1_STAGE_ORDER = (
     "collect",
     "pre-annotation-validate",
 )
-PHASE1_COMPAT_STAGE_ORDER = ("case-context", "story-plan")
-PHASE1_STAGE_CHOICES = (*PHASE1_STAGE_ORDER, *PHASE1_COMPAT_STAGE_ORDER)
+PHASE1_STAGE_CHOICES = PHASE1_STAGE_ORDER
 PHASE2_STAGE_ORDER = (
     "annotation-gold",
+    "semantic-gold",
     "query-benchmark",
     "build-checks",
     "gold-validate",
@@ -209,6 +213,21 @@ _PERSON_NAMES = (
     "梁昕",
 )
 
+_SUPPORT_DEPARTMENTS = (
+    "项目管理",
+    "研发平台",
+    "质量保障",
+    "运维保障",
+    "安全合规",
+    "客户协作",
+    "财务运营",
+    "组织发展",
+    "知识管理",
+    "数据平台",
+    "发布治理",
+    "业务运营",
+)
+
 
 def _department_for_actor_role(role: str) -> str:
     normalized = role.lower()
@@ -288,6 +307,29 @@ def _characters_from_layout(
                 ),
             }
         )
+    character_count_min = int(resolve_difficulty_settings(str(case_context["difficulty"]))["character_count_min"])
+    support_index = 1
+    while len(rows) < character_count_min:
+        person_id = f"support_actor_{support_index:03d}"
+        if any(row["person_id"] == person_id for row in rows):
+            support_index += 1
+            continue
+        name = _PERSON_NAMES[len(rows) % len(_PERSON_NAMES)]
+        department = _SUPPORT_DEPARTMENTS[len(rows) % len(_SUPPORT_DEPARTMENTS)]
+        rows.append(
+            {
+                "person_id": person_id,
+                "actor_slot_id": person_id,
+                "simulated_open_id": default_simulated_open_id(person_id),
+                "name": name,
+                "department": department,
+                "role": "协作参与人",
+                "task_ids": [str(case_context["task_id"])],
+                "default_channels": default_channels,
+                "profile": f"{name}来自{department}，用于补足真实企业协作中的背景、确认和噪声消息。",
+            }
+        )
+        support_index += 1
     return validate_characters(
         {
             "case_id": case_context["case_id"],
@@ -357,6 +399,9 @@ def _build_model_backend_error_message(*, stage_label: str, error: ModelBackendE
     elif error.error_type == "network_error":
         lines.append("无法连接到当前 `OPENAI_API_BASE_URL`。")
         lines.append("修复方法：检查 repo 根 `.env` 里的 `OPENAI_API_BASE_URL` 是否正确，或确认当前网络可访问 OpenAI 兼容接口。")
+    elif error.error_code == "output_truncated":
+        lines.append("模型返回的 JSON 被长度上限截断。")
+        lines.append("修复方法：降低当前阶段输出规模、压缩 prompt，或提高该 stage 的 `max_tokens`。")
     elif error.error_type == "protocol_error":
         lines.append("模型接口返回了 builder 无法解析的响应。")
         lines.append("修复方法：检查 `OPENAI_API_BASE_URL` 是否指向兼容的 OpenAI Chat Completions 接口。")
@@ -379,7 +424,7 @@ def _build_auth_check_error_payload(error: ModelBackendError) -> dict[str, Any]:
 
 
 def _preflight_stage(stage: str) -> None:
-    if stage in {"case-context", "story-plan"}:
+    if stage in {"conversation-plan"}:
         preflight_model_backend()
 
 
@@ -424,7 +469,7 @@ def _read_active_case(dataset_root: str | Path) -> dict[str, Any]:
     active_case_path = active_case_path_for(dataset_path)
     if not active_case_path.exists():
         raise CliUsageError(
-            "当前没有 active case。请先运行 phase1-step --stage case-context，或显式提供 --case-dir。"
+            "当前没有 active case。请先运行 phase1-step --stage spec-generation，或显式提供 --case-dir。"
         )
     payload = read_json(active_case_path)
     case_dir_value = payload.get("case_dir")
@@ -677,25 +722,31 @@ def run_phase1_story_plan(*, case_dir: str | Path, skip_preflight: bool = False)
             story_plan=story_plan,
         )
     )
-    conversation_plan_artifact = validate_conversation_plan_artifact(
-        build_conversation_plan_artifact(
-            case_context=case_context,
-            case_world_artifact=case_world_artifact,
-            story_beats_artifact=story_beats_artifact,
-            story_plan=story_plan,
-        )
-    )
     characters = _characters_from_layout(
         case_context=case_context,
         task_actor_layout=task_actor_layout_artifact,
         case_world=case_world_artifact,
     )
     actor_registry = _actor_registry_from_characters(characters)
+    official_file_plan = validate_official_file_plan(
+        build_official_file_plan(case_context=case_context, story_plan=story_plan)
+    )
+    conversation_plan_artifact, conversation_model_call_entries = generate_conversation_plan(
+        case_context=case_context,
+        case_world_artifact=case_world_artifact,
+        story_beats_artifact=story_beats_artifact,
+        story_plan=story_plan,
+        characters=characters,
+        actor_registry=actor_registry,
+        official_file_plan=official_file_plan,
+    )
+    log_path = append_model_call_log(case_path=case_path, entries=conversation_model_call_entries)
     story_plan_path = Path("input") / "story_plan.json"
     task_actor_layout_path = Path("input") / "task_actor_layout.json"
     case_world_path = Path("input") / "case_world.json"
     characters_path = Path("input") / "characters.json"
     registry_path = Path("input") / "actor_registry.json"
+    official_file_plan_path = Path("input") / "official_file_plan.json"
     story_beats_path = Path("input") / "story_beats.json"
     conversation_plan_path = Path("input") / "conversation_plan.json"
     write_json(case_path / story_plan_path, story_plan)
@@ -703,6 +754,7 @@ def run_phase1_story_plan(*, case_dir: str | Path, skip_preflight: bool = False)
     write_json(case_path / case_world_path, case_world_artifact)
     write_json(case_path / characters_path, characters)
     write_json(case_path / registry_path, actor_registry)
+    write_json(case_path / official_file_plan_path, official_file_plan)
     write_json(case_path / story_beats_path, story_beats_artifact)
     write_json(case_path / conversation_plan_path, conversation_plan_artifact)
     result = _multi_artifact_result(
@@ -717,6 +769,7 @@ def run_phase1_story_plan(*, case_dir: str | Path, skip_preflight: bool = False)
             {"artifact_path": str(case_path / case_world_path), "artifact": case_world_artifact},
             {"artifact_path": str(case_path / characters_path), "artifact": characters},
             {"artifact_path": str(case_path / registry_path), "artifact": actor_registry},
+            {"artifact_path": str(case_path / official_file_plan_path), "artifact": official_file_plan},
             {"artifact_path": str(case_path / story_beats_path), "artifact": story_beats_artifact},
             {
                 "artifact_path": str(case_path / conversation_plan_path),
@@ -934,13 +987,20 @@ def run_phase1_story_beats(*, case_dir: str | Path) -> dict[str, Any]:
             story_plan=story_plan,
         )
     )
+    official_file_plan = validate_official_file_plan(
+        build_official_file_plan(case_context=case_context, story_plan=story_plan)
+    )
     artifact_path = Path("input") / "story_beats.json"
+    official_file_plan_path = Path("input") / "official_file_plan.json"
     write_json(case_path / artifact_path, story_beats_artifact)
-    result = _artifact_result(
+    write_json(case_path / official_file_plan_path, official_file_plan)
+    result = _multi_artifact_result(
         stage="story-beats",
         case_path=case_path,
-        artifact_path=artifact_path,
-        artifact=story_beats_artifact,
+        artifacts=[
+            {"artifact_path": str(case_path / artifact_path), "artifact": story_beats_artifact},
+            {"artifact_path": str(case_path / official_file_plan_path), "artifact": official_file_plan},
+        ],
     )
     result["active_case_path"] = str(
         _write_active_case(
@@ -952,8 +1012,10 @@ def run_phase1_story_beats(*, case_dir: str | Path) -> dict[str, Any]:
     return result
 
 
-def run_phase1_conversation_plan(*, case_dir: str | Path) -> dict[str, Any]:
+def run_phase1_conversation_plan(*, case_dir: str | Path, skip_preflight: bool = False) -> dict[str, Any]:
     case_path = _require_case_path(case_dir, stage="conversation-plan")
+    if not skip_preflight:
+        _preflight_stage("conversation-plan")
     case_context = _load_case_context(case_path, stage="conversation-plan")
     story_plan = _load_story_plan(case_path, stage="conversation-plan")
     case_world_artifact = validate_case_world_artifact(
@@ -962,14 +1024,57 @@ def run_phase1_conversation_plan(*, case_dir: str | Path) -> dict[str, Any]:
     story_beats_artifact = validate_story_beats_artifact(
         _read_required_json(case_path, Path("input") / "story_beats.json", stage="conversation-plan")
     )
-    conversation_plan_artifact = validate_conversation_plan_artifact(
-        build_conversation_plan_artifact(
+    characters = validate_characters(
+        _read_required_json(case_path, Path("input") / "characters.json", stage="conversation-plan")
+    )
+    actor_registry = validate_actor_registry(
+        _read_required_json(case_path, Path("input") / "actor_registry.json", stage="conversation-plan")
+    )
+    official_file_path = case_path / "input" / "official_file_plan.json"
+    if official_file_path.exists():
+        official_file_plan = validate_official_file_plan(read_json(official_file_path))
+    else:
+        official_file_plan = validate_official_file_plan(
+            build_official_file_plan(case_context=case_context, story_plan=story_plan)
+        )
+        write_json(official_file_path, official_file_plan)
+    try:
+        conversation_plan_artifact, model_call_entries = generate_conversation_plan(
             case_context=case_context,
             case_world_artifact=case_world_artifact,
             story_beats_artifact=story_beats_artifact,
             story_plan=story_plan,
+            characters=characters,
+            actor_registry=actor_registry,
+            official_file_plan=official_file_plan,
         )
-    )
+    except ModelBackendError as exc:
+        append_model_call_log(
+            case_path=case_path,
+            entries=[
+                build_model_call_failure_log_entry(
+                    stage="conversation-plan",
+                    error=exc,
+                    case_id=str(case_context["case_id"]),
+                    artifact_path="input/conversation_plan.json",
+                )
+            ],
+        )
+        raise
+    except ModelPayloadValidationError as exc:
+        append_model_call_log(
+            case_path=case_path,
+            entries=[
+                build_model_call_validation_failure_log_entry(
+                    stage="conversation-plan",
+                    error=exc,
+                    case_id=str(case_context["case_id"]),
+                    artifact_path="input/conversation_plan.json",
+                )
+            ],
+        )
+        raise
+    log_path = append_model_call_log(case_path=case_path, entries=model_call_entries)
     artifact_path = Path("input") / "conversation_plan.json"
     write_json(case_path / artifact_path, conversation_plan_artifact)
     result = _artifact_result(
@@ -978,6 +1083,7 @@ def run_phase1_conversation_plan(*, case_dir: str | Path) -> dict[str, Any]:
         artifact_path=artifact_path,
         artifact=conversation_plan_artifact,
     )
+    result["model_call_log_path"] = str(log_path)
     result["active_case_path"] = str(
         _write_active_case(
             case_path=case_path,
@@ -1126,10 +1232,19 @@ def run_phase1_pre_annotation_validate(*, case_dir: str | Path) -> dict[str, Any
         Path("data") / "collected_messages.jsonl",
         stage="pre-annotation-validate",
     )
+    openclaw_ingress = _read_required_jsonl(
+        case_path,
+        Path("data") / "openclaw_message_ingress.jsonl",
+        stage="pre-annotation-validate",
+    )
+    official_file_path = case_path / "input" / "official_file_plan.json"
+    official_file_plan = validate_official_file_plan(read_json(official_file_path)) if official_file_path.exists() else None
     validation_report = build_pre_annotation_validation_report(
         case_id=case_context["case_id"],
         story_plan=story_plan,
         collected_messages=collected_messages,
+        openclaw_ingress=openclaw_ingress,
+        official_file_plan=official_file_plan,
     )
     artifact_path = Path("checks") / "pre_annotation_validation_report.json"
     write_json(case_path / artifact_path, validation_report)
@@ -1179,6 +1294,49 @@ def run_phase2_annotation_gold(*, case_dir: str | Path) -> dict[str, Any]:
             case_path=case_path,
             case_context=case_context,
             last_completed_stage="annotation-gold",
+        )
+    )
+    return result
+
+
+def run_phase2_semantic_gold(
+    *,
+    case_dir: str | Path,
+    semantic_gold_mode: str = "auto",
+    require_llm: bool = False,
+) -> dict[str, Any]:
+    context = _load_runtime_context(case_dir)
+    case_path = context["case_path"]
+    case_context = context["case_context"]
+    story_plan = context["story_plan"]
+    collected_messages = read_jsonl(case_path / "data" / "collected_messages.jsonl")
+    annotation_gold_rows = read_jsonl(case_path / "gold" / "annotation_gold.jsonl")
+    artifact, model_call_entries = generate_semantic_gold(
+        case_context=case_context,
+        story_plan=story_plan,
+        collected_messages=collected_messages,
+        annotation_gold_rows=annotation_gold_rows,
+        mode=semantic_gold_mode,
+        require_llm=require_llm,
+    )
+    if model_call_entries:
+        log_path = append_model_call_log(case_path=case_path, entries=model_call_entries)
+    else:
+        log_path = case_path / MODEL_CALL_LOG_PATH
+    artifact_path = Path("gold") / "task_wiki_semantic_gold.json"
+    write_json(case_path / artifact_path, artifact)
+    result = _artifact_result(
+        stage="semantic-gold",
+        case_path=case_path,
+        artifact_path=artifact_path,
+        artifact=artifact,
+    )
+    result["model_call_log_path"] = str(log_path)
+    result["active_case_path"] = str(
+        _write_active_case(
+            case_path=case_path,
+            case_context=case_context,
+            last_completed_stage="semantic-gold",
         )
     )
     return result
@@ -1423,8 +1581,6 @@ PHASE1_STAGE_REGISTRY: dict[str, Callable[..., dict[str, Any]]] = {
     "coverage-spec": run_phase1_coverage_spec,
     "story-beats": run_phase1_story_beats,
     "conversation-plan": run_phase1_conversation_plan,
-    "case-context": run_phase1_case_context,
-    "story-plan": run_phase1_story_plan,
     "command-plan": run_phase1_command_plan,
     "execute": run_phase1_execute,
     "collect": run_phase1_collect,
@@ -1447,14 +1603,6 @@ def run_phase1_step(
         raise CliUsageError(f"不支持的 phase1 stage: {stage}")
     if stage == "spec-generation":
         return run_phase1_spec_generation(
-            dataset_root=dataset_root,
-            seed=seed,
-            family_id=family_id,
-            difficulty=difficulty,
-            comparison_target=comparison_target,
-        )
-    if stage == "case-context":
-        return run_phase1_case_context(
             dataset_root=dataset_root,
             seed=seed,
             family_id=family_id,
@@ -1486,6 +1634,37 @@ def current_case(*, dataset_root: str | Path = DEFAULT_DATASET_ROOT) -> dict[str
     return {"dataset_root": str(dataset_path), **active_case}
 
 
+PHASE2_STAGE_REGISTRY: dict[str, Callable[..., dict[str, Any]]] = {
+    "annotation-gold": run_phase2_annotation_gold,
+    "semantic-gold": run_phase2_semantic_gold,
+    "query-benchmark": run_phase2_query_benchmark,
+    "build-checks": run_phase2_build_checks,
+    "gold-validate": run_phase2_gold_validate,
+    "replay-runtime": run_phase2_replay_runtime,
+    "replay-eval": run_phase2_replay_eval,
+}
+
+
+def run_phase2_step(
+    *,
+    stage: str,
+    case_dir: str | Path | None = None,
+    dataset_root: str | Path = DEFAULT_DATASET_ROOT,
+    semantic_gold_mode: str = "auto",
+    require_llm: bool = False,
+) -> dict[str, Any]:
+    if stage not in PHASE2_STAGE_REGISTRY:
+        raise CliUsageError(f"不支持的 phase2 stage: {stage}")
+    resolved_case_dir = _resolve_case_dir(case_dir=case_dir, dataset_root=dataset_root, stage=stage)
+    if stage == "semantic-gold":
+        return run_phase2_semantic_gold(
+            case_dir=resolved_case_dir,
+            semantic_gold_mode=semantic_gold_mode,
+            require_llm=require_llm,
+        )
+    return PHASE2_STAGE_REGISTRY[stage](case_dir=resolved_case_dir)
+
+
 def compile_phase1(
     *,
     dataset_root: str | Path = DEFAULT_DATASET_ROOT,
@@ -1509,7 +1688,10 @@ def compile_phase1(
     run_phase1_capability_brief(case_dir=case_path)
     run_phase1_task_actor_layout(case_dir=case_path, skip_preflight=True)
     for stage in PHASE1_STAGE_ORDER[4:]:
-        run_phase1_step(stage=stage, case_dir=case_path)
+        if stage == "conversation-plan":
+            run_phase1_conversation_plan(case_dir=case_path, skip_preflight=True)
+        else:
+            run_phase1_step(stage=stage, case_dir=case_path)
     case_context = _load_case_context(case_path, stage="phase1")
     return {
         "case_dir": str(case_path),
@@ -1524,12 +1706,19 @@ def compile_phase2(
     *,
     case_dir: str | Path | None = None,
     dataset_root: str | Path = DEFAULT_DATASET_ROOT,
+    semantic_gold_mode: str = "auto",
+    require_llm: bool = False,
 ) -> dict[str, Any]:
     resolved_case_dir = _resolve_case_dir(case_dir=case_dir, dataset_root=dataset_root, stage="phase2")
     case_path = Path(resolved_case_dir)
     for stage in PHASE2_STAGE_ORDER:
         {
             "annotation-gold": run_phase2_annotation_gold,
+            "semantic-gold": lambda *, case_dir: run_phase2_semantic_gold(
+                case_dir=case_dir,
+                semantic_gold_mode=semantic_gold_mode,
+                require_llm=require_llm,
+            ),
             "query-benchmark": run_phase2_query_benchmark,
             "build-checks": run_phase2_build_checks,
             "gold-validate": run_phase2_gold_validate,
@@ -1617,6 +1806,13 @@ def _build_parser() -> argparse.ArgumentParser:
     phase1_step_parser.add_argument("--difficulty", default=default_difficulty)
     phase1_step_parser.add_argument("--comparison-target", default="default_memory_architectures")
 
+    phase2_step_parser = subparsers.add_parser("phase2-step")
+    phase2_step_parser.add_argument("--stage", choices=PHASE2_STAGE_ORDER, required=True)
+    phase2_step_parser.add_argument("--dataset-root", default=str(DEFAULT_DATASET_ROOT))
+    phase2_step_parser.add_argument("--case-dir")
+    phase2_step_parser.add_argument("--semantic-gold", choices=("auto", "llm", "rule", "off"), default="auto")
+    phase2_step_parser.add_argument("--require-llm", action="store_true")
+
     for name in ("phase1", "build-all"):
         subparser = subparsers.add_parser(name)
         subparser.add_argument("--dataset-root", default=str(DEFAULT_DATASET_ROOT))
@@ -1629,6 +1825,9 @@ def _build_parser() -> argparse.ArgumentParser:
         subparser = subparsers.add_parser(name)
         subparser.add_argument("--dataset-root", default=str(DEFAULT_DATASET_ROOT))
         subparser.add_argument("--case-dir")
+        if name == "phase2":
+            subparser.add_argument("--semantic-gold", choices=("auto", "llm", "rule", "off"), default="auto")
+            subparser.add_argument("--require-llm", action="store_true")
 
     return parser
 
@@ -1659,6 +1858,14 @@ def main(argv: list[str] | None = None) -> int:
                 difficulty=args.difficulty,
                 comparison_target=args.comparison_target,
             )
+        elif args.command == "phase2-step":
+            result = run_phase2_step(
+                stage=args.stage,
+                case_dir=args.case_dir,
+                dataset_root=args.dataset_root,
+                semantic_gold_mode=args.semantic_gold,
+                require_llm=args.require_llm,
+            )
         elif args.command == "phase1":
             result = compile_phase1(
                 dataset_root=args.dataset_root,
@@ -1668,7 +1875,12 @@ def main(argv: list[str] | None = None) -> int:
                 comparison_target=args.comparison_target,
             )
         elif args.command == "phase2":
-            result = compile_phase2(case_dir=args.case_dir, dataset_root=args.dataset_root)
+            result = compile_phase2(
+                case_dir=args.case_dir,
+                dataset_root=args.dataset_root,
+                semantic_gold_mode=args.semantic_gold,
+                require_llm=args.require_llm,
+            )
         elif args.command == "phase3":
             result = compile_phase3(case_dir=args.case_dir, dataset_root=args.dataset_root)
         elif args.command == "build-all":
@@ -1690,8 +1902,12 @@ def main(argv: list[str] | None = None) -> int:
         stage_label = "builder 模型阶段"
         if args.command == "phase1-step":
             stage_label = f"phase1-step::{args.stage}"
+        elif args.command == "phase2-step":
+            stage_label = f"phase2-step::{args.stage}"
         elif args.command == "phase1":
             stage_label = "phase1 预检或模型阶段"
+        elif args.command == "phase2":
+            stage_label = "phase2 模型阶段"
         elif args.command == "build-all":
             stage_label = "build-all / phase1 预检或模型阶段"
         parser.exit(2, f"{_build_model_backend_error_message(stage_label=stage_label, error=exc)}\n")
@@ -1699,8 +1915,12 @@ def main(argv: list[str] | None = None) -> int:
         stage_label = "builder payload 校验阶段"
         if args.command == "phase1-step":
             stage_label = f"phase1-step::{args.stage}"
+        elif args.command == "phase2-step":
+            stage_label = f"phase2-step::{args.stage}"
         elif args.command == "phase1":
             stage_label = "phase1 payload 校验阶段"
+        elif args.command == "phase2":
+            stage_label = "phase2 payload 校验阶段"
         elif args.command == "build-all":
             stage_label = "build-all / phase1 payload 校验阶段"
         parser.exit(2, f"{stage_label} 失败：\n{exc}\n")

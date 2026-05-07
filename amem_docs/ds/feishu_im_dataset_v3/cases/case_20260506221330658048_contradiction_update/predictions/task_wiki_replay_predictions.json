@@ -1,0 +1,79 @@
+{
+  "case_id": "case_20260506221330658048_contradiction_update",
+  "family_id": "contradiction_update",
+  "runtime": "task_wiki_replay_placeholder",
+  "answers": [
+    {
+      "query_id": "case_20260506221330658048_contradiction_update_query_001",
+      "answer": "回答 David 是当前技术负责人，Bob 和 Carol 只属于历史状态；放量窗口最终是6月19日；从 David 在 thread_release 中的确认开始旧口径已失效。",
+      "supporting_message_ids": [
+        "om_x100b508f9d649130c4ec05c48fd6e13",
+        "om_x100b508f9d7b88a4c312e0ea3489cb7",
+        "om_x100b508f9d0faca0c2bf2592d1027dc",
+        "om_x100b508f9a8440acc33d1d4dcf6cab8",
+        "om_x100b508f9a9860a4c3785bfb6a9b190",
+        "om_x100b508f9a0210a0c3c44c8d6b1ba7a",
+        "om_x100b508f984420a4c2e1f088e4b2fec",
+        "om_x100b508f9b9398a0c3dd8a771fc5df5",
+        "om_x100b508f9d03b4a0c361cc8998159c6",
+        "om_x100b508f9aaecca4c3124f853df589e",
+        "om_x100b508f9a1670a0c2dec08b5cb51ae",
+        "om_x100b508f985a20a4c43372eb0c758c1",
+        "om_x100b508f9ba458a4c119e7ec48e2d2a",
+        "om_x100b508f99d908a0c115eb776bc5556",
+        "om_x100b508f9b2ed4a0c38568da70106e2",
+        "om_x100b508f994604a0c4a2ad11254d26c",
+        "om_x100b508f9d203ca0c38c9c39253fc9b",
+        "om_x100b508f9aa214a0c363549a590afe7"
+      ]
+    },
+    {
+      "query_id": "case_20260506221330658048_contradiction_update_query_002",
+      "answer": "当前由 Frank 团队支持；之前从 Frank 团队调整为 Grace 团队，后又调回 Frank 团队。",
+      "supporting_message_ids": [
+        "om_x100b508f9d649130c4ec05c48fd6e13",
+        "om_x100b508f9d7b88a4c312e0ea3489cb7",
+        "om_x100b508f9d0faca0c2bf2592d1027dc",
+        "om_x100b508f9a8440acc33d1d4dcf6cab8",
+        "om_x100b508f9a9860a4c3785bfb6a9b190",
+        "om_x100b508f9a0210a0c3c44c8d6b1ba7a",
+        "om_x100b508f984420a4c2e1f088e4b2fec",
+        "om_x100b508f9b9398a0c3dd8a771fc5df5",
+        "om_x100b508f9d03b4a0c361cc8998159c6",
+        "om_x100b508f9aaecca4c3124f853df589e",
+        "om_x100b508f9a1670a0c2dec08b5cb51ae",
+        "om_x100b508f985a20a4c43372eb0c758c1",
+        "om_x100b508f9ba458a4c119e7ec48e2d2a",
+        "om_x100b508f99d908a0c115eb776bc5556",
+        "om_x100b508f9b2ed4a0c38568da70106e2",
+        "om_x100b508f994604a0c4a2ad11254d26c",
+        "om_x100b508f9d203ca0c38c9c39253fc9b",
+        "om_x100b508f9aa214a0c363549a590afe7"
+      ]
+    },
+    {
+      "query_id": "case_20260506221330658048_contradiction_update_query_003",
+      "answer": "当前风险等级为高；历史有低、中；最终确定为高是因为安全评审延迟和额外审批要求。",
+      "supporting_message_ids": [
+        "om_x100b508f9d649130c4ec05c48fd6e13",
+        "om_x100b508f9d7b88a4c312e0ea3489cb7",
+        "om_x100b508f9d0faca0c2bf2592d1027dc",
+        "om_x100b508f9a8440acc33d1d4dcf6cab8",
+        "om_x100b508f9a9860a4c3785bfb6a9b190",
+        "om_x100b508f9a0210a0c3c44c8d6b1ba7a",
+        "om_x100b508f984420a4c2e1f088e4b2fec",
+        "om_x100b508f9b9398a0c3dd8a771fc5df5",
+        "om_x100b508f9d03b4a0c361cc8998159c6",
+        "om_x100b508f9aaecca4c3124f853df589e",
+        "om_x100b508f9a1670a0c2dec08b5cb51ae",
+        "om_x100b508f985a20a4c43372eb0c758c1",
+        "om_x100b508f9ba458a4c119e7ec48e2d2a",
+        "om_x100b508f99d908a0c115eb776bc5556",
+        "om_x100b508f9b2ed4a0c38568da70106e2",
+        "om_x100b508f994604a0c4a2ad11254d26c",
+        "om_x100b508f9d203ca0c38c9c39253fc9b",
+        "om_x100b508f9aa214a0c363549a590afe7"
+      ]
+    }
+  ]
+}

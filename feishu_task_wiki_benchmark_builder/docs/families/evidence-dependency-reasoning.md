@@ -41,7 +41,7 @@
 - 强调场景要天然支持正式确认、传闻、模糊判断并存
 - 强调场景还要天然支持 upstream -> target -> downstream 的依赖链，但正式 contract 里仍只有一个目标任务
 
-### story-plan
+### story-beats / conversation-plan
 
 - 强调 `task_actor_layout + state_changes + message_beats + planned_probe_queries` 都是重点
 - 强调 `dependency_context_blocks` 必须区分 verified anchor、hearsay、ambiguous 和 downstream impact

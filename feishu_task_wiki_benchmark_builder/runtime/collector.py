@@ -175,17 +175,24 @@ def build_observed_messages(
     characters_by_person = _character_map(characters)
     registry_by_person = _registry_map(actor_registry)
     registry_by_hint = _registry_by_name_department(actor_registry)
+    dry_run_result = all(row.get("status") == "dry_run" for row in result["action_status"])
     collected: list[dict[str, Any]] = []
     ingress: list[dict[str, Any]] = []
     for row in commands:
         if row["action_type"] not in {"send_message", "reply_in_thread"}:
             continue
-        if not row["beat_id"]:
-            continue
         person_id = str(row["speaker_ref"] or row["actor_id"])
         character = characters_by_person.get(person_id)
         registry_actor = registry_by_person.get(person_id)
-        if character is None or registry_actor is None:
+        if not person_id and row["turn_kind"] == "thread_root_context":
+            person_id = "benchmark_root"
+            registry_actor = {
+                "simulated_open_id": "ou_sim_benchmark_root",
+                "name": "Benchmark Root",
+                "department": "Benchmark",
+                "role": "thread_root_context",
+            }
+        elif character is None or registry_actor is None:
             raise ValueError(f"command_plan references unknown person_id: {person_id}")
         output_ref = row["output_ref"]
         resource = result["created_resources"].get(output_ref, {})
@@ -193,7 +200,7 @@ def build_observed_messages(
         fetched = fetched_messages.get(message_id, {})
         fallback_content = str(row["params"].get("content_text") or row["planned_message_text"]).strip()
         content = _message_content_text(fetched, fallback_content)
-        observed_at = utc_now_iso()
+        observed_at = "1970-01-01T00:00:00Z" if dry_run_result and not fetched else utc_now_iso()
         actual_sender = _sender_from_message(fetched) if fetched else {}
         hint = _prefix_hint(content, registry_by_hint)
         resolution_mode = (
@@ -229,6 +236,13 @@ def build_observed_messages(
             "source_type": row["source_type"],
             "source_ref": row["source_ref"],
             "benchmark_role": row["benchmark_role"],
+            "turn_id": row["turn_id"],
+            "turn_kind": row["turn_kind"],
+            "annotation_target": row["annotation_target"],
+            "event_bearing": row["event_bearing"],
+            "official_file_ref": row["official_file_ref"],
+            "private_info_ref": row["private_info_ref"],
+            "task_relevance_boundary": row["task_relevance_boundary"],
             "actual_sender": actual_sender,
             "simulated_speaker": simulated_speaker,
             "speaker_resolution_mode": resolution_mode,
@@ -259,6 +273,13 @@ def build_observed_messages(
                 "source_type": row["source_type"],
                 "source_ref": row["source_ref"],
                 "beat_id": row["beat_id"],
+                "turn_id": row["turn_id"],
+                "turn_kind": row["turn_kind"],
+                "annotation_target": row["annotation_target"],
+                "event_bearing": row["event_bearing"],
+                "official_file_ref": row["official_file_ref"],
+                "private_info_ref": row["private_info_ref"],
+                "task_relevance_boundary": row["task_relevance_boundary"],
                 "normalized_actor_id": person_id,
             },
         }

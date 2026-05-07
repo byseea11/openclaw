@@ -1,0 +1,1636 @@
+{
+  "case_id": "case_20260506221330658048_contradiction_update",
+  "operator_identity": "user",
+  "delivery_mode": "prefixed_single_operator",
+  "actions": [
+    {
+      "action_id": "step_001",
+      "action_type": "create_chat",
+      "depends_on": [],
+      "params": {
+        "chat_ref": "chat_main_chat",
+        "name": "主群协调",
+        "members": [
+          "alice",
+          "amy",
+          "bob",
+          "brian",
+          "carol",
+          "david",
+          "eve",
+          "frank",
+          "grace",
+          "henry",
+          "isabel",
+          "jack",
+          "karen",
+          "leo",
+          "maria",
+          "nathan",
+          "olivia",
+          "paul",
+          "quinn",
+          "rachel",
+          "sam",
+          "tina",
+          "uma",
+          "victor",
+          "wendy",
+          "xavier",
+          "yvonne",
+          "zack"
+        ]
+      },
+      "output_ref": "chat_main_chat"
+    },
+    {
+      "action_id": "step_002",
+      "action_type": "create_chat",
+      "depends_on": [],
+      "params": {
+        "chat_ref": "chat_thread_release",
+        "name": "thread_release 会话",
+        "members": [
+          "alice",
+          "amy",
+          "bob",
+          "brian",
+          "carol",
+          "david",
+          "eve",
+          "frank",
+          "grace",
+          "henry",
+          "isabel",
+          "jack",
+          "karen",
+          "leo",
+          "maria",
+          "nathan",
+          "olivia",
+          "paul",
+          "quinn",
+          "rachel",
+          "sam",
+          "tina",
+          "uma",
+          "victor",
+          "wendy",
+          "xavier",
+          "yvonne",
+          "zack"
+        ]
+      },
+      "output_ref": "chat_thread_release"
+    },
+    {
+      "action_id": "step_003",
+      "action_type": "create_chat",
+      "depends_on": [],
+      "params": {
+        "chat_ref": "chat_customer_sync_chat",
+        "name": "客户同步侧群",
+        "members": [
+          "alice",
+          "amy",
+          "bob",
+          "brian",
+          "carol",
+          "david",
+          "eve",
+          "frank",
+          "grace",
+          "henry",
+          "isabel",
+          "jack",
+          "karen",
+          "leo",
+          "maria",
+          "nathan",
+          "olivia",
+          "paul",
+          "quinn",
+          "rachel",
+          "sam",
+          "tina",
+          "uma",
+          "victor",
+          "wendy",
+          "xavier",
+          "yvonne",
+          "zack"
+        ]
+      },
+      "output_ref": "chat_customer_sync_chat"
+    },
+    {
+      "action_id": "step_004",
+      "action_type": "create_chat",
+      "depends_on": [],
+      "params": {
+        "chat_ref": "chat_risk_review_thread",
+        "name": "风险复核线程",
+        "members": [
+          "alice",
+          "amy",
+          "bob",
+          "brian",
+          "carol",
+          "david",
+          "eve",
+          "frank",
+          "grace",
+          "henry",
+          "isabel",
+          "jack",
+          "karen",
+          "leo",
+          "maria",
+          "nathan",
+          "olivia",
+          "paul",
+          "quinn",
+          "rachel",
+          "sam",
+          "tina",
+          "uma",
+          "victor",
+          "wendy",
+          "xavier",
+          "yvonne",
+          "zack"
+        ]
+      },
+      "output_ref": "chat_risk_review_thread"
+    },
+    {
+      "action_id": "step_005",
+      "action_type": "create_chat",
+      "depends_on": [],
+      "params": {
+        "chat_ref": "chat_exec_sync_chat",
+        "name": "管理层同步侧群",
+        "members": [
+          "alice",
+          "amy",
+          "bob",
+          "brian",
+          "carol",
+          "david",
+          "eve",
+          "frank",
+          "grace",
+          "henry",
+          "isabel",
+          "jack",
+          "karen",
+          "leo",
+          "maria",
+          "nathan",
+          "olivia",
+          "paul",
+          "quinn",
+          "rachel",
+          "sam",
+          "tina",
+          "uma",
+          "victor",
+          "wendy",
+          "xavier",
+          "yvonne",
+          "zack"
+        ]
+      },
+      "output_ref": "chat_exec_sync_chat"
+    },
+    {
+      "action_id": "step_006",
+      "action_type": "create_chat",
+      "depends_on": [],
+      "params": {
+        "chat_ref": "chat_handoff_thread",
+        "name": "交接修正线程",
+        "members": [
+          "alice",
+          "amy",
+          "bob",
+          "brian",
+          "carol",
+          "david",
+          "eve",
+          "frank",
+          "grace",
+          "henry",
+          "isabel",
+          "jack",
+          "karen",
+          "leo",
+          "maria",
+          "nathan",
+          "olivia",
+          "paul",
+          "quinn",
+          "rachel",
+          "sam",
+          "tina",
+          "uma",
+          "victor",
+          "wendy",
+          "xavier",
+          "yvonne",
+          "zack"
+        ]
+      },
+      "output_ref": "chat_handoff_thread"
+    },
+    {
+      "action_id": "step_007",
+      "action_type": "create_chat",
+      "depends_on": [],
+      "params": {
+        "chat_ref": "chat_qa_triage_chat",
+        "name": "质量联调群",
+        "members": [
+          "alice",
+          "amy",
+          "bob",
+          "brian",
+          "carol",
+          "david",
+          "eve",
+          "frank",
+          "grace",
+          "henry",
+          "isabel",
+          "jack",
+          "karen",
+          "leo",
+          "maria",
+          "nathan",
+          "olivia",
+          "paul",
+          "quinn",
+          "rachel",
+          "sam",
+          "tina",
+          "uma",
+          "victor",
+          "wendy",
+          "xavier",
+          "yvonne",
+          "zack"
+        ]
+      },
+      "output_ref": "chat_qa_triage_chat"
+    },
+    {
+      "action_id": "step_008",
+      "action_type": "create_chat",
+      "depends_on": [],
+      "params": {
+        "chat_ref": "chat_ops_window_thread",
+        "name": "运维窗口线程",
+        "members": [
+          "alice",
+          "amy",
+          "bob",
+          "brian",
+          "carol",
+          "david",
+          "eve",
+          "frank",
+          "grace",
+          "henry",
+          "isabel",
+          "jack",
+          "karen",
+          "leo",
+          "maria",
+          "nathan",
+          "olivia",
+          "paul",
+          "quinn",
+          "rachel",
+          "sam",
+          "tina",
+          "uma",
+          "victor",
+          "wendy",
+          "xavier",
+          "yvonne",
+          "zack"
+        ]
+      },
+      "output_ref": "chat_ops_window_thread"
+    },
+    {
+      "action_id": "step_009",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_004"
+      ],
+      "params": {
+        "chat_ref": "chat_risk_review_thread",
+        "sender_ref": "benchmark_root",
+        "content_text": "【benchmark/root】风险复核线程：以下回复承载该 source session 的真实 benchmark 消息。"
+      },
+      "output_ref": "thread_root_risk_review_thread"
+    },
+    {
+      "action_id": "step_010",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_006"
+      ],
+      "params": {
+        "chat_ref": "chat_handoff_thread",
+        "sender_ref": "benchmark_root",
+        "content_text": "【benchmark/root】交接修正线程：以下回复承载该 source session 的真实 benchmark 消息。"
+      },
+      "output_ref": "thread_root_handoff_thread"
+    },
+    {
+      "action_id": "step_011",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_008"
+      ],
+      "params": {
+        "chat_ref": "chat_ops_window_thread",
+        "sender_ref": "benchmark_root",
+        "content_text": "【benchmark/root】运维窗口线程：以下回复承载该 source session 的真实 benchmark 消息。"
+      },
+      "output_ref": "thread_root_ops_window_thread"
+    },
+    {
+      "action_id": "step_012",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_001"
+      ],
+      "params": {
+        "chat_ref": "chat_main_chat",
+        "sender_ref": "alice",
+        "content_text": "【项目管理/林晨】FEISHU-448 最初由 周宇 负责技术，放量窗口初定6月5日，QA 资源由 赵敏 团队支持，风险等级低。"
+      },
+      "output_ref": "msg_turn_001"
+    },
+    {
+      "action_id": "step_013",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_001"
+      ],
+      "params": {
+        "chat_ref": "chat_main_chat",
+        "sender_ref": "alice",
+        "content_text": "【项目管理/林晨】周宇 下周要转去另一个项目，FEISHU-448 的技术负责人改为 陈雪，放量窗口顺延到6月12日。"
+      },
+      "output_ref": "msg_turn_002"
+    },
+    {
+      "action_id": "step_014",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_001"
+      ],
+      "params": {
+        "chat_ref": "chat_main_chat",
+        "sender_ref": "carol",
+        "content_text": "【项目管理/陈雪】由于安全评审延迟，窗口再调整到6月19日，QA 资源临时从 赵敏 团队调整到 何然 团队，风险等级调整为中。"
+      },
+      "output_ref": "msg_turn_003"
+    },
+    {
+      "action_id": "step_015",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_002"
+      ],
+      "params": {
+        "chat_ref": "chat_thread_release",
+        "sender_ref": "david",
+        "content_text": "【项目管理/王源】最终确认：FEISHU-448 由 王源 收口，正式放量窗口以6月19日为准，之前口径作废。旧负责人 周宇 和 陈雪 只算历史信息，当前资源回到 赵敏 团队，风险等级升为高。"
+      },
+      "output_ref": "msg_turn_004"
+    },
+    {
+      "action_id": "step_016",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_002"
+      ],
+      "params": {
+        "chat_ref": "chat_thread_release",
+        "sender_ref": "eve",
+        "content_text": "【项目管理/高骏】同意 王源 的确认，以最新消息为准，前面的安排取消。"
+      },
+      "output_ref": "msg_turn_005"
+    },
+    {
+      "action_id": "step_017",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_003"
+      ],
+      "params": {
+        "chat_ref": "chat_customer_sync_chat",
+        "sender_ref": "alice",
+        "content_text": "【项目管理/林晨】针对客户询问，当前 FEISHU-448 的负责人是 王源，窗口6月19日，其余细节以最终确认为准。"
+      },
+      "output_ref": "msg_turn_006"
+    },
+    {
+      "action_id": "step_018",
+      "action_type": "reply_in_thread",
+      "depends_on": [
+        "step_004",
+        "step_009"
+      ],
+      "params": {
+        "chat_ref": "chat_risk_review_thread",
+        "sender_ref": "grace",
+        "content_text": "【安全合规/何然】风险等级已经是高，需要额外审批，之前的低风险等级不再适用。",
+        "root_message_ref": "thread_root_risk_review_thread"
+      },
+      "output_ref": "msg_turn_007"
+    },
+    {
+      "action_id": "step_019",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_005"
+      ],
+      "params": {
+        "chat_ref": "chat_exec_sync_chat",
+        "sender_ref": "david",
+        "content_text": "【项目管理/王源】向 exec 同步：FEISHU-448 当前状态已更新，旧负责人和旧窗口已作废，重点关注高风险。"
+      },
+      "output_ref": "msg_turn_008"
+    },
+    {
+      "action_id": "step_020",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_001"
+      ],
+      "params": {
+        "chat_ref": "chat_main_chat",
+        "sender_ref": "alice",
+        "content_text": "【项目管理/林晨】FEISHU-448 的企业协作补充事实 1：这个信息需要结合上下文判断当前状态。"
+      },
+      "output_ref": "msg_turn_009"
+    },
+    {
+      "action_id": "step_021",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_002"
+      ],
+      "params": {
+        "chat_ref": "chat_thread_release",
+        "sender_ref": "bob",
+        "content_text": "【项目管理/周宇】FEISHU-448 的企业协作补充事实 2：这个信息需要结合上下文判断当前状态。"
+      },
+      "output_ref": "msg_turn_010"
+    },
+    {
+      "action_id": "step_022",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_003"
+      ],
+      "params": {
+        "chat_ref": "chat_customer_sync_chat",
+        "sender_ref": "carol",
+        "content_text": "【项目管理/陈雪】FEISHU-448 的企业协作补充事实 3：这个信息需要结合上下文判断当前状态。"
+      },
+      "output_ref": "msg_turn_011"
+    },
+    {
+      "action_id": "step_023",
+      "action_type": "reply_in_thread",
+      "depends_on": [
+        "step_004",
+        "step_009"
+      ],
+      "params": {
+        "chat_ref": "chat_risk_review_thread",
+        "sender_ref": "david",
+        "content_text": "【项目管理/王源】FEISHU-448 的企业协作补充事实 4：这个信息需要结合上下文判断当前状态。",
+        "root_message_ref": "thread_root_risk_review_thread"
+      },
+      "output_ref": "msg_turn_012"
+    },
+    {
+      "action_id": "step_024",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_005"
+      ],
+      "params": {
+        "chat_ref": "chat_exec_sync_chat",
+        "sender_ref": "eve",
+        "content_text": "【项目管理/高骏】FEISHU-448 的企业协作补充事实 5：这个信息需要结合上下文判断当前状态。"
+      },
+      "output_ref": "msg_turn_013"
+    },
+    {
+      "action_id": "step_025",
+      "action_type": "reply_in_thread",
+      "depends_on": [
+        "step_006",
+        "step_010"
+      ],
+      "params": {
+        "chat_ref": "chat_handoff_thread",
+        "sender_ref": "frank",
+        "content_text": "【质量保障/赵敏】FEISHU-448 的企业协作补充事实 6：这个信息需要结合上下文判断当前状态。",
+        "root_message_ref": "thread_root_handoff_thread"
+      },
+      "output_ref": "msg_turn_014"
+    },
+    {
+      "action_id": "step_026",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_007"
+      ],
+      "params": {
+        "chat_ref": "chat_qa_triage_chat",
+        "sender_ref": "grace",
+        "content_text": "【安全合规/何然】FEISHU-448 的企业协作补充事实 7：这个信息需要结合上下文判断当前状态。"
+      },
+      "output_ref": "msg_turn_015"
+    },
+    {
+      "action_id": "step_027",
+      "action_type": "reply_in_thread",
+      "depends_on": [
+        "step_008",
+        "step_011"
+      ],
+      "params": {
+        "chat_ref": "chat_ops_window_thread",
+        "sender_ref": "henry",
+        "content_text": "【研发平台/秦怡】FEISHU-448 的企业协作补充事实 8：这个信息需要结合上下文判断当前状态。",
+        "root_message_ref": "thread_root_ops_window_thread"
+      },
+      "output_ref": "msg_turn_016"
+    },
+    {
+      "action_id": "step_028",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_001"
+      ],
+      "params": {
+        "chat_ref": "chat_main_chat",
+        "sender_ref": "isabel",
+        "content_text": "【企业协作/罗天】FEISHU-448 的企业协作补充事实 9：这个信息需要结合上下文判断当前状态。"
+      },
+      "output_ref": "msg_turn_017"
+    },
+    {
+      "action_id": "step_029",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_002"
+      ],
+      "params": {
+        "chat_ref": "chat_thread_release",
+        "sender_ref": "jack",
+        "content_text": "【企业协作/苏禾】FEISHU-448 的企业协作补充事实 10：这个信息需要结合上下文判断当前状态。"
+      },
+      "output_ref": "msg_turn_018"
+    },
+    {
+      "action_id": "step_030",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_003"
+      ],
+      "params": {
+        "chat_ref": "chat_customer_sync_chat",
+        "sender_ref": "karen",
+        "content_text": "【安全合规/唐越】FEISHU-448 这轮先把 客户同步侧群 里的背景补齐，避免只看单条消息就下结论。"
+      },
+      "output_ref": "msg_turn_019"
+    },
+    {
+      "action_id": "step_031",
+      "action_type": "reply_in_thread",
+      "depends_on": [
+        "step_004",
+        "step_009"
+      ],
+      "params": {
+        "chat_ref": "chat_risk_review_thread",
+        "sender_ref": "leo",
+        "content_text": "【项目管理/许薇】提醒一下，风险复核线程 里还有并行事项，和 FEISHU-448 名字相似但不是同一个任务。",
+        "root_message_ref": "thread_root_risk_review_thread"
+      },
+      "output_ref": "msg_turn_020"
+    },
+    {
+      "action_id": "step_032",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_005"
+      ],
+      "params": {
+        "chat_ref": "chat_exec_sync_chat",
+        "sender_ref": "maria",
+        "content_text": "【研发平台/沈嘉】收到，我先按这个口径记录，后面如果 FEISHU-448 有新确认再同步到主群。"
+      },
+      "output_ref": "msg_turn_021"
+    },
+    {
+      "action_id": "step_033",
+      "action_type": "reply_in_thread",
+      "depends_on": [
+        "step_006",
+        "step_010"
+      ],
+      "params": {
+        "chat_ref": "chat_handoff_thread",
+        "sender_ref": "nathan",
+        "content_text": "【客户协作/梁昕】这里补一句：如果后续有更新，以最新明确确认的信息为准，不沿用旧口径。",
+        "root_message_ref": "thread_root_handoff_thread"
+      },
+      "output_ref": "msg_turn_022"
+    },
+    {
+      "action_id": "step_034",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_007"
+      ],
+      "params": {
+        "chat_ref": "chat_qa_triage_chat",
+        "sender_ref": "olivia",
+        "content_text": "【企业协作/林晨】FEISHU-448 这轮先把 质量联调群 里的背景补齐，避免只看单条消息就下结论。"
+      },
+      "output_ref": "msg_turn_023"
+    },
+    {
+      "action_id": "step_035",
+      "action_type": "reply_in_thread",
+      "depends_on": [
+        "step_008",
+        "step_011"
+      ],
+      "params": {
+        "chat_ref": "chat_ops_window_thread",
+        "sender_ref": "paul",
+        "content_text": "【财务运营/周宇】提醒一下，运维窗口线程 里还有并行事项，和 FEISHU-448 名字相似但不是同一个任务。",
+        "root_message_ref": "thread_root_ops_window_thread"
+      },
+      "output_ref": "msg_turn_024"
+    },
+    {
+      "action_id": "step_036",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_001"
+      ],
+      "params": {
+        "chat_ref": "chat_main_chat",
+        "sender_ref": "quinn",
+        "content_text": "【企业协作/陈雪】收到，我先按这个口径记录，后面如果 FEISHU-448 有新确认再同步到主群。"
+      },
+      "output_ref": "msg_turn_025"
+    },
+    {
+      "action_id": "step_037",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_002"
+      ],
+      "params": {
+        "chat_ref": "chat_thread_release",
+        "sender_ref": "rachel",
+        "content_text": "【组织发展/王源】这里补一句：如果后续有更新，以最新明确确认的信息为准，不沿用旧口径。"
+      },
+      "output_ref": "msg_turn_026"
+    },
+    {
+      "action_id": "step_038",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_003"
+      ],
+      "params": {
+        "chat_ref": "chat_customer_sync_chat",
+        "sender_ref": "sam",
+        "content_text": "【安全合规/高骏】FEISHU-448 这轮先把 客户同步侧群 里的背景补齐，避免只看单条消息就下结论。"
+      },
+      "output_ref": "msg_turn_027"
+    },
+    {
+      "action_id": "step_039",
+      "action_type": "reply_in_thread",
+      "depends_on": [
+        "step_004",
+        "step_009"
+      ],
+      "params": {
+        "chat_ref": "chat_risk_review_thread",
+        "sender_ref": "tina",
+        "content_text": "【企业协作/赵敏】提醒一下，风险复核线程 里还有并行事项，和 FEISHU-448 名字相似但不是同一个任务。",
+        "root_message_ref": "thread_root_risk_review_thread"
+      },
+      "output_ref": "msg_turn_028"
+    },
+    {
+      "action_id": "step_040",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_005"
+      ],
+      "params": {
+        "chat_ref": "chat_exec_sync_chat",
+        "sender_ref": "uma",
+        "content_text": "【企业协作/何然】收到，我先按这个口径记录，后面如果 FEISHU-448 有新确认再同步到主群。"
+      },
+      "output_ref": "msg_turn_029"
+    },
+    {
+      "action_id": "step_041",
+      "action_type": "reply_in_thread",
+      "depends_on": [
+        "step_006",
+        "step_010"
+      ],
+      "params": {
+        "chat_ref": "chat_handoff_thread",
+        "sender_ref": "victor",
+        "content_text": "【安全合规/秦怡】这里补一句：如果后续有更新，以最新明确确认的信息为准，不沿用旧口径。",
+        "root_message_ref": "thread_root_handoff_thread"
+      },
+      "output_ref": "msg_turn_030"
+    },
+    {
+      "action_id": "step_042",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_007"
+      ],
+      "params": {
+        "chat_ref": "chat_qa_triage_chat",
+        "sender_ref": "wendy",
+        "content_text": "【企业协作/罗天】FEISHU-448 这轮先把 质量联调群 里的背景补齐，避免只看单条消息就下结论。"
+      },
+      "output_ref": "msg_turn_031"
+    },
+    {
+      "action_id": "step_043",
+      "action_type": "reply_in_thread",
+      "depends_on": [
+        "step_008",
+        "step_011"
+      ],
+      "params": {
+        "chat_ref": "chat_ops_window_thread",
+        "sender_ref": "xavier",
+        "content_text": "【企业协作/苏禾】提醒一下，运维窗口线程 里还有并行事项，和 FEISHU-448 名字相似但不是同一个任务。",
+        "root_message_ref": "thread_root_ops_window_thread"
+      },
+      "output_ref": "msg_turn_032"
+    },
+    {
+      "action_id": "step_044",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_001"
+      ],
+      "params": {
+        "chat_ref": "chat_main_chat",
+        "sender_ref": "yvonne",
+        "content_text": "【项目管理/唐越】收到，我先按这个口径记录，后面如果 FEISHU-448 有新确认再同步到主群。"
+      },
+      "output_ref": "msg_turn_033"
+    },
+    {
+      "action_id": "step_045",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_002"
+      ],
+      "params": {
+        "chat_ref": "chat_thread_release",
+        "sender_ref": "zack",
+        "content_text": "【客户协作/许薇】这里补一句：如果后续有更新，以最新明确确认的信息为准，不沿用旧口径。"
+      },
+      "output_ref": "msg_turn_034"
+    },
+    {
+      "action_id": "step_046",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_003"
+      ],
+      "params": {
+        "chat_ref": "chat_customer_sync_chat",
+        "sender_ref": "amy",
+        "content_text": "【企业协作/沈嘉】FEISHU-448 这轮先把 客户同步侧群 里的背景补齐，避免只看单条消息就下结论。"
+      },
+      "output_ref": "msg_turn_035"
+    },
+    {
+      "action_id": "step_047",
+      "action_type": "reply_in_thread",
+      "depends_on": [
+        "step_004",
+        "step_009"
+      ],
+      "params": {
+        "chat_ref": "chat_risk_review_thread",
+        "sender_ref": "brian",
+        "content_text": "【企业协作/梁昕】提醒一下，风险复核线程 里还有并行事项，和 FEISHU-448 名字相似但不是同一个任务。",
+        "root_message_ref": "thread_root_risk_review_thread"
+      },
+      "output_ref": "msg_turn_036"
+    },
+    {
+      "action_id": "step_048",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_005"
+      ],
+      "params": {
+        "chat_ref": "chat_exec_sync_chat",
+        "sender_ref": "alice",
+        "content_text": "【项目管理/林晨】收到，我先按这个口径记录，后面如果 FEISHU-448 有新确认再同步到主群。"
+      },
+      "output_ref": "msg_turn_037"
+    },
+    {
+      "action_id": "step_049",
+      "action_type": "reply_in_thread",
+      "depends_on": [
+        "step_006",
+        "step_010"
+      ],
+      "params": {
+        "chat_ref": "chat_handoff_thread",
+        "sender_ref": "bob",
+        "content_text": "【项目管理/周宇】这里补一句：如果后续有更新，以最新明确确认的信息为准，不沿用旧口径。",
+        "root_message_ref": "thread_root_handoff_thread"
+      },
+      "output_ref": "msg_turn_038"
+    },
+    {
+      "action_id": "step_050",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_007"
+      ],
+      "params": {
+        "chat_ref": "chat_qa_triage_chat",
+        "sender_ref": "carol",
+        "content_text": "【项目管理/陈雪】FEISHU-448 这轮先把 质量联调群 里的背景补齐，避免只看单条消息就下结论。"
+      },
+      "output_ref": "msg_turn_039"
+    },
+    {
+      "action_id": "step_051",
+      "action_type": "reply_in_thread",
+      "depends_on": [
+        "step_008",
+        "step_011"
+      ],
+      "params": {
+        "chat_ref": "chat_ops_window_thread",
+        "sender_ref": "david",
+        "content_text": "【项目管理/王源】提醒一下，运维窗口线程 里还有并行事项，和 FEISHU-448 名字相似但不是同一个任务。",
+        "root_message_ref": "thread_root_ops_window_thread"
+      },
+      "output_ref": "msg_turn_040"
+    },
+    {
+      "action_id": "step_052",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_001"
+      ],
+      "params": {
+        "chat_ref": "chat_main_chat",
+        "sender_ref": "eve",
+        "content_text": "【项目管理/高骏】收到，我先按这个口径记录，后面如果 FEISHU-448 有新确认再同步到主群。"
+      },
+      "output_ref": "msg_turn_041"
+    },
+    {
+      "action_id": "step_053",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_002"
+      ],
+      "params": {
+        "chat_ref": "chat_thread_release",
+        "sender_ref": "frank",
+        "content_text": "【质量保障/赵敏】这里补一句：如果后续有更新，以最新明确确认的信息为准，不沿用旧口径。"
+      },
+      "output_ref": "msg_turn_042"
+    },
+    {
+      "action_id": "step_054",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_003"
+      ],
+      "params": {
+        "chat_ref": "chat_customer_sync_chat",
+        "sender_ref": "grace",
+        "content_text": "【安全合规/何然】FEISHU-448 这轮先把 客户同步侧群 里的背景补齐，避免只看单条消息就下结论。"
+      },
+      "output_ref": "msg_turn_043"
+    },
+    {
+      "action_id": "step_055",
+      "action_type": "reply_in_thread",
+      "depends_on": [
+        "step_004",
+        "step_009"
+      ],
+      "params": {
+        "chat_ref": "chat_risk_review_thread",
+        "sender_ref": "henry",
+        "content_text": "【研发平台/秦怡】提醒一下，风险复核线程 里还有并行事项，和 FEISHU-448 名字相似但不是同一个任务。",
+        "root_message_ref": "thread_root_risk_review_thread"
+      },
+      "output_ref": "msg_turn_044"
+    },
+    {
+      "action_id": "step_056",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_005"
+      ],
+      "params": {
+        "chat_ref": "chat_exec_sync_chat",
+        "sender_ref": "isabel",
+        "content_text": "【企业协作/罗天】收到，我先按这个口径记录，后面如果 FEISHU-448 有新确认再同步到主群。"
+      },
+      "output_ref": "msg_turn_045"
+    },
+    {
+      "action_id": "step_057",
+      "action_type": "reply_in_thread",
+      "depends_on": [
+        "step_006",
+        "step_010"
+      ],
+      "params": {
+        "chat_ref": "chat_handoff_thread",
+        "sender_ref": "jack",
+        "content_text": "【企业协作/苏禾】这里补一句：如果后续有更新，以最新明确确认的信息为准，不沿用旧口径。",
+        "root_message_ref": "thread_root_handoff_thread"
+      },
+      "output_ref": "msg_turn_046"
+    },
+    {
+      "action_id": "step_058",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_007"
+      ],
+      "params": {
+        "chat_ref": "chat_qa_triage_chat",
+        "sender_ref": "karen",
+        "content_text": "【安全合规/唐越】FEISHU-448 这轮先把 质量联调群 里的背景补齐，避免只看单条消息就下结论。"
+      },
+      "output_ref": "msg_turn_047"
+    },
+    {
+      "action_id": "step_059",
+      "action_type": "reply_in_thread",
+      "depends_on": [
+        "step_008",
+        "step_011"
+      ],
+      "params": {
+        "chat_ref": "chat_ops_window_thread",
+        "sender_ref": "leo",
+        "content_text": "【项目管理/许薇】提醒一下，运维窗口线程 里还有并行事项，和 FEISHU-448 名字相似但不是同一个任务。",
+        "root_message_ref": "thread_root_ops_window_thread"
+      },
+      "output_ref": "msg_turn_048"
+    },
+    {
+      "action_id": "step_060",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_001"
+      ],
+      "params": {
+        "chat_ref": "chat_main_chat",
+        "sender_ref": "maria",
+        "content_text": "【研发平台/沈嘉】收到，我先按这个口径记录，后面如果 FEISHU-448 有新确认再同步到主群。"
+      },
+      "output_ref": "msg_turn_049"
+    },
+    {
+      "action_id": "step_061",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_002"
+      ],
+      "params": {
+        "chat_ref": "chat_thread_release",
+        "sender_ref": "nathan",
+        "content_text": "【客户协作/梁昕】这里补一句：如果后续有更新，以最新明确确认的信息为准，不沿用旧口径。"
+      },
+      "output_ref": "msg_turn_050"
+    },
+    {
+      "action_id": "step_062",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_003"
+      ],
+      "params": {
+        "chat_ref": "chat_customer_sync_chat",
+        "sender_ref": "olivia",
+        "content_text": "【企业协作/林晨】FEISHU-448 这轮先把 客户同步侧群 里的背景补齐，避免只看单条消息就下结论。"
+      },
+      "output_ref": "msg_turn_051"
+    },
+    {
+      "action_id": "step_063",
+      "action_type": "reply_in_thread",
+      "depends_on": [
+        "step_004",
+        "step_009"
+      ],
+      "params": {
+        "chat_ref": "chat_risk_review_thread",
+        "sender_ref": "paul",
+        "content_text": "【财务运营/周宇】提醒一下，风险复核线程 里还有并行事项，和 FEISHU-448 名字相似但不是同一个任务。",
+        "root_message_ref": "thread_root_risk_review_thread"
+      },
+      "output_ref": "msg_turn_052"
+    },
+    {
+      "action_id": "step_064",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_005"
+      ],
+      "params": {
+        "chat_ref": "chat_exec_sync_chat",
+        "sender_ref": "quinn",
+        "content_text": "【企业协作/陈雪】收到，我先按这个口径记录，后面如果 FEISHU-448 有新确认再同步到主群。"
+      },
+      "output_ref": "msg_turn_053"
+    },
+    {
+      "action_id": "step_065",
+      "action_type": "reply_in_thread",
+      "depends_on": [
+        "step_006",
+        "step_010"
+      ],
+      "params": {
+        "chat_ref": "chat_handoff_thread",
+        "sender_ref": "rachel",
+        "content_text": "【组织发展/王源】这里补一句：如果后续有更新，以最新明确确认的信息为准，不沿用旧口径。",
+        "root_message_ref": "thread_root_handoff_thread"
+      },
+      "output_ref": "msg_turn_054"
+    },
+    {
+      "action_id": "step_066",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_007"
+      ],
+      "params": {
+        "chat_ref": "chat_qa_triage_chat",
+        "sender_ref": "sam",
+        "content_text": "【安全合规/高骏】FEISHU-448 这轮先把 质量联调群 里的背景补齐，避免只看单条消息就下结论。"
+      },
+      "output_ref": "msg_turn_055"
+    },
+    {
+      "action_id": "step_067",
+      "action_type": "reply_in_thread",
+      "depends_on": [
+        "step_008",
+        "step_011"
+      ],
+      "params": {
+        "chat_ref": "chat_ops_window_thread",
+        "sender_ref": "tina",
+        "content_text": "【企业协作/赵敏】提醒一下，运维窗口线程 里还有并行事项，和 FEISHU-448 名字相似但不是同一个任务。",
+        "root_message_ref": "thread_root_ops_window_thread"
+      },
+      "output_ref": "msg_turn_056"
+    },
+    {
+      "action_id": "step_068",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_001"
+      ],
+      "params": {
+        "chat_ref": "chat_main_chat",
+        "sender_ref": "uma",
+        "content_text": "【企业协作/何然】收到，我先按这个口径记录，后面如果 FEISHU-448 有新确认再同步到主群。"
+      },
+      "output_ref": "msg_turn_057"
+    },
+    {
+      "action_id": "step_069",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_002"
+      ],
+      "params": {
+        "chat_ref": "chat_thread_release",
+        "sender_ref": "victor",
+        "content_text": "【安全合规/秦怡】这里补一句：如果后续有更新，以最新明确确认的信息为准，不沿用旧口径。"
+      },
+      "output_ref": "msg_turn_058"
+    },
+    {
+      "action_id": "step_070",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_003"
+      ],
+      "params": {
+        "chat_ref": "chat_customer_sync_chat",
+        "sender_ref": "wendy",
+        "content_text": "【企业协作/罗天】FEISHU-448 这轮先把 客户同步侧群 里的背景补齐，避免只看单条消息就下结论。"
+      },
+      "output_ref": "msg_turn_059"
+    },
+    {
+      "action_id": "step_071",
+      "action_type": "reply_in_thread",
+      "depends_on": [
+        "step_004",
+        "step_009"
+      ],
+      "params": {
+        "chat_ref": "chat_risk_review_thread",
+        "sender_ref": "xavier",
+        "content_text": "【企业协作/苏禾】提醒一下，风险复核线程 里还有并行事项，和 FEISHU-448 名字相似但不是同一个任务。",
+        "root_message_ref": "thread_root_risk_review_thread"
+      },
+      "output_ref": "msg_turn_060"
+    },
+    {
+      "action_id": "step_072",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_005"
+      ],
+      "params": {
+        "chat_ref": "chat_exec_sync_chat",
+        "sender_ref": "yvonne",
+        "content_text": "【项目管理/唐越】收到，我先按这个口径记录，后面如果 FEISHU-448 有新确认再同步到主群。"
+      },
+      "output_ref": "msg_turn_061"
+    },
+    {
+      "action_id": "step_073",
+      "action_type": "reply_in_thread",
+      "depends_on": [
+        "step_006",
+        "step_010"
+      ],
+      "params": {
+        "chat_ref": "chat_handoff_thread",
+        "sender_ref": "zack",
+        "content_text": "【客户协作/许薇】这里补一句：如果后续有更新，以最新明确确认的信息为准，不沿用旧口径。",
+        "root_message_ref": "thread_root_handoff_thread"
+      },
+      "output_ref": "msg_turn_062"
+    },
+    {
+      "action_id": "step_074",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_007"
+      ],
+      "params": {
+        "chat_ref": "chat_qa_triage_chat",
+        "sender_ref": "amy",
+        "content_text": "【企业协作/沈嘉】FEISHU-448 这轮先把 质量联调群 里的背景补齐，避免只看单条消息就下结论。"
+      },
+      "output_ref": "msg_turn_063"
+    },
+    {
+      "action_id": "step_075",
+      "action_type": "reply_in_thread",
+      "depends_on": [
+        "step_008",
+        "step_011"
+      ],
+      "params": {
+        "chat_ref": "chat_ops_window_thread",
+        "sender_ref": "brian",
+        "content_text": "【企业协作/梁昕】提醒一下，运维窗口线程 里还有并行事项，和 FEISHU-448 名字相似但不是同一个任务。",
+        "root_message_ref": "thread_root_ops_window_thread"
+      },
+      "output_ref": "msg_turn_064"
+    },
+    {
+      "action_id": "step_076",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_001"
+      ],
+      "params": {
+        "chat_ref": "chat_main_chat",
+        "sender_ref": "alice",
+        "content_text": "【项目管理/林晨】收到，我先按这个口径记录，后面如果 FEISHU-448 有新确认再同步到主群。"
+      },
+      "output_ref": "msg_turn_065"
+    },
+    {
+      "action_id": "step_077",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_002"
+      ],
+      "params": {
+        "chat_ref": "chat_thread_release",
+        "sender_ref": "bob",
+        "content_text": "【项目管理/周宇】这里补一句：如果后续有更新，以最新明确确认的信息为准，不沿用旧口径。"
+      },
+      "output_ref": "msg_turn_066"
+    },
+    {
+      "action_id": "step_078",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_003"
+      ],
+      "params": {
+        "chat_ref": "chat_customer_sync_chat",
+        "sender_ref": "carol",
+        "content_text": "【项目管理/陈雪】FEISHU-448 这轮先把 客户同步侧群 里的背景补齐，避免只看单条消息就下结论。"
+      },
+      "output_ref": "msg_turn_067"
+    },
+    {
+      "action_id": "step_079",
+      "action_type": "reply_in_thread",
+      "depends_on": [
+        "step_004",
+        "step_009"
+      ],
+      "params": {
+        "chat_ref": "chat_risk_review_thread",
+        "sender_ref": "david",
+        "content_text": "【项目管理/王源】提醒一下，风险复核线程 里还有并行事项，和 FEISHU-448 名字相似但不是同一个任务。",
+        "root_message_ref": "thread_root_risk_review_thread"
+      },
+      "output_ref": "msg_turn_068"
+    },
+    {
+      "action_id": "step_080",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_005"
+      ],
+      "params": {
+        "chat_ref": "chat_exec_sync_chat",
+        "sender_ref": "eve",
+        "content_text": "【项目管理/高骏】收到，我先按这个口径记录，后面如果 FEISHU-448 有新确认再同步到主群。"
+      },
+      "output_ref": "msg_turn_069"
+    },
+    {
+      "action_id": "step_081",
+      "action_type": "reply_in_thread",
+      "depends_on": [
+        "step_006",
+        "step_010"
+      ],
+      "params": {
+        "chat_ref": "chat_handoff_thread",
+        "sender_ref": "frank",
+        "content_text": "【质量保障/赵敏】这里补一句：如果后续有更新，以最新明确确认的信息为准，不沿用旧口径。",
+        "root_message_ref": "thread_root_handoff_thread"
+      },
+      "output_ref": "msg_turn_070"
+    },
+    {
+      "action_id": "step_082",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_007"
+      ],
+      "params": {
+        "chat_ref": "chat_qa_triage_chat",
+        "sender_ref": "grace",
+        "content_text": "【安全合规/何然】FEISHU-448 这轮先把 质量联调群 里的背景补齐，避免只看单条消息就下结论。"
+      },
+      "output_ref": "msg_turn_071"
+    },
+    {
+      "action_id": "step_083",
+      "action_type": "reply_in_thread",
+      "depends_on": [
+        "step_008",
+        "step_011"
+      ],
+      "params": {
+        "chat_ref": "chat_ops_window_thread",
+        "sender_ref": "henry",
+        "content_text": "【研发平台/秦怡】提醒一下，运维窗口线程 里还有并行事项，和 FEISHU-448 名字相似但不是同一个任务。",
+        "root_message_ref": "thread_root_ops_window_thread"
+      },
+      "output_ref": "msg_turn_072"
+    },
+    {
+      "action_id": "step_084",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_001"
+      ],
+      "params": {
+        "chat_ref": "chat_main_chat",
+        "sender_ref": "isabel",
+        "content_text": "【企业协作/罗天】收到，我先按这个口径记录，后面如果 FEISHU-448 有新确认再同步到主群。"
+      },
+      "output_ref": "msg_turn_073"
+    },
+    {
+      "action_id": "step_085",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_002"
+      ],
+      "params": {
+        "chat_ref": "chat_thread_release",
+        "sender_ref": "jack",
+        "content_text": "【企业协作/苏禾】这里补一句：如果后续有更新，以最新明确确认的信息为准，不沿用旧口径。"
+      },
+      "output_ref": "msg_turn_074"
+    },
+    {
+      "action_id": "step_086",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_003"
+      ],
+      "params": {
+        "chat_ref": "chat_customer_sync_chat",
+        "sender_ref": "karen",
+        "content_text": "【安全合规/唐越】FEISHU-448 这轮先把 客户同步侧群 里的背景补齐，避免只看单条消息就下结论。"
+      },
+      "output_ref": "msg_turn_075"
+    },
+    {
+      "action_id": "step_087",
+      "action_type": "reply_in_thread",
+      "depends_on": [
+        "step_004",
+        "step_009"
+      ],
+      "params": {
+        "chat_ref": "chat_risk_review_thread",
+        "sender_ref": "leo",
+        "content_text": "【项目管理/许薇】提醒一下，风险复核线程 里还有并行事项，和 FEISHU-448 名字相似但不是同一个任务。",
+        "root_message_ref": "thread_root_risk_review_thread"
+      },
+      "output_ref": "msg_turn_076"
+    },
+    {
+      "action_id": "step_088",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_005"
+      ],
+      "params": {
+        "chat_ref": "chat_exec_sync_chat",
+        "sender_ref": "maria",
+        "content_text": "【研发平台/沈嘉】收到，我先按这个口径记录，后面如果 FEISHU-448 有新确认再同步到主群。"
+      },
+      "output_ref": "msg_turn_077"
+    },
+    {
+      "action_id": "step_089",
+      "action_type": "reply_in_thread",
+      "depends_on": [
+        "step_006",
+        "step_010"
+      ],
+      "params": {
+        "chat_ref": "chat_handoff_thread",
+        "sender_ref": "nathan",
+        "content_text": "【客户协作/梁昕】这里补一句：如果后续有更新，以最新明确确认的信息为准，不沿用旧口径。",
+        "root_message_ref": "thread_root_handoff_thread"
+      },
+      "output_ref": "msg_turn_078"
+    },
+    {
+      "action_id": "step_090",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_007"
+      ],
+      "params": {
+        "chat_ref": "chat_qa_triage_chat",
+        "sender_ref": "olivia",
+        "content_text": "【企业协作/林晨】FEISHU-448 这轮先把 质量联调群 里的背景补齐，避免只看单条消息就下结论。"
+      },
+      "output_ref": "msg_turn_079"
+    },
+    {
+      "action_id": "step_091",
+      "action_type": "reply_in_thread",
+      "depends_on": [
+        "step_008",
+        "step_011"
+      ],
+      "params": {
+        "chat_ref": "chat_ops_window_thread",
+        "sender_ref": "paul",
+        "content_text": "【财务运营/周宇】提醒一下，运维窗口线程 里还有并行事项，和 FEISHU-448 名字相似但不是同一个任务。",
+        "root_message_ref": "thread_root_ops_window_thread"
+      },
+      "output_ref": "msg_turn_080"
+    },
+    {
+      "action_id": "step_092",
+      "action_type": "fetch_chat_messages",
+      "depends_on": [
+        "step_001",
+        "step_012",
+        "step_013",
+        "step_014",
+        "step_020",
+        "step_028",
+        "step_036",
+        "step_044",
+        "step_052",
+        "step_060",
+        "step_068",
+        "step_076",
+        "step_084"
+      ],
+      "params": {
+        "chat_ref": "chat_main_chat"
+      },
+      "output_ref": ""
+    },
+    {
+      "action_id": "step_093",
+      "action_type": "fetch_chat_messages",
+      "depends_on": [
+        "step_002",
+        "step_015",
+        "step_016",
+        "step_021",
+        "step_029",
+        "step_037",
+        "step_045",
+        "step_053",
+        "step_061",
+        "step_069",
+        "step_077",
+        "step_085"
+      ],
+      "params": {
+        "chat_ref": "chat_thread_release"
+      },
+      "output_ref": ""
+    },
+    {
+      "action_id": "step_094",
+      "action_type": "fetch_chat_messages",
+      "depends_on": [
+        "step_003",
+        "step_017",
+        "step_022",
+        "step_030",
+        "step_038",
+        "step_046",
+        "step_054",
+        "step_062",
+        "step_070",
+        "step_078",
+        "step_086"
+      ],
+      "params": {
+        "chat_ref": "chat_customer_sync_chat"
+      },
+      "output_ref": ""
+    },
+    {
+      "action_id": "step_095",
+      "action_type": "fetch_chat_messages",
+      "depends_on": [
+        "step_005",
+        "step_019",
+        "step_024",
+        "step_032",
+        "step_040",
+        "step_048",
+        "step_056",
+        "step_064",
+        "step_072",
+        "step_080",
+        "step_088"
+      ],
+      "params": {
+        "chat_ref": "chat_exec_sync_chat"
+      },
+      "output_ref": ""
+    },
+    {
+      "action_id": "step_096",
+      "action_type": "fetch_chat_messages",
+      "depends_on": [
+        "step_007",
+        "step_026",
+        "step_034",
+        "step_042",
+        "step_050",
+        "step_058",
+        "step_066",
+        "step_074",
+        "step_082",
+        "step_090"
+      ],
+      "params": {
+        "chat_ref": "chat_qa_triage_chat"
+      },
+      "output_ref": ""
+    },
+    {
+      "action_id": "step_097",
+      "action_type": "fetch_thread_messages",
+      "depends_on": [
+        "step_004",
+        "step_009",
+        "step_018",
+        "step_023",
+        "step_031",
+        "step_039",
+        "step_047",
+        "step_055",
+        "step_063",
+        "step_071",
+        "step_079",
+        "step_087"
+      ],
+      "params": {
+        "chat_ref": "chat_risk_review_thread",
+        "root_message_ref": "thread_root_risk_review_thread"
+      },
+      "output_ref": ""
+    },
+    {
+      "action_id": "step_098",
+      "action_type": "fetch_thread_messages",
+      "depends_on": [
+        "step_006",
+        "step_010",
+        "step_025",
+        "step_033",
+        "step_041",
+        "step_049",
+        "step_057",
+        "step_065",
+        "step_073",
+        "step_081",
+        "step_089"
+      ],
+      "params": {
+        "chat_ref": "chat_handoff_thread",
+        "root_message_ref": "thread_root_handoff_thread"
+      },
+      "output_ref": ""
+    },
+    {
+      "action_id": "step_099",
+      "action_type": "fetch_thread_messages",
+      "depends_on": [
+        "step_008",
+        "step_011",
+        "step_027",
+        "step_035",
+        "step_043",
+        "step_051",
+        "step_059",
+        "step_067",
+        "step_075",
+        "step_083",
+        "step_091"
+      ],
+      "params": {
+        "chat_ref": "chat_ops_window_thread",
+        "root_message_ref": "thread_root_ops_window_thread"
+      },
+      "output_ref": ""
+    }
+  ]
+}

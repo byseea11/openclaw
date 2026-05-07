@@ -2,7 +2,7 @@
 
 ## 职责
 
-这个 skill 负责为 `case-context` 阶段提供企业业务场景约束，让当前 family 在真实协作里自然发生。它不单独落文件，而是约束最终 `case_context.json` 的企业场景部分。
+这个 skill 负责为 `case-world` 阶段提供企业业务场景约束，让当前 family 在真实协作里自然发生，并物化为 `input/case_world.json`。
 
 ## 硬规则
 
@@ -31,7 +31,7 @@
 
 - 不要开始写 message beats。
 - 不要开始写最终 probe wording。
-- 不要把 story-plan 内容揉到 case-context。
+- 不要把 message beat、完整 turn 或 command plan 内容揉到 case world。
 - 不要重新定义 family 或 capability brief。
 - 不要把 distractor 写成正式并列任务清单。
 - 不要引入 `company_count` 之类的显式多公司数量字段。

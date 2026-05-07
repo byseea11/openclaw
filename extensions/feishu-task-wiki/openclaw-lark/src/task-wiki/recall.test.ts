@@ -1,7 +1,6 @@
 import fs from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
-import YAML from "yaml";
 import { afterEach, beforeEach, describe, expect, it } from "vitest";
 
 const storeSymbol = Symbol.for("openclaw.feishuTaskWiki.bindingStore");
@@ -112,7 +111,7 @@ describe("task wiki recall seam", () => {
     await fs.rm(stateDir, { recursive: true, force: true });
   });
 
-  async function createDirtySession() {
+  async function createImmediateExtractionSession() {
     const { resolveTaskBindingForInbound } = loadBindingModule();
     const { maybeIngestTaskSourceSession } = loadSessionModule();
     const binding = resolveTaskBindingForInbound({
@@ -149,24 +148,20 @@ describe("task wiki recall seam", () => {
     });
   }
 
-  it("recallTaskWiki drains dirty sessions before reading task wiki state", async () => {
+  it("recallTaskWiki reads current immediate-extraction session artifacts", async () => {
     const { recallTaskWiki } = loadRecallModule();
-    const seed = await createDirtySession();
+    const seed = await createImmediateExtractionSession();
 
     const recalled = await recallTaskWiki({
       sessionDir: seed.sessionDir!,
     }) as {
-      freshness: {
-        drained_session_count: number;
-        verified_event_count: number;
-        projected_session_count: number;
-      };
+      extractionMode: string;
       taskWikiState: Record<string, unknown> | null;
       taskIndexState: Record<string, unknown> | null;
       sessions: Array<{ sessionWikiState: Record<string, unknown> | null; sessionEvents?: unknown[] }>;
     };
 
-    expect(recalled.freshness.drained_session_count).toBe(1);
+    expect(recalled.extractionMode).toBe("immediate");
     expect(recalled.sessions).toHaveLength(1);
     const candidateEvents = await fs.readFile(path.join(seed.sessionDir!, "candidate_events.jsonl"), "utf8");
     expect(candidateEvents.trim()).not.toBe("");
@@ -175,17 +170,16 @@ describe("task wiki recall seam", () => {
       .split("\n")
       .map((line) => JSON.parse(line));
     expect(pending.every((entry) => entry.status !== "pending_extraction")).toBe(true);
-
-    const metadata = YAML.parse(await fs.readFile(path.join(seed.sessionDir!, "metadata.yaml"), "utf8")) as {
-      last_drain_reason: string;
-    };
-    expect(metadata.last_drain_reason).toBe("recall");
   });
 
   it("recallTaskWiki projects existing verified events when state files are missing", async () => {
     const { maybeIngestTaskSourceSession } = loadSessionModule();
     const { resolveTaskBindingForInbound } = loadBindingModule();
     const { recallTaskWiki } = loadRecallModule();
+    // eslint-disable-next-line @typescript-eslint/no-require-imports -- CommonJS subtree is intentional
+    const { updateTaskWikiFromVerifiedEvents } = require("./projector.js") as {
+      updateTaskWikiFromVerifiedEvents: (params: { sessionDir: string }) => Promise<Record<string, unknown>>;
+    };
 
     const binding = resolveTaskBindingForInbound({
       accountId: "default",
@@ -222,44 +216,36 @@ describe("task wiki recall seam", () => {
       }))}\n`,
       "utf8",
     );
+    await updateTaskWikiFromVerifiedEvents({ sessionDir: seed.sessionDir! });
 
     const recalled = await recallTaskWiki({
       sessionDir: seed.sessionDir!,
     }) as {
-      freshness: {
-        projected_session_count: number;
-      };
       taskWikiState: Record<string, unknown> | null;
       taskIndexState: Record<string, unknown> | null;
       sessions: Array<{ sessionWikiState: Record<string, unknown> | null; sessionEvents?: unknown[] }>;
     };
 
-    expect(recalled.freshness.projected_session_count).toBe(1);
     expect(recalled.taskWikiState).toBeTruthy();
     expect(recalled.taskIndexState).toBeTruthy();
     expect(recalled.sessions[0]?.sessionWikiState).toBeTruthy();
     expect((recalled.sessions[0]?.sessionEvents ?? []).length).toBeGreaterThan(0);
   });
 
-  it("prepareSessionForCompaction forces freshness before compaction work", async () => {
+  it("prepareSessionForCompaction exposes the current immediate-extraction compaction seam", async () => {
     const { prepareSessionForCompaction } = loadRecallModule();
-    const seed = await createDirtySession();
+    const seed = await createImmediateExtractionSession();
 
     const prepared = await prepareSessionForCompaction({
       sessionDir: seed.sessionDir!,
     }) as {
-      drained_session_count: number;
-      verified_event_count: number;
-      projected_session_count: number;
+      extractionMode: string;
+      readyForCompaction: boolean;
     };
 
-    expect(prepared.drained_session_count).toBe(1);
+    expect(prepared.extractionMode).toBe("immediate");
+    expect(prepared.readyForCompaction).toBe(true);
     const candidateEvents = await fs.readFile(path.join(seed.sessionDir!, "candidate_events.jsonl"), "utf8");
     expect(candidateEvents.trim()).not.toBe("");
-
-    const metadata = YAML.parse(await fs.readFile(path.join(seed.sessionDir!, "metadata.yaml"), "utf8")) as {
-      last_drain_reason: string;
-    };
-    expect(metadata.last_drain_reason).toBe("pre_compaction");
   });
 });

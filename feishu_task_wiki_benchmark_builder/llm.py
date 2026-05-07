@@ -9,7 +9,12 @@ from time import monotonic
 from typing import Any, Protocol
 from urllib import error, request
 
-from .fixture_model_backend import build_fixture_case_context, build_fixture_story_plan
+from .fixture_model_backend import (
+    build_fixture_case_context,
+    build_fixture_conversation_plan,
+    build_fixture_semantic_gold,
+    build_fixture_story_plan,
+)
 from .io import ensure_dir
 
 
@@ -156,7 +161,25 @@ class OpenAIChatCompletionsClient:
             ],
             "response_format": {"type": "json_object"},
         }
+        max_tokens = _max_tokens_for_stage(stage)
+        if max_tokens is not None:
+            request_payload["max_tokens"] = max_tokens
         response_payload, duration_ms = self._post_json(stage=stage, request_payload=request_payload)
+        try:
+            finish_reason = response_payload["choices"][0].get("finish_reason")
+        except (KeyError, IndexError, TypeError):
+            finish_reason = None
+        if finish_reason == "length":
+            raise ModelBackendError(
+                f"OpenAI backend truncated JSON output for {stage}.",
+                error_type="protocol_error",
+                error_code="output_truncated",
+                backend="openai",
+                model=self.model,
+                base_url=self.base_url,
+                auth_source=self.auth_source,
+                duration_ms=duration_ms,
+            )
         try:
             message = response_payload["choices"][0]["message"]["content"]
             raw_response_text = message if isinstance(message, str) else json.dumps(message, ensure_ascii=False)
@@ -291,6 +314,10 @@ class FixtureModelClient:
             )
         elif stage == "story-plan":
             payload = build_fixture_story_plan(case_context=dict(user_payload["case_context"]))
+        elif stage == "conversation-plan":
+            payload = build_fixture_conversation_plan(user_payload=dict(user_payload))
+        elif stage in {"semantic-gold", "semantic-gold-repair"}:
+            payload = build_fixture_semantic_gold(user_payload=dict(user_payload))
         else:
             raise ModelBackendError(
                 f"Fixture backend does not support stage: {stage}",
@@ -311,6 +338,12 @@ class FixtureModelClient:
 
 def get_configured_backend() -> str:
     return os.environ.get("FEISHU_TASK_WIKI_BENCHMARK_BUILDER_MODEL_BACKEND", "openai").strip() or "openai"
+
+
+def _max_tokens_for_stage(stage: str) -> int | None:
+    if stage == "conversation-plan":
+        return 16000
+    return None
 
 
 def create_model_client() -> BuilderModelClient:

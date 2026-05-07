@@ -29,7 +29,6 @@ class EndToEndTests(unittest.TestCase):
             self.assertTrue((case_dir / "case_spec.json").exists())
             self.assertTrue((case_dir / "input" / "family_selection.json").exists())
             self.assertTrue((case_dir / "input" / "memory_capability_brief.json").exists())
-            self.assertTrue((case_dir / "input" / "story_plan.json").exists())
             self.assertTrue((case_dir / "input" / "task_actor_layout.json").exists())
             self.assertTrue((case_dir / "input" / "case_world.json").exists())
             self.assertTrue((case_dir / "input" / "characters.json").exists())
@@ -65,17 +64,22 @@ class EndToEndTests(unittest.TestCase):
             self.assertIn("【", message_rows[0]["params"]["content_text"])
             collected_rows = read_jsonl(case_dir / "data" / "collected_messages.jsonl")
             ingress_rows = read_jsonl(case_dir / "data" / "openclaw_message_ingress.jsonl")
-            self.assertEqual(collected_rows[0]["normalized_actor_id"], message_rows[0]["speaker_ref"])
-            self.assertIn("actual_sender", collected_rows[0])
-            self.assertTrue(collected_rows[0]["simulated_speaker"]["open_id"].startswith("ou_sim_"))
+            first_event_collected = next(row for row in collected_rows if row["annotation_target"])
+            self.assertEqual(first_event_collected["normalized_actor_id"], message_rows[0]["speaker_ref"])
+            self.assertIn("actual_sender", first_event_collected)
+            self.assertTrue(first_event_collected["simulated_speaker"]["open_id"].startswith("ou_sim_"))
             self.assertEqual(
-                ingress_rows[0]["sender"]["sender_id"]["open_id"],
-                collected_rows[0]["simulated_speaker"]["open_id"],
+                next(row for row in ingress_rows if row["benchmark_trace"]["annotation_target"])["sender"]["sender_id"]["open_id"],
+                first_event_collected["simulated_speaker"]["open_id"],
             )
             self.assertNotIn("【", ingress_rows[0]["message"]["content"])
             self.assertNotIn("Alice", ingress_rows[0]["message"]["content"])
+            self.assertEqual(len(ingress_rows), len(collected_rows))
             model_calls = read_jsonl(case_dir / "logs" / "model_call_log.jsonl")
-            self.assertEqual([row["stage"] for row in model_calls], ["case-context", "story-plan"])
+            self.assertEqual(
+                [row["stage"] for row in model_calls],
+                ["case-context", "story-plan", "conversation-plan"],
+            )
             for row in model_calls:
                 self.assertIn("backend", row)
                 self.assertIn("base_url", row)
@@ -98,6 +102,60 @@ class EndToEndTests(unittest.TestCase):
             self.assertTrue((case_dir / "reports" / "baseline_eval.json").exists())
             self.assertTrue((case_dir / "reports" / "value_eval.json").exists())
             self.assertTrue((case_dir / "reports" / "final_benchmark_report.md").exists())
+
+    def test_hard_phase1_builds_enterprise_scale_openclaw_ingress(self) -> None:
+        with tempfile.TemporaryDirectory() as tmpdir:
+            compiled = compile_phase1(
+                dataset_root=tmpdir,
+                seed=23,
+                difficulty="hard",
+                family_id="anti_interference",
+            )
+            case_dir = Path(compiled["case_dir"])
+            conversation_plan = read_json(case_dir / "input" / "conversation_plan.json")
+            characters = read_json(case_dir / "input" / "characters.json")
+            collected_rows = read_jsonl(case_dir / "data" / "collected_messages.jsonl")
+            ingress_rows = read_jsonl(case_dir / "data" / "openclaw_message_ingress.jsonl")
+            self.assertGreaterEqual(len(conversation_plan["turns"]), 80)
+            self.assertLessEqual(len(conversation_plan["turns"]), 120)
+            self.assertGreaterEqual(len(conversation_plan["sessions"]), 8)
+            self.assertGreaterEqual(len(characters["characters"]), 24)
+            self.assertGreaterEqual(len(ingress_rows), 80)
+            self.assertEqual(len(ingress_rows), len(collected_rows))
+            self.assertGreaterEqual(sum(1 for row in collected_rows if row["event_bearing"]), 18)
+            self.assertGreaterEqual(sum(1 for row in collected_rows if not row["event_bearing"]), 30)
+            compile_phase2(case_dir=compiled["case_dir"])
+            annotation_gold = read_jsonl(case_dir / "gold" / "annotation_gold.jsonl")
+            self.assertEqual(
+                len(annotation_gold),
+                sum(1 for row in collected_rows if row["annotation_target"] or row["event_bearing"]),
+            )
+
+    def test_private_info_official_file_family_lands_trace_fields(self) -> None:
+        with tempfile.TemporaryDirectory() as tmpdir:
+            compiled = compile_phase1(
+                dataset_root=tmpdir,
+                seed=24,
+                difficulty="hard",
+                family_id="private_info_in_official_file",
+            )
+            case_dir = Path(compiled["case_dir"])
+            official_file_plan = read_json(case_dir / "input" / "official_file_plan.json")
+            conversation_plan = read_json(case_dir / "input" / "conversation_plan.json")
+            collected_rows = read_jsonl(case_dir / "data" / "collected_messages.jsonl")
+            ingress_rows = read_jsonl(case_dir / "data" / "openclaw_message_ingress.jsonl")
+            validation_report = read_json(case_dir / "checks" / "pre_annotation_validation_report.json")
+
+            self.assertEqual(official_file_plan["family_id"], "private_info_in_official_file")
+            self.assertTrue(official_file_plan["official_files"][0]["private_info_items"])
+            self.assertTrue(any(turn["official_file_ref"] for turn in conversation_plan["turns"]))
+            self.assertTrue(any(turn["private_info_ref"] for turn in conversation_plan["turns"]))
+            self.assertTrue(any(turn["task_relevance_boundary"] for turn in conversation_plan["turns"]))
+            self.assertTrue(any(row["private_info_ref"] for row in collected_rows))
+            self.assertTrue(any(row["benchmark_trace"]["official_file_ref"] for row in ingress_rows))
+            check_ids = {check["check_id"]: check["passed"] for check in validation_report["checks"]}
+            self.assertTrue(check_ids["official_file_references_landed"])
+            self.assertTrue(check_ids["private_info_boundary_landed"])
 
     def test_build_all_supports_every_formal_family(self) -> None:
         with tempfile.TemporaryDirectory() as tmpdir:

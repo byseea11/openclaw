@@ -14,12 +14,14 @@ usage() {
   - anti_interference              抗干扰测试
   - contradiction_update          矛盾更新测试
   - evidence_dependency_reasoning 证据验证 + 依赖传播
+  - private_info_in_official_file 个人私有信息混入正式文件
 
 说明：
   - “效能指标验证”不是独立 family。
   - 它属于 phase3 之后的 benchmark report 维度，用来展示命中率、时间、字符数或操作步数的收益。
   - 真实模型认证默认只读取 repo 根 `.env`。
-  - `case-context` 和 `story-plan` 会在运行前先做真实模型预检。
+  - `conversation-plan` 会在运行前先做真实模型预检。
+  - Phase 1 只保留细分 stage 主线。
 
 命令：
   auth-check
@@ -33,8 +35,16 @@ usage() {
 
   phase1
       执行：
-      case-context
-      -> story-plan
+      spec-generation
+      -> family-selection
+      -> capability-brief
+      -> task-actor-layout
+      -> case-world
+      -> characters
+      -> state-trajectory
+      -> coverage-spec
+      -> story-beats
+      -> conversation-plan
       -> command-plan
       -> execute
       -> collect
@@ -43,21 +53,43 @@ usage() {
   phase1-step
       单步执行 Phase 1。
       需要通过 `--stage <stage>` 指定具体阶段。
-      `case-context` 成功后会刷新当前 active case。
-      除 `case-context` 外的后续 stage，若未显式传 `--case-dir`，默认读取当前 active case。
+      `spec-generation` 成功后会刷新当前 active case。
+      除 `spec-generation` 外的后续 stage，若未显式传 `--case-dir`，默认读取当前 active case。
 
       可选 stage：
-      - case-context
-      - story-plan
+      - spec-generation
+      - family-selection
+      - capability-brief
+      - task-actor-layout
+      - case-world
+      - characters
+      - state-trajectory
+      - coverage-spec
+      - story-beats
+      - conversation-plan
       - command-plan
       - execute
       - collect
       - pre-annotation-validate
+  phase2-step
+      单步执行 Phase 2。
+      可选 stage：
+      - annotation-gold
+      - semantic-gold
+      - query-benchmark
+      - build-checks
+      - gold-validate
+      - replay-runtime
+      - replay-eval
 
   phase2
       执行：
       annotation-gold
+      -> semantic-gold
       -> query-benchmark
+      -> build-checks
+      -> gold-validate
+      -> replay-runtime
       -> replay-eval
       若未显式传 `--case-dir`，默认读取当前 active case。
 
@@ -83,12 +115,14 @@ usage() {
   amem_docs/scripts/feishu-task-wiki-benchmark-builder-run.sh auth-check
   amem_docs/scripts/feishu-task-wiki-benchmark-builder-run.sh current-case
   amem_docs/scripts/feishu-task-wiki-benchmark-builder-run.sh phase1
-  amem_docs/scripts/feishu-task-wiki-benchmark-builder-run.sh phase1-step --stage case-context --family-id anti_interference
-  amem_docs/scripts/feishu-task-wiki-benchmark-builder-run.sh phase1-step --stage story-plan
+  amem_docs/scripts/feishu-task-wiki-benchmark-builder-run.sh phase1-step --stage spec-generation --family-id anti_interference
+  amem_docs/scripts/feishu-task-wiki-benchmark-builder-run.sh phase1-step --stage conversation-plan
   amem_docs/scripts/feishu-task-wiki-benchmark-builder-run.sh phase1-step --stage command-plan
+  amem_docs/scripts/feishu-task-wiki-benchmark-builder-run.sh phase2-step --stage semantic-gold --semantic-gold rule
   amem_docs/scripts/feishu-task-wiki-benchmark-builder-run.sh build-all --seed 12 --family-id contradiction_update
   amem_docs/scripts/feishu-task-wiki-benchmark-builder-run.sh build-all --seed 13 --family-id anti_interference
   amem_docs/scripts/feishu-task-wiki-benchmark-builder-run.sh build-all --seed 14 --family-id evidence_dependency_reasoning
+  amem_docs/scripts/feishu-task-wiki-benchmark-builder-run.sh build-all --seed 15 --family-id private_info_in_official_file
   amem_docs/scripts/feishu-task-wiki-benchmark-builder-run.sh phase2
 EOF
 }
@@ -102,7 +136,7 @@ COMMAND="$1"
 shift
 
 case "${COMMAND}" in
-  auth-check|current-case|dataset-plan|phase1-step|phase1|phase2|phase3|build-all)
+  auth-check|current-case|dataset-plan|phase1-step|phase2-step|phase1|phase2|phase3|build-all)
     python3 -m feishu_task_wiki_benchmark_builder.cli "${COMMAND}" "$@"
     ;;
   -h|--help|help)

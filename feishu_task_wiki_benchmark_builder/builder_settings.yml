@@ -8,6 +8,11 @@
       "recommended_actor_count": 12,
       "recommended_department_count": 8,
       "recommended_session_count": 4,
+      "total_turn_count_min": 25,
+      "total_turn_count_max": 40,
+      "event_bearing_turn_count_min": 6,
+      "event_bearing_turn_count_max": 10,
+      "context_noise_ack_turn_count_min": 12,
       "require_cross_source_revision": true
     },
     "medium": {
@@ -17,6 +22,11 @@
       "recommended_actor_count": 18,
       "recommended_department_count": 12,
       "recommended_session_count": 6,
+      "total_turn_count_min": 50,
+      "total_turn_count_max": 80,
+      "event_bearing_turn_count_min": 10,
+      "event_bearing_turn_count_max": 16,
+      "context_noise_ack_turn_count_min": 22,
       "require_cross_source_revision": true
     },
     "hard": {
@@ -26,6 +36,11 @@
       "recommended_actor_count": 28,
       "recommended_department_count": 16,
       "recommended_session_count": 8,
+      "total_turn_count_min": 80,
+      "total_turn_count_max": 120,
+      "event_bearing_turn_count_min": 18,
+      "event_bearing_turn_count_max": 28,
+      "context_noise_ack_turn_count_min": 30,
       "require_cross_source_revision": true
     }
   },
@@ -41,6 +56,11 @@
     "evidence_dependency_reasoning": {
       "min_dependency_hops": 3,
       "min_cross_source_updates": 2
+    },
+    "private_info_in_official_file": {
+      "min_private_info_items": 4,
+      "min_official_file_refs": 3,
+      "min_task_relevance_boundaries": 4
     }
   }
 }

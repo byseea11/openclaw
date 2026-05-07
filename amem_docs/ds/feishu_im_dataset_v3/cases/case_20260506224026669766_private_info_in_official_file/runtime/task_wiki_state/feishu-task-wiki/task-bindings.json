@@ -1,0 +1,122 @@
+{
+  "tasks": [
+    {
+      "accountId": "benchmark",
+      "taskId": "task:FEISHU-666",
+      "taskKey": "FEISHU-666",
+      "taskTitle": "FEISHU-666 交接修正线程：以下回复承载该 source ses…",
+      "taskSummary": "FEISHU-666 runtime eval / FEISHU-666 交接修正线程：以下回复承载该 source session 的真实 benchmark 消息。",
+      "taskKeywords": [
+        "FEISHU-666",
+        "的真实",
+        "交接修正线程",
+        "消息",
+        "以下回复承载该",
+        "benchmark",
+        "风险复核线程",
+        "运维窗口线程"
+      ],
+      "taskStatus": "active",
+      "createdAt": 1778114361430,
+      "updatedAt": 1778114499788
+    }
+  ],
+  "bindings": [
+    {
+      "accountId": "benchmark",
+      "taskId": "task:FEISHU-666",
+      "sourceType": "thread",
+      "sourceId": "thread:handoff_thread",
+      "chatId": "oc_21fc5cc6becbda6432fe9592c2ea118d",
+      "threadId": null,
+      "rootId": null,
+      "bindingStatus": "active",
+      "createdAt": 1778114361430,
+      "updatedAt": 1778114361430
+    },
+    {
+      "accountId": "benchmark",
+      "taskId": "task:FEISHU-666",
+      "sourceType": "thread",
+      "sourceId": "thread:risk_review_thread",
+      "chatId": "oc_ac5a33c314d20661373939b37672396d",
+      "threadId": null,
+      "rootId": null,
+      "bindingStatus": "active",
+      "createdAt": 1778114362185,
+      "updatedAt": 1778114362185
+    },
+    {
+      "accountId": "benchmark",
+      "taskId": "task:FEISHU-666",
+      "sourceType": "thread",
+      "sourceId": "thread:ops_window_thread",
+      "chatId": "oc_f1c581e38c20b845ed42c30671f63193",
+      "threadId": null,
+      "rootId": null,
+      "bindingStatus": "active",
+      "createdAt": 1778114362897,
+      "updatedAt": 1778114362897
+    },
+    {
+      "accountId": "benchmark",
+      "taskId": "task:FEISHU-666",
+      "sourceType": "chat",
+      "sourceId": "chat:main_chat",
+      "chatId": "oc_226e89b2b3fd7612aea5fc7f187cb759",
+      "threadId": null,
+      "rootId": null,
+      "bindingStatus": "active",
+      "createdAt": 1778114363538,
+      "updatedAt": 1778114363538
+    },
+    {
+      "accountId": "benchmark",
+      "taskId": "task:FEISHU-666",
+      "sourceType": "chat",
+      "sourceId": "chat:customer_sync_chat",
+      "chatId": "oc_f49b2c4a0d0a92df61e1f27186021348",
+      "threadId": null,
+      "rootId": null,
+      "bindingStatus": "active",
+      "createdAt": 1778114393831,
+      "updatedAt": 1778114393831
+    },
+    {
+      "accountId": "benchmark",
+      "taskId": "task:FEISHU-666",
+      "sourceType": "chat",
+      "sourceId": "chat:exec_sync_chat",
+      "chatId": "oc_d852908acc34173446bde912b27c9963",
+      "threadId": null,
+      "rootId": null,
+      "bindingStatus": "active",
+      "createdAt": 1778114401266,
+      "updatedAt": 1778114401266
+    },
+    {
+      "accountId": "benchmark",
+      "taskId": "task:FEISHU-666",
+      "sourceType": "chat",
+      "sourceId": "chat:qa_triage_chat",
+      "chatId": "oc_77fa9b1b12c2e4ce9cd5ef67b44b04b4",
+      "threadId": null,
+      "rootId": null,
+      "bindingStatus": "active",
+      "createdAt": 1778114493822,
+      "updatedAt": 1778114493822
+    },
+    {
+      "accountId": "benchmark",
+      "taskId": "task:FEISHU-666",
+      "sourceType": "chat",
+      "sourceId": "chat:dependency_sync_chat",
+      "chatId": "oc_ba31dd2af9ace4d46985b0f11750c043",
+      "threadId": null,
+      "rootId": null,
+      "bindingStatus": "active",
+      "createdAt": 1778114499788,
+      "updatedAt": 1778114499788
+    }
+  ]
+}

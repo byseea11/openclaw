@@ -1,0 +1,138 @@
+{
+  "version": 1,
+  "task_id": "task:FEISHU-666",
+  "task_key": "FEISHU-666",
+  "source_session_id": "task:FEISHU-666::chat:oc_ba31dd2af9ace4d46985b0f11750c043",
+  "source_scope": "chat:oc_ba31dd2af9ace4d46985b0f11750c043",
+  "source_type": "chat",
+  "source_id": "chat:dependency_sync_chat",
+  "session_title": "task:FEISHU-666::chat:oc_ba31dd2af9ace4d46985b0f11750c043",
+  "time_range": {
+    "start": "2026-05-07T00:41:39.789Z",
+    "end": "2026-05-07T00:46:10.499Z"
+  },
+  "participants": [
+    "陈雪",
+    "王源"
+  ],
+  "relative_page_path": "sessions/FEISHU-666_chat_oc_ba31dd2af9ace4d46985b0f11750c-ef428140/session_wiki.md",
+  "session_summary": "上游依赖已确认，网络依赖项已修复。",
+  "block_order": [
+    "block-上游依赖-885c619f",
+    "block-网络依赖项-4ad9be4c"
+  ],
+  "blocks": {
+    "block-上游依赖-885c619f": {
+      "block_id": "block-上游依赖-885c619f",
+      "anchor_id": "block-上游依赖-885c619f",
+      "topic_key": "上游依赖",
+      "topic_title": "上游依赖",
+      "event_ids": [
+        "evt_f2100c777643c270"
+      ],
+      "slots": {
+        "conclusion": [],
+        "rationale": [],
+        "objection": [],
+        "constraint": [],
+        "commitment": [],
+        "status": [
+          {
+            "event_id": "evt_f2100c777643c270",
+            "event_type": "status_event",
+            "claim": "上游依赖已确认。",
+            "event_time": "1778109140000",
+            "evidence_quote": "上游依赖已确认。",
+            "event_path": "sessions/FEISHU-666_chat_oc_ba31dd2af9ace4d46985b0f11750c-ef428140/session_events.jsonl#evt_f2100c777643c270",
+            "event_ref": "[[sessions/FEISHU-666_chat_oc_ba31dd2af9ace4d46985b0f11750c-ef428140/session_events.jsonl#evt_f2100c777643c270|evt_f2100c777643c270]]",
+            "entry_ref": "[[sessions/FEISHU-666_chat_oc_ba31dd2af9ace4d46985b0f11750c-ef428140/session.md#om_x100b5088e4f2d130c42a35df9ff9428|om_x100b5088e4f2d130c42a35df9ff9428]]",
+            "core_entry_id": "om_x100b5088e4f2d130c42a35df9ff9428",
+            "subject_key": "上游依赖",
+            "is_current": true,
+            "lifecycle_status": "active",
+            "lifecycle_reason": null,
+            "target": "上游依赖",
+            "time_target": null,
+            "scope_target": null,
+            "action": null,
+            "owner": null,
+            "objector": null,
+            "status": "已确认",
+            "certainty": null
+          }
+        ],
+        "time": [],
+        "scope": []
+      },
+      "status": "active",
+      "evidence_refs": [
+        {
+          "event_id": "evt_f2100c777643c270",
+          "event_path": "sessions/FEISHU-666_chat_oc_ba31dd2af9ace4d46985b0f11750c-ef428140/session_events.jsonl#evt_f2100c777643c270",
+          "entry_ref": "[[sessions/FEISHU-666_chat_oc_ba31dd2af9ace4d46985b0f11750c-ef428140/session.md#om_x100b5088e4f2d130c42a35df9ff9428|om_x100b5088e4f2d130c42a35df9ff9428]]",
+          "quote": "上游依赖已确认。"
+        }
+      ],
+      "summary": "上游依赖已确认"
+    },
+    "block-网络依赖项-4ad9be4c": {
+      "block_id": "block-网络依赖项-4ad9be4c",
+      "anchor_id": "block-网络依赖项-4ad9be4c",
+      "topic_key": "网络依赖项",
+      "topic_title": "网络依赖项",
+      "event_ids": [
+        "evt_2b8f3015db87f8ef"
+      ],
+      "slots": {
+        "conclusion": [],
+        "rationale": [],
+        "objection": [],
+        "constraint": [],
+        "commitment": [],
+        "status": [
+          {
+            "event_id": "evt_2b8f3015db87f8ef",
+            "event_type": "status_event",
+            "claim": "网络依赖项已修复。",
+            "event_time": "1778109140000",
+            "evidence_quote": "网络依赖项已修复。",
+            "event_path": "sessions/FEISHU-666_chat_oc_ba31dd2af9ace4d46985b0f11750c-ef428140/session_events.jsonl#evt_2b8f3015db87f8ef",
+            "event_ref": "[[sessions/FEISHU-666_chat_oc_ba31dd2af9ace4d46985b0f11750c-ef428140/session_events.jsonl#evt_2b8f3015db87f8ef|evt_2b8f3015db87f8ef]]",
+            "entry_ref": "[[sessions/FEISHU-666_chat_oc_ba31dd2af9ace4d46985b0f11750c-ef428140/session.md#om_x100b5088e4eb7ca0c21728b71257073|om_x100b5088e4eb7ca0c21728b71257073]]",
+            "core_entry_id": "om_x100b5088e4eb7ca0c21728b71257073",
+            "subject_key": "网络依赖项",
+            "is_current": true,
+            "lifecycle_status": "active",
+            "lifecycle_reason": null,
+            "target": "网络依赖项",
+            "time_target": null,
+            "scope_target": null,
+            "action": null,
+            "owner": null,
+            "objector": null,
+            "status": "已修复",
+            "certainty": null
+          }
+        ],
+        "time": [],
+        "scope": []
+      },
+      "status": "active",
+      "evidence_refs": [
+        {
+          "event_id": "evt_2b8f3015db87f8ef",
+          "event_path": "sessions/FEISHU-666_chat_oc_ba31dd2af9ace4d46985b0f11750c-ef428140/session_events.jsonl#evt_2b8f3015db87f8ef",
+          "entry_ref": "[[sessions/FEISHU-666_chat_oc_ba31dd2af9ace4d46985b0f11750c-ef428140/session.md#om_x100b5088e4eb7ca0c21728b71257073|om_x100b5088e4eb7ca0c21728b71257073]]",
+          "quote": "网络依赖项已修复。"
+        }
+      ],
+      "summary": "网络依赖项已修复。"
+    }
+  },
+  "lifecycle_summary": {
+    "active_event_count": 2,
+    "historical_event_count": 0,
+    "invalid_event_count": 0
+  },
+  "updated_at": "2026-05-07T00:46:18.364Z"
+}

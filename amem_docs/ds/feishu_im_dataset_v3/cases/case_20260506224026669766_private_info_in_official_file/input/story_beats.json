@@ -1,0 +1,217 @@
+{
+  "case_id": "case_20260506224026669766_private_info_in_official_file",
+  "family_id": "private_info_in_official_file",
+  "task_id": "FEISHU-666",
+  "beats": [
+    {
+      "beat_id": "beat_001",
+      "target_session_id": "main_chat",
+      "benchmark_role": "context_only_turn",
+      "description": "Alice 发布上线风险评审纪要，明确升级窗口为 5月10日 22:00 UTC，blocker 为 network config drift，回滚计划已批准。"
+    },
+    {
+      "beat_id": "beat_002",
+      "target_session_id": "main_chat",
+      "benchmark_role": "context_only_turn",
+      "description": "Carol 回复说个人希望窗口挪到周三前，因为周四有个人面试，询问是否可能调整。"
+    },
+    {
+      "beat_id": "beat_003",
+      "target_session_id": "main_chat",
+      "benchmark_role": "context_only_turn",
+      "description": "Alice 回复说窗口是正式确定的，个人时间安排不会改变窗口，强调以纪要为准。"
+    },
+    {
+      "beat_id": "beat_004",
+      "target_session_id": "handoff_thread",
+      "benchmark_role": "context_only_turn",
+      "description": "Frank 在交接线程里抱怨说夜间变更对他个人效率影响大，希望改到白天。"
+    },
+    {
+      "beat_id": "beat_005",
+      "target_session_id": "handoff_thread",
+      "benchmark_role": "context_only_turn",
+      "description": "Bob 回复说纪要已经定了，夜间窗口是正式决定，不建议因为个人偏好改动。"
+    },
+    {
+      "beat_id": "beat_006",
+      "target_session_id": "risk_review_thread",
+      "benchmark_role": "context_only_turn",
+      "description": "Grace 在风险评审线程中询问是否可能将升级时间提前，因为她周末有家庭承诺。"
+    },
+    {
+      "beat_id": "beat_007",
+      "target_session_id": "risk_review_thread",
+      "benchmark_role": "context_only_turn",
+      "description": "Alice 重申官方窗口不可调整，个人家庭计划不在任务考量范围内。"
+    },
+    {
+      "beat_id": "beat_008",
+      "target_session_id": "customer_sync_chat",
+      "benchmark_role": "context_only_turn",
+      "description": "David 在客户同步中向客户解释升级窗口，引用纪要内容，确保客户理解正式时间。"
+    },
+    {
+      "beat_id": "beat_009",
+      "target_session_id": "customer_sync_chat",
+      "benchmark_role": "context_only_turn",
+      "description": "Eve 补充说纪要里的 blocker 是 network config drift，正在处理中。"
+    },
+    {
+      "beat_id": "beat_010",
+      "target_session_id": "exec_sync_chat",
+      "benchmark_role": "context_only_turn",
+      "description": "Jack 在高层同步中错误地引用说 'Carol 提过窗口可能调整到周三前'，造成混淆。"
+    },
+    {
+      "beat_id": "beat_011",
+      "target_session_id": "exec_sync_chat",
+      "benchmark_role": "context_only_turn",
+      "description": "Iris 纠正说那是 Carol 的个人请求，正式窗口确认是 5月10日。"
+    },
+    {
+      "beat_id": "beat_012",
+      "target_session_id": "exec_sync_chat",
+      "benchmark_role": "context_only_turn",
+      "description": "Nancy 也强调以正式纪要为准，个人偏好不影响。"
+    },
+    {
+      "beat_id": "beat_013",
+      "target_session_id": "main_chat",
+      "benchmark_role": "context_only_turn",
+      "description": "Henry 提问说既然网络配置漂移是 blocker，那么升级是否可能延迟。"
+    },
+    {
+      "beat_id": "beat_014",
+      "target_session_id": "main_chat",
+      "benchmark_role": "context_only_turn",
+      "description": "Bob 回复说 blocker 正在解决，回滚计划已批准，目前窗口不变。"
+    },
+    {
+      "beat_id": "beat_015",
+      "target_session_id": "main_chat",
+      "benchmark_role": "context_only_turn",
+      "description": "Karen 确认监控侧已根据 window 做好准备。"
+    },
+    {
+      "beat_id": "beat_016",
+      "target_session_id": "main_chat",
+      "benchmark_role": "context_only_turn",
+      "description": "Leo 确认 CI/CD pipeline 已配置为 5月10日 22:00 触发。"
+    },
+    {
+      "beat_id": "beat_017",
+      "target_session_id": "risk_review_thread",
+      "benchmark_role": "context_only_turn",
+      "description": "Mia 在风险评审线程中分享个人看法，认为夜间变更风险更高，但她承认这是个人观点。"
+    },
+    {
+      "beat_id": "beat_018",
+      "target_session_id": "risk_review_thread",
+      "benchmark_role": "context_only_turn",
+      "description": "Oliver 回复说风险评估已经做过了，纪要结论是夜间窗口可行。"
+    },
+    {
+      "beat_id": "beat_019",
+      "target_session_id": "handoff_thread",
+      "benchmark_role": "context_only_turn",
+      "description": "Paul 询问备份策略是否因时间调整有变。"
+    },
+    {
+      "beat_id": "beat_020",
+      "target_session_id": "handoff_thread",
+      "benchmark_role": "context_only_turn",
+      "description": "Jack 回复说备份计划不变，使用增量备份，但他个人偏好全量（个人偏好陈述）。"
+    },
+    {
+      "beat_id": "beat_021",
+      "target_session_id": "main_chat",
+      "benchmark_role": "context_only_turn",
+      "description": "Quinn 确认网络配置漂移的修复方案已提交，正在评审。"
+    },
+    {
+      "beat_id": "beat_022",
+      "target_session_id": "main_chat",
+      "benchmark_role": "context_only_turn",
+      "description": "Rachel 确认存储侧已就绪，等待窗口。"
+    },
+    {
+      "beat_id": "beat_023",
+      "target_session_id": "customer_sync_chat",
+      "benchmark_role": "context_only_turn",
+      "description": "Sam 在客户同步中误说 '有人建议窗口改期'，引起客户疑虑。"
+    },
+    {
+      "beat_id": "beat_024",
+      "target_session_id": "customer_sync_chat",
+      "benchmark_role": "context_only_turn",
+      "description": "Alice 立即纠正，强调正式窗口不变。"
+    },
+    {
+      "beat_id": "beat_025",
+      "target_session_id": "customer_sync_chat",
+      "benchmark_role": "context_only_turn",
+      "description": "Tina 也跟客户确认，说所有都以评审纪要为准。"
+    },
+    {
+      "beat_id": "beat_026",
+      "target_session_id": "exec_sync_chat",
+      "benchmark_role": "context_only_turn",
+      "description": "Ulysses 在高层同步中总结升级窗口和 blocker 状态，引用纪要。"
+    },
+    {
+      "beat_id": "beat_027",
+      "target_session_id": "exec_sync_chat",
+      "benchmark_role": "context_only_turn",
+      "description": "Violet 询问个人时间限制是否会影响团队资源。"
+    },
+    {
+      "beat_id": "beat_028",
+      "target_session_id": "exec_sync_chat",
+      "benchmark_role": "context_only_turn",
+      "description": "Alice 明确说明个人时间限制不影响任务计划，资源安排已按正式窗口执行。"
+    },
+    {
+      "beat_id": "beat_029",
+      "target_session_id": "main_chat",
+      "benchmark_role": "context_only_turn",
+      "description": "Walter 确认 vendor 侧已同步窗口。"
+    },
+    {
+      "beat_id": "beat_030",
+      "target_session_id": "main_chat",
+      "benchmark_role": "context_only_turn",
+      "description": "Xander 作为外部审计，提醒所有决策需基于官方纪要。"
+    },
+    {
+      "beat_id": "beat_031",
+      "target_session_id": "risk_review_thread",
+      "benchmark_role": "context_only_turn",
+      "description": "Yvonne 确认法律合规方面无额外限制。"
+    },
+    {
+      "beat_id": "beat_032",
+      "target_session_id": "risk_review_thread",
+      "benchmark_role": "context_only_turn",
+      "description": "Zach 建议将个人背景备注从正式纪要中分离，避免混淆。"
+    },
+    {
+      "beat_id": "beat_033",
+      "target_session_id": "main_chat",
+      "benchmark_role": "context_only_turn",
+      "description": "Amy 确认配置管理侧已锁定正式窗口。"
+    },
+    {
+      "beat_id": "beat_034",
+      "target_session_id": "main_chat",
+      "benchmark_role": "context_only_turn",
+      "description": "Brian 确认补丁基线已更新至窗口日期。"
+    },
+    {
+      "beat_id": "beat_035",
+      "target_session_id": "main_chat",
+      "benchmark_role": "context_only_turn",
+      "description": "Alice 做最终总结：升级窗口5月10日22:00 UTC，blocker network config drift，回滚计划已批，个人偏好不影响任务。"
+    }
+  ]
+}

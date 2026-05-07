@@ -1,9 +1,9 @@
 {
-  "case_id": "case_20260506220039080624_anti_interference",
-  "case_dir": "amem_docs/ds/feishu_im_dataset_v3/cases/case_20260506220039080624_anti_interference",
-  "family_id": "anti_interference",
-  "task_id": "FEISHU-724",
-  "seed": 20260506220039080624,
-  "last_completed_stage": "pre-annotation-validate",
-  "updated_at": "2026-05-06T22:01:40.106213+00:00"
+  "case_id": "case_20260506224026669766_private_info_in_official_file",
+  "case_dir": "amem_docs/ds/feishu_im_dataset_v3/cases/case_20260506224026669766_private_info_in_official_file",
+  "family_id": "private_info_in_official_file",
+  "task_id": "FEISHU-666",
+  "seed": 20260506224026669766,
+  "last_completed_stage": "replay-eval",
+  "updated_at": "2026-05-07T00:05:31.824402+00:00"
 }

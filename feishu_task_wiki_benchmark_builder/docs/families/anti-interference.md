@@ -35,9 +35,9 @@
 
 - 强调场景里必须天然存在其他任务带来的并行上下文和共享角色
 
-### story-plan
+### story-beats / conversation-plan
 
-- 强调 `task_actor_layout` 和 `planned_probe_queries` 是重点
+- 强调 `task_actor_layout`、`story_beats` 和 probe coverage 是重点
 - 强调 `interference_context_blocks` 必须把 shared actor noise、相似措辞噪声或并行讨论噪声结构化出来
 - 强调最终规模必须服从 runtime 注入的数字目标，而 `shared_actor_noise`、role slots、context slots 语义由 family skills 自己定义
 

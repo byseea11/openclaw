@@ -27,8 +27,9 @@
 - `anti-interference-context.md`
 - `contradiction-update-context.md`
 - `evidence-dependency-context.md`
-- `story-plan.md`
+- `private-info-official-file-context.md`
 - `evaluation.md`
+- `runtime-eval.md`
 
 ## Canonical Workflow
 
@@ -57,12 +58,17 @@ spec-generation
 - `anti_interference` 使用 `anti-interference-context.md`
 - `contradiction_update` 使用 `contradiction-update-context.md`
 - `evidence_dependency_reasoning` 使用 `evidence-dependency-context.md`
+- `private_info_in_official_file` 使用 `private-info-official-file-context.md`
 
 ### Phase 2
 
 ```text
 annotation-gold
+-> semantic-gold
 -> query-benchmark
+-> build-checks
+-> gold-validate
+-> replay-runtime
 -> replay-eval
 ```
 
@@ -115,6 +121,8 @@ baseline-eval
   - `pre-annotation-validate.md`
 - 如果当前任务已经进入 observed data 回标和评测，进入 Phase 2 / Phase 3，并引用：
   - `evaluation.md`
+- 如果当前任务是解释或修改真实 Task Wiki runtime eval 的三层判定、health score、runtime report，引用：
+  - `runtime-eval.md`
 
 ## Stage Summary
 
@@ -126,7 +134,7 @@ baseline-eval
 
 ### `family-selection`
 
-- 做什么：在三类正式 family 中选择当前 case 的数据集方向。
+- 做什么：在四类正式 family 中选择当前 case 的数据集方向。
 - 读取：`family-selection.md`、seed、显式 family。
 - 输出：`family_id`。
 
@@ -174,7 +182,7 @@ baseline-eval
 
 ### `conversation-plan`
 
-- 做什么：定义谁在什么 session 说什么，固定 turn 序和结构化 speaker 引用。
+- 做什么：定义谁在什么 session 说什么，把 required beats 扩展成符合难度规模的企业 transcript，固定 turn 序和结构化 speaker 引用。
 - 读取：layout、world、characters、state trajectory、story beats。
 - 输出：`input/conversation_plan.json`。
 
@@ -192,7 +200,7 @@ baseline-eval
 
 ### `collect`
 
-- 做什么：从真实飞书会话回收 observed messages。
+- 做什么：从真实飞书会话回收 observed messages，并把所有真实发送消息转成 OpenClaw replay ingress。
 - 读取：execution result 和 fetch actions。
 - 输出：`data/collected_messages.jsonl`、`data/openclaw_message_ingress.jsonl`。
 
@@ -202,18 +210,9 @@ baseline-eval
 - 读取：coverage spec、conversation plan、command plan、observed data。
 - 输出：`checks/pre_annotation_validation_report.json`。
 
-## Current Implementation Compatibility
-
-当前 Python CLI 仍保留 `case-context` 和 `story-plan` 两个聚合入口：
-
-- `case-context` 当前聚合 spec generation、family selection、capability brief 和 case world 的一部分，输出 `input/case_context.json`。
-- `story-plan` 当前聚合 task actor layout、case world、story beats、conversation plan 的可读视图，输出 `input/story_plan.json`。
-
-这两个入口是当前实现兼容层，不是本 skill 的 canonical Phase 1 主线。后续拆分代码时，应以本文件的细分 stage 为准。
-
 ## Minimal Global Invariants
 
-- 当前三类 family 是唯一正式数据集方向。
+- 当前四类 family 是唯一正式数据集方向：`anti_interference`、`contradiction_update`、`evidence_dependency_reasoning`、`private_info_in_official_file`。
 - 不新增 `memory-failure-blueprint.md`，不引入旧四类 failure mode。
 - 真实模型配置只读取 repo 根 `.env`，不混用 shell env。
 - 进入需要 LLM 的生成阶段前必须先通过认证预检。
@@ -223,4 +222,6 @@ baseline-eval
 - `collect` 必须基于真实 fetch 结果生成 observed data，不允许用 planned message 伪造。
 - `效能指标验证` 是跨 family 的最终比较维度，不是 formal family。
 - runtime prompt 只读 `skills/`，不读 `docs/`。
-- `case-context` 和 `story-plan` 当前仍必须由大模型生成，不允许走规则 fallback。
+- `spec-generation` 和 `conversation-plan` 当前必须由大模型生成，不允许走规则 fallback；规则模板扩句只能作为 fixture/fallback，不是正式数据集路径。
+- `semantic-gold` 是 Phase 2 的可选 LLM 语义 gold，只能读取 observed messages 和 evidence `message_id`，不能读取 planned-only 文本。
+- runtime eval 的三层健康判定属于 `runtime-eval.md`，不要把 health score 口径只藏在脚本实现里。

@@ -18,6 +18,7 @@ FORMAL_FAMILY_IDS = (
     "anti_interference",
     "contradiction_update",
     "evidence_dependency_reasoning",
+    "private_info_in_official_file",
 )
 BASELINE_MODES = (
     "openclaw_memory_md",

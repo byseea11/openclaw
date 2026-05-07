@@ -151,6 +151,141 @@ describe("task event extractor", () => {
     expect(validated.programmatic_validation?.verdict).toBe("rejected");
   });
 
+  it("repairs Chinese status candidates with supported status and target fields", () => {
+    const { validateCandidateEvent } = loadExtractorModule();
+    const coreEntries = [{ entry_id: "om_status", text: "QA测试环境已准备。", sender_id: "ou_qa", sender_name: "唐越" }];
+
+    const validated = validateCandidateEvent(
+      {
+        event_id: "evt_status",
+        task_ref: "FEISHU-666",
+        source_session_id: "task:FEISHU-666::chat:main",
+        ingest_version: 1,
+        event_type: "status_event",
+        claim: "QA测试环境已准备。",
+        core_entry_id: "om_status",
+        evidence_quote: "QA测试环境已准备。",
+        context_quotes: [],
+        participants: ["唐越"],
+        event_time: "2026-05-06T10:00:00Z",
+        source: { source_type: "chat", source_id: "chat:main" },
+        confidence: 0.7,
+      },
+      coreEntries,
+    ) as {
+      status?: string;
+      target?: string;
+      programmatic_validation?: { verdict?: string; missing_required_fields?: string[] };
+    };
+
+    expect(validated.status).toBe("QA测试环境已准备。");
+    expect(validated.target).toBe("QA测试环境");
+    expect(validated.programmatic_validation?.verdict).toBe("ready_for_verification");
+    expect(validated.programmatic_validation?.missing_required_fields).toEqual([]);
+  });
+
+  it("repairs first-person commitment candidates with sender-backed owner", async () => {
+    const { validateCandidateEvent, verifyCandidateEvent } = loadExtractorModule();
+    const coreEntries = [{ entry_id: "om_commit", text: "好吧，我会安排夜间值班。", sender_id: "ou_ops", sender_name: "赵敏" }];
+
+    const validated = validateCandidateEvent(
+      {
+        event_id: "evt_commit",
+        task_ref: "FEISHU-666",
+        source_session_id: "task:FEISHU-666::chat:main",
+        ingest_version: 1,
+        event_type: "commitment_event",
+        claim: "赵敏承诺安排夜间值班。",
+        core_entry_id: "om_commit",
+        evidence_quote: "好吧，我会安排夜间值班。",
+        context_quotes: [],
+        participants: ["赵敏"],
+        event_time: "2026-05-06T10:00:00Z",
+        source: { source_type: "chat", source_id: "chat:main" },
+        confidence: 0.7,
+      },
+      coreEntries,
+    ) as {
+      owner?: string;
+      action?: string;
+      programmatic_validation?: { verdict?: string };
+    };
+
+    expect(validated.owner).toBe("赵敏");
+    expect(validated.action).toBe("好吧，我会安排夜间值班。");
+    expect(validated.programmatic_validation?.verdict).toBe("ready_for_verification");
+
+    const verified = await verifyCandidateEvent({
+      candidateEvent: validated,
+      coreEntries,
+      contextEntries: [],
+    });
+    expect(verified.verification?.verdict).toBe("verified");
+  });
+
+  it("repairs Chinese time candidates with time target, value, and certainty", () => {
+    const { validateCandidateEvent } = loadExtractorModule();
+    const coreEntries = [{ entry_id: "om_time", text: "升级窗口5月10日22点UTC，已正式确认。", sender_name: "林晨" }];
+
+    const validated = validateCandidateEvent(
+      {
+        event_id: "evt_time",
+        task_ref: "FEISHU-666",
+        source_session_id: "task:FEISHU-666::chat:main",
+        ingest_version: 1,
+        event_type: "time_event",
+        claim: "升级窗口5月10日22点UTC已正式确认",
+        core_entry_id: "om_time",
+        evidence_quote: "升级窗口5月10日22点UTC",
+        context_quotes: [],
+        participants: ["林晨"],
+        event_time: "2026-05-06T10:00:00Z",
+        source: { source_type: "chat", source_id: "chat:main" },
+        confidence: 0.7,
+      },
+      coreEntries,
+    ) as {
+      time_target?: string;
+      time_value?: string;
+      certainty?: string;
+      programmatic_validation?: { verdict?: string };
+    };
+
+    expect(validated.time_target).toBe("升级窗口");
+    expect(validated.time_value).toBe("5月10日22点UTC");
+    expect(validated.certainty).toBe("确认");
+    expect(validated.programmatic_validation?.verdict).toBe("ready_for_verification");
+  });
+
+  it("rejects private-only personal information when it is shaped as task status", () => {
+    const { validateCandidateEvent } = loadExtractorModule();
+    const coreEntries = [{ entry_id: "om_private", text: "我周四有个人面试。", sender_name: "陈雪" }];
+
+    const validated = validateCandidateEvent(
+      {
+        event_id: "evt_private",
+        task_ref: "FEISHU-666",
+        source_session_id: "task:FEISHU-666::chat:main",
+        ingest_version: 1,
+        event_type: "status_event",
+        claim: "陈雪周四有个人面试。",
+        core_entry_id: "om_private",
+        evidence_quote: "我周四有个人面试。",
+        context_quotes: [],
+        participants: ["陈雪"],
+        event_time: "2026-05-06T10:00:00Z",
+        source: { source_type: "chat", source_id: "chat:main" },
+        confidence: 0.7,
+      },
+      coreEntries,
+    ) as {
+      programmatic_validation?: { verdict?: string; rejection_reasons?: string[] };
+    };
+
+    expect(validated.programmatic_validation?.verdict).toBe("rejected");
+    expect(validated.programmatic_validation?.rejection_reasons).toContain("private_only_status_candidate");
+  });
+
   it("uses LLM extraction when configured and normalizes candidate events", async () => {
     setLlmEnv();
     stubChatCompletionObject({

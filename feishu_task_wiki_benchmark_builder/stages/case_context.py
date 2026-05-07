@@ -10,7 +10,7 @@ from ..llm import (
     build_model_call_log_entry,
     create_model_client,
 )
-from ..prompt import build_case_context_system_prompt
+from ..prompt_loader import build_stage_system_prompt
 from ..schemas import ValidationError, validate_case_context
 from .common import build_case_id, build_task_id, normalize_seed
 
@@ -96,7 +96,8 @@ def generate_case_context(
 ) -> tuple[dict[str, Any], list[dict[str, Any]]]:
     client = model_client or create_model_client()
     normalized_seed = normalize_seed(seed)
-    system_prompt = build_case_context_system_prompt(
+    system_prompt = build_stage_system_prompt(
+        "spec-generation",
         family_id=requested_family_id,
         difficulty=difficulty,
     )

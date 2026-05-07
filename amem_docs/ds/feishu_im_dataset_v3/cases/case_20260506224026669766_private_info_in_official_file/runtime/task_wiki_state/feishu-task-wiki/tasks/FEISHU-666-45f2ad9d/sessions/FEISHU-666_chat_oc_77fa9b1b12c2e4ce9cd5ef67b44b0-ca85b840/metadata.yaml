@@ -1,0 +1,24 @@
+task_id: task:FEISHU-666
+task_key: FEISHU-666
+source_session_id: task:FEISHU-666::chat:oc_77fa9b1b12c2e4ce9cd5ef67b44b04b4
+source_scope: chat:oc_77fa9b1b12c2e4ce9cd5ef67b44b04b4
+source_type: chat
+source_id: chat:qa_triage_chat
+chat_id: oc_77fa9b1b12c2e4ce9cd5ef67b44b04b4
+thread_id: null
+root_id: null
+time_range:
+  start: 2026-05-07T00:41:33.823Z
+  end: 2026-05-07T00:45:56.802Z
+participants:
+  - 秦怡
+  - 高骏
+source_locator: chat:qa_triage_chat
+binding_mode: source_id
+created_at: 2026-05-07T00:41:33.824Z
+updated_at: 2026-05-07T00:45:56.805Z
+latest_ingest_version: 3
+raw_ingest_count: 3
+visible_ingest_count: 3
+compacted_at: 2026-05-07T00:45:56.805Z
+retained_entry_count: 3

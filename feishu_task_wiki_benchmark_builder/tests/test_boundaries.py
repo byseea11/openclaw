@@ -16,8 +16,7 @@ class BoundaryTests(unittest.TestCase):
 
     def test_prompt_runtime_is_code_owned(self) -> None:
         prompt_module = Path("feishu_task_wiki_benchmark_builder/prompt.py").read_text(encoding="utf-8")
-        self.assertIn("build_case_context_system_prompt", prompt_module)
-        self.assertIn("build_story_plan_system_prompt", prompt_module)
+        self.assertIn("build_conversation_plan_system_prompt", prompt_module)
         self.assertIn("build_stage_system_prompt", prompt_module)
 
     def test_runner_help_lists_generic_phase1_step(self) -> None:
@@ -25,7 +24,10 @@ class BoundaryTests(unittest.TestCase):
         self.assertIn("phase1-step", script)
         self.assertIn("auth-check", script)
         self.assertIn("repo 根 `.env`", script)
-        self.assertIn("--stage case-context", script)
+        self.assertIn("--stage spec-generation", script)
+        self.assertIn("--stage conversation-plan", script)
+        self.assertNotIn("case-context", script)
+        self.assertNotIn("story-plan", script)
         self.assertNotIn("phase1-family-selection", script)
 
     def test_builder_package_and_runner_do_not_retain_legacy_family_ids(self) -> None:

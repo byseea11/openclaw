@@ -209,9 +209,11 @@ class GenerationContractTests(unittest.TestCase):
             if row["action_type"] in {"send_message", "reply_in_thread"} and row["beat_id"]
         ]
         self.assertEqual(message_rows[0]["actor_id"], conversation_plan["turns"][0]["speaker_actor_id"])
-        self.assertEqual(message_rows[-1]["actor_id"], conversation_plan["turns"][-1]["speaker_actor_id"])
+        annotation_turns = [turn for turn in conversation_plan["turns"] if turn["annotation_target"]]
+        self.assertEqual(message_rows[-1]["actor_id"], annotation_turns[-1]["speaker_actor_id"])
         self.assertTrue(all(row["lark_cli_command"].startswith("lark-cli im +") for row in command_plan))
         self.assertTrue(any(row["action_type"].startswith("fetch_") for row in command_plan))
+        self.assertGreater(len(conversation_plan["turns"]), len(annotation_turns))
 
     def test_command_plan_uses_session_type_not_session_name_for_thread_detection(self) -> None:
         conversation_plan = {

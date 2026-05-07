@@ -83,11 +83,11 @@ function buildBaseEvent(params) {
 }
 
 function makeEvent(params) {
-  const event = {
+  const event = repairCandidateEventFields({
     ...buildBaseEvent(params),
     ...params.extra,
     event_type: params.eventType,
-  };
+  });
   event.event_id = createEventId([
     event.task_ref,
     event.source_session_id,
@@ -101,7 +101,8 @@ function makeEvent(params) {
 
 function extractTimeValue(clause) {
   const match =
-    clause.match(/(\d{1,2}\s*月\s*\d{1,2}\s*日)/u)
+    clause.match(/(\d{1,2}\s*月\s*\d{1,2}\s*日\s*\d{1,2}\s*(?:点|:00)?\s*(?:UTC)?)/u)
+    ?? clause.match(/(\d{1,2}\s*月\s*\d{1,2}\s*日)/u)
     ?? clause.match(/(今天|明天|后天|本周|下周|周[一二三四五六日天]|月底)/u);
   return match?.[1] ?? null;
 }
@@ -124,6 +125,12 @@ function extractCertainty(clause) {
 
 function extractTargetHint(clause) {
   const explicitPatterns = [
+    /((?:blocker|阻塞项|当前 blocker|当前阻塞))/iu,
+    /((?:升级窗口|上线窗口|运维窗口|变更窗口|夜间窗口|发布窗口|窗口))/u,
+    /((?:回滚计划|回滚预案|备份计划|备份策略))/u,
+    /((?:上线风险评审纪要|风险评审纪要|正式纪要|评审纪要|正式文件|checklist))/iu,
+    /((?:QA测试环境|QA 测试环境|冒烟测试|回归测试|测试环境))/u,
+    /((?:监控告警阈值|告警阈值|网络依赖项|存储依赖|依赖项))/u,
     /((?:发布时间|发布日期|上线日期|上线时间|发布时间口径|对外口径))/u,
     /((?:迁移窗口风险|迁移窗口|风险))/u,
     /((?:范围|MVP 范围|影响范围))/u,
@@ -134,6 +141,23 @@ function extractTargetHint(clause) {
     if (match?.[1]) {
       return match[1];
     }
+  }
+  return null;
+}
+
+function inferTargetFromStatement(clause) {
+  const explicit = extractTargetHint(clause);
+  if (explicit) {
+    return explicit;
+  }
+  const normalized = normalizeText(clause);
+  const statusMatch = normalized.match(/^(.{2,24}?)(?:已经|已|还没|尚未|未|完成|通过|准备|锁定|确认|调整|批准|无阻塞|不变|卡住|阻塞|为|是)/u);
+  if (statusMatch?.[1]) {
+    return statusMatch[1].replace(/[，,:：\s]+$/u, "").trim();
+  }
+  const questionMatch = normalized.match(/^(.{2,24}?)(?:会不会|是否|能不能|能否|要不要)/u);
+  if (questionMatch?.[1]) {
+    return questionMatch[1].replace(/[，,:：\s]+$/u, "").trim();
   }
   return null;
 }
@@ -156,11 +180,87 @@ function extractTimeTargetHint(clause) {
   if (explicitTarget) {
     return explicitTarget;
   }
+  if (extractTimeValue(clause) && /窗口/u.test(clause)) {
+    return "窗口";
+  }
   if (extractTimeValue(clause) && /目标/u.test(clause)) {
     const match = clause.match(/(目标(?:日期|发布时间|时间)?)/u);
     return match?.[1] ?? "目标";
   }
   return null;
+}
+
+function isPrivateOnlyStatusCandidate(event) {
+  if (event.event_type !== "status_event") {
+    return false;
+  }
+  const text = normalizeText(`${event.claim} ${event.evidence_quote}`);
+  if (!/(个人|面试|家庭|效率|偏好|私下|私人|个人安排)/u.test(text)) {
+    return false;
+  }
+  return !/(正式|纪要|文件|checklist|任务|blocker|阻塞|上线|升级|窗口|回滚|依赖|QA|测试|客户)/iu.test(text);
+}
+
+function inferOwnerFromEvent(event) {
+  const quote = normalizeText(event.evidence_quote);
+  if (/(^|[，。；;\s])我(?:来|负责|会|今天会|明天会|协调|安排|跟进|推进)/u.test(quote)) {
+    return event.participants?.[0] ?? null;
+  }
+  const claim = normalizeText(event.claim);
+  const explicit = extractOwnerHint(`${quote} ${claim}`);
+  if (explicit) {
+    return explicit;
+  }
+  return null;
+}
+
+function repairCandidateEventFields(event) {
+  const repaired = { ...event };
+  const quote = normalizeText(repaired.evidence_quote);
+  const claim = normalizeText(repaired.claim);
+  const text = quote || claim;
+  const textWithClaim = normalizeText(`${quote} ${claim}`);
+
+  if (!normalizeText(repaired.claim) && text) {
+    repaired.claim = text;
+  }
+  if (!normalizeText(repaired.evidence_quote) && claim) {
+    repaired.evidence_quote = claim;
+  }
+
+  if (isPrivateOnlyStatusCandidate(repaired)) {
+    repaired.repair_warnings = [...(repaired.repair_warnings ?? []), "private_only_status_candidate"];
+    return repaired;
+  }
+
+  if (repaired.event_type === "status_event") {
+    repaired.status = normalizeText(repaired.status) || text;
+    repaired.target = normalizeText(repaired.target) || inferTargetFromStatement(text);
+  } else if (repaired.event_type === "conclusion_event") {
+    repaired.conclusion = normalizeText(repaired.conclusion) || text;
+    repaired.target = normalizeText(repaired.target) || inferTargetFromStatement(text);
+  } else if (repaired.event_type === "constraint_event") {
+    repaired.constraint = normalizeText(repaired.constraint) || text;
+    repaired.target = normalizeText(repaired.target) || inferTargetFromStatement(text);
+  } else if (repaired.event_type === "objection_event") {
+    repaired.objection = normalizeText(repaired.objection) || text;
+    repaired.objector = normalizeText(repaired.objector) || extractObjectorHint(text) || repaired.participants?.[0] || null;
+    repaired.target = normalizeText(repaired.target) || inferTargetFromStatement(text);
+  } else if (repaired.event_type === "commitment_event") {
+    const owner = normalizeText(repaired.owner);
+    repaired.owner = owner && owner !== "我" ? owner : inferOwnerFromEvent(repaired);
+    repaired.action = normalizeText(repaired.action) || text;
+  } else if (repaired.event_type === "time_event") {
+    repaired.time_value = normalizeText(repaired.time_value) || extractTimeValue(text);
+    repaired.time_target = normalizeText(repaired.time_target) || extractTimeTargetHint(text) || inferTargetFromStatement(text);
+    repaired.certainty = normalizeText(repaired.certainty) || extractCertainty(textWithClaim);
+  } else if (repaired.event_type === "rationale_event") {
+    repaired.reason = normalizeText(repaired.reason) || text;
+  } else if (repaired.event_type === "scope_event") {
+    repaired.scope_target = normalizeText(repaired.scope_target) || inferTargetFromStatement(text);
+  }
+
+  return repaired;
 }
 
 function extractHeuristicFromClause(params) {
@@ -400,7 +500,7 @@ function normalizeCandidateEvent(raw, params) {
         }))
       : [],
   };
-  return ensureEventId(normalized);
+  return ensureEventId(repairCandidateEventFields(normalized));
 }
 
 function buildExtractionPrompts(params) {
@@ -413,7 +513,18 @@ function buildExtractionPrompts(params) {
       "只允许输出一个 JSON object，格式为 {\"events\":[...]}。",
       "event_type 只能是：conclusion_event, rationale_event, objection_event, constraint_event, commitment_event, status_event, time_event, scope_event。",
       "每条 event 必须包含：event_type, claim, core_entry_id, evidence_quote。",
+      "每种 event_type 还必须补齐对应 typed fields：",
+      "conclusion_event 必须有 conclusion,target。",
+      "rationale_event 必须有 reason。",
+      "objection_event 必须有 objection,objector,target。",
+      "constraint_event 必须有 constraint,target。",
+      "commitment_event 必须有 owner,action。",
+      "status_event 必须有 status,target。",
+      "time_event 必须有 time_target,time_value,certainty。",
+      "scope_event 必须有 scope_target。",
       "不得补全原文没有说的 owner、deadline、target、强度。",
+      "target 必须来自 evidence_quote/claim，或来自 SUPPORT/CONTEXT 中直接出现的任务对象，不要凭空写泛泛的 task。",
+      "个人偏好、面试、家庭安排、个人效率只能作为 objection/constraint/context；不要把它们抽成任务 current status。",
       "如果无法确定，就不要生成该 event。",
     ].join("\n"),
     userPrompt: JSON.stringify(
@@ -475,19 +586,30 @@ function verifyLocation(event, coreEntries) {
 
 function verifySchema(event) {
   if (!ALLOWED_EVENT_TYPES.has(event.event_type)) {
-    return false;
+    return { ok: false, missingFields: ["event_type"] };
   }
   const required = EVENT_FIELD_REQUIREMENTS[event.event_type] ?? [];
   if (!normalizeText(event.claim) || !normalizeText(event.evidence_quote) || !normalizeText(event.core_entry_id)) {
-    return false;
+    return {
+      ok: false,
+      missingFields: [
+        !normalizeText(event.claim) ? "claim" : "",
+        !normalizeText(event.evidence_quote) ? "evidence_quote" : "",
+        !normalizeText(event.core_entry_id) ? "core_entry_id" : "",
+      ].filter(Boolean),
+    };
   }
-  return required.every((field) => {
+  const missingFields = required.filter((field) => {
     const value = event[field];
     if (Array.isArray(value)) {
-      return value.length > 0;
+      return value.length === 0;
     }
-    return typeof value === "string" ? Boolean(value.trim()) : value != null;
+    return typeof value === "string" ? !value.trim() : value == null;
   });
+  return {
+    ok: missingFields.length === 0,
+    missingFields,
+  };
 }
 
 function verifyAtomicity(event) {
@@ -500,19 +622,27 @@ function verifyAtomicity(event) {
 }
 
 function validateCandidateEvent(event, coreEntries) {
-  const location = verifyLocation(event, coreEntries);
-  const requiredFieldsComplete = verifySchema(event);
-  const singleAtomicClaim = verifyAtomicity(event);
+  const repairedEvent = repairCandidateEventFields(event);
+  const location = verifyLocation(repairedEvent, coreEntries);
+  const schema = verifySchema(repairedEvent);
+  const requiredFieldsComplete = schema.ok;
+  const singleAtomicClaim = verifyAtomicity(repairedEvent);
+  const rejectionReasons = [
+    !location.ok ? `quote_location:${location.quoteMatchType}` : "",
+    !requiredFieldsComplete ? `missing_fields:${schema.missingFields.join(",")}` : "",
+    !singleAtomicClaim ? "not_atomic" : "",
+    isPrivateOnlyStatusCandidate(repairedEvent) ? "private_only_status_candidate" : "",
+  ].filter(Boolean);
   const validationVerdict =
-    location.ok && requiredFieldsComplete && singleAtomicClaim
+    location.ok && requiredFieldsComplete && singleAtomicClaim && !isPrivateOnlyStatusCandidate(repairedEvent)
       ? "ready_for_verification"
-      : location.ok && requiredFieldsComplete
+      : location.ok && requiredFieldsComplete && !isPrivateOnlyStatusCandidate(repairedEvent)
         ? "needs_review"
         : "rejected";
   return {
-    ...ensureEventId(event),
+    ...ensureEventId(repairedEvent),
     verification: {
-      ...(event.verification ?? {}),
+      ...(repairedEvent.verification ?? {}),
       core_quote_found: location.ok,
       claim_supported_by_quote: false,
       context_only_generation: false,
@@ -522,12 +652,16 @@ function validateCandidateEvent(event, coreEntries) {
       verdict: validationVerdict === "rejected" ? "rejected" : "candidate",
       resolved_core_entry_id: location.ok ? event.core_entry_id : null,
       quote_match_type: location.quoteMatchType,
+      missing_required_fields: schema.missingFields,
+      rejection_reasons: rejectionReasons,
     },
     programmatic_validation: {
       verdict: validationVerdict,
       evidence_quote_in_core: location.ok,
       required_fields_complete: requiredFieldsComplete,
       single_atomic_claim: singleAtomicClaim,
+      missing_required_fields: schema.missingFields,
+      rejection_reasons: rejectionReasons,
     },
   };
 }
@@ -554,6 +688,13 @@ function verifyClaimSupportHeuristic(event, supportEntries, contextEntries) {
     const value = event[field];
     if (typeof value === "string") {
       const normalized = normalizeText(value);
+      if (
+        (field === "owner" || field === "objector")
+        && event.participants?.map((item) => normalizeText(item)).includes(normalized)
+        && /(^|[，。；;\s])我/u.test(quote)
+      ) {
+        continue;
+      }
       if (
         normalized
         && !quote.includes(normalized)

@@ -1,7 +1,9 @@
 from __future__ import annotations
 
+from itertools import cycle
 from typing import Any
 
+from .builder_settings import resolve_difficulty_settings
 from .stages.capability_brief import build_memory_capability_brief
 from .stages.case_spec import build_case_spec
 from .stages.case_world import build_case_world
@@ -90,6 +92,7 @@ def build_fixture_story_plan(*, case_context: dict[str, Any]) -> dict[str, Any]:
         "anti_interference": _build_anti_interference_story,
         "contradiction_update": _build_contradiction_update_story,
         "evidence_dependency_reasoning": _build_evidence_dependency_reasoning_story,
+        "private_info_in_official_file": _build_private_info_official_file_story,
     }
     return builders[family_id](
         story_id=story_id,
@@ -412,5 +415,273 @@ def _build_evidence_dependency_reasoning_story(
                 "tests_family": case_context["family_id"],
                 "expected_good_behavior": f"应以 Carol 的明确确认作为主要证据，指出真正 blocker 是 {upstream_task} 的窗口未锁定；说明 Bob 是 hearsay、Alice 只是模糊判断，二者都不能替代正式确认；并解释它如何阻塞 {task_id} 以及顺延 {downstream_task}。",
             }
+        ],
+    }
+
+
+def _build_private_info_official_file_story(
+    *,
+    story_id: str,
+    case_context: dict[str, Any],
+    task_id: str,
+) -> dict[str, Any]:
+    actors = _base_actors()
+    return {
+        "story_id": story_id,
+        "case_id": case_context["case_id"],
+        "family_id": case_context["family_id"],
+        "task": {"task_id": task_id, "task_name": "正式文件边界确认", "role": "target_task"},
+        "actors": actors,
+        "task_actor_layout": {
+            "target_task_id": task_id,
+            "official_file_context_blocks": [
+                {
+                    "context_ref": "ctx_release_checklist",
+                    "file_type": "release_checklist",
+                    "relationship_to_target": "正式 checklist 中同时出现任务结论和个人备注。",
+                },
+                {
+                    "context_ref": "ctx_private_note",
+                    "file_type": "meeting_minutes",
+                    "relationship_to_target": "个人私有信息只能解释沟通延迟，不能改写任务 current state。",
+                },
+            ],
+            "shared_actors": ["alice", "bob", "carol"],
+            "actor_task_roles": [
+                {"actor_id": "alice", "task_id": task_id, "role": "target_owner"},
+                {"actor_id": "bob", "context_ref": "ctx_private_note", "role": "private_info_subject"},
+                {"actor_id": "carol", "context_ref": "ctx_release_checklist", "role": "official_file_owner"},
+                {"actor_id": "xavier", "task_id": task_id, "role": "boundary_reviewer"},
+            ],
+        },
+        "state_changes": [
+            {
+                "task_id": task_id,
+                "field": "official_release_status",
+                "sequence": [
+                    {"value": "待正式 checklist 确认", "status": "initial"},
+                    {"value": "以正式 checklist 的任务项结论为准", "status": "current"},
+                ],
+            },
+            {
+                "task_id": task_id,
+                "field": "private_info_boundary",
+                "sequence": [{"value": "个人备注只作为上下文", "status": "current"}],
+            },
+        ],
+        "message_beats": [
+            {
+                "beat_id": "beat_001",
+                "purpose": "official_file_anchor",
+                "speaker_actor_id": "carol",
+                "speaker": "Carol",
+                "session_id": "main_chat",
+                "message_intent": f"{task_id} 的正式 checklist 已更新：任务状态只按 checklist 的任务项结论走，个人备注不能当作 blocker。",
+                "family_linkage": "official_file_reference",
+            },
+            {
+                "beat_id": "beat_002",
+                "purpose": "private_info_exposed",
+                "speaker_actor_id": "bob",
+                "speaker": "Bob",
+                "session_id": "thread_release",
+                "message_intent": "我周三下午只能异步看材料，这个个人安排可以写在备注里，但别把它写成发布阻塞。",
+                "family_linkage": "personal_private_context",
+            },
+            {
+                "beat_id": "beat_003",
+                "purpose": "misread_private_info",
+                "speaker_actor_id": "alice",
+                "speaker": "Alice",
+                "session_id": "main_chat",
+                "message_intent": f"我看到 Bob 的备注差点以为 {task_id} 要延期，但回看 checklist 发现正式结论没有这么写。",
+                "family_linkage": "misread_or_overgeneralization",
+            },
+            {
+                "beat_id": "beat_004",
+                "purpose": "boundary_correction",
+                "speaker_actor_id": "xavier",
+                "speaker": "Xavier",
+                "session_id": "thread_release",
+                "message_intent": f"纠偏一下：{task_id} 当前状态还是按正式文件结论，不把 Bob 的个人时间安排投影成任务 current state。",
+                "family_linkage": "task_relevance_boundary",
+            },
+        ],
+        "planned_probe_queries": [
+            {
+                "query": f"{task_id} 当前正式结论是什么？Bob 的个人安排是否会改变任务 current state？请说明依据。",
+                "tests_family": case_context["family_id"],
+                "expected_good_behavior": "回答 current state 以正式 checklist 为准，Bob 的个人安排只是上下文或 evidence，不会改变任务状态。",
+            }
+        ],
+    }
+
+
+def build_fixture_conversation_plan(*, user_payload: dict[str, Any]) -> dict[str, Any]:
+    case_context = dict(user_payload["case_context"])
+    case_world = dict(user_payload["case_world_artifact"])
+    story_plan = dict(user_payload["story_plan"])
+    official_file_plan = dict(user_payload.get("official_file_plan") or {})
+    difficulty = resolve_difficulty_settings(str(case_context["difficulty"]))
+    target_total = int(difficulty["total_turn_count_min"])
+    target_event = int(difficulty["event_bearing_turn_count_min"])
+    sessions = list(case_world["source_sessions"])
+    characters = list((user_payload.get("characters") or {}).get("characters") or [])
+    actors = [
+        {"actor_id": str(item["person_id"]), "display_name": str(item["name"])}
+        for item in characters
+        if item.get("person_id") and item.get("name")
+    ] or [
+        {
+            "actor_id": str(item["actor_id"]),
+            "display_name": str(item.get("display_name") or item["actor_id"]),
+        }
+        for item in story_plan["actors"]
+    ]
+    official_files = list(official_file_plan.get("official_files") or [])
+    official_refs = [str(item["file_ref"]) for item in official_files] or ["official_file_001"]
+    private_refs = [
+        str(info["private_info_ref"])
+        for file in official_files
+        for info in file.get("private_info_items", [])
+    ] or ["private_info_001"]
+    turns: list[dict[str, Any]] = []
+    task_id = str(case_context["task_id"])
+
+    def append_turn(
+        *,
+        session: dict[str, Any],
+        actor: dict[str, Any],
+        text: str,
+        turn_kind: str,
+        beat_id: str = "",
+        annotation_target: bool = False,
+        event_bearing: bool = False,
+        official_file_ref: str = "",
+        private_info_ref: str = "",
+        boundary: str = "",
+    ) -> None:
+        turns.append(
+            {
+                "turn_id": f"turn_{len(turns) + 1:03d}",
+                "beat_id": beat_id,
+                "sequence_no": len(turns) + 1,
+                "session_id": str(session["session_id"]),
+                "speaker_actor_id": str(actor["actor_id"]),
+                "speaker": str(actor["display_name"]),
+                "planned_message_text": text,
+                "turn_kind": turn_kind,
+                "annotation_target": annotation_target,
+                "event_bearing": event_bearing,
+                "official_file_ref": official_file_ref,
+                "private_info_ref": private_info_ref,
+                "task_relevance_boundary": boundary,
+            }
+        )
+
+    actor_iter = cycle(actors)
+    session_iter = cycle(sessions)
+    for index, beat in enumerate(story_plan["message_beats"]):
+        append_turn(
+            session=next(
+                (item for item in sessions if item["session_id"] == beat["session_id"]),
+                sessions[index % len(sessions)],
+            ),
+            actor=next(
+                (item for item in actors if item["actor_id"] == beat["speaker_actor_id"]),
+                actors[index % len(actors)],
+            ),
+            text=str(beat["message_intent"]),
+            turn_kind="event_bearing",
+            beat_id=str(beat["beat_id"]),
+            annotation_target=True,
+            event_bearing=True,
+            official_file_ref=official_refs[index % len(official_refs)],
+        )
+
+    event_templates = [
+        "{task} 的正式文件这次只确认任务项结论，个人附注不升级成 blocker。",
+        "我复核了文件引用，{task} 的 owner 没有因为私下承诺发生变化。",
+        "{task} 的风险登记只接受正式确认，群里转述需要再核一遍来源。",
+        "这条可以作为 evidence：正式纪要说 current state 仍待文件 owner 最终确认。",
+        "请把这条和上一条放在一起看，个人安排不是 {task} 的状态更新。",
+    ]
+    while sum(1 for turn in turns if turn["event_bearing"]) < target_event:
+        index = len(turns)
+        append_turn(
+            session=next(session_iter),
+            actor=next(actor_iter),
+            text=f"{event_templates[index % len(event_templates)].format(task=task_id)}（证据轮次 {index + 1}）",
+            turn_kind="event_bearing",
+            event_bearing=True,
+            official_file_ref=official_refs[index % len(official_refs)],
+            private_info_ref=private_refs[index % len(private_refs)] if index % 3 == 0 else "",
+            boundary="个人背景不能替代正式任务结论。" if index % 3 == 0 else "",
+        )
+
+    support_templates = [
+        "我先把文件链接贴回主群，大家不要只看转述截图。",
+        "这个上下文有用，但问任务当前状态时还是要回到正式记录。",
+        "旁边项目也有类似 checklist，别把那边的个人备注带过来。",
+        "我理解这个备注为什么会被误读，所以这里单独标成 context。",
+        "如果后面文件 owner 改口，再用最新文件覆盖旧消息。",
+        "这条只是确认收到，不进入 annotation gold。",
+        "我会在同步里注明：个人限制不是发布计划变更。",
+        "刚才那句像结论，其实只是对文件附注的解释。",
+        "请在任务页只写正式结论，聊天背景保留在 evidence。",
+        "这轮先不要把私聊承诺写成 owner 变更。",
+    ]
+    kinds = cycle(("context_support", "interference_noise", "ack_or_coordination", "revision_bridge"))
+    while len(turns) < target_total:
+        index = len(turns)
+        kind = next(kinds)
+        append_turn(
+            session=next(session_iter),
+            actor=next(actor_iter),
+            text=f"{support_templates[index % len(support_templates)]}（{task_id} / {index + 1}）",
+            turn_kind=kind,
+            official_file_ref=official_refs[index % len(official_refs)] if index % 2 == 0 else "",
+            private_info_ref=private_refs[index % len(private_refs)] if index % 4 == 0 else "",
+            boundary="这条只作为 context/evidence，不投影为 current state。" if index % 4 == 0 else "",
+        )
+
+    return {
+        "case_id": case_context["case_id"],
+        "family_id": case_context["family_id"],
+        "task_id": task_id,
+        "sessions": sessions,
+        "turns": turns,
+    }
+
+
+def build_fixture_semantic_gold(*, user_payload: dict[str, Any]) -> dict[str, Any]:
+    case_context = user_payload["case_context"]
+    annotation_gold = list(user_payload.get("observed_evidence_rows") or user_payload.get("annotation_gold") or [])
+    message_ids = [str(row["message_id"]) for row in annotation_gold]
+    return {
+        "expected_task_facts": [
+            {
+                "fact_id": f"fact_{index:03d}",
+                "claim": str(row["evidence_text"]),
+                "required_supporting_message_ids": [str(row["message_id"])],
+            }
+            for index, row in enumerate(annotation_gold, start=1)
+        ],
+        "expected_event_semantics": [
+            {
+                "event_semantic_id": f"event_semantic_{index:03d}",
+                "purpose": str(row.get("purpose") or "observed_event"),
+                "required_supporting_message_ids": [str(row["message_id"])],
+            }
+            for index, row in enumerate(annotation_gold, start=1)
+        ],
+        "expected_query_answers": [
+            {
+                "query_id": f"{case_context['case_id']}_semantic_query_{index:03d}",
+                "query": str(probe["query"]),
+                "expected_answer_summary": str(probe["expected_good_behavior"]),
+                "required_supporting_message_ids": message_ids,
+            }
+            for index, probe in enumerate(user_payload["planned_probe_queries"], start=1)
         ],
     }

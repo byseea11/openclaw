@@ -1,0 +1,215 @@
+{
+  "case_id": "case_20260506221330658048_contradiction_update",
+  "family_id": "contradiction_update",
+  "task_id": "FEISHU-448",
+  "actors": [
+    {
+      "actor_id": "alice",
+      "display_name": "Alice",
+      "role": "project_manager"
+    },
+    {
+      "actor_id": "bob",
+      "display_name": "Bob",
+      "role": "initial_technical_owner"
+    },
+    {
+      "actor_id": "carol",
+      "display_name": "Carol",
+      "role": "historical_technical_owner"
+    },
+    {
+      "actor_id": "david",
+      "display_name": "David",
+      "role": "current_technical_owner"
+    },
+    {
+      "actor_id": "eve",
+      "display_name": "Eve",
+      "role": "release_delivery_manager"
+    },
+    {
+      "actor_id": "frank",
+      "display_name": "Frank",
+      "role": "qa_lead"
+    },
+    {
+      "actor_id": "grace",
+      "display_name": "Grace",
+      "role": "security_officer"
+    },
+    {
+      "actor_id": "henry",
+      "display_name": "Henry",
+      "role": "devops_engineer"
+    },
+    {
+      "actor_id": "isabel",
+      "display_name": "Isabel",
+      "role": "product_manager"
+    },
+    {
+      "actor_id": "jack",
+      "display_name": "Jack",
+      "role": "operations_lead"
+    },
+    {
+      "actor_id": "karen",
+      "display_name": "Karen",
+      "role": "compliance_officer"
+    },
+    {
+      "actor_id": "leo",
+      "display_name": "Leo",
+      "role": "infrastructure_owner"
+    },
+    {
+      "actor_id": "maria",
+      "display_name": "Maria",
+      "role": "data_analyst"
+    },
+    {
+      "actor_id": "nathan",
+      "display_name": "Nathan",
+      "role": "customer_support_lead"
+    },
+    {
+      "actor_id": "olivia",
+      "display_name": "Olivia",
+      "role": "risk_manager"
+    },
+    {
+      "actor_id": "paul",
+      "display_name": "Paul",
+      "role": "finance_controller"
+    },
+    {
+      "actor_id": "quinn",
+      "display_name": "Quinn",
+      "role": "vendor_coordinator"
+    },
+    {
+      "actor_id": "rachel",
+      "display_name": "Rachel",
+      "role": "hr_representative"
+    },
+    {
+      "actor_id": "sam",
+      "display_name": "Sam",
+      "role": "legal_advisor"
+    },
+    {
+      "actor_id": "tina",
+      "display_name": "Tina",
+      "role": "marketing_lead"
+    },
+    {
+      "actor_id": "uma",
+      "display_name": "Uma",
+      "role": "training_coordinator"
+    },
+    {
+      "actor_id": "victor",
+      "display_name": "Victor",
+      "role": "external_auditor"
+    },
+    {
+      "actor_id": "wendy",
+      "display_name": "Wendy",
+      "role": "regional_manager"
+    },
+    {
+      "actor_id": "xavier",
+      "display_name": "Xavier",
+      "role": "ceo_office_representative"
+    },
+    {
+      "actor_id": "yvonne",
+      "display_name": "Yvonne",
+      "role": "project_sponsor"
+    },
+    {
+      "actor_id": "zack",
+      "display_name": "Zack",
+      "role": "it_support_lead"
+    },
+    {
+      "actor_id": "amy",
+      "display_name": "Amy",
+      "role": "procurement_officer"
+    },
+    {
+      "actor_id": "brian",
+      "display_name": "Brian",
+      "role": "architect"
+    }
+  ],
+  "task_actor_layout": {
+    "target_task_id": "FEISHU-448",
+    "shared_actors": [
+      "alice",
+      "eve",
+      "david"
+    ],
+    "revision_context_blocks": [
+      {
+        "context_ref": "ctx_owner_handoff",
+        "field": "owner",
+        "revision_role": "historical_update",
+        "relationship_to_target": "Bob 最初是技术负责人，后交接给 Carol，最终由 David 接手。历史 owner 信息容易被系统保留为当前值。"
+      },
+      {
+        "context_ref": "ctx_window_shift",
+        "field": "release_window",
+        "revision_role": "superseded_schedule",
+        "relationship_to_target": "放量窗口从6月5日调整为6月12日，再调整为6月19日。较早的具体日期容易在弱记忆系统中残留。"
+      },
+      {
+        "context_ref": "ctx_resource_change",
+        "field": "resource_allocation",
+        "revision_role": "historical_update",
+        "relationship_to_target": "QA 资源从 Frank 的团队临时调整到 Grace 的团队，后又调回。资源分配的历史变动可能被误认为当前状态。"
+      },
+      {
+        "context_ref": "ctx_risk_level",
+        "field": "risk_level",
+        "revision_role": "superseded_schedule",
+        "relationship_to_target": "风险等级从低调整到中，再到高。每次调整都有明确消息，但早期等级可能被错误保留。"
+      }
+    ],
+    "supersession_clues": [
+      "之前口径作废",
+      "最终确认以本轮为准",
+      "旧负责人只算历史信息",
+      "前面的安排取消",
+      "以最新消息为准"
+    ],
+    "actor_task_roles": [
+      {
+        "actor_id": "bob",
+        "task_id": "FEISHU-448",
+        "role": "initial_owner"
+      },
+      {
+        "actor_id": "carol",
+        "task_id": "FEISHU-448",
+        "role": "historical_owner"
+      },
+      {
+        "actor_id": "david",
+        "task_id": "FEISHU-448",
+        "role": "current_owner"
+      },
+      {
+        "actor_id": "alice",
+        "task_id": "FEISHU-448",
+        "role": "project_manager"
+      },
+      {
+        "actor_id": "eve",
+        "task_id": "FEISHU-448",
+        "role": "delivery_manager"
+      }
+    ]
+  }
+}

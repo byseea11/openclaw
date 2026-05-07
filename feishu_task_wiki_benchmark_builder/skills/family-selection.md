@@ -2,11 +2,11 @@
 
 ## 职责
 
-这个 skill 负责为 `case-context` 阶段提供 formal family 选择约束。它不单独落文件，而是约束最终 `case_context.json` 里的 `family_id` 和对应 benchmark 口径。
+这个 skill 负责为 `spec-generation` 和 `family-selection` 阶段提供 formal family 选择约束。`spec-generation` 会把选择写入 case control，`family-selection` 会物化为 `input/family_selection.json`。
 
 ## 硬规则
 
-- 只能在 `anti_interference`、`contradiction_update`、`evidence_dependency_reasoning` 三类中选择。
+- 只能在 `anti_interference`、`contradiction_update`、`evidence_dependency_reasoning`、`private_info_in_official_file` 四类中选择。
 - 单 case 默认只选 `1` 个 family。
 - 如果用户显式指定 `family_id`，必须服从。
 - 如果用户没有显式指定，按 deterministic seed policy 选择。
@@ -45,5 +45,6 @@
 - `anti_interference` 后续必须引用 `anti-interference-context.md`。
 - `contradiction_update` 后续必须引用 `contradiction-update-context.md`。
 - `evidence_dependency_reasoning` 后续必须引用 `evidence-dependency-context.md`。
+- `private_info_in_official_file` 后续必须引用 `private-info-official-file-context.md`。
 
-单 case 默认只选一个 family。批量数据集可以通过多 case 覆盖三类 family，但不要在一个 case 内混合多个正式 family。
+单 case 默认只选一个 family。批量数据集可以通过多 case 覆盖四类 family，但不要在一个 case 内混合多个正式 family。

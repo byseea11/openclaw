@@ -14,17 +14,6 @@ async function recallTaskWiki(params) {
   if (!taskRootDir && !params.sessionDir) {
     throw new Error("recallTaskWiki requires taskRootDir or sessionDir");
   }
-  // Lazy load to avoid making task-wiki state reads depend on layer-2 runtime until
-  // recall is actually requested.
-  // eslint-disable-next-line @typescript-eslint/no-require-imports -- CommonJS subtree on purpose
-  const { ensureTaskWikiFresh } = require("../task-events/session-ingest.js");
-  const freshness = await ensureTaskWikiFresh({
-    taskRootDir: params.sessionDir ? undefined : taskRootDir,
-    sessionDir: params.sessionDir ?? undefined,
-    reason: "recall",
-    projectAfterDrain: true,
-  });
-
   const resolvedTaskRoot = taskRootDir ?? getTaskRootFromSessionDir(params.sessionDir);
   const taskPaths = getTaskRootPaths(resolvedTaskRoot);
   const targetSessionDirs = params.sessionDir ? [params.sessionDir] : findSessionDirs(resolvedTaskRoot);
@@ -39,7 +28,7 @@ async function recallTaskWiki(params) {
 
   return {
     taskRootDir: resolvedTaskRoot,
-    freshness,
+    extractionMode: "immediate",
     taskIndexState: readJsonFile(taskPaths.indexState, null),
     taskWikiState: readJsonFile(taskPaths.taskWikiState, null),
     sessions,
@@ -50,11 +39,11 @@ async function prepareSessionForCompaction(params) {
   if (!params.sessionDir) {
     throw new Error("prepareSessionForCompaction requires sessionDir");
   }
-  return await require("../task-events/session-ingest.js").ensureTaskWikiFresh({
+  return {
     sessionDir: params.sessionDir,
-    reason: "pre_compaction",
-    projectAfterDrain: true,
-  });
+    extractionMode: "immediate",
+    readyForCompaction: true,
+  };
 }
 
 module.exports = {

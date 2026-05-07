@@ -9,8 +9,9 @@ from .prompt_settings_renderer import render_prompt_settings_summary
 
 
 BASE_STAGE_SKILL_PATHS: dict[str, tuple[Path, ...]] = {
-    "case-context": (
+    "spec-generation": (
         WORKFLOW_SKILL,
+        SKILLS_DIR / "spec-generation.md",
         SKILLS_DIR / "family-selection.md",
         SKILLS_DIR / "capability-brief.md",
         SKILLS_DIR / "case-world.md",
@@ -31,13 +32,9 @@ BASE_STAGE_SKILL_PATHS: dict[str, tuple[Path, ...]] = {
         WORKFLOW_SKILL,
         SKILLS_DIR / "conversation-plan.md",
     ),
-    "story-plan": (
+    "semantic-gold": (
         WORKFLOW_SKILL,
-        SKILLS_DIR / "task-actor-layout.md",
-        SKILLS_DIR / "case-world.md",
-        SKILLS_DIR / "story-beats.md",
-        SKILLS_DIR / "conversation-plan.md",
-        SKILLS_DIR / "story-plan.md",
+        SKILLS_DIR / "evaluation.md",
     ),
 }
 
@@ -45,6 +42,7 @@ FAMILY_CONTEXT_SKILL_PATHS: dict[str, Path] = {
     "anti_interference": SKILLS_DIR / "anti-interference-context.md",
     "contradiction_update": SKILLS_DIR / "contradiction-update-context.md",
     "evidence_dependency_reasoning": SKILLS_DIR / "evidence-dependency-context.md",
+    "private_info_in_official_file": SKILLS_DIR / "private-info-official-file-context.md",
 }
 
 def list_stage_prompt_sources(stage: str, family_id: str | None = None) -> tuple[Path, ...]:
@@ -54,13 +52,10 @@ def list_stage_prompt_sources(stage: str, family_id: str | None = None) -> tuple
         raise ValueError(f"Unsupported prompt stage: {stage}") from exc
     if family_id is not None and family_id not in FORMAL_FAMILY_IDS:
         raise ValueError(f"Unsupported family_id for prompt stage: {family_id}")
-    if stage == "case-context":
-        if family_id is not None:
-            return base_paths + (FAMILY_CONTEXT_SKILL_PATHS[family_id],)
-        return base_paths + tuple(FAMILY_CONTEXT_SKILL_PATHS[family] for family in FORMAL_FAMILY_IDS)
-    if stage == "story-plan" and family_id is not None:
+    family_context_stages = {"spec-generation", "conversation-plan", "semantic-gold"}
+    if stage in family_context_stages and family_id is not None:
         return base_paths + (FAMILY_CONTEXT_SKILL_PATHS[family_id],)
-    if stage == "story-plan":
+    if stage in family_context_stages:
         return base_paths + tuple(FAMILY_CONTEXT_SKILL_PATHS[family] for family in FORMAL_FAMILY_IDS)
     return base_paths
 

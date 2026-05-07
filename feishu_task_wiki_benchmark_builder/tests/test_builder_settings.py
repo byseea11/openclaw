@@ -27,6 +27,10 @@ class BuilderSettingsTests(unittest.TestCase):
         self.assertEqual(profile["recommended_actor_count"], 18)
         self.assertEqual(profile["recommended_department_count"], 12)
         self.assertEqual(profile["recommended_session_count"], 6)
+        self.assertEqual(profile["total_turn_count_min"], 50)
+        self.assertEqual(profile["total_turn_count_max"], 80)
+        self.assertEqual(profile["event_bearing_turn_count_min"], 10)
+        self.assertEqual(profile["context_noise_ack_turn_count_min"], 22)
 
     def test_default_difficulty_resolves_from_yml(self) -> None:
         self.assertEqual(resolve_default_difficulty(), "hard")
@@ -44,15 +48,22 @@ class BuilderSettingsTests(unittest.TestCase):
         self.assertEqual(evidence["min_dependency_hops"], 3)
         self.assertEqual(evidence["min_cross_source_updates"], 2)
 
+        private_info = resolve_family_constraints("private_info_in_official_file")
+        self.assertEqual(private_info["min_private_info_items"], 4)
+        self.assertEqual(private_info["min_official_file_refs"], 3)
+        self.assertEqual(private_info["min_task_relevance_boundaries"], 4)
+
     def test_resolved_prompt_slots_expose_stage_and_family_contracts(self) -> None:
         slots = resolve_prompt_slots(
-            stage="story-plan",
+            stage="conversation-plan",
             difficulty="hard",
             family_id="evidence_dependency_reasoning",
         )
         self.assertEqual(slots["difficulty_slots"]["recommended_actor_count"], 28)
         self.assertEqual(slots["difficulty_slots"]["recommended_department_count"], 16)
         self.assertEqual(slots["stage_slots"]["recommended_session_count"], 8)
+        self.assertEqual(slots["stage_slots"]["total_turn_count_min"], 80)
+        self.assertEqual(slots["stage_slots"]["event_bearing_turn_count_min"], 18)
         self.assertEqual(slots["family_numeric_slots"]["min_dependency_hops"], 3)
         self.assertEqual(slots["family_numeric_slots"]["min_cross_source_updates"], 2)
 
@@ -70,6 +81,7 @@ class BuilderSettingsTests(unittest.TestCase):
             "execute",
             "collect",
             "pre-annotation-validate",
+            "semantic-gold",
         ]
         for stage in expected_stages:
             with self.subTest(stage=stage):
@@ -97,9 +109,9 @@ class BuilderSettingsTests(unittest.TestCase):
         )
         self.assertTrue(collect_slots["stage_slots"]["real_fetch_only"])
 
-    def test_story_plan_settings_summary_matches_settings_values(self) -> None:
+    def test_conversation_plan_settings_summary_matches_settings_values(self) -> None:
         summary = render_prompt_settings_summary(
-            stage="story-plan",
+            stage="conversation-plan",
             difficulty="hard",
             family_id="evidence_dependency_reasoning",
         )
@@ -108,7 +120,14 @@ class BuilderSettingsTests(unittest.TestCase):
         self.assertIn("\"recommended_actor_count\": 28", summary)
         self.assertIn("\"recommended_department_count\": 16", summary)
         self.assertIn("\"recommended_session_count\": 8", summary)
+        self.assertIn("\"total_turn_count_min\": 80", summary)
         self.assertIn("\"family_numeric_slots\"", summary)
+
+    def test_legacy_aggregate_stages_do_not_receive_public_slots(self) -> None:
+        with self.assertRaises(ValueError):
+            resolve_prompt_slots(stage="case-context", difficulty="hard", family_id="anti_interference")
+        with self.assertRaises(ValueError):
+            resolve_prompt_slots(stage="story-plan", difficulty="hard", family_id="anti_interference")
 
 
 if __name__ == "__main__":

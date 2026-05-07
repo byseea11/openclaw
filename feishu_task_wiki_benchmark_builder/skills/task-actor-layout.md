@@ -29,7 +29,7 @@
 
 ## 禁止
 
-- 不要在后续 `story-plan` 才临时发明新 actor。
+- 不要在后续 `story-beats` 或 `conversation-plan` 才临时发明新 actor。
 - 不要把 distractor / dependency context 继续写成并列正式 task。
 - 不要只写 prose，不给结构化 actor/context identity。
 
@@ -75,5 +75,6 @@
 - `anti_interference`：必须落 shared actors、interference context blocks、相似措辞或并行上下文关系。
 - `contradiction_update`：必须落 initial/historical/current 相关 actor role，以及 revision context blocks。
 - `evidence_dependency_reasoning`：必须落 verified anchor、hearsay、ambiguous、downstream impact 等 dependency context blocks。
+- `private_info_in_official_file`：必须落 private source、official file maintainer、task owner 和 relevance-boundary reviewer。
 
 本阶段不引入旧版 distractor task 作为并列正式 task。干扰、修正和依赖都应优先表达为 context block、actor role 和 source 分布。

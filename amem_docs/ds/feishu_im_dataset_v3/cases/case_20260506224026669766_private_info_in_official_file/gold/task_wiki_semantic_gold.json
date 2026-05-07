@@ -1,0 +1,377 @@
+{
+  "case_id": "case_20260506224026669766_private_info_in_official_file",
+  "family_id": "private_info_in_official_file",
+  "task_id": "FEISHU-666",
+  "mode": "llm",
+  "expected_task_facts": [
+    {
+      "fact_id": "fact_001",
+      "claim": "FEISHU-301 的正式升级窗口为 2026-05-10 22:00 UTC，来自上线风险评审纪要。",
+      "required_supporting_message_ids": [
+        "om_x100b5088e9b49ca0c3c717fc60f401e",
+        "om_x100b5088e949dca4c2d388cef31abb0",
+        "om_x100b5088e968b8a0c35a293dbbc1fbd",
+        "om_x100b5088e68bc8a8c2ac16538e606f6"
+      ],
+      "expected_task_fact_id": "expected_task_facts_001"
+    },
+    {
+      "fact_id": "fact_002",
+      "claim": "FEISHU-301 的当前 blocker 是 network config drift。",
+      "required_supporting_message_ids": [
+        "om_x100b5088e949dca4c2d388cef31abb0",
+        "om_x100b5088e90ad4a4c228b3d264dfc12",
+        "om_x100b5088e927b4a0c14f02c9a72e408",
+        "om_x100b5088e6f728a8c310c9b3def45a4",
+        "om_x100b5088e7cf6ca0c42e3952044414d"
+      ],
+      "expected_task_fact_id": "expected_task_facts_002"
+    },
+    {
+      "fact_id": "fact_003",
+      "claim": "FEISHU-301 的回滚计划已批准。",
+      "required_supporting_message_ids": [
+        "om_x100b5088e9b49ca0c3c717fc60f401e",
+        "om_x100b5088e949dca4c2d388cef31abb0",
+        "om_x100b5088e90ad4a4c228b3d264dfc12",
+        "om_x100b5088e76b60a0c49b8006b3c330c",
+        "om_x100b5088e6f728a8c310c9b3def45a4"
+      ],
+      "expected_task_fact_id": "expected_task_facts_003"
+    },
+    {
+      "fact_id": "fact_004",
+      "claim": "个人偏好（如 Carol 希望周三前、Frank 希望白天变更、Jack 偏好全量备份等）不影响 FEISHU-301 的正式升级计划和任务状态。",
+      "required_supporting_message_ids": [
+        "om_x100b5088e968b8a0c35a293dbbc1fbd",
+        "om_x100b5088e4ae08a0c3388e3378e615f",
+        "om_x100b5088e41c30a4c3867767d6d7ce3",
+        "om_x100b5088e770d0a0c22b19a26bde9ee",
+        "om_x100b5088e68bc8a8c2ac16538e606f6"
+      ],
+      "expected_task_fact_id": "expected_task_facts_004"
+    },
+    {
+      "fact_id": "fact_005",
+      "claim": "网络配置漂移修复方案已提交，正在评审。",
+      "required_supporting_message_ids": [
+        "om_x100b5088e927b4a0c14f02c9a72e408"
+      ],
+      "expected_task_fact_id": "expected_task_facts_005"
+    }
+  ],
+  "expected_event_semantics": [
+    {
+      "event_semantic_id": "event_semantic_001",
+      "purpose": "Alice 发布上线风险评审纪要，正式确定升级窗口、blocker 和回滚计划。",
+      "turn_kind": "event_bearing",
+      "required_supporting_message_ids": [
+        "om_x100b5088e9b49ca0c3c717fc60f401e",
+        "om_x100b5088e949dca4c2d388cef31abb0"
+      ],
+      "expected_event_semantic_id": "expected_event_semantics_001"
+    },
+    {
+      "event_semantic_id": "event_semantic_002",
+      "purpose": "Carol 提出个人偏好，希望窗口提前到周三前，因为周四有面试。",
+      "turn_kind": "event_bearing",
+      "required_supporting_message_ids": [
+        "om_x100b5088e9571530c3ccc93a7863317"
+      ],
+      "expected_event_semantic_id": "expected_event_semantics_002"
+    },
+    {
+      "event_semantic_id": "event_semantic_003",
+      "purpose": "Alice 明确回复窗口正式定档，不会因个人时间调整，以纪要为准。",
+      "turn_kind": "event_bearing",
+      "required_supporting_message_ids": [
+        "om_x100b5088e968b8a0c35a293dbbc1fbd"
+      ],
+      "expected_event_semantic_id": "expected_event_semantics_003"
+    },
+    {
+      "event_semantic_id": "event_semantic_004",
+      "purpose": "Frank 抱怨夜间变更影响个人效率，希望改到白天。",
+      "turn_kind": "event_bearing",
+      "required_supporting_message_ids": [
+        "om_x100b5088e49590a4c49940e1e916315"
+      ],
+      "expected_event_semantic_id": "expected_event_semantics_004"
+    },
+    {
+      "event_semantic_id": "event_semantic_005",
+      "purpose": "Bob 回复夜间窗口是正式决定，不因个人偏好改动。",
+      "turn_kind": "event_bearing",
+      "required_supporting_message_ids": [
+        "om_x100b5088e4ae08a0c3388e3378e615f"
+      ],
+      "expected_event_semantic_id": "expected_event_semantics_005"
+    },
+    {
+      "event_semantic_id": "event_semantic_006",
+      "purpose": "Grace 询问升级时间可否提前，因周末有家庭承诺。",
+      "turn_kind": "event_bearing",
+      "required_supporting_message_ids": [
+        "om_x100b5088e4080ca8c3a345e3382e68b"
+      ],
+      "expected_event_semantic_id": "expected_event_semantics_006"
+    },
+    {
+      "event_semantic_id": "event_semantic_007",
+      "purpose": "Alice 重申窗口不可调整，家庭承诺不在任务考量范围内。",
+      "turn_kind": "event_bearing",
+      "required_supporting_message_ids": [
+        "om_x100b5088e41c30a4c3867767d6d7ce3"
+      ],
+      "expected_event_semantic_id": "expected_event_semantics_007"
+    },
+    {
+      "event_semantic_id": "event_semantic_008",
+      "purpose": "David 向客户正式同步升级窗口，引用纪要内容。",
+      "turn_kind": "event_bearing",
+      "required_supporting_message_ids": [
+        "om_x100b5088e620a8a4c1458760d56af29"
+      ],
+      "expected_event_semantic_id": "expected_event_semantics_008"
+    },
+    {
+      "event_semantic_id": "event_semantic_009",
+      "purpose": "Eve 补充说明纪要中的 blocker 是 network config drift，正在处理中。",
+      "turn_kind": "event_bearing",
+      "required_supporting_message_ids": [
+        "om_x100b5088e7cf6ca0c42e3952044414d"
+      ],
+      "expected_event_semantic_id": "expected_event_semantics_009"
+    },
+    {
+      "event_semantic_id": "event_semantic_010",
+      "purpose": "Jack 错误地转述 Carol 提过窗口可能调整，造成混淆。",
+      "turn_kind": "misread_or_overgeneralization",
+      "required_supporting_message_ids": [
+        "om_x100b5088e7a0c8a8c4572b662f77ee4"
+      ],
+      "expected_event_semantic_id": "expected_event_semantics_010"
+    },
+    {
+      "event_semantic_id": "event_semantic_011",
+      "purpose": "Iris 纠正 Jack 的误读，说明那是 Carol 个人请求，正式窗口确认是 5月10日。",
+      "turn_kind": "event_bearing",
+      "required_supporting_message_ids": [
+        "om_x100b5088e7b57ca0c3c45b8cb21f5a9"
+      ],
+      "expected_event_semantic_id": "expected_event_semantics_011"
+    },
+    {
+      "event_semantic_id": "event_semantic_012",
+      "purpose": "Nancy 强调以正式纪要为准，个人偏好不影响任务计划。",
+      "turn_kind": "event_bearing",
+      "required_supporting_message_ids": [
+        "om_x100b5088e74e7ca8c4f7a1b5b1ff429"
+      ],
+      "expected_event_semantic_id": "expected_event_semantics_012"
+    },
+    {
+      "event_semantic_id": "event_semantic_013",
+      "purpose": "Henry 询问 network config drift 作为 blocker 是否会导致升级延迟。",
+      "turn_kind": "event_bearing",
+      "required_supporting_message_ids": [
+        "om_x100b5088e97628a4c31efc041cb5d18"
+      ],
+      "expected_event_semantic_id": "expected_event_semantics_013"
+    },
+    {
+      "event_semantic_id": "event_semantic_014",
+      "purpose": "Bob 回复说 blocker 正在解决，回滚已批准，窗口不变。",
+      "turn_kind": "event_bearing",
+      "required_supporting_message_ids": [
+        "om_x100b5088e90ad4a4c228b3d264dfc12"
+      ],
+      "expected_event_semantic_id": "expected_event_semantics_014"
+    },
+    {
+      "event_semantic_id": "event_semantic_015",
+      "purpose": "Mia 分享个人认为夜间变更风险更高的观点，但承认是个人观点。",
+      "turn_kind": "event_bearing",
+      "required_supporting_message_ids": [
+        "om_x100b5088e425e4a0c31256b128d3c21"
+      ],
+      "expected_event_semantic_id": "expected_event_semantics_015"
+    },
+    {
+      "event_semantic_id": "event_semantic_016",
+      "purpose": "Oliver 回应风险评估已完成，纪要结论是夜间窗口可行。",
+      "turn_kind": "event_bearing",
+      "required_supporting_message_ids": [
+        "om_x100b5088e5cd44a0c104f53547a03ea"
+      ],
+      "expected_event_semantic_id": "expected_event_semantics_016"
+    },
+    {
+      "event_semantic_id": "event_semantic_017",
+      "purpose": "Paul 询问备份策略是否因时间调整有变。",
+      "turn_kind": "event_bearing",
+      "required_supporting_message_ids": [
+        "om_x100b5088e4b61ca0c220a0b77fb0a1e"
+      ],
+      "expected_event_semantic_id": "expected_event_semantics_017"
+    },
+    {
+      "event_semantic_id": "event_semantic_018",
+      "purpose": "Jack 回复备份计划不变，使用增量备份，但表达个人偏好全量。",
+      "turn_kind": "event_bearing",
+      "required_supporting_message_ids": [
+        "om_x100b5088e44550a4c3574a487cab359"
+      ],
+      "expected_event_semantic_id": "expected_event_semantics_018"
+    },
+    {
+      "event_semantic_id": "event_semantic_019",
+      "purpose": "Quinn 确认网络配置漂移修复方案已提交，正在评审。",
+      "turn_kind": "event_bearing",
+      "required_supporting_message_ids": [
+        "om_x100b5088e927b4a0c14f02c9a72e408"
+      ],
+      "expected_event_semantic_id": "expected_event_semantics_019"
+    },
+    {
+      "event_semantic_id": "event_semantic_020",
+      "purpose": "Sam 误传有人建议改期，引起客户疑虑。",
+      "turn_kind": "misread_or_overgeneralization",
+      "required_supporting_message_ids": [
+        "om_x100b5088e7d760a0c4f49c9709480b5"
+      ],
+      "expected_event_semantic_id": "expected_event_semantics_020"
+    },
+    {
+      "event_semantic_id": "event_semantic_021",
+      "purpose": "Alice 立即纠正，强调正式窗口不变。",
+      "turn_kind": "event_bearing",
+      "required_supporting_message_ids": [
+        "om_x100b5088e7ea34a4c3648780388d7a8"
+      ],
+      "expected_event_semantic_id": "expected_event_semantics_021"
+    },
+    {
+      "event_semantic_id": "event_semantic_022",
+      "purpose": "Ulysses 在高层同步中总结升级窗口和 blocker 状态，引用纪要。",
+      "turn_kind": "event_bearing",
+      "required_supporting_message_ids": [
+        "om_x100b5088e75628a4c492973f3ac044e",
+        "om_x100b5088e76b60a0c49b8006b3c330c"
+      ],
+      "expected_event_semantic_id": "expected_event_semantics_022"
+    },
+    {
+      "event_semantic_id": "event_semantic_023",
+      "purpose": "Violet 询问个人时间限制是否影响团队资源安排。",
+      "turn_kind": "event_bearing",
+      "required_supporting_message_ids": [
+        "om_x100b5088e77f88a0c2ddf782b4c73b4"
+      ],
+      "expected_event_semantic_id": "expected_event_semantics_023"
+    },
+    {
+      "event_semantic_id": "event_semantic_024",
+      "purpose": "Alice 明确说明个人时间限制不影响任务计划，资源已按正式窗口安排。",
+      "turn_kind": "event_bearing",
+      "required_supporting_message_ids": [
+        "om_x100b5088e770d0a0c22b19a26bde9ee"
+      ],
+      "expected_event_semantic_id": "expected_event_semantics_024"
+    },
+    {
+      "event_semantic_id": "event_semantic_025",
+      "purpose": "Xander 作为外部审计，要求所有决策基于官方纪要。",
+      "turn_kind": "event_bearing",
+      "required_supporting_message_ids": [
+        "om_x100b5088e6c660a0c2e7bde53596934"
+      ],
+      "expected_event_semantic_id": "expected_event_semantics_025"
+    },
+    {
+      "event_semantic_id": "event_semantic_026",
+      "purpose": "Yvonne 确认法律合规方面无额外限制。",
+      "turn_kind": "event_bearing",
+      "required_supporting_message_ids": [
+        "om_x100b5088e5c618a0c3c2f9b2af153d8"
+      ],
+      "expected_event_semantic_id": "expected_event_semantics_026"
+    },
+    {
+      "event_semantic_id": "event_semantic_027",
+      "purpose": "Zach 建议将个人背景备注从纪要中分离，避免混淆。",
+      "turn_kind": "event_bearing",
+      "required_supporting_message_ids": [
+        "om_x100b5088e5d53ca0c1036919fe1d396"
+      ],
+      "expected_event_semantic_id": "expected_event_semantics_027"
+    },
+    {
+      "event_semantic_id": "event_semantic_028",
+      "purpose": "Alice 做最终总结，重申升级窗口、blocker、回滚计划已批，个人偏好不影响。",
+      "turn_kind": "event_bearing",
+      "required_supporting_message_ids": [
+        "om_x100b5088e6e39cacc4c0a2e8475b8ac",
+        "om_x100b5088e6f728a8c310c9b3def45a4",
+        "om_x100b5088e68bc8a8c2ac16538e606f6"
+      ],
+      "expected_event_semantic_id": "expected_event_semantics_028"
+    },
+    {
+      "event_semantic_id": "event_semantic_029",
+      "purpose": "最终就绪消息，按窗口执行。",
+      "turn_kind": "event_bearing",
+      "required_supporting_message_ids": [
+        "om_x100b5088e60558b0c3a94b7976b0ee4"
+      ],
+      "expected_event_semantic_id": "expected_event_semantics_029"
+    }
+  ],
+  "expected_query_answers": [
+    {
+      "query_id": "semantic_query_001",
+      "query": "FEISHU-301 的正式升级窗口是什么？这个窗口是否因为 Carol 或 Frank 的个人偏好而调整过？请引用正式依据。",
+      "expected_answer_summary": "正式升级窗口是2026-05-10 22:00 UTC，来自上线风险评审纪要。该窗口未因 Carol 希望周三前或 Frank 希望白天变更等个人偏好而调整；多轮消息均确认个人时间不影响正式计划。",
+      "required_supporting_message_ids": [
+        "om_x100b5088e9b49ca0c3c717fc60f401e",
+        "om_x100b5088e949dca4c2d388cef31abb0",
+        "om_x100b5088e968b8a0c35a293dbbc1fbd",
+        "om_x100b5088e4ae08a0c3388e3378e615f",
+        "om_x100b5088e41c30a4c3867767d6d7ce3",
+        "om_x100b5088e7ea34a4c3648780388d7a8",
+        "om_x100b5088e770d0a0c22b19a26bde9ee",
+        "om_x100b5088e68bc8a8c2ac16538e606f6"
+      ],
+      "expected_query_answer_id": "expected_query_answers_001"
+    },
+    {
+      "query_id": "semantic_query_002",
+      "query": "Carol 在纪要中的个人备注是否影响 FEISHU-301 的升级计划？请区分个人背景和正式结论。",
+      "expected_answer_summary": "不影响。Carol 的个人备注（希望窗口提前到周三前，因周四有面试）属于个人背景；正式结论由上线风险评审纪要确定，Alice 明确窗口不因个人时间调整。",
+      "required_supporting_message_ids": [
+        "om_x100b5088e9571530c3ccc93a7863317",
+        "om_x100b5088e968b8a0c35a293dbbc1fbd",
+        "om_x100b5088e7b57ca0c3c45b8cb21f5a9",
+        "om_x100b5088e770d0a0c22b19a26bde9ee",
+        "om_x100b5088e68bc8a8c2ac16538e606f6"
+      ],
+      "expected_query_answer_id": "expected_query_answers_002"
+    },
+    {
+      "query_id": "semantic_query_003",
+      "query": "请列出 FEISHU-301 当前正式 blocker 和回滚计划状态。这些状态是否来源于正式文件？Jack 的备份偏好是否影响任务？",
+      "expected_answer_summary": "当前 blocker 是 network config drift，回滚计划已批准。这些状态来源于上线风险评审纪要及后续跟进消息。Jack 的备份偏好（偏好全量，但使用增量）是个人观点，不影响任务。",
+      "required_supporting_message_ids": [
+        "om_x100b5088e949dca4c2d388cef31abb0",
+        "om_x100b5088e9b49ca0c3c717fc60f401e",
+        "om_x100b5088e90ad4a4c228b3d264dfc12",
+        "om_x100b5088e76b60a0c49b8006b3c330c",
+        "om_x100b5088e6f728a8c310c9b3def45a4",
+        "om_x100b5088e7cf6ca0c42e3952044414d",
+        "om_x100b5088e44550a4c3574a487cab359",
+        "om_x100b5088e770d0a0c22b19a26bde9ee"
+      ],
+      "expected_query_answer_id": "expected_query_answers_003"
+    }
+  ]
+}

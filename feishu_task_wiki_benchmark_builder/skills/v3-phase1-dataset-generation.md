@@ -2,13 +2,14 @@
 
 ## 职责
 
-这个 skill 是当前三类 family 的 Phase 1 数据集生成总入口。它定义正式生成链路、stage ownership、artifact 职责和真实执行边界。
+这个 skill 是当前四类 family 的 Phase 1 数据集生成总入口。它定义正式生成链路、stage ownership、artifact 职责和真实执行边界。
 
-当前正式 family 只有三类：
+当前正式 family 只有四类：
 
 - `anti_interference`
 - `contradiction_update`
 - `evidence_dependency_reasoning`
+- `private_info_in_official_file`
 
 ## Phase 1 主链路
 
@@ -35,11 +36,12 @@ spec-generation
 - `anti_interference` 读取 `anti-interference-context.md`
 - `contradiction_update` 读取 `contradiction-update-context.md`
 - `evidence_dependency_reasoning` 读取 `evidence-dependency-context.md`
+- `private_info_in_official_file` 读取 `private-info-official-file-context.md`
 
 ## Stage 职责表
 
 - `spec-generation`：生成最小 case control，决定 case id、task id、family、difficulty、seed 和 comparison target。
-- `family-selection`：在三类 family 中确定本 case 的正式数据集方向。
+- `family-selection`：在四类 family 中确定本 case 的正式数据集方向。
 - `capability-brief`：把 family 翻译成能力约束、失败原因、生成规则、probe 策略和 coverage 要求。
 - `family context skill`：提供 family-specific 的上下文结构、证据类型、状态变化或干扰机制。
 - `task-actor-layout`：生成 actor roster、context blocks、shared actors 和 overlap。
@@ -48,7 +50,7 @@ spec-generation
 - `state-trajectory`：定义 current state、historical state、supersession、dependency impact 或干扰边界。
 - `coverage-spec`：把 required structure 转成落地检查条件。
 - `story-beats`：把 required roles、context blocks、state requirements 映射成 beat skeleton。
-- `conversation-plan`：把 beat、actor、session、state hint 落成消息级 turn。
+- `conversation-plan`：由 LLM 把 beat、actor、session、state hint 和 official file plan 落成完整企业 transcript。
 - `command-plan`：把 conversation turns 生成真实 `lark-cli` action plan。
 - `execute`：按依赖顺序真实执行 `lark-cli` action。
 - `collect`：从飞书回收真实 observed messages。

@@ -10,6 +10,7 @@ def build_baseline_eval(*, case_id: str, family_id: str, replay_eval: dict[str, 
         "anti_interference": {"openclaw_memory_md": 0.42, "raw_message_rag": 0.68},
         "contradiction_update": {"openclaw_memory_md": 0.35, "raw_message_rag": 0.61},
         "evidence_dependency_reasoning": {"openclaw_memory_md": 0.39, "raw_message_rag": 0.57},
+        "private_info_in_official_file": {"openclaw_memory_md": 0.33, "raw_message_rag": 0.59},
     }
     penalties = family_penalties[family_id]
     task_wiki_metrics = replay_eval["metrics"]

@@ -1,0 +1,193 @@
+{
+  "version": 1,
+  "task_id": "task:FEISHU-666",
+  "task_key": "FEISHU-666",
+  "source_session_id": "task:FEISHU-666::chat:oc_f1c581e38c20b845ed42c30671f63193",
+  "source_scope": "chat:oc_f1c581e38c20b845ed42c30671f63193",
+  "source_type": "thread",
+  "source_id": "thread:ops_window_thread",
+  "session_title": "task:FEISHU-666::chat:oc_f1c581e38c20b845ed42c30671f63193",
+  "time_range": {
+    "start": "2026-05-07T00:39:22.897Z",
+    "end": "2026-05-07T00:43:09.458Z"
+  },
+  "participants": [
+    "Benchmark Root",
+    "周宇",
+    "唐越"
+  ],
+  "relative_page_path": "sessions/FEISHU-666_chat_oc_f1c581e38c20b845ed42c30671f63-2f254d48/session_wiki.md",
+  "session_summary": "监控告警阈值已调整，夜间值班已排班，运维窗口已锁定。",
+  "block_order": [
+    "block-监控告警阈值-87c59730",
+    "block-夜间值班-e40c7b8d",
+    "block-运维窗口-27c5ac35"
+  ],
+  "blocks": {
+    "block-监控告警阈值-87c59730": {
+      "block_id": "block-监控告警阈值-87c59730",
+      "anchor_id": "block-监控告警阈值-87c59730",
+      "topic_key": "监控告警阈值",
+      "topic_title": "监控告警阈值",
+      "event_ids": [
+        "evt_5eced51de18ff486"
+      ],
+      "slots": {
+        "conclusion": [],
+        "rationale": [],
+        "objection": [],
+        "constraint": [],
+        "commitment": [],
+        "status": [
+          {
+            "event_id": "evt_5eced51de18ff486",
+            "event_type": "status_event",
+            "claim": "监控告警阈值已调整。",
+            "event_time": "1778109140000",
+            "evidence_quote": "监控告警阈值已调整。",
+            "event_path": "sessions/FEISHU-666_chat_oc_f1c581e38c20b845ed42c30671f63-2f254d48/session_events.jsonl#evt_5eced51de18ff486",
+            "event_ref": "[[sessions/FEISHU-666_chat_oc_f1c581e38c20b845ed42c30671f63-2f254d48/session_events.jsonl#evt_5eced51de18ff486|evt_5eced51de18ff486]]",
+            "entry_ref": "[[sessions/FEISHU-666_chat_oc_f1c581e38c20b845ed42c30671f63-2f254d48/session.md#om_x100b5088e5b470a4c22b49aeb2e2dca|om_x100b5088e5b470a4c22b49aeb2e2dca]]",
+            "core_entry_id": "om_x100b5088e5b470a4c22b49aeb2e2dca",
+            "subject_key": "监控告警阈值",
+            "is_current": true,
+            "lifecycle_status": "active",
+            "lifecycle_reason": null,
+            "target": "监控告警阈值",
+            "time_target": null,
+            "scope_target": null,
+            "action": null,
+            "owner": null,
+            "objector": null,
+            "status": "已调整",
+            "certainty": null
+          }
+        ],
+        "time": [],
+        "scope": []
+      },
+      "status": "active",
+      "evidence_refs": [
+        {
+          "event_id": "evt_5eced51de18ff486",
+          "event_path": "sessions/FEISHU-666_chat_oc_f1c581e38c20b845ed42c30671f63-2f254d48/session_events.jsonl#evt_5eced51de18ff486",
+          "entry_ref": "[[sessions/FEISHU-666_chat_oc_f1c581e38c20b845ed42c30671f63-2f254d48/session.md#om_x100b5088e5b470a4c22b49aeb2e2dca|om_x100b5088e5b470a4c22b49aeb2e2dca]]",
+          "quote": "监控告警阈值已调整。"
+        }
+      ],
+      "summary": "监控告警阈值已调整。"
+    },
+    "block-夜间值班-e40c7b8d": {
+      "block_id": "block-夜间值班-e40c7b8d",
+      "anchor_id": "block-夜间值班-e40c7b8d",
+      "topic_key": "夜间值班",
+      "topic_title": "夜间值班",
+      "event_ids": [
+        "evt_386231beb0736a14"
+      ],
+      "slots": {
+        "conclusion": [],
+        "rationale": [],
+        "objection": [],
+        "constraint": [],
+        "commitment": [],
+        "status": [
+          {
+            "event_id": "evt_386231beb0736a14",
+            "event_type": "status_event",
+            "claim": "夜间值班已排班。",
+            "event_time": "1778109140000",
+            "evidence_quote": "夜间值班已排班。",
+            "event_path": "sessions/FEISHU-666_chat_oc_f1c581e38c20b845ed42c30671f63-2f254d48/session_events.jsonl#evt_386231beb0736a14",
+            "event_ref": "[[sessions/FEISHU-666_chat_oc_f1c581e38c20b845ed42c30671f63-2f254d48/session_events.jsonl#evt_386231beb0736a14|evt_386231beb0736a14]]",
+            "entry_ref": "[[sessions/FEISHU-666_chat_oc_f1c581e38c20b845ed42c30671f63-2f254d48/session.md#om_x100b5088e548a4a4c3346a37b922ddf|om_x100b5088e548a4a4c3346a37b922ddf]]",
+            "core_entry_id": "om_x100b5088e548a4a4c3346a37b922ddf",
+            "subject_key": "夜间值班",
+            "is_current": true,
+            "lifecycle_status": "active",
+            "lifecycle_reason": null,
+            "target": "夜间值班",
+            "time_target": null,
+            "scope_target": null,
+            "action": null,
+            "owner": null,
+            "objector": null,
+            "status": "已排班",
+            "certainty": null
+          }
+        ],
+        "time": [],
+        "scope": []
+      },
+      "status": "active",
+      "evidence_refs": [
+        {
+          "event_id": "evt_386231beb0736a14",
+          "event_path": "sessions/FEISHU-666_chat_oc_f1c581e38c20b845ed42c30671f63-2f254d48/session_events.jsonl#evt_386231beb0736a14",
+          "entry_ref": "[[sessions/FEISHU-666_chat_oc_f1c581e38c20b845ed42c30671f63-2f254d48/session.md#om_x100b5088e548a4a4c3346a37b922ddf|om_x100b5088e548a4a4c3346a37b922ddf]]",
+          "quote": "夜间值班已排班。"
+        }
+      ],
+      "summary": "夜间值班已排班。"
+    },
+    "block-运维窗口-27c5ac35": {
+      "block_id": "block-运维窗口-27c5ac35",
+      "anchor_id": "block-运维窗口-27c5ac35",
+      "topic_key": "运维窗口",
+      "topic_title": "运维窗口",
+      "event_ids": [
+        "evt_e7ec01a2ca7fda5a"
+      ],
+      "slots": {
+        "conclusion": [],
+        "rationale": [],
+        "objection": [],
+        "constraint": [],
+        "commitment": [],
+        "status": [
+          {
+            "event_id": "evt_e7ec01a2ca7fda5a",
+            "event_type": "status_event",
+            "claim": "运维窗口已锁定。",
+            "event_time": "1778109140000",
+            "evidence_quote": "运维窗口已锁定。",
+            "event_path": "sessions/FEISHU-666_chat_oc_f1c581e38c20b845ed42c30671f63-2f254d48/session_events.jsonl#evt_e7ec01a2ca7fda5a",
+            "event_ref": "[[sessions/FEISHU-666_chat_oc_f1c581e38c20b845ed42c30671f63-2f254d48/session_events.jsonl#evt_e7ec01a2ca7fda5a|evt_e7ec01a2ca7fda5a]]",
+            "entry_ref": "[[sessions/FEISHU-666_chat_oc_f1c581e38c20b845ed42c30671f63-2f254d48/session.md#om_x100b5088e5a344a0c4dcea951c8bed1|om_x100b5088e5a344a0c4dcea951c8bed1]]",
+            "core_entry_id": "om_x100b5088e5a344a0c4dcea951c8bed1",
+            "subject_key": "运维窗口",
+            "is_current": true,
+            "lifecycle_status": "active",
+            "lifecycle_reason": null,
+            "target": "运维窗口",
+            "time_target": null,
+            "scope_target": null,
+            "action": null,
+            "owner": null,
+            "objector": null,
+            "status": "locked",
+            "certainty": null
+          }
+        ],
+        "time": [],
+        "scope": []
+      },
+      "status": "active",
+      "evidence_refs": [
+        {
+          "event_id": "evt_e7ec01a2ca7fda5a",
+          "event_path": "sessions/FEISHU-666_chat_oc_f1c581e38c20b845ed42c30671f63-2f254d48/session_events.jsonl#evt_e7ec01a2ca7fda5a",
+          "entry_ref": "[[sessions/FEISHU-666_chat_oc_f1c581e38c20b845ed42c30671f63-2f254d48/session.md#om_x100b5088e5a344a0c4dcea951c8bed1|om_x100b5088e5a344a0c4dcea951c8bed1]]",
+          "quote": "运维窗口已锁定。"
+        }
+      ],
+      "summary": "运维窗口已锁定。"
+    }
+  },
+  "lifecycle_summary": {
+    "active_event_count": 3,
+    "historical_event_count": 0,
+    "invalid_event_count": 0
+  },
+  "updated_at": "2026-05-07T00:43:18.022Z"
+}

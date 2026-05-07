@@ -2,7 +2,7 @@
 
 ## 职责
 
-这个 skill 负责为 `case-context` 阶段提供能力约束、失败原因、生成规则和 probe 策略。它不单独落文件，而是约束最终 `case_context.json` 的 capability brief 部分。
+这个 skill 负责为 `capability-brief` 阶段提供能力约束、失败原因、生成规则和 probe 策略，并物化为 `input/memory_capability_brief.json`。
 
 ## 硬规则
 
@@ -13,7 +13,7 @@
   - `required_case_structure`
   - `probe_strategy`
   - `expected_good_system_behavior`
-- 每个字段都必须能帮助后续 `story-plan` 做决定。
+- 每个字段都必须能帮助后续 `task-actor-layout`、`state-trajectory`、`coverage-spec` 和 `conversation-plan` 做决定。
 - `probe_strategy` 必须描述要测什么能力，不是最终问句。
 - `required_case_structure` 必须约束后续任务结构、状态变化或证据关系。
 - `required_case_structure` 不只是“有这些概念”，还必须满足当前 difficulty 和 family 的最低数量、分布与 cross-source 复杂度。
@@ -22,6 +22,7 @@
   - `anti_interference` 强调 shared actor、相似措辞和 cross-task noise 如何污染目标任务答案。
   - `contradiction_update` 强调 stale state、supersede relation 和 final current state 的区分。
   - `evidence_dependency_reasoning` 强调 verified / ambiguous / hearsay 的证据梯度，以及 upstream impact 如何传播到目标任务。
+  - `private_info_in_official_file` 强调个人私有信息、正式文件权威结论和 task relevance boundary 的区分。
 - 正式 contract 里只有 1 个目标任务；distractor 或 upstream/downstream 只能作为上下文来源，不是并列正式 task。
 - 必须吸收旧 builder 的规模规则：
   - `department_count`

@@ -1,0 +1,501 @@
+{
+  "version": 1,
+  "task_id": "task:FEISHU-666",
+  "task_key": "FEISHU-666",
+  "source_session_id": "task:FEISHU-666::chat:oc_f49b2c4a0d0a92df61e1f27186021348",
+  "source_scope": "chat:oc_f49b2c4a0d0a92df61e1f27186021348",
+  "source_type": "chat",
+  "source_id": "chat:customer_sync_chat",
+  "session_title": "task:FEISHU-666::chat:oc_f49b2c4a0d0a92df61e1f27186021348",
+  "time_range": {
+    "start": "2026-05-07T00:39:53.832Z",
+    "end": "2026-05-07T00:44:52.992Z"
+  },
+  "participants": [
+    "王源",
+    "高骏",
+    "林晨",
+    "赵敏"
+  ],
+  "relative_page_path": "sessions/FEISHU-666_chat_oc_f49b2c4a0d0a92df61e1f27186021-20685f74/session_wiki.md",
+  "session_summary": "按评审纪要执行变更，窗口改期待处理，发布时间5月10日22点UTC，网络配置漂移处理中，合规已发确认函，回滚计划已批准。",
+  "block_order": [
+    "block-按评审纪要执行所有变更-722f9a7c",
+    "block-窗口-a70a1513",
+    "block-窗口时间-32234f4b",
+    "block-发布时间口径-867908bd",
+    "block-发布阻塞风险-45763a86",
+    "block-合规侧-f1fad429",
+    "block-销售承诺风险-3d675c35"
+  ],
+  "blocks": {
+    "block-按评审纪要执行所有变更-722f9a7c": {
+      "block_id": "block-按评审纪要执行所有变更-722f9a7c",
+      "anchor_id": "block-按评审纪要执行所有变更-722f9a7c",
+      "topic_key": "按评审纪要执行所有变更",
+      "topic_title": "按评审纪要执行所有变更",
+      "event_ids": [
+        "evt_86bd263c44e3b858"
+      ],
+      "slots": {
+        "conclusion": [],
+        "rationale": [],
+        "objection": [],
+        "constraint": [],
+        "commitment": [
+          {
+            "event_id": "evt_86bd263c44e3b858",
+            "event_type": "commitment_event",
+            "claim": "所有变更按评审纪要执行。",
+            "event_time": "1778109140000",
+            "evidence_quote": "所有变更按评审纪要执行。",
+            "event_path": "sessions/FEISHU-666_chat_oc_f49b2c4a0d0a92df61e1f27186021-20685f74/session_events.jsonl#evt_86bd263c44e3b858",
+            "event_ref": "[[sessions/FEISHU-666_chat_oc_f49b2c4a0d0a92df61e1f27186021-20685f74/session_events.jsonl#evt_86bd263c44e3b858|evt_86bd263c44e3b858]]",
+            "entry_ref": "[[sessions/FEISHU-666_chat_oc_f49b2c4a0d0a92df61e1f27186021-20685f74/session.md#om_x100b5088e635d4a0c324d31995cde4c|om_x100b5088e635d4a0c324d31995cde4c]]",
+            "core_entry_id": "om_x100b5088e635d4a0c324d31995cde4c",
+            "subject_key": "按评审纪要执行所有变更",
+            "is_current": true,
+            "lifecycle_status": "active",
+            "lifecycle_reason": null,
+            "target": null,
+            "time_target": null,
+            "scope_target": null,
+            "action": "按评审纪要执行所有变更",
+            "owner": "王源",
+            "objector": null,
+            "status": null,
+            "certainty": null
+          }
+        ],
+        "status": [],
+        "time": [],
+        "scope": []
+      },
+      "status": "active",
+      "evidence_refs": [
+        {
+          "event_id": "evt_86bd263c44e3b858",
+          "event_path": "sessions/FEISHU-666_chat_oc_f49b2c4a0d0a92df61e1f27186021-20685f74/session_events.jsonl#evt_86bd263c44e3b858",
+          "entry_ref": "[[sessions/FEISHU-666_chat_oc_f49b2c4a0d0a92df61e1f27186021-20685f74/session.md#om_x100b5088e635d4a0c324d31995cde4c|om_x100b5088e635d4a0c324d31995cde4c]]",
+          "quote": "所有变更按评审纪要执行。"
+        }
+      ],
+      "summary": "按评审纪要执行所有变更"
+    },
+    "block-窗口-a70a1513": {
+      "block_id": "block-窗口-a70a1513",
+      "anchor_id": "block-窗口-a70a1513",
+      "topic_key": "窗口",
+      "topic_title": "窗口",
+      "event_ids": [
+        "evt_0a5198f3461cc6ad"
+      ],
+      "slots": {
+        "conclusion": [],
+        "rationale": [],
+        "objection": [
+          {
+            "event_id": "evt_0a5198f3461cc6ad",
+            "event_type": "objection_event",
+            "claim": "有人建议窗口改期",
+            "event_time": "1778109140000",
+            "evidence_quote": "有人建议窗口改期",
+            "event_path": "sessions/FEISHU-666_chat_oc_f49b2c4a0d0a92df61e1f27186021-20685f74/session_events.jsonl#evt_0a5198f3461cc6ad",
+            "event_ref": "[[sessions/FEISHU-666_chat_oc_f49b2c4a0d0a92df61e1f27186021-20685f74/session_events.jsonl#evt_0a5198f3461cc6ad|evt_0a5198f3461cc6ad]]",
+            "entry_ref": "[[sessions/FEISHU-666_chat_oc_f49b2c4a0d0a92df61e1f27186021-20685f74/session.md#om_x100b5088e7d760a0c4f49c9709480b5|om_x100b5088e7d760a0c4f49c9709480b5]]",
+            "core_entry_id": "om_x100b5088e7d760a0c4f49c9709480b5",
+            "subject_key": "窗口",
+            "is_current": true,
+            "lifecycle_status": "active",
+            "lifecycle_reason": null,
+            "target": "窗口",
+            "time_target": null,
+            "scope_target": null,
+            "action": null,
+            "owner": null,
+            "objector": "有人",
+            "status": null,
+            "certainty": null
+          }
+        ],
+        "constraint": [],
+        "commitment": [],
+        "status": [],
+        "time": [],
+        "scope": []
+      },
+      "status": "open",
+      "evidence_refs": [
+        {
+          "event_id": "evt_0a5198f3461cc6ad",
+          "event_path": "sessions/FEISHU-666_chat_oc_f49b2c4a0d0a92df61e1f27186021-20685f74/session_events.jsonl#evt_0a5198f3461cc6ad",
+          "entry_ref": "[[sessions/FEISHU-666_chat_oc_f49b2c4a0d0a92df61e1f27186021-20685f74/session.md#om_x100b5088e7d760a0c4f49c9709480b5|om_x100b5088e7d760a0c4f49c9709480b5]]",
+          "quote": "有人建议窗口改期"
+        }
+      ],
+      "summary": "窗口改期建议待处理"
+    },
+    "block-窗口时间-32234f4b": {
+      "block_id": "block-窗口时间-32234f4b",
+      "anchor_id": "block-窗口时间-32234f4b",
+      "topic_key": "窗口时间",
+      "topic_title": "窗口时间",
+      "event_ids": [
+        "evt_525767ec717efc39"
+      ],
+      "slots": {
+        "conclusion": [
+          {
+            "event_id": "evt_525767ec717efc39",
+            "event_type": "conclusion_event",
+            "claim": "以Alice说的为准",
+            "event_time": "1778109140000",
+            "evidence_quote": "抱歉，我没确认清楚，以Alice说的为准。",
+            "event_path": "sessions/FEISHU-666_chat_oc_f49b2c4a0d0a92df61e1f27186021-20685f74/session_events.jsonl#evt_525767ec717efc39",
+            "event_ref": "[[sessions/FEISHU-666_chat_oc_f49b2c4a0d0a92df61e1f27186021-20685f74/session_events.jsonl#evt_525767ec717efc39|evt_525767ec717efc39]]",
+            "entry_ref": "[[sessions/FEISHU-666_chat_oc_f49b2c4a0d0a92df61e1f27186021-20685f74/session.md#om_x100b5088e7ff2ca4c37cd01a0c60720|om_x100b5088e7ff2ca4c37cd01a0c60720]]",
+            "core_entry_id": "om_x100b5088e7ff2ca4c37cd01a0c60720",
+            "subject_key": "窗口时间",
+            "is_current": true,
+            "lifecycle_status": "active",
+            "lifecycle_reason": null,
+            "target": "窗口时间",
+            "time_target": null,
+            "scope_target": null,
+            "action": null,
+            "owner": null,
+            "objector": null,
+            "status": null,
+            "certainty": null
+          }
+        ],
+        "rationale": [],
+        "objection": [],
+        "constraint": [],
+        "commitment": [],
+        "status": [],
+        "time": [],
+        "scope": []
+      },
+      "status": "active",
+      "evidence_refs": [
+        {
+          "event_id": "evt_525767ec717efc39",
+          "event_path": "sessions/FEISHU-666_chat_oc_f49b2c4a0d0a92df61e1f27186021-20685f74/session_events.jsonl#evt_525767ec717efc39",
+          "entry_ref": "[[sessions/FEISHU-666_chat_oc_f49b2c4a0d0a92df61e1f27186021-20685f74/session.md#om_x100b5088e7ff2ca4c37cd01a0c60720|om_x100b5088e7ff2ca4c37cd01a0c60720]]",
+          "quote": "抱歉，我没确认清楚，以Alice说的为准。"
+        }
+      ],
+      "summary": "窗口时间以Alice说的为准。"
+    },
+    "block-发布时间口径-867908bd": {
+      "block_id": "block-发布时间口径-867908bd",
+      "anchor_id": "block-发布时间口径-867908bd",
+      "topic_key": "发布时间口径",
+      "topic_title": "发布时间口径",
+      "event_ids": [
+        "evt_b36e378d12fc7bc1"
+      ],
+      "slots": {
+        "conclusion": [],
+        "rationale": [],
+        "objection": [],
+        "constraint": [],
+        "commitment": [],
+        "status": [],
+        "time": [
+          {
+            "event_id": "evt_b36e378d12fc7bc1",
+            "event_type": "time_event",
+            "claim": "窗口不变，仍为5月10日22点UTC，以纪要为准。",
+            "event_time": "1778109140000",
+            "evidence_quote": "窗口不变，仍为5月10日22点UTC，以纪要为准。",
+            "event_path": "sessions/FEISHU-666_chat_oc_f49b2c4a0d0a92df61e1f27186021-20685f74/session_events.jsonl#evt_b36e378d12fc7bc1",
+            "event_ref": "[[sessions/FEISHU-666_chat_oc_f49b2c4a0d0a92df61e1f27186021-20685f74/session_events.jsonl#evt_b36e378d12fc7bc1|evt_b36e378d12fc7bc1]]",
+            "entry_ref": "[[sessions/FEISHU-666_chat_oc_f49b2c4a0d0a92df61e1f27186021-20685f74/session.md#om_x100b5088e7ea34a4c3648780388d7a8|om_x100b5088e7ea34a4c3648780388d7a8]]",
+            "core_entry_id": "om_x100b5088e7ea34a4c3648780388d7a8",
+            "subject_key": "发布时间口径",
+            "is_current": true,
+            "lifecycle_status": "active",
+            "lifecycle_reason": null,
+            "target": null,
+            "time_target": "窗口",
+            "scope_target": null,
+            "action": null,
+            "owner": null,
+            "objector": null,
+            "status": null,
+            "certainty": "certain"
+          }
+        ],
+        "scope": []
+      },
+      "status": "active",
+      "evidence_refs": [
+        {
+          "event_id": "evt_b36e378d12fc7bc1",
+          "event_path": "sessions/FEISHU-666_chat_oc_f49b2c4a0d0a92df61e1f27186021-20685f74/session_events.jsonl#evt_b36e378d12fc7bc1",
+          "entry_ref": "[[sessions/FEISHU-666_chat_oc_f49b2c4a0d0a92df61e1f27186021-20685f74/session.md#om_x100b5088e7ea34a4c3648780388d7a8|om_x100b5088e7ea34a4c3648780388d7a8]]",
+          "quote": "窗口不变，仍为5月10日22点UTC，以纪要为准。"
+        }
+      ],
+      "summary": "发布时间窗口为5月10日22点UTC，以纪要为准。"
+    },
+    "block-发布阻塞风险-45763a86": {
+      "block_id": "block-发布阻塞风险-45763a86",
+      "anchor_id": "block-发布阻塞风险-45763a86",
+      "topic_key": "发布阻塞风险",
+      "topic_title": "发布阻塞风险",
+      "event_ids": [
+        "evt_5d88520bba13358c"
+      ],
+      "slots": {
+        "conclusion": [],
+        "rationale": [],
+        "objection": [],
+        "constraint": [],
+        "commitment": [],
+        "status": [
+          {
+            "event_id": "evt_5d88520bba13358c",
+            "event_type": "status_event",
+            "claim": "纪要里的blocker是network config drift，处理中。",
+            "event_time": "1778109140000",
+            "evidence_quote": "纪要里的blocker是network config drift，处理中。",
+            "event_path": "sessions/FEISHU-666_chat_oc_f49b2c4a0d0a92df61e1f27186021-20685f74/session_events.jsonl#evt_5d88520bba13358c",
+            "event_ref": "[[sessions/FEISHU-666_chat_oc_f49b2c4a0d0a92df61e1f27186021-20685f74/session_events.jsonl#evt_5d88520bba13358c|evt_5d88520bba13358c]]",
+            "entry_ref": "[[sessions/FEISHU-666_chat_oc_f49b2c4a0d0a92df61e1f27186021-20685f74/session.md#om_x100b5088e7cf6ca0c42e3952044414d|om_x100b5088e7cf6ca0c42e3952044414d]]",
+            "core_entry_id": "om_x100b5088e7cf6ca0c42e3952044414d",
+            "subject_key": "发布阻塞风险",
+            "is_current": true,
+            "lifecycle_status": "active",
+            "lifecycle_reason": null,
+            "target": "network config drift",
+            "time_target": null,
+            "scope_target": null,
+            "action": null,
+            "owner": null,
+            "objector": null,
+            "status": "处理中",
+            "certainty": null
+          }
+        ],
+        "time": [],
+        "scope": []
+      },
+      "status": "active",
+      "evidence_refs": [
+        {
+          "event_id": "evt_5d88520bba13358c",
+          "event_path": "sessions/FEISHU-666_chat_oc_f49b2c4a0d0a92df61e1f27186021-20685f74/session_events.jsonl#evt_5d88520bba13358c",
+          "entry_ref": "[[sessions/FEISHU-666_chat_oc_f49b2c4a0d0a92df61e1f27186021-20685f74/session.md#om_x100b5088e7cf6ca0c42e3952044414d|om_x100b5088e7cf6ca0c42e3952044414d]]",
+          "quote": "纪要里的blocker是network config drift，处理中。"
+        }
+      ],
+      "summary": "发布阻塞风险：network config drift处理中。"
+    },
+    "block-合规侧-f1fad429": {
+      "block_id": "block-合规侧-f1fad429",
+      "anchor_id": "block-合规侧-f1fad429",
+      "topic_key": "合规侧",
+      "topic_title": "合规侧",
+      "event_ids": [
+        "evt_1a71a3dadd16abb3"
+      ],
+      "slots": {
+        "conclusion": [],
+        "rationale": [],
+        "objection": [],
+        "constraint": [],
+        "commitment": [],
+        "status": [
+          {
+            "event_id": "evt_1a71a3dadd16abb3",
+            "event_type": "status_event",
+            "claim": "合规侧已发确认函。",
+            "event_time": "1778109140000",
+            "evidence_quote": "合规侧已发确认函。",
+            "event_path": "sessions/FEISHU-666_chat_oc_f49b2c4a0d0a92df61e1f27186021-20685f74/session_events.jsonl#evt_1a71a3dadd16abb3",
+            "event_ref": "[[sessions/FEISHU-666_chat_oc_f49b2c4a0d0a92df61e1f27186021-20685f74/session_events.jsonl#evt_1a71a3dadd16abb3|evt_1a71a3dadd16abb3]]",
+            "entry_ref": "[[sessions/FEISHU-666_chat_oc_f49b2c4a0d0a92df61e1f27186021-20685f74/session.md#om_x100b5088e798f0a4c4c5d0460c9a433|om_x100b5088e798f0a4c4c5d0460c9a433]]",
+            "core_entry_id": "om_x100b5088e798f0a4c4c5d0460c9a433",
+            "subject_key": "合规侧",
+            "is_current": true,
+            "lifecycle_status": "active",
+            "lifecycle_reason": null,
+            "target": "合规侧",
+            "time_target": null,
+            "scope_target": null,
+            "action": null,
+            "owner": null,
+            "objector": null,
+            "status": "已发确认函",
+            "certainty": null
+          }
+        ],
+        "time": [],
+        "scope": []
+      },
+      "status": "active",
+      "evidence_refs": [
+        {
+          "event_id": "evt_1a71a3dadd16abb3",
+          "event_path": "sessions/FEISHU-666_chat_oc_f49b2c4a0d0a92df61e1f27186021-20685f74/session_events.jsonl#evt_1a71a3dadd16abb3",
+          "entry_ref": "[[sessions/FEISHU-666_chat_oc_f49b2c4a0d0a92df61e1f27186021-20685f74/session.md#om_x100b5088e798f0a4c4c5d0460c9a433|om_x100b5088e798f0a4c4c5d0460c9a433]]",
+          "quote": "合规侧已发确认函。"
+        }
+      ],
+      "summary": "合规侧已发确认函。"
+    },
+    "block-销售承诺风险-3d675c35": {
+      "block_id": "block-销售承诺风险-3d675c35",
+      "anchor_id": "block-销售承诺风险-3d675c35",
+      "topic_key": "销售承诺风险",
+      "topic_title": "销售承诺风险",
+      "event_ids": [
+        "evt_3f4208fda7f08ab0",
+        "evt_1f266a67302ede71",
+        "evt_3d022650a64c57a0",
+        "evt_67d4ec8369ea7a75"
+      ],
+      "slots": {
+        "conclusion": [],
+        "rationale": [],
+        "objection": [],
+        "constraint": [],
+        "commitment": [],
+        "status": [
+          {
+            "event_id": "evt_1f266a67302ede71",
+            "event_type": "status_event",
+            "claim": "回滚计划已批准，客户不用担心。",
+            "event_time": "1778109140000",
+            "evidence_quote": "回滚计划已批准",
+            "event_path": "sessions/FEISHU-666_chat_oc_f49b2c4a0d0a92df61e1f27186021-20685f74/session_events.jsonl#evt_1f266a67302ede71",
+            "event_ref": "[[sessions/FEISHU-666_chat_oc_f49b2c4a0d0a92df61e1f27186021-20685f74/session_events.jsonl#evt_1f266a67302ede71|evt_1f266a67302ede71]]",
+            "entry_ref": "[[sessions/FEISHU-666_chat_oc_f49b2c4a0d0a92df61e1f27186021-20685f74/session.md#om_x100b5088e7c3fca0c354d4b84d4fbad|om_x100b5088e7c3fca0c354d4b84d4fbad]]",
+            "core_entry_id": "om_x100b5088e7c3fca0c354d4b84d4fbad",
+            "subject_key": "销售承诺风险",
+            "is_current": true,
+            "lifecycle_status": "active",
+            "lifecycle_reason": null,
+            "target": "回滚计划",
+            "time_target": null,
+            "scope_target": null,
+            "action": null,
+            "owner": null,
+            "objector": null,
+            "status": "已批准",
+            "certainty": null
+          },
+          {
+            "event_id": "evt_3d022650a64c57a0",
+            "event_type": "status_event",
+            "claim": "客户已确认窗口。",
+            "event_time": "1778109140000",
+            "evidence_quote": "客户已确认窗口。",
+            "event_path": "sessions/FEISHU-666_chat_oc_f49b2c4a0d0a92df61e1f27186021-20685f74/session_events.jsonl#evt_3d022650a64c57a0",
+            "event_ref": "[[sessions/FEISHU-666_chat_oc_f49b2c4a0d0a92df61e1f27186021-20685f74/session_events.jsonl#evt_3d022650a64c57a0|evt_3d022650a64c57a0]]",
+            "entry_ref": "[[sessions/FEISHU-666_chat_oc_f49b2c4a0d0a92df61e1f27186021-20685f74/session.md#om_x100b5088e784b8a4c4f549e9ec285bd|om_x100b5088e784b8a4c4f549e9ec285bd]]",
+            "core_entry_id": "om_x100b5088e784b8a4c4f549e9ec285bd",
+            "subject_key": "销售承诺风险",
+            "is_current": false,
+            "lifecycle_status": "active",
+            "lifecycle_reason": null,
+            "target": "窗口",
+            "time_target": null,
+            "scope_target": null,
+            "action": null,
+            "owner": null,
+            "objector": null,
+            "status": "confirmed",
+            "certainty": null
+          },
+          {
+            "event_id": "evt_67d4ec8369ea7a75",
+            "event_type": "status_event",
+            "claim": "客户确认收到窗口通知。",
+            "event_time": "1778109140000",
+            "evidence_quote": "客户确认收到窗口通知。",
+            "event_path": "sessions/FEISHU-666_chat_oc_f49b2c4a0d0a92df61e1f27186021-20685f74/session_events.jsonl#evt_67d4ec8369ea7a75",
+            "event_ref": "[[sessions/FEISHU-666_chat_oc_f49b2c4a0d0a92df61e1f27186021-20685f74/session_events.jsonl#evt_67d4ec8369ea7a75|evt_67d4ec8369ea7a75]]",
+            "entry_ref": "[[sessions/FEISHU-666_chat_oc_f49b2c4a0d0a92df61e1f27186021-20685f74/session.md#om_x100b5088e7afaca4c33bbb304a687d6|om_x100b5088e7afaca4c33bbb304a687d6]]",
+            "core_entry_id": "om_x100b5088e7afaca4c33bbb304a687d6",
+            "subject_key": "销售承诺风险",
+            "is_current": false,
+            "lifecycle_status": "active",
+            "lifecycle_reason": null,
+            "target": "窗口通知",
+            "time_target": null,
+            "scope_target": null,
+            "action": null,
+            "owner": null,
+            "objector": null,
+            "status": "confirmed",
+            "certainty": null
+          }
+        ],
+        "time": [
+          {
+            "event_id": "evt_3f4208fda7f08ab0",
+            "event_type": "time_event",
+            "claim": "客户，升级窗口5月10日22点UTC，已正式确认。",
+            "event_time": "1778109140000",
+            "evidence_quote": "升级窗口5月10日22点UTC，已正式确认。",
+            "event_path": "sessions/FEISHU-666_chat_oc_f49b2c4a0d0a92df61e1f27186021-20685f74/session_events.jsonl#evt_3f4208fda7f08ab0",
+            "event_ref": "[[sessions/FEISHU-666_chat_oc_f49b2c4a0d0a92df61e1f27186021-20685f74/session_events.jsonl#evt_3f4208fda7f08ab0|evt_3f4208fda7f08ab0]]",
+            "entry_ref": "[[sessions/FEISHU-666_chat_oc_f49b2c4a0d0a92df61e1f27186021-20685f74/session.md#om_x100b5088e620a8a4c1458760d56af29|om_x100b5088e620a8a4c1458760d56af29]]",
+            "core_entry_id": "om_x100b5088e620a8a4c1458760d56af29",
+            "subject_key": "销售承诺风险",
+            "is_current": true,
+            "lifecycle_status": "active",
+            "lifecycle_reason": null,
+            "target": null,
+            "time_target": "升级窗口",
+            "scope_target": null,
+            "action": null,
+            "owner": null,
+            "objector": null,
+            "status": null,
+            "certainty": "confirmed"
+          }
+        ],
+        "scope": []
+      },
+      "status": "active",
+      "evidence_refs": [
+        {
+          "event_id": "evt_3f4208fda7f08ab0",
+          "event_path": "sessions/FEISHU-666_chat_oc_f49b2c4a0d0a92df61e1f27186021-20685f74/session_events.jsonl#evt_3f4208fda7f08ab0",
+          "entry_ref": "[[sessions/FEISHU-666_chat_oc_f49b2c4a0d0a92df61e1f27186021-20685f74/session.md#om_x100b5088e620a8a4c1458760d56af29|om_x100b5088e620a8a4c1458760d56af29]]",
+          "quote": "升级窗口5月10日22点UTC，已正式确认。"
+        },
+        {
+          "event_id": "evt_1f266a67302ede71",
+          "event_path": "sessions/FEISHU-666_chat_oc_f49b2c4a0d0a92df61e1f27186021-20685f74/session_events.jsonl#evt_1f266a67302ede71",
+          "entry_ref": "[[sessions/FEISHU-666_chat_oc_f49b2c4a0d0a92df61e1f27186021-20685f74/session.md#om_x100b5088e7c3fca0c354d4b84d4fbad|om_x100b5088e7c3fca0c354d4b84d4fbad]]",
+          "quote": "回滚计划已批准"
+        },
+        {
+          "event_id": "evt_3d022650a64c57a0",
+          "event_path": "sessions/FEISHU-666_chat_oc_f49b2c4a0d0a92df61e1f27186021-20685f74/session_events.jsonl#evt_3d022650a64c57a0",
+          "entry_ref": "[[sessions/FEISHU-666_chat_oc_f49b2c4a0d0a92df61e1f27186021-20685f74/session.md#om_x100b5088e784b8a4c4f549e9ec285bd|om_x100b5088e784b8a4c4f549e9ec285bd]]",
+          "quote": "客户已确认窗口。"
+        },
+        {
+          "event_id": "evt_67d4ec8369ea7a75",
+          "event_path": "sessions/FEISHU-666_chat_oc_f49b2c4a0d0a92df61e1f27186021-20685f74/session_events.jsonl#evt_67d4ec8369ea7a75",
+          "entry_ref": "[[sessions/FEISHU-666_chat_oc_f49b2c4a0d0a92df61e1f27186021-20685f74/session.md#om_x100b5088e7afaca4c33bbb304a687d6|om_x100b5088e7afaca4c33bbb304a687d6]]",
+          "quote": "客户确认收到窗口通知。"
+        }
+      ],
+      "summary": "销售承诺风险：回滚计划已批准，升级窗口5月10日22点UTC已确认。"
+    }
+  },
+  "lifecycle_summary": {
+    "active_event_count": 10,
+    "historical_event_count": 0,
+    "invalid_event_count": 0
+  },
+  "updated_at": "2026-05-07T00:45:10.226Z"
+}

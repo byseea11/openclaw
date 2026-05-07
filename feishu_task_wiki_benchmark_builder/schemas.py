@@ -467,10 +467,18 @@ def validate_conversation_plan_artifact(payload: dict[str, Any]) -> dict[str, An
     validated_turns: list[dict[str, Any]] = []
     for index, item in enumerate(turns, start=1):
         turn = _require_dict(item, f"conversation_plan_artifact.turns[{index}]")
+        beat_id = str(turn.get("beat_id") or "").strip()
+        turn_kind = str(turn.get("turn_kind") or ("event_bearing" if beat_id else "context_support"))
+        annotation_target = bool(turn.get("annotation_target")) if "annotation_target" in turn else bool(beat_id)
+        event_bearing = bool(turn.get("event_bearing")) if "event_bearing" in turn else annotation_target
+        if annotation_target and not beat_id:
+            raise ValidationError(
+                f"conversation_plan_artifact.turns[{index}].beat_id is required for annotation_target turns"
+            )
         validated_turns.append(
             {
                 "turn_id": _require_string(turn.get("turn_id"), f"conversation_plan_artifact.turns[{index}].turn_id"),
-                "beat_id": _require_string(turn.get("beat_id"), f"conversation_plan_artifact.turns[{index}].beat_id"),
+                "beat_id": beat_id,
                 "sequence_no": int(
                     _require_number(
                         turn.get("sequence_no"),
@@ -493,6 +501,12 @@ def validate_conversation_plan_artifact(payload: dict[str, Any]) -> dict[str, An
                     turn.get("planned_message_text"),
                     f"conversation_plan_artifact.turns[{index}].planned_message_text",
                 ),
+                "turn_kind": turn_kind,
+                "annotation_target": annotation_target,
+                "event_bearing": event_bearing,
+                "official_file_ref": str(turn.get("official_file_ref") or ""),
+                "private_info_ref": str(turn.get("private_info_ref") or ""),
+                "task_relevance_boundary": str(turn.get("task_relevance_boundary") or ""),
             }
         )
     return {
@@ -504,6 +518,103 @@ def validate_conversation_plan_artifact(payload: dict[str, Any]) -> dict[str, An
             "conversation_plan_artifact.sessions",
         ),
         "turns": validated_turns,
+    }
+
+
+def validate_official_file_plan(payload: dict[str, Any]) -> dict[str, Any]:
+    obj = _require_dict(payload, "official_file_plan")
+    files: list[dict[str, Any]] = []
+    seen_file_refs: set[str] = set()
+    for file_index, item in enumerate(_require_list(obj.get("official_files"), "official_file_plan.official_files"), start=1):
+        file_obj = _require_dict(item, f"official_file_plan.official_files[{file_index}]")
+        file_ref = _require_string(
+            file_obj.get("file_ref"),
+            f"official_file_plan.official_files[{file_index}].file_ref",
+        )
+        if file_ref in seen_file_refs:
+            raise ValidationError("official_file_plan.official_files file_ref must be unique")
+        seen_file_refs.add(file_ref)
+        private_info_items: list[dict[str, Any]] = []
+        for info_index, info in enumerate(
+            _require_list(
+                file_obj.get("private_info_items") or [],
+                f"official_file_plan.official_files[{file_index}].private_info_items",
+            ),
+            start=1,
+        ):
+            info_obj = _require_dict(
+                info,
+                f"official_file_plan.official_files[{file_index}].private_info_items[{info_index}]",
+            )
+            private_info_items.append(
+                {
+                    "private_info_ref": _require_string(
+                        info_obj.get("private_info_ref"),
+                        f"official_file_plan.official_files[{file_index}].private_info_items[{info_index}].private_info_ref",
+                    ),
+                    "person_ref": _require_string(
+                        info_obj.get("person_ref"),
+                        f"official_file_plan.official_files[{file_index}].private_info_items[{info_index}].person_ref",
+                    ),
+                    "private_info_summary": _require_string(
+                        info_obj.get("private_info_summary"),
+                        f"official_file_plan.official_files[{file_index}].private_info_items[{info_index}].private_info_summary",
+                    ),
+                    "must_not_become_task_state": _require_bool(
+                        info_obj.get("must_not_become_task_state"),
+                        f"official_file_plan.official_files[{file_index}].private_info_items[{info_index}].must_not_become_task_state",
+                    ),
+                }
+            )
+        files.append(
+            {
+                "file_ref": file_ref,
+                "file_type": _require_string(
+                    file_obj.get("file_type"),
+                    f"official_file_plan.official_files[{file_index}].file_type",
+                ),
+                "title": _require_string(
+                    file_obj.get("title"),
+                    f"official_file_plan.official_files[{file_index}].title",
+                ),
+                "authority_level": _require_string(
+                    file_obj.get("authority_level"),
+                    f"official_file_plan.official_files[{file_index}].authority_level",
+                ),
+                "official_conclusions": [
+                    _require_string(
+                        conclusion,
+                        f"official_file_plan.official_files[{file_index}].official_conclusions[{conclusion_index}]",
+                    )
+                    for conclusion_index, conclusion in enumerate(
+                        _require_list(
+                            file_obj.get("official_conclusions"),
+                            f"official_file_plan.official_files[{file_index}].official_conclusions",
+                        ),
+                        start=1,
+                    )
+                ],
+                "private_info_items": private_info_items,
+                "task_relevance_boundaries": [
+                    _require_string(
+                        boundary,
+                        f"official_file_plan.official_files[{file_index}].task_relevance_boundaries[{boundary_index}]",
+                    )
+                    for boundary_index, boundary in enumerate(
+                        _require_list(
+                            file_obj.get("task_relevance_boundaries"),
+                            f"official_file_plan.official_files[{file_index}].task_relevance_boundaries",
+                        ),
+                        start=1,
+                    )
+                ],
+            }
+        )
+    return {
+        "case_id": _require_string(obj.get("case_id"), "official_file_plan.case_id"),
+        "family_id": _require_string(obj.get("family_id"), "official_file_plan.family_id"),
+        "task_id": _require_string(obj.get("task_id"), "official_file_plan.task_id"),
+        "official_files": files,
     }
 
 
@@ -724,6 +835,12 @@ def validate_command_plan(rows: list[dict[str, Any]]) -> list[dict[str, Any]]:
                 "message_text": str(obj.get("message_text") or ""),
                 "depends_on_step_ids": depends_on,
                 "benchmark_role": str(obj.get("benchmark_role") or ""),
+                "turn_kind": str(obj.get("turn_kind") or ""),
+                "annotation_target": bool(obj.get("annotation_target") or False),
+                "event_bearing": bool(obj.get("event_bearing") or False),
+                "official_file_ref": str(obj.get("official_file_ref") or ""),
+                "private_info_ref": str(obj.get("private_info_ref") or ""),
+                "task_relevance_boundary": str(obj.get("task_relevance_boundary") or ""),
                 "family_id": str(obj.get("family_id") or ""),
                 "memory_failure_mode": str(obj.get("memory_failure_mode") or obj.get("family_id") or ""),
                 "memory_trap": str(obj.get("memory_trap") or ""),

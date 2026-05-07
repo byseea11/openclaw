@@ -165,6 +165,12 @@ def _base_row(
         "actor_id": actor_id,
         "depends_on_step_ids": depends_on_step_ids,
         "benchmark_role": str((turn or {}).get("benchmark_role") or ""),
+        "turn_kind": str((turn or {}).get("turn_kind") or ""),
+        "annotation_target": bool((turn or {}).get("annotation_target") or False),
+        "event_bearing": bool((turn or {}).get("event_bearing") or False),
+        "official_file_ref": str((turn or {}).get("official_file_ref") or ""),
+        "private_info_ref": str((turn or {}).get("private_info_ref") or ""),
+        "task_relevance_boundary": str((turn or {}).get("task_relevance_boundary") or ""),
         "memory_failure_mode": family_id,
         "memory_trap": str((turn or {}).get("memory_trap") or ""),
         "expected_openclaw_memory_risk": str((turn or {}).get("expected_openclaw_memory_risk") or ""),
@@ -251,6 +257,12 @@ def build_command_plan(
                 depends_on_step_ids=[chat_create_steps[chat_ref]],
                 output_ref=output_ref,
                 params=params,
+                turn={
+                    "turn_id": f"thread_root_{session_id}",
+                    "turn_kind": "thread_root_context",
+                    "annotation_target": False,
+                    "event_bearing": False,
+                },
             )
         )
         thread_root_steps[session_id] = step_id

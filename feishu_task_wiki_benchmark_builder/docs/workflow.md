@@ -3,175 +3,127 @@
 ## Phase 1
 
 ```text
-case-context
+spec-generation
+-> family-selection
+-> capability-brief
 -> task-actor-layout
 -> case-world
+-> characters
+-> state-trajectory
+-> coverage-spec
 -> story-beats
 -> conversation-plan
--> story-plan
 -> command-plan
 -> execute
 -> collect
 -> pre-annotation-validate
 ```
 
-### `case-context`
+### `spec-generation`
 
-- 输入：
-  - `--seed`
-  - `--family-id` 可选
-  - `--difficulty`
-  - `--comparison-target`
-- 前置要求：
-  - 先通过真实模型预检
-  - 真实模型配置只读取 repo 根 `.env`
-- 输出：
-  - `input/case_context.json`
-- 作用：
-  - 一次性收口 family 选择、能力约束、case 控制字段、企业场景
-  - 由大模型直接生成，不走规则 fallback
-  - `case_id`、`task_id`、`seed`、`difficulty`、`comparison_target` 由代码层注入，不由模型自由命名
+- 输入：`--seed`、`--family-id`、`--difficulty`、`--comparison-target`。
+- 输出：`case_spec.json`、`input/case_context.json`。
+- 作用：确定 case control，不生成角色、消息或故事。
 
-### `story-plan`
+### `family-selection`
 
-- 输入：
-  - `input/case_context.json`
-  - `input/task_actor_layout.json`
-  - `input/case_world.json`
-  - `input/story_beats.json`
-  - `input/conversation_plan.json`
-- 前置要求：
-  - 先通过真实模型预检
-- 输出：
-  - `input/story_plan.json`
-  - `input/task_actor_layout.json`
-  - `input/case_world.json`
-  - `input/story_beats.json`
-  - `input/conversation_plan.json`
-- 作用：
-  - 生成单 `task`、actors、task_actor_layout、state_changes、message_beats、planned_probe_queries
-  - 同时把内部 ownership 结构物化为中间 artifact，供后续阶段只读引用
-  - 由大模型直接生成，不走规则 fallback
+- 输入：case control。
+- 输出：`input/family_selection.json`。
+- 作用：固定四类 formal family 之一：`anti_interference`、`contradiction_update`、`evidence_dependency_reasoning`、`private_info_in_official_file`。
+
+### `capability-brief`
+
+- 输入：`family_id`。
+- 输出：`input/memory_capability_brief.json`。
+- 作用：把 family 翻译成能力约束、失败原因、probe 策略和 coverage 要求。
 
 ### `task-actor-layout`
 
-- 输入：
-  - `input/case_context.json`
-- 输出：
-  - `input/task_actor_layout.json`
-- 作用：
-  - 固定 actor roster、shared actors、overlap 和 context identity
-  - 后续阶段不得新增未声明 actor 或 context
+- 输入：`input/case_context.json`。
+- 输出：`input/task_actor_layout.json`。
+- 作用：固定 actor roster、shared actors、overlap 和 context identity。
 
 ### `case-world`
 
-- 输入：
-  - `input/case_context.json`
-  - `input/task_actor_layout.json`
-- 输出：
-  - `input/case_world.json`
-- 作用：
-  - 固定 source sessions、session purpose 和企业协作世界
-  - 后续阶段不得新增未声明 session
+- 输入：`input/case_context.json`、`input/task_actor_layout.json`。
+- 输出：`input/case_world.json`。
+- 作用：固定 source sessions、session purpose 和企业协作世界。
+
+### `characters`
+
+- 输入：`input/task_actor_layout.json`、`input/case_world.json`。
+- 输出：`input/characters.json`、`input/actor_registry.json`。
+- 作用：把 actor slots 实例化为人物，并生成 stable simulated OpenID 映射。
+
+### `state-trajectory`
+
+- 输入：case control、layout、world、characters。
+- 输出：`input/state_trajectory.json`。
+- 作用：固定 current、historical、supersession、dependency impact 或私有信息边界。
+
+### `coverage-spec`
+
+- 输入：capability brief、state trajectory、family context。
+- 输出：`input/coverage_spec.json`。
+- 作用：定义 evidence、state、beat 和 probe 的落地检查要求。
 
 ### `story-beats`
 
-- 输入：
-  - `input/case_context.json`
-  - `input/case_world.json`
-- 输出：
-  - `input/story_beats.json`
-- 作用：
-  - 固定 benchmark roles 和 beat skeleton
+- 输入：case world、state trajectory、coverage spec。
+- 输出：`input/story_beats.json`、`input/official_file_plan.json`。
+- 作用：固定 benchmark roles、beat skeleton、official file 回流要求。
 
 ### `conversation-plan`
 
-- 输入：
-  - `input/task_actor_layout.json`
-  - `input/case_world.json`
-  - `input/story_beats.json`
-- 输出：
-  - `input/conversation_plan.json`
-- 作用：
-  - 固定 `speaker_actor_id`、session placement 和 turn ordering
-  - `command-plan` 只编译这里的结构化 turn，不再猜 speaker 名字
+- 输入：layout、world、characters、state trajectory、story beats。
+- 输出：`input/conversation_plan.json`。
+- 作用：由 LLM 生成完整企业 transcript；每个 turn 都是后续真实发送和 OpenClaw replay 的候选消息。
 
 ### `command-plan`
 
-- 输入：
-  - `input/conversation_plan.json`
-- 输出：
-  - `input/command_plan.jsonl`
+- 输入：`input/conversation_plan.json`、`input/characters.json`、`input/actor_registry.json`。
+- 输出：`input/command_plan.jsonl`。
+- 作用：把 turn 编译成真实 `lark-cli` action rows，包括 dependency、output ref 和 command preview。
 
 ### `execute`
 
-- 输入：
-  - `input/case_context.json`
-  - `input/command_plan.jsonl`
-- 输出：
-  - `runtime/executed_commands.jsonl`
+- 输入：`input/command_plan.jsonl`。
+- 输出：`runtime/executed_commands.jsonl`、`runtime/execution_result.json`。
+- 作用：按 dependency graph 调用真实 `lark-cli`，记录 stdout、stderr、returncode 和 resource ids。
 
 ### `collect`
 
-- 输入：
-  - `input/case_context.json`
-  - `runtime/executed_commands.jsonl`
-- 输出：
-  - `data/collected_messages.jsonl`
-  - `data/openclaw_message_ingress.jsonl`
+- 输入：execution result 和 fetch actions。
+- 输出：`data/collected_messages.jsonl`、`data/openclaw_message_ingress.jsonl`。
+- 作用：从真实 fetch 结果回收 observed data，并把全部真实协作消息转成 OpenClaw replay ingress。
 
 ### `pre-annotation-validate`
 
-- 输入：
-  - `input/case_context.json`
-  - `input/story_plan.json`
-  - `data/collected_messages.jsonl`
-- 输出：
-  - `checks/pre_annotation_validation_report.json`
+- 输入：coverage spec、conversation plan、command plan、observed data。
+- 输出：`checks/pre_annotation_validation_report.json`。
+- 作用：检查 family trap、状态变化、证据链、official/private 信息边界和 probe 是否真实落地。
 
 ### model 调用日志
 
-- 运行时会额外写：
-  - `logs/model_call_log.jsonl`
-- 当前只记录：
-  - `case-context`
-  - `story-plan`
-- 默认认证来源：
-  - 只读 repo 根 `.env`
-- 当前日志只保留元数据：
-  - `timestamp`
-  - `stage`
-  - `backend`
-  - `model`
-  - `base_url`
-  - `success`
-  - `duration_ms`
-  - `case_id`
-  - `artifact_path`
-- 失败时额外记录：
-  - `error_type`
-  - `error_code`
-  - `http_status`
-  - `message`
-
-### auth-check
-
-- `auth-check` 会读取 repo 根 `.env`
-- 它会用当前 `OPENAI_API_KEY`、`OPENAI_API_BASE_URL`、`FEISHU_BUILDER_MODEL` 做一次真实 API 探活
-- 如果失败，CLI 会直接返回可修复的错误提示，而不是打印 Python traceback
+- 运行时写入：`logs/model_call_log.jsonl`。
+- 当前主要记录：`spec-generation`、`conversation-plan`、`semantic-gold`。
+- 默认认证来源：只读 repo 根 `.env`。
 
 ## Phase 2
 
 ```text
 annotation-gold
+-> semantic-gold
 -> query-benchmark
+-> build-checks
+-> gold-validate
+-> replay-runtime
 -> replay-eval
 ```
 
-- 正式输出：
-  - `gold/annotation_gold.jsonl`
-  - `gold/query_benchmark.json`
-  - `reports/replay_eval.json`
+- `gold/annotation_gold.jsonl` 是 deterministic evidence gold，只基于 observed messages。
+- `gold/task_wiki_semantic_gold.json` 是 optional semantic gold，只能引用 observed `message_id`。
+- `query_benchmark.json` 与 replay eval 使用 gold 和 observed data，不读取 planned-only 文本作为证据。
 
 ## Phase 3
 
@@ -185,11 +137,3 @@ baseline-eval
   - `reports/baseline_eval.json`
   - `reports/value_eval.json`
   - `reports/final_benchmark_report.md`
-
-## 仍然不是独立外部 stage 的文件
-
-- `input/family_selection.json`
-- `input/memory_capability_brief.json`
-- `case_spec.json`
-
-这些信息现在仍通过 `input/case_context.json` 或 phase1 内部 ownership artifact 表达，不再作为单独的外部 CLI stage。

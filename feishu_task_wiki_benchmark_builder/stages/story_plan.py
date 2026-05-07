@@ -2,14 +2,39 @@ from __future__ import annotations
 
 from typing import Any
 
+from ..config import SKILLS_DIR, WORKFLOW_SKILL
+from ..io import read_text
 from ..llm import (
     BuilderModelClient,
     ModelPayloadValidationError,
     build_model_call_log_entry,
     create_model_client,
 )
-from ..prompt import build_story_plan_system_prompt
+from ..prompt_loader import FAMILY_CONTEXT_SKILL_PATHS
+from ..prompt_settings_renderer import render_prompt_settings_summary
 from ..schemas import ValidationError, validate_story_plan
+
+
+def _build_internal_story_scaffold_system_prompt(*, family_id: str, difficulty: str) -> str:
+    paths = [
+        WORKFLOW_SKILL,
+        SKILLS_DIR / "task-actor-layout.md",
+        SKILLS_DIR / "case-world.md",
+        SKILLS_DIR / "state-trajectory.md",
+        SKILLS_DIR / "coverage-spec.md",
+        SKILLS_DIR / "story-beats.md",
+        SKILLS_DIR / "conversation-plan.md",
+        FAMILY_CONTEXT_SKILL_PATHS[family_id],
+    ]
+    sections = [
+        "你正在运行 Feishu Task Wiki benchmark builder 的内部 Phase 1 scaffold 生成器。",
+        "这个内部生成器只服务细分 stage 的中间结构，不是公开 CLI stage。",
+    ]
+    for path in paths:
+        sections.append(f"## Skill Source: {path.as_posix()}")
+        sections.append(read_text(path))
+    sections.append(render_prompt_settings_summary(stage="conversation-plan", difficulty=difficulty, family_id=family_id))
+    return "\n\n".join(sections).strip()
 
 
 def _build_story_plan_user_payload(*, case_context: dict[str, Any]) -> dict[str, Any]:
@@ -34,7 +59,7 @@ def generate_story_plan(
     model_client: BuilderModelClient | None = None,
 ) -> tuple[dict[str, Any], list[dict[str, Any]]]:
     client = model_client or create_model_client()
-    system_prompt = build_story_plan_system_prompt(
+    system_prompt = _build_internal_story_scaffold_system_prompt(
         family_id=str(case_context["family_id"]),
         difficulty=str(case_context["difficulty"]),
     )

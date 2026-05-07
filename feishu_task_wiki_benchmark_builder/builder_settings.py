@@ -79,6 +79,35 @@ def _validate_settings(payload: dict[str, Any]) -> dict[str, Any]:
             f"builder_settings.difficulty_profiles.{difficulty}.recommended_session_count",
             minimum=1,
         )
+        total_turn_count_min = _require_int(
+            profile_obj.get("total_turn_count_min"),
+            f"builder_settings.difficulty_profiles.{difficulty}.total_turn_count_min",
+            minimum=1,
+        )
+        total_turn_count_max = _require_int(
+            profile_obj.get("total_turn_count_max"),
+            f"builder_settings.difficulty_profiles.{difficulty}.total_turn_count_max",
+            minimum=total_turn_count_min,
+        )
+        event_bearing_turn_count_min = _require_int(
+            profile_obj.get("event_bearing_turn_count_min"),
+            f"builder_settings.difficulty_profiles.{difficulty}.event_bearing_turn_count_min",
+            minimum=1,
+        )
+        _require_int(
+            profile_obj.get("event_bearing_turn_count_max"),
+            f"builder_settings.difficulty_profiles.{difficulty}.event_bearing_turn_count_max",
+            minimum=event_bearing_turn_count_min,
+        )
+        _require_int(
+            profile_obj.get("context_noise_ack_turn_count_min"),
+            f"builder_settings.difficulty_profiles.{difficulty}.context_noise_ack_turn_count_min",
+            minimum=0,
+        )
+        if event_bearing_turn_count_min > total_turn_count_max:
+            raise BuilderSettingsError(
+                f"builder_settings.difficulty_profiles.{difficulty}.event_bearing_turn_count_min must be <= total_turn_count_max"
+            )
         require_cross_source_revision = profile_obj.get("require_cross_source_revision")
         if not isinstance(require_cross_source_revision, bool):
             raise BuilderSettingsError(
@@ -128,6 +157,22 @@ def _validate_settings(payload: dict[str, Any]) -> dict[str, Any]:
                 "builder_settings.family_constraints.evidence_dependency_reasoning.min_cross_source_updates",
                 minimum=0,
             )
+        elif family_id == "private_info_in_official_file":
+            _require_int(
+                constraint.get("min_private_info_items"),
+                "builder_settings.family_constraints.private_info_in_official_file.min_private_info_items",
+                minimum=1,
+            )
+            _require_int(
+                constraint.get("min_official_file_refs"),
+                "builder_settings.family_constraints.private_info_in_official_file.min_official_file_refs",
+                minimum=1,
+            )
+            _require_int(
+                constraint.get("min_task_relevance_boundaries"),
+                "builder_settings.family_constraints.private_info_in_official_file.min_task_relevance_boundaries",
+                minimum=1,
+            )
 
     return payload
 
@@ -175,6 +220,11 @@ def _build_stage_slots(stage: str, difficulty_slots: dict[str, Any]) -> dict[str
         "recommended_actor_count": difficulty_slots["recommended_actor_count"],
         "recommended_department_count": difficulty_slots["recommended_department_count"],
         "recommended_session_count": difficulty_slots["recommended_session_count"],
+        "total_turn_count_min": difficulty_slots["total_turn_count_min"],
+        "total_turn_count_max": difficulty_slots["total_turn_count_max"],
+        "event_bearing_turn_count_min": difficulty_slots["event_bearing_turn_count_min"],
+        "event_bearing_turn_count_max": difficulty_slots["event_bearing_turn_count_max"],
+        "context_noise_ack_turn_count_min": difficulty_slots["context_noise_ack_turn_count_min"],
         "require_cross_source_revision": difficulty_slots["require_cross_source_revision"],
         "family_semantics_from_skills": True,
     }
@@ -190,19 +240,6 @@ def _build_stage_slots(stage: str, difficulty_slots: dict[str, Any]) -> dict[str
                 "comparison_target",
             ],
             "must_not_define_story": True,
-        }
-    if stage == "case-context":
-        return {
-            **common,
-            "must_reflect_output_fields": [
-                "organization",
-                "team",
-                "scenario_summary",
-                "required_case_structure",
-            ],
-            "must_reflect_department_topology": True,
-            "session_semantics_from_skills": True,
-            "compatibility_stage": True,
         }
     if stage == "task-actor-layout":
         return {
@@ -264,25 +301,15 @@ def _build_stage_slots(stage: str, difficulty_slots: dict[str, Any]) -> dict[str
         return {
             **common,
             "must_realize_turns": True,
+            "live_llm_full_transcript_owner": True,
+            "forbid_template_expansion_as_formal_path": True,
+            "all_turns_enter_openclaw_ingress": True,
+            "beat_id_required_only_for_annotation_targets": True,
             "preserve_speaker_actor_refs": True,
             "preserve_session_refs": True,
             "preserve_beat_refs": True,
-        }
-    if stage == "story-plan":
-        return {
-            **common,
-            "must_reflect_output_fields": [
-                "actors",
-                "task_actor_layout",
-                "state_changes",
-                "message_beats",
-                "planned_probe_queries",
-            ],
-            "enforce_actor_count_range": True,
-            "enforce_session_count_target": True,
-            "enforce_family_numeric_minima": True,
-            "session_semantics_from_skills": True,
-            "compatibility_stage": True,
+            "official_file_trace_supported": True,
+            "private_info_trace_supported": True,
         }
     if stage == "command-plan":
         return {
@@ -319,6 +346,7 @@ def _build_stage_slots(stage: str, difficulty_slots: dict[str, Any]) -> dict[str
                 "fetch_thread_messages",
             ],
             "preserve_observed_data_traceability": True,
+            "openclaw_ingress_contains_all_sent_messages": True,
         }
     if stage == "pre-annotation-validate":
         return {
@@ -329,6 +357,18 @@ def _build_stage_slots(stage: str, difficulty_slots: dict[str, Any]) -> dict[str
                 "state_changes",
                 "evidence_chain",
                 "probe_support",
+            ],
+        }
+    if stage == "semantic-gold":
+        return {
+            **common,
+            "observed_messages_only": True,
+            "must_cite_message_ids": True,
+            "must_not_use_planned_only_text": True,
+            "expected_outputs": [
+                "expected_task_facts",
+                "expected_event_semantics",
+                "expected_query_answers",
             ],
         }
     raise BuilderSettingsError(f"Unsupported stage for prompt slots: {stage}")
@@ -344,6 +384,11 @@ def _build_difficulty_slots(difficulty: str) -> dict[str, Any]:
         "recommended_actor_count": profile["recommended_actor_count"],
         "recommended_department_count": profile["recommended_department_count"],
         "recommended_session_count": profile["recommended_session_count"],
+        "total_turn_count_min": profile["total_turn_count_min"],
+        "total_turn_count_max": profile["total_turn_count_max"],
+        "event_bearing_turn_count_min": profile["event_bearing_turn_count_min"],
+        "event_bearing_turn_count_max": profile["event_bearing_turn_count_max"],
+        "context_noise_ack_turn_count_min": profile["context_noise_ack_turn_count_min"],
         "require_cross_source_revision": profile["require_cross_source_revision"],
     }
 
@@ -368,12 +413,12 @@ def resolve_prompt_slots(
             "recommended_actor_count": difficulty_slots["recommended_actor_count"],
             "recommended_department_count": difficulty_slots["recommended_department_count"],
             "recommended_session_count": difficulty_slots["recommended_session_count"],
+            "total_turn_count_min": difficulty_slots["total_turn_count_min"],
+            "total_turn_count_max": difficulty_slots["total_turn_count_max"],
+            "event_bearing_turn_count_min": difficulty_slots["event_bearing_turn_count_min"],
+            "event_bearing_turn_count_max": difficulty_slots["event_bearing_turn_count_max"],
         },
     }
     if family_id is not None:
         resolved["family_numeric_slots"] = _build_family_numeric_slots(family_id)
-    elif stage == "case-context":
-        resolved["family_numeric_slots_by_family"] = {
-            item: _build_family_numeric_slots(item) for item in FORMAL_FAMILY_IDS
-        }
     return resolved

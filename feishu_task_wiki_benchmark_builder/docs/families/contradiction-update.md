@@ -35,7 +35,7 @@
 
 - 强调场景要自然支持重复修正，例如 owner、窗口、排期等
 
-### story-plan
+### story-beats / conversation-plan
 
 - 强调 `state_changes` 和 planned probes 是重点
 - 强调 `revision_context_blocks` 和 `supersession_clues` 必须明确指出哪一轮口径已经作废
