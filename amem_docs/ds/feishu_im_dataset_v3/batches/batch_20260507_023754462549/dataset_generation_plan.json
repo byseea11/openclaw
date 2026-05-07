@@ -1,0 +1,27 @@
+{
+  "generation_mode": "batch",
+  "dataset_size": 2,
+  "seed": 20260507023754463002,
+  "difficulty_policy": "hard",
+  "family_quotas": {
+    "anti_interference": 1,
+    "contradiction_update": 1,
+    "evidence_dependency_reasoning": 1,
+    "private_info_in_official_file": 1
+  },
+  "family_selection_policy": "round_robin_by_seed",
+  "batch_id": "batch_20260507_023754462549",
+  "family_policy": "all",
+  "case_plan": [
+    {
+      "index": 0,
+      "seed": 20260507023754463002,
+      "family_id": "anti_interference"
+    },
+    {
+      "index": 1,
+      "seed": 20260507023754463003,
+      "family_id": "contradiction_update"
+    }
+  ]
+}

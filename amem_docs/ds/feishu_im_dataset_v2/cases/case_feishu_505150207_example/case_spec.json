@@ -1,0 +1,24 @@
+{
+  "case_id": "case_feishu_505150207_example",
+  "task_id": "FEISHU-505150207",
+  "title": "",
+  "company_type": "",
+  "department_hints": [
+    "产品",
+    "研发",
+    "架构",
+    "安全",
+    "合规",
+    "风控",
+    "运维",
+    "站点可靠性工程",
+    "数据平台",
+    "测试"
+  ],
+  "scenario_profile": "enterprise_release_coordination",
+  "title_hint": "某金融科技公司计划发布一个涉及用户资金安全的关键版本，但因合规审查、安全漏洞和跨部门协调问题，版本发布多次延期，需要各部门协同解决。",
+  "main_goal_hint": "协调产品、研发、安全、合规、风控、运维等部门，在满足合规与安全要求的前提下，推动版本按时发布，并建立跨部门协作机制。",
+  "main_goal": "",
+  "difficulty": "hard",
+  "seed": 505150207
+}

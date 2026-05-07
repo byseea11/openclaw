@@ -1,0 +1,14 @@
+{
+  "case_id": "case_20260506213901711117_anti_interference",
+  "family_id": "anti_interference",
+  "annotation_count": 15,
+  "query_count": 5,
+  "stage_contract": [
+    "annotation-gold",
+    "query-benchmark",
+    "build-checks",
+    "gold-validate",
+    "replay-runtime",
+    "replay-eval"
+  ]
+}

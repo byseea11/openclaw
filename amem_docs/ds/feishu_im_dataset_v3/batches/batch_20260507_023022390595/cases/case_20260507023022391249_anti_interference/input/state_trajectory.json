@@ -1,0 +1,49 @@
+{
+  "case_id": "case_20260507023022391249_anti_interference",
+  "family_id": "anti_interference",
+  "task_id": "FEISHU-849",
+  "state_changes": [
+    {
+      "task_id": "FEISHU-849",
+      "field": "status",
+      "sequence": [
+        {
+          "value": "planning",
+          "status": "historical"
+        },
+        {
+          "value": "in_progress",
+          "status": "current"
+        }
+      ]
+    },
+    {
+      "task_id": "FEISHU-849",
+      "field": "owner",
+      "sequence": [
+        {
+          "value": "Bob",
+          "status": "historical"
+        },
+        {
+          "value": "Alice",
+          "status": "current"
+        }
+      ]
+    },
+    {
+      "task_id": "FEISHU-849",
+      "field": "blocker",
+      "sequence": [
+        {
+          "value": "none",
+          "status": "historical"
+        },
+        {
+          "value": "pending_security_review",
+          "status": "current"
+        }
+      ]
+    }
+  ]
+}

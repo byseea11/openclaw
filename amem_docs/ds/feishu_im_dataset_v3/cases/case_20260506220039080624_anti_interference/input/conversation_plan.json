@@ -1,0 +1,117 @@
+{
+  "case_id": "case_20260506220039080624_anti_interference",
+  "family_id": "anti_interference",
+  "task_id": "FEISHU-724",
+  "sessions": [
+    {
+      "session_id": "main_chat",
+      "session_type": "main_chat",
+      "title": "主群协调",
+      "session_purpose": "沉淀目标任务的主线协作信息和最终 current state。"
+    },
+    {
+      "session_id": "thread_docs",
+      "session_type": "chat",
+      "title": "thread_docs 会话",
+      "session_purpose": "承载目标任务相关的补充协作上下文。"
+    },
+    {
+      "session_id": "thread_release",
+      "session_type": "chat",
+      "title": "thread_release 会话",
+      "session_purpose": "承载目标任务相关的补充协作上下文。"
+    },
+    {
+      "session_id": "handoff_thread",
+      "session_type": "handoff_thread",
+      "title": "交接修正线程",
+      "session_purpose": "承载 owner 交接、旧状态修正和 supersession 说明。"
+    },
+    {
+      "session_id": "risk_review_thread",
+      "session_type": "risk_review_thread",
+      "title": "风险复核线程",
+      "session_purpose": "承载依赖、风险和证据分层补充信息。"
+    },
+    {
+      "session_id": "customer_sync_chat",
+      "session_type": "customer_sync_chat",
+      "title": "客户同步侧群",
+      "session_purpose": "承接外部压力、模糊口径和对外同步上下文。"
+    }
+  ],
+  "turns": [
+    {
+      "turn_id": "turn_001",
+      "beat_id": "beat_001",
+      "sequence_no": 1,
+      "session_id": "main_chat",
+      "speaker_actor_id": "alice",
+      "speaker": "Alice",
+      "planned_message_text": "FEISHU-724 当前由 Alice 负责收口，真正 blocker 还是支付风控回归没有完成。"
+    },
+    {
+      "turn_id": "turn_002",
+      "beat_id": "beat_002",
+      "sequence_no": 2,
+      "session_id": "main_chat",
+      "speaker_actor_id": "bob",
+      "speaker": "Bob",
+      "planned_message_text": "运维演练那边也卡在 blocker，但这是另外一条并行讨论，不是 FEISHU-724 的 owner 变更。"
+    },
+    {
+      "turn_id": "turn_003",
+      "beat_id": "beat_003",
+      "sequence_no": 3,
+      "session_id": "thread_docs",
+      "speaker_actor_id": "carol",
+      "speaker": "Carol",
+      "planned_message_text": "Alice 晚上还要审文档收口，不过那只是 reviewer 身份，不代表 FEISHU-724 再次换 owner。"
+    },
+    {
+      "turn_id": "turn_004",
+      "beat_id": "beat_004",
+      "sequence_no": 4,
+      "session_id": "main_chat",
+      "speaker_actor_id": "diana",
+      "speaker": "Diana",
+      "planned_message_text": "QA 角度：FEISHU-724 的回归测试还在进行，风控回归是当前卡点。"
+    },
+    {
+      "turn_id": "turn_005",
+      "beat_id": "beat_005",
+      "sequence_no": 5,
+      "session_id": "thread_release",
+      "speaker_actor_id": "edward",
+      "speaker": "Edward",
+      "planned_message_text": "开发侧，FEISHU-724 代码已冻结，等风控回归完成即可。"
+    },
+    {
+      "turn_id": "turn_006",
+      "beat_id": "beat_006",
+      "sequence_no": 6,
+      "session_id": "handoff_thread",
+      "speaker_actor_id": "alice",
+      "speaker": "Alice",
+      "planned_message_text": "文档收口已全部完成，我作为 reviewer 签字了，但这是另一件事，不涉及 FEISHU-724 的 owner 变更。"
+    },
+    {
+      "turn_id": "turn_007",
+      "beat_id": "beat_007",
+      "sequence_no": 7,
+      "session_id": "risk_review_thread",
+      "speaker_actor_id": "fiona",
+      "speaker": "Fiona",
+      "planned_message_text": "安全审查发现几个 low risk 项，需要 Alice 跟进，但这不影响 FEISHU-724 的当前 block。"
+    },
+    {
+      "turn_id": "turn_008",
+      "beat_id": "beat_008",
+      "sequence_no": 8,
+      "session_id": "customer_sync_chat",
+      "speaker_actor_id": "kevin",
+      "speaker": "Kevin",
+      "planned_message_text": "第三方供应商对接进度有个 blocker，但不是 FEISHU-724 的。"
+    }
+  ]
+}

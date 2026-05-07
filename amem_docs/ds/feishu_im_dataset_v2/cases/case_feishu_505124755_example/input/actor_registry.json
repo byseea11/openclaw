@@ -1,0 +1,115 @@
+{
+  "case_id": "case_feishu_505124755_example",
+  "actors": [
+    {
+      "person_id": "product_manager_01",
+      "simulated_open_id": "ou_sim_product_manager_01",
+      "name": "高骏",
+      "department": "产品",
+      "role": "产品经理",
+      "default_channels": [
+        "main_chat",
+        "customer_sync_chat"
+      ]
+    },
+    {
+      "person_id": "engineering_lead_02",
+      "simulated_open_id": "ou_sim_engineering_lead_02",
+      "name": "王源",
+      "department": "研发",
+      "role": "研发负责人",
+      "default_channels": [
+        "main_chat",
+        "launch_window_thread"
+      ]
+    },
+    {
+      "person_id": "engineering_pm_03",
+      "simulated_open_id": "ou_sim_engineering_pm_03",
+      "name": "林晨",
+      "department": "研发",
+      "role": "研发项目经理",
+      "default_channels": [
+        "main_chat",
+        "launch_window_thread"
+      ]
+    },
+    {
+      "person_id": "qa_lead_04",
+      "simulated_open_id": "ou_sim_qa_lead_04",
+      "name": "许薇",
+      "department": "测试",
+      "role": "测试负责人",
+      "default_channels": [
+        "main_chat",
+        "launch_window_thread"
+      ]
+    },
+    {
+      "person_id": "operations_lead_05",
+      "simulated_open_id": "ou_sim_operations_lead_05",
+      "name": "韩朔",
+      "department": "运维",
+      "role": "运维负责人",
+      "default_channels": [
+        "main_chat",
+        "launch_window_thread"
+      ]
+    },
+    {
+      "person_id": "security_reviewer_06",
+      "simulated_open_id": "ou_sim_security_reviewer_06",
+      "name": "苏禾",
+      "department": "安全",
+      "role": "安全评审",
+      "default_channels": [
+        "main_chat",
+        "launch_window_thread"
+      ]
+    },
+    {
+      "person_id": "architecture_owner_07",
+      "simulated_open_id": "ou_sim_architecture_owner_07",
+      "name": "秦怡",
+      "department": "架构",
+      "role": "架构负责人",
+      "default_channels": [
+        "main_chat",
+        "launch_window_thread"
+      ]
+    },
+    {
+      "person_id": "compliance_owner_08",
+      "simulated_open_id": "ou_sim_compliance_owner_08",
+      "name": "唐越",
+      "department": "合规",
+      "role": "合规负责人",
+      "default_channels": [
+        "main_chat",
+        "launch_window_thread"
+      ]
+    },
+    {
+      "person_id": "risk_control_owner_09",
+      "simulated_open_id": "ou_sim_risk_control_owner_09",
+      "name": "陈雪",
+      "department": "风控",
+      "role": "风控负责人",
+      "default_channels": [
+        "main_chat",
+        "launch_window_thread"
+      ]
+    },
+    {
+      "person_id": "sre_owner_10",
+      "simulated_open_id": "ou_sim_sre_owner_10",
+      "name": "顾宁",
+      "department": "站点可靠性工程",
+      "role": "站点可靠性工程负责人",
+      "default_channels": [
+        "main_chat",
+        "launch_window_thread"
+      ]
+    }
+  ]
+}

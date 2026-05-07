@@ -1,0 +1,9 @@
+{
+  "case_id": "case_20260507023754463003_contradiction_update",
+  "case_dir": "amem_docs/ds/feishu_im_dataset_v3/batches/batch_20260507_023754462549/cases/case_20260507023754463003_contradiction_update",
+  "family_id": "contradiction_update",
+  "task_id": "FEISHU-703",
+  "seed": 20260507023754463003,
+  "last_completed_stage": "story-beats",
+  "updated_at": "2026-05-07T02:44:37.792861+00:00"
+}

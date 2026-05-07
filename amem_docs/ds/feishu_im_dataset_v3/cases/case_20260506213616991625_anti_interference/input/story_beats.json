@@ -1,0 +1,55 @@
+{
+  "case_id": "case_20260506213616991625_anti_interference",
+  "family_id": "anti_interference",
+  "task_id": "FEISHU-825",
+  "beats": [
+    {
+      "beat_id": "beat_001",
+      "target_session_id": "main_chat",
+      "benchmark_role": "memory_pollution_turn",
+      "description": "FEISHU-825 当前由 Alice 负责收口，真正 blocker 还是支付风控回归没有完成，上线窗口暂时定不了。"
+    },
+    {
+      "beat_id": "beat_002",
+      "target_session_id": "main_chat",
+      "benchmark_role": "memory_pollution_turn",
+      "description": "运维演练那边也卡在 blocker，但这是另外一条并行讨论，不是 FEISHU-825 的 owner 变更。"
+    },
+    {
+      "beat_id": "beat_003",
+      "target_session_id": "main_chat",
+      "benchmark_role": "memory_pollution_turn",
+      "description": "发布节奏同步会上提到的窗口调整是针对其它发布，跟 FEISHU-825 的时间无关。"
+    },
+    {
+      "beat_id": "beat_004",
+      "target_session_id": "handoff_thread",
+      "benchmark_role": "memory_pollution_turn",
+      "description": "Alice 只是 FEISHU-825 的 owner，文档收口那边她只是 reviewer，不要混淆。"
+    },
+    {
+      "beat_id": "beat_005",
+      "target_session_id": "main_chat",
+      "benchmark_role": "memory_pollution_turn",
+      "description": "安全 review 的 blocker 不是支付风控回归，那是两回事，FEISHU-825 的 blocker 还是支付风控回归。"
+    },
+    {
+      "beat_id": "beat_006",
+      "target_session_id": "qa_thread",
+      "benchmark_role": "memory_pollution_turn",
+      "description": "质量验收计划里的 blocker 是测试环境问题，跟 FEISHU-825 的支付风控回归无关。"
+    },
+    {
+      "beat_id": "beat_007",
+      "target_session_id": "vendor_sync_chat",
+      "benchmark_role": "memory_pollution_turn",
+      "description": "供应商那边的依赖是另一个模块，不影响 FEISHU-825 的 blocker 状态。"
+    },
+    {
+      "beat_id": "beat_008",
+      "target_session_id": "exec_sync_chat",
+      "benchmark_role": "memory_pollution_turn",
+      "description": "最终确认：FEISHU-825 当前 owner 是 Alice，blocker 是支付风控回归未完成，其它并行讨论里的 blocker、ready、窗口变更都不要混进来。"
+    }
+  ]
+}

@@ -1,0 +1,37 @@
+{
+  "family_id": "anti_interference",
+  "benchmark_requirement_name": "抗干扰测试",
+  "benchmark_requirement_summary": "在大量无关任务、共享角色和相似字段噪音下，仍然准确捞取目标任务的关键记忆。",
+  "report_display_name": "抗干扰测试",
+  "capability_under_test": "在共享角色和相似任务并存时，只回答目标任务的当前上下文，不把噪音任务的信息混入答案。",
+  "why_memory_systems_may_fail": "系统容易把共享角色在其他任务上的信息误并入目标任务，导致回答范围污染，即使相关消息都被记住了也会答偏。",
+  "generation_rules": [
+    "正式 contract 里只能有 1 个目标任务，不能把 distractor task 当成并列正式 task。",
+    "必须存在 shared actors、跨任务噪声或相似措辞来源，让系统需要做 task boundary 判断。",
+    "query 不能只问显式字段，必须逼系统区分目标任务和其他任务上下文的边界。"
+  ],
+  "required_case_structure": [
+    "target_task",
+    "distractor_context",
+    "shared_actors",
+    "scope_limited_query_need"
+  ],
+  "probe_strategy": [
+    "让 query 同时提到目标任务和相似任务背景。",
+    "要求系统明确排除非目标任务信息。"
+  ],
+  "expected_good_system_behavior": [
+    "只回答目标任务的当前负责人、状态和阻塞。",
+    "显式说明相似任务的信息不应混入当前答案。"
+  ],
+  "case_id": "case_20260507020326491308_anti_interference",
+  "task_id": "FEISHU-408",
+  "seed": 20260507020326491308,
+  "difficulty": "hard",
+  "comparison_target": "default_memory_architectures",
+  "organization": "Globex Corporation",
+  "team": "Platform Engineering",
+  "business_goal": "在多个并行项目同时推进时，确保各任务的关键上下文不被跨任务噪音污染。",
+  "scenario_summary": "在大型多项目协作环境中，平台工程团队同时推进 FEISHU-203（基础设施迁移）和多个相似任务（如文档审查、运维演练等）。FEISHU-203 的负责人 Alice 也参与其他任务，且其他任务使用了相同的术语（如 blocker, ready, 收口）。系统需要从大量混合消息中准确提取 FEISHU-203 的当前状态，排除其他任务的干扰。",
+  "family_fit_explanation": "该场景通过共享角色（Alice）和相似措辞（多个任务都讨论 blocker 和收口）自然产生跨任务噪音，属于 anti_interference 范畴。"
+}

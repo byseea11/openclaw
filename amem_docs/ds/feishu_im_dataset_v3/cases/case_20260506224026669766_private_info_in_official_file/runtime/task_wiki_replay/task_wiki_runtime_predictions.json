@@ -1,0 +1,2337 @@
+{
+  "case_id": "case_20260506224026669766_private_info_in_official_file",
+  "task_id": "FEISHU-666",
+  "state_dir": "amem_docs/ds/feishu_im_dataset_v3/cases/case_20260506224026669766_private_info_in_official_file/runtime/task_wiki_state",
+  "task_roots": [
+    "amem_docs/ds/feishu_im_dataset_v3/cases/case_20260506224026669766_private_info_in_official_file/runtime/task_wiki_state/feishu-task-wiki/tasks/FEISHU-666-45f2ad9d"
+  ],
+  "verification_results": [
+    {
+      "sessionDir": "/Users/byseea/programscoding/nanobot/openclaw-main/amem_docs/ds/feishu_im_dataset_v3/cases/case_20260506224026669766_private_info_in_official_file/runtime/task_wiki_state/feishu-task-wiki/tasks/FEISHU-666-45f2ad9d/sessions/FEISHU-666_chat_oc_21fc5cc6becbda6432fe9592c2ea1-7bdb7dbb",
+      "queuedJobs": 0,
+      "completedJobs": 10,
+      "verifiedEvents": 10
+    },
+    {
+      "sessionDir": "/Users/byseea/programscoding/nanobot/openclaw-main/amem_docs/ds/feishu_im_dataset_v3/cases/case_20260506224026669766_private_info_in_official_file/runtime/task_wiki_state/feishu-task-wiki/tasks/FEISHU-666-45f2ad9d/sessions/FEISHU-666_chat_oc_ac5a33c314d20661373939b376723-e2a8eda9",
+      "queuedJobs": 0,
+      "completedJobs": 11,
+      "verifiedEvents": 9
+    },
+    {
+      "sessionDir": "/Users/byseea/programscoding/nanobot/openclaw-main/amem_docs/ds/feishu_im_dataset_v3/cases/case_20260506224026669766_private_info_in_official_file/runtime/task_wiki_state/feishu-task-wiki/tasks/FEISHU-666-45f2ad9d/sessions/FEISHU-666_chat_oc_f1c581e38c20b845ed42c30671f63-2f254d48",
+      "queuedJobs": 0,
+      "completedJobs": 2,
+      "verifiedEvents": 2
+    },
+    {
+      "sessionDir": "/Users/byseea/programscoding/nanobot/openclaw-main/amem_docs/ds/feishu_im_dataset_v3/cases/case_20260506224026669766_private_info_in_official_file/runtime/task_wiki_state/feishu-task-wiki/tasks/FEISHU-666-45f2ad9d/sessions/FEISHU-666_chat_oc_226e89b2b3fd7612aea5fc7f187cb-ef785114",
+      "queuedJobs": 0,
+      "completedJobs": 15,
+      "verifiedEvents": 12
+    },
+    {
+      "sessionDir": "/Users/byseea/programscoding/nanobot/openclaw-main/amem_docs/ds/feishu_im_dataset_v3/cases/case_20260506224026669766_private_info_in_official_file/runtime/task_wiki_state/feishu-task-wiki/tasks/FEISHU-666-45f2ad9d/sessions/FEISHU-666_chat_oc_f49b2c4a0d0a92df61e1f27186021-20685f74",
+      "queuedJobs": 0,
+      "completedJobs": 5,
+      "verifiedEvents": 4
+    },
+    {
+      "sessionDir": "/Users/byseea/programscoding/nanobot/openclaw-main/amem_docs/ds/feishu_im_dataset_v3/cases/case_20260506224026669766_private_info_in_official_file/runtime/task_wiki_state/feishu-task-wiki/tasks/FEISHU-666-45f2ad9d/sessions/FEISHU-666_chat_oc_d852908acc34173446bde912b27c9-b602d089",
+      "queuedJobs": 0,
+      "completedJobs": 6,
+      "verifiedEvents": 4
+    },
+    {
+      "sessionDir": "/Users/byseea/programscoding/nanobot/openclaw-main/amem_docs/ds/feishu_im_dataset_v3/cases/case_20260506224026669766_private_info_in_official_file/runtime/task_wiki_state/feishu-task-wiki/tasks/FEISHU-666-45f2ad9d/sessions/FEISHU-666_chat_oc_77fa9b1b12c2e4ce9cd5ef67b44b0-ca85b840",
+      "queuedJobs": 0,
+      "completedJobs": 1,
+      "verifiedEvents": 1
+    },
+    {
+      "sessionDir": "/Users/byseea/programscoding/nanobot/openclaw-main/amem_docs/ds/feishu_im_dataset_v3/cases/case_20260506224026669766_private_info_in_official_file/runtime/task_wiki_state/feishu-task-wiki/tasks/FEISHU-666-45f2ad9d/sessions/FEISHU-666_chat_oc_ba31dd2af9ace4d46985b0f11750c-ef428140",
+      "queuedJobs": 0,
+      "completedJobs": 2,
+      "verifiedEvents": 2
+    }
+  ],
+  "verified_events": [
+    {
+      "event_id": "evt_47fe2f2ac236dcf6",
+      "task_ref": "FEISHU-666",
+      "source_session_id": "task:FEISHU-666::chat:oc_f49b2c4a0d0a92df61e1f27186021348",
+      "ingest_version": 1,
+      "event_type": "status_event",
+      "claim": "客户，升级窗口5月10日22点UTC，已正式确认",
+      "core_entry_id": "om_x100b5088e620a8a4c1458760d56af29",
+      "evidence_quote": "客户，升级窗口5月10日22点UTC，已正式确认",
+      "context_quotes": [],
+      "participants": ["王源"],
+      "event_time": "1778109140000",
+      "source": {
+        "source_type": "chat",
+        "source_id": "chat:customer_sync_chat",
+        "chat_id": "oc_f49b2c4a0d0a92df61e1f27186021348",
+        "thread_id": null,
+        "root_id": null,
+        "locator": "chat:customer_sync_chat"
+      },
+      "confidence": 0.72,
+      "verification": {
+        "core_quote_found": true,
+        "claim_supported_by_quote": true,
+        "context_only_generation": false,
+        "single_atomic_claim": true,
+        "required_fields_complete": true,
+        "no_unsupported_inference": true,
+        "verdict": "verified",
+        "resolved_core_entry_id": "om_x100b5088e620a8a4c1458760d56af29",
+        "quote_match_type": "exact",
+        "missing_required_fields": [],
+        "rejection_reasons": [],
+        "unsupported_parts": [],
+        "verifier_reason": ""
+      },
+      "status": "客户，升级窗口5月10日22点UTC，已正式确认",
+      "target": "升级窗口",
+      "programmatic_validation": {
+        "verdict": "ready_for_verification",
+        "evidence_quote_in_core": true,
+        "required_fields_complete": true,
+        "single_atomic_claim": true,
+        "missing_required_fields": [],
+        "rejection_reasons": []
+      },
+      "ingest_id": "task:FEISHU-666::chat:oc_f49b2c4a0d0a92df61e1f27186021348::1",
+      "task_id": "task:FEISHU-666",
+      "source_scope": "chat:oc_f49b2c4a0d0a92df61e1f27186021348",
+      "processing_status": "pending_verification",
+      "verification_job_id": "verify_1e9cff01b1643639",
+      "verified_at": "2026-05-07T03:48:22.196Z"
+    },
+    {
+      "event_id": "evt_79942b431a6b1b8e",
+      "task_ref": "FEISHU-666",
+      "source_session_id": "task:FEISHU-666::chat:oc_f49b2c4a0d0a92df61e1f27186021348",
+      "ingest_version": 1,
+      "event_type": "time_event",
+      "claim": "客户，升级窗口5月10日22点UTC，已正式确认",
+      "core_entry_id": "om_x100b5088e620a8a4c1458760d56af29",
+      "evidence_quote": "客户，升级窗口5月10日22点UTC，已正式确认",
+      "context_quotes": [],
+      "participants": ["王源"],
+      "event_time": "1778109140000",
+      "source": {
+        "source_type": "chat",
+        "source_id": "chat:customer_sync_chat",
+        "chat_id": "oc_f49b2c4a0d0a92df61e1f27186021348",
+        "thread_id": null,
+        "root_id": null,
+        "locator": "chat:customer_sync_chat"
+      },
+      "confidence": 0.72,
+      "verification": {
+        "core_quote_found": true,
+        "claim_supported_by_quote": true,
+        "context_only_generation": false,
+        "single_atomic_claim": true,
+        "required_fields_complete": true,
+        "no_unsupported_inference": true,
+        "verdict": "verified",
+        "resolved_core_entry_id": "om_x100b5088e620a8a4c1458760d56af29",
+        "quote_match_type": "exact",
+        "missing_required_fields": [],
+        "rejection_reasons": [],
+        "unsupported_parts": [],
+        "verifier_reason": ""
+      },
+      "time_target": "升级窗口",
+      "time_value": "5月10日22点UTC",
+      "certainty": "确认",
+      "programmatic_validation": {
+        "verdict": "ready_for_verification",
+        "evidence_quote_in_core": true,
+        "required_fields_complete": true,
+        "single_atomic_claim": true,
+        "missing_required_fields": [],
+        "rejection_reasons": []
+      },
+      "ingest_id": "task:FEISHU-666::chat:oc_f49b2c4a0d0a92df61e1f27186021348::1",
+      "task_id": "task:FEISHU-666",
+      "source_scope": "chat:oc_f49b2c4a0d0a92df61e1f27186021348",
+      "processing_status": "pending_verification",
+      "verification_job_id": "verify_ebb7e322073a0f31",
+      "verified_at": "2026-05-07T03:48:22.197Z"
+    },
+    {
+      "event_id": "evt_6b45a606a63d0d89",
+      "task_ref": "FEISHU-666",
+      "source_session_id": "task:FEISHU-666::chat:oc_f49b2c4a0d0a92df61e1f27186021348",
+      "ingest_version": 4,
+      "event_type": "status_event",
+      "claim": "回滚计划已批准，客户不用担心",
+      "core_entry_id": "om_x100b5088e7c3fca0c354d4b84d4fbad",
+      "evidence_quote": "回滚计划已批准，客户不用担心",
+      "context_quotes": [
+        {
+          "entry_id": "om_x100b5088e620a8a4c1458760d56af29",
+          "quote": "客户，升级窗口5月10日22点UTC，已正式确认。",
+          "role": "disambiguation"
+        },
+        {
+          "entry_id": "om_x100b5088e635d4a0c324d31995cde4c",
+          "quote": "所有变更按评审纪要执行。",
+          "role": "disambiguation"
+        },
+        {
+          "entry_id": "om_x100b5088e7cf6ca0c42e3952044414d",
+          "quote": "纪要里的blocker是network config drift，处理中。",
+          "role": "disambiguation"
+        }
+      ],
+      "participants": ["高骏"],
+      "event_time": "1778109140000",
+      "source": {
+        "source_type": "chat",
+        "source_id": "chat:customer_sync_chat",
+        "chat_id": "oc_f49b2c4a0d0a92df61e1f27186021348",
+        "thread_id": null,
+        "root_id": null,
+        "locator": "chat:customer_sync_chat"
+      },
+      "confidence": 0.72,
+      "verification": {
+        "core_quote_found": true,
+        "claim_supported_by_quote": true,
+        "context_only_generation": false,
+        "single_atomic_claim": true,
+        "required_fields_complete": true,
+        "no_unsupported_inference": true,
+        "verdict": "verified",
+        "resolved_core_entry_id": "om_x100b5088e7c3fca0c354d4b84d4fbad",
+        "quote_match_type": "exact",
+        "missing_required_fields": [],
+        "rejection_reasons": [],
+        "unsupported_parts": [],
+        "verifier_reason": ""
+      },
+      "status": "回滚计划已批准，客户不用担心",
+      "target": "回滚计划",
+      "programmatic_validation": {
+        "verdict": "ready_for_verification",
+        "evidence_quote_in_core": true,
+        "required_fields_complete": true,
+        "single_atomic_claim": true,
+        "missing_required_fields": [],
+        "rejection_reasons": []
+      },
+      "ingest_id": "task:FEISHU-666::chat:oc_f49b2c4a0d0a92df61e1f27186021348::4",
+      "task_id": "task:FEISHU-666",
+      "source_scope": "chat:oc_f49b2c4a0d0a92df61e1f27186021348",
+      "processing_status": "pending_verification",
+      "verification_job_id": "verify_a96a27c38d5d9144",
+      "verified_at": "2026-05-07T03:48:22.198Z"
+    },
+    {
+      "event_id": "evt_b8e73c66019e85e6",
+      "task_ref": "FEISHU-666",
+      "source_session_id": "task:FEISHU-666::chat:oc_f49b2c4a0d0a92df61e1f27186021348",
+      "ingest_version": 9,
+      "event_type": "status_event",
+      "claim": "客户已确认窗口",
+      "core_entry_id": "om_x100b5088e784b8a4c4f549e9ec285bd",
+      "evidence_quote": "客户已确认窗口",
+      "context_quotes": [
+        {
+          "entry_id": "om_x100b5088e7ea34a4c3648780388d7a8",
+          "quote": "窗口不变，仍为5月10日22点UTC，以纪要为准。",
+          "role": "disambiguation"
+        },
+        {
+          "entry_id": "om_x100b5088e7ff2ca4c37cd01a0c60720",
+          "quote": "抱歉，我没确认清楚，以Alice说的为准。",
+          "role": "disambiguation"
+        },
+        {
+          "entry_id": "om_x100b5088e7f13910c316f1e785f64c2",
+          "quote": "跟客户再确认一下：所有以评审纪要为准。",
+          "role": "disambiguation"
+        }
+      ],
+      "participants": ["王源"],
+      "event_time": "1778109140000",
+      "source": {
+        "source_type": "chat",
+        "source_id": "chat:customer_sync_chat",
+        "chat_id": "oc_f49b2c4a0d0a92df61e1f27186021348",
+        "thread_id": null,
+        "root_id": null,
+        "locator": "chat:customer_sync_chat"
+      },
+      "confidence": 0.72,
+      "verification": {
+        "core_quote_found": true,
+        "claim_supported_by_quote": true,
+        "context_only_generation": false,
+        "single_atomic_claim": true,
+        "required_fields_complete": true,
+        "no_unsupported_inference": true,
+        "verdict": "verified",
+        "resolved_core_entry_id": "om_x100b5088e784b8a4c4f549e9ec285bd",
+        "quote_match_type": "exact",
+        "missing_required_fields": [],
+        "rejection_reasons": [],
+        "unsupported_parts": [],
+        "verifier_reason": ""
+      },
+      "status": "客户已确认窗口",
+      "target": "窗口",
+      "programmatic_validation": {
+        "verdict": "ready_for_verification",
+        "evidence_quote_in_core": true,
+        "required_fields_complete": true,
+        "single_atomic_claim": true,
+        "missing_required_fields": [],
+        "rejection_reasons": []
+      },
+      "ingest_id": "task:FEISHU-666::chat:oc_f49b2c4a0d0a92df61e1f27186021348::9",
+      "task_id": "task:FEISHU-666",
+      "source_scope": "chat:oc_f49b2c4a0d0a92df61e1f27186021348",
+      "processing_status": "pending_verification",
+      "verification_job_id": "verify_798ae01b87dc4201",
+      "verified_at": "2026-05-07T03:48:22.199Z"
+    },
+    {
+      "event_id": "evt_94ce14f31062f8ce",
+      "task_ref": "FEISHU-666",
+      "source_session_id": "task:FEISHU-666::chat:oc_f1c581e38c20b845ed42c30671f63193",
+      "ingest_version": 2,
+      "event_type": "status_event",
+      "claim": "运维窗口已锁定",
+      "core_entry_id": "om_x100b5088e5a344a0c4dcea951c8bed1",
+      "evidence_quote": "运维窗口已锁定",
+      "context_quotes": [
+        {
+          "entry_id": "om_x100b5088e4d410a4c4a3f5b6ead9444",
+          "quote": "运维窗口线程：以下回复承载该 source session 的真实 benchmark 消息。",
+          "role": "disambiguation"
+        }
+      ],
+      "participants": ["周宇"],
+      "event_time": "1778109140000",
+      "source": {
+        "source_type": "thread",
+        "source_id": "thread:ops_window_thread",
+        "chat_id": "oc_f1c581e38c20b845ed42c30671f63193",
+        "thread_id": "om_x100b5088e5a344a0c4dcea951c8bed1",
+        "root_id": "om_x100b5088e5a344a0c4dcea951c8bed1",
+        "locator": "thread:ops_window_thread"
+      },
+      "confidence": 0.72,
+      "verification": {
+        "core_quote_found": true,
+        "claim_supported_by_quote": true,
+        "context_only_generation": false,
+        "single_atomic_claim": true,
+        "required_fields_complete": true,
+        "no_unsupported_inference": true,
+        "verdict": "verified",
+        "resolved_core_entry_id": "om_x100b5088e5a344a0c4dcea951c8bed1",
+        "quote_match_type": "exact",
+        "missing_required_fields": [],
+        "rejection_reasons": [],
+        "unsupported_parts": [],
+        "verifier_reason": ""
+      },
+      "status": "运维窗口已锁定",
+      "target": "运维窗口",
+      "programmatic_validation": {
+        "verdict": "ready_for_verification",
+        "evidence_quote_in_core": true,
+        "required_fields_complete": true,
+        "single_atomic_claim": true,
+        "missing_required_fields": [],
+        "rejection_reasons": []
+      },
+      "ingest_id": "task:FEISHU-666::chat:oc_f1c581e38c20b845ed42c30671f63193::2",
+      "task_id": "task:FEISHU-666",
+      "source_scope": "chat:oc_f1c581e38c20b845ed42c30671f63193",
+      "processing_status": "pending_verification",
+      "verification_job_id": "verify_77426f3ac28f8e0c",
+      "verified_at": "2026-05-07T03:48:22.150Z"
+    },
+    {
+      "event_id": "evt_0780b82ab2d064d3",
+      "task_ref": "FEISHU-666",
+      "source_session_id": "task:FEISHU-666::chat:oc_f1c581e38c20b845ed42c30671f63193",
+      "ingest_version": 3,
+      "event_type": "status_event",
+      "claim": "监控告警阈值已调整",
+      "core_entry_id": "om_x100b5088e5b470a4c22b49aeb2e2dca",
+      "evidence_quote": "监控告警阈值已调整",
+      "context_quotes": [
+        {
+          "entry_id": "om_x100b5088e4d410a4c4a3f5b6ead9444",
+          "quote": "运维窗口线程：以下回复承载该 source session 的真实 benchmark 消息。",
+          "role": "disambiguation"
+        },
+        {
+          "entry_id": "om_x100b5088e5a344a0c4dcea951c8bed1",
+          "quote": "运维窗口已锁定。",
+          "role": "disambiguation"
+        }
+      ],
+      "participants": ["唐越"],
+      "event_time": "1778109140000",
+      "source": {
+        "source_type": "thread",
+        "source_id": "thread:ops_window_thread",
+        "chat_id": "oc_f1c581e38c20b845ed42c30671f63193",
+        "thread_id": "om_x100b5088e5b470a4c22b49aeb2e2dca",
+        "root_id": "om_x100b5088e5b470a4c22b49aeb2e2dca",
+        "locator": "thread:ops_window_thread"
+      },
+      "confidence": 0.72,
+      "verification": {
+        "core_quote_found": true,
+        "claim_supported_by_quote": true,
+        "context_only_generation": false,
+        "single_atomic_claim": true,
+        "required_fields_complete": true,
+        "no_unsupported_inference": true,
+        "verdict": "verified",
+        "resolved_core_entry_id": "om_x100b5088e5b470a4c22b49aeb2e2dca",
+        "quote_match_type": "exact",
+        "missing_required_fields": [],
+        "rejection_reasons": [],
+        "unsupported_parts": [],
+        "verifier_reason": ""
+      },
+      "status": "监控告警阈值已调整",
+      "target": "监控告警阈值",
+      "programmatic_validation": {
+        "verdict": "ready_for_verification",
+        "evidence_quote_in_core": true,
+        "required_fields_complete": true,
+        "single_atomic_claim": true,
+        "missing_required_fields": [],
+        "rejection_reasons": []
+      },
+      "ingest_id": "task:FEISHU-666::chat:oc_f1c581e38c20b845ed42c30671f63193::3",
+      "task_id": "task:FEISHU-666",
+      "source_scope": "chat:oc_f1c581e38c20b845ed42c30671f63193",
+      "processing_status": "pending_verification",
+      "verification_job_id": "verify_9ab1d06a06eb74cd",
+      "verified_at": "2026-05-07T03:48:22.151Z"
+    },
+    {
+      "event_id": "evt_81ef6afcd23cb501",
+      "task_ref": "FEISHU-666",
+      "source_session_id": "task:FEISHU-666::chat:oc_d852908acc34173446bde912b27c9963",
+      "ingest_version": 2,
+      "event_type": "time_event",
+      "claim": "那是Carol个人请求，正式窗口确认是5月10日",
+      "core_entry_id": "om_x100b5088e7b57ca0c3c45b8cb21f5a9",
+      "evidence_quote": "那是Carol个人请求，正式窗口确认是5月10日",
+      "context_quotes": [
+        {
+          "entry_id": "om_x100b5088e7a0c8a8c4572b662f77ee4",
+          "quote": "听Carol提过窗口可能调到周三前，你们知道吗？",
+          "role": "disambiguation"
+        }
+      ],
+      "participants": ["罗天"],
+      "event_time": "1778109140000",
+      "source": {
+        "source_type": "chat",
+        "source_id": "chat:exec_sync_chat",
+        "chat_id": "oc_d852908acc34173446bde912b27c9963",
+        "thread_id": null,
+        "root_id": null,
+        "locator": "chat:exec_sync_chat"
+      },
+      "confidence": 0.72,
+      "verification": {
+        "core_quote_found": true,
+        "claim_supported_by_quote": true,
+        "context_only_generation": false,
+        "single_atomic_claim": true,
+        "required_fields_complete": true,
+        "no_unsupported_inference": true,
+        "verdict": "verified",
+        "resolved_core_entry_id": "om_x100b5088e7b57ca0c3c45b8cb21f5a9",
+        "quote_match_type": "exact",
+        "missing_required_fields": [],
+        "rejection_reasons": [],
+        "unsupported_parts": [],
+        "verifier_reason": ""
+      },
+      "time_target": "窗口",
+      "time_value": "5月10日",
+      "certainty": "确认",
+      "programmatic_validation": {
+        "verdict": "ready_for_verification",
+        "evidence_quote_in_core": true,
+        "required_fields_complete": true,
+        "single_atomic_claim": true,
+        "missing_required_fields": [],
+        "rejection_reasons": []
+      },
+      "ingest_id": "task:FEISHU-666::chat:oc_d852908acc34173446bde912b27c9963::2",
+      "task_id": "task:FEISHU-666",
+      "source_scope": "chat:oc_d852908acc34173446bde912b27c9963",
+      "processing_status": "pending_verification",
+      "verification_job_id": "verify_133d876d61c9dc8d",
+      "verified_at": "2026-05-07T03:48:22.219Z"
+    },
+    {
+      "event_id": "evt_21c5fced40725bfb",
+      "task_ref": "FEISHU-666",
+      "source_session_id": "task:FEISHU-666::chat:oc_d852908acc34173446bde912b27c9963",
+      "ingest_version": 6,
+      "event_type": "status_event",
+      "claim": "回滚计划已批，无变更",
+      "core_entry_id": "om_x100b5088e76b60a0c49b8006b3c330c",
+      "evidence_quote": "回滚计划已批，无变更",
+      "context_quotes": [
+        {
+          "entry_id": "om_x100b5088e74e7ca8c4f7a1b5b1ff429",
+          "quote": "正式纪要为准，个人偏好不影响任务计划。",
+          "role": "disambiguation"
+        },
+        {
+          "entry_id": "om_x100b5088e742c8a4c2e3b295176fa22",
+          "quote": "明白了，是我听错了，抱歉。",
+          "role": "disambiguation"
+        },
+        {
+          "entry_id": "om_x100b5088e75628a4c492973f3ac044e",
+          "quote": "总结一下：窗口5月10日22点，blocker network config drift。",
+          "role": "disambiguation"
+        }
+      ],
+      "participants": ["何然"],
+      "event_time": "1778109140000",
+      "source": {
+        "source_type": "chat",
+        "source_id": "chat:exec_sync_chat",
+        "chat_id": "oc_d852908acc34173446bde912b27c9963",
+        "thread_id": null,
+        "root_id": null,
+        "locator": "chat:exec_sync_chat"
+      },
+      "confidence": 0.72,
+      "verification": {
+        "core_quote_found": true,
+        "claim_supported_by_quote": true,
+        "context_only_generation": false,
+        "single_atomic_claim": true,
+        "required_fields_complete": true,
+        "no_unsupported_inference": true,
+        "verdict": "verified",
+        "resolved_core_entry_id": "om_x100b5088e76b60a0c49b8006b3c330c",
+        "quote_match_type": "exact",
+        "missing_required_fields": [],
+        "rejection_reasons": [],
+        "unsupported_parts": [],
+        "verifier_reason": ""
+      },
+      "status": "回滚计划已批，无变更",
+      "target": "回滚计划",
+      "programmatic_validation": {
+        "verdict": "ready_for_verification",
+        "evidence_quote_in_core": true,
+        "required_fields_complete": true,
+        "single_atomic_claim": true,
+        "missing_required_fields": [],
+        "rejection_reasons": []
+      },
+      "ingest_id": "task:FEISHU-666::chat:oc_d852908acc34173446bde912b27c9963::6",
+      "task_id": "task:FEISHU-666",
+      "source_scope": "chat:oc_d852908acc34173446bde912b27c9963",
+      "processing_status": "pending_verification",
+      "verification_job_id": "verify_a47d01a8e2083d2a",
+      "verified_at": "2026-05-07T03:48:22.220Z"
+    },
+    {
+      "event_id": "evt_2f367167c5edb1f0",
+      "task_ref": "FEISHU-666",
+      "source_session_id": "task:FEISHU-666::chat:oc_d852908acc34173446bde912b27c9963",
+      "ingest_version": 8,
+      "event_type": "status_event",
+      "claim": "个人时间不影响任务，资源已按正式窗口安排",
+      "core_entry_id": "om_x100b5088e770d0a0c22b19a26bde9ee",
+      "evidence_quote": "个人时间不影响任务，资源已按正式窗口安排",
+      "context_quotes": [
+        {
+          "entry_id": "om_x100b5088e75628a4c492973f3ac044e",
+          "quote": "总结一下：窗口5月10日22点，blocker network config drift。",
+          "role": "disambiguation"
+        },
+        {
+          "entry_id": "om_x100b5088e76b60a0c49b8006b3c330c",
+          "quote": "回滚计划已批，无变更。",
+          "role": "disambiguation"
+        },
+        {
+          "entry_id": "om_x100b5088e77f88a0c2ddf782b4c73b4",
+          "quote": "个人时间限制会不会影响团队资源安排？",
+          "role": "disambiguation"
+        }
+      ],
+      "participants": ["林晨"],
+      "event_time": "1778109140000",
+      "source": {
+        "source_type": "chat",
+        "source_id": "chat:exec_sync_chat",
+        "chat_id": "oc_d852908acc34173446bde912b27c9963",
+        "thread_id": null,
+        "root_id": null,
+        "locator": "chat:exec_sync_chat"
+      },
+      "confidence": 0.72,
+      "verification": {
+        "core_quote_found": true,
+        "claim_supported_by_quote": true,
+        "context_only_generation": false,
+        "single_atomic_claim": true,
+        "required_fields_complete": true,
+        "no_unsupported_inference": true,
+        "verdict": "verified",
+        "resolved_core_entry_id": "om_x100b5088e770d0a0c22b19a26bde9ee",
+        "quote_match_type": "exact",
+        "missing_required_fields": [],
+        "rejection_reasons": [],
+        "unsupported_parts": [],
+        "verifier_reason": ""
+      },
+      "status": "个人时间不影响任务，资源已按正式窗口安排",
+      "target": "窗口",
+      "programmatic_validation": {
+        "verdict": "ready_for_verification",
+        "evidence_quote_in_core": true,
+        "required_fields_complete": true,
+        "single_atomic_claim": true,
+        "missing_required_fields": [],
+        "rejection_reasons": []
+      },
+      "ingest_id": "task:FEISHU-666::chat:oc_d852908acc34173446bde912b27c9963::8",
+      "task_id": "task:FEISHU-666",
+      "source_scope": "chat:oc_d852908acc34173446bde912b27c9963",
+      "processing_status": "pending_verification",
+      "verification_job_id": "verify_db9ef3ee2ce66f5b",
+      "verified_at": "2026-05-07T03:48:22.221Z"
+    },
+    {
+      "event_id": "evt_f57572068a368c30",
+      "task_ref": "FEISHU-666",
+      "source_session_id": "task:FEISHU-666::chat:oc_d852908acc34173446bde912b27c9963",
+      "ingest_version": 11,
+      "event_type": "status_event",
+      "claim": "所有依赖项已确认",
+      "core_entry_id": "om_x100b5088e72d0ca4c42177bffed686b",
+      "evidence_quote": "所有依赖项已确认",
+      "context_quotes": [
+        {
+          "entry_id": "om_x100b5088e770d0a0c22b19a26bde9ee",
+          "quote": "个人时间不影响任务，资源已按正式窗口安排。",
+          "role": "disambiguation"
+        },
+        {
+          "entry_id": "om_x100b5088e70aaca4c49d9bad8b9530f",
+          "quote": "明白，那照常执行。",
+          "role": "disambiguation"
+        },
+        {
+          "entry_id": "om_x100b5088e71eb134c3df64c4fc8ac7a",
+          "quote": "管理层已批准资源。",
+          "role": "disambiguation"
+        }
+      ],
+      "participants": ["罗天"],
+      "event_time": "1778109140000",
+      "source": {
+        "source_type": "chat",
+        "source_id": "chat:exec_sync_chat",
+        "chat_id": "oc_d852908acc34173446bde912b27c9963",
+        "thread_id": null,
+        "root_id": null,
+        "locator": "chat:exec_sync_chat"
+      },
+      "confidence": 0.72,
+      "verification": {
+        "core_quote_found": true,
+        "claim_supported_by_quote": true,
+        "context_only_generation": false,
+        "single_atomic_claim": true,
+        "required_fields_complete": true,
+        "no_unsupported_inference": true,
+        "verdict": "verified",
+        "resolved_core_entry_id": "om_x100b5088e72d0ca4c42177bffed686b",
+        "quote_match_type": "exact",
+        "missing_required_fields": [],
+        "rejection_reasons": [],
+        "unsupported_parts": [],
+        "verifier_reason": ""
+      },
+      "status": "所有依赖项已确认",
+      "target": "依赖项",
+      "programmatic_validation": {
+        "verdict": "ready_for_verification",
+        "evidence_quote_in_core": true,
+        "required_fields_complete": true,
+        "single_atomic_claim": true,
+        "missing_required_fields": [],
+        "rejection_reasons": []
+      },
+      "ingest_id": "task:FEISHU-666::chat:oc_d852908acc34173446bde912b27c9963::11",
+      "task_id": "task:FEISHU-666",
+      "source_scope": "chat:oc_d852908acc34173446bde912b27c9963",
+      "processing_status": "pending_verification",
+      "verification_job_id": "verify_07a3bce6ecdf72d6",
+      "verified_at": "2026-05-07T03:48:22.221Z"
+    },
+    {
+      "event_id": "evt_d60b60054c5ecf0d",
+      "task_ref": "FEISHU-666",
+      "source_session_id": "task:FEISHU-666::chat:oc_ba31dd2af9ace4d46985b0f11750c043",
+      "ingest_version": 1,
+      "event_type": "status_event",
+      "claim": "网络依赖项已修复",
+      "core_entry_id": "om_x100b5088e4eb7ca0c21728b71257073",
+      "evidence_quote": "网络依赖项已修复",
+      "context_quotes": [],
+      "participants": ["陈雪"],
+      "event_time": "1778109140000",
+      "source": {
+        "source_type": "chat",
+        "source_id": "chat:dependency_sync_chat",
+        "chat_id": "oc_ba31dd2af9ace4d46985b0f11750c043",
+        "thread_id": null,
+        "root_id": null,
+        "locator": "chat:dependency_sync_chat"
+      },
+      "confidence": 0.72,
+      "verification": {
+        "core_quote_found": true,
+        "claim_supported_by_quote": true,
+        "context_only_generation": false,
+        "single_atomic_claim": true,
+        "required_fields_complete": true,
+        "no_unsupported_inference": true,
+        "verdict": "verified",
+        "resolved_core_entry_id": "om_x100b5088e4eb7ca0c21728b71257073",
+        "quote_match_type": "exact",
+        "missing_required_fields": [],
+        "rejection_reasons": [],
+        "unsupported_parts": [],
+        "verifier_reason": ""
+      },
+      "status": "网络依赖项已修复",
+      "target": "网络依赖项",
+      "programmatic_validation": {
+        "verdict": "ready_for_verification",
+        "evidence_quote_in_core": true,
+        "required_fields_complete": true,
+        "single_atomic_claim": true,
+        "missing_required_fields": [],
+        "rejection_reasons": []
+      },
+      "ingest_id": "task:FEISHU-666::chat:oc_ba31dd2af9ace4d46985b0f11750c043::1",
+      "task_id": "task:FEISHU-666",
+      "source_scope": "chat:oc_ba31dd2af9ace4d46985b0f11750c043",
+      "processing_status": "pending_verification",
+      "verification_job_id": "verify_ce292fcf04676f5e",
+      "verified_at": "2026-05-07T03:48:22.261Z"
+    },
+    {
+      "event_id": "evt_f6b374c095179905",
+      "task_ref": "FEISHU-666",
+      "source_session_id": "task:FEISHU-666::chat:oc_ba31dd2af9ace4d46985b0f11750c043",
+      "ingest_version": 2,
+      "event_type": "status_event",
+      "claim": "存储依赖无阻塞",
+      "core_entry_id": "om_x100b5088e4f8b0a4c2b99fe76c4dd03",
+      "evidence_quote": "存储依赖无阻塞",
+      "context_quotes": [
+        {
+          "entry_id": "om_x100b5088e4eb7ca0c21728b71257073",
+          "quote": "网络依赖项已修复。",
+          "role": "disambiguation"
+        }
+      ],
+      "participants": ["王源"],
+      "event_time": "1778109140000",
+      "source": {
+        "source_type": "chat",
+        "source_id": "chat:dependency_sync_chat",
+        "chat_id": "oc_ba31dd2af9ace4d46985b0f11750c043",
+        "thread_id": null,
+        "root_id": null,
+        "locator": "chat:dependency_sync_chat"
+      },
+      "confidence": 0.72,
+      "verification": {
+        "core_quote_found": true,
+        "claim_supported_by_quote": true,
+        "context_only_generation": false,
+        "single_atomic_claim": true,
+        "required_fields_complete": true,
+        "no_unsupported_inference": true,
+        "verdict": "verified",
+        "resolved_core_entry_id": "om_x100b5088e4f8b0a4c2b99fe76c4dd03",
+        "quote_match_type": "exact",
+        "missing_required_fields": [],
+        "rejection_reasons": [],
+        "unsupported_parts": [],
+        "verifier_reason": ""
+      },
+      "status": "存储依赖无阻塞",
+      "target": "存储依赖",
+      "programmatic_validation": {
+        "verdict": "ready_for_verification",
+        "evidence_quote_in_core": true,
+        "required_fields_complete": true,
+        "single_atomic_claim": true,
+        "missing_required_fields": [],
+        "rejection_reasons": []
+      },
+      "ingest_id": "task:FEISHU-666::chat:oc_ba31dd2af9ace4d46985b0f11750c043::2",
+      "task_id": "task:FEISHU-666",
+      "source_scope": "chat:oc_ba31dd2af9ace4d46985b0f11750c043",
+      "processing_status": "pending_verification",
+      "verification_job_id": "verify_9468c46a4b012771",
+      "verified_at": "2026-05-07T03:48:22.264Z"
+    },
+    {
+      "event_id": "evt_10a005b4def388f5",
+      "task_ref": "FEISHU-666",
+      "source_session_id": "task:FEISHU-666::chat:oc_ac5a33c314d20661373939b37672396d",
+      "ingest_version": 5,
+      "event_type": "objection_event",
+      "claim": "我个人认为夜间变更风险更高，但这是个人观点",
+      "core_entry_id": "om_x100b5088e425e4a0c31256b128d3c21",
+      "evidence_quote": "我个人认为夜间变更风险更高，但这是个人观点",
+      "context_quotes": [
+        {
+          "entry_id": "om_x100b5088e62c80a0c219ad11485476c",
+          "quote": "风险复核线程：以下回复承载该 source session 的真实 benchmark 消息。",
+          "role": "disambiguation"
+        },
+        {
+          "entry_id": "om_x100b5088e4080ca8c3a345e3382e68b",
+          "quote": "升级时间能提前吗？我周末家里有事。",
+          "role": "disambiguation"
+        },
+        {
+          "entry_id": "om_x100b5088e41c30a4c3867767d6d7ce3",
+          "quote": "窗口不可调整，家庭承诺不在任务考量内。",
+          "role": "disambiguation"
+        },
+        {
+          "entry_id": "om_x100b5088e41178a4c383ae51c9f169e",
+          "quote": "理解，我协调好家庭时间。",
+          "role": "disambiguation"
+        }
+      ],
+      "participants": ["沈嘉"],
+      "event_time": "1778109140000",
+      "source": {
+        "source_type": "thread",
+        "source_id": "thread:risk_review_thread",
+        "chat_id": "oc_ac5a33c314d20661373939b37672396d",
+        "thread_id": "om_x100b5088e425e4a0c31256b128d3c21",
+        "root_id": "om_x100b5088e425e4a0c31256b128d3c21",
+        "locator": "thread:risk_review_thread"
+      },
+      "confidence": 0.72,
+      "verification": {
+        "core_quote_found": true,
+        "claim_supported_by_quote": true,
+        "context_only_generation": false,
+        "single_atomic_claim": true,
+        "required_fields_complete": true,
+        "no_unsupported_inference": true,
+        "verdict": "verified",
+        "resolved_core_entry_id": "om_x100b5088e425e4a0c31256b128d3c21",
+        "quote_match_type": "exact",
+        "missing_required_fields": [],
+        "rejection_reasons": [],
+        "unsupported_parts": [],
+        "verifier_reason": ""
+      },
+      "objection": "我个人认为夜间变更风险更高，但这是个人观点",
+      "target": "风险",
+      "objector": "我个人",
+      "programmatic_validation": {
+        "verdict": "ready_for_verification",
+        "evidence_quote_in_core": true,
+        "required_fields_complete": true,
+        "single_atomic_claim": true,
+        "missing_required_fields": [],
+        "rejection_reasons": []
+      },
+      "ingest_id": "task:FEISHU-666::chat:oc_ac5a33c314d20661373939b37672396d::5",
+      "task_id": "task:FEISHU-666",
+      "source_scope": "chat:oc_ac5a33c314d20661373939b37672396d",
+      "processing_status": "pending_verification",
+      "verification_job_id": "verify_6b4d3d78352288ea",
+      "verified_at": "2026-05-07T03:48:22.126Z"
+    },
+    {
+      "event_id": "evt_ba01338dfe7a4a32",
+      "task_ref": "FEISHU-666",
+      "source_session_id": "task:FEISHU-666::chat:oc_ac5a33c314d20661373939b37672396d",
+      "ingest_version": 7,
+      "event_type": "conclusion_event",
+      "claim": "风险评估已完成，纪要结论是夜间窗口可行",
+      "core_entry_id": "om_x100b5088e5cd44a0c104f53547a03ea",
+      "evidence_quote": "风险评估已完成，纪要结论是夜间窗口可行",
+      "context_quotes": [
+        {
+          "entry_id": "om_x100b5088e41c30a4c3867767d6d7ce3",
+          "quote": "窗口不可调整，家庭承诺不在任务考量内。",
+          "role": "disambiguation"
+        },
+        {
+          "entry_id": "om_x100b5088e41178a4c383ae51c9f169e",
+          "quote": "理解，我协调好家庭时间。",
+          "role": "disambiguation"
+        },
+        {
+          "entry_id": "om_x100b5088e425e4a0c31256b128d3c21",
+          "quote": "我个人认为夜间变更风险更高，但这是个人观点。",
+          "role": "disambiguation"
+        },
+        {
+          "entry_id": "om_x100b5088e439a8a0c21f1cc63203bd9",
+          "quote": "不过评估已做，我尊重纪要结论。",
+          "role": "disambiguation"
+        }
+      ],
+      "participants": ["林晨"],
+      "event_time": "1778109140000",
+      "source": {
+        "source_type": "thread",
+        "source_id": "thread:risk_review_thread",
+        "chat_id": "oc_ac5a33c314d20661373939b37672396d",
+        "thread_id": "om_x100b5088e5cd44a0c104f53547a03ea",
+        "root_id": "om_x100b5088e5cd44a0c104f53547a03ea",
+        "locator": "thread:risk_review_thread"
+      },
+      "confidence": 0.72,
+      "verification": {
+        "core_quote_found": true,
+        "claim_supported_by_quote": true,
+        "context_only_generation": false,
+        "single_atomic_claim": true,
+        "required_fields_complete": true,
+        "no_unsupported_inference": true,
+        "verdict": "verified",
+        "resolved_core_entry_id": "om_x100b5088e5cd44a0c104f53547a03ea",
+        "quote_match_type": "exact",
+        "missing_required_fields": [],
+        "rejection_reasons": [],
+        "unsupported_parts": [],
+        "verifier_reason": ""
+      },
+      "conclusion": "风险评估已完成，纪要结论是夜间窗口可行",
+      "target": "夜间窗口",
+      "programmatic_validation": {
+        "verdict": "ready_for_verification",
+        "evidence_quote_in_core": true,
+        "required_fields_complete": true,
+        "single_atomic_claim": true,
+        "missing_required_fields": [],
+        "rejection_reasons": []
+      },
+      "ingest_id": "task:FEISHU-666::chat:oc_ac5a33c314d20661373939b37672396d::7",
+      "task_id": "task:FEISHU-666",
+      "source_scope": "chat:oc_ac5a33c314d20661373939b37672396d",
+      "processing_status": "pending_verification",
+      "verification_job_id": "verify_f3338e31fe5b3b2b",
+      "verified_at": "2026-05-07T03:48:22.127Z"
+    },
+    {
+      "event_id": "evt_1baf7067a47d0518",
+      "task_ref": "FEISHU-666",
+      "source_session_id": "task:FEISHU-666::chat:oc_ac5a33c314d20661373939b37672396d",
+      "ingest_version": 7,
+      "event_type": "status_event",
+      "claim": "风险评估已完成，纪要结论是夜间窗口可行",
+      "core_entry_id": "om_x100b5088e5cd44a0c104f53547a03ea",
+      "evidence_quote": "风险评估已完成，纪要结论是夜间窗口可行",
+      "context_quotes": [
+        {
+          "entry_id": "om_x100b5088e41c30a4c3867767d6d7ce3",
+          "quote": "窗口不可调整，家庭承诺不在任务考量内。",
+          "role": "disambiguation"
+        },
+        {
+          "entry_id": "om_x100b5088e41178a4c383ae51c9f169e",
+          "quote": "理解，我协调好家庭时间。",
+          "role": "disambiguation"
+        },
+        {
+          "entry_id": "om_x100b5088e425e4a0c31256b128d3c21",
+          "quote": "我个人认为夜间变更风险更高，但这是个人观点。",
+          "role": "disambiguation"
+        },
+        {
+          "entry_id": "om_x100b5088e439a8a0c21f1cc63203bd9",
+          "quote": "不过评估已做，我尊重纪要结论。",
+          "role": "disambiguation"
+        }
+      ],
+      "participants": ["林晨"],
+      "event_time": "1778109140000",
+      "source": {
+        "source_type": "thread",
+        "source_id": "thread:risk_review_thread",
+        "chat_id": "oc_ac5a33c314d20661373939b37672396d",
+        "thread_id": "om_x100b5088e5cd44a0c104f53547a03ea",
+        "root_id": "om_x100b5088e5cd44a0c104f53547a03ea",
+        "locator": "thread:risk_review_thread"
+      },
+      "confidence": 0.72,
+      "verification": {
+        "core_quote_found": true,
+        "claim_supported_by_quote": true,
+        "context_only_generation": false,
+        "single_atomic_claim": true,
+        "required_fields_complete": true,
+        "no_unsupported_inference": true,
+        "verdict": "verified",
+        "resolved_core_entry_id": "om_x100b5088e5cd44a0c104f53547a03ea",
+        "quote_match_type": "exact",
+        "missing_required_fields": [],
+        "rejection_reasons": [],
+        "unsupported_parts": [],
+        "verifier_reason": ""
+      },
+      "status": "风险评估已完成，纪要结论是夜间窗口可行",
+      "target": "夜间窗口",
+      "programmatic_validation": {
+        "verdict": "ready_for_verification",
+        "evidence_quote_in_core": true,
+        "required_fields_complete": true,
+        "single_atomic_claim": true,
+        "missing_required_fields": [],
+        "rejection_reasons": []
+      },
+      "ingest_id": "task:FEISHU-666::chat:oc_ac5a33c314d20661373939b37672396d::7",
+      "task_id": "task:FEISHU-666",
+      "source_scope": "chat:oc_ac5a33c314d20661373939b37672396d",
+      "processing_status": "pending_verification",
+      "verification_job_id": "verify_537af066a991a910",
+      "verified_at": "2026-05-07T03:48:22.130Z"
+    },
+    {
+      "event_id": "evt_4a40a74a069eef0b",
+      "task_ref": "FEISHU-666",
+      "source_session_id": "task:FEISHU-666::chat:oc_ac5a33c314d20661373939b37672396d",
+      "ingest_version": 12,
+      "event_type": "status_event",
+      "claim": "风险登记表已更新",
+      "core_entry_id": "om_x100b5088e5f6a0a0c37399c4ad6855d",
+      "evidence_quote": "风险登记表已更新",
+      "context_quotes": [
+        {
+          "entry_id": "om_x100b5088e5c618a0c3c2f9b2af153d8",
+          "quote": "法律合规方面无额外限制，可按时升级。",
+          "role": "disambiguation"
+        },
+        {
+          "entry_id": "om_x100b5088e5d53ca0c1036919fe1d396",
+          "quote": "建议将个人背景备注从纪要中分离，避免混淆。",
+          "role": "disambiguation"
+        },
+        {
+          "entry_id": "om_x100b5088e5ee5ca8c113dd2094df301",
+          "quote": "存储侧备用方案已就绪。",
+          "role": "disambiguation"
+        },
+        {
+          "entry_id": "om_x100b5088e5e2f0a4c3fcb9cb3765389",
+          "quote": "架构侧无额外风险。",
+          "role": "disambiguation"
+        }
+      ],
+      "participants": ["许薇"],
+      "event_time": "1778109140000",
+      "source": {
+        "source_type": "thread",
+        "source_id": "thread:risk_review_thread",
+        "chat_id": "oc_ac5a33c314d20661373939b37672396d",
+        "thread_id": "om_x100b5088e5f6a0a0c37399c4ad6855d",
+        "root_id": "om_x100b5088e5f6a0a0c37399c4ad6855d",
+        "locator": "thread:risk_review_thread"
+      },
+      "confidence": 0.72,
+      "verification": {
+        "core_quote_found": true,
+        "claim_supported_by_quote": true,
+        "context_only_generation": false,
+        "single_atomic_claim": true,
+        "required_fields_complete": true,
+        "no_unsupported_inference": true,
+        "verdict": "verified",
+        "resolved_core_entry_id": "om_x100b5088e5f6a0a0c37399c4ad6855d",
+        "quote_match_type": "exact",
+        "missing_required_fields": [],
+        "rejection_reasons": [],
+        "unsupported_parts": [],
+        "verifier_reason": ""
+      },
+      "status": "风险登记表已更新",
+      "target": "风险",
+      "programmatic_validation": {
+        "verdict": "ready_for_verification",
+        "evidence_quote_in_core": true,
+        "required_fields_complete": true,
+        "single_atomic_claim": true,
+        "missing_required_fields": [],
+        "rejection_reasons": []
+      },
+      "ingest_id": "task:FEISHU-666::chat:oc_ac5a33c314d20661373939b37672396d::12",
+      "task_id": "task:FEISHU-666",
+      "source_scope": "chat:oc_ac5a33c314d20661373939b37672396d",
+      "processing_status": "pending_verification",
+      "verification_job_id": "verify_7beef3305376441b",
+      "verified_at": "2026-05-07T03:48:22.131Z"
+    },
+    {
+      "event_id": "evt_0d8c4963e922bc76",
+      "task_ref": "FEISHU-666",
+      "source_session_id": "task:FEISHU-666::chat:oc_77fa9b1b12c2e4ce9cd5ef67b44b04b4",
+      "ingest_version": 1,
+      "event_type": "status_event",
+      "claim": "QA测试环境已准备",
+      "core_entry_id": "om_x100b5088e73ae0a0c4f1a2cff4619af",
+      "evidence_quote": "QA测试环境已准备",
+      "context_quotes": [],
+      "participants": ["秦怡"],
+      "event_time": "1778109140000",
+      "source": {
+        "source_type": "chat",
+        "source_id": "chat:qa_triage_chat",
+        "chat_id": "oc_77fa9b1b12c2e4ce9cd5ef67b44b04b4",
+        "thread_id": null,
+        "root_id": null,
+        "locator": "chat:qa_triage_chat"
+      },
+      "confidence": 0.72,
+      "verification": {
+        "core_quote_found": true,
+        "claim_supported_by_quote": true,
+        "context_only_generation": false,
+        "single_atomic_claim": true,
+        "required_fields_complete": true,
+        "no_unsupported_inference": true,
+        "verdict": "verified",
+        "resolved_core_entry_id": "om_x100b5088e73ae0a0c4f1a2cff4619af",
+        "quote_match_type": "exact",
+        "missing_required_fields": [],
+        "rejection_reasons": [],
+        "unsupported_parts": [],
+        "verifier_reason": ""
+      },
+      "status": "QA测试环境已准备",
+      "target": "QA测试环境",
+      "programmatic_validation": {
+        "verdict": "ready_for_verification",
+        "evidence_quote_in_core": true,
+        "required_fields_complete": true,
+        "single_atomic_claim": true,
+        "missing_required_fields": [],
+        "rejection_reasons": []
+      },
+      "ingest_id": "task:FEISHU-666::chat:oc_77fa9b1b12c2e4ce9cd5ef67b44b04b4::1",
+      "task_id": "task:FEISHU-666",
+      "source_scope": "chat:oc_77fa9b1b12c2e4ce9cd5ef67b44b04b4",
+      "processing_status": "pending_verification",
+      "verification_job_id": "verify_86c8ac10030f8e49",
+      "verified_at": "2026-05-07T03:48:22.242Z"
+    },
+    {
+      "event_id": "evt_17bd761bef86b917",
+      "task_ref": "FEISHU-666",
+      "source_session_id": "task:FEISHU-666::chat:oc_226e89b2b3fd7612aea5fc7f187cb759",
+      "ingest_version": 1,
+      "event_type": "status_event",
+      "claim": "上线风险评审纪要已发，升级窗口5月10日22点UTC",
+      "core_entry_id": "om_x100b5088e9b49ca0c3c717fc60f401e",
+      "evidence_quote": "上线风险评审纪要已发，升级窗口5月10日22点UTC",
+      "context_quotes": [],
+      "participants": ["林晨"],
+      "event_time": "1778109140000",
+      "source": {
+        "source_type": "chat",
+        "source_id": "chat:main_chat",
+        "chat_id": "oc_226e89b2b3fd7612aea5fc7f187cb759",
+        "thread_id": null,
+        "root_id": null,
+        "locator": "chat:main_chat"
+      },
+      "confidence": 0.72,
+      "verification": {
+        "core_quote_found": true,
+        "claim_supported_by_quote": true,
+        "context_only_generation": false,
+        "single_atomic_claim": true,
+        "required_fields_complete": true,
+        "no_unsupported_inference": true,
+        "verdict": "verified",
+        "resolved_core_entry_id": "om_x100b5088e9b49ca0c3c717fc60f401e",
+        "quote_match_type": "exact",
+        "missing_required_fields": [],
+        "rejection_reasons": [],
+        "unsupported_parts": [],
+        "verifier_reason": ""
+      },
+      "status": "上线风险评审纪要已发，升级窗口5月10日22点UTC",
+      "target": "升级窗口",
+      "programmatic_validation": {
+        "verdict": "ready_for_verification",
+        "evidence_quote_in_core": true,
+        "required_fields_complete": true,
+        "single_atomic_claim": true,
+        "missing_required_fields": [],
+        "rejection_reasons": []
+      },
+      "ingest_id": "task:FEISHU-666::chat:oc_226e89b2b3fd7612aea5fc7f187cb759::1",
+      "task_id": "task:FEISHU-666",
+      "source_scope": "chat:oc_226e89b2b3fd7612aea5fc7f187cb759",
+      "processing_status": "pending_verification",
+      "verification_job_id": "verify_52bb0087b2223b10",
+      "verified_at": "2026-05-07T03:48:22.167Z"
+    },
+    {
+      "event_id": "evt_0d8249127c470565",
+      "task_ref": "FEISHU-666",
+      "source_session_id": "task:FEISHU-666::chat:oc_226e89b2b3fd7612aea5fc7f187cb759",
+      "ingest_version": 2,
+      "event_type": "status_event",
+      "claim": "blocker为network config drift，回滚计划已批",
+      "core_entry_id": "om_x100b5088e949dca4c2d388cef31abb0",
+      "evidence_quote": "blocker为network config drift，回滚计划已批",
+      "context_quotes": [
+        {
+          "entry_id": "om_x100b5088e9b49ca0c3c717fc60f401e",
+          "quote": "上线风险评审纪要已发，升级窗口5月10日22点UTC。",
+          "role": "disambiguation"
+        }
+      ],
+      "participants": ["林晨"],
+      "event_time": "1778109140000",
+      "source": {
+        "source_type": "chat",
+        "source_id": "chat:main_chat",
+        "chat_id": "oc_226e89b2b3fd7612aea5fc7f187cb759",
+        "thread_id": null,
+        "root_id": null,
+        "locator": "chat:main_chat"
+      },
+      "confidence": 0.72,
+      "verification": {
+        "core_quote_found": true,
+        "claim_supported_by_quote": true,
+        "context_only_generation": false,
+        "single_atomic_claim": true,
+        "required_fields_complete": true,
+        "no_unsupported_inference": true,
+        "verdict": "verified",
+        "resolved_core_entry_id": "om_x100b5088e949dca4c2d388cef31abb0",
+        "quote_match_type": "exact",
+        "missing_required_fields": [],
+        "rejection_reasons": [],
+        "unsupported_parts": [],
+        "verifier_reason": ""
+      },
+      "status": "blocker为network config drift，回滚计划已批",
+      "target": "blocker",
+      "programmatic_validation": {
+        "verdict": "ready_for_verification",
+        "evidence_quote_in_core": true,
+        "required_fields_complete": true,
+        "single_atomic_claim": true,
+        "missing_required_fields": [],
+        "rejection_reasons": []
+      },
+      "ingest_id": "task:FEISHU-666::chat:oc_226e89b2b3fd7612aea5fc7f187cb759::2",
+      "task_id": "task:FEISHU-666",
+      "source_scope": "chat:oc_226e89b2b3fd7612aea5fc7f187cb759",
+      "processing_status": "pending_verification",
+      "verification_job_id": "verify_68d988e84ee6e9e8",
+      "verified_at": "2026-05-07T03:48:22.169Z"
+    },
+    {
+      "event_id": "evt_d28f59c89178f15c",
+      "task_ref": "FEISHU-666",
+      "source_session_id": "task:FEISHU-666::chat:oc_226e89b2b3fd7612aea5fc7f187cb759",
+      "ingest_version": 3,
+      "event_type": "status_event",
+      "claim": "收到，我确认infra侧已对齐窗口",
+      "core_entry_id": "om_x100b5088e942f0a0c2a4ea00cf388e0",
+      "evidence_quote": "收到，我确认infra侧已对齐窗口",
+      "context_quotes": [
+        {
+          "entry_id": "om_x100b5088e9b49ca0c3c717fc60f401e",
+          "quote": "上线风险评审纪要已发，升级窗口5月10日22点UTC。",
+          "role": "disambiguation"
+        },
+        {
+          "entry_id": "om_x100b5088e949dca4c2d388cef31abb0",
+          "quote": "blocker为network config drift，回滚计划已批。",
+          "role": "disambiguation"
+        }
+      ],
+      "participants": ["周宇"],
+      "event_time": "1778109140000",
+      "source": {
+        "source_type": "chat",
+        "source_id": "chat:main_chat",
+        "chat_id": "oc_226e89b2b3fd7612aea5fc7f187cb759",
+        "thread_id": null,
+        "root_id": null,
+        "locator": "chat:main_chat"
+      },
+      "confidence": 0.72,
+      "verification": {
+        "core_quote_found": true,
+        "claim_supported_by_quote": true,
+        "context_only_generation": false,
+        "single_atomic_claim": true,
+        "required_fields_complete": true,
+        "no_unsupported_inference": true,
+        "verdict": "verified",
+        "resolved_core_entry_id": "om_x100b5088e942f0a0c2a4ea00cf388e0",
+        "quote_match_type": "exact",
+        "missing_required_fields": [],
+        "rejection_reasons": [],
+        "unsupported_parts": [],
+        "verifier_reason": ""
+      },
+      "status": "收到，我确认infra侧已对齐窗口",
+      "target": "窗口",
+      "programmatic_validation": {
+        "verdict": "ready_for_verification",
+        "evidence_quote_in_core": true,
+        "required_fields_complete": true,
+        "single_atomic_claim": true,
+        "missing_required_fields": [],
+        "rejection_reasons": []
+      },
+      "ingest_id": "task:FEISHU-666::chat:oc_226e89b2b3fd7612aea5fc7f187cb759::3",
+      "task_id": "task:FEISHU-666",
+      "source_scope": "chat:oc_226e89b2b3fd7612aea5fc7f187cb759",
+      "processing_status": "pending_verification",
+      "verification_job_id": "verify_1917c66f6edd9f51",
+      "verified_at": "2026-05-07T03:48:22.169Z"
+    },
+    {
+      "event_id": "evt_2c9359ccaea5495b",
+      "task_ref": "FEISHU-666",
+      "source_session_id": "task:FEISHU-666::chat:oc_226e89b2b3fd7612aea5fc7f187cb759",
+      "ingest_version": 6,
+      "event_type": "commitment_event",
+      "claim": "明白，我会按窗口时间配合",
+      "core_entry_id": "om_x100b5088e97d50a0c4d6191cfe25069",
+      "evidence_quote": "明白，我会按窗口时间配合",
+      "context_quotes": [
+        {
+          "entry_id": "om_x100b5088e942f0a0c2a4ea00cf388e0",
+          "quote": "收到，我确认infra侧已对齐窗口。",
+          "role": "disambiguation"
+        },
+        {
+          "entry_id": "om_x100b5088e9571530c3ccc93a7863317",
+          "quote": "窗口能挪到周三前吗？我周四有个人面试。",
+          "role": "disambiguation"
+        },
+        {
+          "entry_id": "om_x100b5088e968b8a0c35a293dbbc1fbd",
+          "quote": "窗口正式确定，个人时间不调整。以纪要为准。",
+          "role": "disambiguation"
+        }
+      ],
+      "participants": ["陈雪"],
+      "event_time": "1778109140000",
+      "source": {
+        "source_type": "chat",
+        "source_id": "chat:main_chat",
+        "chat_id": "oc_226e89b2b3fd7612aea5fc7f187cb759",
+        "thread_id": null,
+        "root_id": null,
+        "locator": "chat:main_chat"
+      },
+      "confidence": 0.72,
+      "verification": {
+        "core_quote_found": true,
+        "claim_supported_by_quote": true,
+        "context_only_generation": false,
+        "single_atomic_claim": true,
+        "required_fields_complete": true,
+        "no_unsupported_inference": true,
+        "verdict": "verified",
+        "resolved_core_entry_id": "om_x100b5088e97d50a0c4d6191cfe25069",
+        "quote_match_type": "exact",
+        "missing_required_fields": [],
+        "rejection_reasons": [],
+        "unsupported_parts": [],
+        "verifier_reason": ""
+      },
+      "owner": "陈雪",
+      "action": "明白，我会按窗口时间配合",
+      "programmatic_validation": {
+        "verdict": "ready_for_verification",
+        "evidence_quote_in_core": true,
+        "required_fields_complete": true,
+        "single_atomic_claim": true,
+        "missing_required_fields": [],
+        "rejection_reasons": []
+      },
+      "ingest_id": "task:FEISHU-666::chat:oc_226e89b2b3fd7612aea5fc7f187cb759::6",
+      "task_id": "task:FEISHU-666",
+      "source_scope": "chat:oc_226e89b2b3fd7612aea5fc7f187cb759",
+      "processing_status": "pending_verification",
+      "verification_job_id": "verify_597ba31fc59abf8a",
+      "verified_at": "2026-05-07T03:48:22.171Z"
+    },
+    {
+      "event_id": "evt_9d3b6eedca4f29dd",
+      "task_ref": "FEISHU-666",
+      "source_session_id": "task:FEISHU-666::chat:oc_226e89b2b3fd7612aea5fc7f187cb759",
+      "ingest_version": 8,
+      "event_type": "status_event",
+      "claim": "blocker正在解决，回滚已批准，窗口不变",
+      "core_entry_id": "om_x100b5088e90ad4a4c228b3d264dfc12",
+      "evidence_quote": "blocker正在解决，回滚已批准，窗口不变",
+      "context_quotes": [
+        {
+          "entry_id": "om_x100b5088e968b8a0c35a293dbbc1fbd",
+          "quote": "窗口正式确定，个人时间不调整。以纪要为准。",
+          "role": "disambiguation"
+        },
+        {
+          "entry_id": "om_x100b5088e97d50a0c4d6191cfe25069",
+          "quote": "明白，我会按窗口时间配合。",
+          "role": "disambiguation"
+        },
+        {
+          "entry_id": "om_x100b5088e97628a4c31efc041cb5d18",
+          "quote": "网络配置漂移是blocker，升级会不会延迟？",
+          "role": "disambiguation"
+        }
+      ],
+      "participants": ["周宇"],
+      "event_time": "1778109140000",
+      "source": {
+        "source_type": "chat",
+        "source_id": "chat:main_chat",
+        "chat_id": "oc_226e89b2b3fd7612aea5fc7f187cb759",
+        "thread_id": null,
+        "root_id": null,
+        "locator": "chat:main_chat"
+      },
+      "confidence": 0.72,
+      "verification": {
+        "core_quote_found": true,
+        "claim_supported_by_quote": true,
+        "context_only_generation": false,
+        "single_atomic_claim": true,
+        "required_fields_complete": true,
+        "no_unsupported_inference": true,
+        "verdict": "verified",
+        "resolved_core_entry_id": "om_x100b5088e90ad4a4c228b3d264dfc12",
+        "quote_match_type": "exact",
+        "missing_required_fields": [],
+        "rejection_reasons": [],
+        "unsupported_parts": [],
+        "verifier_reason": ""
+      },
+      "status": "blocker正在解决，回滚已批准，窗口不变",
+      "target": "blocker",
+      "programmatic_validation": {
+        "verdict": "ready_for_verification",
+        "evidence_quote_in_core": true,
+        "required_fields_complete": true,
+        "single_atomic_claim": true,
+        "missing_required_fields": [],
+        "rejection_reasons": []
+      },
+      "ingest_id": "task:FEISHU-666::chat:oc_226e89b2b3fd7612aea5fc7f187cb759::8",
+      "task_id": "task:FEISHU-666",
+      "source_scope": "chat:oc_226e89b2b3fd7612aea5fc7f187cb759",
+      "processing_status": "pending_verification",
+      "verification_job_id": "verify_b1b1b6f41e7655a9",
+      "verified_at": "2026-05-07T03:48:22.171Z"
+    },
+    {
+      "event_id": "evt_42bd6cb23bf0d6e0",
+      "task_ref": "FEISHU-666",
+      "source_session_id": "task:FEISHU-666::chat:oc_226e89b2b3fd7612aea5fc7f187cb759",
+      "ingest_version": 9,
+      "event_type": "status_event",
+      "claim": "监控侧已根据窗口时间做好准备",
+      "core_entry_id": "om_x100b5088e91c5ca0c141a2978a13ddd",
+      "evidence_quote": "监控侧已根据窗口时间做好准备",
+      "context_quotes": [
+        {
+          "entry_id": "om_x100b5088e97d50a0c4d6191cfe25069",
+          "quote": "明白，我会按窗口时间配合。",
+          "role": "disambiguation"
+        },
+        {
+          "entry_id": "om_x100b5088e97628a4c31efc041cb5d18",
+          "quote": "网络配置漂移是blocker，升级会不会延迟？",
+          "role": "disambiguation"
+        },
+        {
+          "entry_id": "om_x100b5088e90ad4a4c228b3d264dfc12",
+          "quote": "blocker正在解决，回滚已批准，窗口不变。",
+          "role": "disambiguation"
+        }
+      ],
+      "participants": ["唐越"],
+      "event_time": "1778109140000",
+      "source": {
+        "source_type": "chat",
+        "source_id": "chat:main_chat",
+        "chat_id": "oc_226e89b2b3fd7612aea5fc7f187cb759",
+        "thread_id": null,
+        "root_id": null,
+        "locator": "chat:main_chat"
+      },
+      "confidence": 0.72,
+      "verification": {
+        "core_quote_found": true,
+        "claim_supported_by_quote": true,
+        "context_only_generation": false,
+        "single_atomic_claim": true,
+        "required_fields_complete": true,
+        "no_unsupported_inference": true,
+        "verdict": "verified",
+        "resolved_core_entry_id": "om_x100b5088e91c5ca0c141a2978a13ddd",
+        "quote_match_type": "exact",
+        "missing_required_fields": [],
+        "rejection_reasons": [],
+        "unsupported_parts": [],
+        "verifier_reason": ""
+      },
+      "status": "监控侧已根据窗口时间做好准备",
+      "target": "窗口",
+      "programmatic_validation": {
+        "verdict": "ready_for_verification",
+        "evidence_quote_in_core": true,
+        "required_fields_complete": true,
+        "single_atomic_claim": true,
+        "missing_required_fields": [],
+        "rejection_reasons": []
+      },
+      "ingest_id": "task:FEISHU-666::chat:oc_226e89b2b3fd7612aea5fc7f187cb759::9",
+      "task_id": "task:FEISHU-666",
+      "source_scope": "chat:oc_226e89b2b3fd7612aea5fc7f187cb759",
+      "processing_status": "pending_verification",
+      "verification_job_id": "verify_f324919af66c6570",
+      "verified_at": "2026-05-07T03:48:22.172Z"
+    },
+    {
+      "event_id": "evt_69798fb9da593f5d",
+      "task_ref": "FEISHU-666",
+      "source_session_id": "task:FEISHU-666::chat:oc_226e89b2b3fd7612aea5fc7f187cb759",
+      "ingest_version": 12,
+      "event_type": "status_event",
+      "claim": "存储侧已就绪，等待窗口",
+      "core_entry_id": "om_x100b5088e93b8ca8c32e954c7e9af1d",
+      "evidence_quote": "存储侧已就绪，等待窗口",
+      "context_quotes": [
+        {
+          "entry_id": "om_x100b5088e91c5ca0c141a2978a13ddd",
+          "quote": "监控侧已根据窗口时间做好准备。",
+          "role": "disambiguation"
+        },
+        {
+          "entry_id": "om_x100b5088e91094a0c4e594225b29ec2",
+          "quote": "CI/CD pipeline已配置为5月10日22点触发。",
+          "role": "disambiguation"
+        },
+        {
+          "entry_id": "om_x100b5088e927b4a0c14f02c9a72e408",
+          "quote": "网络配置漂移修复方案已提交，正在评审。",
+          "role": "disambiguation"
+        }
+      ],
+      "participants": ["王源"],
+      "event_time": "1778109140000",
+      "source": {
+        "source_type": "chat",
+        "source_id": "chat:main_chat",
+        "chat_id": "oc_226e89b2b3fd7612aea5fc7f187cb759",
+        "thread_id": null,
+        "root_id": null,
+        "locator": "chat:main_chat"
+      },
+      "confidence": 0.72,
+      "verification": {
+        "core_quote_found": true,
+        "claim_supported_by_quote": true,
+        "context_only_generation": false,
+        "single_atomic_claim": true,
+        "required_fields_complete": true,
+        "no_unsupported_inference": true,
+        "verdict": "verified",
+        "resolved_core_entry_id": "om_x100b5088e93b8ca8c32e954c7e9af1d",
+        "quote_match_type": "exact",
+        "missing_required_fields": [],
+        "rejection_reasons": [],
+        "unsupported_parts": [],
+        "verifier_reason": ""
+      },
+      "status": "存储侧已就绪，等待窗口",
+      "target": "窗口",
+      "programmatic_validation": {
+        "verdict": "ready_for_verification",
+        "evidence_quote_in_core": true,
+        "required_fields_complete": true,
+        "single_atomic_claim": true,
+        "missing_required_fields": [],
+        "rejection_reasons": []
+      },
+      "ingest_id": "task:FEISHU-666::chat:oc_226e89b2b3fd7612aea5fc7f187cb759::12",
+      "task_id": "task:FEISHU-666",
+      "source_scope": "chat:oc_226e89b2b3fd7612aea5fc7f187cb759",
+      "processing_status": "pending_verification",
+      "verification_job_id": "verify_437ec6b304d647e3",
+      "verified_at": "2026-05-07T03:48:22.172Z"
+    },
+    {
+      "event_id": "evt_c6ab63ecb39530f5",
+      "task_ref": "FEISHU-666",
+      "source_session_id": "task:FEISHU-666::chat:oc_226e89b2b3fd7612aea5fc7f187cb759",
+      "ingest_version": 13,
+      "event_type": "status_event",
+      "claim": "vendor侧已同步窗口，没有问题",
+      "core_entry_id": "om_x100b5088e6cd3cb0c10de3a90887d4d",
+      "evidence_quote": "vendor侧已同步窗口，没有问题",
+      "context_quotes": [
+        {
+          "entry_id": "om_x100b5088e91094a0c4e594225b29ec2",
+          "quote": "CI/CD pipeline已配置为5月10日22点触发。",
+          "role": "disambiguation"
+        },
+        {
+          "entry_id": "om_x100b5088e927b4a0c14f02c9a72e408",
+          "quote": "网络配置漂移修复方案已提交，正在评审。",
+          "role": "disambiguation"
+        },
+        {
+          "entry_id": "om_x100b5088e93b8ca8c32e954c7e9af1d",
+          "quote": "存储侧已就绪，等待窗口。",
+          "role": "disambiguation"
+        }
+      ],
+      "participants": ["罗天"],
+      "event_time": "1778109140000",
+      "source": {
+        "source_type": "chat",
+        "source_id": "chat:main_chat",
+        "chat_id": "oc_226e89b2b3fd7612aea5fc7f187cb759",
+        "thread_id": null,
+        "root_id": null,
+        "locator": "chat:main_chat"
+      },
+      "confidence": 0.72,
+      "verification": {
+        "core_quote_found": true,
+        "claim_supported_by_quote": true,
+        "context_only_generation": false,
+        "single_atomic_claim": true,
+        "required_fields_complete": true,
+        "no_unsupported_inference": true,
+        "verdict": "verified",
+        "resolved_core_entry_id": "om_x100b5088e6cd3cb0c10de3a90887d4d",
+        "quote_match_type": "exact",
+        "missing_required_fields": [],
+        "rejection_reasons": [],
+        "unsupported_parts": [],
+        "verifier_reason": ""
+      },
+      "status": "vendor侧已同步窗口，没有问题",
+      "target": "窗口",
+      "programmatic_validation": {
+        "verdict": "ready_for_verification",
+        "evidence_quote_in_core": true,
+        "required_fields_complete": true,
+        "single_atomic_claim": true,
+        "missing_required_fields": [],
+        "rejection_reasons": []
+      },
+      "ingest_id": "task:FEISHU-666::chat:oc_226e89b2b3fd7612aea5fc7f187cb759::13",
+      "task_id": "task:FEISHU-666",
+      "source_scope": "chat:oc_226e89b2b3fd7612aea5fc7f187cb759",
+      "processing_status": "pending_verification",
+      "verification_job_id": "verify_39b6563b9f431890",
+      "verified_at": "2026-05-07T03:48:22.173Z"
+    },
+    {
+      "event_id": "evt_fd894872b347e66e",
+      "task_ref": "FEISHU-666",
+      "source_session_id": "task:FEISHU-666::chat:oc_226e89b2b3fd7612aea5fc7f187cb759",
+      "ingest_version": 15,
+      "event_type": "status_event",
+      "claim": "配置管理侧已锁定正式窗口",
+      "core_entry_id": "om_x100b5088e6da5ca0c2d839e4824f12b",
+      "evidence_quote": "配置管理侧已锁定正式窗口",
+      "context_quotes": [
+        {
+          "entry_id": "om_x100b5088e93b8ca8c32e954c7e9af1d",
+          "quote": "存储侧已就绪，等待窗口。",
+          "role": "disambiguation"
+        },
+        {
+          "entry_id": "om_x100b5088e6cd3cb0c10de3a90887d4d",
+          "quote": "vendor侧已同步窗口，没有问题。",
+          "role": "disambiguation"
+        },
+        {
+          "entry_id": "om_x100b5088e6c660a0c2e7bde53596934",
+          "quote": "外部审计提醒：所有决策需基于官方纪要。",
+          "role": "disambiguation"
+        }
+      ],
+      "participants": ["沈嘉"],
+      "event_time": "1778109140000",
+      "source": {
+        "source_type": "chat",
+        "source_id": "chat:main_chat",
+        "chat_id": "oc_226e89b2b3fd7612aea5fc7f187cb759",
+        "thread_id": null,
+        "root_id": null,
+        "locator": "chat:main_chat"
+      },
+      "confidence": 0.72,
+      "verification": {
+        "core_quote_found": true,
+        "claim_supported_by_quote": true,
+        "context_only_generation": false,
+        "single_atomic_claim": true,
+        "required_fields_complete": true,
+        "no_unsupported_inference": true,
+        "verdict": "verified",
+        "resolved_core_entry_id": "om_x100b5088e6da5ca0c2d839e4824f12b",
+        "quote_match_type": "exact",
+        "missing_required_fields": [],
+        "rejection_reasons": [],
+        "unsupported_parts": [],
+        "verifier_reason": ""
+      },
+      "status": "配置管理侧已锁定正式窗口",
+      "target": "窗口",
+      "programmatic_validation": {
+        "verdict": "ready_for_verification",
+        "evidence_quote_in_core": true,
+        "required_fields_complete": true,
+        "single_atomic_claim": true,
+        "missing_required_fields": [],
+        "rejection_reasons": []
+      },
+      "ingest_id": "task:FEISHU-666::chat:oc_226e89b2b3fd7612aea5fc7f187cb759::15",
+      "task_id": "task:FEISHU-666",
+      "source_scope": "chat:oc_226e89b2b3fd7612aea5fc7f187cb759",
+      "processing_status": "pending_verification",
+      "verification_job_id": "verify_996dfa645790f335",
+      "verified_at": "2026-05-07T03:48:22.174Z"
+    },
+    {
+      "event_id": "evt_940fa6d22116f041",
+      "task_ref": "FEISHU-666",
+      "source_session_id": "task:FEISHU-666::chat:oc_226e89b2b3fd7612aea5fc7f187cb759",
+      "ingest_version": 16,
+      "event_type": "status_event",
+      "claim": "补丁基线已更新至窗口日期",
+      "core_entry_id": "om_x100b5088e6ef58a0c3a3e6d0e720670",
+      "evidence_quote": "补丁基线已更新至窗口日期",
+      "context_quotes": [
+        {
+          "entry_id": "om_x100b5088e6cd3cb0c10de3a90887d4d",
+          "quote": "vendor侧已同步窗口，没有问题。",
+          "role": "disambiguation"
+        },
+        {
+          "entry_id": "om_x100b5088e6c660a0c2e7bde53596934",
+          "quote": "外部审计提醒：所有决策需基于官方纪要。",
+          "role": "disambiguation"
+        },
+        {
+          "entry_id": "om_x100b5088e6da5ca0c2d839e4824f12b",
+          "quote": "配置管理侧已锁定正式窗口。",
+          "role": "disambiguation"
+        }
+      ],
+      "participants": ["梁昕"],
+      "event_time": "1778109140000",
+      "source": {
+        "source_type": "chat",
+        "source_id": "chat:main_chat",
+        "chat_id": "oc_226e89b2b3fd7612aea5fc7f187cb759",
+        "thread_id": null,
+        "root_id": null,
+        "locator": "chat:main_chat"
+      },
+      "confidence": 0.72,
+      "verification": {
+        "core_quote_found": true,
+        "claim_supported_by_quote": true,
+        "context_only_generation": false,
+        "single_atomic_claim": true,
+        "required_fields_complete": true,
+        "no_unsupported_inference": true,
+        "verdict": "verified",
+        "resolved_core_entry_id": "om_x100b5088e6ef58a0c3a3e6d0e720670",
+        "quote_match_type": "exact",
+        "missing_required_fields": [],
+        "rejection_reasons": [],
+        "unsupported_parts": [],
+        "verifier_reason": ""
+      },
+      "status": "补丁基线已更新至窗口日期",
+      "target": "窗口",
+      "programmatic_validation": {
+        "verdict": "ready_for_verification",
+        "evidence_quote_in_core": true,
+        "required_fields_complete": true,
+        "single_atomic_claim": true,
+        "missing_required_fields": [],
+        "rejection_reasons": []
+      },
+      "ingest_id": "task:FEISHU-666::chat:oc_226e89b2b3fd7612aea5fc7f187cb759::16",
+      "task_id": "task:FEISHU-666",
+      "source_scope": "chat:oc_226e89b2b3fd7612aea5fc7f187cb759",
+      "processing_status": "pending_verification",
+      "verification_job_id": "verify_50cade72f4a452cc",
+      "verified_at": "2026-05-07T03:48:22.174Z"
+    },
+    {
+      "event_id": "evt_fb9b336fd357d27d",
+      "task_ref": "FEISHU-666",
+      "source_session_id": "task:FEISHU-666::chat:oc_226e89b2b3fd7612aea5fc7f187cb759",
+      "ingest_version": 18,
+      "event_type": "status_event",
+      "claim": "blocker network config drift，回滚计划已批",
+      "core_entry_id": "om_x100b5088e6f728a8c310c9b3def45a4",
+      "evidence_quote": "blocker network config drift，回滚计划已批",
+      "context_quotes": [
+        {
+          "entry_id": "om_x100b5088e6da5ca0c2d839e4824f12b",
+          "quote": "配置管理侧已锁定正式窗口。",
+          "role": "disambiguation"
+        },
+        {
+          "entry_id": "om_x100b5088e6ef58a0c3a3e6d0e720670",
+          "quote": "补丁基线已更新至窗口日期。",
+          "role": "disambiguation"
+        },
+        {
+          "entry_id": "om_x100b5088e6e39cacc4c0a2e8475b8ac",
+          "quote": "最终总结：升级窗口5月10日22点UTC。",
+          "role": "disambiguation"
+        }
+      ],
+      "participants": ["林晨"],
+      "event_time": "1778109140000",
+      "source": {
+        "source_type": "chat",
+        "source_id": "chat:main_chat",
+        "chat_id": "oc_226e89b2b3fd7612aea5fc7f187cb759",
+        "thread_id": null,
+        "root_id": null,
+        "locator": "chat:main_chat"
+      },
+      "confidence": 0.72,
+      "verification": {
+        "core_quote_found": true,
+        "claim_supported_by_quote": true,
+        "context_only_generation": false,
+        "single_atomic_claim": true,
+        "required_fields_complete": true,
+        "no_unsupported_inference": true,
+        "verdict": "verified",
+        "resolved_core_entry_id": "om_x100b5088e6f728a8c310c9b3def45a4",
+        "quote_match_type": "exact",
+        "missing_required_fields": [],
+        "rejection_reasons": [],
+        "unsupported_parts": [],
+        "verifier_reason": ""
+      },
+      "status": "blocker network config drift，回滚计划已批",
+      "target": "blocker",
+      "programmatic_validation": {
+        "verdict": "ready_for_verification",
+        "evidence_quote_in_core": true,
+        "required_fields_complete": true,
+        "single_atomic_claim": true,
+        "missing_required_fields": [],
+        "rejection_reasons": []
+      },
+      "ingest_id": "task:FEISHU-666::chat:oc_226e89b2b3fd7612aea5fc7f187cb759::18",
+      "task_id": "task:FEISHU-666",
+      "source_scope": "chat:oc_226e89b2b3fd7612aea5fc7f187cb759",
+      "processing_status": "pending_verification",
+      "verification_job_id": "verify_e8bdc0e9f71ccb1c",
+      "verified_at": "2026-05-07T03:48:22.176Z"
+    },
+    {
+      "event_id": "evt_be81444d32e36ded",
+      "task_ref": "FEISHU-666",
+      "source_session_id": "task:FEISHU-666::chat:oc_226e89b2b3fd7612aea5fc7f187cb759",
+      "ingest_version": 21,
+      "event_type": "commitment_event",
+      "claim": "好的，我会按时参与",
+      "core_entry_id": "om_x100b5088e6a50ca4c36e942bcb63211",
+      "evidence_quote": "好的，我会按时参与",
+      "context_quotes": [
+        {
+          "entry_id": "om_x100b5088e6f728a8c310c9b3def45a4",
+          "quote": "blocker network config drift，回滚计划已批。",
+          "role": "disambiguation"
+        },
+        {
+          "entry_id": "om_x100b5088e68bc8a8c2ac16538e606f6",
+          "quote": "个人偏好不影响任务，以纪要为准。",
+          "role": "disambiguation"
+        },
+        {
+          "entry_id": "om_x100b5088e696b8a8c4d74d31bb1f194",
+          "quote": "同意，按Alice说的执行。",
+          "role": "disambiguation"
+        }
+      ],
+      "participants": ["陈雪"],
+      "event_time": "1778109140000",
+      "source": {
+        "source_type": "chat",
+        "source_id": "chat:main_chat",
+        "chat_id": "oc_226e89b2b3fd7612aea5fc7f187cb759",
+        "thread_id": null,
+        "root_id": null,
+        "locator": "chat:main_chat"
+      },
+      "confidence": 0.72,
+      "verification": {
+        "core_quote_found": true,
+        "claim_supported_by_quote": true,
+        "context_only_generation": false,
+        "single_atomic_claim": true,
+        "required_fields_complete": true,
+        "no_unsupported_inference": true,
+        "verdict": "verified",
+        "resolved_core_entry_id": "om_x100b5088e6a50ca4c36e942bcb63211",
+        "quote_match_type": "exact",
+        "missing_required_fields": [],
+        "rejection_reasons": [],
+        "unsupported_parts": [],
+        "verifier_reason": ""
+      },
+      "owner": "陈雪",
+      "action": "好的，我会按时参与",
+      "programmatic_validation": {
+        "verdict": "ready_for_verification",
+        "evidence_quote_in_core": true,
+        "required_fields_complete": true,
+        "single_atomic_claim": true,
+        "missing_required_fields": [],
+        "rejection_reasons": []
+      },
+      "ingest_id": "task:FEISHU-666::chat:oc_226e89b2b3fd7612aea5fc7f187cb759::21",
+      "task_id": "task:FEISHU-666",
+      "source_scope": "chat:oc_226e89b2b3fd7612aea5fc7f187cb759",
+      "processing_status": "pending_verification",
+      "verification_job_id": "verify_3c3c834bdb22e9d3",
+      "verified_at": "2026-05-07T03:48:22.176Z"
+    },
+    {
+      "event_id": "evt_8971c6d05a56f207",
+      "task_ref": "FEISHU-666",
+      "source_session_id": "task:FEISHU-666::chat:oc_21fc5cc6becbda6432fe9592c2ea118d",
+      "ingest_version": 3,
+      "event_type": "conclusion_event",
+      "claim": "纪要已定，夜间窗口是正式决定，不因个人偏好改",
+      "core_entry_id": "om_x100b5088e4ae08a0c3388e3378e615f",
+      "evidence_quote": "纪要已定，夜间窗口是正式决定，不因个人偏好改",
+      "context_quotes": [
+        {
+          "entry_id": "om_x100b5088e619cca0c4a4983901c05c1",
+          "quote": "交接修正线程：以下回复承载该 source session 的真实 benchmark 消息。",
+          "role": "disambiguation"
+        },
+        {
+          "entry_id": "om_x100b5088e49590a4c49940e1e916315",
+          "quote": "夜间变更对我个人效率影响大，能不能改白天？",
+          "role": "disambiguation"
+        }
+      ],
+      "participants": ["周宇"],
+      "event_time": "1778109140000",
+      "source": {
+        "source_type": "thread",
+        "source_id": "thread:handoff_thread",
+        "chat_id": "oc_21fc5cc6becbda6432fe9592c2ea118d",
+        "thread_id": "om_x100b5088e4ae08a0c3388e3378e615f",
+        "root_id": "om_x100b5088e4ae08a0c3388e3378e615f",
+        "locator": "thread:handoff_thread"
+      },
+      "confidence": 0.72,
+      "verification": {
+        "core_quote_found": true,
+        "claim_supported_by_quote": true,
+        "context_only_generation": false,
+        "single_atomic_claim": true,
+        "required_fields_complete": true,
+        "no_unsupported_inference": true,
+        "verdict": "verified",
+        "resolved_core_entry_id": "om_x100b5088e4ae08a0c3388e3378e615f",
+        "quote_match_type": "exact",
+        "missing_required_fields": [],
+        "rejection_reasons": [],
+        "unsupported_parts": [],
+        "verifier_reason": ""
+      },
+      "conclusion": "纪要已定，夜间窗口是正式决定，不因个人偏好改",
+      "target": "夜间窗口",
+      "programmatic_validation": {
+        "verdict": "ready_for_verification",
+        "evidence_quote_in_core": true,
+        "required_fields_complete": true,
+        "single_atomic_claim": true,
+        "missing_required_fields": [],
+        "rejection_reasons": []
+      },
+      "ingest_id": "task:FEISHU-666::chat:oc_21fc5cc6becbda6432fe9592c2ea118d::3",
+      "task_id": "task:FEISHU-666",
+      "source_scope": "chat:oc_21fc5cc6becbda6432fe9592c2ea118d",
+      "processing_status": "pending_verification",
+      "verification_job_id": "verify_cb5c23e6ee800800",
+      "verified_at": "2026-05-07T03:48:22.091Z"
+    },
+    {
+      "event_id": "evt_4926a6fef084841e",
+      "task_ref": "FEISHU-666",
+      "source_session_id": "task:FEISHU-666::chat:oc_21fc5cc6becbda6432fe9592c2ea118d",
+      "ingest_version": 3,
+      "event_type": "status_event",
+      "claim": "纪要已定，夜间窗口是正式决定，不因个人偏好改",
+      "core_entry_id": "om_x100b5088e4ae08a0c3388e3378e615f",
+      "evidence_quote": "纪要已定，夜间窗口是正式决定，不因个人偏好改",
+      "context_quotes": [
+        {
+          "entry_id": "om_x100b5088e619cca0c4a4983901c05c1",
+          "quote": "交接修正线程：以下回复承载该 source session 的真实 benchmark 消息。",
+          "role": "disambiguation"
+        },
+        {
+          "entry_id": "om_x100b5088e49590a4c49940e1e916315",
+          "quote": "夜间变更对我个人效率影响大，能不能改白天？",
+          "role": "disambiguation"
+        }
+      ],
+      "participants": ["周宇"],
+      "event_time": "1778109140000",
+      "source": {
+        "source_type": "thread",
+        "source_id": "thread:handoff_thread",
+        "chat_id": "oc_21fc5cc6becbda6432fe9592c2ea118d",
+        "thread_id": "om_x100b5088e4ae08a0c3388e3378e615f",
+        "root_id": "om_x100b5088e4ae08a0c3388e3378e615f",
+        "locator": "thread:handoff_thread"
+      },
+      "confidence": 0.72,
+      "verification": {
+        "core_quote_found": true,
+        "claim_supported_by_quote": true,
+        "context_only_generation": false,
+        "single_atomic_claim": true,
+        "required_fields_complete": true,
+        "no_unsupported_inference": true,
+        "verdict": "verified",
+        "resolved_core_entry_id": "om_x100b5088e4ae08a0c3388e3378e615f",
+        "quote_match_type": "exact",
+        "missing_required_fields": [],
+        "rejection_reasons": [],
+        "unsupported_parts": [],
+        "verifier_reason": ""
+      },
+      "status": "纪要已定，夜间窗口是正式决定，不因个人偏好改",
+      "target": "夜间窗口",
+      "programmatic_validation": {
+        "verdict": "ready_for_verification",
+        "evidence_quote_in_core": true,
+        "required_fields_complete": true,
+        "single_atomic_claim": true,
+        "missing_required_fields": [],
+        "rejection_reasons": []
+      },
+      "ingest_id": "task:FEISHU-666::chat:oc_21fc5cc6becbda6432fe9592c2ea118d::3",
+      "task_id": "task:FEISHU-666",
+      "source_scope": "chat:oc_21fc5cc6becbda6432fe9592c2ea118d",
+      "processing_status": "pending_verification",
+      "verification_job_id": "verify_e150e5e7c5735528",
+      "verified_at": "2026-05-07T03:48:22.092Z"
+    },
+    {
+      "event_id": "evt_e3c14e5d737e13ea",
+      "task_ref": "FEISHU-666",
+      "source_session_id": "task:FEISHU-666::chat:oc_21fc5cc6becbda6432fe9592c2ea118d",
+      "ingest_version": 4,
+      "event_type": "commitment_event",
+      "claim": "好吧，我会安排夜间值班",
+      "core_entry_id": "om_x100b5088e4a330a4c14eb0ea348ad5d",
+      "evidence_quote": "好吧，我会安排夜间值班",
+      "context_quotes": [
+        {
+          "entry_id": "om_x100b5088e619cca0c4a4983901c05c1",
+          "quote": "交接修正线程：以下回复承载该 source session 的真实 benchmark 消息。",
+          "role": "disambiguation"
+        },
+        {
+          "entry_id": "om_x100b5088e49590a4c49940e1e916315",
+          "quote": "夜间变更对我个人效率影响大，能不能改白天？",
+          "role": "disambiguation"
+        },
+        {
+          "entry_id": "om_x100b5088e4ae08a0c3388e3378e615f",
+          "quote": "纪要已定，夜间窗口是正式决定，不因个人偏好改。",
+          "role": "disambiguation"
+        }
+      ],
+      "participants": ["赵敏"],
+      "event_time": "1778109140000",
+      "source": {
+        "source_type": "thread",
+        "source_id": "thread:handoff_thread",
+        "chat_id": "oc_21fc5cc6becbda6432fe9592c2ea118d",
+        "thread_id": "om_x100b5088e4a330a4c14eb0ea348ad5d",
+        "root_id": "om_x100b5088e4a330a4c14eb0ea348ad5d",
+        "locator": "thread:handoff_thread"
+      },
+      "confidence": 0.72,
+      "verification": {
+        "core_quote_found": true,
+        "claim_supported_by_quote": true,
+        "context_only_generation": false,
+        "single_atomic_claim": true,
+        "required_fields_complete": true,
+        "no_unsupported_inference": true,
+        "verdict": "verified",
+        "resolved_core_entry_id": "om_x100b5088e4a330a4c14eb0ea348ad5d",
+        "quote_match_type": "exact",
+        "missing_required_fields": [],
+        "rejection_reasons": [],
+        "unsupported_parts": [],
+        "verifier_reason": ""
+      },
+      "owner": "赵敏",
+      "action": "好吧，我会安排夜间值班",
+      "programmatic_validation": {
+        "verdict": "ready_for_verification",
+        "evidence_quote_in_core": true,
+        "required_fields_complete": true,
+        "single_atomic_claim": true,
+        "missing_required_fields": [],
+        "rejection_reasons": []
+      },
+      "ingest_id": "task:FEISHU-666::chat:oc_21fc5cc6becbda6432fe9592c2ea118d::4",
+      "task_id": "task:FEISHU-666",
+      "source_scope": "chat:oc_21fc5cc6becbda6432fe9592c2ea118d",
+      "processing_status": "pending_verification",
+      "verification_job_id": "verify_5061dc88c3bf6df4",
+      "verified_at": "2026-05-07T03:48:22.092Z"
+    },
+    {
+      "event_id": "evt_ed7501ddb90a99e2",
+      "task_ref": "FEISHU-666",
+      "source_session_id": "task:FEISHU-666::chat:oc_21fc5cc6becbda6432fe9592c2ea118d",
+      "ingest_version": 5,
+      "event_type": "rationale_event",
+      "claim": "备份策略会不会因为时间调整有变",
+      "core_entry_id": "om_x100b5088e4b61ca0c220a0b77fb0a1e",
+      "evidence_quote": "备份策略会不会因为时间调整有变",
+      "context_quotes": [
+        {
+          "entry_id": "om_x100b5088e619cca0c4a4983901c05c1",
+          "quote": "交接修正线程：以下回复承载该 source session 的真实 benchmark 消息。",
+          "role": "disambiguation"
+        },
+        {
+          "entry_id": "om_x100b5088e49590a4c49940e1e916315",
+          "quote": "夜间变更对我个人效率影响大，能不能改白天？",
+          "role": "disambiguation"
+        },
+        {
+          "entry_id": "om_x100b5088e4ae08a0c3388e3378e615f",
+          "quote": "纪要已定，夜间窗口是正式决定，不因个人偏好改。",
+          "role": "disambiguation"
+        },
+        {
+          "entry_id": "om_x100b5088e4a330a4c14eb0ea348ad5d",
+          "quote": "好吧，我会安排夜间值班。",
+          "role": "disambiguation"
+        }
+      ],
+      "participants": ["周宇"],
+      "event_time": "1778109140000",
+      "source": {
+        "source_type": "thread",
+        "source_id": "thread:handoff_thread",
+        "chat_id": "oc_21fc5cc6becbda6432fe9592c2ea118d",
+        "thread_id": "om_x100b5088e4b61ca0c220a0b77fb0a1e",
+        "root_id": "om_x100b5088e4b61ca0c220a0b77fb0a1e",
+        "locator": "thread:handoff_thread"
+      },
+      "confidence": 0.72,
+      "verification": {
+        "core_quote_found": true,
+        "claim_supported_by_quote": true,
+        "context_only_generation": false,
+        "single_atomic_claim": true,
+        "required_fields_complete": true,
+        "no_unsupported_inference": true,
+        "verdict": "verified",
+        "resolved_core_entry_id": "om_x100b5088e4b61ca0c220a0b77fb0a1e",
+        "quote_match_type": "exact",
+        "missing_required_fields": [],
+        "rejection_reasons": [],
+        "unsupported_parts": [],
+        "verifier_reason": ""
+      },
+      "reason": "时间调整有变",
+      "programmatic_validation": {
+        "verdict": "ready_for_verification",
+        "evidence_quote_in_core": true,
+        "required_fields_complete": true,
+        "single_atomic_claim": true,
+        "missing_required_fields": [],
+        "rejection_reasons": []
+      },
+      "ingest_id": "task:FEISHU-666::chat:oc_21fc5cc6becbda6432fe9592c2ea118d::5",
+      "task_id": "task:FEISHU-666",
+      "source_scope": "chat:oc_21fc5cc6becbda6432fe9592c2ea118d",
+      "processing_status": "pending_verification",
+      "verification_job_id": "verify_f836fcc6e067c792",
+      "verified_at": "2026-05-07T03:48:22.093Z"
+    }
+  ],
+  "lint_results": [
+    {
+      "taskRootDir": "/Users/byseea/programscoding/nanobot/openclaw-main/amem_docs/ds/feishu_im_dataset_v3/cases/case_20260506224026669766_private_info_in_official_file/runtime/task_wiki_state/feishu-task-wiki/tasks/FEISHU-666-45f2ad9d",
+      "version": 1,
+      "generated_at": "2026-05-07T03:49:00.495Z",
+      "orphan_event_count": 4,
+      "missing_evidence_ref_count": 0,
+      "stale_claim_count": 0,
+      "quote_strength_count": 0,
+      "unresolved_objection_count": 1,
+      "overdue_commitment_count": 0,
+      "open_conflict_count": 0,
+      "orphan_block_count": 0,
+      "missing_cross_ref_count": 9,
+      "orphan_session_wiki_count": 0,
+      "findings": {
+        "orphan_events": [
+          {
+            "source_session_id": "task:FEISHU-666::chat:oc_ac5a33c314d20661373939b37672396d",
+            "event_id": "evt_10a005b4def388f5",
+            "claim": "我个人认为夜间变更风险更高，但这是个人观点"
+          },
+          {
+            "source_session_id": "task:FEISHU-666::chat:oc_ac5a33c314d20661373939b37672396d",
+            "event_id": "evt_ba01338dfe7a4a32",
+            "claim": "风险评估已完成，纪要结论是夜间窗口可行"
+          },
+          {
+            "source_session_id": "task:FEISHU-666::chat:oc_ac5a33c314d20661373939b37672396d",
+            "event_id": "evt_1baf7067a47d0518",
+            "claim": "风险评估已完成，纪要结论是夜间窗口可行"
+          },
+          {
+            "source_session_id": "task:FEISHU-666::chat:oc_ac5a33c314d20661373939b37672396d",
+            "event_id": "evt_4a40a74a069eef0b",
+            "claim": "风险登记表已更新"
+          }
+        ],
+        "missing_evidence_refs": [],
+        "stale_claims": [],
+        "quote_strength": [],
+        "unresolved_objections": [
+          {
+            "source_session_id": "task:FEISHU-666::chat:oc_ac5a33c314d20661373939b37672396d",
+            "block_id": "block-销售承诺风险-3d675c35",
+            "topic_title": "销售承诺风险",
+            "claim": "窗口不可调整，家庭承诺不在任务考量内。",
+            "event_id": "evt_bb3c99c563be5c04"
+          }
+        ],
+        "overdue_commitments": [],
+        "open_conflicts": [],
+        "orphan_blocks": [],
+        "missing_cross_refs": [
+          {
+            "type": "missing_session_event_ref",
+            "source_session_id": "task:FEISHU-666::chat:oc_ac5a33c314d20661373939b37672396d",
+            "block_id": "block-存储侧备用方案-8436427d",
+            "event_id": "evt_1af75c26594cf4a4"
+          },
+          {
+            "type": "missing_session_event_ref",
+            "source_session_id": "task:FEISHU-666::chat:oc_ac5a33c314d20661373939b37672396d",
+            "block_id": "block-发布阻塞风险-45763a86",
+            "event_id": "evt_f784c7d1d6853452"
+          },
+          {
+            "type": "missing_session_event_ref",
+            "source_session_id": "task:FEISHU-666::chat:oc_ac5a33c314d20661373939b37672396d",
+            "block_id": "block-发布阻塞风险-45763a86",
+            "event_id": "evt_2cf826c8a357396e"
+          },
+          {
+            "type": "missing_session_event_ref",
+            "source_session_id": "task:FEISHU-666::chat:oc_ac5a33c314d20661373939b37672396d",
+            "block_id": "block-发布阻塞风险-45763a86",
+            "event_id": "evt_8432639dd704e5ca"
+          },
+          {
+            "type": "missing_session_event_ref",
+            "source_session_id": "task:FEISHU-666::chat:oc_ac5a33c314d20661373939b37672396d",
+            "block_id": "block-纪要-219d06b2",
+            "event_id": "evt_f9b7672d7658e55d"
+          },
+          {
+            "type": "missing_session_event_ref",
+            "source_session_id": "task:FEISHU-666::chat:oc_ac5a33c314d20661373939b37672396d",
+            "block_id": "block-纪要结论-05c79215",
+            "event_id": "evt_571231e130d5bb70"
+          },
+          {
+            "type": "missing_session_event_ref",
+            "source_session_id": "task:FEISHU-666::chat:oc_ac5a33c314d20661373939b37672396d",
+            "block_id": "block-升级-2e8e7095",
+            "event_id": "evt_2fb5c8fd57bfa1b4"
+          },
+          {
+            "type": "missing_session_event_ref",
+            "source_session_id": "task:FEISHU-666::chat:oc_ac5a33c314d20661373939b37672396d",
+            "block_id": "block-升级时间-7a779514",
+            "event_id": "evt_82c7f93d80cb1886"
+          },
+          {
+            "type": "missing_session_event_ref",
+            "source_session_id": "task:FEISHU-666::chat:oc_ac5a33c314d20661373939b37672396d",
+            "block_id": "block-销售承诺风险-3d675c35",
+            "event_id": "evt_bb3c99c563be5c04"
+          }
+        ],
+        "orphan_session_wikis": []
+      }
+    }
+  ]
+}

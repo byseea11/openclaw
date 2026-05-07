@@ -1,0 +1,77 @@
+{
+  "generation_mode": "batch",
+  "dataset_size": 12,
+  "seed": 20260507020326491308,
+  "difficulty_policy": "hard",
+  "family_quotas": {
+    "anti_interference": 3,
+    "contradiction_update": 3,
+    "evidence_dependency_reasoning": 3,
+    "private_info_in_official_file": 3
+  },
+  "family_selection_policy": "round_robin_by_seed",
+  "batch_id": "batch_20260507_020326490933",
+  "family_policy": "all",
+  "case_plan": [
+    {
+      "index": 0,
+      "seed": 20260507020326491308,
+      "family_id": "anti_interference"
+    },
+    {
+      "index": 1,
+      "seed": 20260507020326491309,
+      "family_id": "contradiction_update"
+    },
+    {
+      "index": 2,
+      "seed": 20260507020326491310,
+      "family_id": "evidence_dependency_reasoning"
+    },
+    {
+      "index": 3,
+      "seed": 20260507020326491311,
+      "family_id": "private_info_in_official_file"
+    },
+    {
+      "index": 4,
+      "seed": 20260507020326491312,
+      "family_id": "anti_interference"
+    },
+    {
+      "index": 5,
+      "seed": 20260507020326491313,
+      "family_id": "contradiction_update"
+    },
+    {
+      "index": 6,
+      "seed": 20260507020326491314,
+      "family_id": "evidence_dependency_reasoning"
+    },
+    {
+      "index": 7,
+      "seed": 20260507020326491315,
+      "family_id": "private_info_in_official_file"
+    },
+    {
+      "index": 8,
+      "seed": 20260507020326491316,
+      "family_id": "anti_interference"
+    },
+    {
+      "index": 9,
+      "seed": 20260507020326491317,
+      "family_id": "contradiction_update"
+    },
+    {
+      "index": 10,
+      "seed": 20260507020326491318,
+      "family_id": "evidence_dependency_reasoning"
+    },
+    {
+      "index": 11,
+      "seed": 20260507020326491319,
+      "family_id": "private_info_in_official_file"
+    }
+  ]
+}

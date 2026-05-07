@@ -1,0 +1,13 @@
+{
+  "phase": "phase3",
+  "stage": "task-wiki-runtime-eval",
+  "status": "failed",
+  "started_at": "2026-05-07T02:18:26.808378+00:00",
+  "ended_at": "2026-05-07T02:18:26.885920+00:00",
+  "failure_artifact_path": "amem_docs/ds/feishu_im_dataset_v3/batches/batch_20260507_021541740284/cases/case_20260507021541740586_anti_interference/runtime/failures/phase3/task-wiki-runtime-eval_20260507T021826885328Z.json",
+  "error_type": "RuntimeScriptError",
+  "error_message": "Phase 3 runtime script failed: command=node /Users/byseea/programscoding/nanobot/openclaw-main/feishu_task_wiki_benchmark_builder/runtime/task_wiki_runtime_eval.mjs --case-dir amem_docs/ds/feishu_im_dataset_v3/batches/batch_20260507_021541740284/cases/case_20260507021541740586_anti_interference --semantic-gold rule --json returncode=1 stderr=No replay ingress rows found: /Users/byseea/programscoding/nanobot/openclaw-main/amem_docs/ds/feishu_im_dataset_v3/batches/batch_20260507_021541740284/cases/case_20260507021541740586_anti_interference/data/openclaw_message_ingress.jsonl",
+  "skipped": false,
+  "run_id": "20260507T021826885943Z",
+  "updated_at": "2026-05-07T02:18:26.885951+00:00"
+}

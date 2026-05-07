@@ -1,0 +1,129 @@
+{
+  "case_id": "case_20260506214458233799_evidence_dependency_reasoning",
+  "family_id": "evidence_dependency_reasoning",
+  "task_id": "FEISHU-499",
+  "sessions": [
+    {
+      "session_id": "main_chat",
+      "session_type": "main_chat",
+      "title": "主群协调",
+      "session_purpose": "沉淀目标任务的主线协作信息和最终 current state。"
+    },
+    {
+      "session_id": "handoff_thread",
+      "session_type": "handoff_thread",
+      "title": "交接修正线程",
+      "session_purpose": "承载 owner 交接、旧状态修正和 supersession 说明。"
+    },
+    {
+      "session_id": "customer_sync_chat",
+      "session_type": "customer_sync_chat",
+      "title": "客户同步侧群",
+      "session_purpose": "承接外部压力、模糊口径和对外同步上下文。"
+    },
+    {
+      "session_id": "risk_review_thread",
+      "session_type": "risk_review_thread",
+      "title": "风险复核线程",
+      "session_purpose": "承载依赖、风险和证据分层补充信息。"
+    },
+    {
+      "session_id": "exec_sync_chat",
+      "session_type": "exec_sync_chat",
+      "title": "管理层同步侧群",
+      "session_purpose": "承载跨部门升级、相似措辞和并行决策噪声。"
+    }
+  ],
+  "turns": [
+    {
+      "turn_id": "turn_001",
+      "beat_id": "beat_001",
+      "sequence_no": 1,
+      "session_id": "main_chat",
+      "speaker_actor_id": "carol",
+      "speaker": "Carol",
+      "planned_message_text": "正式确认：上游迁移窗口今天仍未锁定，FEISHU-499 暂不能承诺 6 月 15 日灰度。"
+    },
+    {
+      "turn_id": "turn_002",
+      "beat_id": "beat_002",
+      "sequence_no": 2,
+      "session_id": "main_chat",
+      "speaker_actor_id": "bob",
+      "speaker": "Bob",
+      "planned_message_text": "听 DBA 说窗口可能这两天就锁定了，可以开始准备对外沟通了吧？但我没看到正式邮件。"
+    },
+    {
+      "turn_id": "turn_003",
+      "beat_id": "beat_003",
+      "sequence_no": 3,
+      "session_id": "handoff_thread",
+      "speaker_actor_id": "alice",
+      "speaker": "Alice",
+      "planned_message_text": "窗口风险感觉不大，但确实还没锁定，我们暂时先不对外确认。"
+    },
+    {
+      "turn_id": "turn_004",
+      "beat_id": "beat_004",
+      "sequence_no": 4,
+      "session_id": "handoff_thread",
+      "speaker_actor_id": "alice",
+      "speaker": "Alice",
+      "planned_message_text": "如果 FEISHU-499 不能按时灰度，回滚预案验收也得一起顺延，Kate 那边 QA 资源要重新排。"
+    },
+    {
+      "turn_id": "turn_005",
+      "beat_id": "beat_005",
+      "sequence_no": 5,
+      "session_id": "handoff_thread",
+      "speaker_actor_id": "eve",
+      "speaker": "Eve",
+      "planned_message_text": "安全审批基本快完了，就差最后一个签字。不过还没正式下来，你们别当已完成。"
+    },
+    {
+      "turn_id": "turn_006",
+      "beat_id": "beat_006",
+      "sequence_no": 6,
+      "session_id": "customer_sync_chat",
+      "speaker_actor_id": "grace",
+      "speaker": "Grace",
+      "planned_message_text": "VP 说预算大概率能过，但正式批复邮件还没发。先按这个方向准备，别对外说。"
+    },
+    {
+      "turn_id": "turn_007",
+      "beat_id": "beat_007",
+      "sequence_no": 7,
+      "session_id": "risk_review_thread",
+      "speaker_actor_id": "xavier",
+      "speaker": "Xavier",
+      "planned_message_text": "总结：当前 verified blocker 是 Carol 确认的迁移窗口未锁定，这会直接推迟 FEISHU-499 灰度，导致回滚验收顺延。Bob 和 Grace 的传闻、Alice 和 Eve 的模糊判断都不能替代正式确认。"
+    },
+    {
+      "turn_id": "turn_008",
+      "beat_id": "beat_008",
+      "sequence_no": 8,
+      "session_id": "risk_review_thread",
+      "speaker_actor_id": "kate",
+      "speaker": "Kate",
+      "planned_message_text": "收到，回滚验收资源已重新排期，等窗口锁定通知即可启动。"
+    },
+    {
+      "turn_id": "turn_009",
+      "beat_id": "beat_009",
+      "sequence_no": 9,
+      "session_id": "exec_sync_chat",
+      "speaker_actor_id": "frank",
+      "speaker": "Frank",
+      "planned_message_text": "合规角度我们同意 Xavier 的结论：目前唯一正式依据是 Carol 的确认。窗口锁定后才能对外承诺，建议同步给各区域运营团队。"
+    },
+    {
+      "turn_id": "turn_010",
+      "beat_id": "beat_010",
+      "sequence_no": 10,
+      "session_id": "main_chat",
+      "speaker_actor_id": "dave",
+      "speaker": "Dave",
+      "planned_message_text": "补充：窗口未锁定是因为亚太区域还有一条索引变更未验证，预计需要 3-5 个工作日。这是 Carol 团队评估后得出的。"
+    }
+  ]
+}

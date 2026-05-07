@@ -1,0 +1,55 @@
+{
+  "case_id": "case_20260507023022391249_anti_interference",
+  "family_id": "anti_interference",
+  "task_id": "FEISHU-849",
+  "beats": [
+    {
+      "beat_id": "beat_001",
+      "target_session_id": "main_chat",
+      "benchmark_role": "memory_pollution_turn",
+      "description": "Grace announces Alice as new owner of FEISHU-849, effective immediately."
+    },
+    {
+      "beat_id": "beat_002",
+      "target_session_id": "main_chat",
+      "benchmark_role": "memory_pollution_turn",
+      "description": "Alice reports that FEISHU-849 is blocked pending security review."
+    },
+    {
+      "beat_id": "beat_003",
+      "target_session_id": "thread_doc_review",
+      "benchmark_role": "memory_pollution_turn",
+      "description": "Alice discusses doc review timeline, mentions 'ready for review' but unrelated to FEISHU-849."
+    },
+    {
+      "beat_id": "beat_004",
+      "target_session_id": "thread_ops_rehearsal",
+      "benchmark_role": "memory_pollution_turn",
+      "description": "Dave says 'rehearsal blocked, not ready yet' confusing blocker context."
+    },
+    {
+      "beat_id": "beat_005",
+      "target_session_id": "thread_security_audit",
+      "benchmark_role": "memory_pollution_turn",
+      "description": "Bob mentions 'security review pending' for a different task."
+    },
+    {
+      "beat_id": "beat_006",
+      "target_session_id": "thread_vendor_eval",
+      "benchmark_role": "memory_pollution_turn",
+      "description": "Carol evaluates vendor, mentions 'blocker' unrelated to FEISHU-849."
+    },
+    {
+      "beat_id": "beat_007",
+      "target_session_id": "main_chat",
+      "benchmark_role": "memory_pollution_turn",
+      "description": "Alice clarifies: 'Doc review thread and ops rehearsal are separate from FEISHU-849, do not mix them.'"
+    },
+    {
+      "beat_id": "beat_008",
+      "target_session_id": "main_chat",
+      "benchmark_role": "memory_pollution_turn",
+      "description": "Grace asks: 'What is the current status of FEISHU-849? Who is the owner? What is blocking it?'"
+    }
+  ]
+}

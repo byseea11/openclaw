@@ -1,0 +1,371 @@
+{
+  "results": {
+    "native": {
+      "benchmark": "cross_dept_mem",
+      "sample_count": 1,
+      "query_count": 2,
+      "exact_match": 0.0,
+      "average_f1": 1.0,
+      "average_recall_at_5": 0.6666,
+      "average_recall_at_10": 0.6666,
+      "average_latency_ms": 28803.588,
+      "average_prompt_tokens": 8351.5,
+      "average_memory_search_calls": 0.0,
+      "average_memory_get_calls": 0.0,
+      "average_memory_tool_calls": 0.0,
+      "buckets": {
+        "why": {
+          "count": 1,
+          "exact_match": 0.0,
+          "average_f1": 1.0,
+          "average_recall_at_5": 0.3333,
+          "average_recall_at_10": 0.3333,
+          "average_prompt_tokens": 5430.0,
+          "average_memory_search_calls": 0.0,
+          "average_memory_get_calls": 0.0,
+          "average_memory_tool_calls": 0.0
+        },
+        "state": {
+          "count": 1,
+          "exact_match": 0.0,
+          "average_f1": 1.0,
+          "average_recall_at_5": 1.0,
+          "average_recall_at_10": 1.0,
+          "average_prompt_tokens": 11273.0,
+          "average_memory_search_calls": 0.0,
+          "average_memory_get_calls": 0.0,
+          "average_memory_tool_calls": 0.0
+        }
+      }
+    },
+    "graph": {
+      "benchmark": "cross_dept_mem",
+      "sample_count": 1,
+      "query_count": 2,
+      "exact_match": 0.0,
+      "average_f1": 0.5313,
+      "average_recall_at_5": 0.6666,
+      "average_recall_at_10": 0.6666,
+      "average_latency_ms": 33268.517,
+      "average_prompt_tokens": 4343.0,
+      "average_memory_search_calls": 0.0,
+      "average_memory_get_calls": 0.0,
+      "average_memory_tool_calls": 0.0,
+      "buckets": {
+        "why": {
+          "count": 1,
+          "exact_match": 0.0,
+          "average_f1": 0.0626,
+          "average_recall_at_5": 0.3333,
+          "average_recall_at_10": 0.3333,
+          "average_prompt_tokens": 4954.0,
+          "average_memory_search_calls": 0.0,
+          "average_memory_get_calls": 0.0,
+          "average_memory_tool_calls": 0.0
+        },
+        "state": {
+          "count": 1,
+          "exact_match": 0.0,
+          "average_f1": 1.0,
+          "average_recall_at_5": 1.0,
+          "average_recall_at_10": 1.0,
+          "average_prompt_tokens": 3732.0,
+          "average_memory_search_calls": 0.0,
+          "average_memory_get_calls": 0.0,
+          "average_memory_tool_calls": 0.0
+        }
+      }
+    },
+    "graph_ordering": {
+      "benchmark": "cross_dept_mem",
+      "sample_count": 1,
+      "query_count": 2,
+      "exact_match": 0.0,
+      "average_f1": 0.5407,
+      "average_recall_at_5": 1.0,
+      "average_recall_at_10": 1.0,
+      "average_latency_ms": 28907.13,
+      "average_prompt_tokens": 12049.5,
+      "average_memory_search_calls": 0.0,
+      "average_memory_get_calls": 0.0,
+      "average_memory_tool_calls": 0.0,
+      "buckets": {
+        "why": {
+          "count": 1,
+          "exact_match": 0.0,
+          "average_f1": 1.0,
+          "average_recall_at_5": 1.0,
+          "average_recall_at_10": 1.0,
+          "average_prompt_tokens": 14122.0,
+          "average_memory_search_calls": 0.0,
+          "average_memory_get_calls": 0.0,
+          "average_memory_tool_calls": 0.0
+        },
+        "state": {
+          "count": 1,
+          "exact_match": 0.0,
+          "average_f1": 0.0814,
+          "average_recall_at_5": 1.0,
+          "average_recall_at_10": 1.0,
+          "average_prompt_tokens": 9977.0,
+          "average_memory_search_calls": 0.0,
+          "average_memory_get_calls": 0.0,
+          "average_memory_tool_calls": 0.0
+        }
+      }
+    }
+  },
+  "quality": {
+    "benchmark": "cross_dept_mem",
+    "headline_metrics": [
+      "average_f1",
+      "average_recall_at_5",
+      "average_recall_at_10"
+    ],
+    "variants": {
+      "native": {
+        "summary": {
+          "benchmark": "cross_dept_mem",
+          "sample_count": 1,
+          "query_count": 2,
+          "exact_match": 0.0,
+          "average_f1": 1.0,
+          "average_recall_at_5": 0.6666,
+          "average_recall_at_10": 0.6666,
+          "average_latency_ms": 28803.588,
+          "average_prompt_tokens": 8351.5,
+          "average_memory_search_calls": 0.0,
+          "average_memory_get_calls": 0.0,
+          "average_memory_tool_calls": 0.0,
+          "buckets": {
+            "why": {
+              "count": 1,
+              "exact_match": 0.0,
+              "average_f1": 1.0,
+              "average_recall_at_5": 0.3333,
+              "average_recall_at_10": 0.3333,
+              "average_prompt_tokens": 5430.0,
+              "average_memory_search_calls": 0.0,
+              "average_memory_get_calls": 0.0,
+              "average_memory_tool_calls": 0.0
+            },
+            "state": {
+              "count": 1,
+              "exact_match": 0.0,
+              "average_f1": 1.0,
+              "average_recall_at_5": 1.0,
+              "average_recall_at_10": 1.0,
+              "average_prompt_tokens": 11273.0,
+              "average_memory_search_calls": 0.0,
+              "average_memory_get_calls": 0.0,
+              "average_memory_tool_calls": 0.0
+            }
+          }
+        },
+        "output": "/Users/byseea/programscoding/nanobot/openclaw-main/eval/reports/codex_crossdept_quick_v3/native.details.json"
+      },
+      "graph_ordering": {
+        "summary": {
+          "benchmark": "cross_dept_mem",
+          "sample_count": 1,
+          "query_count": 2,
+          "exact_match": 0.0,
+          "average_f1": 0.5407,
+          "average_recall_at_5": 1.0,
+          "average_recall_at_10": 1.0,
+          "average_latency_ms": 28907.13,
+          "average_prompt_tokens": 12049.5,
+          "average_memory_search_calls": 0.0,
+          "average_memory_get_calls": 0.0,
+          "average_memory_tool_calls": 0.0,
+          "buckets": {
+            "why": {
+              "count": 1,
+              "exact_match": 0.0,
+              "average_f1": 1.0,
+              "average_recall_at_5": 1.0,
+              "average_recall_at_10": 1.0,
+              "average_prompt_tokens": 14122.0,
+              "average_memory_search_calls": 0.0,
+              "average_memory_get_calls": 0.0,
+              "average_memory_tool_calls": 0.0
+            },
+            "state": {
+              "count": 1,
+              "exact_match": 0.0,
+              "average_f1": 0.0814,
+              "average_recall_at_5": 1.0,
+              "average_recall_at_10": 1.0,
+              "average_prompt_tokens": 9977.0,
+              "average_memory_search_calls": 0.0,
+              "average_memory_get_calls": 0.0,
+              "average_memory_tool_calls": 0.0
+            }
+          }
+        },
+        "output": "/Users/byseea/programscoding/nanobot/openclaw-main/eval/reports/codex_crossdept_quick_v3/graph_ordering.details.json"
+      }
+    },
+    "metric_deltas": {
+      "average_f1": {
+        "native": 1.0,
+        "graph_ordering": 0.5407,
+        "delta": -0.4593
+      },
+      "average_recall_at_5": {
+        "native": 0.6666,
+        "graph_ordering": 1.0,
+        "delta": 0.3334
+      },
+      "average_recall_at_10": {
+        "native": 0.6666,
+        "graph_ordering": 1.0,
+        "delta": 0.3334
+      }
+    }
+  },
+  "efficiency": {
+    "benchmark": "cross_dept_mem",
+    "headline_metrics": [
+      "graph_index_context_saving",
+      "ordering_tool_call_saving"
+    ],
+    "variants": {
+      "native": {
+        "summary": {
+          "benchmark": "cross_dept_mem",
+          "sample_count": 1,
+          "query_count": 2,
+          "exact_match": 0.0,
+          "average_f1": 1.0,
+          "average_recall_at_5": 0.6666,
+          "average_recall_at_10": 0.6666,
+          "average_latency_ms": 28803.588,
+          "average_prompt_tokens": 8351.5,
+          "average_memory_search_calls": 0.0,
+          "average_memory_get_calls": 0.0,
+          "average_memory_tool_calls": 0.0,
+          "buckets": {
+            "why": {
+              "count": 1,
+              "exact_match": 0.0,
+              "average_f1": 1.0,
+              "average_recall_at_5": 0.3333,
+              "average_recall_at_10": 0.3333,
+              "average_prompt_tokens": 5430.0,
+              "average_memory_search_calls": 0.0,
+              "average_memory_get_calls": 0.0,
+              "average_memory_tool_calls": 0.0
+            },
+            "state": {
+              "count": 1,
+              "exact_match": 0.0,
+              "average_f1": 1.0,
+              "average_recall_at_5": 1.0,
+              "average_recall_at_10": 1.0,
+              "average_prompt_tokens": 11273.0,
+              "average_memory_search_calls": 0.0,
+              "average_memory_get_calls": 0.0,
+              "average_memory_tool_calls": 0.0
+            }
+          }
+        },
+        "output": "/Users/byseea/programscoding/nanobot/openclaw-main/eval/reports/codex_crossdept_quick_v3/native.details.json"
+      },
+      "graph": {
+        "summary": {
+          "benchmark": "cross_dept_mem",
+          "sample_count": 1,
+          "query_count": 2,
+          "exact_match": 0.0,
+          "average_f1": 0.5313,
+          "average_recall_at_5": 0.6666,
+          "average_recall_at_10": 0.6666,
+          "average_latency_ms": 33268.517,
+          "average_prompt_tokens": 4343.0,
+          "average_memory_search_calls": 0.0,
+          "average_memory_get_calls": 0.0,
+          "average_memory_tool_calls": 0.0,
+          "buckets": {
+            "why": {
+              "count": 1,
+              "exact_match": 0.0,
+              "average_f1": 0.0626,
+              "average_recall_at_5": 0.3333,
+              "average_recall_at_10": 0.3333,
+              "average_prompt_tokens": 4954.0,
+              "average_memory_search_calls": 0.0,
+              "average_memory_get_calls": 0.0,
+              "average_memory_tool_calls": 0.0
+            },
+            "state": {
+              "count": 1,
+              "exact_match": 0.0,
+              "average_f1": 1.0,
+              "average_recall_at_5": 1.0,
+              "average_recall_at_10": 1.0,
+              "average_prompt_tokens": 3732.0,
+              "average_memory_search_calls": 0.0,
+              "average_memory_get_calls": 0.0,
+              "average_memory_tool_calls": 0.0
+            }
+          }
+        },
+        "output": "/Users/byseea/programscoding/nanobot/openclaw-main/eval/reports/codex_crossdept_quick_v3/graph.details.json"
+      },
+      "graph_ordering": {
+        "summary": {
+          "benchmark": "cross_dept_mem",
+          "sample_count": 1,
+          "query_count": 2,
+          "exact_match": 0.0,
+          "average_f1": 0.5407,
+          "average_recall_at_5": 1.0,
+          "average_recall_at_10": 1.0,
+          "average_latency_ms": 28907.13,
+          "average_prompt_tokens": 12049.5,
+          "average_memory_search_calls": 0.0,
+          "average_memory_get_calls": 0.0,
+          "average_memory_tool_calls": 0.0,
+          "buckets": {
+            "why": {
+              "count": 1,
+              "exact_match": 0.0,
+              "average_f1": 1.0,
+              "average_recall_at_5": 1.0,
+              "average_recall_at_10": 1.0,
+              "average_prompt_tokens": 14122.0,
+              "average_memory_search_calls": 0.0,
+              "average_memory_get_calls": 0.0,
+              "average_memory_tool_calls": 0.0
+            },
+            "state": {
+              "count": 1,
+              "exact_match": 0.0,
+              "average_f1": 0.0814,
+              "average_recall_at_5": 1.0,
+              "average_recall_at_10": 1.0,
+              "average_prompt_tokens": 9977.0,
+              "average_memory_search_calls": 0.0,
+              "average_memory_get_calls": 0.0,
+              "average_memory_tool_calls": 0.0
+            }
+          }
+        },
+        "output": "/Users/byseea/programscoding/nanobot/openclaw-main/eval/reports/codex_crossdept_quick_v3/graph_ordering.details.json"
+      }
+    },
+    "graph_index_context_saving": {
+      "metric": "average_prompt_tokens",
+      "native": 8351.5,
+      "graph": 4343.0,
+      "delta": 4008.5
+    },
+    "ordering_tool_call_saving": {
+      "metric": "average_memory_tool_calls",
+      "graph": 0.0,
+      "graph_ordering": 0.0,
+      "delta": 0.0
+    }
+  }
+}

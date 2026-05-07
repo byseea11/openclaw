@@ -1,0 +1,40 @@
+{
+  "family_id": "evidence_dependency_reasoning",
+  "benchmark_requirement_name": "证据验证 + 依赖传播",
+  "benchmark_requirement_summary": "系统不仅要指出哪条消息是真实依据，还要解释该依据对应的上游状态如何影响下游任务。",
+  "report_display_name": "证据验证与依赖传播",
+  "capability_under_test": "区分 verified fact、转述和猜测，并据此解释上游风险源如何影响目标任务和下游任务。",
+  "why_memory_systems_may_fail": "系统容易把模糊说法和转述当成事实，或者只记住上游/下游片段却拼不出基于证据的影响链。",
+  "generation_rules": [
+    "必须同时出现 verified、ambiguous、hearsay 几类说法，并且这些说法围绕同一条依赖链展开。",
+    "正式 contract 里只保留 1 个目标任务；upstream/downstream 作为依赖上下文出现，不作为并列正式 task。",
+    "query 必须同时要求证据归因和 impact chain 解释，而不只是要 blocker 结论。"
+  ],
+  "required_case_structure": [
+    "upstream_dependency_context",
+    "downstream_dependency_context",
+    "blocking_or_risk_source",
+    "evidence_strength_gradient",
+    "impact_chain"
+  ],
+  "probe_strategy": [
+    "提问时要求说明依据来自谁、哪条消息。",
+    "追问哪些说法只是猜测或转述，哪些能作为真实 blocker 依据。",
+    "要求解释该依据如何影响目标任务和下游任务。"
+  ],
+  "expected_good_system_behavior": [
+    "给出 blocker 或风险结论时附带证据引用。",
+    "把 hearsay 和猜测显式降级，不当成 verified fact。",
+    "解释 upstream -> downstream 的影响链。"
+  ],
+  "case_id": "case_20260506200037424520_evidence_dependency_reasoning",
+  "task_id": "FEISHU-420",
+  "seed": 20260506200037424520,
+  "difficulty": "hard",
+  "comparison_target": "default_memory_architectures",
+  "organization": "OmniCore Industries",
+  "team": "核心支付平台组",
+  "business_goal": "在依赖复杂的跨团队协作中，只有基于 verified 证据的决策才能避免风险传导和交付延误。",
+  "scenario_summary": "支付网关灰度发布 (FEISHU-203) 依赖上游迁移窗口确认，同时下游回滚预案验收也受其影响。团队中 Carol（正式确认）、Bob（传闻）、Alice（模糊判断）给出不同证据强度的信息，而最终 blocker 确认、影响下游链的推理需要系统准确区分证据梯度，避免 hearsay 或模糊判断被当事实。",
+  "family_fit_explanation": "该场景天然包含多级证据梯度（verified / hearsay / ambiguous）和依赖传播（upstream window -> target release commitment -> downstream rollback），属于 evidence_dependency_reasoning 范畴。"
+}

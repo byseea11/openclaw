@@ -1,0 +1,137 @@
+{
+  "story_id": "story_case_0001_evidence_dependency_reasoning",
+  "case_id": "case_0001_evidence_dependency_reasoning",
+  "family_id": "evidence_dependency_reasoning",
+  "task": {
+    "task_id": "FEISHU-201",
+    "role": "target_task",
+    "summary": "升级支付网关 - 后端集成"
+  },
+  "actors": [
+    {
+      "actor_id": "actor_pm",
+      "display_name": "Alice",
+      "role": "project_manager"
+    },
+    {
+      "actor_id": "actor_dev_lead",
+      "display_name": "Bob",
+      "role": "tech_lead"
+    },
+    {
+      "actor_id": "actor_qa",
+      "display_name": "Carol",
+      "role": "qa_engineer"
+    },
+    {
+      "actor_id": "actor_third_party",
+      "display_name": "第三方供应商代表",
+      "role": "external_vendor"
+    }
+  ],
+  "task_actor_layout": {
+    "target_task_id": "FEISHU-201",
+    "shared_actor_ids": [
+      "actor_pm",
+      "actor_dev_lead",
+      "actor_qa"
+    ],
+    "distractor_contexts": [
+      {
+        "context_id": "ctx_upstream_api_v2",
+        "task_like_ref": "FEISHU-200",
+        "relationship_to_target": "上游依赖：支付网关 API v2 升级，由第三方供应商负责，直接影响 FEISHU-201。"
+      },
+      {
+        "context_id": "ctx_downstream_reporting",
+        "task_like_ref": "FEISHU-203",
+        "relationship_to_target": "下游依赖：支付报表模块，依赖 FEISHU-201 完成。"
+      }
+    ]
+  },
+  "state_changes": [
+    {
+      "change_id": "chg_upstream_complete",
+      "task_id": "FEISHU-200",
+      "field": "status",
+      "historical_value": "进行中",
+      "current_value": "已完成"
+    },
+    {
+      "change_id": "chg_downstream_blocked",
+      "task_id": "FEISHU-203",
+      "field": "status",
+      "historical_value": "待开始",
+      "current_value": "阻塞"
+    },
+    {
+      "change_id": "chg_target_blocked",
+      "task_id": "FEISHU-201",
+      "field": "status",
+      "historical_value": "进行中",
+      "current_value": "阻塞"
+    }
+  ],
+  "message_beats": [
+    {
+      "beat_id": "beat_01",
+      "speaker": "Bob",
+      "message_intent": "提供 verified fact：上游 API v2 确认完成。",
+      "message": "我刚从供应商确认，API v2 升级已经通过内部测试，正式版本已交付。我们的集成可以开始了。"
+    },
+    {
+      "beat_id": "beat_02",
+      "speaker": "Carol",
+      "message_intent": "提供 hearsay：转述第三方的不确定说法。",
+      "message": "听供应商代表说，他们认为 API v2 应该在昨天完成，但他们内部测试还没跑完。"
+    },
+    {
+      "beat_id": "beat_03",
+      "speaker": "Alice",
+      "message_intent": "表达个人担忧，属于 ambiguous claim。",
+      "message": "我担心即使 API v2 完成了，我们的后端也可能有兼容性问题，特别是支付路由那块。"
+    },
+    {
+      "beat_id": "beat_04",
+      "speaker": "Bob",
+      "message_intent": "反驳个人担忧，提供基于已验证事实的分析。",
+      "message": "兼容性我们已经提前验证过 demo 环境，没有问题。主要依赖的点确实就是 API v2 的正式版本。"
+    },
+    {
+      "beat_id": "beat_05",
+      "speaker": "actor_third_party",
+      "message_intent": "官方确认上游状态。",
+      "message": "API v2 升级已完成，生产环境部署部署成功。这是正式公告。"
+    },
+    {
+      "beat_id": "beat_06",
+      "speaker": "Alice",
+      "message_intent": "更新任务状态为阻塞（上游已完成，但下游未就绪？或存在其他风险？）",
+      "message": "根据最新信息，FEISHU-201 和 FEISHU-203 目前都标记为阻塞，但需要确认阻塞原因。"
+    },
+    {
+      "beat_id": "beat_07",
+      "speaker": "Carol",
+      "message_intent": "提供 heard 的猜测但未验证的 downstream 影响。",
+      "message": "我听说 FEISHU-203 可能因为依赖的另一个组件还没准备好，所以阻塞了，但我不确定。"
+    }
+  ],
+  "planned_probe_queries": [
+    {
+      "query": "FEISHU-201 当前状态是什么？阻塞的原因是什么？请引用具体消息来源。",
+      "expected_good_behavior": "报告状态为阻塞，并引用 Bob 的确认消息（beat_01）和第三方供应商的官方公告（beat_05）作为上游 API v2 已完成的事实依据。指出 Carol 的转述（beat_02）和 Alice 的担忧（beat_03）不是真实阻塞原因。最终解释：上游依赖已完成，因此阻塞原因应该是其他因素，但当前数据集未提供，所以结论是状态为阻塞但原因不明。"
+    },
+    {
+      "query": "上游 API v2 升级实际完成了吗？有哪些不同说法，哪个是真的？",
+      "expected_good_behavior": "明确回答已完成。引用 beat_01（Bob 确认）和 beat_05（供应商官方公告）作为 verified fact。指出 beat_02（Carol 的 hearsay）与事实矛盾，应予忽略。指出 beat_03（Alice 担忧）不涉及上游完成状态。"
+    },
+    {
+      "query": "FEISHU-203 当前状态是什么？它和 FEISHU-201 之间有什么依赖关系？请给出证据链。",
+      "expected_good_behavior": "报告 FEISHU-203 状态为阻塞。解释其依赖 FEISHU-201，FEISHU-201 又依赖上游 API v2。API v2 已完成（引用 beat_01 和 beat_05），因此 FEISHU-201 不应因上游阻塞，但实际阻塞，所以 FEISHU-203 的阻塞可能是由 FEISHU-201 的阻塞传导。指出 Carol 的消息（beat_07）只是 hearsay，不是可靠依据。"
+    },
+    {
+      "query": "Alice 的个人担忧是已验证的吗？她担心的问题是否成为实际阻塞（blocker）？",
+      "expected_good_behavior": "回答否，Alice 的担忧（beat_03）未验证，且已经被 Bob 反驳（beat_04）。实际 blocker 证据指向其他原因。系统应区分担忧和事实。"
+    }
+  ]
+}

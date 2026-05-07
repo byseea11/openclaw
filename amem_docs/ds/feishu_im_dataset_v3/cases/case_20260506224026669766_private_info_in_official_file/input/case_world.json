@@ -1,0 +1,60 @@
+{
+  "case_id": "case_20260506224026669766_private_info_in_official_file",
+  "family_id": "private_info_in_official_file",
+  "task_id": "FEISHU-666",
+  "organization": "NovaScale Cloud Infrastructure Center",
+  "team": "Reliability & Release Management",
+  "business_goal": "确保上线评审记录的决策数据准确反映正式结论，避免个人背景和个人限制信息污染任务状态。",
+  "scenario_summary": "NovaScale 云平台的组件升级任务 FEISHU-301 'Kubernetes 1.28 集群升级' 涉及一个正式的上线风险评审纪要。该纪要包含了官方确定的升级窗口、Blocker 分类以及各参与方的个人背景备注。在后续的协作聊天中，团队成员多次引用该纪要，但存在部分成员将个人私有信息（如某位工程师的请假偏好）误当作任务阻塞，并有人对纪要内容进行了误读和转述。系统需要能够准确识别正式结论，排除个人背景干扰。",
+  "family_fit_explanation": "该场景天然符合 private_info_in_official_file family：存在正式文件（上线风险评审纪要），多人聊天将个人私有信息（工程师个人时间偏好、私聊承诺）混入任务讨论，并有误读发生。系统需区分正式文件结论和个人上下文，确保 Task Wiki 只投影与任务状态相关的正式结论。",
+  "source_sessions": [
+    {
+      "session_id": "main_chat",
+      "session_type": "main_chat",
+      "title": "主群协调",
+      "session_purpose": "沉淀目标任务的主线协作信息和最终 current state。"
+    },
+    {
+      "session_id": "handoff_thread",
+      "session_type": "handoff_thread",
+      "title": "交接修正线程",
+      "session_purpose": "承载 owner 交接、旧状态修正和 supersession 说明。"
+    },
+    {
+      "session_id": "risk_review_thread",
+      "session_type": "risk_review_thread",
+      "title": "风险复核线程",
+      "session_purpose": "承载依赖、风险和证据分层补充信息。"
+    },
+    {
+      "session_id": "customer_sync_chat",
+      "session_type": "customer_sync_chat",
+      "title": "客户同步侧群",
+      "session_purpose": "承接外部压力、模糊口径和对外同步上下文。"
+    },
+    {
+      "session_id": "exec_sync_chat",
+      "session_type": "exec_sync_chat",
+      "title": "管理层同步侧群",
+      "session_purpose": "承载跨部门升级、相似措辞和并行决策噪声。"
+    },
+    {
+      "session_id": "qa_triage_chat",
+      "session_type": "chat",
+      "title": "质量联调群",
+      "session_purpose": "承载测试、验收、缺陷确认和状态复核。"
+    },
+    {
+      "session_id": "ops_window_thread",
+      "session_type": "thread",
+      "title": "运维窗口线程",
+      "session_purpose": "承载发布窗口、迁移窗口和运维配合细节。"
+    },
+    {
+      "session_id": "dependency_sync_chat",
+      "session_type": "chat",
+      "title": "依赖同步群",
+      "session_purpose": "承载上下游依赖、阻塞原因和影响传播。"
+    }
+  ]
+}

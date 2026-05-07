@@ -1,0 +1,315 @@
+{
+  "case_id": "case_20260507021541740586_anti_interference",
+  "family_id": "anti_interference",
+  "task_id": "FEISHU-686",
+  "actors": [
+    {
+      "person_id": "alice_liu",
+      "simulated_open_id": "ou_sim_alice_liu",
+      "name": "林晨",
+      "department": "项目管理",
+      "role": "项目负责人",
+      "default_channels": [
+        "chat_main_chat",
+        "chat_thread_doc_review"
+      ]
+    },
+    {
+      "person_id": "bob_chen",
+      "simulated_open_id": "ou_sim_bob_chen",
+      "name": "周宇",
+      "department": "研发平台",
+      "role": "研发协作者",
+      "default_channels": [
+        "chat_main_chat",
+        "chat_thread_doc_review"
+      ]
+    },
+    {
+      "person_id": "carol_wang",
+      "simulated_open_id": "ou_sim_carol_wang",
+      "name": "陈雪",
+      "department": "质量保障",
+      "role": "质量复核人",
+      "default_channels": [
+        "chat_main_chat",
+        "chat_thread_doc_review"
+      ]
+    },
+    {
+      "person_id": "david_zhang",
+      "simulated_open_id": "ou_sim_david_zhang",
+      "name": "王源",
+      "department": "研发平台",
+      "role": "研发协作者",
+      "default_channels": [
+        "chat_main_chat",
+        "chat_thread_doc_review"
+      ]
+    },
+    {
+      "person_id": "eve_li",
+      "simulated_open_id": "ou_sim_eve_li",
+      "name": "高骏",
+      "department": "研发平台",
+      "role": "研发协作者",
+      "default_channels": [
+        "chat_main_chat",
+        "chat_thread_doc_review"
+      ]
+    },
+    {
+      "person_id": "frank_lin",
+      "simulated_open_id": "ou_sim_frank_lin",
+      "name": "赵敏",
+      "department": "企业协作",
+      "role": "product manager",
+      "default_channels": [
+        "chat_main_chat",
+        "chat_thread_doc_review"
+      ]
+    },
+    {
+      "person_id": "grace_huang",
+      "simulated_open_id": "ou_sim_grace_huang",
+      "name": "何然",
+      "department": "知识管理",
+      "role": "知识沉淀人",
+      "default_channels": [
+        "chat_main_chat",
+        "chat_thread_doc_review"
+      ]
+    },
+    {
+      "person_id": "henry_zhou",
+      "simulated_open_id": "ou_sim_henry_zhou",
+      "name": "秦怡",
+      "department": "研发平台",
+      "role": "研发协作者",
+      "default_channels": [
+        "chat_main_chat",
+        "chat_thread_doc_review"
+      ]
+    },
+    {
+      "person_id": "iris_wu",
+      "simulated_open_id": "ou_sim_iris_wu",
+      "name": "罗天",
+      "department": "研发平台",
+      "role": "研发协作者",
+      "default_channels": [
+        "chat_main_chat",
+        "chat_thread_doc_review"
+      ]
+    },
+    {
+      "person_id": "jack_sun",
+      "simulated_open_id": "ou_sim_jack_sun",
+      "name": "苏禾",
+      "department": "研发平台",
+      "role": "研发协作者",
+      "default_channels": [
+        "chat_main_chat",
+        "chat_thread_doc_review"
+      ]
+    },
+    {
+      "person_id": "kate_li",
+      "simulated_open_id": "ou_sim_kate_li",
+      "name": "唐越",
+      "department": "研发平台",
+      "role": "研发协作者",
+      "default_channels": [
+        "chat_main_chat",
+        "chat_thread_doc_review"
+      ]
+    },
+    {
+      "person_id": "leo_xu",
+      "simulated_open_id": "ou_sim_leo_xu",
+      "name": "许薇",
+      "department": "研发平台",
+      "role": "data analyst",
+      "default_channels": [
+        "chat_main_chat",
+        "chat_thread_doc_review"
+      ]
+    },
+    {
+      "person_id": "mia_zhao",
+      "simulated_open_id": "ou_sim_mia_zhao",
+      "name": "沈嘉",
+      "department": "企业协作",
+      "role": "designer",
+      "default_channels": [
+        "chat_main_chat",
+        "chat_thread_doc_review"
+      ]
+    },
+    {
+      "person_id": "nina_li",
+      "simulated_open_id": "ou_sim_nina_li",
+      "name": "梁昕",
+      "department": "组织发展",
+      "role": "组织接口人",
+      "default_channels": [
+        "chat_main_chat",
+        "chat_thread_doc_review"
+      ]
+    },
+    {
+      "person_id": "oliver_li",
+      "simulated_open_id": "ou_sim_oliver_li",
+      "name": "林晨",
+      "department": "财务运营",
+      "role": "财务接口人",
+      "default_channels": [
+        "chat_main_chat",
+        "chat_thread_doc_review"
+      ]
+    },
+    {
+      "person_id": "peter_cai",
+      "simulated_open_id": "ou_sim_peter_cai",
+      "name": "周宇",
+      "department": "安全合规",
+      "role": "合规确认人",
+      "default_channels": [
+        "chat_main_chat",
+        "chat_thread_doc_review"
+      ]
+    },
+    {
+      "person_id": "quinn_tao",
+      "simulated_open_id": "ou_sim_quinn_tao",
+      "name": "陈雪",
+      "department": "企业协作",
+      "role": "vendor coordinator",
+      "default_channels": [
+        "chat_main_chat",
+        "chat_thread_doc_review"
+      ]
+    },
+    {
+      "person_id": "ray_feng",
+      "simulated_open_id": "ou_sim_ray_feng",
+      "name": "王源",
+      "department": "客户协作",
+      "role": "客户接口人",
+      "default_channels": [
+        "chat_main_chat",
+        "chat_thread_doc_review"
+      ]
+    },
+    {
+      "person_id": "sara_hong",
+      "simulated_open_id": "ou_sim_sara_hong",
+      "name": "高骏",
+      "department": "研发平台",
+      "role": "研发协作者",
+      "default_channels": [
+        "chat_main_chat",
+        "chat_thread_doc_review"
+      ]
+    },
+    {
+      "person_id": "tom_liang",
+      "simulated_open_id": "ou_sim_tom_liang",
+      "name": "赵敏",
+      "department": "企业协作",
+      "role": "operations lead",
+      "default_channels": [
+        "chat_main_chat",
+        "chat_thread_doc_review"
+      ]
+    },
+    {
+      "person_id": "uma_ma",
+      "simulated_open_id": "ou_sim_uma_ma",
+      "name": "何然",
+      "department": "项目管理",
+      "role": "项目负责人",
+      "default_channels": [
+        "chat_main_chat",
+        "chat_thread_doc_review"
+      ]
+    },
+    {
+      "person_id": "victor_hu",
+      "simulated_open_id": "ou_sim_victor_hu",
+      "name": "秦怡",
+      "department": "安全合规",
+      "role": "合规确认人",
+      "default_channels": [
+        "chat_main_chat",
+        "chat_thread_doc_review"
+      ]
+    },
+    {
+      "person_id": "wendy_yan",
+      "simulated_open_id": "ou_sim_wendy_yan",
+      "name": "罗天",
+      "department": "知识管理",
+      "role": "知识沉淀人",
+      "default_channels": [
+        "chat_main_chat",
+        "chat_thread_doc_review"
+      ]
+    },
+    {
+      "person_id": "xander_du",
+      "simulated_open_id": "ou_sim_xander_du",
+      "name": "苏禾",
+      "department": "研发平台",
+      "role": "质量复核人",
+      "default_channels": [
+        "chat_main_chat",
+        "chat_thread_doc_review"
+      ]
+    },
+    {
+      "person_id": "yuki_shi",
+      "simulated_open_id": "ou_sim_yuki_shi",
+      "name": "唐越",
+      "department": "研发平台",
+      "role": "研发协作者",
+      "default_channels": [
+        "chat_main_chat",
+        "chat_thread_doc_review"
+      ]
+    },
+    {
+      "person_id": "zara_guo",
+      "simulated_open_id": "ou_sim_zara_guo",
+      "name": "许薇",
+      "department": "项目管理",
+      "role": "项目负责人",
+      "default_channels": [
+        "chat_main_chat",
+        "chat_thread_doc_review"
+      ]
+    },
+    {
+      "person_id": "adam_wu",
+      "simulated_open_id": "ou_sim_adam_wu",
+      "name": "沈嘉",
+      "department": "企业协作",
+      "role": "senior platform architect",
+      "default_channels": [
+        "chat_main_chat",
+        "chat_thread_doc_review"
+      ]
+    },
+    {
+      "person_id": "bella_li",
+      "simulated_open_id": "ou_sim_bella_li",
+      "name": "梁昕",
+      "department": "项目管理",
+      "role": "项目负责人",
+      "default_channels": [
+        "chat_main_chat",
+        "chat_thread_doc_review"
+      ]
+    }
+  ]
+}

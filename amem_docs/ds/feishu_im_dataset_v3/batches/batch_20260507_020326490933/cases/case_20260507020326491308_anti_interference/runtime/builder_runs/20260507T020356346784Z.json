@@ -1,0 +1,13 @@
+{
+  "phase": "phase1",
+  "stage": "task-actor-layout",
+  "status": "failed",
+  "started_at": "2026-05-07T02:03:35.898598+00:00",
+  "ended_at": "2026-05-07T02:03:56.346710+00:00",
+  "failure_artifact_path": "amem_docs/ds/feishu_im_dataset_v3/batches/batch_20260507_020326490933/cases/case_20260507020326491308_anti_interference/runtime/failures/phase1/task-actor-layout_20260507T020356345298Z.json",
+  "error_type": "ModelPayloadValidationError",
+  "error_message": "story-plan payload validation failed: story_plan.task is required",
+  "skipped": false,
+  "run_id": "20260507T020356346784Z",
+  "updated_at": "2026-05-07T02:03:56.346813+00:00"
+}

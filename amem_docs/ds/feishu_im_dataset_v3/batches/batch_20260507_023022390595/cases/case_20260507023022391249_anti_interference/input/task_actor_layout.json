@@ -1,0 +1,224 @@
+{
+  "case_id": "case_20260507023022391249_anti_interference",
+  "family_id": "anti_interference",
+  "task_id": "FEISHU-849",
+  "actors": [
+    {
+      "actor_id": "alice",
+      "display_name": "Alice",
+      "role": "release_pm"
+    },
+    {
+      "actor_id": "bob",
+      "display_name": "Bob",
+      "role": "ops_engineer"
+    },
+    {
+      "actor_id": "carol",
+      "display_name": "Carol",
+      "role": "platform_architect"
+    },
+    {
+      "actor_id": "dave",
+      "display_name": "Dave",
+      "role": "qa_lead"
+    },
+    {
+      "actor_id": "eve",
+      "display_name": "Eve",
+      "role": "security_engineer"
+    },
+    {
+      "actor_id": "frank",
+      "display_name": "Frank",
+      "role": "devops_engineer"
+    },
+    {
+      "actor_id": "grace",
+      "display_name": "Grace",
+      "role": "product_manager"
+    },
+    {
+      "actor_id": "henry",
+      "display_name": "Henry",
+      "role": "infra_engineer"
+    },
+    {
+      "actor_id": "iris",
+      "display_name": "Iris",
+      "role": "data_analyst"
+    },
+    {
+      "actor_id": "jack",
+      "display_name": "Jack",
+      "role": "frontend_dev"
+    },
+    {
+      "actor_id": "kate",
+      "display_name": "Kate",
+      "role": "backend_dev"
+    },
+    {
+      "actor_id": "leo",
+      "display_name": "Leo",
+      "role": "mobile_dev"
+    },
+    {
+      "actor_id": "mia",
+      "display_name": "Mia",
+      "role": "designer"
+    },
+    {
+      "actor_id": "noah",
+      "display_name": "Noah",
+      "role": "tech_writer"
+    },
+    {
+      "actor_id": "olivia",
+      "display_name": "Olivia",
+      "role": "sre_engineer"
+    },
+    {
+      "actor_id": "peter",
+      "display_name": "Peter",
+      "role": "network_engineer"
+    },
+    {
+      "actor_id": "quinn",
+      "display_name": "Quinn",
+      "role": "database_admin"
+    },
+    {
+      "actor_id": "rose",
+      "display_name": "Rose",
+      "role": "compliance_officer"
+    },
+    {
+      "actor_id": "sam",
+      "display_name": "Sam",
+      "role": "vendor_coordinator"
+    },
+    {
+      "actor_id": "tina",
+      "display_name": "Tina",
+      "role": "hr_partner"
+    },
+    {
+      "actor_id": "uma",
+      "display_name": "Uma",
+      "role": "finance_analyst"
+    },
+    {
+      "actor_id": "victor",
+      "display_name": "Victor",
+      "role": "legal_counsel"
+    },
+    {
+      "actor_id": "wendy",
+      "display_name": "Wendy",
+      "role": "customer_support"
+    },
+    {
+      "actor_id": "xander",
+      "display_name": "Xander",
+      "role": "marketing_specialist"
+    },
+    {
+      "actor_id": "yara",
+      "display_name": "Yara",
+      "role": "training_coordinator"
+    },
+    {
+      "actor_id": "zack",
+      "display_name": "Zack",
+      "role": "intern"
+    },
+    {
+      "actor_id": "amy",
+      "display_name": "Amy",
+      "role": "release_pm_assist"
+    },
+    {
+      "actor_id": "brian",
+      "display_name": "Brian",
+      "role": "devops_engineer_assist"
+    }
+  ],
+  "task_actor_layout": {
+    "target_task_id": "FEISHU-849",
+    "shared_actors": [
+      "alice",
+      "bob",
+      "carol",
+      "dave"
+    ],
+    "interference_context_blocks": [
+      {
+        "context_ref": "ctx_doc_review",
+        "context_label": "并行文档收口讨论",
+        "noise_source_type": "shared_actor_noise",
+        "relationship_to_target": "Alice在这条并行讨论里负责审文档，容易被误当成FEISHU-849的owner再次变更。"
+      },
+      {
+        "context_ref": "ctx_ops_rehearsal",
+        "context_label": "运维演练blocker讨论",
+        "noise_source_type": "similar_wording_noise",
+        "relationship_to_target": "这里也在说blocker、ready和收口，容易把别的讨论污染到FEISHU-849。"
+      },
+      {
+        "context_ref": "ctx_security_audit",
+        "context_label": "安全审计并行任务",
+        "noise_source_type": "parallel_discussion_noise",
+        "relationship_to_target": "Bob同时负责安全审计，可能被误认为FEISHU-849的blocker。"
+      },
+      {
+        "context_ref": "ctx_vendor_eval",
+        "context_label": "供应商评估讨论",
+        "noise_source_type": "shared_actor_noise",
+        "relationship_to_target": "Carol参与供应商评估，容易与FEISHU-849的依赖混淆。"
+      }
+    ],
+    "actor_task_roles": [
+      {
+        "actor_id": "alice",
+        "task_id": "FEISHU-849",
+        "role": "target_owner"
+      },
+      {
+        "actor_id": "alice",
+        "context_ref": "ctx_doc_review",
+        "role": "reviewer"
+      },
+      {
+        "actor_id": "bob",
+        "task_id": "FEISHU-849",
+        "role": "ops_lead"
+      },
+      {
+        "actor_id": "bob",
+        "context_ref": "ctx_security_audit",
+        "role": "audit_owner"
+      },
+      {
+        "actor_id": "carol",
+        "task_id": "FEISHU-849",
+        "role": "architect"
+      },
+      {
+        "actor_id": "carol",
+        "context_ref": "ctx_vendor_eval",
+        "role": "evaluator"
+      },
+      {
+        "actor_id": "dave",
+        "task_id": "FEISHU-849",
+        "role": "qa_lead"
+      },
+      {
+        "actor_id": "dave",
+        "context_ref": "ctx_ops_rehearsal",
+        "role": "rehearsal_lead"
+      }
+    ]
+  }
+}

@@ -1,0 +1,345 @@
+{
+  "snapshot_id": "acme_q2_ops_v1",
+  "description": "Reusable validation manifest for the Acme Q2 office fixture snapshot.",
+  "cases": [
+    {
+      "case_id": "acme-q2-001-final-launch-status",
+      "snapshot_id": "acme_q2_ops_v1",
+      "history_window": {
+        "event_ids": [],
+        "start_event_id": "",
+        "end_event_id": "",
+        "start_time": "2026-04-01T09:00:00Z",
+        "end_time": "2026-04-12T14:00:00Z",
+        "chat_ids": [
+          "oc_acme_launch"
+        ],
+        "thread_ids": [],
+        "max_events": 120
+      },
+      "question": "What is the final status of the Q2 Growth Launch and which key workstreams are done?",
+      "expected_answer": "The Q2 Growth Launch completed on Apr 22. PROD-410, ENG-287, DATA-118, FIN-204, MKT-155, CS-331, SEC-072, and OPS-099 are all done.",
+      "evidence_event_ids": [
+        "evt_acme_q2_0094",
+        "evt_acme_q2_0101"
+      ],
+      "ability_tag": "long_horizon_status"
+    },
+    {
+      "case_id": "acme-q2-002-security-block-chain",
+      "snapshot_id": "acme_q2_ops_v1",
+      "history_window": {
+        "event_ids": [],
+        "start_event_id": "",
+        "end_event_id": "",
+        "start_time": "2026-04-01T09:00:00Z",
+        "end_time": "2026-04-12T14:00:00Z",
+        "chat_ids": [
+          "oc_acme_launch",
+          "oc_acme_risk"
+        ],
+        "thread_ids": [],
+        "max_events": 120
+      },
+      "question": "What was the blocking chain behind PROD-410 early in the launch?",
+      "expected_answer": "PROD-410 was blocked by SEC-072, and SEC-072 was blocked by AP-710 until Legal approved AP-710.",
+      "evidence_event_ids": [
+        "evt_acme_q2_0006",
+        "evt_acme_q2_0015",
+        "evt_acme_q2_0030",
+        "evt_acme_q2_0035"
+      ],
+      "ability_tag": "blocked_by_chain"
+    },
+    {
+      "case_id": "acme-q2-003-data-owner-change",
+      "snapshot_id": "acme_q2_ops_v1",
+      "history_window": {
+        "event_ids": [],
+        "start_event_id": "",
+        "end_event_id": "",
+        "start_time": "2026-04-01T09:00:00Z",
+        "end_time": "2026-04-12T14:00:00Z",
+        "chat_ids": [
+          "oc_acme_cutover",
+          "oc_acme_incident"
+        ],
+        "thread_ids": [],
+        "max_events": 120
+      },
+      "question": "Who owned DATA-118 at the final cutover call and why did ownership change?",
+      "expected_answer": "Hannah Zhao owned DATA-118 for the final cutover call because Victor Huang was on-call for replay cleanup.",
+      "evidence_event_ids": [
+        "evt_acme_q2_0045",
+        "evt_acme_q2_0056",
+        "evt_acme_q2_0097"
+      ],
+      "ability_tag": "owner_change"
+    },
+    {
+      "case_id": "acme-q2-004-incident-root-cause",
+      "snapshot_id": "acme_q2_ops_v1",
+      "history_window": {
+        "event_ids": [],
+        "start_event_id": "",
+        "end_event_id": "",
+        "start_time": "2026-04-01T09:00:00Z",
+        "end_time": "2026-04-12T14:00:00Z",
+        "chat_ids": [
+          "oc_acme_incident",
+          "oc_acme_launch"
+        ],
+        "thread_ids": [],
+        "max_events": 120
+      },
+      "question": "Was ENG-287 the root cause of the SEV-2 payment callback incident?",
+      "expected_answer": "No. The initial flag suspicion was ruled out; duplicate PSP callback IDs caused the incident.",
+      "evidence_event_ids": [
+        "evt_acme_q2_0020",
+        "evt_acme_q2_0044"
+      ],
+      "ability_tag": "stale_info_resolution"
+    },
+    {
+      "case_id": "acme-q2-005-finance-approval",
+      "snapshot_id": "acme_q2_ops_v1",
+      "history_window": {
+        "event_ids": [],
+        "start_event_id": "",
+        "end_event_id": "",
+        "start_time": "2026-04-01T09:00:00Z",
+        "end_time": "2026-04-12T14:00:00Z",
+        "chat_ids": [
+          "oc_acme_finance",
+          "oc_acme_launch"
+        ],
+        "thread_ids": [],
+        "max_events": 120
+      },
+      "question": "What happened to AP-724 and did finance remain a launch blocker?",
+      "expected_answer": "AP-724 was approved by Claire Dubois, FIN-204 moved to ready and then done, so finance was no longer a launch blocker.",
+      "evidence_event_ids": [
+        "evt_acme_q2_0008",
+        "evt_acme_q2_0021",
+        "evt_acme_q2_0052"
+      ],
+      "ability_tag": "approval_progression"
+    },
+    {
+      "case_id": "acme-q2-006-legal-copy",
+      "snapshot_id": "acme_q2_ops_v1",
+      "history_window": {
+        "event_ids": [],
+        "start_event_id": "",
+        "end_event_id": "",
+        "start_time": "2026-04-01T09:00:00Z",
+        "end_time": "2026-04-12T14:00:00Z",
+        "chat_ids": [
+          "oc_acme_enablement"
+        ],
+        "thread_ids": [],
+        "max_events": 120
+      },
+      "question": "What exact customer-facing wording did Legal approve for the uplift claim?",
+      "expected_answer": "Legal approved the wording 'observed uplift in beta accounts'.",
+      "evidence_event_ids": [
+        "evt_acme_q2_0061",
+        "evt_acme_q2_0064",
+        "evt_acme_q2_0068"
+      ],
+      "ability_tag": "doc_reference"
+    },
+    {
+      "case_id": "acme-q2-007-launch-date",
+      "snapshot_id": "acme_q2_ops_v1",
+      "history_window": {
+        "event_ids": [],
+        "start_event_id": "",
+        "end_event_id": "",
+        "start_time": "2026-04-01T09:00:00Z",
+        "end_time": "2026-04-12T14:00:00Z",
+        "chat_ids": [
+          "oc_acme_enablement",
+          "oc_acme_launch"
+        ],
+        "thread_ids": [],
+        "max_events": 120
+      },
+      "question": "What was the final launch date after the date change, and what stale date should be ignored?",
+      "expected_answer": "The final launch date was Apr 22; the earlier Apr 18 target should be ignored.",
+      "evidence_event_ids": [
+        "evt_acme_q2_0003",
+        "evt_acme_q2_0036",
+        "evt_acme_q2_0082",
+        "evt_acme_q2_0101"
+      ],
+      "ability_tag": "temporal_reasoning"
+    },
+    {
+      "case_id": "acme-q2-008-enable-deck-file",
+      "snapshot_id": "acme_q2_ops_v1",
+      "history_window": {
+        "event_ids": [],
+        "start_event_id": "",
+        "end_event_id": "",
+        "start_time": "2026-04-01T09:00:00Z",
+        "end_time": "2026-04-12T14:00:00Z",
+        "chat_ids": [
+          "oc_acme_enablement"
+        ],
+        "thread_ids": [],
+        "max_events": 120
+      },
+      "question": "Which enablement deck version was approved for launch?",
+      "expected_answer": "The approved enablement deck was q2_launch_enablement_v3.pptx.",
+      "evidence_event_ids": [
+        "evt_acme_q2_0064",
+        "evt_acme_q2_0076"
+      ],
+      "ability_tag": "file_reference"
+    },
+    {
+      "case_id": "acme-q2-009-beta-customers",
+      "snapshot_id": "acme_q2_ops_v1",
+      "history_window": {
+        "event_ids": [],
+        "start_event_id": "",
+        "end_event_id": "",
+        "start_time": "2026-04-01T09:00:00Z",
+        "end_time": "2026-04-12T14:00:00Z",
+        "chat_ids": [
+          "oc_acme_beta",
+          "oc_acme_enablement"
+        ],
+        "thread_ids": [],
+        "max_events": 120
+      },
+      "question": "What happened with Northstar and Atlas beta communications by the end?",
+      "expected_answer": "CS-331 closed, Northstar and Atlas were tagged for the Apr 22 launch email, and Sofia was on first-response duty.",
+      "evidence_event_ids": [
+        "evt_acme_q2_0009",
+        "evt_acme_q2_0048",
+        "evt_acme_q2_0078"
+      ],
+      "ability_tag": "cross_thread_relation"
+    },
+    {
+      "case_id": "acme-q2-010-data-cutover-readiness",
+      "snapshot_id": "acme_q2_ops_v1",
+      "history_window": {
+        "event_ids": [],
+        "start_event_id": "",
+        "end_event_id": "",
+        "start_time": "2026-04-01T09:00:00Z",
+        "end_time": "2026-04-12T14:00:00Z",
+        "chat_ids": [
+          "oc_acme_cutover",
+          "oc_acme_incident"
+        ],
+        "thread_ids": [],
+        "max_events": 120
+      },
+      "question": "What made DATA-118 ready after it had been blocked by rollback planning?",
+      "expected_answer": "OPS-099 replay cleanup closed, rollback owner Iris was assigned, Hannah owned go/no-go, and parity reached 99.95 percent.",
+      "evidence_event_ids": [
+        "evt_acme_q2_0040",
+        "evt_acme_q2_0053",
+        "evt_acme_q2_0056"
+      ],
+      "ability_tag": "blocked_by_chain"
+    },
+    {
+      "case_id": "acme-q2-011-go-no-go",
+      "snapshot_id": "acme_q2_ops_v1",
+      "history_window": {
+        "event_ids": [],
+        "start_event_id": "",
+        "end_event_id": "",
+        "start_time": "2026-04-01T09:00:00Z",
+        "end_time": "2026-04-12T14:00:00Z",
+        "chat_ids": [
+          "oc_acme_launch"
+        ],
+        "thread_ids": [],
+        "max_events": 120
+      },
+      "question": "Who approved executive go/no-go and what was the condition?",
+      "expected_answer": "Elena Park approved go/no-go for Apr 22, contingent on no new SEV-1 or security blocker before the launch window.",
+      "evidence_event_ids": [
+        "evt_acme_q2_0083",
+        "evt_acme_q2_0085"
+      ],
+      "ability_tag": "approval_progression"
+    },
+    {
+      "case_id": "acme-q2-012-ops-release-roles",
+      "snapshot_id": "acme_q2_ops_v1",
+      "history_window": {
+        "event_ids": [],
+        "start_event_id": "",
+        "end_event_id": "",
+        "start_time": "2026-04-01T09:00:00Z",
+        "end_time": "2026-04-12T14:00:00Z",
+        "chat_ids": [
+          "oc_acme_launch"
+        ],
+        "thread_ids": [],
+        "max_events": 120
+      },
+      "question": "At the release window, who owned rollback, launch PM, and comms?",
+      "expected_answer": "Iris Kim owned rollback, Alice Chen was launch PM, and Zoe Miller owned comms.",
+      "evidence_event_ids": [
+        "evt_acme_q2_0085"
+      ],
+      "ability_tag": "multi_party_dependency"
+    },
+    {
+      "case_id": "acme-q2-013-security-final",
+      "snapshot_id": "acme_q2_ops_v1",
+      "history_window": {
+        "event_ids": [],
+        "start_event_id": "",
+        "end_event_id": "",
+        "start_time": "2026-04-01T09:00:00Z",
+        "end_time": "2026-04-12T14:00:00Z",
+        "chat_ids": [
+          "oc_acme_launch",
+          "oc_acme_risk"
+        ],
+        "thread_ids": [],
+        "max_events": 120
+      },
+      "question": "What was the final status of SEC-072 and where was the token scope language recorded?",
+      "expected_answer": "SEC-072 was done, and the token scope language was recorded in the risk register and release note.",
+      "evidence_event_ids": [
+        "evt_acme_q2_0030",
+        "evt_acme_q2_0035",
+        "evt_acme_q2_0101"
+      ],
+      "ability_tag": "doc_reference"
+    },
+    {
+      "case_id": "acme-q2-014-graph-owner-status",
+      "snapshot_id": "acme_q2_ops_v1",
+      "history_window": {
+        "event_ids": [],
+        "start_event_id": "",
+        "end_event_id": "",
+        "start_time": "2026-04-01T09:00:00Z",
+        "end_time": "2026-04-12T14:00:00Z",
+        "chat_ids": [],
+        "thread_ids": [],
+        "max_events": 120
+      },
+      "question": "Which final task owners should the graph connect to PROD-410, DATA-118, MKT-155, and FIN-204?",
+      "expected_answer": "PROD-410 belongs to Alice Chen, DATA-118 belongs to Hannah Zhao, MKT-155 belongs to Zoe Miller, and FIN-204 belongs to Mateo Rossi.",
+      "evidence_event_ids": [
+        "evt_acme_q2_0045",
+        "evt_acme_q2_0052",
+        "evt_acme_q2_0076",
+        "evt_acme_q2_0101"
+      ],
+      "ability_tag": "graph_hit"
+    }
+  ]
+}

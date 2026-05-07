@@ -1,0 +1,393 @@
+{
+  "story_id": "story_case_20260506200037424520_evidence_dependency_reasoning",
+  "case_id": "case_20260506200037424520_evidence_dependency_reasoning",
+  "family_id": "evidence_dependency_reasoning",
+  "task": {
+    "task_id": "FEISHU-420",
+    "task_name": "支付网关灰度发布",
+    "role": "target_task"
+  },
+  "actors": [
+    {
+      "actor_id": "alice",
+      "display_name": "Alice",
+      "role": "release_pm"
+    },
+    {
+      "actor_id": "bob",
+      "display_name": "Bob",
+      "role": "ops_partner"
+    },
+    {
+      "actor_id": "carol",
+      "display_name": "Carol",
+      "role": "migration_owner"
+    },
+    {
+      "actor_id": "dave",
+      "display_name": "Dave",
+      "role": "security_analyst"
+    },
+    {
+      "actor_id": "eve",
+      "display_name": "Eve",
+      "role": "qa_lead"
+    },
+    {
+      "actor_id": "frank",
+      "display_name": "Frank",
+      "role": "infra_engineer"
+    },
+    {
+      "actor_id": "grace",
+      "display_name": "Grace",
+      "role": "compliance_officer"
+    },
+    {
+      "actor_id": "heidi",
+      "display_name": "Heidi",
+      "role": "release_coordinator"
+    },
+    {
+      "actor_id": "ivan",
+      "display_name": "Ivan",
+      "role": "db_admin"
+    },
+    {
+      "actor_id": "judy",
+      "display_name": "Judy",
+      "role": "frontend_lead"
+    },
+    {
+      "actor_id": "ken",
+      "display_name": "Ken",
+      "role": "backend_lead"
+    },
+    {
+      "actor_id": "laura",
+      "display_name": "Laura",
+      "role": "product_manager"
+    },
+    {
+      "actor_id": "mike",
+      "display_name": "Mike",
+      "role": "network_engineer"
+    },
+    {
+      "actor_id": "nina",
+      "display_name": "Nina",
+      "role": "data_analyst"
+    },
+    {
+      "actor_id": "oscar",
+      "display_name": "Oscar",
+      "role": "sre_lead"
+    },
+    {
+      "actor_id": "paul",
+      "display_name": "Paul",
+      "role": "vendor_coordinator"
+    },
+    {
+      "actor_id": "quinn",
+      "display_name": "Quinn",
+      "role": "legal_counsel"
+    },
+    {
+      "actor_id": "rachel",
+      "display_name": "Rachel",
+      "role": "customer_support_lead"
+    },
+    {
+      "actor_id": "sam",
+      "display_name": "Sam",
+      "role": "external_auditor"
+    },
+    {
+      "actor_id": "tina",
+      "display_name": "Tina",
+      "role": "training_specialist"
+    },
+    {
+      "actor_id": "uma",
+      "display_name": "Uma",
+      "role": "doc_writer"
+    },
+    {
+      "actor_id": "victor",
+      "display_name": "Victor",
+      "role": "config_manager"
+    },
+    {
+      "actor_id": "wendy",
+      "display_name": "Wendy",
+      "role": "monitoring_lead"
+    },
+    {
+      "actor_id": "xavier",
+      "display_name": "Xavier",
+      "role": "backup_engineer"
+    },
+    {
+      "actor_id": "yvonne",
+      "display_name": "Yvonne",
+      "role": "release_manager"
+    },
+    {
+      "actor_id": "zack",
+      "display_name": "Zack",
+      "role": "incident_manager"
+    },
+    {
+      "actor_id": "amy",
+      "display_name": "Amy",
+      "role": "risk_analyst"
+    },
+    {
+      "actor_id": "brian",
+      "display_name": "Brian",
+      "role": "test_engineer"
+    }
+  ],
+  "task_actor_layout": {
+    "target_task_id": "FEISHU-420",
+    "shared_actors": [
+      "carol",
+      "alice",
+      "xavier"
+    ],
+    "dependency_context_blocks": [
+      {
+        "context_ref": "ctx_upstream_window",
+        "context_label": "迁移窗口正式确认",
+        "dependency_role": "verified_anchor",
+        "evidence_strength": "verified",
+        "impact_on_target": "窗口今天还没锁定，因此 FEISHU-420 不能对外承诺上线时间。"
+      },
+      {
+        "context_ref": "ctx_window_hearsay",
+        "context_label": "窗口缓解传闻",
+        "dependency_role": "hearsay_channel",
+        "evidence_strength": "hearsay",
+        "impact_on_target": "误信传闻会导致系统错误地下结论说 blocker 已消失。"
+      },
+      {
+        "context_ref": "ctx_target_assessment",
+        "context_label": "目标负责人模糊判断",
+        "dependency_role": "ambiguous_channel",
+        "evidence_strength": "ambiguous",
+        "impact_on_target": "模糊判断不能替代正式确认，但很容易被压成一句看似可靠的 summary。"
+      },
+      {
+        "context_ref": "ctx_downstream_rollback",
+        "context_label": "回滚预案验收影响",
+        "dependency_role": "downstream_impact",
+        "evidence_strength": "derived_from_verified",
+        "impact_on_target": "目标任务不锁窗口时，下游回滚预案验收会一起顺延。"
+      },
+      {
+        "context_ref": "ctx_security_review",
+        "context_label": "安全审查依赖",
+        "dependency_role": "verified_anchor",
+        "evidence_strength": "verified",
+        "impact_on_target": "安全审查未完成也会阻塞发布，但当前焦点在上游窗口。"
+      }
+    ],
+    "actor_task_roles": [
+      {
+        "actor_id": "carol",
+        "context_ref": "ctx_upstream_window",
+        "role": "verified_source"
+      },
+      {
+        "actor_id": "bob",
+        "context_ref": "ctx_window_hearsay",
+        "role": "hearsay_source"
+      },
+      {
+        "actor_id": "alice",
+        "task_id": "FEISHU-420",
+        "role": "ambiguous_source"
+      },
+      {
+        "actor_id": "xavier",
+        "task_id": "FEISHU-420",
+        "role": "target_owner"
+      },
+      {
+        "actor_id": "alice",
+        "context_ref": "ctx_downstream_rollback",
+        "role": "rollback_owner"
+      },
+      {
+        "actor_id": "dave",
+        "context_ref": "ctx_security_review",
+        "role": "security_source"
+      }
+    ]
+  },
+  "state_changes": [
+    {
+      "task_id": "FEISHU-420",
+      "field": "upstream_dependency_status",
+      "sequence": [
+        {
+          "value": "未确认",
+          "status": "initial"
+        },
+        {
+          "value": "Carol 明确表示窗口还没锁定",
+          "status": "current"
+        }
+      ]
+    },
+    {
+      "task_id": "FEISHU-420",
+      "field": "release_commitment",
+      "sequence": [
+        {
+          "value": "计划 5 月 8 日上线",
+          "status": "initial"
+        },
+        {
+          "value": "等待正式窗口确认后再承诺",
+          "status": "current"
+        }
+      ]
+    },
+    {
+      "task_id": "FEISHU-420",
+      "field": "downstream_dependency_impact",
+      "sequence": [
+        {
+          "value": "待验收",
+          "status": "initial"
+        },
+        {
+          "value": "等待主任务窗口明确后再验收",
+          "status": "current"
+        }
+      ]
+    },
+    {
+      "task_id": "FEISHU-420",
+      "field": "security_review_status",
+      "sequence": [
+        {
+          "value": "进行中",
+          "status": "initial"
+        },
+        {
+          "value": "Dave 确认安全审查预计周五完成",
+          "status": "current"
+        }
+      ]
+    }
+  ],
+  "message_beats": [
+    {
+      "beat_id": "beat_001",
+      "speaker": "Carol",
+      "session_id": "main_chat",
+      "message_intent": "我刚和迁移负责人确认过，窗口今天还没锁定，所以 FEISHU-420 先不要对外承诺 5 月 8 日上线。"
+    },
+    {
+      "beat_id": "beat_002",
+      "speaker": "Bob",
+      "session_id": "main_chat",
+      "message_intent": "我听 ops 的人说窗口其实差不多定了，感觉可以先照常往外报，但我没看到正式邮件确认。"
+    },
+    {
+      "beat_id": "beat_003",
+      "speaker": "Alice",
+      "session_id": "thread_release",
+      "message_intent": "直觉上风险可能没那么大，不过如果没有正式窗口确认，FEISHU-420 这边还是不敢锁最终时间。"
+    },
+    {
+      "beat_id": "beat_004",
+      "speaker": "Alice",
+      "session_id": "thread_release",
+      "message_intent": "如果 FEISHU-420 不能锁上线窗口，那回滚预案验收也只能一起顺延。"
+    },
+    {
+      "beat_id": "beat_005",
+      "speaker": "Dave",
+      "session_id": "risk_review_thread",
+      "message_intent": "安全审查这边我确认过，预计周五能出结果，不影响下周一窗口计划，但这不是 FEISHU-420 当前的 blocker。"
+    },
+    {
+      "beat_id": "beat_006",
+      "speaker": "Eve",
+      "session_id": "risk_review_thread",
+      "message_intent": "那回滚预案验收是不是得等主任务窗口确认才能启动？"
+    },
+    {
+      "beat_id": "beat_007",
+      "speaker": "Alice",
+      "session_id": "exec_sync_chat",
+      "message_intent": "高层问 FEISHU-420 能否按时交付，我目前回答是上游窗口未锁定，不能承诺。"
+    },
+    {
+      "beat_id": "beat_008",
+      "speaker": "Grace",
+      "session_id": "customer_sync_chat",
+      "message_intent": "客户追问上线时间，我听到内部有说窗口快定了，但不敢对外报。"
+    },
+    {
+      "beat_id": "beat_009",
+      "speaker": "Heidi",
+      "session_id": "handoff_thread",
+      "message_intent": "发布协调：FEISHU-420 的发布计划目前被上游窗口 blocker，下游回滚预案验收也受牵连。"
+    },
+    {
+      "beat_id": "beat_010",
+      "speaker": "Ivan",
+      "session_id": "main_chat",
+      "message_intent": "DB 变更已经准备好了，但我不清楚窗口情况，是不是也该等上游确认？"
+    },
+    {
+      "beat_id": "beat_011",
+      "speaker": "Carol",
+      "session_id": "handoff_thread",
+      "message_intent": "我再强调一次，我这边正式确认窗口没有锁定，之前说的预计今天出结果不准确，需要再等。"
+    },
+    {
+      "beat_id": "beat_012",
+      "speaker": "xavier",
+      "session_id": "exec_sync_chat",
+      "message_intent": "最终结论：FEISHU-420 当前真实 blocker 是迁移窗口未锁定，依据来自 Carol 的正式确认，Bob 的传闻和我的直觉都不能当正式依据，下游回滚预案验收也会同步顺延。"
+    },
+    {
+      "beat_id": "beat_013",
+      "speaker": "Judy",
+      "session_id": "main_chat",
+      "message_intent": "前端上线检查没问题，但窗口不确定，我们也在等待。"
+    },
+    {
+      "beat_id": "beat_014",
+      "speaker": "Frank",
+      "session_id": "risk_review_thread",
+      "message_intent": "基础设施侧可以支持弹性部署，但窗口确认后至少需要 2 天准备。"
+    },
+    {
+      "beat_id": "beat_015",
+      "speaker": "Ken",
+      "session_id": "handoff_thread",
+      "message_intent": "后端服务已经就绪，但依赖 Carol 那边的窗口确认。"
+    }
+  ],
+  "planned_probe_queries": [
+    {
+      "query": "FEISHU-420 当前真实 blocker 是什么？依据来自谁、哪条消息？Bob 和 Alice 的说法为什么不能当正式确认？这个 blocker 如何影响后续回滚预案验收？",
+      "expected_good_behavior": "应以 Carol 的正式确认（beat_001 或 beat_011）作为主要依据，指出真正 blocker 是迁移窗口未锁定；说明 Bob 是 hearsay（beat_002）、Alice 是模糊判断（beat_003），二者都不能替代正式确认；并解释因为上游窗口未锁定导致 FEISHU-420 不能承诺上线时间，进而使下游回滚预案验收（beat_004/beat_006）一起顺延。"
+    },
+    {
+      "query": "从 Carol 和 Dave 的确认中，FEISHU-420 有哪些依赖项？哪些是当前 blocker？为什么？",
+      "expected_good_behavior": "列出上游迁移窗口（Carol 确认未锁定，是当前 blocker）和安全审查（Dave 确认周五完成，当前不是 blocker）；说明安全审查已有预计时间且不影响下周计划，而迁移窗口未锁定则直接阻塞发布。"
+    },
+    {
+      "query": "给出了 FEISHU-420 的所有消息后，请总结当前任务的状态、依赖关系以及证据强度梯度。",
+      "expected_good_behavior": "总结 FEISHU-420 当前状态：上游迁移窗口未锁定（verified），依赖 Carol 的正式确认；存在 Bob 的 hearsay（误报窗口已定）、Alice 的模糊判断（直觉说风险不大），但均不能作为正式结论；下游回滚预案验收随之顺延；安全审查独立进行。正确区分证据强度并解释影响链。"
+    }
+  ]
+}

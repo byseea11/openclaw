@@ -1,0 +1,38 @@
+{
+  "case_id": "case_20260506203841812547_contradiction_update",
+  "family_id": "contradiction_update",
+  "queries": [
+    {
+      "query_id": "case_20260506203841812547_contradiction_update_query_001",
+      "query": "FEISHU-447 当前负责人是谁？Alice 和 Carol 现在还负责吗？上线窗口最终以哪一天为准？从哪一轮开始旧口径已经失效？当前的 blocker 是什么？之前的 blocker 有哪些已被解决？优先级最终是多少？历史上有过哪些不同的优先级？",
+      "expected_good_behavior": "回答 Xavier 是当前负责人，Alice 和 Carol 已不再是负责人；当前上线窗口为5月14日，自 Xavier 在子线程中宣布旧口径作废后（beat_005）所有之前的窗口、负责人、blocker均失效；当前 blocker 是遗留API兼容问题；之前的 blocker 安全审查和网络延迟已解决；当前优先级P1；历史上优先级曾从P1降为P2再升回P1。",
+      "supporting_message_ids": [
+        "msg_001",
+        "msg_002",
+        "msg_003",
+        "msg_004",
+        "msg_005",
+        "msg_006",
+        "msg_007",
+        "msg_008",
+        "msg_009"
+      ]
+    },
+    {
+      "query_id": "case_20260506203841812547_contradiction_update_query_002",
+      "query": "请列出 FEISHU-447 所有历史 owner、窗口、blocker 和 priority 的变化过程，并标明哪些是 current，哪些是 historical。",
+      "expected_good_behavior": "完整列出序列：owner 初始Alice，historical Carol，current Xavier；窗口 5月8日→5月10日→5月12日→5月14日，current 5月14日；blocker 安全审查→网络延迟→遗留API兼容，current 遗留API兼容；priority P1→P2→P1，current P1。强调历史状态已经失效。",
+      "supporting_message_ids": [
+        "msg_001",
+        "msg_002",
+        "msg_003",
+        "msg_004",
+        "msg_005",
+        "msg_006",
+        "msg_007",
+        "msg_008",
+        "msg_009"
+      ]
+    }
+  ]
+}

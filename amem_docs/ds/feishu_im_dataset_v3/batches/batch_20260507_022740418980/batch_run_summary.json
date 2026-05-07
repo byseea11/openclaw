@@ -1,0 +1,24 @@
+{
+  "batch_id": "batch_20260507_022740418980",
+  "batch_dir": "amem_docs/ds/feishu_im_dataset_v3/batches/batch_20260507_022740418980",
+  "phases": {
+    "phase1": {
+      "phase": "phase1",
+      "status": "failed",
+      "started_at": "2026-05-07T02:27:40.419824+00:00",
+      "completed_at": "2026-05-07T02:27:43.382590+00:00",
+      "case_count": 2,
+      "completed_case_count": 0,
+      "failed_case_count": 1,
+      "skipped_case_count": 0,
+      "errors": [
+        {
+          "case_id": "case_20260507022740419403_anti_interference",
+          "case_dir": "amem_docs/ds/feishu_im_dataset_v3/batches/batch_20260507_022740418980/cases/case_20260507022740419403_anti_interference",
+          "error": "case-context payload validation failed: case_context.benchmark_requirement_name must be a non-empty string"
+        }
+      ]
+    }
+  },
+  "updated_at": "2026-05-07T02:27:43.382639+00:00"
+}

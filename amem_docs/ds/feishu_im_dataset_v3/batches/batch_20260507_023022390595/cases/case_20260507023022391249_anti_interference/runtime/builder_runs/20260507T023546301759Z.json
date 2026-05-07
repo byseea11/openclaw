@@ -1,0 +1,13 @@
+{
+  "phase": "phase1",
+  "stage": "conversation-plan",
+  "status": "failed",
+  "started_at": "2026-05-07T02:31:06.661158+00:00",
+  "ended_at": "2026-05-07T02:35:46.301739+00:00",
+  "failure_artifact_path": "amem_docs/ds/feishu_im_dataset_v3/batches/batch_20260507_023022390595/cases/case_20260507023022391249_anti_interference/runtime/failures/phase1/conversation-plan_20260507T023546301083Z.json",
+  "error_type": "ModelBackendError",
+  "error_message": "OpenAI backend truncated JSON output for conversation-plan-repair.",
+  "skipped": false,
+  "run_id": "20260507T023546301759Z",
+  "updated_at": "2026-05-07T02:35:46.301798+00:00"
+}

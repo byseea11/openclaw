@@ -1,0 +1,175 @@
+{
+  "case_id": "case_feishu_505150207_example",
+  "characters": [
+    {
+      "person_id": "product_lead_01",
+      "name": "张明",
+      "department": "产品",
+      "role": "产品负责人",
+      "simulated_open_id": "ou_sim_product_lead_01",
+      "responsibility": "统一内外口径，推动版本发布决策",
+      "communication_style": "直接且注重共识",
+      "conflict_bias": "倾向于妥协以达成一致",
+      "stance": "推动发布但需控制风险",
+      "risk_preference": "中等",
+      "information_access_level": "高",
+      "default_channels": [
+        "主群",
+        "管理层同步群"
+      ]
+    },
+    {
+      "person_id": "dev_lead_01",
+      "name": "李强",
+      "department": "研发",
+      "role": "研发负责人",
+      "simulated_open_id": "ou_sim_dev_lead_01",
+      "responsibility": "明确技术依赖和迁移窗口可行性",
+      "communication_style": "技术导向，谨慎",
+      "conflict_bias": "坚持事实和数据",
+      "stance": "保守，依赖未锁定前不承诺日期",
+      "risk_preference": "低",
+      "information_access_level": "高",
+      "default_channels": [
+        "主群",
+        "上线窗口子群"
+      ]
+    },
+    {
+      "person_id": "architect_01",
+      "name": "王磊",
+      "department": "架构",
+      "role": "架构师",
+      "simulated_open_id": "ou_sim_architect_01",
+      "responsibility": "把控技术方案和风险验收条件",
+      "communication_style": "分析性，强调约束",
+      "conflict_bias": "坚持原则",
+      "stance": "强调风险控制，反对过早承诺",
+      "risk_preference": "低",
+      "information_access_level": "高",
+      "default_channels": [
+        "主群",
+        "风险评审子群"
+      ]
+    },
+    {
+      "person_id": "security_lead_01",
+      "name": "赵敏",
+      "department": "安全",
+      "role": "安全负责人",
+      "simulated_open_id": "ou_sim_security_lead_01",
+      "responsibility": "确保安全评审和回滚演练闭环",
+      "communication_style": "严谨，注重流程",
+      "conflict_bias": "倾向于规避风险",
+      "stance": "保守，要求条件满足才放行",
+      "risk_preference": "低",
+      "information_access_level": "高",
+      "default_channels": [
+        "主群",
+        "风险评审子群"
+      ]
+    },
+    {
+      "person_id": "compliance_lead_01",
+      "name": "陈静",
+      "department": "合规",
+      "role": "合规负责人",
+      "simulated_open_id": "ou_sim_compliance_lead_01",
+      "responsibility": "管理外部客户同步口径",
+      "communication_style": "外交辞令，注重影响",
+      "conflict_bias": "倾向于维护客户关系",
+      "stance": "希望给出保守但稳定的口径",
+      "risk_preference": "中等",
+      "information_access_level": "中",
+      "default_channels": [
+        "客户同步群",
+        "主群"
+      ]
+    },
+    {
+      "person_id": "risk_control_lead_01",
+      "name": "刘洋",
+      "department": "风控",
+      "role": "风控负责人",
+      "simulated_open_id": "ou_sim_risk_control_lead_01",
+      "responsibility": "评估风险对客户和业务的影响",
+      "communication_style": "审慎，强调后果",
+      "conflict_bias": "倾向于保守",
+      "stance": "反对激进承诺",
+      "risk_preference": "低",
+      "information_access_level": "中",
+      "default_channels": [
+        "客户同步群",
+        "主群"
+      ]
+    },
+    {
+      "person_id": "ops_lead_01",
+      "name": "孙伟",
+      "department": "运维",
+      "role": "运维负责人",
+      "simulated_open_id": "ou_sim_ops_lead_01",
+      "responsibility": "确保回滚演练和运维准备就绪",
+      "communication_style": "务实，关注操作细节",
+      "conflict_bias": "倾向于稳妥",
+      "stance": "要求条件明确后再上线",
+      "risk_preference": "低",
+      "information_access_level": "中",
+      "default_channels": [
+        "主群",
+        "风险评审子群"
+      ]
+    },
+    {
+      "person_id": "sre_lead_01",
+      "name": "周涛",
+      "department": "站点可靠性工程",
+      "role": "SRE负责人",
+      "simulated_open_id": "ou_sim_sre_lead_01",
+      "responsibility": "保障系统可靠性和监控预案",
+      "communication_style": "技术细节导向",
+      "conflict_bias": "倾向于数据驱动",
+      "stance": "支持保守发布",
+      "risk_preference": "低",
+      "information_access_level": "中",
+      "default_channels": [
+        "主群",
+        "风险评审子群"
+      ]
+    },
+    {
+      "person_id": "data_platform_lead_01",
+      "name": "吴芳",
+      "department": "数据平台",
+      "role": "数据平台负责人",
+      "simulated_open_id": "ou_sim_data_platform_lead_01",
+      "responsibility": "确保数据迁移方案可行",
+      "communication_style": "协作，注重数据一致性",
+      "conflict_bias": "倾向于达成共识",
+      "stance": "配合研发完成迁移窗口确认",
+      "risk_preference": "中等",
+      "information_access_level": "中",
+      "default_channels": [
+        "主群",
+        "上线窗口子群"
+      ]
+    },
+    {
+      "person_id": "product_manager_01",
+      "name": "苏禾",
+      "department": "产品",
+      "role": "产品经理",
+      "simulated_open_id": "ou_sim_product_manager_01",
+      "responsibility": "负责统一目标、范围和对外口径。",
+      "communication_style": "谨慎、强调跨部门对齐。",
+      "conflict_bias": "会阻止过早对外承诺。",
+      "stance": "倾向于先收敛内部事实再决定说法。",
+      "risk_preference": "中等风险偏好",
+      "information_access_level": "掌握跨部门上下游信息",
+      "default_channels": [
+        "main_chat",
+        "customer_sync_chat"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,186 @@
+{
+  "case_id": "case_20260506213901711117_anti_interference",
+  "family_id": "anti_interference",
+  "task_id": "FEISHU-217",
+  "sessions": [
+    {
+      "session_id": "main_chat",
+      "session_type": "main_chat",
+      "title": "主群协调",
+      "session_purpose": "沉淀目标任务的主线协作信息和最终 current state。"
+    },
+    {
+      "session_id": "thread_docs",
+      "session_type": "chat",
+      "title": "thread_docs 会话",
+      "session_purpose": "承载目标任务相关的补充协作上下文。"
+    },
+    {
+      "session_id": "thread_security",
+      "session_type": "chat",
+      "title": "thread_security 会话",
+      "session_purpose": "承载目标任务相关的补充协作上下文。"
+    },
+    {
+      "session_id": "customer_sync_chat",
+      "session_type": "customer_sync_chat",
+      "title": "客户同步侧群",
+      "session_purpose": "承接外部压力、模糊口径和对外同步上下文。"
+    },
+    {
+      "session_id": "exec_sync_chat",
+      "session_type": "exec_sync_chat",
+      "title": "管理层同步侧群",
+      "session_purpose": "承载跨部门升级、相似措辞和并行决策噪声。"
+    },
+    {
+      "session_id": "risk_review_thread",
+      "session_type": "risk_review_thread",
+      "title": "风险复核线程",
+      "session_purpose": "承载依赖、风险和证据分层补充信息。"
+    },
+    {
+      "session_id": "handoff_thread",
+      "session_type": "handoff_thread",
+      "title": "交接修正线程",
+      "session_purpose": "承载 owner 交接、旧状态修正和 supersession 说明。"
+    }
+  ],
+  "turns": [
+    {
+      "turn_id": "turn_001",
+      "beat_id": "beat_001",
+      "sequence_no": 1,
+      "session_id": "main_chat",
+      "speaker_actor_id": "alice",
+      "speaker": "Alice",
+      "planned_message_text": "FEISHU-217 当前由 Alice 负责收口，真正 blocker 还是支付风控回归没有完成。"
+    },
+    {
+      "turn_id": "turn_002",
+      "beat_id": "beat_002",
+      "sequence_no": 2,
+      "session_id": "main_chat",
+      "speaker_actor_id": "bob",
+      "speaker": "Bob",
+      "planned_message_text": "运维演练那边也卡在 blocker，但这是另外一条并行讨论，不是 FEISHU-217 的 owner 变更。"
+    },
+    {
+      "turn_id": "turn_003",
+      "beat_id": "beat_003",
+      "sequence_no": 3,
+      "session_id": "thread_docs",
+      "speaker_actor_id": "carol",
+      "speaker": "Carol",
+      "planned_message_text": "Alice 晚上还要审文档收口，不过那只是 reviewer 身份，不代表 FEISHU-217 再次换 owner。"
+    },
+    {
+      "turn_id": "turn_004",
+      "beat_id": "beat_004",
+      "sequence_no": 4,
+      "session_id": "thread_security",
+      "speaker_actor_id": "dave",
+      "speaker": "Dave",
+      "planned_message_text": "安全评审这边 blocker 是第三方渗透测试报告没出，跟 FEISHU-217 的支付风控回归 blocker 是两回事。"
+    },
+    {
+      "turn_id": "turn_005",
+      "beat_id": "beat_005",
+      "sequence_no": 5,
+      "session_id": "customer_sync_chat",
+      "speaker_actor_id": "frank",
+      "speaker": "Frank",
+      "planned_message_text": "供应商那边说他们的依赖已经 ready，但这是另一个任务，不是 FEISHU-217 的依赖准备。"
+    },
+    {
+      "turn_id": "turn_006",
+      "beat_id": "beat_006",
+      "sequence_no": 6,
+      "session_id": "exec_sync_chat",
+      "speaker_actor_id": "grace",
+      "speaker": "Grace",
+      "planned_message_text": "高层同步会上有人问 FEISHU-217 什么时候能上，我解释说 blocker 是支付风控回归，没有其他任务能替代这个依赖。"
+    },
+    {
+      "turn_id": "turn_007",
+      "beat_id": "beat_007",
+      "sequence_no": 7,
+      "session_id": "risk_review_thread",
+      "speaker_actor_id": "eve",
+      "speaker": "Eve",
+      "planned_message_text": "风险评审把 FEISHU-217 的 blocker 和运维演练的 blocker 混在一起了，但两者完全不同，不要弄混。"
+    },
+    {
+      "turn_id": "turn_008",
+      "beat_id": "beat_008",
+      "sequence_no": 8,
+      "session_id": "handoff_thread",
+      "speaker_actor_id": "alice",
+      "speaker": "Alice",
+      "planned_message_text": "再次确认：FEISHU-217 只有 Alice 是 owner，其他人在其他上下文里的角色都不代表 FEISHU-217 的 owner 变动。"
+    },
+    {
+      "turn_id": "turn_009",
+      "beat_id": "beat_009",
+      "sequence_no": 9,
+      "session_id": "handoff_thread",
+      "speaker_actor_id": "bob",
+      "speaker": "Bob",
+      "planned_message_text": "对，运维演练的 blocker 是环境问题，跟 FEISHU-217 无关，不要混淆。"
+    },
+    {
+      "turn_id": "turn_010",
+      "beat_id": "beat_010",
+      "sequence_no": 10,
+      "session_id": "handoff_thread",
+      "speaker_actor_id": "carol",
+      "speaker": "Carol",
+      "planned_message_text": "文档收口那边的 reviewer 身份也只是 Alice 的额外职责，FEISHU-217 的 owner 没有变化。"
+    },
+    {
+      "turn_id": "turn_011",
+      "beat_id": "beat_011",
+      "sequence_no": 11,
+      "session_id": "thread_security",
+      "speaker_actor_id": "dave",
+      "speaker": "Dave",
+      "planned_message_text": "安全评审结束后，我会把结论发给相关方，但和 FEISHU-217 的 blocker 无关。"
+    },
+    {
+      "turn_id": "turn_012",
+      "beat_id": "beat_012",
+      "sequence_no": 12,
+      "session_id": "customer_sync_chat",
+      "speaker_actor_id": "frank",
+      "speaker": "Frank",
+      "planned_message_text": "供应商那边的 ready 状态已经确认，但 FEISHU-217 的 blocker 仍然只有支付风控回归。"
+    },
+    {
+      "turn_id": "turn_013",
+      "beat_id": "beat_013",
+      "sequence_no": 13,
+      "session_id": "exec_sync_chat",
+      "speaker_actor_id": "grace",
+      "speaker": "Grace",
+      "planned_message_text": "高层已明确，FEISHU-217 的进度只依赖支付风控回归，其他并行讨论不影响。"
+    },
+    {
+      "turn_id": "turn_014",
+      "beat_id": "beat_014",
+      "sequence_no": 14,
+      "session_id": "risk_review_thread",
+      "speaker_actor_id": "eve",
+      "speaker": "Eve",
+      "planned_message_text": "风险评审记录里已经标注清楚，FEISHU-217 的 blocker 是唯一的，没有其他依赖。"
+    },
+    {
+      "turn_id": "turn_015",
+      "beat_id": "beat_015",
+      "sequence_no": 15,
+      "session_id": "main_chat",
+      "speaker_actor_id": "alice",
+      "speaker": "Alice",
+      "planned_message_text": "最后确认：FEISHU-217 当前 owner 是 Alice，blocker 是支付风控回归未完成，安全审批和 QA 签收都是 pending，但没有其他任务能改变这些状态。"
+    }
+  ]
+}

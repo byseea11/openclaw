@@ -1,0 +1,25 @@
+[
+  {
+    "question_id": "smoke_q_1",
+    "question_type": "single-session-user",
+    "question": "What music does the user like?",
+    "answer": "jazz music",
+    "question_date": "2024-01-01",
+    "haystack_session_ids": ["answer_session_1"],
+    "haystack_dates": ["2023-12-20"],
+    "haystack_sessions": [
+      [
+        {
+          "role": "user",
+          "content": "I love jazz music.",
+          "has_answer": true
+        },
+        {
+          "role": "assistant",
+          "content": "Nice!"
+        }
+      ]
+    ],
+    "answer_session_ids": ["answer_session_1"]
+  }
+]

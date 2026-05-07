@@ -1,0 +1,322 @@
+{
+  "case_id": "case_20260506211506345155_anti_interference",
+  "family_id": "anti_interference",
+  "task_id": "FEISHU-655",
+  "actors": [
+    {
+      "actor_id": "alice",
+      "display_name": "Alice",
+      "role": "infra_pm"
+    },
+    {
+      "actor_id": "bob",
+      "display_name": "Bob",
+      "role": "sre_lead"
+    },
+    {
+      "actor_id": "carol",
+      "display_name": "Carol",
+      "role": "release_manager"
+    },
+    {
+      "actor_id": "dave",
+      "display_name": "Dave",
+      "role": "security_engineer"
+    },
+    {
+      "actor_id": "eve",
+      "display_name": "Eve",
+      "role": "compliance_officer"
+    },
+    {
+      "actor_id": "frank",
+      "display_name": "Frank",
+      "role": "network_architect"
+    },
+    {
+      "actor_id": "grace",
+      "display_name": "Grace",
+      "role": "db_admin"
+    },
+    {
+      "actor_id": "hank",
+      "display_name": "Hank",
+      "role": "devops_engineer"
+    },
+    {
+      "actor_id": "iris",
+      "display_name": "Iris",
+      "role": "qa_lead"
+    },
+    {
+      "actor_id": "jack",
+      "display_name": "Jack",
+      "role": "ops_manager"
+    },
+    {
+      "actor_id": "karen",
+      "display_name": "Karen",
+      "role": "project_coordinator"
+    },
+    {
+      "actor_id": "leo",
+      "display_name": "Leo",
+      "role": "cloud_architect"
+    },
+    {
+      "actor_id": "mia",
+      "display_name": "Mia",
+      "role": "data_analyst"
+    },
+    {
+      "actor_id": "nick",
+      "display_name": "Nick",
+      "role": "vendor_manager"
+    },
+    {
+      "actor_id": "olivia",
+      "display_name": "Olivia",
+      "role": "risk_assessor"
+    },
+    {
+      "actor_id": "paul",
+      "display_name": "Paul",
+      "role": "team_lead"
+    },
+    {
+      "actor_id": "quinn",
+      "display_name": "Quinn",
+      "role": "support_engineer"
+    },
+    {
+      "actor_id": "rachel",
+      "display_name": "Rachel",
+      "role": "product_owner"
+    },
+    {
+      "actor_id": "sam",
+      "display_name": "Sam",
+      "role": "scrum_master"
+    },
+    {
+      "actor_id": "tina",
+      "display_name": "Tina",
+      "role": "ui_designer"
+    },
+    {
+      "actor_id": "uma",
+      "display_name": "Uma",
+      "role": "backend_dev"
+    },
+    {
+      "actor_id": "victor",
+      "display_name": "Victor",
+      "role": "frontend_dev"
+    },
+    {
+      "actor_id": "wendy",
+      "display_name": "Wendy",
+      "role": "legal_advisor"
+    },
+    {
+      "actor_id": "xavier",
+      "display_name": "Xavier",
+      "role": "target_owner"
+    },
+    {
+      "actor_id": "yara",
+      "display_name": "Yara",
+      "role": "migration_lead"
+    },
+    {
+      "actor_id": "zack",
+      "display_name": "Zack",
+      "role": "auditor"
+    },
+    {
+      "actor_id": "amy",
+      "display_name": "Amy",
+      "role": "hrbp"
+    },
+    {
+      "actor_id": "brian",
+      "display_name": "Brian",
+      "role": "finance_analyst"
+    }
+  ],
+  "task_actor_layout": {
+    "target_task_id": "FEISHU-655",
+    "shared_actors": [
+      "alice",
+      "bob",
+      "carol",
+      "dave",
+      "eve",
+      "frank",
+      "grace",
+      "hank",
+      "iris",
+      "jack",
+      "karen",
+      "leo",
+      "mia",
+      "nick",
+      "olivia",
+      "paul"
+    ],
+    "interference_context_blocks": [
+      {
+        "context_ref": "ctx_migration",
+        "context_label": "数据中心迁移任务",
+        "noise_source_type": "shared_actor_noise",
+        "relationship_to_target": "Alice 在 FEISHU-655 中是 infra_pm，同时在 ctx_migration 中也是负责人，两个任务共用 Alice，易把迁移阻塞项混淆入目标任务。"
+      },
+      {
+        "context_ref": "ctx_compliance",
+        "context_label": "全球合规取证支持任务",
+        "noise_source_type": "similar_wording_noise",
+        "relationship_to_target": "该任务也使用 'blocker' 和 'ready' 措辞，且 Eve 和 Dave 同时参与两个任务，易把合规取证阻塞误认为是 FEISHU-655 的阻塞。"
+      },
+      {
+        "context_ref": "ctx_network_upgrade",
+        "context_label": "骨干网络升级讨论",
+        "noise_source_type": "parallel_discussion_noise",
+        "relationship_to_target": "Frank 和 Leo 在并行讨论中多次提到 'window' 和 'owner'，与 FEISHU-655 的放量窗口表述相似。"
+      },
+      {
+        "context_ref": "ctx_db_migration",
+        "context_label": "数据库版本升级任务",
+        "noise_source_type": "similar_wording_noise",
+        "relationship_to_target": "Grace 和 Hank 的数据库升级也使用 '收口' 和 'owner'，容易混淆两个任务的当前负责人。"
+      },
+      {
+        "context_ref": "ctx_vendor_review",
+        "context_label": "供应商评审同步",
+        "noise_source_type": "shared_actor_noise",
+        "relationship_to_target": "Nick 和 Paul 在供应商评审中讨论的 blocker 和时间线并非 FEISHU-655 相关。"
+      }
+    ],
+    "actor_task_roles": [
+      {
+        "actor_id": "alice",
+        "task_id": "FEISHU-655",
+        "role": "target_owner"
+      },
+      {
+        "actor_id": "alice",
+        "context_ref": "ctx_migration",
+        "role": "migration_pm"
+      },
+      {
+        "actor_id": "bob",
+        "task_id": "FEISHU-655",
+        "role": "sre_support"
+      },
+      {
+        "actor_id": "bob",
+        "context_ref": "ctx_network_upgrade",
+        "role": "network_sre"
+      },
+      {
+        "actor_id": "carol",
+        "task_id": "FEISHU-655",
+        "role": "release_coordinator"
+      },
+      {
+        "actor_id": "carol",
+        "context_ref": "ctx_compliance",
+        "role": "release_audit"
+      },
+      {
+        "actor_id": "dave",
+        "task_id": "FEISHU-655",
+        "role": "security_reviewer"
+      },
+      {
+        "actor_id": "dave",
+        "context_ref": "ctx_compliance",
+        "role": "security_lead"
+      },
+      {
+        "actor_id": "eve",
+        "context_ref": "ctx_compliance",
+        "role": "compliance_owner"
+      },
+      {
+        "actor_id": "frank",
+        "context_ref": "ctx_network_upgrade",
+        "role": "network_owner"
+      },
+      {
+        "actor_id": "grace",
+        "context_ref": "ctx_db_migration",
+        "role": "db_owner"
+      },
+      {
+        "actor_id": "hank",
+        "context_ref": "ctx_db_migration",
+        "role": "db_ops"
+      },
+      {
+        "actor_id": "iris",
+        "task_id": "FEISHU-655",
+        "role": "qa_coordinator"
+      },
+      {
+        "actor_id": "jack",
+        "context_ref": "ctx_migration",
+        "role": "ops_migration"
+      },
+      {
+        "actor_id": "karen",
+        "task_id": "FEISHU-655",
+        "role": "project_coordinator"
+      },
+      {
+        "actor_id": "karen",
+        "context_ref": "ctx_migration",
+        "role": "migration_coordinator"
+      },
+      {
+        "actor_id": "leo",
+        "context_ref": "ctx_network_upgrade",
+        "role": "cloud_architect"
+      },
+      {
+        "actor_id": "mia",
+        "task_id": "FEISHU-655",
+        "role": "analytics_support"
+      },
+      {
+        "actor_id": "nick",
+        "context_ref": "ctx_vendor_review",
+        "role": "vendor_manager"
+      },
+      {
+        "actor_id": "olivia",
+        "task_id": "FEISHU-655",
+        "role": "risk_assessor"
+      },
+      {
+        "actor_id": "olivia",
+        "context_ref": "ctx_compliance",
+        "role": "risk_reviewer"
+      },
+      {
+        "actor_id": "paul",
+        "context_ref": "ctx_vendor_review",
+        "role": "team_lead"
+      },
+      {
+        "actor_id": "xavier",
+        "task_id": "FEISHU-655",
+        "role": "target_owner_advisory"
+      },
+      {
+        "actor_id": "yara",
+        "context_ref": "ctx_migration",
+        "role": "migration_lead"
+      }
+    ]
+  }
+}

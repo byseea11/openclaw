@@ -1,0 +1,54 @@
+{
+  "case_id": "case_20260506213901711117_anti_interference",
+  "family_id": "anti_interference",
+  "task_id": "FEISHU-217",
+  "organization": "Globex Corporation",
+  "team": "Platform Engineering",
+  "business_goal": "确保关键任务（如支付灰度放量）的负责人和状态不被并行讨论污染，避免决策冲突。",
+  "scenario_summary": "在 Globex Platform Engineering 部门内部，Alice 是 FEISHU-201 的负责人，同时兼任文档收口的 reviewer；Bob 负责运维演练，Carol 协调发布。多个并行讨论都涉及相似的 blocker、ready 和 owner 词汇，容易混淆目标任务 FEISHU-201 的当前状态。",
+  "family_fit_explanation": "需要系统在共享角色和相似措辞的干扰下，准确识别目标任务 FEISHU-201 的当前 owner 和 blocker，并排除其他上下文中对 Alice 和 Bob 的提及。",
+  "source_sessions": [
+    {
+      "session_id": "main_chat",
+      "session_type": "main_chat",
+      "title": "主群协调",
+      "session_purpose": "沉淀目标任务的主线协作信息和最终 current state。"
+    },
+    {
+      "session_id": "thread_docs",
+      "session_type": "chat",
+      "title": "thread_docs 会话",
+      "session_purpose": "承载目标任务相关的补充协作上下文。"
+    },
+    {
+      "session_id": "thread_security",
+      "session_type": "chat",
+      "title": "thread_security 会话",
+      "session_purpose": "承载目标任务相关的补充协作上下文。"
+    },
+    {
+      "session_id": "customer_sync_chat",
+      "session_type": "customer_sync_chat",
+      "title": "客户同步侧群",
+      "session_purpose": "承接外部压力、模糊口径和对外同步上下文。"
+    },
+    {
+      "session_id": "exec_sync_chat",
+      "session_type": "exec_sync_chat",
+      "title": "管理层同步侧群",
+      "session_purpose": "承载跨部门升级、相似措辞和并行决策噪声。"
+    },
+    {
+      "session_id": "risk_review_thread",
+      "session_type": "risk_review_thread",
+      "title": "风险复核线程",
+      "session_purpose": "承载依赖、风险和证据分层补充信息。"
+    },
+    {
+      "session_id": "handoff_thread",
+      "session_type": "handoff_thread",
+      "title": "交接修正线程",
+      "session_purpose": "承载 owner 交接、旧状态修正和 supersession 说明。"
+    }
+  ]
+}

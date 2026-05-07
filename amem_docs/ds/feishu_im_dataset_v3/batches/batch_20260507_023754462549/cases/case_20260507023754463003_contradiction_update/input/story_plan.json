@@ -1,0 +1,446 @@
+{
+  "story_id": "story_case_20260507023754463003_contradiction_update",
+  "case_id": "case_20260507023754463003_contradiction_update",
+  "family_id": "contradiction_update",
+  "task": {
+    "task_id": "FEISHU-703",
+    "task_name": "自动部署脚本开发",
+    "role": "target_task"
+  },
+  "actors": [
+    {
+      "actor_id": "alice",
+      "display_name": "Alice",
+      "role": "release_pm"
+    },
+    {
+      "actor_id": "bob",
+      "display_name": "Bob",
+      "role": "dev_lead"
+    },
+    {
+      "actor_id": "carol",
+      "display_name": "Carol",
+      "role": "qa_lead"
+    },
+    {
+      "actor_id": "dave",
+      "display_name": "Dave",
+      "role": "ops_lead"
+    },
+    {
+      "actor_id": "eve",
+      "display_name": "Eve",
+      "role": "security_auditor"
+    },
+    {
+      "actor_id": "frank",
+      "display_name": "Frank",
+      "role": "frontend_developer"
+    },
+    {
+      "actor_id": "grace",
+      "display_name": "Grace",
+      "role": "backend_developer"
+    },
+    {
+      "actor_id": "heidi",
+      "display_name": "Heidi",
+      "role": "database_administrator"
+    },
+    {
+      "actor_id": "ivan",
+      "display_name": "Ivan",
+      "role": "compliance_officer"
+    },
+    {
+      "actor_id": "judy",
+      "display_name": "Judy",
+      "role": "infrastructure_engineer"
+    },
+    {
+      "actor_id": "mallory",
+      "display_name": "Mallory",
+      "role": "third_party_vendor_coordinator"
+    },
+    {
+      "actor_id": "nancy",
+      "display_name": "Nancy",
+      "role": "tech_writer"
+    },
+    {
+      "actor_id": "oliver",
+      "display_name": "Oliver",
+      "role": "project_owner"
+    },
+    {
+      "actor_id": "peggy",
+      "display_name": "Peggy",
+      "role": "cross_team_liaison"
+    },
+    {
+      "actor_id": "quincy",
+      "display_name": "Quincy",
+      "role": "release_manager"
+    },
+    {
+      "actor_id": "rachel",
+      "display_name": "Rachel",
+      "role": "dev_ops_engineer"
+    },
+    {
+      "actor_id": "sybil",
+      "display_name": "Sybil",
+      "role": "product_manager"
+    },
+    {
+      "actor_id": "trent",
+      "display_name": "Trent",
+      "role": "architect"
+    },
+    {
+      "actor_id": "ursula",
+      "display_name": "Ursula",
+      "role": "data_analyst"
+    },
+    {
+      "actor_id": "victor",
+      "display_name": "Victor",
+      "role": "mobile_developer"
+    },
+    {
+      "actor_id": "wendy",
+      "display_name": "Wendy",
+      "role": "ui_designer"
+    },
+    {
+      "actor_id": "xavier",
+      "display_name": "Xavier",
+      "role": "target_owner"
+    },
+    {
+      "actor_id": "yvonne",
+      "display_name": "Yvonne",
+      "role": "customer_representative"
+    },
+    {
+      "actor_id": "zara",
+      "display_name": "Zara",
+      "role": "legal_advisor"
+    },
+    {
+      "actor_id": "aaron",
+      "display_name": "Aaron",
+      "role": "network_engineer"
+    },
+    {
+      "actor_id": "betty",
+      "display_name": "Betty",
+      "role": "hr_coordinator"
+    },
+    {
+      "actor_id": "charlie",
+      "display_name": "Charlie",
+      "role": "finance_manager"
+    },
+    {
+      "actor_id": "diana",
+      "display_name": "Diana",
+      "role": "marketing_specialist"
+    }
+  ],
+  "task_actor_layout": {
+    "target_task_id": "FEISHU-703",
+    "shared_actors": [
+      "alice",
+      "bob",
+      "carol",
+      "dave",
+      "eve",
+      "frank",
+      "grace",
+      "heidi",
+      "ivan",
+      "judy",
+      "mallory",
+      "nancy",
+      "oliver",
+      "peggy",
+      "quincy",
+      "rachel",
+      "sybil",
+      "trent",
+      "ursula",
+      "victor",
+      "wendy",
+      "xavier",
+      "yvonne",
+      "zara",
+      "aaron",
+      "betty",
+      "charlie",
+      "diana"
+    ],
+    "actor_task_roles": [
+      {
+        "actor_id": "xavier",
+        "task_id": "FEISHU-703",
+        "role": "current_owner"
+      },
+      {
+        "actor_id": "alice",
+        "task_id": "FEISHU-703",
+        "role": "historical_owner"
+      },
+      {
+        "actor_id": "bob",
+        "task_id": "FEISHU-703",
+        "role": "initial_owner"
+      },
+      {
+        "actor_id": "carol",
+        "task_id": "FEISHU-703",
+        "role": "qa_reviewer"
+      },
+      {
+        "actor_id": "dave",
+        "task_id": "FEISHU-703",
+        "role": "ops_deployment"
+      },
+      {
+        "actor_id": "oliver",
+        "task_id": "FEISHU-703",
+        "role": "project_sponsor"
+      },
+      {
+        "actor_id": "quincy",
+        "task_id": "FEISHU-703",
+        "role": "release_scheduler"
+      }
+    ]
+  },
+  "state_changes": [
+    {
+      "task_id": "FEISHU-703",
+      "field": "owner",
+      "sequence": [
+        {
+          "value": "Bob",
+          "status": "initial"
+        },
+        {
+          "value": "Alice",
+          "status": "historical"
+        },
+        {
+          "value": "Xavier",
+          "status": "current"
+        }
+      ]
+    },
+    {
+      "task_id": "FEISHU-703",
+      "field": "release_window",
+      "sequence": [
+        {
+          "value": "2025-06-01至2025-06-15",
+          "status": "initial"
+        },
+        {
+          "value": "2025-06-10至2025-06-20",
+          "status": "historical"
+        },
+        {
+          "value": "2025-07-01至2025-07-15",
+          "status": "current"
+        }
+      ]
+    },
+    {
+      "task_id": "FEISHU-703",
+      "field": "status",
+      "sequence": [
+        {
+          "value": "规划中",
+          "status": "initial"
+        },
+        {
+          "value": "开发中",
+          "status": "historical"
+        },
+        {
+          "value": "测试中",
+          "status": "current"
+        }
+      ]
+    }
+  ],
+  "message_beats": [
+    {
+      "beat_id": "beat_001",
+      "purpose": "初始分配owner为Bob",
+      "speaker_actor_id": "oliver",
+      "session_id": "main_chat",
+      "message_intent": "FEISHU-703自动部署脚本由Bob负责开发，预计6月初交付。",
+      "speaker": "Oliver"
+    },
+    {
+      "beat_id": "beat_002",
+      "purpose": "初始交付窗口",
+      "speaker_actor_id": "oliver",
+      "session_id": "main_chat",
+      "message_intent": "交付窗口暂定6月1日至6月15日。",
+      "speaker": "Oliver"
+    },
+    {
+      "beat_id": "beat_003",
+      "purpose": "Bob因其他任务将owner转给Alice",
+      "speaker_actor_id": "bob",
+      "session_id": "main_chat",
+      "message_intent": "我这边资源紧张，FEISHU-703暂时交给Alice跟进。",
+      "speaker": "Bob"
+    },
+    {
+      "beat_id": "beat_004",
+      "purpose": "Alice确认接手",
+      "speaker_actor_id": "alice",
+      "session_id": "main_chat",
+      "message_intent": "收到，我来接手FEISHU-703，窗口调整到6月10日至6月20日。",
+      "speaker": "Alice"
+    },
+    {
+      "beat_id": "beat_005",
+      "purpose": "需求变更导致窗口再次调整",
+      "speaker_actor_id": "alice",
+      "session_id": "main_chat",
+      "message_intent": "安全审计要求增加，FEISHU-703窗口推迟到7月1日至7月15日。",
+      "speaker": "Alice"
+    },
+    {
+      "beat_id": "beat_006",
+      "purpose": "Alice调离将owner转给Xavier",
+      "speaker_actor_id": "alice",
+      "session_id": "main_chat",
+      "message_intent": "我下月转去其他项目，FEISHU-703后续由Xavier负责。",
+      "speaker": "Alice"
+    },
+    {
+      "beat_id": "beat_007",
+      "purpose": "Xavier确认接手并更新状态",
+      "speaker_actor_id": "xavier",
+      "session_id": "main_chat",
+      "message_intent": "确认接手FEISHU-703，目前代码已开发完成进入测试阶段。",
+      "speaker": "Xavier"
+    },
+    {
+      "beat_id": "beat_008",
+      "purpose": "干扰消息：其他任务的owner变更",
+      "speaker_actor_id": "frank",
+      "session_id": "main_chat",
+      "message_intent": "FEISHU-704的前端任务由Frank负责。",
+      "speaker": "Frank"
+    },
+    {
+      "beat_id": "beat_009",
+      "purpose": "干扰消息：其他任务的版本计划",
+      "speaker_actor_id": "quincy",
+      "session_id": "main_chat",
+      "message_intent": "FEISHU-701的发布窗口提前到6月5日。",
+      "speaker": "Quincy"
+    },
+    {
+      "beat_id": "beat_010",
+      "purpose": "干扰消息：关于工具的讨论",
+      "speaker_actor_id": "rachel",
+      "session_id": "main_chat",
+      "message_intent": "Jenkins流水线升级后，所有项目的部署时间缩短了一半。",
+      "speaker": "Rachel"
+    },
+    {
+      "beat_id": "beat_011",
+      "purpose": "旧owner被误提及",
+      "speaker_actor_id": "dave",
+      "session_id": "main_chat",
+      "message_intent": "Alice之前布置的部署检查项我已经完成。",
+      "speaker": "Dave"
+    },
+    {
+      "beat_id": "beat_012",
+      "purpose": "旧owner被误提及",
+      "speaker_actor_id": "carol",
+      "session_id": "main_chat",
+      "message_intent": "Bob最初设计的那套脚本方案还需要review吗？",
+      "speaker": "Carol"
+    },
+    {
+      "beat_id": "beat_013",
+      "purpose": "干扰消息：跨任务依赖",
+      "speaker_actor_id": "heidi",
+      "session_id": "main_chat",
+      "message_intent": "FEISHU-706的数据库变更依赖FEISHU-703的脚本完成。",
+      "speaker": "Heidi"
+    },
+    {
+      "beat_id": "beat_014",
+      "purpose": "干扰消息：日常协作",
+      "speaker_actor_id": "grace",
+      "session_id": "main_chat",
+      "message_intent": "后端API本周五完成联调，FEISHU-703的对接稍后。",
+      "speaker": "Grace"
+    },
+    {
+      "beat_id": "beat_015",
+      "purpose": "历史窗口被错误引用作为干扰",
+      "speaker_actor_id": "mallory",
+      "session_id": "risk_review_thread",
+      "message_intent": "根据6月份的窗口计划，我们供应商时间来不及。",
+      "speaker": "Mallory"
+    },
+    {
+      "beat_id": "beat_016",
+      "purpose": "当前窗口被正确引用",
+      "speaker_actor_id": "xavier",
+      "session_id": "risk_review_thread",
+      "message_intent": "窗口已调整至7月，供应商时间应该足够。",
+      "speaker": "Xavier"
+    },
+    {
+      "beat_id": "beat_017",
+      "purpose": "状态更新为测试中",
+      "speaker_actor_id": "xavier",
+      "session_id": "main_chat",
+      "message_intent": "FEISHU-703已进入测试，发现的问题正在修复中。",
+      "speaker": "Xavier"
+    },
+    {
+      "beat_id": "beat_018",
+      "purpose": "干扰消息：关于第三方工具的讨论",
+      "speaker_actor_id": "nancy",
+      "session_id": "main_chat",
+      "message_intent": "自动化测试框架的文档已更新。",
+      "speaker": "Nancy"
+    }
+  ],
+  "planned_probe_queries": [
+    {
+      "query": "FEISHU-703的当前owner是谁？",
+      "expected_good_behavior": "返回Xavier，并指出之前的owner是Alice和Bob，但已移交。"
+    },
+    {
+      "query": "FEISHU-703的交付窗口是什么时候？",
+      "expected_good_behavior": "返回7月1日至7月15日，说明该窗口是经过调整的最终版本，之前的6月窗口已作废。"
+    },
+    {
+      "query": "FEISHU-703现在处于什么阶段？",
+      "expected_good_behavior": "返回测试中，并说明此前经过规划和开发阶段，现在已进入测试。"
+    },
+    {
+      "query": "Alice是否还是FEISHU-703的owner？",
+      "expected_good_behavior": "回答否，Alice已将owner转给Xavier，Alice是历史owner。"
+    },
+    {
+      "query": "FEISHU-703最早的交付窗口是几月？",
+      "expected_good_behavior": "回答6月1日至6月15日，但强调该计划已被两次调整，当前窗口为7月1日至7月15日。"
+    }
+  ]
+}

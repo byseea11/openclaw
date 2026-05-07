@@ -1,0 +1,312 @@
+{
+  "employees": [
+    {
+      "employee_id": "emp-acme-001",
+      "open_id": "ou_acme_ceo",
+      "name": "Elena Park",
+      "department_id": "dept-exec",
+      "department_name": "Executive",
+      "title": "CEO",
+      "manager_id": "",
+      "employment_status": "active",
+      "aliases": [
+        "CEO",
+        "elena"
+      ]
+    },
+    {
+      "employee_id": "emp-acme-002",
+      "open_id": "ou_acme_cpo",
+      "name": "Maya Singh",
+      "department_id": "dept-product",
+      "department_name": "Product",
+      "title": "Chief Product Officer",
+      "manager_id": "ou_acme_ceo",
+      "employment_status": "active",
+      "aliases": [
+        "CPO",
+        "maya"
+      ]
+    },
+    {
+      "employee_id": "emp-acme-003",
+      "open_id": "ou_acme_product_pm",
+      "name": "Alice Chen",
+      "department_id": "dept-product",
+      "department_name": "Product",
+      "title": "Senior Product Manager",
+      "manager_id": "ou_acme_cpo",
+      "employment_status": "active",
+      "aliases": [
+        "alice",
+        "launch PM"
+      ]
+    },
+    {
+      "employee_id": "emp-acme-004",
+      "open_id": "ou_acme_design",
+      "name": "Leo Martinez",
+      "department_id": "dept-product",
+      "department_name": "Product",
+      "title": "Product Designer",
+      "manager_id": "ou_acme_cpo",
+      "employment_status": "active",
+      "aliases": [
+        "design",
+        "leo"
+      ]
+    },
+    {
+      "employee_id": "emp-acme-005",
+      "open_id": "ou_acme_cto",
+      "name": "Nora Williams",
+      "department_id": "dept-engineering",
+      "department_name": "Engineering",
+      "title": "Chief Technology Officer",
+      "manager_id": "ou_acme_ceo",
+      "employment_status": "active",
+      "aliases": [
+        "CTO",
+        "nora"
+      ]
+    },
+    {
+      "employee_id": "emp-acme-006",
+      "open_id": "ou_acme_eng_mgr",
+      "name": "Ben Carter",
+      "department_id": "dept-engineering",
+      "department_name": "Engineering",
+      "title": "Engineering Manager",
+      "manager_id": "ou_acme_cto",
+      "employment_status": "active",
+      "aliases": [
+        "ben",
+        "eng manager"
+      ]
+    },
+    {
+      "employee_id": "emp-acme-007",
+      "open_id": "ou_acme_backend",
+      "name": "Priya Raman",
+      "department_id": "dept-engineering",
+      "department_name": "Engineering",
+      "title": "Backend Engineer",
+      "manager_id": "ou_acme_eng_mgr",
+      "employment_status": "active",
+      "aliases": [
+        "backend",
+        "priya"
+      ]
+    },
+    {
+      "employee_id": "emp-acme-008",
+      "open_id": "ou_acme_frontend",
+      "name": "Owen Brooks",
+      "department_id": "dept-engineering",
+      "department_name": "Engineering",
+      "title": "Frontend Engineer",
+      "manager_id": "ou_acme_eng_mgr",
+      "employment_status": "active",
+      "aliases": [
+        "frontend",
+        "owen"
+      ]
+    },
+    {
+      "employee_id": "emp-acme-009",
+      "open_id": "ou_acme_platform_mgr",
+      "name": "Samir Patel",
+      "department_id": "dept-platform",
+      "department_name": "Platform",
+      "title": "Platform Lead",
+      "manager_id": "ou_acme_cto",
+      "employment_status": "active",
+      "aliases": [
+        "platform",
+        "samir"
+      ]
+    },
+    {
+      "employee_id": "emp-acme-010",
+      "open_id": "ou_acme_sre",
+      "name": "Iris Kim",
+      "department_id": "dept-platform",
+      "department_name": "Platform",
+      "title": "SRE",
+      "manager_id": "ou_acme_platform_mgr",
+      "employment_status": "active",
+      "aliases": [
+        "iris",
+        "sre"
+      ]
+    },
+    {
+      "employee_id": "emp-acme-011",
+      "open_id": "ou_acme_security_lead",
+      "name": "Grace Liu",
+      "department_id": "dept-security",
+      "department_name": "Security",
+      "title": "Security Lead",
+      "manager_id": "ou_acme_cto",
+      "employment_status": "active",
+      "aliases": [
+        "grace",
+        "security"
+      ]
+    },
+    {
+      "employee_id": "emp-acme-012",
+      "open_id": "ou_acme_seceng",
+      "name": "Noah Evans",
+      "department_id": "dept-security",
+      "department_name": "Security",
+      "title": "Security Engineer",
+      "manager_id": "ou_acme_security_lead",
+      "employment_status": "active",
+      "aliases": [
+        "noah",
+        "seceng"
+      ]
+    },
+    {
+      "employee_id": "emp-acme-013",
+      "open_id": "ou_acme_data_lead",
+      "name": "Hannah Zhao",
+      "department_id": "dept-data",
+      "department_name": "Data",
+      "title": "Data Lead",
+      "manager_id": "ou_acme_cto",
+      "employment_status": "active",
+      "aliases": [
+        "data",
+        "hannah"
+      ]
+    },
+    {
+      "employee_id": "emp-acme-014",
+      "open_id": "ou_acme_data_eng",
+      "name": "Victor Huang",
+      "department_id": "dept-data",
+      "department_name": "Data",
+      "title": "Data Engineer",
+      "manager_id": "ou_acme_data_lead",
+      "employment_status": "active",
+      "aliases": [
+        "data eng",
+        "victor"
+      ]
+    },
+    {
+      "employee_id": "emp-acme-015",
+      "open_id": "ou_acme_ops_head",
+      "name": "Rachel Adams",
+      "department_id": "dept-operations",
+      "department_name": "Operations",
+      "title": "Operations Director",
+      "manager_id": "ou_acme_ceo",
+      "employment_status": "active",
+      "aliases": [
+        "ops",
+        "rachel"
+      ]
+    },
+    {
+      "employee_id": "emp-acme-016",
+      "open_id": "ou_acme_release",
+      "name": "Tom Nguyen",
+      "department_id": "dept-operations",
+      "department_name": "Operations",
+      "title": "Release Manager",
+      "manager_id": "ou_acme_ops_head",
+      "employment_status": "active",
+      "aliases": [
+        "release",
+        "tom"
+      ]
+    },
+    {
+      "employee_id": "emp-acme-017",
+      "open_id": "ou_acme_cfo",
+      "name": "Claire Dubois",
+      "department_id": "dept-finance",
+      "department_name": "Finance",
+      "title": "Chief Financial Officer",
+      "manager_id": "ou_acme_ceo",
+      "employment_status": "active",
+      "aliases": [
+        "CFO",
+        "claire"
+      ]
+    },
+    {
+      "employee_id": "emp-acme-018",
+      "open_id": "ou_acme_finance_ops",
+      "name": "Mateo Rossi",
+      "department_id": "dept-finance",
+      "department_name": "Finance",
+      "title": "Finance Operations Manager",
+      "manager_id": "ou_acme_cfo",
+      "employment_status": "active",
+      "aliases": [
+        "finance ops",
+        "mateo"
+      ]
+    },
+    {
+      "employee_id": "emp-acme-019",
+      "open_id": "ou_acme_legal",
+      "name": "Ava Johnson",
+      "department_id": "dept-legal",
+      "department_name": "Legal",
+      "title": "Legal Counsel",
+      "manager_id": "ou_acme_ceo",
+      "employment_status": "active",
+      "aliases": [
+        "ava",
+        "legal"
+      ]
+    },
+    {
+      "employee_id": "emp-acme-020",
+      "open_id": "ou_acme_marketing",
+      "name": "Zoe Miller",
+      "department_id": "dept-marketing",
+      "department_name": "Marketing",
+      "title": "Marketing Lead",
+      "manager_id": "ou_acme_cpo",
+      "employment_status": "active",
+      "aliases": [
+        "marketing",
+        "zoe"
+      ]
+    },
+    {
+      "employee_id": "emp-acme-021",
+      "open_id": "ou_acme_cs_lead",
+      "name": "Daniel Smith",
+      "department_id": "dept-customer-success",
+      "department_name": "Customer Success",
+      "title": "Customer Success Lead",
+      "manager_id": "ou_acme_ceo",
+      "employment_status": "active",
+      "aliases": [
+        "CS",
+        "daniel"
+      ]
+    },
+    {
+      "employee_id": "emp-acme-022",
+      "open_id": "ou_acme_support",
+      "name": "Sofia Garcia",
+      "department_id": "dept-customer-success",
+      "department_name": "Customer Success",
+      "title": "Support Specialist",
+      "manager_id": "ou_acme_cs_lead",
+      "employment_status": "active",
+      "aliases": [
+        "sofia",
+        "support"
+      ]
+    }
+  ]
+}

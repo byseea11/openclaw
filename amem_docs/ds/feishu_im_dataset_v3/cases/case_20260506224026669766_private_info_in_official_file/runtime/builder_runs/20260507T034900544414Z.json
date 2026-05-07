@@ -1,0 +1,13 @@
+{
+  "phase": "phase3",
+  "stage": "task-wiki-runtime-eval",
+  "status": "completed",
+  "started_at": "2026-05-07T03:44:18.664836+00:00",
+  "ended_at": "2026-05-07T03:49:00.544361+00:00",
+  "artifact_paths": [
+    "amem_docs/ds/feishu_im_dataset_v3/cases/case_20260506224026669766_private_info_in_official_file/runtime/task_wiki_replay/summary.json"
+  ],
+  "skipped": false,
+  "run_id": "20260507T034900544414Z",
+  "updated_at": "2026-05-07T03:49:00.544620+00:00"
+}

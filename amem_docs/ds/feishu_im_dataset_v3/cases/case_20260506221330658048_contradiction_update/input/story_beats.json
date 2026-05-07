@@ -1,0 +1,55 @@
+{
+  "case_id": "case_20260506221330658048_contradiction_update",
+  "family_id": "contradiction_update",
+  "task_id": "FEISHU-448",
+  "beats": [
+    {
+      "beat_id": "beat_001",
+      "target_session_id": "main_chat",
+      "benchmark_role": "final_current_state_turn",
+      "description": "FEISHU-448 最初由 Bob 负责技术，放量窗口初定6月5日，QA 资源由 Frank 团队支持，风险等级低。"
+    },
+    {
+      "beat_id": "beat_002",
+      "target_session_id": "main_chat",
+      "benchmark_role": "final_current_state_turn",
+      "description": "Bob 下周要转去另一个项目，FEISHU-448 的技术负责人改为 Carol，放量窗口顺延到6月12日。"
+    },
+    {
+      "beat_id": "beat_003",
+      "target_session_id": "main_chat",
+      "benchmark_role": "final_current_state_turn",
+      "description": "由于安全评审延迟，窗口再调整到6月19日，QA 资源临时从 Frank 团队调整到 Grace 团队，风险等级调整为中。"
+    },
+    {
+      "beat_id": "beat_004",
+      "target_session_id": "thread_release",
+      "benchmark_role": "final_current_state_turn",
+      "description": "最终确认：FEISHU-448 由 David 收口，正式放量窗口以6月19日为准，之前口径作废。旧负责人 Bob 和 Carol 只算历史信息，当前资源回到 Frank 团队，风险等级升为高。"
+    },
+    {
+      "beat_id": "beat_005",
+      "target_session_id": "thread_release",
+      "benchmark_role": "final_current_state_turn",
+      "description": "同意 David 的确认，以最新消息为准，前面的安排取消。"
+    },
+    {
+      "beat_id": "beat_006",
+      "target_session_id": "customer_sync_chat",
+      "benchmark_role": "final_current_state_turn",
+      "description": "针对客户询问，当前 FEISHU-448 的负责人是 David，窗口6月19日，其余细节以最终确认为准。"
+    },
+    {
+      "beat_id": "beat_007",
+      "target_session_id": "risk_review_thread",
+      "benchmark_role": "final_current_state_turn",
+      "description": "风险等级已经是高，需要额外审批，之前的低风险等级不再适用。"
+    },
+    {
+      "beat_id": "beat_008",
+      "target_session_id": "exec_sync_chat",
+      "benchmark_role": "final_current_state_turn",
+      "description": "向 exec 同步：FEISHU-448 当前状态已更新，旧负责人和旧窗口已作废，重点关注高风险。"
+    }
+  ]
+}

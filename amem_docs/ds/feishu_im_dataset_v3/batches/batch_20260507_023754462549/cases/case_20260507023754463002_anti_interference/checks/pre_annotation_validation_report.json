@@ -1,0 +1,51 @@
+{
+  "case_id": "case_20260507023754463002_anti_interference",
+  "is_valid": true,
+  "checks": [
+    {
+      "check_id": "message_beat_coverage",
+      "passed": true,
+      "details": "所有 story plan beats 都已落地。"
+    },
+    {
+      "check_id": "probe_queries_present",
+      "passed": true,
+      "details": "story plan 已包含 planned probe queries。"
+    },
+    {
+      "check_id": "state_changes_present",
+      "passed": true,
+      "details": "story plan 已包含 state_changes。"
+    },
+    {
+      "check_id": "total_message_count",
+      "passed": true,
+      "details": "observed messages: 80"
+    },
+    {
+      "check_id": "session_distribution",
+      "passed": true,
+      "details": "observed sessions: 11"
+    },
+    {
+      "check_id": "annotation_target_count",
+      "passed": true,
+      "details": "annotation/event-bearing messages: 29"
+    },
+    {
+      "check_id": "openclaw_ingress_count",
+      "passed": true,
+      "details": "openclaw ingress: 80 / observed: 80"
+    },
+    {
+      "check_id": "template_like_message_ratio",
+      "passed": true,
+      "details": "template-like messages: 0"
+    },
+    {
+      "check_id": "official_file_references_landed",
+      "passed": true,
+      "details": "official file refs in observed messages: ['official_file_001']"
+    }
+  ]
+}

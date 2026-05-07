@@ -1,0 +1,1160 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>课题二：企业级长程协作 Memory 系统</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background-color: #f4f7f6;
+            color: #333;
+            line-height: 1.8;
+            padding: 40px 20px;
+        }
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            background: #ffffff;
+            padding: 50px;
+            border-radius: 16px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.06);
+        }
+        h1 {
+            font-size: 24px;
+            color: #222;
+            margin-bottom: 24px;
+            text-align: center;
+        }
+        h2 {
+            font-size: 20px;
+            color: #2c3e50;
+            margin: 36px 0 16px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid #eee;
+        }
+        h3 {
+            font-size: 17px;
+            margin: 24px 0 12px;
+            color: #34495e;
+        }
+        p {
+            margin-bottom: 16px;
+            font-size: 16px;
+        }
+        strong {
+            color: #222;
+        }
+        hr {
+            border: none;
+            border-top: 1px solid #eaecef;
+            margin: 32px 0;
+        }
+
+        /* 表格1 能力分析表 */
+        .table-1 {
+            border-collapse: collapse;
+            width: 100%;
+            margin: 24px 0;
+            background-color: #ffffff;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        .table-1 th, .table-1 td {
+            padding: 16px 20px;
+            text-align: left;
+            line-height: 1.6;
+            border-bottom: 1px solid #eaeaea;
+        }
+        .table-1 th {
+            background-color: #f1f3f5;
+            color: #333;
+            font-weight: 600;
+            font-size: 15px;
+        }
+        .table-1 td {
+            color: #495057;
+            font-size: 14px;
+        }
+        .table-1 tr:last-child td {
+            border-bottom: none;
+        }
+        .table-1 tr:hover {
+            background-color: #f8f9fa;
+        }
+        .col-id {
+            font-weight: bold;
+            color: #868e96;
+        }
+        .col-name {
+            font-family: monospace;
+            font-size: 15px;
+            color: #228be6;
+        }
+        .highlight {
+            font-weight: bold;
+            color: #e03131;
+        }
+
+        /* 表格2 架构层次表 */
+        .table-2 {
+            border-collapse: collapse;
+            width: 100%;
+            max-width: 900px;
+            margin: 24px auto;
+            background-color: #fff;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+            border-radius: 12px;
+            overflow: hidden;
+        }
+        .table-2 th, .table-2 td {
+            padding: 18px 24px;
+            text-align: left;
+            line-height: 1.6;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        .table-2 th {
+            background-color: #fafafa;
+            color: #2c3e50;
+            font-weight: 600;
+            font-size: 16px;
+            border-bottom: 2px solid #e8e8e8;
+        }
+        .table-2 td {
+            color: #4a4a4a;
+            font-size: 15px;
+        }
+        .table-2 tr:last-child td {
+            border-bottom: none;
+        }
+        .table-2 tr:hover {
+            background-color: #fcfcfc;
+        }
+        .col-level { 
+            font-weight: bold; 
+            color: #0984e3; 
+            white-space: nowrap;
+        }
+        .highlight-text {
+            color: #00b894;
+            font-weight: 500;
+        }
+
+        /* 表格3 实验结果表 */
+        .table-3 {
+            border-collapse: collapse;
+            width: 100%;
+            max-width: 800px;
+            margin: 24px auto;
+            background-color: #fff;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+            border-radius: 12px;
+            overflow: hidden;
+        }
+        .table-3 th, .table-3 td {
+            padding: 16px 20px;
+            text-align: center;
+            line-height: 1.6;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        .table-3 th {
+            background-color: #f8f9fa;
+            color: #2c3e50;
+            font-weight: 600;
+            font-size: 15px;
+            border-bottom: 2px solid #e8e8e8;
+        }
+        .table-3 td {
+            color: #4a4a4a;
+            font-size: 14px;
+        }
+        .table-3 tr:last-child td {
+            border-bottom: none;
+        }
+        .table-3 .highlight-cell {
+            background-color: #f0f8fb;
+            color: #2d3436;
+            font-weight: 600;
+        }
+        .delta-cell {
+            color: #00b894;
+            font-weight: 600;
+        }
+
+        /* 横向流程图样式 */
+        .flow-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #ffffff;
+            padding: 40px 30px;
+            border-radius: 16px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.06);
+            gap: 15px;
+            margin: 30px 0;
+            flex-wrap: wrap;
+        }
+        .node {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            border-radius: 12px;
+            min-width: 150px;
+            text-align: center;
+            position: relative;
+            background: #fff;
+            border: 2px solid transparent;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.04);
+            transition: transform 0.2s;
+        }
+        .node:hover {
+            transform: translateY(-3px);
+        }
+        .node-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 8px;
+        }
+        .node-sub {
+            font-size: 13px;
+            color: #7f8c8d;
+            background: #f8f9fa;
+            padding: 4px 10px;
+            border-radius: 20px;
+        }
+        .node-input {
+            border-color: #e0e0e0;
+            border-style: dashed;
+            background: #fafafa;
+        }
+        .node-step {
+            border-color: #e3f2fd;
+            border-top: 4px solid #3498db;
+        }
+        .step-num {
+            color: #3498db;
+            font-weight: bold;
+            margin-right: 2px;
+        }
+        .node-output {
+            border-color: #e8f8f5;
+            border-top: 4px solid #2ecc71;
+            background: #f9fffb;
+        }
+        .node-output .node-title {
+            color: #27ae60;
+            margin-bottom: 0;
+        }
+        .arrow {
+            display: flex;
+            align-items: center;
+            color: #bdc3c7;
+        }
+        .arrow-icon {
+            font-size: 28px;
+            line-height: 1;
+        }
+        .summary-box {
+            background: #f8f9fa;
+            padding: 16px 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+
+
+        /* 新版架构图样式 */
+        .arch2-container {
+            max-width: 980px;
+            margin: 40px auto 10px;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+        }
+        .arch2-source-header {
+            text-align: center;
+            font-size: 15px;
+            font-weight: 600;
+            color: #5f6b7a;
+            margin-bottom: 12px;
+        }
+        .arch2-sources-box {
+            background: #edf3f8;
+            border: 2px dashed #c7d6e4;
+            border-radius: 14px;
+            padding: 20px 24px;
+            box-shadow: inset 0 2px 6px rgba(0,0,0,0.02);
+        }
+        .arch2-sources-row {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        .arch2-source-tag {
+            background: #ffffff;
+            border: 1px solid #dce6ef;
+            border-radius: 10px;
+            padding: 10px 16px;
+            font-size: 14px;
+            font-weight: 500;
+            color: #334155;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.03);
+        }
+        .arch2-connector {
+            position: relative;
+            width: 100%;
+            height: 42px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .arch2-connector-line {
+            width: 2px;
+            height: 100%;
+            background: #aab6c4;
+        }
+        .arch2-connector-arrow {
+            position: absolute;
+            bottom: -5px;
+            width: 0;
+            height: 0;
+            border-left: 6px solid transparent;
+            border-right: 6px solid transparent;
+            border-top: 8px solid #aab6c4;
+        }
+        .arch2-connector-badge {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: #ffffff;
+            border: 1px solid #d5dee8;
+            border-radius: 999px;
+            min-width: 30px;
+            height: 30px;
+            padding: 0 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: 700;
+            color: #64748b;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+        .arch2-layer-box {
+            width: 100%;
+            border-radius: 16px;
+            padding: 24px;
+            box-sizing: border-box;
+            box-shadow: 0 8px 22px rgba(0,0,0,0.08);
+            margin: 6px 0;
+        }
+        .arch2-layer-1 {
+            background: #eef2ff;
+            border: 1px solid #d6ddff;
+        }
+        .arch2-layer-2 {
+            background: #ebf8f1;
+            border: 1px solid #c5ead4;
+        }
+        .arch2-layer-3 {
+            background: #fff3ed;
+            border: 1px solid #f4d6c8;
+        }
+        .arch2-layer-title {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 4px;
+            color: #1f2937;
+        }
+        .arch2-layer-subtitle {
+            font-size: 13px;
+            color: #556070;
+            margin-bottom: 18px;
+        }
+        .arch2-cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 16px;
+        }
+        .arch2-card {
+            background: rgba(255,255,255,0.96);
+            border-radius: 12px;
+            padding: 16px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.04);
+        }
+        .arch2-card-main {
+            font-size: 15px;
+            font-weight: 600;
+            color: #1f2937;
+            margin-bottom: 4px;
+        }
+        .arch2-card-desc {
+            font-size: 13px;
+            color: #64748b;
+        }
+        .arch2-authoritative-bar {
+            background: rgba(255,255,255,0.96);
+            margin-top: 16px;
+            padding: 14px 18px;
+            border-radius: 12px;
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.04);
+            flex-wrap: wrap;
+        }
+        .arch2-auth-title {
+            font-size: 14px;
+            font-weight: 700;
+            color: #1f513a;
+            white-space: nowrap;
+        }
+        .arch2-auth-text {
+            font-size: 13px;
+            color: #4b5563;
+            flex: 1;
+        }
+        .arch2-output-box {
+            width: 100%;
+            background: #eaf4ff;
+            border: 2px solid #cfe4fb;
+            border-radius: 16px;
+            padding: 20px;
+            text-align: center;
+            box-sizing: border-box;
+        }
+        .arch2-output-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: #1d4f91;
+            margin-bottom: 8px;
+        }
+        .arch2-output-details {
+            display: flex;
+            justify-content: center;
+            gap: 10px 16px;
+            flex-wrap: wrap;
+            color: #34679d;
+            font-size: 13px;
+        }
+        .arch2-output-chip {
+            background: rgba(255,255,255,0.72);
+            border: 1px solid #d8e7f7;
+            border-radius: 999px;
+            padding: 5px 12px;
+        }
+
+        /* 新版实验部分样式 */
+        .exp7-intro {
+            background: linear-gradient(135deg, #f7fbff 0%, #f9fafb 100%);
+            border: 1px solid #e5edf5;
+            border-radius: 14px;
+            padding: 18px 20px;
+            margin: 16px 0 22px;
+            color: #475569;
+        }
+        .exp7-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 16px;
+            margin: 16px 0 24px;
+        }
+        .exp7-card {
+            background: #ffffff;
+            border: 1px solid #e8edf3;
+            border-radius: 14px;
+            padding: 18px;
+            box-shadow: 0 6px 18px rgba(0,0,0,0.04);
+        }
+        .exp7-card-title {
+            font-size: 14px;
+            font-weight: 700;
+            color: #334155;
+            margin-bottom: 10px;
+        }
+        .exp7-card p,
+        .exp7-card li {
+            font-size: 14px;
+            color: #475569;
+            margin-bottom: 8px;
+        }
+        .exp7-card ul {
+            padding-left: 18px;
+            margin-top: 6px;
+        }
+        .exp7-badge {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 999px;
+            font-size: 12px;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+        .exp7-badge.native {
+            background: #eef2f7;
+            color: #475569;
+        }
+        .exp7-badge.graph {
+            background: #e7f7ef;
+            color: #18794e;
+        }
+        .exp7-results {
+            display: grid;
+            grid-template-columns: 1fr auto 1fr;
+            gap: 16px;
+            align-items: stretch;
+            margin: 18px 0 26px;
+        }
+        .exp7-result-card {
+            border-radius: 16px;
+            padding: 22px;
+            box-shadow: 0 10px 24px rgba(0,0,0,0.05);
+            background: #ffffff;
+            border: 1px solid #e8edf3;
+        }
+        .exp7-result-card.native {
+            border-top: 5px solid #94a3b8;
+        }
+        .exp7-result-card.graph {
+            border-top: 5px solid #22c55e;
+            background: linear-gradient(180deg, #ffffff 0%, #f8fffb 100%);
+        }
+        .exp7-result-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: #1f2937;
+            margin-bottom: 6px;
+        }
+        .exp7-result-date {
+            font-size: 26px;
+            font-weight: 800;
+            margin: 10px 0 12px;
+            color: #111827;
+            letter-spacing: 0.2px;
+        }
+        .exp7-result-desc {
+            font-size: 14px;
+            color: #64748b;
+            margin-bottom: 16px;
+        }
+        .exp7-metric-row {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+        .exp7-metric {
+            flex: 1;
+            min-width: 120px;
+            background: #f8fafc;
+            border: 1px solid #edf2f7;
+            border-radius: 12px;
+            padding: 12px 14px;
+        }
+        .exp7-metric-label {
+            font-size: 12px;
+            color: #64748b;
+            margin-bottom: 4px;
+        }
+        .exp7-metric-value {
+            font-size: 20px;
+            font-weight: 800;
+            color: #111827;
+        }
+        .exp7-delta {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 150px;
+        }
+        .exp7-delta-box {
+            background: #f0fdf4;
+            border: 1px solid #ccefd8;
+            border-radius: 16px;
+            padding: 16px 14px;
+            text-align: center;
+            box-shadow: 0 6px 18px rgba(34,197,94,0.08);
+        }
+        .exp7-delta-main {
+            font-size: 14px;
+            color: #15803d;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+        .exp7-delta-sub {
+            font-size: 13px;
+            color: #166534;
+            line-height: 1.7;
+        }
+        .exp7-mech-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 18px;
+            margin: 18px 0 24px;
+        }
+        .exp7-path-card {
+            background: #ffffff;
+            border: 1px solid #e8edf3;
+            border-radius: 16px;
+            padding: 20px;
+            box-shadow: 0 8px 22px rgba(0,0,0,0.045);
+        }
+        .exp7-path-card.native {
+            border-left: 5px solid #60a5fa;
+        }
+        .exp7-path-card.graph {
+            border-left: 5px solid #34d399;
+        }
+        .exp7-path-title {
+            font-size: 17px;
+            font-weight: 800;
+            color: #1f2937;
+            margin-bottom: 10px;
+        }
+        .exp7-path-summary {
+            font-size: 14px;
+            color: #475569;
+            line-height: 1.8;
+            margin-bottom: 14px;
+        }
+        .exp7-step-list {
+            display: grid;
+            gap: 12px;
+        }
+        .exp7-step {
+            background: #f8fafc;
+            border: 1px solid #edf2f7;
+            border-radius: 12px;
+            padding: 14px 14px 14px 46px;
+            position: relative;
+            line-height: 1.75;
+            color: #334155;
+            font-size: 14px;
+        }
+        .exp7-step-no {
+            position: absolute;
+            left: 12px;
+            top: 13px;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: #dbeafe;
+            color: #2563eb;
+            font-size: 12px;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .exp7-step.graph-step .exp7-step-no {
+            background: #dcfce7;
+            color: #15803d;
+        }
+        .exp7-conclusion {
+            background: linear-gradient(135deg, #f8fafc 0%, #f6fffb 100%);
+            border: 1px solid #e2efe8;
+            border-radius: 16px;
+            padding: 20px;
+            margin-top: 14px;
+        }
+        .exp7-conclusion-title {
+            font-size: 16px;
+            font-weight: 800;
+            color: #1f2937;
+            margin-bottom: 12px;
+        }
+        .exp7-conclusion-list {
+            display: grid;
+            gap: 10px;
+        }
+        .exp7-conclusion-item {
+            background: rgba(255,255,255,0.78);
+            border: 1px solid #ecf2f5;
+            border-radius: 12px;
+            padding: 14px 16px;
+            font-size: 14px;
+            line-height: 1.8;
+            color: #334155;
+        }
+        .experiment-subtitle {
+            font-size: 15px;
+            color: #495057;
+            margin: 12px 0 20px;
+            padding-left: 10px;
+            border-left: 4px solid #3b82f6;
+        }
+        @media (max-width: 860px) {
+            .exp7-grid,
+            .exp7-mech-grid,
+            .exp7-results {
+                grid-template-columns: 1fr;
+            }
+            .exp7-delta {
+                min-width: auto;
+            }
+        }
+
+        code {
+            font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+            background: #f3f4f6;
+            color: #c7254e;
+            padding: 2px 6px;
+            border-radius: 6px;
+            font-size: 0.95em;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+
+<h1>课题二：企业级长程协作 Memory 系统</h1>
+
+<h2>一、课题定位</h2>
+<p>面向企业跨部门、跨周期协作中智能体"<strong>记不住、接不上、说不清</strong>"的核心瓶颈，依托飞书 OpenClaw、飞书 CLI 及大模型能力，构建具备<strong>持续接入、统一建模、可信恢复</strong>三大核心能力的企业级长程协作 Memory 系统。</p>
+<p>系统的差异化定位在于：从"<strong>记忆片段召回</strong>"升级为"<strong>协作状态维护</strong>"——使智能体不仅能够"记住信息"，更能够<strong>维护状态、恢复过程、解释结论</strong>，支撑跨会话、跨文档、跨工具、跨工作状态条件下的连续协作。</p>
+
+<hr>
+
+<h2>二、现有基础与关键不足</h2>
+<p>OpenClaw 已具备 transcript、daily/long-term memory、Active Memory、memory flush、dreaming 等机制；memory-wiki、memory-lancedb-pro 等扩展进一步增强了记忆抽取、结构化整理与长期召回能力。但面向企业级长程协作需求，现有体系仍停留在"<strong>抽取—召回—注入</strong>"范式，三项关键能力缺位：</p>
+
+<table class="table-1">
+    <thead>
+        <tr>
+            <th>#</th>
+            <th>现有能力</th>
+            <th>所擅长的</th>
+            <th>关键短板</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td class="col-id">1</td>
+            <td class="col-name">memory-core</td>
+            <td>跨轮次上下文恢复</td>
+            <td>缺少面向协作流程的<span class="highlight">强结构化状态建模</span>，任务阶段、责任人、阻塞点、审批状态、下一步动作等业务字段无统一显式模型</td>
+        </tr>
+        <tr>
+            <td class="col-id">2</td>
+            <td class="col-name">memory-wiki</td>
+            <td>claim-evidence 型知识沉淀</td>
+            <td>偏<span class="highlight">知识层</span>组织，回答"哪些事实成立"；不适合作为回答"谁负责、卡在哪、下一步做什么"的<span class="highlight">主工作状态层</span></td>
+        </tr>
+        <tr>
+            <td class="col-id">3</td>
+            <td class="col-name">memory-lancedb-pro</td>
+            <td>长期记忆分层存储与择优召回</td>
+            <td>本质为 memory items 的事后注入，难以保证系统中存在一份<span class="highlight">持续更新、字段明确、可直接查询</span>的当前状态对象</td>
+        </tr>
+    </tbody>
+</table>
+
+<div class="summary-box">
+<strong>小结</strong>：现有能力是本课题的重要底座，但不足以直接支撑企业长程协作对<strong>连续状态管理、过程可追溯、结论可解释</strong>的刚性要求。
+</div>
+
+<hr>
+
+<h2>三、核心难点</h2>
+
+<p><strong>难点一 · 多源协作信息持续接入难</strong><br>
+信息分散在会话、文档、工具调用、审批、项目管理、代码平台等多类载体,且状态持续变化。传统单轮抽取或事后汇总难以及时捕获负责人变更、审批推进、阻塞出现与解除、下一步切换等关键信号,导致<strong>信息遗漏、状态滞后、协作断层</strong>。</p>
+
+<p><strong>难点二 · 工作状态统一建模难</strong><br>
+企业协作既要记录"<strong>发生过什么</strong>",又要维护"<strong>当前是什么状态</strong>",还要刻画"<strong>对象之间是什么关系</strong>"。通用记忆方案多停留在事实召回层,难以形成面向任务、项目、审批、会议、文档等对象的统一状态底座。</p>
+
+<p><strong>难点三 · 协作结论可信恢复难</strong><br>
+企业场景要求回答五要素——<strong>谁负责 / 何时改 / 为何改 / 当前状态 / 证据来源</strong>。仅依赖相关片段召回,易出现结论分散、冲突难解释、主结论不突出、证据链断裂,难以满足可解释性与责任可追踪要求。</p>
+
+<hr>
+
+<h2>四、总体技术思路</h2>
+<p>构建"<strong>采集—沉淀—恢复</strong>"三层一体的企业级长程协作 Memory 技术体系,形成完整闭环:</p>
+
+<!-- 横向流程图 -->
+<div class="flow-container">
+    <div class="node node-input">
+        <div class="node-title">多源协作信号</div>
+        <div class="node-sub">会话/文档/工具/审批</div>
+    </div>
+
+    <div class="arrow"><div class="arrow-icon">➔</div></div>
+
+    <div class="node node-step">
+        <div class="node-title"><span class="step-num">①</span> 统一采集更新</div>
+        <div class="node-sub">持续进入</div>
+    </div>
+
+    <div class="arrow"><div class="arrow-icon">➔</div></div>
+
+    <div class="node node-step">
+        <div class="node-title"><span class="step-num">②</span> 状态图谱建模</div>
+        <div class="node-sub">统一沉淀</div>
+    </div>
+
+    <div class="arrow"><div class="arrow-icon">➔</div></div>
+
+    <div class="node node-step">
+        <div class="node-title"><span class="step-num">③</span> 证据链条恢复</div>
+        <div class="node-sub">可解释输出</div>
+    </div>
+
+    <div class="arrow"><div class="arrow-icon">➔</div></div>
+
+    <div class="node node-output">
+        <div class="node-title">可信协作结论</div>
+    </div>
+</div>
+
+<p>三层协同,实现从"<strong>召回若干记忆片段</strong>"到"<strong>维护一份持续更新的协作状态并基于证据链输出可信结论</strong>"的范式跃迁。</p>
+
+<h2>总体架构图</h2>
+
+<!-- 架构图 -->
+<div class="arch2-container">
+    <div class="arch2-source-header">多源协作信号</div>
+    <div class="arch2-sources-box">
+        <div class="arch2-sources-row">
+            <div class="arch2-source-tag">🎙️ 会话</div>
+            <div class="arch2-source-tag">📄 文档</div>
+            <div class="arch2-source-tag">🛠️ 工具调用</div>
+            <div class="arch2-source-tag">📝 审批系统</div>
+            <div class="arch2-source-tag">📅 项目管理</div>
+            <div class="arch2-source-tag">💻 代码平台</div>
+        </div>
+    </div>
+
+    <div class="arch2-connector">
+        <div class="arch2-connector-line"></div>
+        <div class="arch2-connector-badge">①</div>
+        <div class="arch2-connector-arrow"></div>
+    </div>
+
+    <div class="arch2-layer-box arch2-layer-1">
+        <div class="arch2-layer-title">① 统一采集更新层</div>
+        <div class="arch2-layer-subtitle">协作变化如何持续、稳定、不遗漏进入系统</div>
+        <div class="arch2-cards-grid">
+            <div class="arch2-card">
+                <div class="arch2-card-main">增量检测</div>
+                <div class="arch2-card-desc">变化感知</div>
+            </div>
+            <div class="arch2-card">
+                <div class="arch2-card-main">批量抽取</div>
+                <div class="arch2-card-desc">结构化提取</div>
+            </div>
+            <div class="arch2-card">
+                <div class="arch2-card-main">事务一致性写入</div>
+                <div class="arch2-card-desc">可靠落盘</div>
+            </div>
+            <div class="arch2-card">
+                <div class="arch2-card-main">可恢复更新</div>
+                <div class="arch2-card-desc">失败重放</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="arch2-connector">
+        <div class="arch2-connector-line"></div>
+        <div class="arch2-connector-badge">②</div>
+        <div class="arch2-connector-arrow"></div>
+    </div>
+
+    <div class="arch2-layer-box arch2-layer-2">
+        <div class="arch2-layer-title">② 状态图谱建模层</div>
+        <div class="arch2-layer-subtitle">事件—状态—关系三位一体，沉淀统一协作状态</div>
+        <div class="arch2-cards-grid">
+            <div class="arch2-card">
+                <div class="arch2-card-main">事件账本</div>
+                <div class="arch2-card-desc">过程可追溯</div>
+            </div>
+            <div class="arch2-card">
+                <div class="arch2-card-main">状态视图</div>
+                <div class="arch2-card-desc">当前可查询</div>
+            </div>
+            <div class="arch2-card">
+                <div class="arch2-card-main">知识图谱</div>
+                <div class="arch2-card-desc">关系可关联</div>
+            </div>
+        </div>
+        <div class="arch2-authoritative-bar">
+            <span class="arch2-auth-title">权威状态层</span>
+            <span class="arch2-auth-text">任务阶段 · 责任人 · 阻塞点 · 审批状态 · 下一步动作</span>
+        </div>
+    </div>
+
+    <div class="arch2-connector">
+        <div class="arch2-connector-line"></div>
+        <div class="arch2-connector-badge">③</div>
+        <div class="arch2-connector-arrow"></div>
+    </div>
+
+    <div class="arch2-layer-box arch2-layer-3">
+        <div class="arch2-layer-title">③ 证据链条恢复层</div>
+        <div class="arch2-layer-subtitle">规划式召回，按问题类型链条化组织证据</div>
+        <div class="arch2-cards-grid">
+            <div class="arch2-card">
+                <div class="arch2-card-main">状态查询</div>
+                <div class="arch2-card-desc">当前是什么</div>
+            </div>
+            <div class="arch2-card">
+                <div class="arch2-card-main">列表查询</div>
+                <div class="arch2-card-desc">符合条件集合</div>
+            </div>
+            <div class="arch2-card">
+                <div class="arch2-card-main">时间线查询</div>
+                <div class="arch2-card-desc">如何演进</div>
+            </div>
+            <div class="arch2-card">
+                <div class="arch2-card-main">阻塞原因查询</div>
+                <div class="arch2-card-desc">为何卡住</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="arch2-connector">
+        <div class="arch2-connector-line"></div>
+        <div class="arch2-connector-arrow"></div>
+    </div>
+
+    <div class="arch2-output-box">
+        <div class="arch2-output-title">可信协作结论</div>
+        <div class="arch2-output-details">
+            <span class="arch2-output-chip">谁负责</span>
+            <span class="arch2-output-chip">何时改</span>
+            <span class="arch2-output-chip">为何改</span>
+            <span class="arch2-output-chip">当前状态</span>
+            <span class="arch2-output-chip">证据来源</span>
+        </div>
+    </div>
+</div>
+
+<hr>
+
+<h2>五、三项核心技术</h2>
+
+<h3>技术点① 多源协作信息统一采集与增量更新技术</h3>
+<p><strong>所解决问题</strong>：协作变化如何持续、稳定、不遗漏地进入系统。</p>
+<p><strong>技术内核</strong>：以会话、工具结果、文档变化及外部系统信号为统一输入,构建"<strong>增量检测 → 批量抽取 → 事务一致性写入 → 可恢复更新</strong>"四步闭环。核心不在被动保存信息,而在<strong>持续感知"哪里发生了变化"</strong>,并将变化可靠纳入统一记忆链路。</p>
+<p><strong>关键创新</strong>：面向协作变化的事件化采集机制、跨源信号的时间一致性对齐、写入失败可回溯重放。</p>
+
+<hr>
+
+<h3>技术点② 工作状态图谱一体化建模技术</h3>
+<p><strong>所解决问题</strong>：进入系统的信息如何沉淀为统一、可查询、可更新的协作状态。</p>
+<p><strong>技术内核</strong>：构建"<strong>事件账本 + 状态视图 + 知识图谱</strong>"三位一体的建模结构:</p>
+<ul>
+<li><strong>事件账本</strong>——记录所有过程性变化,保证<strong>可追溯</strong>;</li>
+<li><strong>状态视图</strong>——维护每个协作对象的当前主状态,保证<strong>可查询</strong>;</li>
+<li><strong>知识图谱</strong>——组织对象间关系(任务—责任人—项目—审批—文档),保证<strong>可关联</strong>。</li>
+</ul>
+<p>在此之上构建<strong>面向工作流的权威状态层</strong>,对任务阶段、责任人、阻塞点、审批状态、下一步动作等关键槽位进行统一沉淀。</p>
+<p><strong>关键创新</strong>：</p>
+<ul>
+<li>相比 memory-wiki 的 claim-evidence schema,提出面向协作流程的<strong>状态-事件-关系三元结构</strong>;</li>
+<li>相比 memory-lancedb-pro 的 item 择优召回,形成<strong>持续更新的"当前唯一真相"</strong>。</li>
+</ul>
+
+<hr>
+
+<h3>技术点③ 证据组织与链条化恢复技术</h3>
+<p><strong>所解决问题</strong>：沉淀后的状态如何恢复为可解释、可验证的协作结论。</p>
+<p><strong>技术内核</strong>：按问题类型构建规划式召回机制——<strong>状态查询 / 列表查询 / 时间线查询 / 阻塞原因查询</strong>——将图谱关系、状态视图、历史事件按问题需要<strong>分组、排序、链条化组织</strong>,并显式保留<strong>冲突证据、新鲜度信息、支撑依据</strong>。</p>
+<p><strong>关键创新</strong>：从"<strong>相关片段召回</strong>"升级为"<strong>结构化证据链输出</strong>",系统默认回答五要素(谁/何时/为何/当前/来源),冲突证据显式呈现而非被覆盖。</p>
+
+<hr>
+
+<h3>三项技术的逻辑闭环</h3>
+
+<table class="table-2">
+    <thead>
+        <tr>
+            <th>层次</th>
+            <th>解决问题</th>
+            <th>核心输出</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td class="col-level">① 采集层</td>
+            <td>协作变化如何持续进入系统</td>
+            <td><span class="highlight-text">稳定、连续、不中断</span>的增量信号流</td>
+        </tr>
+        <tr>
+            <td class="col-level">② 图谱层</td>
+            <td>信息如何沉淀为统一工作状态</td>
+            <td><span class="highlight-text">可查询、可追溯</span>的协作状态底座</td>
+        </tr>
+        <tr>
+            <td class="col-level">③ 恢复层</td>
+            <td>状态如何恢复为可信结论</td>
+            <td><span class="highlight-text">结构化、可解释、可验证</span>的结论输出</td>
+        </tr>
+    </tbody>
+</table>
+
+<p>三者协同后,系统具备从<strong>多源信号接入 → 状态统一沉淀 → 证据化恢复输出</strong>的全流程能力,支撑企业跨部门、跨会话、跨文档、跨工具、跨工作状态的连续协作 Memory 引擎建设。</p>
+
+<hr>
+
+<h2>六、预期创新点</h2>
+<ol>
+<li><strong>范式创新</strong>：从 memory 召回范式迈向<strong>协作状态维护范式</strong>,填补现有智能体记忆体系在企业长程协作场景的空白。</li>
+<li><strong>建模创新</strong>：提出<strong>事件-状态-关系三位一体</strong>的协作状态建模结构,替代单一的 claim-evidence 知识 schema。</li>
+<li><strong>恢复创新</strong>：提出<strong>五要素证据链</strong>恢复机制,显式处理冲突证据与新鲜度,使协作结论具备业务级可解释性与可追溯性。</li>
+<li><strong>工程价值</strong>：为飞书生态提供面向跨部门、跨会话、跨文档、跨工具场景的<strong>企业级长程协作 Memory 引擎底座</strong>。</li>
+</ol>
+
+<h2>七、初步实验验证（前期基础）</h2>
+<div class="exp7-intro">
+    为验证本课题“<strong>状态图谱建模 + 证据链条恢复</strong>”方案相对于传统“记忆片段召回”范式的实际效果，项目组已在 <strong>LoCoMo 长程对话记忆基准</strong>上完成对照实验，初步证实技术路线的可行性与有效性。
+</div>
+
+<h3>7.1 实验设置</h3>
+<div class="experiment-subtitle">
+    基准：LoCoMo（跨 Session 长程对话记忆任务，国际主流长程记忆评测集）
+</div>
+
+<div class="exp7-grid">
+    <div class="exp7-card">
+        <div class="exp7-card-title">实验样本</div>
+        <p><code>conv-30-mini-open-date-q0</code></p>
+        <p>该样本特意保留<strong>冲突性时间证据</strong>：早期 Session 多次出现“<strong>正在筹备在线服装店</strong>”的活动性陈述，后期 Session 出现一次明确的“<strong>店铺已开业</strong>”状态声明。</p>
+    </div>
+    <div class="exp7-card">
+        <div class="exp7-card-title">对照方案</div>
+        <span class="exp7-badge native">Native</span>
+        <p>沿用现有“抽取—召回—注入”范式（基线）</p>
+        <span class="exp7-badge graph">Graph</span>
+        <p>本课题“状态图谱 + 证据链条恢复”方案</p>
+    </div>
+    <div class="exp7-card">
+        <div class="exp7-card-title">评价指标</div>
+        <ul>
+            <li><strong>F1</strong>：答案正确性</li>
+            <li><strong>Latency</strong>：端到端延时</li>
+        </ul>
+        <p>该样本对应的是企业协作中最典型的“<strong>过程状态 vs 关键事件</strong>”冲突场景。</p>
+    </div>
+</div>
+
+<h3>7.2 实验结果</h3>
+<div class="exp7-results">
+    <div class="exp7-result-card native">
+        <div class="exp7-result-title">Native 基线</div>
+        <div class="exp7-result-date">2023-02-01</div>
+        <div class="exp7-result-desc">锚定早期活动性提及</div>
+        <div class="exp7-metric-row">
+            <div class="exp7-metric">
+                <div class="exp7-metric-label">F1</div>
+                <div class="exp7-metric-value">0.50</div>
+            </div>
+            <div class="exp7-metric">
+                <div class="exp7-metric-label">Latency</div>
+                <div class="exp7-metric-value">13,813 ms</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="exp7-delta">
+        <div class="exp7-delta-box">
+            <div class="exp7-delta-main">相对提升</div>
+            <div class="exp7-delta-sub">
+                F1：<strong>+0.30（+60%）</strong><br>
+                延时：<strong>−2,774 ms（−20.1%）</strong>
+            </div>
+        </div>
+    </div>
+
+    <div class="exp7-result-card graph">
+        <div class="exp7-result-title">Graph 方案（本课题）</div>
+        <div class="exp7-result-date">2023-02-16</div>
+        <div class="exp7-result-desc">识别显式“开业”事件</div>
+        <div class="exp7-metric-row">
+            <div class="exp7-metric">
+                <div class="exp7-metric-label">F1</div>
+                <div class="exp7-metric-value">0.80</div>
+            </div>
+            <div class="exp7-metric">
+                <div class="exp7-metric-label">Latency</div>
+                <div class="exp7-metric-value">11,039 ms</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<h3>7.3 机制分析</h3>
+<div class="exp7-mech-grid">
+    <div class="exp7-path-card native">
+        <div class="exp7-path-title">Native 失败路径</div>
+        <div class="exp7-path-summary">
+            Native 将记忆视为<strong>等权重片段集合</strong>，更容易被出现更早、出现更频繁的活动性陈述牵引，因此把“过程”误判成“最终事件”。
+        </div>
+        <div class="exp7-step-list">
+            <div class="exp7-step">
+                <span class="exp7-step-no">1</span>
+                召回阶段优先命中“筹备 / 准备 / 建设”等<strong>高频早期片段</strong>。
+            </div>
+            <div class="exp7-step">
+                <span class="exp7-step-no">2</span>
+                系统缺少对“同一对象状态跃迁”的显式建模，无法区分<strong>过程性活动</strong>与<strong>最终完成事件</strong>。
+            </div>
+            <div class="exp7-step">
+                <span class="exp7-step-no">3</span>
+                最终把结论锚定到<strong>早期错误日期</strong>，导致答案偏差。
+            </div>
+        </div>
+    </div>
+
+    <div class="exp7-path-card graph">
+        <div class="exp7-path-title">Graph 成功路径</div>
+        <div class="exp7-path-summary">
+            Graph 方案先维护“对象状态”，再按问题类型组织证据，因此能够从零散片段中恢复出<strong>最新、最关键、可追溯</strong>的状态结论。
+        </div>
+        <div class="exp7-step-list">
+            <div class="exp7-step graph-step">
+                <span class="exp7-step-no">1</span>
+                <strong>Layer 2 状态图谱</strong>将“店铺”作为统一协作对象，把“筹备中 → 已开业”识别为<strong>同一对象的状态跃迁</strong>。
+            </div>
+            <div class="exp7-step graph-step">
+                <span class="exp7-step-no">2</span>
+                <strong>Layer 3 证据链条恢复</strong>针对“开业日期”这一<strong>状态查询型问题</strong>，按“最新明确状态事件”原则规划召回，优先选取显式开业声明。
+            </div>
+            <div class="exp7-step graph-step">
+                <span class="exp7-step-no">3</span>
+                系统将该声明所在 Session 的<strong>时间戳显式纳入证据链</strong>，从而保证结论可解释、可追溯。
+            </div>
+        </div>
+    </div>
+</div>
+
+<h3>7.4 结论</h3>
+<div class="exp7-conclusion">
+    <div class="exp7-conclusion-title">本样本验证出的三项关键结论</div>
+    <div class="exp7-conclusion-list">
+        <div class="exp7-conclusion-item">
+            <strong>路线可行：</strong>状态图谱建模能够有效区分“活动”与“事件”，避免片段召回带来的早期锚定偏差。
+        </div>
+        <div class="exp7-conclusion-item">
+            <strong>效果显著：</strong>F1 提升 60%，说明从“召回”升级为“状态维护”是<strong>真实、可量化</strong>的精度来源。
+        </div>
+        <div class="exp7-conclusion-item">
+            <strong>性能友好：</strong>延时反降 20.1%，表明结构化召回并非以效率为代价，反而可因减少无关片段注入而加速推理。
+        </div>
+    </div>
+</div>
+
+<div class="summary-box">
+    <strong>阶段性结论</strong>:该对照实验为本课题技术路线提供了<strong>已验证的可行性证据</strong>。后续将扩展至完整 LoCoMo 基准、多跳推理子集以及企业真实场景(飞书跨部门协作、审批链恢复、项目阻塞追溯),对三项核心技术开展更大规模、多维度的系统评测。
+</div>
+
+</div>
+</body>
+</html>

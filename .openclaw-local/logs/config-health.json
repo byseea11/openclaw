@@ -1,0 +1,22 @@
+{
+  "entries": {
+    "/Users/byseea/programscoding/nanobot/openclaw-main/.openclaw-local/openclaw.json": {
+      "lastKnownGood": {
+        "hash": "c940bdad85f9dc4f823a24177cd450fbfd5bc8f9966e791c9b52f4e00032931a",
+        "bytes": 135,
+        "mtimeMs": 1777365890675.3643,
+        "ctimeMs": 1777365890675.3643,
+        "dev": "16777234",
+        "ino": "41870818",
+        "mode": 420,
+        "nlink": 1,
+        "uid": 501,
+        "gid": 20,
+        "hasMeta": false,
+        "gatewayMode": "local",
+        "observedAt": "2026-04-28T08:45:29.221Z"
+      },
+      "lastObservedSuspiciousSignature": null
+    }
+  }
+}

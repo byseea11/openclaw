@@ -1,0 +1,19 @@
+{
+  "case_id": "case_feishu_505124755_example",
+  "task_id": "FEISHU-505124755",
+  "title": "",
+  "company_type": "",
+  "department_hints": [
+    "产品",
+    "研发",
+    "测试",
+    "运维",
+    "安全"
+  ],
+  "scenario_profile": "enterprise_release_coordination",
+  "title_hint": "企业级版本发布协调流程，涉及多部门协作，需确保发布安全与效率",
+  "main_goal_hint": "设计并执行一次跨部门版本发布，协调产品、研发、测试、运维和安全团队，确保发布零事故",
+  "main_goal": "",
+  "difficulty": "hard",
+  "seed": 505124755
+}

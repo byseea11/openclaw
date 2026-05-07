@@ -1,0 +1,123 @@
+{
+  "case_id": "case_20260506213133524022_anti_interference",
+  "family_id": "anti_interference",
+  "task_id": "FEISHU-822",
+  "sessions": [
+    {
+      "session_id": "main_chat",
+      "session_type": "main_chat",
+      "title": "主群协调",
+      "session_purpose": "沉淀目标任务的主线协作信息和最终 current state。"
+    },
+    {
+      "session_id": "thread_docs",
+      "session_type": "chat",
+      "title": "thread_docs 会话",
+      "session_purpose": "承载目标任务相关的补充协作上下文。"
+    },
+    {
+      "session_id": "thread_infra",
+      "session_type": "chat",
+      "title": "thread_infra 会话",
+      "session_purpose": "承载目标任务相关的补充协作上下文。"
+    },
+    {
+      "session_id": "thread_customer",
+      "session_type": "chat",
+      "title": "thread_customer 会话",
+      "session_purpose": "承载目标任务相关的补充协作上下文。"
+    }
+  ],
+  "turns": [
+    {
+      "turn_id": "turn_001",
+      "beat_id": "beat_001",
+      "sequence_no": 1,
+      "session_id": "main_chat",
+      "speaker_actor_id": "alice",
+      "speaker": "Alice",
+      "planned_message_text": "FEISHU-201 当前由 Alice 负责收口，真正 blocker 还是支付风控回归没有完成。"
+    },
+    {
+      "turn_id": "turn_002",
+      "beat_id": "beat_002",
+      "sequence_no": 2,
+      "session_id": "main_chat",
+      "speaker_actor_id": "bob",
+      "speaker": "Bob",
+      "planned_message_text": "运维演练那边也卡在 blocker，但这是另外一条并行讨论，不是 FEISHU-201 的 owner 变更。"
+    },
+    {
+      "turn_id": "turn_003",
+      "beat_id": "beat_003",
+      "sequence_no": 3,
+      "session_id": "thread_docs",
+      "speaker_actor_id": "carol",
+      "speaker": "Carol",
+      "planned_message_text": "Alice 晚上还要审文档收口，不过那只是 reviewer 身份，不代表 FEISHU-201 再次换 owner。"
+    },
+    {
+      "turn_id": "turn_004",
+      "beat_id": "beat_004",
+      "sequence_no": 4,
+      "session_id": "main_chat",
+      "speaker_actor_id": "eve",
+      "speaker": "Eve",
+      "planned_message_text": "运维演练的 blocker 已经解决了，但这是演练的事，不是 FEISHU-201 的。"
+    },
+    {
+      "turn_id": "turn_005",
+      "beat_id": "beat_005",
+      "sequence_no": 5,
+      "session_id": "thread_infra",
+      "speaker_actor_id": "david",
+      "speaker": "David",
+      "planned_message_text": "基础设施升级的依赖还没有完全就绪，但那是独立的项目，不影响支付灰度。"
+    },
+    {
+      "turn_id": "turn_006",
+      "beat_id": "beat_006",
+      "sequence_no": 6,
+      "session_id": "thread_infra",
+      "speaker_actor_id": "frank",
+      "speaker": "Frank",
+      "planned_message_text": "安全审查通过了，不过这是针对基础设施升级的，与 FEISHU-201 无关。"
+    },
+    {
+      "turn_id": "turn_007",
+      "beat_id": "beat_007",
+      "sequence_no": 7,
+      "session_id": "thread_customer",
+      "speaker_actor_id": "heidi",
+      "speaker": "Heidi",
+      "planned_message_text": "客户案例的 blocker 已解决，但现在可以对外承诺了吗？这是客户问题，不是灰度。"
+    },
+    {
+      "turn_id": "turn_008",
+      "beat_id": "beat_008",
+      "sequence_no": 8,
+      "session_id": "thread_customer",
+      "speaker_actor_id": "grace",
+      "speaker": "Grace",
+      "planned_message_text": "合规要求已经满足，但客户案例与支付灰度无关。"
+    },
+    {
+      "turn_id": "turn_009",
+      "beat_id": "beat_009",
+      "sequence_no": 9,
+      "session_id": "main_chat",
+      "speaker_actor_id": "carol",
+      "speaker": "Carol",
+      "planned_message_text": "发布节奏同步会上提到的 window 是另一个项目的，FEISHU-201 的窗口还在待定。"
+    },
+    {
+      "turn_id": "turn_010",
+      "beat_id": "beat_010",
+      "sequence_no": 10,
+      "session_id": "main_chat",
+      "speaker_actor_id": "alice",
+      "speaker": "Alice",
+      "planned_message_text": "再次确认：FEISHU-201 的 owner 是我，blocker 是支付风控回归，这些信息不要和其他讨论混淆。"
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "phase": "phase1",
+  "stage": "state-trajectory",
+  "status": "completed",
+  "started_at": "2026-05-07T02:31:06.657816+00:00",
+  "ended_at": "2026-05-07T02:31:06.658675+00:00",
+  "artifact_paths": [
+    "amem_docs/ds/feishu_im_dataset_v3/batches/batch_20260507_023022390595/cases/case_20260507023022391249_anti_interference/input/state_trajectory.json"
+  ],
+  "skipped": false,
+  "run_id": "20260507T023106658707Z",
+  "updated_at": "2026-05-07T02:31:06.658718+00:00"
+}

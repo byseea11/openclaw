@@ -1,0 +1,5031 @@
+{
+  "case_id": "case_20260507021541740586_anti_interference",
+  "status": "success",
+  "operator_identity": "user",
+  "delivery_mode": "prefixed_single_operator",
+  "created_resources": {
+    "chat_main_chat": {
+      "chat_id": "oc_4ba07b81776be164bb8a648a9a1dd87b"
+    },
+    "chat_thread_doc_review": {
+      "chat_id": "oc_47595cbc19234e3a6b77d52e3b3f0800"
+    },
+    "chat_thread_ops_rehearsal": {
+      "chat_id": "oc_e068da7bff1881644c44c4894c2e3693"
+    },
+    "chat_thread_perf_testing": {
+      "chat_id": "oc_ad797bce84403a056a24d6b51ae05b83"
+    },
+    "chat_handoff_thread": {
+      "chat_id": "oc_7fba2c36d0be9fb60888dce3525851dd"
+    },
+    "chat_risk_review_thread": {
+      "chat_id": "oc_68da6c81126a41875fabdee119e399f2"
+    },
+    "chat_customer_sync_chat": {
+      "chat_id": "oc_e5a30161118ffb3d8e21aae14d95266f"
+    },
+    "chat_exec_sync_chat": {
+      "chat_id": "oc_92bad674727bb5b7230328711197105f"
+    },
+    "msg_turn_001": {
+      "message_id": "om_x100b508b25661840c3fe54463bcbefa",
+      "chat_id": "oc_4ba07b81776be164bb8a648a9a1dd87b"
+    },
+    "msg_turn_002": {
+      "message_id": "om_x100b508b2575d0ecc2ad8b22e05162b",
+      "chat_id": "oc_4ba07b81776be164bb8a648a9a1dd87b"
+    },
+    "msg_turn_003": {
+      "message_id": "om_x100b508b250bf944c4dac78ac27ff3a",
+      "chat_id": "oc_4ba07b81776be164bb8a648a9a1dd87b"
+    },
+    "msg_turn_004": {
+      "message_id": "om_x100b508b251fc0ecc360fd46608165e",
+      "chat_id": "oc_4ba07b81776be164bb8a648a9a1dd87b"
+    },
+    "msg_turn_005": {
+      "message_id": "om_x100b508b2513a898c2241ee23dac662",
+      "chat_id": "oc_4ba07b81776be164bb8a648a9a1dd87b"
+    },
+    "msg_turn_009": {
+      "message_id": "om_x100b508b252680b0c4f259560eac291",
+      "chat_id": "oc_4ba07b81776be164bb8a648a9a1dd87b"
+    },
+    "msg_turn_011": {
+      "message_id": "om_x100b508b2531dca4c35c6572c9e7da9",
+      "chat_id": "oc_4ba07b81776be164bb8a648a9a1dd87b"
+    },
+    "msg_turn_012": {
+      "message_id": "om_x100b508b22c13970c31b4fefc2db1c8",
+      "chat_id": "oc_4ba07b81776be164bb8a648a9a1dd87b"
+    },
+    "msg_turn_013": {
+      "message_id": "om_x100b508b22d6aca0c33d515b62b281e",
+      "chat_id": "oc_4ba07b81776be164bb8a648a9a1dd87b"
+    },
+    "msg_turn_014": {
+      "message_id": "om_x100b508b22e5d8a8c22e16541e5ae83",
+      "chat_id": "oc_4ba07b81776be164bb8a648a9a1dd87b"
+    },
+    "msg_turn_015": {
+      "message_id": "om_x100b508b22f8dc8cc325fdf1708de34",
+      "chat_id": "oc_4ba07b81776be164bb8a648a9a1dd87b"
+    },
+    "msg_turn_016": {
+      "message_id": "om_x100b508b22894498c3bc7918f12a555",
+      "chat_id": "oc_4ba07b81776be164bb8a648a9a1dd87b"
+    },
+    "msg_turn_017": {
+      "message_id": "om_x100b508b229ff484c2b72ab470adf32",
+      "chat_id": "oc_4ba07b81776be164bb8a648a9a1dd87b"
+    },
+    "msg_turn_018": {
+      "message_id": "om_x100b508b22acb8a8c3222f0bc1c7040",
+      "chat_id": "oc_4ba07b81776be164bb8a648a9a1dd87b"
+    },
+    "msg_turn_019": {
+      "message_id": "om_x100b508b22a384acc2159b70dfd0ab4",
+      "chat_id": "oc_4ba07b81776be164bb8a648a9a1dd87b"
+    },
+    "msg_turn_020": {
+      "message_id": "om_x100b508b22b434b0c10f5d4964975e4",
+      "chat_id": "oc_4ba07b81776be164bb8a648a9a1dd87b"
+    },
+    "msg_turn_021": {
+      "message_id": "om_x100b508b22481088c42df7a35fa4a94",
+      "chat_id": "oc_4ba07b81776be164bb8a648a9a1dd87b"
+    },
+    "msg_turn_022": {
+      "message_id": "om_x100b508b225f98b4c330c6868313d53",
+      "chat_id": "oc_4ba07b81776be164bb8a648a9a1dd87b"
+    },
+    "msg_turn_023": {
+      "message_id": "om_x100b508b225390b8c11f97e2f3a2fd2",
+      "chat_id": "oc_4ba07b81776be164bb8a648a9a1dd87b"
+    },
+    "msg_turn_026": {
+      "message_id": "om_x100b508b2267b8e8c3524c6c0480b75",
+      "chat_id": "oc_4ba07b81776be164bb8a648a9a1dd87b"
+    },
+    "msg_turn_027": {
+      "message_id": "om_x100b508b2277c480c338e8997cf3326",
+      "chat_id": "oc_4ba07b81776be164bb8a648a9a1dd87b"
+    },
+    "msg_turn_032": {
+      "message_id": "om_x100b508b220ad8a0c38ac55ecae98ec",
+      "chat_id": "oc_4ba07b81776be164bb8a648a9a1dd87b"
+    },
+    "msg_turn_033": {
+      "message_id": "om_x100b508b221f40acc14f9f8d6ab6596",
+      "chat_id": "oc_4ba07b81776be164bb8a648a9a1dd87b"
+    },
+    "msg_turn_034": {
+      "message_id": "om_x100b508b22133088c382623f7e1c85e",
+      "chat_id": "oc_4ba07b81776be164bb8a648a9a1dd87b"
+    },
+    "msg_turn_035": {
+      "message_id": "om_x100b508b222734a8c2e26e03737f550",
+      "chat_id": "oc_4ba07b81776be164bb8a648a9a1dd87b"
+    },
+    "msg_turn_039": {
+      "message_id": "om_x100b508b223ab4a8c3ddba286782e96",
+      "chat_id": "oc_4ba07b81776be164bb8a648a9a1dd87b"
+    },
+    "msg_turn_040": {
+      "message_id": "om_x100b508b23c6ac94c2d8c51cc726fcf",
+      "chat_id": "oc_4ba07b81776be164bb8a648a9a1dd87b"
+    },
+    "msg_turn_041": {
+      "message_id": "om_x100b508b23d470bcc32c0af514bc004",
+      "chat_id": "oc_4ba07b81776be164bb8a648a9a1dd87b"
+    },
+    "msg_turn_042": {
+      "message_id": "om_x100b508b23e510b4c3376ad77506246",
+      "chat_id": "oc_4ba07b81776be164bb8a648a9a1dd87b"
+    },
+    "msg_turn_049": {
+      "message_id": "om_x100b508b23fb2080c4371b123effe04",
+      "chat_id": "oc_4ba07b81776be164bb8a648a9a1dd87b"
+    },
+    "msg_turn_050": {
+      "message_id": "om_x100b508b238fc8a4c43db5d07a90e96",
+      "chat_id": "oc_4ba07b81776be164bb8a648a9a1dd87b"
+    },
+    "msg_turn_051": {
+      "message_id": "om_x100b508b2382ed04c313e5c56bf8d04",
+      "chat_id": "oc_4ba07b81776be164bb8a648a9a1dd87b"
+    },
+    "msg_turn_056": {
+      "message_id": "om_x100b508b2393bc8cc388b90a157a5a0",
+      "chat_id": "oc_4ba07b81776be164bb8a648a9a1dd87b"
+    },
+    "msg_turn_057": {
+      "message_id": "om_x100b508b23a0650cc3787fe65121d57",
+      "chat_id": "oc_4ba07b81776be164bb8a648a9a1dd87b"
+    },
+    "msg_turn_058": {
+      "message_id": "om_x100b508b23b3d088c4f775141a1bc89",
+      "chat_id": "oc_4ba07b81776be164bb8a648a9a1dd87b"
+    },
+    "msg_turn_059": {
+      "message_id": "om_x100b508b235fb480c357d5958aa2212",
+      "chat_id": "oc_4ba07b81776be164bb8a648a9a1dd87b"
+    },
+    "msg_turn_060": {
+      "message_id": "om_x100b508b235290f0c43f3e60a4606bb",
+      "chat_id": "oc_4ba07b81776be164bb8a648a9a1dd87b"
+    },
+    "msg_turn_063": {
+      "message_id": "om_x100b508b236778acc37ca25b033a829",
+      "chat_id": "oc_4ba07b81776be164bb8a648a9a1dd87b"
+    },
+    "msg_turn_064": {
+      "message_id": "om_x100b508b230c88a8c385d2f8bc68513",
+      "chat_id": "oc_4ba07b81776be164bb8a648a9a1dd87b"
+    },
+    "msg_turn_065": {
+      "message_id": "om_x100b508b230098a8c14c1874cabe32d",
+      "chat_id": "oc_4ba07b81776be164bb8a648a9a1dd87b"
+    },
+    "msg_turn_066": {
+      "message_id": "om_x100b508b231750bcc4c0073f2990845",
+      "chat_id": "oc_4ba07b81776be164bb8a648a9a1dd87b"
+    },
+    "msg_turn_067": {
+      "message_id": "om_x100b508b232b18e0c3813ac82bc6878",
+      "chat_id": "oc_4ba07b81776be164bb8a648a9a1dd87b"
+    },
+    "msg_turn_068": {
+      "message_id": "om_x100b508b233ee8a0c3bc50a9098c551",
+      "chat_id": "oc_4ba07b81776be164bb8a648a9a1dd87b"
+    },
+    "msg_turn_071": {
+      "message_id": "om_x100b508b20ccd4b0c3772c944d9bdcf",
+      "chat_id": "oc_4ba07b81776be164bb8a648a9a1dd87b"
+    },
+    "msg_turn_072": {
+      "message_id": "om_x100b508b20c14964c4da998cf4e5d35",
+      "chat_id": "oc_4ba07b81776be164bb8a648a9a1dd87b"
+    },
+    "msg_turn_073": {
+      "message_id": "om_x100b508b20d0148cc4ae6b46d0d631d",
+      "chat_id": "oc_4ba07b81776be164bb8a648a9a1dd87b"
+    },
+    "msg_turn_074": {
+      "message_id": "om_x100b508b20e60c80c4ecd02e42a7282",
+      "chat_id": "oc_4ba07b81776be164bb8a648a9a1dd87b"
+    },
+    "msg_turn_077": {
+      "message_id": "om_x100b508b20f56884c4cc8bdb5287d80",
+      "chat_id": "oc_4ba07b81776be164bb8a648a9a1dd87b"
+    },
+    "msg_turn_078": {
+      "message_id": "om_x100b508b208b8884c364986828252c9",
+      "chat_id": "oc_4ba07b81776be164bb8a648a9a1dd87b"
+    },
+    "msg_turn_079": {
+      "message_id": "om_x100b508b209f48a8c11174860c18f5e",
+      "chat_id": "oc_4ba07b81776be164bb8a648a9a1dd87b"
+    },
+    "msg_turn_080": {
+      "message_id": "om_x100b508b209390acc43a09f32b176ca",
+      "chat_id": "oc_4ba07b81776be164bb8a648a9a1dd87b"
+    },
+    "msg_turn_006": {
+      "message_id": "om_x100b508b20a694a4c3ad70c5d390a75",
+      "chat_id": "oc_47595cbc19234e3a6b77d52e3b3f0800"
+    },
+    "msg_turn_007": {
+      "message_id": "om_x100b508b20b6dca4c3585a419a80892",
+      "chat_id": "oc_47595cbc19234e3a6b77d52e3b3f0800"
+    },
+    "msg_turn_043": {
+      "message_id": "om_x100b508b2040d4bcc3f492983ced5f0",
+      "chat_id": "oc_47595cbc19234e3a6b77d52e3b3f0800"
+    },
+    "msg_turn_044": {
+      "message_id": "om_x100b508b2057cbd4c317c60c38eb2b5",
+      "chat_id": "oc_47595cbc19234e3a6b77d52e3b3f0800"
+    },
+    "msg_turn_008": {
+      "message_id": "om_x100b508b206b0c98c2d1fd32006857b",
+      "chat_id": "oc_e068da7bff1881644c44c4894c2e3693"
+    },
+    "msg_turn_045": {
+      "message_id": "om_x100b508b207fe4acc49047523b29292",
+      "chat_id": "oc_e068da7bff1881644c44c4894c2e3693"
+    },
+    "msg_turn_046": {
+      "message_id": "om_x100b508b20728898c4f3f6797a4b3c6",
+      "chat_id": "oc_e068da7bff1881644c44c4894c2e3693"
+    },
+    "msg_turn_010": {
+      "message_id": "om_x100b508b200344a8c4d180fad2b29e0",
+      "chat_id": "oc_ad797bce84403a056a24d6b51ae05b83"
+    },
+    "msg_turn_047": {
+      "message_id": "om_x100b508b2010fcb8c2aa221ed0d0385",
+      "chat_id": "oc_ad797bce84403a056a24d6b51ae05b83"
+    },
+    "msg_turn_048": {
+      "message_id": "om_x100b508b2026b8acc218471d61c911d",
+      "chat_id": "oc_ad797bce84403a056a24d6b51ae05b83"
+    },
+    "thread_root_handoff_thread": {
+      "message_id": "om_x100b508b203ae884c4c763b7a04277a",
+      "chat_id": "oc_7fba2c36d0be9fb60888dce3525851dd"
+    },
+    "thread_root_risk_review_thread": {
+      "message_id": "om_x100b508b21c50978c4f4809ae79d5df",
+      "chat_id": "oc_68da6c81126a41875fabdee119e399f2"
+    },
+    "msg_turn_028": {
+      "message_id": "om_x100b508b21dacc88c3908addaac5a74",
+      "chat_id": "oc_e5a30161118ffb3d8e21aae14d95266f"
+    },
+    "msg_turn_029": {
+      "message_id": "om_x100b508b21e8c4d4c38949790bf483b",
+      "chat_id": "oc_e5a30161118ffb3d8e21aae14d95266f"
+    },
+    "msg_turn_052": {
+      "message_id": "om_x100b508b21fef4a4c35087deeda396d",
+      "chat_id": "oc_e5a30161118ffb3d8e21aae14d95266f"
+    },
+    "msg_turn_053": {
+      "message_id": "om_x100b508b21f2b088c3b58466c97d994",
+      "chat_id": "oc_e5a30161118ffb3d8e21aae14d95266f"
+    },
+    "msg_turn_075": {
+      "message_id": "om_x100b508b2199d29cc33b1e70f193cf2",
+      "chat_id": "oc_e5a30161118ffb3d8e21aae14d95266f"
+    },
+    "msg_turn_076": {
+      "message_id": "om_x100b508b21ad00acc10833828b0ca63",
+      "chat_id": "oc_e5a30161118ffb3d8e21aae14d95266f"
+    },
+    "msg_turn_036": {
+      "message_id": "om_x100b508b21a090b0c14a9d97278820e",
+      "chat_id": "oc_92bad674727bb5b7230328711197105f"
+    },
+    "msg_turn_037": {
+      "message_id": "om_x100b508b21b410a8c2295ce8dc3d024",
+      "chat_id": "oc_92bad674727bb5b7230328711197105f"
+    },
+    "msg_turn_038": {
+      "message_id": "om_x100b508b214ae0a8c49fadd660a1fe5",
+      "chat_id": "oc_92bad674727bb5b7230328711197105f"
+    },
+    "msg_turn_061": {
+      "message_id": "om_x100b508b2158f8a8c370b87264ed88f",
+      "chat_id": "oc_92bad674727bb5b7230328711197105f"
+    },
+    "msg_turn_062": {
+      "message_id": "om_x100b508b216f9ce0c4484d502fff484",
+      "chat_id": "oc_92bad674727bb5b7230328711197105f"
+    },
+    "msg_turn_024": {
+      "message_id": "om_x100b508b213f988cc2b07f1227ecda5",
+      "thread_id": "om_x100b508b213f988cc2b07f1227ecda5",
+      "chat_id": "oc_7fba2c36d0be9fb60888dce3525851dd"
+    },
+    "msg_turn_025": {
+      "message_id": "om_x100b508b3ecd04bcc2150db07852e84",
+      "thread_id": "om_x100b508b3ecd04bcc2150db07852e84",
+      "chat_id": "oc_7fba2c36d0be9fb60888dce3525851dd"
+    },
+    "msg_turn_069": {
+      "message_id": "om_x100b508b3ec16c88c321f5ecfaad287",
+      "thread_id": "om_x100b508b3ec16c88c321f5ecfaad287",
+      "chat_id": "oc_7fba2c36d0be9fb60888dce3525851dd"
+    },
+    "msg_turn_070": {
+      "message_id": "om_x100b508b3ed1eca4c4f0488c0855c5a",
+      "thread_id": "om_x100b508b3ed1eca4c4f0488c0855c5a",
+      "chat_id": "oc_7fba2c36d0be9fb60888dce3525851dd"
+    },
+    "msg_turn_030": {
+      "message_id": "om_x100b508b3ee678b8c49baec79c964b1",
+      "thread_id": "om_x100b508b3ee678b8c49baec79c964b1",
+      "chat_id": "oc_68da6c81126a41875fabdee119e399f2"
+    },
+    "msg_turn_031": {
+      "message_id": "om_x100b508b3e8de0b4c2a3d38744cd995",
+      "thread_id": "om_x100b508b3e8de0b4c2a3d38744cd995",
+      "chat_id": "oc_68da6c81126a41875fabdee119e399f2"
+    },
+    "msg_turn_054": {
+      "message_id": "om_x100b508b3e82cc80c4dda5f8eb7ba1e",
+      "thread_id": "om_x100b508b3e82cc80c4dda5f8eb7ba1e",
+      "chat_id": "oc_68da6c81126a41875fabdee119e399f2"
+    },
+    "msg_turn_055": {
+      "message_id": "om_x100b508b3e910084c4fad71397e78a9",
+      "thread_id": "om_x100b508b3e910084c4fad71397e78a9",
+      "chat_id": "oc_68da6c81126a41875fabdee119e399f2"
+    }
+  },
+  "thread_id_to_chat_id": {
+    "om_x100b508b213f988cc2b07f1227ecda5": "oc_7fba2c36d0be9fb60888dce3525851dd",
+    "om_x100b508b3ecd04bcc2150db07852e84": "oc_7fba2c36d0be9fb60888dce3525851dd",
+    "om_x100b508b3ec16c88c321f5ecfaad287": "oc_7fba2c36d0be9fb60888dce3525851dd",
+    "om_x100b508b3ed1eca4c4f0488c0855c5a": "oc_7fba2c36d0be9fb60888dce3525851dd",
+    "om_x100b508b3ee678b8c49baec79c964b1": "oc_68da6c81126a41875fabdee119e399f2",
+    "om_x100b508b3e8de0b4c2a3d38744cd995": "oc_68da6c81126a41875fabdee119e399f2",
+    "om_x100b508b3e82cc80c4dda5f8eb7ba1e": "oc_68da6c81126a41875fabdee119e399f2",
+    "om_x100b508b3e910084c4fad71397e78a9": "oc_68da6c81126a41875fabdee119e399f2"
+  },
+  "action_status": [
+    {
+      "action_id": "step_001",
+      "status": "success",
+      "command": [
+        "lark-cli",
+        "im",
+        "+chat-create",
+        "--name",
+        "主群协调",
+        "--as",
+        "user"
+      ],
+      "stdout": {
+        "ok": true,
+        "identity": "user",
+        "data": {
+          "chat_id": "oc_4ba07b81776be164bb8a648a9a1dd87b",
+          "chat_type": "private",
+          "external": false,
+          "name": "主群协调",
+          "owner_id": "ou_7488779f2769b648358fca04a3e1919f",
+          "share_link": "https://applink.feishu.cn/client/chat/chatter/add_by_link?link_token=80eu4abd-c8e7-4872-9ca1-262274ee683f"
+        },
+        "_notice": {
+          "update": {
+            "current": "1.0.19",
+            "latest": "1.0.24",
+            "message": "lark-cli 1.0.24 available, current 1.0.19"
+          }
+        }
+      },
+      "stderr": "",
+      "returncode": 0
+    },
+    {
+      "action_id": "step_002",
+      "status": "success",
+      "command": [
+        "lark-cli",
+        "im",
+        "+chat-create",
+        "--name",
+        "thread_doc_review 会话",
+        "--as",
+        "user"
+      ],
+      "stdout": {
+        "ok": true,
+        "identity": "user",
+        "data": {
+          "chat_id": "oc_47595cbc19234e3a6b77d52e3b3f0800",
+          "chat_type": "private",
+          "external": false,
+          "name": "thread_doc_review 会话",
+          "owner_id": "ou_7488779f2769b648358fca04a3e1919f",
+          "share_link": "https://applink.feishu.cn/client/chat/chatter/add_by_link?link_token=122i68bf-afdc-4402-a004-b7a63e8703f9"
+        },
+        "_notice": {
+          "update": {
+            "current": "1.0.19",
+            "latest": "1.0.24",
+            "message": "lark-cli 1.0.24 available, current 1.0.19"
+          }
+        }
+      },
+      "stderr": "",
+      "returncode": 0
+    },
+    {
+      "action_id": "step_003",
+      "status": "success",
+      "command": [
+        "lark-cli",
+        "im",
+        "+chat-create",
+        "--name",
+        "thread_ops_rehearsal 会话",
+        "--as",
+        "user"
+      ],
+      "stdout": {
+        "ok": true,
+        "identity": "user",
+        "data": {
+          "chat_id": "oc_e068da7bff1881644c44c4894c2e3693",
+          "chat_type": "private",
+          "external": false,
+          "name": "thread_ops_rehearsal 会话",
+          "owner_id": "ou_7488779f2769b648358fca04a3e1919f",
+          "share_link": "https://applink.feishu.cn/client/chat/chatter/add_by_link?link_token=9d4p44db-dd4c-475b-b423-302d02a6b1cf"
+        },
+        "_notice": {
+          "update": {
+            "current": "1.0.19",
+            "latest": "1.0.24",
+            "message": "lark-cli 1.0.24 available, current 1.0.19"
+          }
+        }
+      },
+      "stderr": "",
+      "returncode": 0
+    },
+    {
+      "action_id": "step_004",
+      "status": "success",
+      "command": [
+        "lark-cli",
+        "im",
+        "+chat-create",
+        "--name",
+        "thread_perf_testing 会话",
+        "--as",
+        "user"
+      ],
+      "stdout": {
+        "ok": true,
+        "identity": "user",
+        "data": {
+          "chat_id": "oc_ad797bce84403a056a24d6b51ae05b83",
+          "chat_type": "private",
+          "external": false,
+          "name": "thread_perf_testing 会话",
+          "owner_id": "ou_7488779f2769b648358fca04a3e1919f",
+          "share_link": "https://applink.feishu.cn/client/chat/chatter/add_by_link?link_token=d3ap1a82-40f5-462d-81de-768f72fe3b07"
+        },
+        "_notice": {
+          "update": {
+            "current": "1.0.19",
+            "latest": "1.0.24",
+            "message": "lark-cli 1.0.24 available, current 1.0.19"
+          }
+        }
+      },
+      "stderr": "",
+      "returncode": 0
+    },
+    {
+      "action_id": "step_005",
+      "status": "success",
+      "command": [
+        "lark-cli",
+        "im",
+        "+chat-create",
+        "--name",
+        "交接修正线程",
+        "--as",
+        "user"
+      ],
+      "stdout": {
+        "ok": true,
+        "identity": "user",
+        "data": {
+          "chat_id": "oc_7fba2c36d0be9fb60888dce3525851dd",
+          "chat_type": "private",
+          "external": false,
+          "name": "交接修正线程",
+          "owner_id": "ou_7488779f2769b648358fca04a3e1919f",
+          "share_link": "https://applink.feishu.cn/client/chat/chatter/add_by_link?link_token=48cqe9ad-91e6-4ff9-bb31-b210291f70f3"
+        },
+        "_notice": {
+          "update": {
+            "current": "1.0.19",
+            "latest": "1.0.24",
+            "message": "lark-cli 1.0.24 available, current 1.0.19"
+          }
+        }
+      },
+      "stderr": "",
+      "returncode": 0
+    },
+    {
+      "action_id": "step_006",
+      "status": "success",
+      "command": [
+        "lark-cli",
+        "im",
+        "+chat-create",
+        "--name",
+        "风险复核线程",
+        "--as",
+        "user"
+      ],
+      "stdout": {
+        "ok": true,
+        "identity": "user",
+        "data": {
+          "chat_id": "oc_68da6c81126a41875fabdee119e399f2",
+          "chat_type": "private",
+          "external": false,
+          "name": "风险复核线程",
+          "owner_id": "ou_7488779f2769b648358fca04a3e1919f",
+          "share_link": "https://applink.feishu.cn/client/chat/chatter/add_by_link?link_token=11es3318-4b5b-483e-b6b7-606847b77474"
+        },
+        "_notice": {
+          "update": {
+            "current": "1.0.19",
+            "latest": "1.0.24",
+            "message": "lark-cli 1.0.24 available, current 1.0.19"
+          }
+        }
+      },
+      "stderr": "",
+      "returncode": 0
+    },
+    {
+      "action_id": "step_007",
+      "status": "success",
+      "command": [
+        "lark-cli",
+        "im",
+        "+chat-create",
+        "--name",
+        "客户同步侧群",
+        "--as",
+        "user"
+      ],
+      "stdout": {
+        "ok": true,
+        "identity": "user",
+        "data": {
+          "chat_id": "oc_e5a30161118ffb3d8e21aae14d95266f",
+          "chat_type": "private",
+          "external": false,
+          "name": "客户同步侧群",
+          "owner_id": "ou_7488779f2769b648358fca04a3e1919f",
+          "share_link": "https://applink.feishu.cn/client/chat/chatter/add_by_link?link_token=f63tfbbd-d5d9-4e9a-aa29-9a6061c04e88"
+        },
+        "_notice": {
+          "update": {
+            "current": "1.0.19",
+            "latest": "1.0.24",
+            "message": "lark-cli 1.0.24 available, current 1.0.19"
+          }
+        }
+      },
+      "stderr": "",
+      "returncode": 0
+    },
+    {
+      "action_id": "step_008",
+      "status": "success",
+      "command": [
+        "lark-cli",
+        "im",
+        "+chat-create",
+        "--name",
+        "管理层同步侧群",
+        "--as",
+        "user"
+      ],
+      "stdout": {
+        "ok": true,
+        "identity": "user",
+        "data": {
+          "chat_id": "oc_92bad674727bb5b7230328711197105f",
+          "chat_type": "private",
+          "external": false,
+          "name": "管理层同步侧群",
+          "owner_id": "ou_7488779f2769b648358fca04a3e1919f",
+          "share_link": "https://applink.feishu.cn/client/chat/chatter/add_by_link?link_token=a4eid6b6-d937-49f6-9354-5a5611f74764"
+        },
+        "_notice": {
+          "update": {
+            "current": "1.0.19",
+            "latest": "1.0.24",
+            "message": "lark-cli 1.0.24 available, current 1.0.19"
+          }
+        }
+      },
+      "stderr": "",
+      "returncode": 0
+    },
+    {
+      "action_id": "step_011",
+      "status": "success",
+      "command": [
+        "lark-cli",
+        "im",
+        "+messages-send",
+        "--chat-id",
+        "oc_4ba07b81776be164bb8a648a9a1dd87b",
+        "--text",
+        "【项目管理/林晨】大家好，FEISHU-686 我接手了，当前 blocker 是内部文档API认证流程修改",
+        "--as",
+        "user"
+      ],
+      "stdout": {
+        "ok": true,
+        "identity": "user",
+        "data": {
+          "chat_id": "oc_4ba07b81776be164bb8a648a9a1dd87b",
+          "create_time": "2026-05-07 10:19:38",
+          "message_id": "om_x100b508b25661840c3fe54463bcbefa"
+        },
+        "_notice": {
+          "update": {
+            "current": "1.0.19",
+            "latest": "1.0.24",
+            "message": "lark-cli 1.0.24 available, current 1.0.19"
+          }
+        }
+      },
+      "stderr": "",
+      "returncode": 0
+    },
+    {
+      "action_id": "step_012",
+      "status": "success",
+      "command": [
+        "lark-cli",
+        "im",
+        "+messages-send",
+        "--chat-id",
+        "oc_4ba07b81776be164bb8a648a9a1dd87b",
+        "--text",
+        "【研发平台/周宇】收到 Alice，我这边已经在对接认证团队，窗口暂时还没锁定",
+        "--as",
+        "user"
+      ],
+      "stdout": {
+        "ok": true,
+        "identity": "user",
+        "data": {
+          "chat_id": "oc_4ba07b81776be164bb8a648a9a1dd87b",
+          "create_time": "2026-05-07 10:19:39",
+          "message_id": "om_x100b508b2575d0ecc2ad8b22e05162b"
+        },
+        "_notice": {
+          "update": {
+            "current": "1.0.19",
+            "latest": "1.0.24",
+            "message": "lark-cli 1.0.24 available, current 1.0.19"
+          }
+        }
+      },
+      "stderr": "",
+      "returncode": 0
+    },
+    {
+      "action_id": "step_013",
+      "status": "success",
+      "command": [
+        "lark-cli",
+        "im",
+        "+messages-send",
+        "--chat-id",
+        "oc_4ba07b81776be164bb8a648a9a1dd87b",
+        "--text",
+        "【质量保障/陈雪】我看了 draft，认证流程改动部分还需要补充测试用例，预计下周可以完成 review",
+        "--as",
+        "user"
+      ],
+      "stdout": {
+        "ok": true,
+        "identity": "user",
+        "data": {
+          "chat_id": "oc_4ba07b81776be164bb8a648a9a1dd87b",
+          "create_time": "2026-05-07 10:19:40",
+          "message_id": "om_x100b508b250bf944c4dac78ac27ff3a"
+        },
+        "_notice": {
+          "update": {
+            "current": "1.0.19",
+            "latest": "1.0.24",
+            "message": "lark-cli 1.0.24 available, current 1.0.19"
+          }
+        }
+      },
+      "stderr": "",
+      "returncode": 0
+    },
+    {
+      "action_id": "step_014",
+      "status": "success",
+      "command": [
+        "lark-cli",
+        "im",
+        "+messages-send",
+        "--chat-id",
+        "oc_4ba07b81776be164bb8a648a9a1dd87b",
+        "--text",
+        "【研发平台/王源】基础设施方面我已经预配了新的 API 网关，认证改动后可以直接部署",
+        "--as",
+        "user"
+      ],
+      "stdout": {
+        "ok": true,
+        "identity": "user",
+        "data": {
+          "chat_id": "oc_4ba07b81776be164bb8a648a9a1dd87b",
+          "create_time": "2026-05-07 10:19:41",
+          "message_id": "om_x100b508b251fc0ecc360fd46608165e"
+        },
+        "_notice": {
+          "update": {
+            "current": "1.0.19",
+            "latest": "1.0.24",
+            "message": "lark-cli 1.0.24 available, current 1.0.19"
+          }
+        }
+      },
+      "stderr": "",
+      "returncode": 0
+    },
+    {
+      "action_id": "step_015",
+      "status": "success",
+      "command": [
+        "lark-cli",
+        "im",
+        "+messages-send",
+        "--chat-id",
+        "oc_4ba07b81776be164bb8a648a9a1dd87b",
+        "--text",
+        "【项目管理/林晨】注意，这个任务是 FEISHU-686，与之前的文档审阅收口（FEISHU-686）是分开的",
+        "--as",
+        "user"
+      ],
+      "stdout": {
+        "ok": true,
+        "identity": "user",
+        "data": {
+          "chat_id": "oc_4ba07b81776be164bb8a648a9a1dd87b",
+          "create_time": "2026-05-07 10:19:42",
+          "message_id": "om_x100b508b2513a898c2241ee23dac662"
+        },
+        "_notice": {
+          "update": {
+            "current": "1.0.19",
+            "latest": "1.0.24",
+            "message": "lark-cli 1.0.24 available, current 1.0.19"
+          }
+        }
+      },
+      "stderr": "",
+      "returncode": 0
+    },
+    {
+      "action_id": "step_019",
+      "status": "success",
+      "command": [
+        "lark-cli",
+        "im",
+        "+messages-send",
+        "--chat-id",
+        "oc_4ba07b81776be164bb8a648a9a1dd87b",
+        "--text",
+        "【质量保障/陈雪】FEISHU-686 迁移窗口改成下周一，负责人改为 David",
+        "--as",
+        "user"
+      ],
+      "stdout": {
+        "ok": true,
+        "identity": "user",
+        "data": {
+          "chat_id": "oc_4ba07b81776be164bb8a648a9a1dd87b",
+          "create_time": "2026-05-07 10:19:42",
+          "message_id": "om_x100b508b252680b0c4f259560eac291"
+        },
+        "_notice": {
+          "update": {
+            "current": "1.0.19",
+            "latest": "1.0.24",
+            "message": "lark-cli 1.0.24 available, current 1.0.19"
+          }
+        }
+      },
+      "stderr": "",
+      "returncode": 0
+    },
+    {
+      "action_id": "step_021",
+      "status": "success",
+      "command": [
+        "lark-cli",
+        "im",
+        "+messages-send",
+        "--chat-id",
+        "oc_4ba07b81776be164bb8a648a9a1dd87b",
+        "--text",
+        "【项目管理/林晨】再同步一下：FEISHU-686 我还是 owner，blocker 没变，窗口仍在等安全评审",
+        "--as",
+        "user"
+      ],
+      "stdout": {
+        "ok": true,
+        "identity": "user",
+        "data": {
+          "chat_id": "oc_4ba07b81776be164bb8a648a9a1dd87b",
+          "create_time": "2026-05-07 10:19:44",
+          "message_id": "om_x100b508b2531dca4c35c6572c9e7da9"
+        },
+        "_notice": {
+          "update": {
+            "current": "1.0.19",
+            "latest": "1.0.24",
+            "message": "lark-cli 1.0.24 available, current 1.0.19"
+          }
+        }
+      },
+      "stderr": "",
+      "returncode": 0
+    },
+    {
+      "action_id": "step_022",
+      "status": "success",
+      "command": [
+        "lark-cli",
+        "im",
+        "+messages-send",
+        "--chat-id",
+        "oc_4ba07b81776be164bb8a648a9a1dd87b",
+        "--text",
+        "【研发平台/秦怡】后端认证模块改动已准备就绪，安全评审通过就能合入",
+        "--as",
+        "user"
+      ],
+      "stdout": {
+        "ok": true,
+        "identity": "user",
+        "data": {
+          "chat_id": "oc_4ba07b81776be164bb8a648a9a1dd87b",
+          "create_time": "2026-05-07 10:19:44",
+          "message_id": "om_x100b508b22c13970c31b4fefc2db1c8"
+        },
+        "_notice": {
+          "update": {
+            "current": "1.0.19",
+            "latest": "1.0.24",
+            "message": "lark-cli 1.0.24 available, current 1.0.19"
+          }
+        }
+      },
+      "stderr": "",
+      "returncode": 0
+    },
+    {
+      "action_id": "step_023",
+      "status": "success",
+      "command": [
+        "lark-cli",
+        "im",
+        "+messages-send",
+        "--chat-id",
+        "oc_4ba07b81776be164bb8a648a9a1dd87b",
+        "--text",
+        "【研发平台/罗天】前端侧已做兼容测试，API 变更后直接对接",
+        "--as",
+        "user"
+      ],
+      "stdout": {
+        "ok": true,
+        "identity": "user",
+        "data": {
+          "chat_id": "oc_4ba07b81776be164bb8a648a9a1dd87b",
+          "create_time": "2026-05-07 10:19:45",
+          "message_id": "om_x100b508b22d6aca0c33d515b62b281e"
+        },
+        "_notice": {
+          "update": {
+            "current": "1.0.19",
+            "latest": "1.0.24",
+            "message": "lark-cli 1.0.24 available, current 1.0.19"
+          }
+        }
+      },
+      "stderr": "",
+      "returncode": 0
+    },
+    {
+      "action_id": "step_024",
+      "status": "success",
+      "command": [
+        "lark-cli",
+        "im",
+        "+messages-send",
+        "--chat-id",
+        "oc_4ba07b81776be164bb8a648a9a1dd87b",
+        "--text",
+        "【研发平台/苏禾】Infra 全部已做预配置，可随时上线",
+        "--as",
+        "user"
+      ],
+      "stdout": {
+        "ok": true,
+        "identity": "user",
+        "data": {
+          "chat_id": "oc_4ba07b81776be164bb8a648a9a1dd87b",
+          "create_time": "2026-05-07 10:19:46",
+          "message_id": "om_x100b508b22e5d8a8c22e16541e5ae83"
+        },
+        "_notice": {
+          "update": {
+            "current": "1.0.19",
+            "latest": "1.0.24",
+            "message": "lark-cli 1.0.24 available, current 1.0.19"
+          }
+        }
+      },
+      "stderr": "",
+      "returncode": 0
+    },
+    {
+      "action_id": "step_025",
+      "status": "success",
+      "command": [
+        "lark-cli",
+        "im",
+        "+messages-send",
+        "--chat-id",
+        "oc_4ba07b81776be164bb8a648a9a1dd87b",
+        "--text",
+        "【研发平台/许薇】这是 API 认证流程调用频率数据，安全评审可能需要参考",
+        "--as",
+        "user"
+      ],
+      "stdout": {
+        "ok": true,
+        "identity": "user",
+        "data": {
+          "chat_id": "oc_4ba07b81776be164bb8a648a9a1dd87b",
+          "create_time": "2026-05-07 10:19:47",
+          "message_id": "om_x100b508b22f8dc8cc325fdf1708de34"
+        },
+        "_notice": {
+          "update": {
+            "current": "1.0.19",
+            "latest": "1.0.24",
+            "message": "lark-cli 1.0.24 available, current 1.0.19"
+          }
+        }
+      },
+      "stderr": "",
+      "returncode": 0
+    },
+    {
+      "action_id": "step_026",
+      "status": "success",
+      "command": [
+        "lark-cli",
+        "im",
+        "+messages-send",
+        "--chat-id",
+        "oc_4ba07b81776be164bb8a648a9a1dd87b",
+        "--text",
+        "【研发平台/高骏】用户反馈认证流程有时超时，这次改动正好能解决",
+        "--as",
+        "user"
+      ],
+      "stdout": {
+        "ok": true,
+        "identity": "user",
+        "data": {
+          "chat_id": "oc_4ba07b81776be164bb8a648a9a1dd87b",
+          "create_time": "2026-05-07 10:19:48",
+          "message_id": "om_x100b508b22894498c3bc7918f12a555"
+        },
+        "_notice": {
+          "update": {
+            "current": "1.0.19",
+            "latest": "1.0.24",
+            "message": "lark-cli 1.0.24 available, current 1.0.19"
+          }
+        }
+      },
+      "stderr": "",
+      "returncode": 0
+    },
+    {
+      "action_id": "step_027",
+      "status": "success",
+      "command": [
+        "lark-cli",
+        "im",
+        "+messages-send",
+        "--chat-id",
+        "oc_4ba07b81776be164bb8a648a9a1dd87b",
+        "--text",
+        "【企业协作/赵敏】FEISHU-686 的收口时间大概能确定吗？",
+        "--as",
+        "user"
+      ],
+      "stdout": {
+        "ok": true,
+        "identity": "user",
+        "data": {
+          "chat_id": "oc_4ba07b81776be164bb8a648a9a1dd87b",
+          "create_time": "2026-05-07 10:19:49",
+          "message_id": "om_x100b508b229ff484c2b72ab470adf32"
+        },
+        "_notice": {
+          "update": {
+            "current": "1.0.19",
+            "latest": "1.0.24",
+            "message": "lark-cli 1.0.24 available, current 1.0.19"
+          }
+        }
+      },
+      "stderr": "",
+      "returncode": 0
+    },
+    {
+      "action_id": "step_028",
+      "status": "success",
+      "command": [
+        "lark-cli",
+        "im",
+        "+messages-send",
+        "--chat-id",
+        "oc_4ba07b81776be164bb8a648a9a1dd87b",
+        "--text",
+        "【项目管理/林晨】等安全评审通过窗口锁定后才行，目前暂不能承诺",
+        "--as",
+        "user"
+      ],
+      "stdout": {
+        "ok": true,
+        "identity": "user",
+        "data": {
+          "chat_id": "oc_4ba07b81776be164bb8a648a9a1dd87b",
+          "create_time": "2026-05-07 10:19:50",
+          "message_id": "om_x100b508b22acb8a8c3222f0bc1c7040"
+        },
+        "_notice": {
+          "update": {
+            "current": "1.0.19",
+            "latest": "1.0.24",
+            "message": "lark-cli 1.0.24 available, current 1.0.19"
+          }
+        }
+      },
+      "stderr": "",
+      "returncode": 0
+    },
+    {
+      "action_id": "step_029",
+      "status": "success",
+      "command": [
+        "lark-cli",
+        "im",
+        "+messages-send",
+        "--chat-id",
+        "oc_4ba07b81776be164bb8a648a9a1dd87b",
+        "--text",
+        "【研发平台/高骏】当前只有 API 认证流程这一个 blocker 吗？",
+        "--as",
+        "user"
+      ],
+      "stdout": {
+        "ok": true,
+        "identity": "user",
+        "data": {
+          "chat_id": "oc_4ba07b81776be164bb8a648a9a1dd87b",
+          "create_time": "2026-05-07 10:19:50",
+          "message_id": "om_x100b508b22a384acc2159b70dfd0ab4"
+        },
+        "_notice": {
+          "update": {
+            "current": "1.0.19",
+            "latest": "1.0.24",
+            "message": "lark-cli 1.0.24 available, current 1.0.19"
+          }
+        }
+      },
+      "stderr": "",
+      "returncode": 0
+    },
+    {
+      "action_id": "step_030",
+      "status": "success",
+      "command": [
+        "lark-cli",
+        "im",
+        "+messages-send",
+        "--chat-id",
+        "oc_4ba07b81776be164bb8a648a9a1dd87b",
+        "--text",
+        "【项目管理/林晨】对，只有这一个，其他都就绪了",
+        "--as",
+        "user"
+      ],
+      "stdout": {
+        "ok": true,
+        "identity": "user",
+        "data": {
+          "chat_id": "oc_4ba07b81776be164bb8a648a9a1dd87b",
+          "create_time": "2026-05-07 10:19:51",
+          "message_id": "om_x100b508b22b434b0c10f5d4964975e4"
+        },
+        "_notice": {
+          "update": {
+            "current": "1.0.19",
+            "latest": "1.0.24",
+            "message": "lark-cli 1.0.24 available, current 1.0.19"
+          }
+        }
+      },
+      "stderr": "",
+      "returncode": 0
+    },
+    {
+      "action_id": "step_031",
+      "status": "success",
+      "command": [
+        "lark-cli",
+        "im",
+        "+messages-send",
+        "--chat-id",
+        "oc_4ba07b81776be164bb8a648a9a1dd87b",
+        "--text",
+        "【知识管理/何然】我把 FEISHU-686 的文档模板准备好了，需要补充什么？",
+        "--as",
+        "user"
+      ],
+      "stdout": {
+        "ok": true,
+        "identity": "user",
+        "data": {
+          "chat_id": "oc_4ba07b81776be164bb8a648a9a1dd87b",
+          "create_time": "2026-05-07 10:19:52",
+          "message_id": "om_x100b508b22481088c42df7a35fa4a94"
+        },
+        "_notice": {
+          "update": {
+            "current": "1.0.19",
+            "latest": "1.0.24",
+            "message": "lark-cli 1.0.24 available, current 1.0.19"
+          }
+        }
+      },
+      "stderr": "",
+      "returncode": 0
+    },
+    {
+      "action_id": "step_032",
+      "status": "success",
+      "command": [
+        "lark-cli",
+        "im",
+        "+messages-send",
+        "--chat-id",
+        "oc_4ba07b81776be164bb8a648a9a1dd87b",
+        "--text",
+        "【项目管理/林晨】先放基础架构部分，等认证部分通过后补上",
+        "--as",
+        "user"
+      ],
+      "stdout": {
+        "ok": true,
+        "identity": "user",
+        "data": {
+          "chat_id": "oc_4ba07b81776be164bb8a648a9a1dd87b",
+          "create_time": "2026-05-07 10:19:53",
+          "message_id": "om_x100b508b225f98b4c330c6868313d53"
+        },
+        "_notice": {
+          "update": {
+            "current": "1.0.19",
+            "latest": "1.0.24",
+            "message": "lark-cli 1.0.24 available, current 1.0.19"
+          }
+        }
+      },
+      "stderr": "",
+      "returncode": 0
+    },
+    {
+      "action_id": "step_033",
+      "status": "success",
+      "command": [
+        "lark-cli",
+        "im",
+        "+messages-send",
+        "--chat-id",
+        "oc_4ba07b81776be164bb8a648a9a1dd87b",
+        "--text",
+        "【研发平台/周宇】认证团队那边下周一才有空，我会跟催",
+        "--as",
+        "user"
+      ],
+      "stdout": {
+        "ok": true,
+        "identity": "user",
+        "data": {
+          "chat_id": "oc_4ba07b81776be164bb8a648a9a1dd87b",
+          "create_time": "2026-05-07 10:19:53",
+          "message_id": "om_x100b508b225390b8c11f97e2f3a2fd2"
+        },
+        "_notice": {
+          "update": {
+            "current": "1.0.19",
+            "latest": "1.0.24",
+            "message": "lark-cli 1.0.24 available, current 1.0.19"
+          }
+        }
+      },
+      "stderr": "",
+      "returncode": 0
+    },
+    {
+      "action_id": "step_036",
+      "status": "success",
+      "command": [
+        "lark-cli",
+        "im",
+        "+messages-send",
+        "--chat-id",
+        "oc_4ba07b81776be164bb8a648a9a1dd87b",
+        "--text",
+        "【研发平台/唐越】安全评审计划下周三进行，需要提前准备什么？",
+        "--as",
+        "user"
+      ],
+      "stdout": {
+        "ok": true,
+        "identity": "user",
+        "data": {
+          "chat_id": "oc_4ba07b81776be164bb8a648a9a1dd87b",
+          "create_time": "2026-05-07 10:19:54",
+          "message_id": "om_x100b508b2267b8e8c3524c6c0480b75"
+        },
+        "_notice": {
+          "update": {
+            "current": "1.0.19",
+            "latest": "1.0.24",
+            "message": "lark-cli 1.0.24 available, current 1.0.19"
+          }
+        }
+      },
+      "stderr": "",
+      "returncode": 0
+    },
+    {
+      "action_id": "step_037",
+      "status": "success",
+      "command": [
+        "lark-cli",
+        "im",
+        "+messages-send",
+        "--chat-id",
+        "oc_4ba07b81776be164bb8a648a9a1dd87b",
+        "--text",
+        "【项目管理/林晨】把认证流程文档和测试报告提交到评审系统",
+        "--as",
+        "user"
+      ],
+      "stdout": {
+        "ok": true,
+        "identity": "user",
+        "data": {
+          "chat_id": "oc_4ba07b81776be164bb8a648a9a1dd87b",
+          "create_time": "2026-05-07 10:19:55",
+          "message_id": "om_x100b508b2277c480c338e8997cf3326"
+        },
+        "_notice": {
+          "update": {
+            "current": "1.0.19",
+            "latest": "1.0.24",
+            "message": "lark-cli 1.0.24 available, current 1.0.19"
+          }
+        }
+      },
+      "stderr": "",
+      "returncode": 0
+    },
+    {
+      "action_id": "step_042",
+      "status": "success",
+      "command": [
+        "lark-cli",
+        "im",
+        "+messages-send",
+        "--chat-id",
+        "oc_4ba07b81776be164bb8a648a9a1dd87b",
+        "--text",
+        "【企业协作/沈嘉】需要我帮忙拉通团队吗？认证流程有点慢",
+        "--as",
+        "user"
+      ],
+      "stdout": {
+        "ok": true,
+        "identity": "user",
+        "data": {
+          "chat_id": "oc_4ba07b81776be164bb8a648a9a1dd87b",
+          "create_time": "2026-05-07 10:19:56",
+          "message_id": "om_x100b508b220ad8a0c38ac55ecae98ec"
+        },
+        "_notice": {
+          "update": {
+            "current": "1.0.19",
+            "latest": "1.0.24",
+            "message": "lark-cli 1.0.24 available, current 1.0.19"
+          }
+        }
+      },
+      "stderr": "",
+      "returncode": 0
+    },
+    {
+      "action_id": "step_043",
+      "status": "success",
+      "command": [
+        "lark-cli",
+        "im",
+        "+messages-send",
+        "--chat-id",
+        "oc_4ba07b81776be164bb8a648a9a1dd87b",
+        "--text",
+        "【项目管理/林晨】先不用，Bob 已经在跟了，有需要再找你",
+        "--as",
+        "user"
+      ],
+      "stdout": {
+        "ok": true,
+        "identity": "user",
+        "data": {
+          "chat_id": "oc_4ba07b81776be164bb8a648a9a1dd87b",
+          "create_time": "2026-05-07 10:19:57",
+          "message_id": "om_x100b508b221f40acc14f9f8d6ab6596"
+        },
+        "_notice": {
+          "update": {
+            "current": "1.0.19",
+            "latest": "1.0.24",
+            "message": "lark-cli 1.0.24 available, current 1.0.19"
+          }
+        }
+      },
+      "stderr": "",
+      "returncode": 0
+    },
+    {
+      "action_id": "step_044",
+      "status": "success",
+      "command": [
+        "lark-cli",
+        "im",
+        "+messages-send",
+        "--chat-id",
+        "oc_4ba07b81776be164bb8a648a9a1dd87b",
+        "--text",
+        "【项目管理/梁昕】我帮你排个周会，周五同步一下各模块进展",
+        "--as",
+        "user"
+      ],
+      "stdout": {
+        "ok": true,
+        "identity": "user",
+        "data": {
+          "chat_id": "oc_4ba07b81776be164bb8a648a9a1dd87b",
+          "create_time": "2026-05-07 10:19:58",
+          "message_id": "om_x100b508b22133088c382623f7e1c85e"
+        },
+        "_notice": {
+          "update": {
+            "current": "1.0.19",
+            "latest": "1.0.24",
+            "message": "lark-cli 1.0.24 available, current 1.0.19"
+          }
+        }
+      },
+      "stderr": "",
+      "returncode": 0
+    },
+    {
+      "action_id": "step_045",
+      "status": "success",
+      "command": [
+        "lark-cli",
+        "im",
+        "+messages-send",
+        "--chat-id",
+        "oc_4ba07b81776be164bb8a648a9a1dd87b",
+        "--text",
+        "【项目管理/林晨】好，周五下午三点，我发会议邀请",
+        "--as",
+        "user"
+      ],
+      "stdout": {
+        "ok": true,
+        "identity": "user",
+        "data": {
+          "chat_id": "oc_4ba07b81776be164bb8a648a9a1dd87b",
+          "create_time": "2026-05-07 10:19:58",
+          "message_id": "om_x100b508b222734a8c2e26e03737f550"
+        },
+        "_notice": {
+          "update": {
+            "current": "1.0.19",
+            "latest": "1.0.24",
+            "message": "lark-cli 1.0.24 available, current 1.0.19"
+          }
+        }
+      },
+      "stderr": "",
+      "returncode": 0
+    },
+    {
+      "action_id": "step_049",
+      "status": "success",
+      "command": [
+        "lark-cli",
+        "im",
+        "+messages-send",
+        "--chat-id",
+        "oc_4ba07b81776be164bb8a648a9a1dd87b",
+        "--text",
+        "【企业协作/赵敏】API 网关配置我已经检查过，可以上线时直接使用",
+        "--as",
+        "user"
+      ],
+      "stdout": {
+        "ok": true,
+        "identity": "user",
+        "data": {
+          "chat_id": "oc_4ba07b81776be164bb8a648a9a1dd87b",
+          "create_time": "2026-05-07 10:19:59",
+          "message_id": "om_x100b508b223ab4a8c3ddba286782e96"
+        },
+        "_notice": {
+          "update": {
+            "current": "1.0.19",
+            "latest": "1.0.24",
+            "message": "lark-cli 1.0.24 available, current 1.0.19"
+          }
+        }
+      },
+      "stderr": "",
+      "returncode": 0
+    },
+    {
+      "action_id": "step_050",
+      "status": "success",
+      "command": [
+        "lark-cli",
+        "im",
+        "+messages-send",
+        "--chat-id",
+        "oc_4ba07b81776be164bb8a648a9a1dd87b",
+        "--text",
+        "【项目管理/林晨】好，维持现状，大家继续推进各自部分",
+        "--as",
+        "user"
+      ],
+      "stdout": {
+        "ok": true,
+        "identity": "user",
+        "data": {
+          "chat_id": "oc_4ba07b81776be164bb8a648a9a1dd87b",
+          "create_time": "2026-05-07 10:20:00",
+          "message_id": "om_x100b508b23c6ac94c2d8c51cc726fcf"
+        },
+        "_notice": {
+          "update": {
+            "current": "1.0.19",
+            "latest": "1.0.24",
+            "message": "lark-cli 1.0.24 available, current 1.0.19"
+          }
+        }
+      },
+      "stderr": "",
+      "returncode": 0
+    },
+    {
+      "action_id": "step_051",
+      "status": "success",
+      "command": [
+        "lark-cli",
+        "im",
+        "+messages-send",
+        "--chat-id",
+        "oc_4ba07b81776be164bb8a648a9a1dd87b",
+        "--text",
+        "【组织发展/梁昕】跨部门协调需要我帮忙说一下吗？",
+        "--as",
+        "user"
+      ],
+      "stdout": {
+        "ok": true,
+        "identity": "user",
+        "data": {
+          "chat_id": "oc_4ba07b81776be164bb8a648a9a1dd87b",
+          "create_time": "2026-05-07 10:20:01",
+          "message_id": "om_x100b508b23d470bcc32c0af514bc004"
+        },
+        "_notice": {
+          "update": {
+            "current": "1.0.19",
+            "latest": "1.0.24",
+            "message": "lark-cli 1.0.24 available, current 1.0.19"
+          }
+        }
+      },
+      "stderr": "",
+      "returncode": 0
+    },
+    {
+      "action_id": "step_052",
+      "status": "success",
+      "command": [
+        "lark-cli",
+        "im",
+        "+messages-send",
+        "--chat-id",
+        "oc_4ba07b81776be164bb8a648a9a1dd87b",
+        "--text",
+        "【项目管理/林晨】暂时不用，有问题我找你说",
+        "--as",
+        "user"
+      ],
+      "stdout": {
+        "ok": true,
+        "identity": "user",
+        "data": {
+          "chat_id": "oc_4ba07b81776be164bb8a648a9a1dd87b",
+          "create_time": "2026-05-07 10:20:02",
+          "message_id": "om_x100b508b23e510b4c3376ad77506246"
+        },
+        "_notice": {
+          "update": {
+            "current": "1.0.19",
+            "latest": "1.0.24",
+            "message": "lark-cli 1.0.24 available, current 1.0.19"
+          }
+        }
+      },
+      "stderr": "",
+      "returncode": 0
+    },
+    {
+      "action_id": "step_059",
+      "status": "success",
+      "command": [
+        "lark-cli",
+        "im",
+        "+messages-send",
+        "--chat-id",
+        "oc_4ba07b81776be164bb8a648a9a1dd87b",
+        "--text",
+        "【项目管理/林晨】FEISHU-686 各模块就绪，只差安全评审一步",
+        "--as",
+        "user"
+      ],
+      "stdout": {
+        "ok": true,
+        "identity": "user",
+        "data": {
+          "chat_id": "oc_4ba07b81776be164bb8a648a9a1dd87b",
+          "create_time": "2026-05-07 10:20:03",
+          "message_id": "om_x100b508b23fb2080c4371b123effe04"
+        },
+        "_notice": {
+          "update": {
+            "current": "1.0.19",
+            "latest": "1.0.24",
+            "message": "lark-cli 1.0.24 available, current 1.0.19"
+          }
+        }
+      },
+      "stderr": "",
+      "returncode": 0
+    },
+    {
+      "action_id": "step_060",
+      "status": "success",
+      "command": [
+        "lark-cli",
+        "im",
+        "+messages-send",
+        "--chat-id",
+        "oc_4ba07b81776be164bb8a648a9a1dd87b",
+        "--text",
+        "【质量保障/陈雪】测试用例我已经补完了，等下上传",
+        "--as",
+        "user"
+      ],
+      "stdout": {
+        "ok": true,
+        "identity": "user",
+        "data": {
+          "chat_id": "oc_4ba07b81776be164bb8a648a9a1dd87b",
+          "create_time": "2026-05-07 10:20:04",
+          "message_id": "om_x100b508b238fc8a4c43db5d07a90e96"
+        },
+        "_notice": {
+          "update": {
+            "current": "1.0.19",
+            "latest": "1.0.24",
+            "message": "lark-cli 1.0.24 available, current 1.0.19"
+          }
+        }
+      },
+      "stderr": "",
+      "returncode": 0
+    },
+    {
+      "action_id": "step_061",
+      "status": "success",
+      "command": [
+        "lark-cli",
+        "im",
+        "+messages-send",
+        "--chat-id",
+        "oc_4ba07b81776be164bb8a648a9a1dd87b",
+        "--text",
+        "【项目管理/林晨】收到，辛苦大家",
+        "--as",
+        "user"
+      ],
+      "stdout": {
+        "ok": true,
+        "identity": "user",
+        "data": {
+          "chat_id": "oc_4ba07b81776be164bb8a648a9a1dd87b",
+          "create_time": "2026-05-07 10:20:05",
+          "message_id": "om_x100b508b2382ed04c313e5c56bf8d04"
+        },
+        "_notice": {
+          "update": {
+            "current": "1.0.19",
+            "latest": "1.0.24",
+            "message": "lark-cli 1.0.24 available, current 1.0.19"
+          }
+        }
+      },
+      "stderr": "",
+      "returncode": 0
+    },
+    {
+      "action_id": "step_066",
+      "status": "success",
+      "command": [
+        "lark-cli",
+        "im",
+        "+messages-send",
+        "--chat-id",
+        "oc_4ba07b81776be164bb8a648a9a1dd87b",
+        "--text",
+        "【项目管理/梁昕】会议邀请已发，周五下午三点，大家记得参加",
+        "--as",
+        "user"
+      ],
+      "stdout": {
+        "ok": true,
+        "identity": "user",
+        "data": {
+          "chat_id": "oc_4ba07b81776be164bb8a648a9a1dd87b",
+          "create_time": "2026-05-07 10:20:06",
+          "message_id": "om_x100b508b2393bc8cc388b90a157a5a0"
+        },
+        "_notice": {
+          "update": {
+            "current": "1.0.19",
+            "latest": "1.0.24",
+            "message": "lark-cli 1.0.24 available, current 1.0.19"
+          }
+        }
+      },
+      "stderr": "",
+      "returncode": 0
+    },
+    {
+      "action_id": "step_067",
+      "status": "success",
+      "command": [
+        "lark-cli",
+        "im",
+        "+messages-send",
+        "--chat-id",
+        "oc_4ba07b81776be164bb8a648a9a1dd87b",
+        "--text",
+        "【研发平台/秦怡】收到，我会准备后端改动说明",
+        "--as",
+        "user"
+      ],
+      "stdout": {
+        "ok": true,
+        "identity": "user",
+        "data": {
+          "chat_id": "oc_4ba07b81776be164bb8a648a9a1dd87b",
+          "create_time": "2026-05-07 10:20:07",
+          "message_id": "om_x100b508b23a0650cc3787fe65121d57"
+        },
+        "_notice": {
+          "update": {
+            "current": "1.0.19",
+            "latest": "1.0.24",
+            "message": "lark-cli 1.0.24 available, current 1.0.19"
+          }
+        }
+      },
+      "stderr": "",
+      "returncode": 0
+    },
+    {
+      "action_id": "step_068",
+      "status": "success",
+      "command": [
+        "lark-cli",
+        "im",
+        "+messages-send",
+        "--chat-id",
+        "oc_4ba07b81776be164bb8a648a9a1dd87b",
+        "--text",
+        "【研发平台/罗天】前端测试报告也会准备好",
+        "--as",
+        "user"
+      ],
+      "stdout": {
+        "ok": true,
+        "identity": "user",
+        "data": {
+          "chat_id": "oc_4ba07b81776be164bb8a648a9a1dd87b",
+          "create_time": "2026-05-07 10:20:07",
+          "message_id": "om_x100b508b23b3d088c4f775141a1bc89"
+        },
+        "_notice": {
+          "update": {
+            "current": "1.0.19",
+            "latest": "1.0.24",
+            "message": "lark-cli 1.0.24 available, current 1.0.19"
+          }
+        }
+      },
+      "stderr": "",
+      "returncode": 0
+    },
+    {
+      "action_id": "step_069",
+      "status": "success",
+      "command": [
+        "lark-cli",
+        "im",
+        "+messages-send",
+        "--chat-id",
+        "oc_4ba07b81776be164bb8a648a9a1dd87b",
+        "--text",
+        "【研发平台/苏禾】Infra 部署脚本已经写好，随时可用",
+        "--as",
+        "user"
+      ],
+      "stdout": {
+        "ok": true,
+        "identity": "user",
+        "data": {
+          "chat_id": "oc_4ba07b81776be164bb8a648a9a1dd87b",
+          "create_time": "2026-05-07 10:20:09",
+          "message_id": "om_x100b508b235fb480c357d5958aa2212"
+        },
+        "_notice": {
+          "update": {
+            "current": "1.0.19",
+            "latest": "1.0.24",
+            "message": "lark-cli 1.0.24 available, current 1.0.19"
+          }
+        }
+      },
+      "stderr": "",
+      "returncode": 0
+    },
+    {
+      "action_id": "step_070",
+      "status": "success",
+      "command": [
+        "lark-cli",
+        "im",
+        "+messages-send",
+        "--chat-id",
+        "oc_4ba07b81776be164bb8a648a9a1dd87b",
+        "--text",
+        "【项目管理/林晨】很好，大家都准备好了",
+        "--as",
+        "user"
+      ],
+      "stdout": {
+        "ok": true,
+        "identity": "user",
+        "data": {
+          "chat_id": "oc_4ba07b81776be164bb8a648a9a1dd87b",
+          "create_time": "2026-05-07 10:20:10",
+          "message_id": "om_x100b508b235290f0c43f3e60a4606bb"
+        },
+        "_notice": {
+          "update": {
+            "current": "1.0.19",
+            "latest": "1.0.24",
+            "message": "lark-cli 1.0.24 available, current 1.0.19"
+          }
+        }
+      },
+      "stderr": "",
+      "returncode": 0
+    },
+    {
+      "action_id": "step_073",
+      "status": "success",
+      "command": [
+        "lark-cli",
+        "im",
+        "+messages-send",
+        "--chat-id",
+        "oc_4ba07b81776be164bb8a648a9a1dd87b",
+        "--text",
+        "【研发平台/苏禾】FEISHU-686 的集成测试我这边也过了",
+        "--as",
+        "user"
+      ],
+      "stdout": {
+        "ok": true,
+        "identity": "user",
+        "data": {
+          "chat_id": "oc_4ba07b81776be164bb8a648a9a1dd87b",
+          "create_time": "2026-05-07 10:20:10",
+          "message_id": "om_x100b508b236778acc37ca25b033a829"
+        },
+        "_notice": {
+          "update": {
+            "current": "1.0.19",
+            "latest": "1.0.24",
+            "message": "lark-cli 1.0.24 available, current 1.0.19"
+          }
+        }
+      },
+      "stderr": "",
+      "returncode": 0
+    },
+    {
+      "action_id": "step_074",
+      "status": "success",
+      "command": [
+        "lark-cli",
+        "im",
+        "+messages-send",
+        "--chat-id",
+        "oc_4ba07b81776be164bb8a648a9a1dd87b",
+        "--text",
+        "【项目管理/林晨】好，知道了",
+        "--as",
+        "user"
+      ],
+      "stdout": {
+        "ok": true,
+        "identity": "user",
+        "data": {
+          "chat_id": "oc_4ba07b81776be164bb8a648a9a1dd87b",
+          "create_time": "2026-05-07 10:20:12",
+          "message_id": "om_x100b508b230c88a8c385d2f8bc68513"
+        },
+        "_notice": {
+          "update": {
+            "current": "1.0.19",
+            "latest": "1.0.24",
+            "message": "lark-cli 1.0.24 available, current 1.0.19"
+          }
+        }
+      },
+      "stderr": "",
+      "returncode": 0
+    },
+    {
+      "action_id": "step_075",
+      "status": "success",
+      "command": [
+        "lark-cli",
+        "im",
+        "+messages-send",
+        "--chat-id",
+        "oc_4ba07b81776be164bb8a648a9a1dd87b",
+        "--text",
+        "【研发平台/唐越】线上环境我已经准备好，可以随时发布",
+        "--as",
+        "user"
+      ],
+      "stdout": {
+        "ok": true,
+        "identity": "user",
+        "data": {
+          "chat_id": "oc_4ba07b81776be164bb8a648a9a1dd87b",
+          "create_time": "2026-05-07 10:20:12",
+          "message_id": "om_x100b508b230098a8c14c1874cabe32d"
+        },
+        "_notice": {
+          "update": {
+            "current": "1.0.19",
+            "latest": "1.0.24",
+            "message": "lark-cli 1.0.24 available, current 1.0.19"
+          }
+        }
+      },
+      "stderr": "",
+      "returncode": 0
+    },
+    {
+      "action_id": "step_076",
+      "status": "success",
+      "command": [
+        "lark-cli",
+        "im",
+        "+messages-send",
+        "--chat-id",
+        "oc_4ba07b81776be164bb8a648a9a1dd87b",
+        "--text",
+        "【项目管理/林晨】收到，辛苦",
+        "--as",
+        "user"
+      ],
+      "stdout": {
+        "ok": true,
+        "identity": "user",
+        "data": {
+          "chat_id": "oc_4ba07b81776be164bb8a648a9a1dd87b",
+          "create_time": "2026-05-07 10:20:13",
+          "message_id": "om_x100b508b231750bcc4c0073f2990845"
+        },
+        "_notice": {
+          "update": {
+            "current": "1.0.19",
+            "latest": "1.0.24",
+            "message": "lark-cli 1.0.24 available, current 1.0.19"
+          }
+        }
+      },
+      "stderr": "",
+      "returncode": 0
+    },
+    {
+      "action_id": "step_077",
+      "status": "success",
+      "command": [
+        "lark-cli",
+        "im",
+        "+messages-send",
+        "--chat-id",
+        "oc_4ba07b81776be164bb8a648a9a1dd87b",
+        "--text",
+        "【项目管理/许薇】发布窗口要在系统里登记，等安全评审通过后我处理",
+        "--as",
+        "user"
+      ],
+      "stdout": {
+        "ok": true,
+        "identity": "user",
+        "data": {
+          "chat_id": "oc_4ba07b81776be164bb8a648a9a1dd87b",
+          "create_time": "2026-05-07 10:20:14",
+          "message_id": "om_x100b508b232b18e0c3813ac82bc6878"
+        },
+        "_notice": {
+          "update": {
+            "current": "1.0.19",
+            "latest": "1.0.24",
+            "message": "lark-cli 1.0.24 available, current 1.0.19"
+          }
+        }
+      },
+      "stderr": "",
+      "returncode": 0
+    },
+    {
+      "action_id": "step_078",
+      "status": "success",
+      "command": [
+        "lark-cli",
+        "im",
+        "+messages-send",
+        "--chat-id",
+        "oc_4ba07b81776be164bb8a648a9a1dd87b",
+        "--text",
+        "【项目管理/林晨】好的，窗口登记等你来",
+        "--as",
+        "user"
+      ],
+      "stdout": {
+        "ok": true,
+        "identity": "user",
+        "data": {
+          "chat_id": "oc_4ba07b81776be164bb8a648a9a1dd87b",
+          "create_time": "2026-05-07 10:20:15",
+          "message_id": "om_x100b508b233ee8a0c3bc50a9098c551"
+        },
+        "_notice": {
+          "update": {
+            "current": "1.0.19",
+            "latest": "1.0.24",
+            "message": "lark-cli 1.0.24 available, current 1.0.19"
+          }
+        }
+      },
+      "stderr": "",
+      "returncode": 0
+    },
+    {
+      "action_id": "step_081",
+      "status": "success",
+      "command": [
+        "lark-cli",
+        "im",
+        "+messages-send",
+        "--chat-id",
+        "oc_4ba07b81776be164bb8a648a9a1dd87b",
+        "--text",
+        "【安全合规/秦怡】我协助提前检查合规要求，没问题",
+        "--as",
+        "user"
+      ],
+      "stdout": {
+        "ok": true,
+        "identity": "user",
+        "data": {
+          "chat_id": "oc_4ba07b81776be164bb8a648a9a1dd87b",
+          "create_time": "2026-05-07 10:20:16",
+          "message_id": "om_x100b508b20ccd4b0c3772c944d9bdcf"
+        },
+        "_notice": {
+          "update": {
+            "current": "1.0.19",
+            "latest": "1.0.24",
+            "message": "lark-cli 1.0.24 available, current 1.0.19"
+          }
+        }
+      },
+      "stderr": "",
+      "returncode": 0
+    },
+    {
+      "action_id": "step_082",
+      "status": "success",
+      "command": [
+        "lark-cli",
+        "im",
+        "+messages-send",
+        "--chat-id",
+        "oc_4ba07b81776be164bb8a648a9a1dd87b",
+        "--text",
+        "【项目管理/林晨】好的，谢谢 Victor",
+        "--as",
+        "user"
+      ],
+      "stdout": {
+        "ok": true,
+        "identity": "user",
+        "data": {
+          "chat_id": "oc_4ba07b81776be164bb8a648a9a1dd87b",
+          "create_time": "2026-05-07 10:20:16",
+          "message_id": "om_x100b508b20c14964c4da998cf4e5d35"
+        },
+        "_notice": {
+          "update": {
+            "current": "1.0.19",
+            "latest": "1.0.24",
+            "message": "lark-cli 1.0.24 available, current 1.0.19"
+          }
+        }
+      },
+      "stderr": "",
+      "returncode": 0
+    },
+    {
+      "action_id": "step_083",
+      "status": "success",
+      "command": [
+        "lark-cli",
+        "im",
+        "+messages-send",
+        "--chat-id",
+        "oc_4ba07b81776be164bb8a648a9a1dd87b",
+        "--text",
+        "【企业协作/陈雪】第三方依赖合同已经走完了",
+        "--as",
+        "user"
+      ],
+      "stdout": {
+        "ok": true,
+        "identity": "user",
+        "data": {
+          "chat_id": "oc_4ba07b81776be164bb8a648a9a1dd87b",
+          "create_time": "2026-05-07 10:20:17",
+          "message_id": "om_x100b508b20d0148cc4ae6b46d0d631d"
+        },
+        "_notice": {
+          "update": {
+            "current": "1.0.19",
+            "latest": "1.0.24",
+            "message": "lark-cli 1.0.24 available, current 1.0.19"
+          }
+        }
+      },
+      "stderr": "",
+      "returncode": 0
+    },
+    {
+      "action_id": "step_084",
+      "status": "success",
+      "command": [
+        "lark-cli",
+        "im",
+        "+messages-send",
+        "--chat-id",
+        "oc_4ba07b81776be164bb8a648a9a1dd87b",
+        "--text",
+        "【项目管理/林晨】好，外部依赖也齐了",
+        "--as",
+        "user"
+      ],
+      "stdout": {
+        "ok": true,
+        "identity": "user",
+        "data": {
+          "chat_id": "oc_4ba07b81776be164bb8a648a9a1dd87b",
+          "create_time": "2026-05-07 10:20:18",
+          "message_id": "om_x100b508b20e60c80c4ecd02e42a7282"
+        },
+        "_notice": {
+          "update": {
+            "current": "1.0.19",
+            "latest": "1.0.24",
+            "message": "lark-cli 1.0.24 available, current 1.0.19"
+          }
+        }
+      },
+      "stderr": "",
+      "returncode": 0
+    },
+    {
+      "action_id": "step_087",
+      "status": "success",
+      "command": [
+        "lark-cli",
+        "im",
+        "+messages-send",
+        "--chat-id",
+        "oc_4ba07b81776be164bb8a648a9a1dd87b",
+        "--text",
+        "【项目管理/林晨】再提醒一下：FEISHU-686 与 FEISHU-686 分开，请参考正式任务文档",
+        "--as",
+        "user"
+      ],
+      "stdout": {
+        "ok": true,
+        "identity": "user",
+        "data": {
+          "chat_id": "oc_4ba07b81776be164bb8a648a9a1dd87b",
+          "create_time": "2026-05-07 10:20:19",
+          "message_id": "om_x100b508b20f56884c4cc8bdb5287d80"
+        },
+        "_notice": {
+          "update": {
+            "current": "1.0.19",
+            "latest": "1.0.24",
+            "message": "lark-cli 1.0.24 available, current 1.0.19"
+          }
+        }
+      },
+      "stderr": "",
+      "returncode": 0
+    },
+    {
+      "action_id": "step_088",
+      "status": "success",
+      "command": [
+        "lark-cli",
+        "im",
+        "+messages-send",
+        "--chat-id",
+        "oc_4ba07b81776be164bb8a648a9a1dd87b",
+        "--text",
+        "【企业协作/赵敏】好的，记住了",
+        "--as",
+        "user"
+      ],
+      "stdout": {
+        "ok": true,
+        "identity": "user",
+        "data": {
+          "chat_id": "oc_4ba07b81776be164bb8a648a9a1dd87b",
+          "create_time": "2026-05-07 10:20:20",
+          "message_id": "om_x100b508b208b8884c364986828252c9"
+        },
+        "_notice": {
+          "update": {
+            "current": "1.0.19",
+            "latest": "1.0.24",
+            "message": "lark-cli 1.0.24 available, current 1.0.19"
+          }
+        }
+      },
+      "stderr": "",
+      "returncode": 0
+    },
+    {
+      "action_id": "step_089",
+      "status": "success",
+      "command": [
+        "lark-cli",
+        "im",
+        "+messages-send",
+        "--chat-id",
+        "oc_4ba07b81776be164bb8a648a9a1dd87b",
+        "--text",
+        "【研发平台/周宇】认证团队确认下周一开始，我会持续跟进",
+        "--as",
+        "user"
+      ],
+      "stdout": {
+        "ok": true,
+        "identity": "user",
+        "data": {
+          "chat_id": "oc_4ba07b81776be164bb8a648a9a1dd87b",
+          "create_time": "2026-05-07 10:20:21",
+          "message_id": "om_x100b508b209f48a8c11174860c18f5e"
+        },
+        "_notice": {
+          "update": {
+            "current": "1.0.19",
+            "latest": "1.0.24",
+            "message": "lark-cli 1.0.24 available, current 1.0.19"
+          }
+        }
+      },
+      "stderr": "",
+      "returncode": 0
+    },
+    {
+      "action_id": "step_090",
+      "status": "success",
+      "command": [
+        "lark-cli",
+        "im",
+        "+messages-send",
+        "--chat-id",
+        "oc_4ba07b81776be164bb8a648a9a1dd87b",
+        "--text",
+        "【项目管理/林晨】好，大家继续，有进展随时同步",
+        "--as",
+        "user"
+      ],
+      "stdout": {
+        "ok": true,
+        "identity": "user",
+        "data": {
+          "chat_id": "oc_4ba07b81776be164bb8a648a9a1dd87b",
+          "create_time": "2026-05-07 10:20:21",
+          "message_id": "om_x100b508b209390acc43a09f32b176ca"
+        },
+        "_notice": {
+          "update": {
+            "current": "1.0.19",
+            "latest": "1.0.24",
+            "message": "lark-cli 1.0.24 available, current 1.0.19"
+          }
+        }
+      },
+      "stderr": "",
+      "returncode": 0
+    },
+    {
+      "action_id": "step_016",
+      "status": "success",
+      "command": [
+        "lark-cli",
+        "im",
+        "+messages-send",
+        "--chat-id",
+        "oc_47595cbc19234e3a6b77d52e3b3f0800",
+        "--text",
+        "【项目管理/林晨】FEISHU-686 我这边审完了，人员充沛，下周三可以收口",
+        "--as",
+        "user"
+      ],
+      "stdout": {
+        "ok": true,
+        "identity": "user",
+        "data": {
+          "chat_id": "oc_47595cbc19234e3a6b77d52e3b3f0800",
+          "create_time": "2026-05-07 10:20:22",
+          "message_id": "om_x100b508b20a694a4c3ad70c5d390a75"
+        },
+        "_notice": {
+          "update": {
+            "current": "1.0.19",
+            "latest": "1.0.24",
+            "message": "lark-cli 1.0.24 available, current 1.0.19"
+          }
+        }
+      },
+      "stderr": "",
+      "returncode": 0
+    },
+    {
+      "action_id": "step_017",
+      "status": "success",
+      "command": [
+        "lark-cli",
+        "im",
+        "+messages-send",
+        "--chat-id",
+        "oc_47595cbc19234e3a6b77d52e3b3f0800",
+        "--text",
+        "【研发平台/周宇】好，我确认下内容，没遗漏就标记 Ready",
+        "--as",
+        "user"
+      ],
+      "stdout": {
+        "ok": true,
+        "identity": "user",
+        "data": {
+          "chat_id": "oc_47595cbc19234e3a6b77d52e3b3f0800",
+          "create_time": "2026-05-07 10:20:23",
+          "message_id": "om_x100b508b20b6dca4c3585a419a80892"
+        },
+        "_notice": {
+          "update": {
+            "current": "1.0.19",
+            "latest": "1.0.24",
+            "message": "lark-cli 1.0.24 available, current 1.0.19"
+          }
+        }
+      },
+      "stderr": "",
+      "returncode": 0
+    },
+    {
+      "action_id": "step_053",
+      "status": "success",
+      "command": [
+        "lark-cli",
+        "im",
+        "+messages-send",
+        "--chat-id",
+        "oc_47595cbc19234e3a6b77d52e3b3f0800",
+        "--text",
+        "【知识管理/何然】FEISHU-686 的文档最终版我放共享盘了，大家看一下",
+        "--as",
+        "user"
+      ],
+      "stdout": {
+        "ok": true,
+        "identity": "user",
+        "data": {
+          "chat_id": "oc_47595cbc19234e3a6b77d52e3b3f0800",
+          "create_time": "2026-05-07 10:20:24",
+          "message_id": "om_x100b508b2040d4bcc3f492983ced5f0"
+        },
+        "_notice": {
+          "update": {
+            "current": "1.0.19",
+            "latest": "1.0.24",
+            "message": "lark-cli 1.0.24 available, current 1.0.19"
+          }
+        }
+      },
+      "stderr": "",
+      "returncode": 0
+    },
+    {
+      "action_id": "step_054",
+      "status": "success",
+      "command": [
+        "lark-cli",
+        "im",
+        "+messages-send",
+        "--chat-id",
+        "oc_47595cbc19234e3a6b77d52e3b3f0800",
+        "--text",
+        "【项目管理/林晨】收到，我周五前看完",
+        "--as",
+        "user"
+      ],
+      "stdout": {
+        "ok": true,
+        "identity": "user",
+        "data": {
+          "chat_id": "oc_47595cbc19234e3a6b77d52e3b3f0800",
+          "create_time": "2026-05-07 10:20:25",
+          "message_id": "om_x100b508b2057cbd4c317c60c38eb2b5"
+        },
+        "_notice": {
+          "update": {
+            "current": "1.0.19",
+            "latest": "1.0.24",
+            "message": "lark-cli 1.0.24 available, current 1.0.19"
+          }
+        }
+      },
+      "stderr": "",
+      "returncode": 0
+    },
+    {
+      "action_id": "step_018",
+      "status": "success",
+      "command": [
+        "lark-cli",
+        "im",
+        "+messages-send",
+        "--chat-id",
+        "oc_e068da7bff1881644c44c4894c2e3693",
+        "--text",
+        "【研发平台/周宇】演练 blocker 是环境问题，已经解决，窗口已锁定",
+        "--as",
+        "user"
+      ],
+      "stdout": {
+        "ok": true,
+        "identity": "user",
+        "data": {
+          "chat_id": "oc_e068da7bff1881644c44c4894c2e3693",
+          "create_time": "2026-05-07 10:20:26",
+          "message_id": "om_x100b508b206b0c98c2d1fd32006857b"
+        },
+        "_notice": {
+          "update": {
+            "current": "1.0.19",
+            "latest": "1.0.24",
+            "message": "lark-cli 1.0.24 available, current 1.0.19"
+          }
+        }
+      },
+      "stderr": "",
+      "returncode": 0
+    },
+    {
+      "action_id": "step_055",
+      "status": "success",
+      "command": [
+        "lark-cli",
+        "im",
+        "+messages-send",
+        "--chat-id",
+        "oc_e068da7bff1881644c44c4894c2e3693",
+        "--text",
+        "【研发平台/周宇】演练计划已经完成，环境准备好了",
+        "--as",
+        "user"
+      ],
+      "stdout": {
+        "ok": true,
+        "identity": "user",
+        "data": {
+          "chat_id": "oc_e068da7bff1881644c44c4894c2e3693",
+          "create_time": "2026-05-07 10:20:27",
+          "message_id": "om_x100b508b207fe4acc49047523b29292"
+        },
+        "_notice": {
+          "update": {
+            "current": "1.0.19",
+            "latest": "1.0.24",
+            "message": "lark-cli 1.0.24 available, current 1.0.19"
+          }
+        }
+      },
+      "stderr": "",
+      "returncode": 0
+    },
+    {
+      "action_id": "step_056",
+      "status": "success",
+      "command": [
+        "lark-cli",
+        "im",
+        "+messages-send",
+        "--chat-id",
+        "oc_e068da7bff1881644c44c4894c2e3693",
+        "--text",
+        "【企业协作/赵敏】好，窗口没问题，准备收口",
+        "--as",
+        "user"
+      ],
+      "stdout": {
+        "ok": true,
+        "identity": "user",
+        "data": {
+          "chat_id": "oc_e068da7bff1881644c44c4894c2e3693",
+          "create_time": "2026-05-07 10:20:28",
+          "message_id": "om_x100b508b20728898c4f3f6797a4b3c6"
+        },
+        "_notice": {
+          "update": {
+            "current": "1.0.19",
+            "latest": "1.0.24",
+            "message": "lark-cli 1.0.24 available, current 1.0.19"
+          }
+        }
+      },
+      "stderr": "",
+      "returncode": 0
+    },
+    {
+      "action_id": "step_020",
+      "status": "success",
+      "command": [
+        "lark-cli",
+        "im",
+        "+messages-send",
+        "--chat-id",
+        "oc_ad797bce84403a056a24d6b51ae05b83",
+        "--text",
+        "【研发平台/王源】性能测试 blocker 是资源瓶颈，已扩容，预计本周收口",
+        "--as",
+        "user"
+      ],
+      "stdout": {
+        "ok": true,
+        "identity": "user",
+        "data": {
+          "chat_id": "oc_ad797bce84403a056a24d6b51ae05b83",
+          "create_time": "2026-05-07 10:20:29",
+          "message_id": "om_x100b508b200344a8c4d180fad2b29e0"
+        },
+        "_notice": {
+          "update": {
+            "current": "1.0.19",
+            "latest": "1.0.24",
+            "message": "lark-cli 1.0.24 available, current 1.0.19"
+          }
+        }
+      },
+      "stderr": "",
+      "returncode": 0
+    },
+    {
+      "action_id": "step_057",
+      "status": "success",
+      "command": [
+        "lark-cli",
+        "im",
+        "+messages-send",
+        "--chat-id",
+        "oc_ad797bce84403a056a24d6b51ae05b83",
+        "--text",
+        "【研发平台/王源】性能测试已经全部通过，报告发你",
+        "--as",
+        "user"
+      ],
+      "stdout": {
+        "ok": true,
+        "identity": "user",
+        "data": {
+          "chat_id": "oc_ad797bce84403a056a24d6b51ae05b83",
+          "create_time": "2026-05-07 10:20:29",
+          "message_id": "om_x100b508b2010fcb8c2aa221ed0d0385"
+        },
+        "_notice": {
+          "update": {
+            "current": "1.0.19",
+            "latest": "1.0.24",
+            "message": "lark-cli 1.0.24 available, current 1.0.19"
+          }
+        }
+      },
+      "stderr": "",
+      "returncode": 0
+    },
+    {
+      "action_id": "step_058",
+      "status": "success",
+      "command": [
+        "lark-cli",
+        "im",
+        "+messages-send",
+        "--chat-id",
+        "oc_ad797bce84403a056a24d6b51ae05b83",
+        "--text",
+        "【研发平台/许薇】数据我看过了，没问题",
+        "--as",
+        "user"
+      ],
+      "stdout": {
+        "ok": true,
+        "identity": "user",
+        "data": {
+          "chat_id": "oc_ad797bce84403a056a24d6b51ae05b83",
+          "create_time": "2026-05-07 10:20:30",
+          "message_id": "om_x100b508b2026b8acc218471d61c911d"
+        },
+        "_notice": {
+          "update": {
+            "current": "1.0.19",
+            "latest": "1.0.24",
+            "message": "lark-cli 1.0.24 available, current 1.0.19"
+          }
+        }
+      },
+      "stderr": "",
+      "returncode": 0
+    },
+    {
+      "action_id": "step_009",
+      "status": "success",
+      "command": [
+        "lark-cli",
+        "im",
+        "+messages-send",
+        "--chat-id",
+        "oc_7fba2c36d0be9fb60888dce3525851dd",
+        "--text",
+        "【benchmark/root】交接修正线程：以下回复承载该 source session 的真实 benchmark 消息。",
+        "--as",
+        "user"
+      ],
+      "stdout": {
+        "ok": true,
+        "identity": "user",
+        "data": {
+          "chat_id": "oc_7fba2c36d0be9fb60888dce3525851dd",
+          "create_time": "2026-05-07 10:20:31",
+          "message_id": "om_x100b508b203ae884c4c763b7a04277a"
+        },
+        "_notice": {
+          "update": {
+            "current": "1.0.19",
+            "latest": "1.0.24",
+            "message": "lark-cli 1.0.24 available, current 1.0.19"
+          }
+        }
+      },
+      "stderr": "",
+      "returncode": 0
+    },
+    {
+      "action_id": "step_010",
+      "status": "success",
+      "command": [
+        "lark-cli",
+        "im",
+        "+messages-send",
+        "--chat-id",
+        "oc_68da6c81126a41875fabdee119e399f2",
+        "--text",
+        "【benchmark/root】风险复核线程：以下回复承载该 source session 的真实 benchmark 消息。",
+        "--as",
+        "user"
+      ],
+      "stdout": {
+        "ok": true,
+        "identity": "user",
+        "data": {
+          "chat_id": "oc_68da6c81126a41875fabdee119e399f2",
+          "create_time": "2026-05-07 10:20:32",
+          "message_id": "om_x100b508b21c50978c4f4809ae79d5df"
+        },
+        "_notice": {
+          "update": {
+            "current": "1.0.19",
+            "latest": "1.0.24",
+            "message": "lark-cli 1.0.24 available, current 1.0.19"
+          }
+        }
+      },
+      "stderr": "",
+      "returncode": 0
+    },
+    {
+      "action_id": "step_038",
+      "status": "success",
+      "command": [
+        "lark-cli",
+        "im",
+        "+messages-send",
+        "--chat-id",
+        "oc_e5a30161118ffb3d8e21aae14d95266f",
+        "--text",
+        "【客户协作/王源】客户问 FEISHU-686 能否本周上线，我说还在评估",
+        "--as",
+        "user"
+      ],
+      "stdout": {
+        "ok": true,
+        "identity": "user",
+        "data": {
+          "chat_id": "oc_e5a30161118ffb3d8e21aae14d95266f",
+          "create_time": "2026-05-07 10:20:33",
+          "message_id": "om_x100b508b21dacc88c3908addaac5a74"
+        },
+        "_notice": {
+          "update": {
+            "current": "1.0.19",
+            "latest": "1.0.24",
+            "message": "lark-cli 1.0.24 available, current 1.0.19"
+          }
+        }
+      },
+      "stderr": "",
+      "returncode": 0
+    },
+    {
+      "action_id": "step_039",
+      "status": "success",
+      "command": [
+        "lark-cli",
+        "im",
+        "+messages-send",
+        "--chat-id",
+        "oc_e5a30161118ffb3d8e21aae14d95266f",
+        "--text",
+        "【项目管理/林晨】暂时不能承诺，等窗口锁定再说",
+        "--as",
+        "user"
+      ],
+      "stdout": {
+        "ok": true,
+        "identity": "user",
+        "data": {
+          "chat_id": "oc_e5a30161118ffb3d8e21aae14d95266f",
+          "create_time": "2026-05-07 10:20:34",
+          "message_id": "om_x100b508b21e8c4d4c38949790bf483b"
+        },
+        "_notice": {
+          "update": {
+            "current": "1.0.19",
+            "latest": "1.0.24",
+            "message": "lark-cli 1.0.24 available, current 1.0.19"
+          }
+        }
+      },
+      "stderr": "",
+      "returncode": 0
+    },
+    {
+      "action_id": "step_062",
+      "status": "success",
+      "command": [
+        "lark-cli",
+        "im",
+        "+messages-send",
+        "--chat-id",
+        "oc_e5a30161118ffb3d8e21aae14d95266f",
+        "--text",
+        "【客户协作/王源】客户又问 FEISHU-686 进度了，我说周五给答复",
+        "--as",
+        "user"
+      ],
+      "stdout": {
+        "ok": true,
+        "identity": "user",
+        "data": {
+          "chat_id": "oc_e5a30161118ffb3d8e21aae14d95266f",
+          "create_time": "2026-05-07 10:20:35",
+          "message_id": "om_x100b508b21fef4a4c35087deeda396d"
+        },
+        "_notice": {
+          "update": {
+            "current": "1.0.19",
+            "latest": "1.0.24",
+            "message": "lark-cli 1.0.24 available, current 1.0.19"
+          }
+        }
+      },
+      "stderr": "",
+      "returncode": 0
+    },
+    {
+      "action_id": "step_063",
+      "status": "success",
+      "command": [
+        "lark-cli",
+        "im",
+        "+messages-send",
+        "--chat-id",
+        "oc_e5a30161118ffb3d8e21aae14d95266f",
+        "--text",
+        "【项目管理/林晨】行，周五同步，窗口没锁定就说还在等评审",
+        "--as",
+        "user"
+      ],
+      "stdout": {
+        "ok": true,
+        "identity": "user",
+        "data": {
+          "chat_id": "oc_e5a30161118ffb3d8e21aae14d95266f",
+          "create_time": "2026-05-07 10:20:36",
+          "message_id": "om_x100b508b21f2b088c3b58466c97d994"
+        },
+        "_notice": {
+          "update": {
+            "current": "1.0.19",
+            "latest": "1.0.24",
+            "message": "lark-cli 1.0.24 available, current 1.0.19"
+          }
+        }
+      },
+      "stderr": "",
+      "returncode": 0
+    },
+    {
+      "action_id": "step_085",
+      "status": "success",
+      "command": [
+        "lark-cli",
+        "im",
+        "+messages-send",
+        "--chat-id",
+        "oc_e5a30161118ffb3d8e21aae14d95266f",
+        "--text",
+        "【客户协作/王源】客户确认等我答复",
+        "--as",
+        "user"
+      ],
+      "stdout": {
+        "ok": true,
+        "identity": "user",
+        "data": {
+          "chat_id": "oc_e5a30161118ffb3d8e21aae14d95266f",
+          "create_time": "2026-05-07 10:20:37",
+          "message_id": "om_x100b508b2199d29cc33b1e70f193cf2"
+        },
+        "_notice": {
+          "update": {
+            "current": "1.0.19",
+            "latest": "1.0.24",
+            "message": "lark-cli 1.0.24 available, current 1.0.19"
+          }
+        }
+      },
+      "stderr": "",
+      "returncode": 0
+    },
+    {
+      "action_id": "step_086",
+      "status": "success",
+      "command": [
+        "lark-cli",
+        "im",
+        "+messages-send",
+        "--chat-id",
+        "oc_e5a30161118ffb3d8e21aae14d95266f",
+        "--text",
+        "【项目管理/林晨】周五见",
+        "--as",
+        "user"
+      ],
+      "stdout": {
+        "ok": true,
+        "identity": "user",
+        "data": {
+          "chat_id": "oc_e5a30161118ffb3d8e21aae14d95266f",
+          "create_time": "2026-05-07 10:20:38",
+          "message_id": "om_x100b508b21ad00acc10833828b0ca63"
+        },
+        "_notice": {
+          "update": {
+            "current": "1.0.19",
+            "latest": "1.0.24",
+            "message": "lark-cli 1.0.24 available, current 1.0.19"
+          }
+        }
+      },
+      "stderr": "",
+      "returncode": 0
+    },
+    {
+      "action_id": "step_046",
+      "status": "success",
+      "command": [
+        "lark-cli",
+        "im",
+        "+messages-send",
+        "--chat-id",
+        "oc_92bad674727bb5b7230328711197105f",
+        "--text",
+        "【研发平台/高骏】FEISHU-686 和 FEISHU-686 都在推进，大家不要搞混了",
+        "--as",
+        "user"
+      ],
+      "stdout": {
+        "ok": true,
+        "identity": "user",
+        "data": {
+          "chat_id": "oc_92bad674727bb5b7230328711197105f",
+          "create_time": "2026-05-07 10:20:38",
+          "message_id": "om_x100b508b21a090b0c14a9d97278820e"
+        },
+        "_notice": {
+          "update": {
+            "current": "1.0.19",
+            "latest": "1.0.24",
+            "message": "lark-cli 1.0.24 available, current 1.0.19"
+          }
+        }
+      },
+      "stderr": "",
+      "returncode": 0
+    },
+    {
+      "action_id": "step_047",
+      "status": "success",
+      "command": [
+        "lark-cli",
+        "im",
+        "+messages-send",
+        "--chat-id",
+        "oc_92bad674727bb5b7230328711197105f",
+        "--text",
+        "【企业协作/赵敏】FEISHU-686 的文档基本审完了，下周三收口没问题",
+        "--as",
+        "user"
+      ],
+      "stdout": {
+        "ok": true,
+        "identity": "user",
+        "data": {
+          "chat_id": "oc_92bad674727bb5b7230328711197105f",
+          "create_time": "2026-05-07 10:20:39",
+          "message_id": "om_x100b508b21b410a8c2295ce8dc3d024"
+        },
+        "_notice": {
+          "update": {
+            "current": "1.0.19",
+            "latest": "1.0.24",
+            "message": "lark-cli 1.0.24 available, current 1.0.19"
+          }
+        }
+      },
+      "stderr": "",
+      "returncode": 0
+    },
+    {
+      "action_id": "step_048",
+      "status": "success",
+      "command": [
+        "lark-cli",
+        "im",
+        "+messages-send",
+        "--chat-id",
+        "oc_92bad674727bb5b7230328711197105f",
+        "--text",
+        "【项目管理/林晨】FEISHU-686 的窗口还没锁定，等安全评审",
+        "--as",
+        "user"
+      ],
+      "stdout": {
+        "ok": true,
+        "identity": "user",
+        "data": {
+          "chat_id": "oc_92bad674727bb5b7230328711197105f",
+          "create_time": "2026-05-07 10:20:40",
+          "message_id": "om_x100b508b214ae0a8c49fadd660a1fe5"
+        },
+        "_notice": {
+          "update": {
+            "current": "1.0.19",
+            "latest": "1.0.24",
+            "message": "lark-cli 1.0.24 available, current 1.0.19"
+          }
+        }
+      },
+      "stderr": "",
+      "returncode": 0
+    },
+    {
+      "action_id": "step_071",
+      "status": "success",
+      "command": [
+        "lark-cli",
+        "im",
+        "+messages-send",
+        "--chat-id",
+        "oc_92bad674727bb5b7230328711197105f",
+        "--text",
+        "【研发平台/高骏】FEISHU-686 迁移任务下周一启动，David 负责",
+        "--as",
+        "user"
+      ],
+      "stdout": {
+        "ok": true,
+        "identity": "user",
+        "data": {
+          "chat_id": "oc_92bad674727bb5b7230328711197105f",
+          "create_time": "2026-05-07 10:20:41",
+          "message_id": "om_x100b508b2158f8a8c370b87264ed88f"
+        },
+        "_notice": {
+          "update": {
+            "current": "1.0.19",
+            "latest": "1.0.24",
+            "message": "lark-cli 1.0.24 available, current 1.0.19"
+          }
+        }
+      },
+      "stderr": "",
+      "returncode": 0
+    },
+    {
+      "action_id": "step_072",
+      "status": "success",
+      "command": [
+        "lark-cli",
+        "im",
+        "+messages-send",
+        "--chat-id",
+        "oc_92bad674727bb5b7230328711197105f",
+        "--text",
+        "【研发平台/王源】收到，数据库迁移方案已经准备好",
+        "--as",
+        "user"
+      ],
+      "stdout": {
+        "ok": true,
+        "identity": "user",
+        "data": {
+          "chat_id": "oc_92bad674727bb5b7230328711197105f",
+          "create_time": "2026-05-07 10:20:42",
+          "message_id": "om_x100b508b216f9ce0c4484d502fff484"
+        },
+        "_notice": {
+          "update": {
+            "current": "1.0.19",
+            "latest": "1.0.24",
+            "message": "lark-cli 1.0.24 available, current 1.0.19"
+          }
+        }
+      },
+      "stderr": "",
+      "returncode": 0
+    },
+    {
+      "action_id": "step_091",
+      "status": "success",
+      "command": [
+        "lark-cli",
+        "im",
+        "+chat-messages-list",
+        "--chat-id",
+        "oc_4ba07b81776be164bb8a648a9a1dd87b",
+        "--sort",
+        "asc",
+        "--page-size",
+        "50",
+        "--format",
+        "json",
+        "--as",
+        "user"
+      ],
+      "stdout": {
+        "ok": true,
+        "identity": "user",
+        "data": {
+          "has_more": true,
+          "messages": [
+            {
+              "content": "Welcome to {group_type}",
+              "create_time": "2026-05-07 10:19",
+              "deleted": false,
+              "message_id": "om_x100b508b241464a4c366a4aaf3e1a36",
+              "msg_type": "system",
+              "sender": {
+                "id": "",
+                "id_type": "",
+                "sender_type": "",
+                "tenant_key": ""
+              },
+              "updated": false
+            },
+            {
+              "content": "许祝愿 started the group chat.",
+              "create_time": "2026-05-07 10:19",
+              "deleted": false,
+              "message_id": "om_x100b508b2416bc8cc4960a5038b75cc",
+              "msg_type": "system",
+              "sender": {
+                "id": "",
+                "id_type": "",
+                "sender_type": "",
+                "tenant_key": ""
+              },
+              "updated": false
+            },
+            {
+              "content": "【项目管理/林晨】大家好，FEISHU-686 我接手了，当前 blocker 是内部文档API认证流程修改",
+              "create_time": "2026-05-07 10:19",
+              "deleted": false,
+              "message_id": "om_x100b508b25661840c3fe54463bcbefa",
+              "msg_type": "text",
+              "sender": {
+                "id": "ou_7488779f2769b648358fca04a3e1919f",
+                "id_type": "open_id",
+                "name": "许祝愿",
+                "sender_type": "user",
+                "tenant_key": "1abd20e084069b82"
+              },
+              "updated": true
+            },
+            {
+              "content": "【研发平台/周宇】收到 Alice，我这边已经在对接认证团队，窗口暂时还没锁定",
+              "create_time": "2026-05-07 10:19",
+              "deleted": false,
+              "message_id": "om_x100b508b2575d0ecc2ad8b22e05162b",
+              "msg_type": "text",
+              "sender": {
+                "id": "ou_7488779f2769b648358fca04a3e1919f",
+                "id_type": "open_id",
+                "name": "许祝愿",
+                "sender_type": "user",
+                "tenant_key": "1abd20e084069b82"
+              },
+              "updated": false
+            },
+            {
+              "content": "【质量保障/陈雪】我看了 draft，认证流程改动部分还需要补充测试用例，预计下周可以完成 review",
+              "create_time": "2026-05-07 10:19",
+              "deleted": false,
+              "message_id": "om_x100b508b250bf944c4dac78ac27ff3a",
+              "msg_type": "text",
+              "sender": {
+                "id": "ou_7488779f2769b648358fca04a3e1919f",
+                "id_type": "open_id",
+                "name": "许祝愿",
+                "sender_type": "user",
+                "tenant_key": "1abd20e084069b82"
+              },
+              "updated": true
+            },
+            {
+              "content": "【研发平台/王源】基础设施方面我已经预配了新的 API 网关，认证改动后可以直接部署",
+              "create_time": "2026-05-07 10:19",
+              "deleted": false,
+              "message_id": "om_x100b508b251fc0ecc360fd46608165e",
+              "msg_type": "text",
+              "sender": {
+                "id": "ou_7488779f2769b648358fca04a3e1919f",
+                "id_type": "open_id",
+                "name": "许祝愿",
+                "sender_type": "user",
+                "tenant_key": "1abd20e084069b82"
+              },
+              "updated": true
+            },
+            {
+              "content": "【项目管理/林晨】注意，这个任务是 FEISHU-686，与之前的文档审阅收口（FEISHU-686）是分开的",
+              "create_time": "2026-05-07 10:19",
+              "deleted": false,
+              "message_id": "om_x100b508b2513a898c2241ee23dac662",
+              "msg_type": "text",
+              "sender": {
+                "id": "ou_7488779f2769b648358fca04a3e1919f",
+                "id_type": "open_id",
+                "name": "许祝愿",
+                "sender_type": "user",
+                "tenant_key": "1abd20e084069b82"
+              },
+              "updated": false
+            },
+            {
+              "content": "【质量保障/陈雪】FEISHU-686 迁移窗口改成下周一，负责人改为 David",
+              "create_time": "2026-05-07 10:19",
+              "deleted": false,
+              "message_id": "om_x100b508b252680b0c4f259560eac291",
+              "msg_type": "text",
+              "sender": {
+                "id": "ou_7488779f2769b648358fca04a3e1919f",
+                "id_type": "open_id",
+                "name": "许祝愿",
+                "sender_type": "user",
+                "tenant_key": "1abd20e084069b82"
+              },
+              "updated": false
+            },
+            {
+              "content": "【项目管理/林晨】再同步一下：FEISHU-686 我还是 owner，blocker 没变，窗口仍在等安全评审",
+              "create_time": "2026-05-07 10:19",
+              "deleted": false,
+              "message_id": "om_x100b508b2531dca4c35c6572c9e7da9",
+              "msg_type": "text",
+              "sender": {
+                "id": "ou_7488779f2769b648358fca04a3e1919f",
+                "id_type": "open_id",
+                "name": "许祝愿",
+                "sender_type": "user",
+                "tenant_key": "1abd20e084069b82"
+              },
+              "updated": false
+            },
+            {
+              "content": "【研发平台/秦怡】后端认证模块改动已准备就绪，安全评审通过就能合入",
+              "create_time": "2026-05-07 10:19",
+              "deleted": false,
+              "message_id": "om_x100b508b22c13970c31b4fefc2db1c8",
+              "msg_type": "text",
+              "sender": {
+                "id": "ou_7488779f2769b648358fca04a3e1919f",
+                "id_type": "open_id",
+                "name": "许祝愿",
+                "sender_type": "user",
+                "tenant_key": "1abd20e084069b82"
+              },
+              "updated": false
+            },
+            {
+              "content": "【研发平台/罗天】前端侧已做兼容测试，API 变更后直接对接",
+              "create_time": "2026-05-07 10:19",
+              "deleted": false,
+              "message_id": "om_x100b508b22d6aca0c33d515b62b281e",
+              "msg_type": "text",
+              "sender": {
+                "id": "ou_7488779f2769b648358fca04a3e1919f",
+                "id_type": "open_id",
+                "name": "许祝愿",
+                "sender_type": "user",
+                "tenant_key": "1abd20e084069b82"
+              },
+              "updated": true
+            },
+            {
+              "content": "【研发平台/苏禾】Infra 全部已做预配置，可随时上线",
+              "create_time": "2026-05-07 10:19",
+              "deleted": false,
+              "message_id": "om_x100b508b22e5d8a8c22e16541e5ae83",
+              "msg_type": "text",
+              "sender": {
+                "id": "ou_7488779f2769b648358fca04a3e1919f",
+                "id_type": "open_id",
+                "name": "许祝愿",
+                "sender_type": "user",
+                "tenant_key": "1abd20e084069b82"
+              },
+              "updated": true
+            },
+            {
+              "content": "【研发平台/许薇】这是 API 认证流程调用频率数据，安全评审可能需要参考",
+              "create_time": "2026-05-07 10:19",
+              "deleted": false,
+              "message_id": "om_x100b508b22f8dc8cc325fdf1708de34",
+              "msg_type": "text",
+              "sender": {
+                "id": "ou_7488779f2769b648358fca04a3e1919f",
+                "id_type": "open_id",
+                "name": "许祝愿",
+                "sender_type": "user",
+                "tenant_key": "1abd20e084069b82"
+              },
+              "updated": true
+            },
+            {
+              "content": "【研发平台/高骏】用户反馈认证流程有时超时，这次改动正好能解决",
+              "create_time": "2026-05-07 10:19",
+              "deleted": false,
+              "message_id": "om_x100b508b22894498c3bc7918f12a555",
+              "msg_type": "text",
+              "sender": {
+                "id": "ou_7488779f2769b648358fca04a3e1919f",
+                "id_type": "open_id",
+                "name": "许祝愿",
+                "sender_type": "user",
+                "tenant_key": "1abd20e084069b82"
+              },
+              "updated": false
+            },
+            {
+              "content": "【企业协作/赵敏】FEISHU-686 的收口时间大概能确定吗？",
+              "create_time": "2026-05-07 10:19",
+              "deleted": false,
+              "message_id": "om_x100b508b229ff484c2b72ab470adf32",
+              "msg_type": "text",
+              "sender": {
+                "id": "ou_7488779f2769b648358fca04a3e1919f",
+                "id_type": "open_id",
+                "name": "许祝愿",
+                "sender_type": "user",
+                "tenant_key": "1abd20e084069b82"
+              },
+              "updated": false
+            },
+            {
+              "content": "【项目管理/林晨】等安全评审通过窗口锁定后才行，目前暂不能承诺",
+              "create_time": "2026-05-07 10:19",
+              "deleted": false,
+              "message_id": "om_x100b508b22acb8a8c3222f0bc1c7040",
+              "msg_type": "text",
+              "sender": {
+                "id": "ou_7488779f2769b648358fca04a3e1919f",
+                "id_type": "open_id",
+                "name": "许祝愿",
+                "sender_type": "user",
+                "tenant_key": "1abd20e084069b82"
+              },
+              "updated": false
+            },
+            {
+              "content": "【研发平台/高骏】当前只有 API 认证流程这一个 blocker 吗？",
+              "create_time": "2026-05-07 10:19",
+              "deleted": false,
+              "message_id": "om_x100b508b22a384acc2159b70dfd0ab4",
+              "msg_type": "text",
+              "sender": {
+                "id": "ou_7488779f2769b648358fca04a3e1919f",
+                "id_type": "open_id",
+                "name": "许祝愿",
+                "sender_type": "user",
+                "tenant_key": "1abd20e084069b82"
+              },
+              "updated": true
+            },
+            {
+              "content": "【项目管理/林晨】对，只有这一个，其他都就绪了",
+              "create_time": "2026-05-07 10:19",
+              "deleted": false,
+              "message_id": "om_x100b508b22b434b0c10f5d4964975e4",
+              "msg_type": "text",
+              "sender": {
+                "id": "ou_7488779f2769b648358fca04a3e1919f",
+                "id_type": "open_id",
+                "name": "许祝愿",
+                "sender_type": "user",
+                "tenant_key": "1abd20e084069b82"
+              },
+              "updated": false
+            },
+            {
+              "content": "【知识管理/何然】我把 FEISHU-686 的文档模板准备好了，需要补充什么？",
+              "create_time": "2026-05-07 10:19",
+              "deleted": false,
+              "message_id": "om_x100b508b22481088c42df7a35fa4a94",
+              "msg_type": "text",
+              "sender": {
+                "id": "ou_7488779f2769b648358fca04a3e1919f",
+                "id_type": "open_id",
+                "name": "许祝愿",
+                "sender_type": "user",
+                "tenant_key": "1abd20e084069b82"
+              },
+              "updated": false
+            },
+            {
+              "content": "【项目管理/林晨】先放基础架构部分，等认证部分通过后补上",
+              "create_time": "2026-05-07 10:19",
+              "deleted": false,
+              "message_id": "om_x100b508b225f98b4c330c6868313d53",
+              "msg_type": "text",
+              "sender": {
+                "id": "ou_7488779f2769b648358fca04a3e1919f",
+                "id_type": "open_id",
+                "name": "许祝愿",
+                "sender_type": "user",
+                "tenant_key": "1abd20e084069b82"
+              },
+              "updated": false
+            },
+            {
+              "content": "【研发平台/周宇】认证团队那边下周一才有空，我会跟催",
+              "create_time": "2026-05-07 10:19",
+              "deleted": false,
+              "message_id": "om_x100b508b225390b8c11f97e2f3a2fd2",
+              "msg_type": "text",
+              "sender": {
+                "id": "ou_7488779f2769b648358fca04a3e1919f",
+                "id_type": "open_id",
+                "name": "许祝愿",
+                "sender_type": "user",
+                "tenant_key": "1abd20e084069b82"
+              },
+              "updated": false
+            },
+            {
+              "content": "【研发平台/唐越】安全评审计划下周三进行，需要提前准备什么？",
+              "create_time": "2026-05-07 10:19",
+              "deleted": false,
+              "message_id": "om_x100b508b2267b8e8c3524c6c0480b75",
+              "msg_type": "text",
+              "sender": {
+                "id": "ou_7488779f2769b648358fca04a3e1919f",
+                "id_type": "open_id",
+                "name": "许祝愿",
+                "sender_type": "user",
+                "tenant_key": "1abd20e084069b82"
+              },
+              "updated": false
+            },
+            {
+              "content": "【项目管理/林晨】把认证流程文档和测试报告提交到评审系统",
+              "create_time": "2026-05-07 10:19",
+              "deleted": false,
+              "message_id": "om_x100b508b2277c480c338e8997cf3326",
+              "msg_type": "text",
+              "sender": {
+                "id": "ou_7488779f2769b648358fca04a3e1919f",
+                "id_type": "open_id",
+                "name": "许祝愿",
+                "sender_type": "user",
+                "tenant_key": "1abd20e084069b82"
+              },
+              "updated": false
+            },
+            {
+              "content": "【企业协作/沈嘉】需要我帮忙拉通团队吗？认证流程有点慢",
+              "create_time": "2026-05-07 10:19",
+              "deleted": false,
+              "message_id": "om_x100b508b220ad8a0c38ac55ecae98ec",
+              "msg_type": "text",
+              "sender": {
+                "id": "ou_7488779f2769b648358fca04a3e1919f",
+                "id_type": "open_id",
+                "name": "许祝愿",
+                "sender_type": "user",
+                "tenant_key": "1abd20e084069b82"
+              },
+              "updated": false
+            },
+            {
+              "content": "【项目管理/林晨】先不用，Bob 已经在跟了，有需要再找你",
+              "create_time": "2026-05-07 10:19",
+              "deleted": false,
+              "message_id": "om_x100b508b221f40acc14f9f8d6ab6596",
+              "msg_type": "text",
+              "sender": {
+                "id": "ou_7488779f2769b648358fca04a3e1919f",
+                "id_type": "open_id",
+                "name": "许祝愿",
+                "sender_type": "user",
+                "tenant_key": "1abd20e084069b82"
+              },
+              "updated": true
+            },
+            {
+              "content": "【项目管理/梁昕】我帮你排个周会，周五同步一下各模块进展",
+              "create_time": "2026-05-07 10:19",
+              "deleted": false,
+              "message_id": "om_x100b508b22133088c382623f7e1c85e",
+              "msg_type": "text",
+              "sender": {
+                "id": "ou_7488779f2769b648358fca04a3e1919f",
+                "id_type": "open_id",
+                "name": "许祝愿",
+                "sender_type": "user",
+                "tenant_key": "1abd20e084069b82"
+              },
+              "updated": false
+            },
+            {
+              "content": "【项目管理/林晨】好，周五下午三点，我发会议邀请",
+              "create_time": "2026-05-07 10:19",
+              "deleted": false,
+              "message_id": "om_x100b508b222734a8c2e26e03737f550",
+              "msg_type": "text",
+              "sender": {
+                "id": "ou_7488779f2769b648358fca04a3e1919f",
+                "id_type": "open_id",
+                "name": "许祝愿",
+                "sender_type": "user",
+                "tenant_key": "1abd20e084069b82"
+              },
+              "updated": false
+            },
+            {
+              "content": "【企业协作/赵敏】API 网关配置我已经检查过，可以上线时直接使用",
+              "create_time": "2026-05-07 10:19",
+              "deleted": false,
+              "message_id": "om_x100b508b223ab4a8c3ddba286782e96",
+              "msg_type": "text",
+              "sender": {
+                "id": "ou_7488779f2769b648358fca04a3e1919f",
+                "id_type": "open_id",
+                "name": "许祝愿",
+                "sender_type": "user",
+                "tenant_key": "1abd20e084069b82"
+              },
+              "updated": true
+            },
+            {
+              "content": "【项目管理/林晨】好，维持现状，大家继续推进各自部分",
+              "create_time": "2026-05-07 10:20",
+              "deleted": false,
+              "message_id": "om_x100b508b23c6ac94c2d8c51cc726fcf",
+              "msg_type": "text",
+              "sender": {
+                "id": "ou_7488779f2769b648358fca04a3e1919f",
+                "id_type": "open_id",
+                "name": "许祝愿",
+                "sender_type": "user",
+                "tenant_key": "1abd20e084069b82"
+              },
+              "updated": false
+            },
+            {
+              "content": "【组织发展/梁昕】跨部门协调需要我帮忙说一下吗？",
+              "create_time": "2026-05-07 10:20",
+              "deleted": false,
+              "message_id": "om_x100b508b23d470bcc32c0af514bc004",
+              "msg_type": "text",
+              "sender": {
+                "id": "ou_7488779f2769b648358fca04a3e1919f",
+                "id_type": "open_id",
+                "name": "许祝愿",
+                "sender_type": "user",
+                "tenant_key": "1abd20e084069b82"
+              },
+              "updated": true
+            },
+            {
+              "content": "【项目管理/林晨】暂时不用，有问题我找你说",
+              "create_time": "2026-05-07 10:20",
+              "deleted": false,
+              "message_id": "om_x100b508b23e510b4c3376ad77506246",
+              "msg_type": "text",
+              "sender": {
+                "id": "ou_7488779f2769b648358fca04a3e1919f",
+                "id_type": "open_id",
+                "name": "许祝愿",
+                "sender_type": "user",
+                "tenant_key": "1abd20e084069b82"
+              },
+              "updated": false
+            },
+            {
+              "content": "【项目管理/林晨】FEISHU-686 各模块就绪，只差安全评审一步",
+              "create_time": "2026-05-07 10:20",
+              "deleted": false,
+              "message_id": "om_x100b508b23fb2080c4371b123effe04",
+              "msg_type": "text",
+              "sender": {
+                "id": "ou_7488779f2769b648358fca04a3e1919f",
+                "id_type": "open_id",
+                "name": "许祝愿",
+                "sender_type": "user",
+                "tenant_key": "1abd20e084069b82"
+              },
+              "updated": false
+            },
+            {
+              "content": "【质量保障/陈雪】测试用例我已经补完了，等下上传",
+              "create_time": "2026-05-07 10:20",
+              "deleted": false,
+              "message_id": "om_x100b508b238fc8a4c43db5d07a90e96",
+              "msg_type": "text",
+              "sender": {
+                "id": "ou_7488779f2769b648358fca04a3e1919f",
+                "id_type": "open_id",
+                "name": "许祝愿",
+                "sender_type": "user",
+                "tenant_key": "1abd20e084069b82"
+              },
+              "updated": true
+            },
+            {
+              "content": "【项目管理/林晨】收到，辛苦大家",
+              "create_time": "2026-05-07 10:20",
+              "deleted": false,
+              "message_id": "om_x100b508b2382ed04c313e5c56bf8d04",
+              "msg_type": "text",
+              "sender": {
+                "id": "ou_7488779f2769b648358fca04a3e1919f",
+                "id_type": "open_id",
+                "name": "许祝愿",
+                "sender_type": "user",
+                "tenant_key": "1abd20e084069b82"
+              },
+              "updated": false
+            },
+            {
+              "content": "【项目管理/梁昕】会议邀请已发，周五下午三点，大家记得参加",
+              "create_time": "2026-05-07 10:20",
+              "deleted": false,
+              "message_id": "om_x100b508b2393bc8cc388b90a157a5a0",
+              "msg_type": "text",
+              "sender": {
+                "id": "ou_7488779f2769b648358fca04a3e1919f",
+                "id_type": "open_id",
+                "name": "许祝愿",
+                "sender_type": "user",
+                "tenant_key": "1abd20e084069b82"
+              },
+              "updated": false
+            },
+            {
+              "content": "【研发平台/秦怡】收到，我会准备后端改动说明",
+              "create_time": "2026-05-07 10:20",
+              "deleted": false,
+              "message_id": "om_x100b508b23a0650cc3787fe65121d57",
+              "msg_type": "text",
+              "sender": {
+                "id": "ou_7488779f2769b648358fca04a3e1919f",
+                "id_type": "open_id",
+                "name": "许祝愿",
+                "sender_type": "user",
+                "tenant_key": "1abd20e084069b82"
+              },
+              "updated": false
+            },
+            {
+              "content": "【研发平台/罗天】前端测试报告也会准备好",
+              "create_time": "2026-05-07 10:20",
+              "deleted": false,
+              "message_id": "om_x100b508b23b3d088c4f775141a1bc89",
+              "msg_type": "text",
+              "sender": {
+                "id": "ou_7488779f2769b648358fca04a3e1919f",
+                "id_type": "open_id",
+                "name": "许祝愿",
+                "sender_type": "user",
+                "tenant_key": "1abd20e084069b82"
+              },
+              "updated": false
+            },
+            {
+              "content": "【研发平台/苏禾】Infra 部署脚本已经写好，随时可用",
+              "create_time": "2026-05-07 10:20",
+              "deleted": false,
+              "message_id": "om_x100b508b235fb480c357d5958aa2212",
+              "msg_type": "text",
+              "sender": {
+                "id": "ou_7488779f2769b648358fca04a3e1919f",
+                "id_type": "open_id",
+                "name": "许祝愿",
+                "sender_type": "user",
+                "tenant_key": "1abd20e084069b82"
+              },
+              "updated": true
+            },
+            {
+              "content": "【项目管理/林晨】很好，大家都准备好了",
+              "create_time": "2026-05-07 10:20",
+              "deleted": false,
+              "message_id": "om_x100b508b235290f0c43f3e60a4606bb",
+              "msg_type": "text",
+              "sender": {
+                "id": "ou_7488779f2769b648358fca04a3e1919f",
+                "id_type": "open_id",
+                "name": "许祝愿",
+                "sender_type": "user",
+                "tenant_key": "1abd20e084069b82"
+              },
+              "updated": false
+            },
+            {
+              "content": "【研发平台/苏禾】FEISHU-686 的集成测试我这边也过了",
+              "create_time": "2026-05-07 10:20",
+              "deleted": false,
+              "message_id": "om_x100b508b236778acc37ca25b033a829",
+              "msg_type": "text",
+              "sender": {
+                "id": "ou_7488779f2769b648358fca04a3e1919f",
+                "id_type": "open_id",
+                "name": "许祝愿",
+                "sender_type": "user",
+                "tenant_key": "1abd20e084069b82"
+              },
+              "updated": false
+            },
+            {
+              "content": "【项目管理/林晨】好，知道了",
+              "create_time": "2026-05-07 10:20",
+              "deleted": false,
+              "message_id": "om_x100b508b230c88a8c385d2f8bc68513",
+              "msg_type": "text",
+              "sender": {
+                "id": "ou_7488779f2769b648358fca04a3e1919f",
+                "id_type": "open_id",
+                "name": "许祝愿",
+                "sender_type": "user",
+                "tenant_key": "1abd20e084069b82"
+              },
+              "updated": false
+            },
+            {
+              "content": "【研发平台/唐越】线上环境我已经准备好，可以随时发布",
+              "create_time": "2026-05-07 10:20",
+              "deleted": false,
+              "message_id": "om_x100b508b230098a8c14c1874cabe32d",
+              "msg_type": "text",
+              "sender": {
+                "id": "ou_7488779f2769b648358fca04a3e1919f",
+                "id_type": "open_id",
+                "name": "许祝愿",
+                "sender_type": "user",
+                "tenant_key": "1abd20e084069b82"
+              },
+              "updated": false
+            },
+            {
+              "content": "【项目管理/林晨】收到，辛苦",
+              "create_time": "2026-05-07 10:20",
+              "deleted": false,
+              "message_id": "om_x100b508b231750bcc4c0073f2990845",
+              "msg_type": "text",
+              "sender": {
+                "id": "ou_7488779f2769b648358fca04a3e1919f",
+                "id_type": "open_id",
+                "name": "许祝愿",
+                "sender_type": "user",
+                "tenant_key": "1abd20e084069b82"
+              },
+              "updated": false
+            },
+            {
+              "content": "【项目管理/许薇】发布窗口要在系统里登记，等安全评审通过后我处理",
+              "create_time": "2026-05-07 10:20",
+              "deleted": false,
+              "message_id": "om_x100b508b232b18e0c3813ac82bc6878",
+              "msg_type": "text",
+              "sender": {
+                "id": "ou_7488779f2769b648358fca04a3e1919f",
+                "id_type": "open_id",
+                "name": "许祝愿",
+                "sender_type": "user",
+                "tenant_key": "1abd20e084069b82"
+              },
+              "updated": false
+            },
+            {
+              "content": "【项目管理/林晨】好的，窗口登记等你来",
+              "create_time": "2026-05-07 10:20",
+              "deleted": false,
+              "message_id": "om_x100b508b233ee8a0c3bc50a9098c551",
+              "msg_type": "text",
+              "sender": {
+                "id": "ou_7488779f2769b648358fca04a3e1919f",
+                "id_type": "open_id",
+                "name": "许祝愿",
+                "sender_type": "user",
+                "tenant_key": "1abd20e084069b82"
+              },
+              "updated": false
+            },
+            {
+              "content": "【安全合规/秦怡】我协助提前检查合规要求，没问题",
+              "create_time": "2026-05-07 10:20",
+              "deleted": false,
+              "message_id": "om_x100b508b20ccd4b0c3772c944d9bdcf",
+              "msg_type": "text",
+              "sender": {
+                "id": "ou_7488779f2769b648358fca04a3e1919f",
+                "id_type": "open_id",
+                "name": "许祝愿",
+                "sender_type": "user",
+                "tenant_key": "1abd20e084069b82"
+              },
+              "updated": false
+            },
+            {
+              "content": "【项目管理/林晨】好的，谢谢 Victor",
+              "create_time": "2026-05-07 10:20",
+              "deleted": false,
+              "message_id": "om_x100b508b20c14964c4da998cf4e5d35",
+              "msg_type": "text",
+              "sender": {
+                "id": "ou_7488779f2769b648358fca04a3e1919f",
+                "id_type": "open_id",
+                "name": "许祝愿",
+                "sender_type": "user",
+                "tenant_key": "1abd20e084069b82"
+              },
+              "updated": false
+            },
+            {
+              "content": "【企业协作/陈雪】第三方依赖合同已经走完了",
+              "create_time": "2026-05-07 10:20",
+              "deleted": false,
+              "message_id": "om_x100b508b20d0148cc4ae6b46d0d631d",
+              "msg_type": "text",
+              "sender": {
+                "id": "ou_7488779f2769b648358fca04a3e1919f",
+                "id_type": "open_id",
+                "name": "许祝愿",
+                "sender_type": "user",
+                "tenant_key": "1abd20e084069b82"
+              },
+              "updated": false
+            },
+            {
+              "content": "【项目管理/林晨】好，外部依赖也齐了",
+              "create_time": "2026-05-07 10:20",
+              "deleted": false,
+              "message_id": "om_x100b508b20e60c80c4ecd02e42a7282",
+              "msg_type": "text",
+              "sender": {
+                "id": "ou_7488779f2769b648358fca04a3e1919f",
+                "id_type": "open_id",
+                "name": "许祝愿",
+                "sender_type": "user",
+                "tenant_key": "1abd20e084069b82"
+              },
+              "updated": false
+            },
+            {
+              "content": "【项目管理/林晨】再提醒一下：FEISHU-686 与 FEISHU-686 分开，请参考正式任务文档",
+              "create_time": "2026-05-07 10:20",
+              "deleted": false,
+              "message_id": "om_x100b508b20f56884c4cc8bdb5287d80",
+              "msg_type": "text",
+              "sender": {
+                "id": "ou_7488779f2769b648358fca04a3e1919f",
+                "id_type": "open_id",
+                "name": "许祝愿",
+                "sender_type": "user",
+                "tenant_key": "1abd20e084069b82"
+              },
+              "updated": false
+            }
+          ],
+          "page_token": "4cXSlmN7uFAnWWU5yfIGMH0EFUvHei23ZdtnW9Rx0AN1jOIb_CiVssVTOVSVvGLTsYc2mJs2xKuGNxKpCeJfjdwpk9n_6cOFeNR1sZtnDreO__5vvh2W3_tScHCNKq4M",
+          "total": 50
+        },
+        "_notice": {
+          "update": {
+            "current": "1.0.19",
+            "latest": "1.0.24",
+            "message": "lark-cli 1.0.24 available, current 1.0.19"
+          }
+        }
+      },
+      "stderr": "",
+      "returncode": 0
+    },
+    {
+      "action_id": "step_092",
+      "status": "success",
+      "command": [
+        "lark-cli",
+        "im",
+        "+chat-messages-list",
+        "--chat-id",
+        "oc_47595cbc19234e3a6b77d52e3b3f0800",
+        "--sort",
+        "asc",
+        "--page-size",
+        "50",
+        "--format",
+        "json",
+        "--as",
+        "user"
+      ],
+      "stdout": {
+        "ok": true,
+        "identity": "user",
+        "data": {
+          "has_more": false,
+          "messages": [
+            {
+              "content": "Welcome to {group_type}",
+              "create_time": "2026-05-07 10:19",
+              "deleted": false,
+              "message_id": "om_x100b508b243fb4b4c1120664df89c41",
+              "msg_type": "system",
+              "sender": {
+                "id": "",
+                "id_type": "",
+                "sender_type": "",
+                "tenant_key": ""
+              },
+              "updated": false
+            },
+            {
+              "content": "许祝愿 started the group chat.",
+              "create_time": "2026-05-07 10:19",
+              "deleted": false,
+              "message_id": "om_x100b508b243efcb0c2e4f0cfc378ea9",
+              "msg_type": "system",
+              "sender": {
+                "id": "",
+                "id_type": "",
+                "sender_type": "",
+                "tenant_key": ""
+              },
+              "updated": false
+            },
+            {
+              "content": "【项目管理/林晨】FEISHU-686 我这边审完了，人员充沛，下周三可以收口",
+              "create_time": "2026-05-07 10:20",
+              "deleted": false,
+              "message_id": "om_x100b508b20a694a4c3ad70c5d390a75",
+              "msg_type": "text",
+              "sender": {
+                "id": "ou_7488779f2769b648358fca04a3e1919f",
+                "id_type": "open_id",
+                "name": "许祝愿",
+                "sender_type": "user",
+                "tenant_key": "1abd20e084069b82"
+              },
+              "updated": false
+            },
+            {
+              "content": "【研发平台/周宇】好，我确认下内容，没遗漏就标记 Ready",
+              "create_time": "2026-05-07 10:20",
+              "deleted": false,
+              "message_id": "om_x100b508b20b6dca4c3585a419a80892",
+              "msg_type": "text",
+              "sender": {
+                "id": "ou_7488779f2769b648358fca04a3e1919f",
+                "id_type": "open_id",
+                "name": "许祝愿",
+                "sender_type": "user",
+                "tenant_key": "1abd20e084069b82"
+              },
+              "updated": true
+            },
+            {
+              "content": "【知识管理/何然】FEISHU-686 的文档最终版我放共享盘了，大家看一下",
+              "create_time": "2026-05-07 10:20",
+              "deleted": false,
+              "message_id": "om_x100b508b2040d4bcc3f492983ced5f0",
+              "msg_type": "text",
+              "sender": {
+                "id": "ou_7488779f2769b648358fca04a3e1919f",
+                "id_type": "open_id",
+                "name": "许祝愿",
+                "sender_type": "user",
+                "tenant_key": "1abd20e084069b82"
+              },
+              "updated": false
+            },
+            {
+              "content": "【项目管理/林晨】收到，我周五前看完",
+              "create_time": "2026-05-07 10:20",
+              "deleted": false,
+              "message_id": "om_x100b508b2057cbd4c317c60c38eb2b5",
+              "msg_type": "text",
+              "sender": {
+                "id": "ou_7488779f2769b648358fca04a3e1919f",
+                "id_type": "open_id",
+                "name": "许祝愿",
+                "sender_type": "user",
+                "tenant_key": "1abd20e084069b82"
+              },
+              "updated": false
+            }
+          ],
+          "page_token": "",
+          "total": 6
+        },
+        "_notice": {
+          "update": {
+            "current": "1.0.19",
+            "latest": "1.0.24",
+            "message": "lark-cli 1.0.24 available, current 1.0.19"
+          }
+        }
+      },
+      "stderr": "",
+      "returncode": 0
+    },
+    {
+      "action_id": "step_093",
+      "status": "success",
+      "command": [
+        "lark-cli",
+        "im",
+        "+chat-messages-list",
+        "--chat-id",
+        "oc_e068da7bff1881644c44c4894c2e3693",
+        "--sort",
+        "asc",
+        "--page-size",
+        "50",
+        "--format",
+        "json",
+        "--as",
+        "user"
+      ],
+      "stdout": {
+        "ok": true,
+        "identity": "user",
+        "data": {
+          "has_more": false,
+          "messages": [
+            {
+              "content": "Welcome to {group_type}",
+              "create_time": "2026-05-07 10:19",
+              "deleted": false,
+              "message_id": "om_x100b508b25c5ec80c4952bab0b81348",
+              "msg_type": "system",
+              "sender": {
+                "id": "",
+                "id_type": "",
+                "sender_type": "",
+                "tenant_key": ""
+              },
+              "updated": false
+            },
+            {
+              "content": "许祝愿 started the group chat.",
+              "create_time": "2026-05-07 10:19",
+              "deleted": false,
+              "message_id": "om_x100b508b25c444a4c3f0fd072b42d8c",
+              "msg_type": "system",
+              "sender": {
+                "id": "",
+                "id_type": "",
+                "sender_type": "",
+                "tenant_key": ""
+              },
+              "updated": false
+            },
+            {
+              "content": "【研发平台/周宇】演练 blocker 是环境问题，已经解决，窗口已锁定",
+              "create_time": "2026-05-07 10:20",
+              "deleted": false,
+              "message_id": "om_x100b508b206b0c98c2d1fd32006857b",
+              "msg_type": "text",
+              "sender": {
+                "id": "ou_7488779f2769b648358fca04a3e1919f",
+                "id_type": "open_id",
+                "name": "许祝愿",
+                "sender_type": "user",
+                "tenant_key": "1abd20e084069b82"
+              },
+              "updated": false
+            },
+            {
+              "content": "【研发平台/周宇】演练计划已经完成，环境准备好了",
+              "create_time": "2026-05-07 10:20",
+              "deleted": false,
+              "message_id": "om_x100b508b207fe4acc49047523b29292",
+              "msg_type": "text",
+              "sender": {
+                "id": "ou_7488779f2769b648358fca04a3e1919f",
+                "id_type": "open_id",
+                "name": "许祝愿",
+                "sender_type": "user",
+                "tenant_key": "1abd20e084069b82"
+              },
+              "updated": false
+            },
+            {
+              "content": "【企业协作/赵敏】好，窗口没问题，准备收口",
+              "create_time": "2026-05-07 10:20",
+              "deleted": false,
+              "message_id": "om_x100b508b20728898c4f3f6797a4b3c6",
+              "msg_type": "text",
+              "sender": {
+                "id": "ou_7488779f2769b648358fca04a3e1919f",
+                "id_type": "open_id",
+                "name": "许祝愿",
+                "sender_type": "user",
+                "tenant_key": "1abd20e084069b82"
+              },
+              "updated": false
+            }
+          ],
+          "page_token": "",
+          "total": 5
+        },
+        "_notice": {
+          "update": {
+            "current": "1.0.19",
+            "latest": "1.0.24",
+            "message": "lark-cli 1.0.24 available, current 1.0.19"
+          }
+        }
+      },
+      "stderr": "",
+      "returncode": 0
+    },
+    {
+      "action_id": "step_094",
+      "status": "success",
+      "command": [
+        "lark-cli",
+        "im",
+        "+chat-messages-list",
+        "--chat-id",
+        "oc_ad797bce84403a056a24d6b51ae05b83",
+        "--sort",
+        "asc",
+        "--page-size",
+        "50",
+        "--format",
+        "json",
+        "--as",
+        "user"
+      ],
+      "stdout": {
+        "ok": true,
+        "identity": "user",
+        "data": {
+          "has_more": false,
+          "messages": [
+            {
+              "content": "Welcome to {group_type}",
+              "create_time": "2026-05-07 10:19",
+              "deleted": false,
+              "message_id": "om_x100b508b25ee688cc44619454a6c71d",
+              "msg_type": "system",
+              "sender": {
+                "id": "",
+                "id_type": "",
+                "sender_type": "",
+                "tenant_key": ""
+              },
+              "updated": false
+            },
+            {
+              "content": "许祝愿 started the group chat.",
+              "create_time": "2026-05-07 10:19",
+              "deleted": false,
+              "message_id": "om_x100b508b25eab2b0c229cceeb95ea2d",
+              "msg_type": "system",
+              "sender": {
+                "id": "",
+                "id_type": "",
+                "sender_type": "",
+                "tenant_key": ""
+              },
+              "updated": false
+            },
+            {
+              "content": "【研发平台/王源】性能测试 blocker 是资源瓶颈，已扩容，预计本周收口",
+              "create_time": "2026-05-07 10:20",
+              "deleted": false,
+              "message_id": "om_x100b508b200344a8c4d180fad2b29e0",
+              "msg_type": "text",
+              "sender": {
+                "id": "ou_7488779f2769b648358fca04a3e1919f",
+                "id_type": "open_id",
+                "name": "许祝愿",
+                "sender_type": "user",
+                "tenant_key": "1abd20e084069b82"
+              },
+              "updated": false
+            },
+            {
+              "content": "【研发平台/王源】性能测试已经全部通过，报告发你",
+              "create_time": "2026-05-07 10:20",
+              "deleted": false,
+              "message_id": "om_x100b508b2010fcb8c2aa221ed0d0385",
+              "msg_type": "text",
+              "sender": {
+                "id": "ou_7488779f2769b648358fca04a3e1919f",
+                "id_type": "open_id",
+                "name": "许祝愿",
+                "sender_type": "user",
+                "tenant_key": "1abd20e084069b82"
+              },
+              "updated": false
+            },
+            {
+              "content": "【研发平台/许薇】数据我看过了，没问题",
+              "create_time": "2026-05-07 10:20",
+              "deleted": false,
+              "message_id": "om_x100b508b2026b8acc218471d61c911d",
+              "msg_type": "text",
+              "sender": {
+                "id": "ou_7488779f2769b648358fca04a3e1919f",
+                "id_type": "open_id",
+                "name": "许祝愿",
+                "sender_type": "user",
+                "tenant_key": "1abd20e084069b82"
+              },
+              "updated": false
+            }
+          ],
+          "page_token": "",
+          "total": 5
+        },
+        "_notice": {
+          "update": {
+            "current": "1.0.19",
+            "latest": "1.0.24",
+            "message": "lark-cli 1.0.24 available, current 1.0.19"
+          }
+        }
+      },
+      "stderr": "",
+      "returncode": 0
+    },
+    {
+      "action_id": "step_034",
+      "status": "success",
+      "command": [
+        "lark-cli",
+        "im",
+        "+messages-reply",
+        "--message-id",
+        "om_x100b508b203ae884c4c763b7a04277a",
+        "--text",
+        "【项目管理/林晨】补充一下：FEISHU-686 的客户对接目前由 Ray 负责，我继续管项目",
+        "--reply-in-thread",
+        "--as",
+        "user"
+      ],
+      "stdout": {
+        "ok": true,
+        "identity": "user",
+        "data": {
+          "chat_id": "oc_7fba2c36d0be9fb60888dce3525851dd",
+          "create_time": "2026-05-07 10:20:47",
+          "message_id": "om_x100b508b213f988cc2b07f1227ecda5"
+        },
+        "_notice": {
+          "update": {
+            "current": "1.0.19",
+            "latest": "1.0.24",
+            "message": "lark-cli 1.0.24 available, current 1.0.19"
+          }
+        }
+      },
+      "stderr": "",
+      "returncode": 0
+    },
+    {
+      "action_id": "step_035",
+      "status": "success",
+      "command": [
+        "lark-cli",
+        "im",
+        "+messages-reply",
+        "--message-id",
+        "om_x100b508b203ae884c4c763b7a04277a",
+        "--text",
+        "【客户协作/王源】明白了，客户那边我先不给承诺，等窗口锁定",
+        "--reply-in-thread",
+        "--as",
+        "user"
+      ],
+      "stdout": {
+        "ok": true,
+        "identity": "user",
+        "data": {
+          "chat_id": "oc_7fba2c36d0be9fb60888dce3525851dd",
+          "create_time": "2026-05-07 10:20:48",
+          "message_id": "om_x100b508b3ecd04bcc2150db07852e84"
+        },
+        "_notice": {
+          "update": {
+            "current": "1.0.19",
+            "latest": "1.0.24",
+            "message": "lark-cli 1.0.24 available, current 1.0.19"
+          }
+        }
+      },
+      "stderr": "",
+      "returncode": 0
+    },
+    {
+      "action_id": "step_079",
+      "status": "success",
+      "command": [
+        "lark-cli",
+        "im",
+        "+messages-reply",
+        "--message-id",
+        "om_x100b508b203ae884c4c763b7a04277a",
+        "--text",
+        "【项目管理/何然】FEISHU-686 的资源分配已经确认，团队到位",
+        "--reply-in-thread",
+        "--as",
+        "user"
+      ],
+      "stdout": {
+        "ok": true,
+        "identity": "user",
+        "data": {
+          "chat_id": "oc_7fba2c36d0be9fb60888dce3525851dd",
+          "create_time": "2026-05-07 10:20:48",
+          "message_id": "om_x100b508b3ec16c88c321f5ecfaad287"
+        },
+        "_notice": {
+          "update": {
+            "current": "1.0.19",
+            "latest": "1.0.24",
+            "message": "lark-cli 1.0.24 available, current 1.0.19"
+          }
+        }
+      },
+      "stderr": "",
+      "returncode": 0
+    },
+    {
+      "action_id": "step_080",
+      "status": "success",
+      "command": [
+        "lark-cli",
+        "im",
+        "+messages-reply",
+        "--message-id",
+        "om_x100b508b203ae884c4c763b7a04277a",
+        "--text",
+        "【项目管理/林晨】收到，资源没问题",
+        "--reply-in-thread",
+        "--as",
+        "user"
+      ],
+      "stdout": {
+        "ok": true,
+        "identity": "user",
+        "data": {
+          "chat_id": "oc_7fba2c36d0be9fb60888dce3525851dd",
+          "create_time": "2026-05-07 10:20:49",
+          "message_id": "om_x100b508b3ed1eca4c4f0488c0855c5a"
+        },
+        "_notice": {
+          "update": {
+            "current": "1.0.19",
+            "latest": "1.0.24",
+            "message": "lark-cli 1.0.24 available, current 1.0.19"
+          }
+        }
+      },
+      "stderr": "",
+      "returncode": 0
+    },
+    {
+      "action_id": "step_040",
+      "status": "success",
+      "command": [
+        "lark-cli",
+        "im",
+        "+messages-reply",
+        "--message-id",
+        "om_x100b508b21c50978c4f4809ae79d5df",
+        "--text",
+        "【研发平台/高骏】FEISHU-686 的风险主要是外部依赖，要赶紧推动认证",
+        "--reply-in-thread",
+        "--as",
+        "user"
+      ],
+      "stdout": {
+        "ok": true,
+        "identity": "user",
+        "data": {
+          "chat_id": "oc_68da6c81126a41875fabdee119e399f2",
+          "create_time": "2026-05-07 10:20:50",
+          "message_id": "om_x100b508b3ee678b8c49baec79c964b1"
+        },
+        "_notice": {
+          "update": {
+            "current": "1.0.19",
+            "latest": "1.0.24",
+            "message": "lark-cli 1.0.24 available, current 1.0.19"
+          }
+        }
+      },
+      "stderr": "",
+      "returncode": 0
+    },
+    {
+      "action_id": "step_041",
+      "status": "success",
+      "command": [
+        "lark-cli",
+        "im",
+        "+messages-reply",
+        "--message-id",
+        "om_x100b508b21c50978c4f4809ae79d5df",
+        "--text",
+        "【研发平台/周宇】我跟认证团队确认过，他们下周一开始审核",
+        "--reply-in-thread",
+        "--as",
+        "user"
+      ],
+      "stdout": {
+        "ok": true,
+        "identity": "user",
+        "data": {
+          "chat_id": "oc_68da6c81126a41875fabdee119e399f2",
+          "create_time": "2026-05-07 10:20:52",
+          "message_id": "om_x100b508b3e8de0b4c2a3d38744cd995"
+        },
+        "_notice": {
+          "update": {
+            "current": "1.0.19",
+            "latest": "1.0.24",
+            "message": "lark-cli 1.0.24 available, current 1.0.19"
+          }
+        }
+      },
+      "stderr": "",
+      "returncode": 0
+    },
+    {
+      "action_id": "step_064",
+      "status": "success",
+      "command": [
+        "lark-cli",
+        "im",
+        "+messages-reply",
+        "--message-id",
+        "om_x100b508b21c50978c4f4809ae79d5df",
+        "--text",
+        "【安全合规/周宇】安全评审我会优先处理，预计下周三出结果",
+        "--reply-in-thread",
+        "--as",
+        "user"
+      ],
+      "stdout": {
+        "ok": true,
+        "identity": "user",
+        "data": {
+          "chat_id": "oc_68da6c81126a41875fabdee119e399f2",
+          "create_time": "2026-05-07 10:20:53",
+          "message_id": "om_x100b508b3e82cc80c4dda5f8eb7ba1e"
+        },
+        "_notice": {
+          "update": {
+            "current": "1.0.19",
+            "latest": "1.0.24",
+            "message": "lark-cli 1.0.24 available, current 1.0.19"
+          }
+        }
+      },
+      "stderr": "",
+      "returncode": 0
+    },
+    {
+      "action_id": "step_065",
+      "status": "success",
+      "command": [
+        "lark-cli",
+        "im",
+        "+messages-reply",
+        "--message-id",
+        "om_x100b508b21c50978c4f4809ae79d5df",
+        "--text",
+        "【项目管理/林晨】好的，我们等你消息",
+        "--reply-in-thread",
+        "--as",
+        "user"
+      ],
+      "stdout": {
+        "ok": true,
+        "identity": "user",
+        "data": {
+          "chat_id": "oc_68da6c81126a41875fabdee119e399f2",
+          "create_time": "2026-05-07 10:20:54",
+          "message_id": "om_x100b508b3e910084c4fad71397e78a9"
+        },
+        "_notice": {
+          "update": {
+            "current": "1.0.19",
+            "latest": "1.0.24",
+            "message": "lark-cli 1.0.24 available, current 1.0.19"
+          }
+        }
+      },
+      "stderr": "",
+      "returncode": 0
+    },
+    {
+      "action_id": "step_095",
+      "status": "success",
+      "command": [
+        "lark-cli",
+        "im",
+        "+chat-messages-list",
+        "--chat-id",
+        "oc_e5a30161118ffb3d8e21aae14d95266f",
+        "--sort",
+        "asc",
+        "--page-size",
+        "50",
+        "--format",
+        "json",
+        "--as",
+        "user"
+      ],
+      "stdout": {
+        "ok": true,
+        "identity": "user",
+        "data": {
+          "has_more": false,
+          "messages": [
+            {
+              "content": "Welcome to {group_type}",
+              "create_time": "2026-05-07 10:19",
+              "deleted": false,
+              "message_id": "om_x100b508b25b04c98c4d57ae317b341b",
+              "msg_type": "system",
+              "sender": {
+                "id": "",
+                "id_type": "",
+                "sender_type": "",
+                "tenant_key": ""
+              },
+              "updated": false
+            },
+            {
+              "content": "许祝愿 started the group chat.",
+              "create_time": "2026-05-07 10:19",
+              "deleted": false,
+              "message_id": "om_x100b508b25b2b8b4c4d93160fba93c5",
+              "msg_type": "system",
+              "sender": {
+                "id": "",
+                "id_type": "",
+                "sender_type": "",
+                "tenant_key": ""
+              },
+              "updated": false
+            },
+            {
+              "content": "【客户协作/王源】客户问 FEISHU-686 能否本周上线，我说还在评估",
+              "create_time": "2026-05-07 10:20",
+              "deleted": false,
+              "message_id": "om_x100b508b21dacc88c3908addaac5a74",
+              "msg_type": "text",
+              "sender": {
+                "id": "ou_7488779f2769b648358fca04a3e1919f",
+                "id_type": "open_id",
+                "name": "许祝愿",
+                "sender_type": "user",
+                "tenant_key": "1abd20e084069b82"
+              },
+              "updated": false
+            },
+            {
+              "content": "【项目管理/林晨】暂时不能承诺，等窗口锁定再说",
+              "create_time": "2026-05-07 10:20",
+              "deleted": false,
+              "message_id": "om_x100b508b21e8c4d4c38949790bf483b",
+              "msg_type": "text",
+              "sender": {
+                "id": "ou_7488779f2769b648358fca04a3e1919f",
+                "id_type": "open_id",
+                "name": "许祝愿",
+                "sender_type": "user",
+                "tenant_key": "1abd20e084069b82"
+              },
+              "updated": false
+            },
+            {
+              "content": "【客户协作/王源】客户又问 FEISHU-686 进度了，我说周五给答复",
+              "create_time": "2026-05-07 10:20",
+              "deleted": false,
+              "message_id": "om_x100b508b21fef4a4c35087deeda396d",
+              "msg_type": "text",
+              "sender": {
+                "id": "ou_7488779f2769b648358fca04a3e1919f",
+                "id_type": "open_id",
+                "name": "许祝愿",
+                "sender_type": "user",
+                "tenant_key": "1abd20e084069b82"
+              },
+              "updated": false
+            },
+            {
+              "content": "【项目管理/林晨】行，周五同步，窗口没锁定就说还在等评审",
+              "create_time": "2026-05-07 10:20",
+              "deleted": false,
+              "message_id": "om_x100b508b21f2b088c3b58466c97d994",
+              "msg_type": "text",
+              "sender": {
+                "id": "ou_7488779f2769b648358fca04a3e1919f",
+                "id_type": "open_id",
+                "name": "许祝愿",
+                "sender_type": "user",
+                "tenant_key": "1abd20e084069b82"
+              },
+              "updated": false
+            },
+            {
+              "content": "【客户协作/王源】客户确认等我答复",
+              "create_time": "2026-05-07 10:20",
+              "deleted": false,
+              "message_id": "om_x100b508b2199d29cc33b1e70f193cf2",
+              "msg_type": "text",
+              "sender": {
+                "id": "ou_7488779f2769b648358fca04a3e1919f",
+                "id_type": "open_id",
+                "name": "许祝愿",
+                "sender_type": "user",
+                "tenant_key": "1abd20e084069b82"
+              },
+              "updated": false
+            },
+            {
+              "content": "【项目管理/林晨】周五见",
+              "create_time": "2026-05-07 10:20",
+              "deleted": false,
+              "message_id": "om_x100b508b21ad00acc10833828b0ca63",
+              "msg_type": "text",
+              "sender": {
+                "id": "ou_7488779f2769b648358fca04a3e1919f",
+                "id_type": "open_id",
+                "name": "许祝愿",
+                "sender_type": "user",
+                "tenant_key": "1abd20e084069b82"
+              },
+              "updated": false
+            }
+          ],
+          "page_token": "",
+          "total": 8
+        },
+        "_notice": {
+          "update": {
+            "current": "1.0.19",
+            "latest": "1.0.24",
+            "message": "lark-cli 1.0.24 available, current 1.0.19"
+          }
+        }
+      },
+      "stderr": "",
+      "returncode": 0
+    },
+    {
+      "action_id": "step_096",
+      "status": "success",
+      "command": [
+        "lark-cli",
+        "im",
+        "+chat-messages-list",
+        "--chat-id",
+        "oc_92bad674727bb5b7230328711197105f",
+        "--sort",
+        "asc",
+        "--page-size",
+        "50",
+        "--format",
+        "json",
+        "--as",
+        "user"
+      ],
+      "stdout": {
+        "ok": true,
+        "identity": "user",
+        "data": {
+          "has_more": false,
+          "messages": [
+            {
+              "content": "Welcome to {group_type}",
+              "create_time": "2026-05-07 10:19",
+              "deleted": false,
+              "message_id": "om_x100b508b255480bcc1130c8ed4551da",
+              "msg_type": "system",
+              "sender": {
+                "id": "",
+                "id_type": "",
+                "sender_type": "",
+                "tenant_key": ""
+              },
+              "updated": false
+            },
+            {
+              "content": "许祝愿 started the group chat.",
+              "create_time": "2026-05-07 10:19",
+              "deleted": false,
+              "message_id": "om_x100b508b2557ed1cc2149845957fdf6",
+              "msg_type": "system",
+              "sender": {
+                "id": "",
+                "id_type": "",
+                "sender_type": "",
+                "tenant_key": ""
+              },
+              "updated": false
+            },
+            {
+              "content": "【研发平台/高骏】FEISHU-686 和 FEISHU-686 都在推进，大家不要搞混了",
+              "create_time": "2026-05-07 10:20",
+              "deleted": false,
+              "message_id": "om_x100b508b21a090b0c14a9d97278820e",
+              "msg_type": "text",
+              "sender": {
+                "id": "ou_7488779f2769b648358fca04a3e1919f",
+                "id_type": "open_id",
+                "name": "许祝愿",
+                "sender_type": "user",
+                "tenant_key": "1abd20e084069b82"
+              },
+              "updated": false
+            },
+            {
+              "content": "【企业协作/赵敏】FEISHU-686 的文档基本审完了，下周三收口没问题",
+              "create_time": "2026-05-07 10:20",
+              "deleted": false,
+              "message_id": "om_x100b508b21b410a8c2295ce8dc3d024",
+              "msg_type": "text",
+              "sender": {
+                "id": "ou_7488779f2769b648358fca04a3e1919f",
+                "id_type": "open_id",
+                "name": "许祝愿",
+                "sender_type": "user",
+                "tenant_key": "1abd20e084069b82"
+              },
+              "updated": false
+            },
+            {
+              "content": "【项目管理/林晨】FEISHU-686 的窗口还没锁定，等安全评审",
+              "create_time": "2026-05-07 10:20",
+              "deleted": false,
+              "message_id": "om_x100b508b214ae0a8c49fadd660a1fe5",
+              "msg_type": "text",
+              "sender": {
+                "id": "ou_7488779f2769b648358fca04a3e1919f",
+                "id_type": "open_id",
+                "name": "许祝愿",
+                "sender_type": "user",
+                "tenant_key": "1abd20e084069b82"
+              },
+              "updated": false
+            },
+            {
+              "content": "【研发平台/高骏】FEISHU-686 迁移任务下周一启动，David 负责",
+              "create_time": "2026-05-07 10:20",
+              "deleted": false,
+              "message_id": "om_x100b508b2158f8a8c370b87264ed88f",
+              "msg_type": "text",
+              "sender": {
+                "id": "ou_7488779f2769b648358fca04a3e1919f",
+                "id_type": "open_id",
+                "name": "许祝愿",
+                "sender_type": "user",
+                "tenant_key": "1abd20e084069b82"
+              },
+              "updated": false
+            },
+            {
+              "content": "【研发平台/王源】收到，数据库迁移方案已经准备好",
+              "create_time": "2026-05-07 10:20",
+              "deleted": false,
+              "message_id": "om_x100b508b216f9ce0c4484d502fff484",
+              "msg_type": "text",
+              "sender": {
+                "id": "ou_7488779f2769b648358fca04a3e1919f",
+                "id_type": "open_id",
+                "name": "许祝愿",
+                "sender_type": "user",
+                "tenant_key": "1abd20e084069b82"
+              },
+              "updated": false
+            }
+          ],
+          "page_token": "",
+          "total": 7
+        },
+        "_notice": {
+          "update": {
+            "current": "1.0.19",
+            "latest": "1.0.24",
+            "message": "lark-cli 1.0.24 available, current 1.0.19"
+          }
+        }
+      },
+      "stderr": "",
+      "returncode": 0
+    },
+    {
+      "action_id": "step_097",
+      "status": "success",
+      "command": [
+        "lark-cli",
+        "im",
+        "+threads-messages-list",
+        "--thread",
+        "om_x100b508b203ae884c4c763b7a04277a",
+        "--sort",
+        "asc",
+        "--page-size",
+        "50",
+        "--format",
+        "json",
+        "--as",
+        "user"
+      ],
+      "stdout": {
+        "ok": true,
+        "identity": "user",
+        "data": {
+          "has_more": false,
+          "messages": [
+            {
+              "content": "【项目管理/林晨】补充一下：FEISHU-686 的客户对接目前由 Ray 负责，我继续管项目",
+              "create_time": "2026-05-07 10:20",
+              "deleted": false,
+              "message_id": "om_x100b508b213f988cc2b07f1227ecda5",
+              "msg_type": "text",
+              "sender": {
+                "id": "ou_7488779f2769b648358fca04a3e1919f",
+                "id_type": "open_id",
+                "name": "许祝愿",
+                "sender_type": "user",
+                "tenant_key": "1abd20e084069b82"
+              },
+              "thread_id": "omt_1a9e7e26504d5be0",
+              "updated": false
+            },
+            {
+              "content": "【客户协作/王源】明白了，客户那边我先不给承诺，等窗口锁定",
+              "create_time": "2026-05-07 10:20",
+              "deleted": false,
+              "message_id": "om_x100b508b3ecd04bcc2150db07852e84",
+              "msg_type": "text",
+              "sender": {
+                "id": "ou_7488779f2769b648358fca04a3e1919f",
+                "id_type": "open_id",
+                "name": "许祝愿",
+                "sender_type": "user",
+                "tenant_key": "1abd20e084069b82"
+              },
+              "thread_id": "omt_1a9e7e26504d5be0",
+              "updated": false
+            },
+            {
+              "content": "【项目管理/何然】FEISHU-686 的资源分配已经确认，团队到位",
+              "create_time": "2026-05-07 10:20",
+              "deleted": false,
+              "message_id": "om_x100b508b3ec16c88c321f5ecfaad287",
+              "msg_type": "text",
+              "sender": {
+                "id": "ou_7488779f2769b648358fca04a3e1919f",
+                "id_type": "open_id",
+                "name": "许祝愿",
+                "sender_type": "user",
+                "tenant_key": "1abd20e084069b82"
+              },
+              "thread_id": "omt_1a9e7e26504d5be0",
+              "updated": false
+            },
+            {
+              "content": "【项目管理/林晨】收到，资源没问题",
+              "create_time": "2026-05-07 10:20",
+              "deleted": false,
+              "message_id": "om_x100b508b3ed1eca4c4f0488c0855c5a",
+              "msg_type": "text",
+              "sender": {
+                "id": "ou_7488779f2769b648358fca04a3e1919f",
+                "id_type": "open_id",
+                "name": "许祝愿",
+                "sender_type": "user",
+                "tenant_key": "1abd20e084069b82"
+              },
+              "thread_id": "omt_1a9e7e26504d5be0",
+              "updated": false
+            }
+          ],
+          "page_token": "",
+          "thread_id": "omt_1a9e7e26504d5be0",
+          "total": 4
+        },
+        "_notice": {
+          "update": {
+            "current": "1.0.19",
+            "latest": "1.0.24",
+            "message": "lark-cli 1.0.24 available, current 1.0.19"
+          }
+        }
+      },
+      "stderr": "",
+      "returncode": 0
+    },
+    {
+      "action_id": "step_098",
+      "status": "success",
+      "command": [
+        "lark-cli",
+        "im",
+        "+threads-messages-list",
+        "--thread",
+        "om_x100b508b21c50978c4f4809ae79d5df",
+        "--sort",
+        "asc",
+        "--page-size",
+        "50",
+        "--format",
+        "json",
+        "--as",
+        "user"
+      ],
+      "stdout": {
+        "ok": true,
+        "identity": "user",
+        "data": {
+          "has_more": false,
+          "messages": [
+            {
+              "content": "【研发平台/高骏】FEISHU-686 的风险主要是外部依赖，要赶紧推动认证",
+              "create_time": "2026-05-07 10:20",
+              "deleted": false,
+              "message_id": "om_x100b508b3ee678b8c49baec79c964b1",
+              "msg_type": "text",
+              "sender": {
+                "id": "ou_7488779f2769b648358fca04a3e1919f",
+                "id_type": "open_id",
+                "name": "许祝愿",
+                "sender_type": "user",
+                "tenant_key": "1abd20e084069b82"
+              },
+              "thread_id": "omt_1a9e7e39ae529be3",
+              "updated": false
+            },
+            {
+              "content": "【研发平台/周宇】我跟认证团队确认过，他们下周一开始审核",
+              "create_time": "2026-05-07 10:20",
+              "deleted": false,
+              "message_id": "om_x100b508b3e8de0b4c2a3d38744cd995",
+              "msg_type": "text",
+              "sender": {
+                "id": "ou_7488779f2769b648358fca04a3e1919f",
+                "id_type": "open_id",
+                "name": "许祝愿",
+                "sender_type": "user",
+                "tenant_key": "1abd20e084069b82"
+              },
+              "thread_id": "omt_1a9e7e39ae529be3",
+              "updated": false
+            },
+            {
+              "content": "【安全合规/周宇】安全评审我会优先处理，预计下周三出结果",
+              "create_time": "2026-05-07 10:20",
+              "deleted": false,
+              "message_id": "om_x100b508b3e82cc80c4dda5f8eb7ba1e",
+              "msg_type": "text",
+              "sender": {
+                "id": "ou_7488779f2769b648358fca04a3e1919f",
+                "id_type": "open_id",
+                "name": "许祝愿",
+                "sender_type": "user",
+                "tenant_key": "1abd20e084069b82"
+              },
+              "thread_id": "omt_1a9e7e39ae529be3",
+              "updated": false
+            },
+            {
+              "content": "【项目管理/林晨】好的，我们等你消息",
+              "create_time": "2026-05-07 10:20",
+              "deleted": false,
+              "message_id": "om_x100b508b3e910084c4fad71397e78a9",
+              "msg_type": "text",
+              "sender": {
+                "id": "ou_7488779f2769b648358fca04a3e1919f",
+                "id_type": "open_id",
+                "name": "许祝愿",
+                "sender_type": "user",
+                "tenant_key": "1abd20e084069b82"
+              },
+              "thread_id": "omt_1a9e7e39ae529be3",
+              "updated": false
+            }
+          ],
+          "page_token": "",
+          "thread_id": "omt_1a9e7e39ae529be3",
+          "total": 4
+        },
+        "_notice": {
+          "update": {
+            "current": "1.0.19",
+            "latest": "1.0.24",
+            "message": "lark-cli 1.0.24 available, current 1.0.19"
+          }
+        }
+      },
+      "stderr": "",
+      "returncode": 0
+    }
+  ],
+  "preflight": {
+    "lark_cli_available": true,
+    "operator_identity": "user",
+    "auth_ok": true,
+    "im_capabilities_ok": true,
+    "warnings": [],
+    "auth_status": {
+      "appId": "cli_a96614f041b8dcb2",
+      "brand": "feishu",
+      "defaultAs": "auto",
+      "expiresAt": "2026-05-07T07:32:11+08:00",
+      "grantedAt": "2026-04-28T19:32:46+08:00",
+      "identity": "user",
+      "refreshExpiresAt": "2026-05-14T05:32:11+08:00",
+      "scope": "approval:instance:read approval:instance:write approval:task:read approval:task:write attendance:task:readonly auth:user.id:read base:app:copy base:app:create base:app:read base:app:update base:dashboard:create base:dashboard:delete base:dashboard:read base:dashboard:update base:field:create base:field:delete base:field:read base:field:update base:form:create base:form:delete base:form:read base:form:update base:history:read base:record:create base:record:delete base:record:read base:record:update base:role:create base:role:delete base:role:read base:role:update base:table:create base:table:delete base:table:read base:table:update base:view:read base:view:write_only base:workflow:create base:workflow:delete base:workflow:read base:workflow:update base:workspace:list board:whiteboard:node:create board:whiteboard:node:delete board:whiteboard:node:read calendar:calendar.event:create calendar:calendar.event:delete calendar:calendar.event:read calendar:calendar.event:reply calendar:calendar.event:update calendar:calendar.free_busy:read calendar:calendar:create calendar:calendar:delete calendar:calendar:read calendar:calendar:update contact:user.base:readonly contact:user.basic_profile:readonly contact:user:search docs:document.comment:create docs:document.comment:delete docs:document.comment:read docs:document.comment:update docs:document.comment:write_only docs:document.content:read docs:document.media:download docs:document.media:upload docs:document:copy docs:document:export docs:document:import docs:event:subscribe docs:permission.member:apply docs:permission.member:auth docs:permission.member:create docs:permission.member:transfer docx:document:create docx:document:readonly docx:document:write_only drive:drive.metadata:readonly drive:file:download drive:file:upload drive:file:view_record:readonly im:chat.members:read im:chat.members:write_only im:chat:create_by_user im:chat:read im:chat:update im:message im:message.group_msg:get_as_user im:message.p2p_msg:get_as_user im:message.pins:read im:message.pins:write_only im:message.reactions:read im:message.reactions:write_only im:message.send_as_user im:message:readonly im:message:recall mail:event mail:user_mailbox.event.mail_address:read mail:user_mailbox.folder:read mail:user_mailbox.folder:write mail:user_mailbox.mail_contact:read mail:user_mailbox.mail_contact:write mail:user_mailbox.message.address:read mail:user_mailbox.message.body:read mail:user_mailbox.message.subject:read mail:user_mailbox.message:modify mail:user_mailbox.message:readonly mail:user_mailbox.message:send mail:user_mailbox.rule:read mail:user_mailbox.rule:write mail:user_mailbox:readonly minutes:minutes.basic:read minutes:minutes.media:export minutes:minutes.search:read okr:okr.content:readonly okr:okr.content:writeonly okr:okr.period:readonly okr:okr.setting:read search:docs:read search:message sheets:spreadsheet.meta:read sheets:spreadsheet.meta:write_only sheets:spreadsheet:create sheets:spreadsheet:read sheets:spreadsheet:write_only slides:presentation:create slides:presentation:read slides:presentation:update slides:presentation:write_only space:document:delete space:document:move space:document:retrieve space:document:shortcut space:folder:create task:comment:write task:task:read task:task:write task:tasklist:read task:tasklist:write vc:meeting.meetingevent:read vc:meeting.search:read vc:note:read vc:record:readonly wiki:member:create wiki:member:retrieve wiki:member:update wiki:node:copy wiki:node:create wiki:node:move wiki:node:read wiki:node:retrieve wiki:node:update wiki:space:read wiki:space:retrieve wiki:space:write_only wiki:wiki:readonly offline_access",
+      "tokenStatus": "needs_refresh",
+      "userName": "许祝愿",
+      "userOpenId": "ou_7488779f2769b648358fca04a3e1919f"
+    }
+  }
+}
