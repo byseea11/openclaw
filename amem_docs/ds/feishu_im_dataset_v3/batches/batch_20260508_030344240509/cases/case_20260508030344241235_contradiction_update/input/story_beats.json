@@ -1,0 +1,55 @@
+{
+  "case_id": "case_20260508030344241235_contradiction_update",
+  "family_id": "contradiction_update",
+  "task_id": "FEISHU-335",
+  "beats": [
+    {
+      "beat_id": "beat_001",
+      "target_session_id": "main_chat",
+      "benchmark_role": "final_current_state_turn",
+      "description": "Alice assigns FEISHU-335 to Bob with deadline 2026-03-15 and status open."
+    },
+    {
+      "beat_id": "beat_002",
+      "target_session_id": "main_chat",
+      "benchmark_role": "final_current_state_turn",
+      "description": "Bob updates FEISHU-335 status to in_progress."
+    },
+    {
+      "beat_id": "beat_003",
+      "target_session_id": "main_chat",
+      "benchmark_role": "final_current_state_turn",
+      "description": "Alice transfers FEISHU-335 to David, deadline extended to 2026-03-20."
+    },
+    {
+      "beat_id": "beat_004",
+      "target_session_id": "main_chat",
+      "benchmark_role": "final_current_state_turn",
+      "description": "David changes FEISHU-335 owner to Carol, deadline pushed to 2026-03-25, status blocked."
+    },
+    {
+      "beat_id": "beat_005",
+      "target_session_id": "main_chat",
+      "benchmark_role": "final_current_state_turn",
+      "description": "Eve asks about server maintenance schedule this weekend."
+    },
+    {
+      "beat_id": "beat_006",
+      "target_session_id": "thread_release",
+      "benchmark_role": "final_current_state_turn",
+      "description": "Frank proposes a new architecture review for next quarter."
+    },
+    {
+      "beat_id": "beat_007",
+      "target_session_id": "main_chat",
+      "benchmark_role": "final_current_state_turn",
+      "description": "Alice asks David to confirm his past owner role on FEISHU-335."
+    },
+    {
+      "beat_id": "beat_008",
+      "target_session_id": "main_chat",
+      "benchmark_role": "final_current_state_turn",
+      "description": "Carol acknowledges she is now the owner of FEISHU-335 and will work on the blocked status."
+    }
+  ]
+}

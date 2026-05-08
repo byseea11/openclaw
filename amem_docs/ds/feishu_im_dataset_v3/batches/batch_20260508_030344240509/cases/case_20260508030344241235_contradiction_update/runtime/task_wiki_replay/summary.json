@@ -1,0 +1,90 @@
+{
+  "case_dir": "amem_docs/ds/feishu_im_dataset_v3/batches/batch_20260508_030344240509/cases/case_20260508030344241235_contradiction_update",
+  "semantic_gold_mode": "rule",
+  "status": "passed",
+  "health_score": 95.14,
+  "blocking_failures": [],
+  "warnings": [
+    "layer3:lint_warnings_present"
+  ],
+  "report_path": "amem_docs/ds/feishu_im_dataset_v3/batches/batch_20260508_030344240509/cases/case_20260508030344241235_contradiction_update/reports/task_wiki_runtime_eval.md",
+  "layer_metrics": {
+    "case_id": "case_20260508030344241235_contradiction_update",
+    "task_id": "FEISHU-335",
+    "input": {
+      "ingress_count": 27,
+      "collected_message_count": 27
+    },
+    "layer1_binding": {
+      "binding_total": 27,
+      "binding_bound": 27,
+      "binding_rate": 1,
+      "target_task_binding_rate": 1,
+      "skipped_count": 0,
+      "status": "passed",
+      "score": 100,
+      "blocking_failures": [],
+      "warnings": []
+    },
+    "layer2_events": {
+      "ingested_count": 27,
+      "skipped_count": 0,
+      "candidate_events_returned_during_ingest": 36,
+      "verification_jobs_queued": 32,
+      "candidate_event_count": 36,
+      "verified_event_count": 31,
+      "verification_rate": 0.8611,
+      "session_count": 4,
+      "sessions_with_events": 4,
+      "candidate_validation_breakdown": {
+        "ready_for_verification": 32,
+        "rejected": 4
+      },
+      "rejected_candidate_count": 5,
+      "ready_for_verification_count": 32,
+      "queued_verification_count": 32,
+      "rejection_reason_breakdown": {
+        "quote_location:missing_entry": 4,
+        "unknown": 1
+      },
+      "missing_field_breakdown": {},
+      "status": "passed",
+      "score": 86.11,
+      "blocking_failures": [],
+      "warnings": []
+    },
+    "layer3_wiki": {
+      "task_root_count": 1,
+      "projected_task_count": 1,
+      "projection_rate": 1,
+      "projection_status": "projected",
+      "lint_result_count": 1,
+      "orphan_event_count": 0,
+      "missing_evidence_ref_count": 0,
+      "stale_claim_count": 0,
+      "quote_strength_count": 0,
+      "unresolved_objection_count": 0,
+      "overdue_commitment_count": 1,
+      "open_conflict_count": 0,
+      "orphan_block_count": 0,
+      "missing_cross_ref_count": 0,
+      "orphan_session_wiki_count": 0,
+      "lint_blocking_count": 0,
+      "lint_warning_count": 1,
+      "status": "passed",
+      "score": 100,
+      "blocking_failures": [],
+      "warnings": [
+        "layer3:lint_warnings_present"
+      ]
+    },
+    "overall": {
+      "status": "passed",
+      "blocking_failures": [],
+      "warnings": [
+        "layer3:lint_warnings_present"
+      ],
+      "health_score": 95.14
+    }
+  }
+}

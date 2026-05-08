@@ -1,0 +1,41 @@
+{
+  "version": 1,
+  "generated_at": "2026-05-08T04:00:34.988Z",
+  "orphan_event_count": 0,
+  "missing_evidence_ref_count": 0,
+  "stale_claim_count": 0,
+  "quote_strength_count": 0,
+  "unresolved_objection_count": 2,
+  "overdue_commitment_count": 0,
+  "open_conflict_count": 0,
+  "orphan_block_count": 0,
+  "missing_cross_ref_count": 0,
+  "orphan_session_wiki_count": 0,
+  "findings": {
+    "orphan_events": [],
+    "missing_evidence_refs": [],
+    "stale_claims": [],
+    "quote_strength": [],
+    "unresolved_objections": [
+      {
+        "source_session_id": "task:FEISHU-336::chat:oc_0810506ffbcff97f2032705bad42f55c",
+        "block_id": "block-发布时间口径-867908bd",
+        "topic_title": "发布时间口径",
+        "claim": "周宇 这个消息有来源吗？先别急着信。",
+        "event_id": "evt_8ea774d63e0d8c41"
+      },
+      {
+        "source_session_id": "task:FEISHU-336::chat:oc_0810506ffbcff97f2032705bad42f55c",
+        "block_id": "block-正式升级窗口-930e601a",
+        "topic_title": "正式升级窗口",
+        "claim": "窗口还没正式解锁，别快进。",
+        "event_id": "evt_56d4b4953459eb37"
+      }
+    ],
+    "overdue_commitments": [],
+    "open_conflicts": [],
+    "orphan_blocks": [],
+    "missing_cross_refs": [],
+    "orphan_session_wikis": []
+  }
+}

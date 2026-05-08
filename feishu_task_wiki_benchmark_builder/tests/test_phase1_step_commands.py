@@ -9,8 +9,19 @@ from contextlib import redirect_stderr, redirect_stdout
 from pathlib import Path
 from unittest.mock import patch
 
-from feishu_task_wiki_benchmark_builder.cli import PHASE1_STAGE_ORDER, compile_phase1, compile_phase2, compile_phase3, main
-from feishu_task_wiki_benchmark_builder.io import read_json, read_jsonl
+from feishu_task_wiki_benchmark_builder.cli import (
+    PHASE1_STAGE_ORDER,
+    compile_phase1,
+    compile_phase2,
+    compile_phase3,
+    main,
+    run_dataset_audit,
+    run_phase2_annotation_gold,
+    run_phase2_gold_validate,
+    run_phase2_query_benchmark,
+    run_phase2_semantic_gold,
+)
+from feishu_task_wiki_benchmark_builder.io import read_json, read_jsonl, write_json
 from feishu_task_wiki_benchmark_builder.llm import ModelBackendError
 
 
@@ -226,6 +237,56 @@ process.stdin.on("end", () => {
             self.assertEqual(semantic["stage"], "semantic-gold")
             self.assertEqual(semantic["artifact"]["mode"], "rule")
             self.assertTrue(Path(semantic["artifact_path"]).exists())
+
+    def test_phase2_gold_validate_rejects_mismatched_query_task_id_and_writes_audit(self) -> None:
+        with tempfile.TemporaryDirectory() as tmpdir:
+            phase1 = compile_phase1(
+                dataset_root=tmpdir,
+                seed=66,
+                family_id="private_info_in_official_file",
+                difficulty="medium",
+            )
+            case_dir = Path(phase1["case_dir"])
+            run_phase2_annotation_gold(case_dir=case_dir)
+            run_phase2_semantic_gold(case_dir=case_dir, semantic_gold_mode="rule")
+            run_phase2_query_benchmark(case_dir=case_dir)
+            query_path = case_dir / "gold" / "query_benchmark.json"
+            query_benchmark = read_json(query_path)
+            query_benchmark["queries"][0]["query"] = query_benchmark["queries"][0]["query"].replace(
+                "FEISHU-266",
+                "FEISHU-301",
+            )
+            write_json(query_path, query_benchmark)
+
+            with self.assertRaises(ValueError) as ctx:
+                run_phase2_gold_validate(case_dir=case_dir)
+
+            self.assertIn("FEISHU-301", str(ctx.exception))
+            gold_report = read_json(case_dir / "checks" / "gold_validation_report.json")
+            audit_report = read_json(case_dir / "checks" / "dataset_audit_report.json")
+            self.assertEqual(gold_report["status"], "failed")
+            self.assertEqual(audit_report["status"], "failed")
+
+    def test_dataset_audit_reports_missing_gold_and_task_id_mismatch(self) -> None:
+        with tempfile.TemporaryDirectory() as tmpdir:
+            phase1 = compile_phase1(
+                dataset_root=tmpdir,
+                seed=67,
+                family_id="private_info_in_official_file",
+                difficulty="medium",
+            )
+            case_dir = Path(phase1["case_dir"])
+            story_path = case_dir / "input" / "story_plan.json"
+            story_plan = read_json(story_path)
+            story_plan["task"]["task_id"] = "FEISHU-301"
+            write_json(story_path, story_plan)
+
+            audit = run_dataset_audit(case_dir=case_dir)["artifact"]
+
+            self.assertEqual(audit["status"], "failed")
+            codes = {issue["code"] for issue in audit["issues"]}
+            self.assertIn("story_plan_task_id_mismatch", codes)
+            self.assertIn("missing_gold_artifact", codes)
 
     def test_phase2_and_phase3_can_resolve_active_case(self) -> None:
         with tempfile.TemporaryDirectory() as tmpdir:

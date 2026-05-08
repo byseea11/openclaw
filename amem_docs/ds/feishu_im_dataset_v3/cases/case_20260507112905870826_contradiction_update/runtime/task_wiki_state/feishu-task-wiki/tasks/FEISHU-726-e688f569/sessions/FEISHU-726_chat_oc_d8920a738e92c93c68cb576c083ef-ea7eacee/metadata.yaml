@@ -1,0 +1,29 @@
+task_id: task:FEISHU-726
+task_key: FEISHU-726
+source_session_id: task:FEISHU-726::chat:oc_d8920a738e92c93c68cb576c083ef840
+source_scope: chat:oc_d8920a738e92c93c68cb576c083ef840
+source_type: chat
+source_id: chat:main_chat
+chat_id: oc_d8920a738e92c93c68cb576c083ef840
+thread_id: null
+root_id: null
+time_range:
+  start: 2026-05-07T20:08:08.050Z
+  end: 2026-05-07T20:10:37.265Z
+participants:
+  - 陈雪
+  - 林晨
+  - 周宇
+  - 王源
+  - 苏禾
+  - 罗天
+  - 秦怡
+source_locator: chat:main_chat
+binding_mode: source_id
+created_at: 2026-05-07T20:08:08.051Z
+updated_at: 2026-05-07T20:10:37.266Z
+latest_ingest_version: 25
+raw_ingest_count: 25
+visible_ingest_count: 25
+compacted_at: 2026-05-07T20:10:37.266Z
+retained_entry_count: 25

@@ -1,0 +1,1475 @@
+{
+  "version": 1,
+  "task_id": "task:FEISHU-334",
+  "task_key": "FEISHU-334",
+  "sources": {
+    "task:FEISHU-334::chat:oc_e1c2f6562931721f49f7af7a2a02db9a": {
+      "source_session_id": "task:FEISHU-334::chat:oc_e1c2f6562931721f49f7af7a2a02db9a",
+      "session_wiki_path": "sessions/FEISHU-334_chat_oc_e1c2f6562931721f49f7af7a2a02d-c461e39a/session_wiki.md",
+      "blocks": [
+        {
+          "block_id": "block-操作手册更新-f0a178af",
+          "topic_key": "操作手册更新",
+          "topic_title": "操作手册更新",
+          "summary": "操作手册已更新，缺网络拓扑图。",
+          "status": "active",
+          "block_link": "sessions/FEISHU-334_chat_oc_e1c2f6562931721f49f7af7a2a02d-c461e39a/session_wiki.md#block-操作手册更新-f0a178af",
+          "session_wiki_path": "sessions/FEISHU-334_chat_oc_e1c2f6562931721f49f7af7a2a02d-c461e39a/session_wiki.md",
+          "source_session_id": "task:FEISHU-334::chat:oc_e1c2f6562931721f49f7af7a2a02db9a",
+          "current_items": {
+            "conclusion": [],
+            "rationale": [],
+            "objection": [],
+            "constraint": [],
+            "commitment": [],
+            "status": [
+              {
+                "slot": "status",
+                "topic_key": "操作手册更新",
+                "topic_title": "操作手册更新",
+                "subject_key": "feishu-334 操作手册",
+                "claim": "FEISHU-334 操作手册已更新，但还缺网络拓扑图。",
+                "event_id": "evt_df96bfcc3298d409",
+                "event_time": "1778209556000",
+                "evidence_quote": "FEISHU-334 操作手册已更新，但还缺网络拓扑图。",
+                "event_path": "sessions/FEISHU-334_chat_oc_e1c2f6562931721f49f7af7a2a02d-c461e39a/session_events.jsonl#evt_df96bfcc3298d409",
+                "event_ref": "[[sessions/FEISHU-334_chat_oc_e1c2f6562931721f49f7af7a2a02d-c461e39a/session_events.jsonl#evt_df96bfcc3298d409|evt_df96bfcc3298d409]]",
+                "source_session_id": "task:FEISHU-334::chat:oc_e1c2f6562931721f49f7af7a2a02db9a",
+                "session_wiki_path": "sessions/FEISHU-334_chat_oc_e1c2f6562931721f49f7af7a2a02d-c461e39a/session_wiki.md",
+                "block_anchor": "block-操作手册更新-f0a178af",
+                "block_link": "sessions/FEISHU-334_chat_oc_e1c2f6562931721f49f7af7a2a02d-c461e39a/session_wiki.md#block-操作手册更新-f0a178af",
+                "block_summary": "操作手册已更新，缺网络拓扑图。"
+              }
+            ],
+            "time": [],
+            "scope": []
+          }
+        },
+        {
+          "block_id": "block-网络拓扑图获取-7a44cd0f",
+          "topic_key": "网络拓扑图获取",
+          "topic_title": "网络拓扑图获取",
+          "summary": "联系厂商获取网络拓扑图",
+          "status": "active",
+          "block_link": "sessions/FEISHU-334_chat_oc_e1c2f6562931721f49f7af7a2a02d-c461e39a/session_wiki.md#block-网络拓扑图获取-7a44cd0f",
+          "session_wiki_path": "sessions/FEISHU-334_chat_oc_e1c2f6562931721f49f7af7a2a02d-c461e39a/session_wiki.md",
+          "source_session_id": "task:FEISHU-334::chat:oc_e1c2f6562931721f49f7af7a2a02db9a",
+          "current_items": {
+            "conclusion": [],
+            "rationale": [],
+            "objection": [],
+            "constraint": [],
+            "commitment": [
+              {
+                "slot": "commitment",
+                "topic_key": "网络拓扑图获取",
+                "topic_title": "网络拓扑图获取",
+                "subject_key": "联系厂商提供网络拓扑图",
+                "claim": "网络拓扑图我联系厂商提供。",
+                "event_id": "evt_e29cb6a55138223c",
+                "event_time": "1778209556000",
+                "evidence_quote": "网络拓扑图我联系厂商提供。",
+                "event_path": "sessions/FEISHU-334_chat_oc_e1c2f6562931721f49f7af7a2a02d-c461e39a/session_events.jsonl#evt_e29cb6a55138223c",
+                "event_ref": "[[sessions/FEISHU-334_chat_oc_e1c2f6562931721f49f7af7a2a02d-c461e39a/session_events.jsonl#evt_e29cb6a55138223c|evt_e29cb6a55138223c]]",
+                "source_session_id": "task:FEISHU-334::chat:oc_e1c2f6562931721f49f7af7a2a02db9a",
+                "session_wiki_path": "sessions/FEISHU-334_chat_oc_e1c2f6562931721f49f7af7a2a02d-c461e39a/session_wiki.md",
+                "block_anchor": "block-网络拓扑图获取-7a44cd0f",
+                "block_link": "sessions/FEISHU-334_chat_oc_e1c2f6562931721f49f7af7a2a02d-c461e39a/session_wiki.md#block-网络拓扑图获取-7a44cd0f",
+                "block_summary": "联系厂商获取网络拓扑图"
+              }
+            ],
+            "status": [],
+            "time": [],
+            "scope": []
+          }
+        },
+        {
+          "block_id": "block-文档补全-f7714a85",
+          "topic_key": "文档补全",
+          "topic_title": "文档补全",
+          "summary": "秦怡负责补全compliance章节",
+          "status": "active",
+          "block_link": "sessions/FEISHU-334_chat_oc_e1c2f6562931721f49f7af7a2a02d-c461e39a/session_wiki.md#block-文档补全-f7714a85",
+          "session_wiki_path": "sessions/FEISHU-334_chat_oc_e1c2f6562931721f49f7af7a2a02d-c461e39a/session_wiki.md",
+          "source_session_id": "task:FEISHU-334::chat:oc_e1c2f6562931721f49f7af7a2a02db9a",
+          "current_items": {
+            "conclusion": [],
+            "rationale": [],
+            "objection": [],
+            "constraint": [],
+            "commitment": [
+              {
+                "slot": "commitment",
+                "topic_key": "文档补全",
+                "topic_title": "文档补全",
+                "subject_key": "补 compliance 那章",
+                "claim": "compliance 那章等 秦怡 补",
+                "event_id": "evt_4d535064811992de",
+                "event_time": "1778209556000",
+                "evidence_quote": "compliance 那章等 秦怡 补",
+                "event_path": "sessions/FEISHU-334_chat_oc_e1c2f6562931721f49f7af7a2a02d-c461e39a/session_events.jsonl#evt_4d535064811992de",
+                "event_ref": "[[sessions/FEISHU-334_chat_oc_e1c2f6562931721f49f7af7a2a02d-c461e39a/session_events.jsonl#evt_4d535064811992de|evt_4d535064811992de]]",
+                "source_session_id": "task:FEISHU-334::chat:oc_e1c2f6562931721f49f7af7a2a02db9a",
+                "session_wiki_path": "sessions/FEISHU-334_chat_oc_e1c2f6562931721f49f7af7a2a02d-c461e39a/session_wiki.md",
+                "block_anchor": "block-文档补全-f7714a85",
+                "block_link": "sessions/FEISHU-334_chat_oc_e1c2f6562931721f49f7af7a2a02d-c461e39a/session_wiki.md#block-文档补全-f7714a85",
+                "block_summary": "秦怡负责补全compliance章节"
+              }
+            ],
+            "status": [],
+            "time": [],
+            "scope": []
+          }
+        },
+        {
+          "block_id": "block-文档反馈整理-b5b52bf7",
+          "topic_key": "文档反馈整理",
+          "topic_title": "文档反馈整理",
+          "summary": "整理其他章节的反馈",
+          "status": "active",
+          "block_link": "sessions/FEISHU-334_chat_oc_e1c2f6562931721f49f7af7a2a02d-c461e39a/session_wiki.md#block-文档反馈整理-b5b52bf7",
+          "session_wiki_path": "sessions/FEISHU-334_chat_oc_e1c2f6562931721f49f7af7a2a02d-c461e39a/session_wiki.md",
+          "source_session_id": "task:FEISHU-334::chat:oc_e1c2f6562931721f49f7af7a2a02db9a",
+          "current_items": {
+            "conclusion": [],
+            "rationale": [],
+            "objection": [],
+            "constraint": [],
+            "commitment": [
+              {
+                "slot": "commitment",
+                "topic_key": "文档反馈整理",
+                "topic_title": "文档反馈整理",
+                "subject_key": "整理其他章节的反馈",
+                "claim": "好的，那我先整理其他章节的反馈。",
+                "event_id": "evt_beccd9dead9b6aec",
+                "event_time": "1778209556000",
+                "evidence_quote": "那我先整理其他章节的反馈。",
+                "event_path": "sessions/FEISHU-334_chat_oc_e1c2f6562931721f49f7af7a2a02d-c461e39a/session_events.jsonl#evt_beccd9dead9b6aec",
+                "event_ref": "[[sessions/FEISHU-334_chat_oc_e1c2f6562931721f49f7af7a2a02d-c461e39a/session_events.jsonl#evt_beccd9dead9b6aec|evt_beccd9dead9b6aec]]",
+                "source_session_id": "task:FEISHU-334::chat:oc_e1c2f6562931721f49f7af7a2a02db9a",
+                "session_wiki_path": "sessions/FEISHU-334_chat_oc_e1c2f6562931721f49f7af7a2a02d-c461e39a/session_wiki.md",
+                "block_anchor": "block-文档反馈整理-b5b52bf7",
+                "block_link": "sessions/FEISHU-334_chat_oc_e1c2f6562931721f49f7af7a2a02d-c461e39a/session_wiki.md#block-文档反馈整理-b5b52bf7",
+                "block_summary": "整理其他章节的反馈"
+              }
+            ],
+            "status": [],
+            "time": [],
+            "scope": []
+          }
+        },
+        {
+          "block_id": "block-文档评审-3d2bb270",
+          "topic_key": "文档评审",
+          "topic_title": "文档评审",
+          "summary": "文档评审基本完成",
+          "status": "active",
+          "block_link": "sessions/FEISHU-334_chat_oc_e1c2f6562931721f49f7af7a2a02d-c461e39a/session_wiki.md#block-文档评审-3d2bb270",
+          "session_wiki_path": "sessions/FEISHU-334_chat_oc_e1c2f6562931721f49f7af7a2a02d-c461e39a/session_wiki.md",
+          "source_session_id": "task:FEISHU-334::chat:oc_e1c2f6562931721f49f7af7a2a02db9a",
+          "current_items": {
+            "conclusion": [],
+            "rationale": [],
+            "objection": [],
+            "constraint": [],
+            "commitment": [],
+            "status": [
+              {
+                "slot": "status",
+                "topic_key": "文档评审",
+                "topic_title": "文档评审",
+                "subject_key": "文档评审",
+                "claim": "文档评审基本看完",
+                "event_id": "evt_0422e2bcf3208f62",
+                "event_time": "1778209556000",
+                "evidence_quote": "文档评审基本看完",
+                "event_path": "sessions/FEISHU-334_chat_oc_e1c2f6562931721f49f7af7a2a02d-c461e39a/session_events.jsonl#evt_0422e2bcf3208f62",
+                "event_ref": "[[sessions/FEISHU-334_chat_oc_e1c2f6562931721f49f7af7a2a02d-c461e39a/session_events.jsonl#evt_0422e2bcf3208f62|evt_0422e2bcf3208f62]]",
+                "source_session_id": "task:FEISHU-334::chat:oc_e1c2f6562931721f49f7af7a2a02db9a",
+                "session_wiki_path": "sessions/FEISHU-334_chat_oc_e1c2f6562931721f49f7af7a2a02d-c461e39a/session_wiki.md",
+                "block_anchor": "block-文档评审-3d2bb270",
+                "block_link": "sessions/FEISHU-334_chat_oc_e1c2f6562931721f49f7af7a2a02d-c461e39a/session_wiki.md#block-文档评审-3d2bb270",
+                "block_summary": "文档评审基本完成"
+              }
+            ],
+            "time": [],
+            "scope": []
+          }
+        }
+      ],
+      "updated_at": "2026-05-08T03:45:03.568Z"
+    },
+    "task:FEISHU-334::chat:oc_ec85126f897b2cee55c91aff8737bab8": {
+      "source_session_id": "task:FEISHU-334::chat:oc_ec85126f897b2cee55c91aff8737bab8",
+      "session_wiki_path": "sessions/FEISHU-334_chat_oc_ec85126f897b2cee55c91aff8737b-976471af/session_wiki.md",
+      "blocks": [
+        {
+          "block_id": "block-发布阻塞风险-45763a86",
+          "topic_key": "发布阻塞风险",
+          "topic_title": "发布阻塞风险",
+          "summary": "运维排练阻塞于网络环境，王源正在协调。",
+          "status": "active",
+          "block_link": "sessions/FEISHU-334_chat_oc_ec85126f897b2cee55c91aff8737b-976471af/session_wiki.md#block-发布阻塞风险-45763a86",
+          "session_wiki_path": "sessions/FEISHU-334_chat_oc_ec85126f897b2cee55c91aff8737b-976471af/session_wiki.md",
+          "source_session_id": "task:FEISHU-334::chat:oc_ec85126f897b2cee55c91aff8737bab8",
+          "current_items": {
+            "conclusion": [],
+            "rationale": [],
+            "objection": [],
+            "constraint": [],
+            "commitment": [],
+            "status": [
+              {
+                "slot": "status",
+                "topic_key": "发布阻塞风险",
+                "topic_title": "发布阻塞风险",
+                "subject_key": "发布阻塞风险",
+                "claim": "运维排练的 blocker 是网络环境，王源 在协调。",
+                "event_id": "evt_34f0c154d07edc4a",
+                "event_time": "1778209556000",
+                "evidence_quote": "运维排练的 blocker 是网络环境，王源 在协调。",
+                "event_path": "sessions/FEISHU-334_chat_oc_ec85126f897b2cee55c91aff8737b-976471af/session_events.jsonl#evt_34f0c154d07edc4a",
+                "event_ref": "[[sessions/FEISHU-334_chat_oc_ec85126f897b2cee55c91aff8737b-976471af/session_events.jsonl#evt_34f0c154d07edc4a|evt_34f0c154d07edc4a]]",
+                "source_session_id": "task:FEISHU-334::chat:oc_ec85126f897b2cee55c91aff8737bab8",
+                "session_wiki_path": "sessions/FEISHU-334_chat_oc_ec85126f897b2cee55c91aff8737b-976471af/session_wiki.md",
+                "block_anchor": "block-发布阻塞风险-45763a86",
+                "block_link": "sessions/FEISHU-334_chat_oc_ec85126f897b2cee55c91aff8737b-976471af/session_wiki.md#block-发布阻塞风险-45763a86",
+                "block_summary": "运维排练阻塞于网络环境，王源正在协调。"
+              }
+            ],
+            "time": [],
+            "scope": []
+          }
+        },
+        {
+          "block_id": "block-网络环境配置-bef927a2",
+          "topic_key": "网络环境配置",
+          "topic_title": "网络环境配置",
+          "summary": "网络环境配置进行中，预计下周就绪。",
+          "status": "active",
+          "block_link": "sessions/FEISHU-334_chat_oc_ec85126f897b2cee55c91aff8737b-976471af/session_wiki.md#block-网络环境配置-bef927a2",
+          "session_wiki_path": "sessions/FEISHU-334_chat_oc_ec85126f897b2cee55c91aff8737b-976471af/session_wiki.md",
+          "source_session_id": "task:FEISHU-334::chat:oc_ec85126f897b2cee55c91aff8737bab8",
+          "current_items": {
+            "conclusion": [],
+            "rationale": [],
+            "objection": [],
+            "constraint": [],
+            "commitment": [],
+            "status": [
+              {
+                "slot": "status",
+                "topic_key": "网络环境配置",
+                "topic_title": "网络环境配置",
+                "subject_key": "网络环境配置",
+                "claim": "网络环境配置还在进行，预计下周就绪。",
+                "event_id": "evt_99567de638fbce7e",
+                "event_time": "1778209556000",
+                "evidence_quote": "网络环境配置还在进行，预计下周就绪。",
+                "event_path": "sessions/FEISHU-334_chat_oc_ec85126f897b2cee55c91aff8737b-976471af/session_events.jsonl#evt_99567de638fbce7e",
+                "event_ref": "[[sessions/FEISHU-334_chat_oc_ec85126f897b2cee55c91aff8737b-976471af/session_events.jsonl#evt_99567de638fbce7e|evt_99567de638fbce7e]]",
+                "source_session_id": "task:FEISHU-334::chat:oc_ec85126f897b2cee55c91aff8737bab8",
+                "session_wiki_path": "sessions/FEISHU-334_chat_oc_ec85126f897b2cee55c91aff8737b-976471af/session_wiki.md",
+                "block_anchor": "block-网络环境配置-bef927a2",
+                "block_link": "sessions/FEISHU-334_chat_oc_ec85126f897b2cee55c91aff8737b-976471af/session_wiki.md#block-网络环境配置-bef927a2",
+                "block_summary": "网络环境配置进行中，预计下周就绪。"
+              }
+            ],
+            "time": [
+              {
+                "slot": "time",
+                "topic_key": "网络环境配置",
+                "topic_title": "网络环境配置",
+                "subject_key": "网络环境配置",
+                "claim": "网络环境配置还在进行，预计下周就绪。",
+                "event_id": "evt_cfd48c4307986426",
+                "event_time": "1778209556000",
+                "evidence_quote": "预计下周就绪",
+                "event_path": "sessions/FEISHU-334_chat_oc_ec85126f897b2cee55c91aff8737b-976471af/session_events.jsonl#evt_cfd48c4307986426",
+                "event_ref": "[[sessions/FEISHU-334_chat_oc_ec85126f897b2cee55c91aff8737b-976471af/session_events.jsonl#evt_cfd48c4307986426|evt_cfd48c4307986426]]",
+                "source_session_id": "task:FEISHU-334::chat:oc_ec85126f897b2cee55c91aff8737bab8",
+                "session_wiki_path": "sessions/FEISHU-334_chat_oc_ec85126f897b2cee55c91aff8737b-976471af/session_wiki.md",
+                "block_anchor": "block-网络环境配置-bef927a2",
+                "block_link": "sessions/FEISHU-334_chat_oc_ec85126f897b2cee55c91aff8737b-976471af/session_wiki.md#block-网络环境配置-bef927a2",
+                "block_summary": "网络环境配置进行中，预计下周就绪。"
+              }
+            ],
+            "scope": []
+          }
+        }
+      ],
+      "updated_at": "2026-05-08T03:45:20.013Z"
+    },
+    "task:FEISHU-334::chat:oc_12bb18378549a0d4a0a00eb680e8d349": {
+      "source_session_id": "task:FEISHU-334::chat:oc_12bb18378549a0d4a0a00eb680e8d349",
+      "session_wiki_path": "sessions/FEISHU-334_chat_oc_12bb18378549a0d4a0a00eb680e8d-f2f0b6cd/session_wiki.md",
+      "blocks": [
+        {
+          "block_id": "block-发布阻塞风险-45763a86",
+          "topic_key": "发布阻塞风险",
+          "topic_title": "发布阻塞风险",
+          "summary": "FEISHU-334 安全审查关键模块还有三个风险未关闭，状态已解决。",
+          "status": "resolved",
+          "block_link": "sessions/FEISHU-334_chat_oc_12bb18378549a0d4a0a00eb680e8d-f2f0b6cd/session_wiki.md#block-发布阻塞风险-45763a86",
+          "session_wiki_path": "sessions/FEISHU-334_chat_oc_12bb18378549a0d4a0a00eb680e8d-f2f0b6cd/session_wiki.md",
+          "source_session_id": "task:FEISHU-334::chat:oc_12bb18378549a0d4a0a00eb680e8d349",
+          "current_items": {
+            "conclusion": [],
+            "rationale": [],
+            "objection": [],
+            "constraint": [],
+            "commitment": [],
+            "status": [
+              {
+                "slot": "status",
+                "topic_key": "发布阻塞风险",
+                "topic_title": "发布阻塞风险",
+                "subject_key": "发布阻塞风险",
+                "claim": "FEISHU-334 安全审查关键模块还有三个风险未关闭。",
+                "event_id": "evt_05508d98e1096c18",
+                "event_time": "1778209556000",
+                "evidence_quote": "FEISHU-334 安全审查关键模块还有三个风险未关闭。",
+                "event_path": "sessions/FEISHU-334_chat_oc_12bb18378549a0d4a0a00eb680e8d-f2f0b6cd/session_events.jsonl#evt_05508d98e1096c18",
+                "event_ref": "[[sessions/FEISHU-334_chat_oc_12bb18378549a0d4a0a00eb680e8d-f2f0b6cd/session_events.jsonl#evt_05508d98e1096c18|evt_05508d98e1096c18]]",
+                "source_session_id": "task:FEISHU-334::chat:oc_12bb18378549a0d4a0a00eb680e8d349",
+                "session_wiki_path": "sessions/FEISHU-334_chat_oc_12bb18378549a0d4a0a00eb680e8d-f2f0b6cd/session_wiki.md",
+                "block_anchor": "block-发布阻塞风险-45763a86",
+                "block_link": "sessions/FEISHU-334_chat_oc_12bb18378549a0d4a0a00eb680e8d-f2f0b6cd/session_wiki.md#block-发布阻塞风险-45763a86",
+                "block_summary": "FEISHU-334 安全审查关键模块还有三个风险未关闭，状态已解决。"
+              }
+            ],
+            "time": [],
+            "scope": []
+          }
+        }
+      ],
+      "updated_at": "2026-05-08T03:45:31.990Z"
+    },
+    "task:FEISHU-334::chat:oc_95a1908001469fb3511314931c960609": {
+      "source_session_id": "task:FEISHU-334::chat:oc_95a1908001469fb3511314931c960609",
+      "session_wiki_path": "sessions/FEISHU-334_chat_oc_95a1908001469fb3511314931c960-5fd68080/session_wiki.md",
+      "blocks": [
+        {
+          "block_id": "block-安全审查-d2e06d4b",
+          "topic_key": "安全审查",
+          "topic_title": "安全审查",
+          "summary": "安全审查尚未通过",
+          "status": "active",
+          "block_link": "sessions/FEISHU-334_chat_oc_95a1908001469fb3511314931c960-5fd68080/session_wiki.md#block-安全审查-d2e06d4b",
+          "session_wiki_path": "sessions/FEISHU-334_chat_oc_95a1908001469fb3511314931c960-5fd68080/session_wiki.md",
+          "source_session_id": "task:FEISHU-334::chat:oc_95a1908001469fb3511314931c960609",
+          "current_items": {
+            "conclusion": [],
+            "rationale": [],
+            "objection": [],
+            "constraint": [],
+            "commitment": [],
+            "status": [
+              {
+                "slot": "status",
+                "topic_key": "安全审查",
+                "topic_title": "安全审查",
+                "subject_key": "feishu-334",
+                "claim": "安全审查还没通过",
+                "event_id": "evt_4cf107b9dc78a991",
+                "event_time": "1778209556000",
+                "evidence_quote": "安全审查还没通过",
+                "event_path": "sessions/FEISHU-334_chat_oc_95a1908001469fb3511314931c960-5fd68080/session_events.jsonl#evt_4cf107b9dc78a991",
+                "event_ref": "[[sessions/FEISHU-334_chat_oc_95a1908001469fb3511314931c960-5fd68080/session_events.jsonl#evt_4cf107b9dc78a991|evt_4cf107b9dc78a991]]",
+                "source_session_id": "task:FEISHU-334::chat:oc_95a1908001469fb3511314931c960609",
+                "session_wiki_path": "sessions/FEISHU-334_chat_oc_95a1908001469fb3511314931c960-5fd68080/session_wiki.md",
+                "block_anchor": "block-安全审查-d2e06d4b",
+                "block_link": "sessions/FEISHU-334_chat_oc_95a1908001469fb3511314931c960-5fd68080/session_wiki.md#block-安全审查-d2e06d4b",
+                "block_summary": "安全审查尚未通过"
+              }
+            ],
+            "time": [],
+            "scope": []
+          }
+        },
+        {
+          "block_id": "block-部署计划-78f2ac29",
+          "topic_key": "部署计划",
+          "topic_title": "部署计划",
+          "summary": "FEISHU-334的ops部署计划已草拟，等待审查通过。",
+          "status": "open",
+          "block_link": "sessions/FEISHU-334_chat_oc_95a1908001469fb3511314931c960-5fd68080/session_wiki.md#block-部署计划-78f2ac29",
+          "session_wiki_path": "sessions/FEISHU-334_chat_oc_95a1908001469fb3511314931c960-5fd68080/session_wiki.md",
+          "source_session_id": "task:FEISHU-334::chat:oc_95a1908001469fb3511314931c960609",
+          "current_items": {
+            "conclusion": [],
+            "rationale": [],
+            "objection": [],
+            "constraint": [
+              {
+                "slot": "constraint",
+                "topic_key": "部署计划",
+                "topic_title": "部署计划",
+                "subject_key": "feishu-334 的 ops 部署计划",
+                "claim": "FEISHU-334 的 ops 部署计划已草拟，等审查通过。",
+                "event_id": "evt_6392e04548f77e67",
+                "event_time": "1778209556000",
+                "evidence_quote": "等审查通过",
+                "event_path": "sessions/FEISHU-334_chat_oc_95a1908001469fb3511314931c960-5fd68080/session_events.jsonl#evt_6392e04548f77e67",
+                "event_ref": "[[sessions/FEISHU-334_chat_oc_95a1908001469fb3511314931c960-5fd68080/session_events.jsonl#evt_6392e04548f77e67|evt_6392e04548f77e67]]",
+                "source_session_id": "task:FEISHU-334::chat:oc_95a1908001469fb3511314931c960609",
+                "session_wiki_path": "sessions/FEISHU-334_chat_oc_95a1908001469fb3511314931c960-5fd68080/session_wiki.md",
+                "block_anchor": "block-部署计划-78f2ac29",
+                "block_link": "sessions/FEISHU-334_chat_oc_95a1908001469fb3511314931c960-5fd68080/session_wiki.md#block-部署计划-78f2ac29",
+                "block_summary": "FEISHU-334的ops部署计划已草拟，等待审查通过。"
+              }
+            ],
+            "commitment": [],
+            "status": [
+              {
+                "slot": "status",
+                "topic_key": "部署计划",
+                "topic_title": "部署计划",
+                "subject_key": "feishu-334 的 ops 部署计划",
+                "claim": "FEISHU-334 的 ops 部署计划已草拟，等审查通过。",
+                "event_id": "evt_9931bb02d574b786",
+                "event_time": "1778209556000",
+                "evidence_quote": "FEISHU-334 的 ops 部署计划已草拟，等审查通过。",
+                "event_path": "sessions/FEISHU-334_chat_oc_95a1908001469fb3511314931c960-5fd68080/session_events.jsonl#evt_9931bb02d574b786",
+                "event_ref": "[[sessions/FEISHU-334_chat_oc_95a1908001469fb3511314931c960-5fd68080/session_events.jsonl#evt_9931bb02d574b786|evt_9931bb02d574b786]]",
+                "source_session_id": "task:FEISHU-334::chat:oc_95a1908001469fb3511314931c960609",
+                "session_wiki_path": "sessions/FEISHU-334_chat_oc_95a1908001469fb3511314931c960-5fd68080/session_wiki.md",
+                "block_anchor": "block-部署计划-78f2ac29",
+                "block_link": "sessions/FEISHU-334_chat_oc_95a1908001469fb3511314931c960-5fd68080/session_wiki.md#block-部署计划-78f2ac29",
+                "block_summary": "FEISHU-334的ops部署计划已草拟，等待审查通过。"
+              }
+            ],
+            "time": [],
+            "scope": []
+          }
+        },
+        {
+          "block_id": "block-测试用例执行约束-1431efd9",
+          "topic_key": "测试用例执行约束",
+          "topic_title": "测试用例执行约束",
+          "summary": "安全审查通过前不执行测试用例。",
+          "status": "open",
+          "block_link": "sessions/FEISHU-334_chat_oc_95a1908001469fb3511314931c960-5fd68080/session_wiki.md#block-测试用例执行约束-1431efd9",
+          "session_wiki_path": "sessions/FEISHU-334_chat_oc_95a1908001469fb3511314931c960-5fd68080/session_wiki.md",
+          "source_session_id": "task:FEISHU-334::chat:oc_95a1908001469fb3511314931c960609",
+          "current_items": {
+            "conclusion": [],
+            "rationale": [],
+            "objection": [],
+            "constraint": [
+              {
+                "slot": "constraint",
+                "topic_key": "测试用例执行约束",
+                "topic_title": "测试用例执行约束",
+                "subject_key": "测试用例",
+                "claim": "安全审查通过前不跑测试用例。",
+                "event_id": "evt_7bb161f00af7f5b7",
+                "event_time": "1778209556000",
+                "evidence_quote": "安全审查通过前不跑。",
+                "event_path": "sessions/FEISHU-334_chat_oc_95a1908001469fb3511314931c960-5fd68080/session_events.jsonl#evt_7bb161f00af7f5b7",
+                "event_ref": "[[sessions/FEISHU-334_chat_oc_95a1908001469fb3511314931c960-5fd68080/session_events.jsonl#evt_7bb161f00af7f5b7|evt_7bb161f00af7f5b7]]",
+                "source_session_id": "task:FEISHU-334::chat:oc_95a1908001469fb3511314931c960609",
+                "session_wiki_path": "sessions/FEISHU-334_chat_oc_95a1908001469fb3511314931c960-5fd68080/session_wiki.md",
+                "block_anchor": "block-测试用例执行约束-1431efd9",
+                "block_link": "sessions/FEISHU-334_chat_oc_95a1908001469fb3511314931c960-5fd68080/session_wiki.md#block-测试用例执行约束-1431efd9",
+                "block_summary": "安全审查通过前不执行测试用例。"
+              }
+            ],
+            "commitment": [],
+            "status": [],
+            "time": [],
+            "scope": []
+          }
+        },
+        {
+          "block_id": "block-测试用例准备-a7a66507",
+          "topic_key": "测试用例准备",
+          "topic_title": "测试用例准备",
+          "summary": "准备测试用例，等待环境就绪后执行。",
+          "status": "active",
+          "block_link": "sessions/FEISHU-334_chat_oc_95a1908001469fb3511314931c960-5fd68080/session_wiki.md#block-测试用例准备-a7a66507",
+          "session_wiki_path": "sessions/FEISHU-334_chat_oc_95a1908001469fb3511314931c960-5fd68080/session_wiki.md",
+          "source_session_id": "task:FEISHU-334::chat:oc_95a1908001469fb3511314931c960609",
+          "current_items": {
+            "conclusion": [],
+            "rationale": [],
+            "objection": [],
+            "constraint": [],
+            "commitment": [
+              {
+                "slot": "commitment",
+                "topic_key": "测试用例准备",
+                "topic_title": "测试用例准备",
+                "subject_key": "准备测试用例",
+                "claim": "那我先准备测试用例，等环境就绪再跑。",
+                "event_id": "evt_a46057af611cce0b",
+                "event_time": "1778209556000",
+                "evidence_quote": "那我先准备测试用例，等环境就绪再跑。",
+                "event_path": "sessions/FEISHU-334_chat_oc_95a1908001469fb3511314931c960-5fd68080/session_events.jsonl#evt_a46057af611cce0b",
+                "event_ref": "[[sessions/FEISHU-334_chat_oc_95a1908001469fb3511314931c960-5fd68080/session_events.jsonl#evt_a46057af611cce0b|evt_a46057af611cce0b]]",
+                "source_session_id": "task:FEISHU-334::chat:oc_95a1908001469fb3511314931c960609",
+                "session_wiki_path": "sessions/FEISHU-334_chat_oc_95a1908001469fb3511314931c960-5fd68080/session_wiki.md",
+                "block_anchor": "block-测试用例准备-a7a66507",
+                "block_link": "sessions/FEISHU-334_chat_oc_95a1908001469fb3511314931c960-5fd68080/session_wiki.md#block-测试用例准备-a7a66507",
+                "block_summary": "准备测试用例，等待环境就绪后执行。"
+              }
+            ],
+            "status": [],
+            "time": [],
+            "scope": []
+          }
+        },
+        {
+          "block_id": "block-测试执行-9be189d0",
+          "topic_key": "测试执行",
+          "topic_title": "测试执行",
+          "summary": "测试执行：处理FEISHU-334任务",
+          "status": "active",
+          "block_link": "sessions/FEISHU-334_chat_oc_95a1908001469fb3511314931c960-5fd68080/session_wiki.md#block-测试执行-9be189d0",
+          "session_wiki_path": "sessions/FEISHU-334_chat_oc_95a1908001469fb3511314931c960-5fd68080/session_wiki.md",
+          "source_session_id": "task:FEISHU-334::chat:oc_95a1908001469fb3511314931c960609",
+          "current_items": {
+            "conclusion": [],
+            "rationale": [],
+            "objection": [],
+            "constraint": [],
+            "commitment": [
+              {
+                "slot": "commitment",
+                "topic_key": "测试执行",
+                "topic_title": "测试执行",
+                "subject_key": "看 feishu-334 的测试执行",
+                "claim": "收到，我就看 FEISHU-334 的测试执行。",
+                "event_id": "evt_6b7d22b6e74ce996",
+                "event_time": "1778209556000",
+                "evidence_quote": "我就看 FEISHU-334 的测试执行",
+                "event_path": "sessions/FEISHU-334_chat_oc_95a1908001469fb3511314931c960-5fd68080/session_events.jsonl#evt_6b7d22b6e74ce996",
+                "event_ref": "[[sessions/FEISHU-334_chat_oc_95a1908001469fb3511314931c960-5fd68080/session_events.jsonl#evt_6b7d22b6e74ce996|evt_6b7d22b6e74ce996]]",
+                "source_session_id": "task:FEISHU-334::chat:oc_95a1908001469fb3511314931c960609",
+                "session_wiki_path": "sessions/FEISHU-334_chat_oc_95a1908001469fb3511314931c960-5fd68080/session_wiki.md",
+                "block_anchor": "block-测试执行-9be189d0",
+                "block_link": "sessions/FEISHU-334_chat_oc_95a1908001469fb3511314931c960-5fd68080/session_wiki.md#block-测试执行-9be189d0",
+                "block_summary": "测试执行：处理FEISHU-334任务"
+              }
+            ],
+            "status": [],
+            "time": [],
+            "scope": []
+          }
+        },
+        {
+          "block_id": "block-发布阻塞风险-45763a86",
+          "topic_key": "发布阻塞风险",
+          "topic_title": "发布阻塞风险",
+          "summary": "FEISHU-334 发布阻塞风险已解决，仅剩安全审查未完成，合规检查清单待补充。",
+          "status": "resolved",
+          "block_link": "sessions/FEISHU-334_chat_oc_95a1908001469fb3511314931c960-5fd68080/session_wiki.md#block-发布阻塞风险-45763a86",
+          "session_wiki_path": "sessions/FEISHU-334_chat_oc_95a1908001469fb3511314931c960-5fd68080/session_wiki.md",
+          "source_session_id": "task:FEISHU-334::chat:oc_95a1908001469fb3511314931c960609",
+          "current_items": {
+            "conclusion": [
+              {
+                "slot": "conclusion",
+                "topic_key": "发布阻塞风险",
+                "topic_title": "发布阻塞风险",
+                "subject_key": "发布阻塞风险",
+                "claim": "FEISHU-334 的 blocker 只有安全审查。",
+                "event_id": "evt_f4446fee75e72cb2",
+                "event_time": "1778209556000",
+                "evidence_quote": "同意，FEISHU-334 的 blocker 只有安全审查。",
+                "event_path": "sessions/FEISHU-334_chat_oc_95a1908001469fb3511314931c960-5fd68080/session_events.jsonl#evt_f4446fee75e72cb2",
+                "event_ref": "[[sessions/FEISHU-334_chat_oc_95a1908001469fb3511314931c960-5fd68080/session_events.jsonl#evt_f4446fee75e72cb2|evt_f4446fee75e72cb2]]",
+                "source_session_id": "task:FEISHU-334::chat:oc_95a1908001469fb3511314931c960609",
+                "session_wiki_path": "sessions/FEISHU-334_chat_oc_95a1908001469fb3511314931c960-5fd68080/session_wiki.md",
+                "block_anchor": "block-发布阻塞风险-45763a86",
+                "block_link": "sessions/FEISHU-334_chat_oc_95a1908001469fb3511314931c960-5fd68080/session_wiki.md#block-发布阻塞风险-45763a86",
+                "block_summary": "FEISHU-334 发布阻塞风险已解决，仅剩安全审查未完成，合规检查清单待补充。"
+              }
+            ],
+            "rationale": [],
+            "objection": [],
+            "constraint": [],
+            "commitment": [
+              {
+                "slot": "commitment",
+                "topic_key": "发布阻塞风险",
+                "topic_title": "发布阻塞风险",
+                "subject_key": "发布阻塞风险",
+                "claim": "Compliance checklist 我这边还缺几条，今天补上。",
+                "event_id": "evt_22056847d093018b",
+                "event_time": "1778209556000",
+                "evidence_quote": "Compliance checklist 我这边还缺几条，今天补上。",
+                "event_path": "sessions/FEISHU-334_chat_oc_95a1908001469fb3511314931c960-5fd68080/session_events.jsonl#evt_22056847d093018b",
+                "event_ref": "[[sessions/FEISHU-334_chat_oc_95a1908001469fb3511314931c960-5fd68080/session_events.jsonl#evt_22056847d093018b|evt_22056847d093018b]]",
+                "source_session_id": "task:FEISHU-334::chat:oc_95a1908001469fb3511314931c960609",
+                "session_wiki_path": "sessions/FEISHU-334_chat_oc_95a1908001469fb3511314931c960-5fd68080/session_wiki.md",
+                "block_anchor": "block-发布阻塞风险-45763a86",
+                "block_link": "sessions/FEISHU-334_chat_oc_95a1908001469fb3511314931c960-5fd68080/session_wiki.md#block-发布阻塞风险-45763a86",
+                "block_summary": "FEISHU-334 发布阻塞风险已解决，仅剩安全审查未完成，合规检查清单待补充。"
+              }
+            ],
+            "status": [
+              {
+                "slot": "status",
+                "topic_key": "发布阻塞风险",
+                "topic_title": "发布阻塞风险",
+                "subject_key": "发布阻塞风险",
+                "claim": "安全审查进展慢，还有三个风险项未关闭。",
+                "event_id": "evt_a9617a93e5db210f",
+                "event_time": "1778209556000",
+                "evidence_quote": "安全审查进展慢，还有三个风险项未关闭。",
+                "event_path": "sessions/FEISHU-334_chat_oc_95a1908001469fb3511314931c960-5fd68080/session_events.jsonl#evt_a9617a93e5db210f",
+                "event_ref": "[[sessions/FEISHU-334_chat_oc_95a1908001469fb3511314931c960-5fd68080/session_events.jsonl#evt_a9617a93e5db210f|evt_a9617a93e5db210f]]",
+                "source_session_id": "task:FEISHU-334::chat:oc_95a1908001469fb3511314931c960609",
+                "session_wiki_path": "sessions/FEISHU-334_chat_oc_95a1908001469fb3511314931c960-5fd68080/session_wiki.md",
+                "block_anchor": "block-发布阻塞风险-45763a86",
+                "block_link": "sessions/FEISHU-334_chat_oc_95a1908001469fb3511314931c960-5fd68080/session_wiki.md#block-发布阻塞风险-45763a86",
+                "block_summary": "FEISHU-334 发布阻塞风险已解决，仅剩安全审查未完成，合规检查清单待补充。"
+              }
+            ],
+            "time": [],
+            "scope": []
+          }
+        },
+        {
+          "block_id": "block-监控配置-f68a97c6",
+          "topic_key": "监控配置",
+          "topic_title": "监控配置",
+          "summary": "监控配置已就绪，等待业务部署。",
+          "status": "active",
+          "block_link": "sessions/FEISHU-334_chat_oc_95a1908001469fb3511314931c960-5fd68080/session_wiki.md#block-监控配置-f68a97c6",
+          "session_wiki_path": "sessions/FEISHU-334_chat_oc_95a1908001469fb3511314931c960-5fd68080/session_wiki.md",
+          "source_session_id": "task:FEISHU-334::chat:oc_95a1908001469fb3511314931c960609",
+          "current_items": {
+            "conclusion": [],
+            "rationale": [],
+            "objection": [],
+            "constraint": [],
+            "commitment": [],
+            "status": [
+              {
+                "slot": "status",
+                "topic_key": "监控配置",
+                "topic_title": "监控配置",
+                "subject_key": "feishu-334 的监控配置",
+                "claim": "SRE 这边监控配置已就绪，只等业务部署。",
+                "event_id": "evt_5f90400112a945ed",
+                "event_time": "1778209556000",
+                "evidence_quote": "监控配置已就绪",
+                "event_path": "sessions/FEISHU-334_chat_oc_95a1908001469fb3511314931c960-5fd68080/session_events.jsonl#evt_5f90400112a945ed",
+                "event_ref": "[[sessions/FEISHU-334_chat_oc_95a1908001469fb3511314931c960-5fd68080/session_events.jsonl#evt_5f90400112a945ed|evt_5f90400112a945ed]]",
+                "source_session_id": "task:FEISHU-334::chat:oc_95a1908001469fb3511314931c960609",
+                "session_wiki_path": "sessions/FEISHU-334_chat_oc_95a1908001469fb3511314931c960-5fd68080/session_wiki.md",
+                "block_anchor": "block-监控配置-f68a97c6",
+                "block_link": "sessions/FEISHU-334_chat_oc_95a1908001469fb3511314931c960-5fd68080/session_wiki.md#block-监控配置-f68a97c6",
+                "block_summary": "监控配置已就绪，等待业务部署。"
+              }
+            ],
+            "time": [],
+            "scope": []
+          }
+        },
+        {
+          "block_id": "block-脚本部署计划-5ceb338a",
+          "topic_key": "脚本部署计划",
+          "topic_title": "脚本部署计划",
+          "summary": "脚本部署计划已确认，环境就绪即可运行。",
+          "status": "active",
+          "block_link": "sessions/FEISHU-334_chat_oc_95a1908001469fb3511314931c960-5fd68080/session_wiki.md#block-脚本部署计划-5ceb338a",
+          "session_wiki_path": "sessions/FEISHU-334_chat_oc_95a1908001469fb3511314931c960-5fd68080/session_wiki.md",
+          "source_session_id": "task:FEISHU-334::chat:oc_95a1908001469fb3511314931c960609",
+          "current_items": {
+            "conclusion": [],
+            "rationale": [],
+            "objection": [],
+            "constraint": [],
+            "commitment": [],
+            "status": [
+              {
+                "slot": "status",
+                "topic_key": "脚本部署计划",
+                "topic_title": "脚本部署计划",
+                "subject_key": "脚本部署计划",
+                "claim": "脚本部署计划我确认过，环境就绪就能跑。",
+                "event_id": "evt_24725d8968841a23",
+                "event_time": "1778209556000",
+                "evidence_quote": "脚本部署计划我确认过，环境就绪就能跑。",
+                "event_path": "sessions/FEISHU-334_chat_oc_95a1908001469fb3511314931c960-5fd68080/session_events.jsonl#evt_24725d8968841a23",
+                "event_ref": "[[sessions/FEISHU-334_chat_oc_95a1908001469fb3511314931c960-5fd68080/session_events.jsonl#evt_24725d8968841a23|evt_24725d8968841a23]]",
+                "source_session_id": "task:FEISHU-334::chat:oc_95a1908001469fb3511314931c960609",
+                "session_wiki_path": "sessions/FEISHU-334_chat_oc_95a1908001469fb3511314931c960-5fd68080/session_wiki.md",
+                "block_anchor": "block-脚本部署计划-5ceb338a",
+                "block_link": "sessions/FEISHU-334_chat_oc_95a1908001469fb3511314931c960-5fd68080/session_wiki.md#block-脚本部署计划-5ceb338a",
+                "block_summary": "脚本部署计划已确认，环境就绪即可运行。"
+              }
+            ],
+            "time": [],
+            "scope": []
+          }
+        },
+        {
+          "block_id": "block-任务负责人-63e117cf",
+          "topic_key": "任务负责人",
+          "topic_title": "任务负责人",
+          "summary": "FEISHU-334 由我负责",
+          "status": "active",
+          "block_link": "sessions/FEISHU-334_chat_oc_95a1908001469fb3511314931c960-5fd68080/session_wiki.md#block-任务负责人-63e117cf",
+          "session_wiki_path": "sessions/FEISHU-334_chat_oc_95a1908001469fb3511314931c960-5fd68080/session_wiki.md",
+          "source_session_id": "task:FEISHU-334::chat:oc_95a1908001469fb3511314931c960609",
+          "current_items": {
+            "conclusion": [],
+            "rationale": [],
+            "objection": [],
+            "constraint": [],
+            "commitment": [
+              {
+                "slot": "commitment",
+                "topic_key": "任务负责人",
+                "topic_title": "任务负责人",
+                "subject_key": "负责 feishu-334",
+                "claim": "FEISHU-334 由我负责",
+                "event_id": "evt_f71ad1330bbea6dc",
+                "event_time": "1778209556000",
+                "evidence_quote": "FEISHU-334 由我负责",
+                "event_path": "sessions/FEISHU-334_chat_oc_95a1908001469fb3511314931c960-5fd68080/session_events.jsonl#evt_f71ad1330bbea6dc",
+                "event_ref": "[[sessions/FEISHU-334_chat_oc_95a1908001469fb3511314931c960-5fd68080/session_events.jsonl#evt_f71ad1330bbea6dc|evt_f71ad1330bbea6dc]]",
+                "source_session_id": "task:FEISHU-334::chat:oc_95a1908001469fb3511314931c960609",
+                "session_wiki_path": "sessions/FEISHU-334_chat_oc_95a1908001469fb3511314931c960-5fd68080/session_wiki.md",
+                "block_anchor": "block-任务负责人-63e117cf",
+                "block_link": "sessions/FEISHU-334_chat_oc_95a1908001469fb3511314931c960-5fd68080/session_wiki.md#block-任务负责人-63e117cf",
+                "block_summary": "FEISHU-334 由我负责"
+              }
+            ],
+            "status": [],
+            "time": [],
+            "scope": []
+          }
+        },
+        {
+          "block_id": "block-用户培训材料-7b595cd9",
+          "topic_key": "用户培训材料",
+          "topic_title": "用户培训材料",
+          "summary": "BA已准备好用户培训材料。",
+          "status": "active",
+          "block_link": "sessions/FEISHU-334_chat_oc_95a1908001469fb3511314931c960-5fd68080/session_wiki.md#block-用户培训材料-7b595cd9",
+          "session_wiki_path": "sessions/FEISHU-334_chat_oc_95a1908001469fb3511314931c960-5fd68080/session_wiki.md",
+          "source_session_id": "task:FEISHU-334::chat:oc_95a1908001469fb3511314931c960609",
+          "current_items": {
+            "conclusion": [],
+            "rationale": [],
+            "objection": [],
+            "constraint": [],
+            "commitment": [],
+            "status": [
+              {
+                "slot": "status",
+                "topic_key": "用户培训材料",
+                "topic_title": "用户培训材料",
+                "subject_key": "用户培训材料",
+                "claim": "BA 这边用户培训材料已准备好。",
+                "event_id": "evt_8c8f5638ba2bbf16",
+                "event_time": "1778209556000",
+                "evidence_quote": "BA 这边用户培训材料已准备好。",
+                "event_path": "sessions/FEISHU-334_chat_oc_95a1908001469fb3511314931c960-5fd68080/session_events.jsonl#evt_8c8f5638ba2bbf16",
+                "event_ref": "[[sessions/FEISHU-334_chat_oc_95a1908001469fb3511314931c960-5fd68080/session_events.jsonl#evt_8c8f5638ba2bbf16|evt_8c8f5638ba2bbf16]]",
+                "source_session_id": "task:FEISHU-334::chat:oc_95a1908001469fb3511314931c960609",
+                "session_wiki_path": "sessions/FEISHU-334_chat_oc_95a1908001469fb3511314931c960-5fd68080/session_wiki.md",
+                "block_anchor": "block-用户培训材料-7b595cd9",
+                "block_link": "sessions/FEISHU-334_chat_oc_95a1908001469fb3511314931c960-5fd68080/session_wiki.md#block-用户培训材料-7b595cd9",
+                "block_summary": "BA已准备好用户培训材料。"
+              }
+            ],
+            "time": [],
+            "scope": []
+          }
+        },
+        {
+          "block_id": "block-正式升级窗口-930e601a",
+          "topic_key": "正式升级窗口",
+          "topic_title": "正式升级窗口",
+          "summary": "正式升级窗口状态为活跃，Ops部署计划已草拟待审查，FEISHU-334部署窗口暂未确定。",
+          "status": "active",
+          "block_link": "sessions/FEISHU-334_chat_oc_95a1908001469fb3511314931c960-5fd68080/session_wiki.md#block-正式升级窗口-930e601a",
+          "session_wiki_path": "sessions/FEISHU-334_chat_oc_95a1908001469fb3511314931c960-5fd68080/session_wiki.md",
+          "source_session_id": "task:FEISHU-334::chat:oc_95a1908001469fb3511314931c960609",
+          "current_items": {
+            "conclusion": [],
+            "rationale": [],
+            "objection": [],
+            "constraint": [],
+            "commitment": [],
+            "status": [
+              {
+                "slot": "status",
+                "topic_key": "正式升级窗口",
+                "topic_title": "正式升级窗口",
+                "subject_key": "正式升级窗口",
+                "claim": "Ops 部署计划已草拟，等审查通过定窗口。",
+                "event_id": "evt_0c079da7157a0984",
+                "event_time": "1778209556000",
+                "evidence_quote": "Ops 部署计划已草拟，等审查通过定窗口。",
+                "event_path": "sessions/FEISHU-334_chat_oc_95a1908001469fb3511314931c960-5fd68080/session_events.jsonl#evt_0c079da7157a0984",
+                "event_ref": "[[sessions/FEISHU-334_chat_oc_95a1908001469fb3511314931c960-5fd68080/session_events.jsonl#evt_0c079da7157a0984|evt_0c079da7157a0984]]",
+                "source_session_id": "task:FEISHU-334::chat:oc_95a1908001469fb3511314931c960609",
+                "session_wiki_path": "sessions/FEISHU-334_chat_oc_95a1908001469fb3511314931c960-5fd68080/session_wiki.md",
+                "block_anchor": "block-正式升级窗口-930e601a",
+                "block_link": "sessions/FEISHU-334_chat_oc_95a1908001469fb3511314931c960-5fd68080/session_wiki.md#block-正式升级窗口-930e601a",
+                "block_summary": "正式升级窗口状态为活跃，Ops部署计划已草拟待审查，FEISHU-334部署窗口暂未确定。"
+              }
+            ],
+            "time": [
+              {
+                "slot": "time",
+                "topic_key": "正式升级窗口",
+                "topic_title": "正式升级窗口",
+                "subject_key": "正式升级窗口",
+                "claim": "FEISHU-334 部署窗口暂不定",
+                "event_id": "evt_2d6a35370746cb07",
+                "event_time": "1778209556000",
+                "evidence_quote": "FEISHU-334 部署窗口暂不定",
+                "event_path": "sessions/FEISHU-334_chat_oc_95a1908001469fb3511314931c960-5fd68080/session_events.jsonl#evt_2d6a35370746cb07",
+                "event_ref": "[[sessions/FEISHU-334_chat_oc_95a1908001469fb3511314931c960-5fd68080/session_events.jsonl#evt_2d6a35370746cb07|evt_2d6a35370746cb07]]",
+                "source_session_id": "task:FEISHU-334::chat:oc_95a1908001469fb3511314931c960609",
+                "session_wiki_path": "sessions/FEISHU-334_chat_oc_95a1908001469fb3511314931c960-5fd68080/session_wiki.md",
+                "block_anchor": "block-正式升级窗口-930e601a",
+                "block_link": "sessions/FEISHU-334_chat_oc_95a1908001469fb3511314931c960-5fd68080/session_wiki.md#block-正式升级窗口-930e601a",
+                "block_summary": "正式升级窗口状态为活跃，Ops部署计划已草拟待审查，FEISHU-334部署窗口暂未确定。"
+              }
+            ],
+            "scope": []
+          }
+        },
+        {
+          "block_id": "block-自动化部署脚本测试-ca14bb93",
+          "topic_key": "自动化部署脚本测试",
+          "topic_title": "自动化部署脚本测试",
+          "summary": "自动化部署脚本测试因安全环境未就绪而受阻。",
+          "status": "open",
+          "block_link": "sessions/FEISHU-334_chat_oc_95a1908001469fb3511314931c960-5fd68080/session_wiki.md#block-自动化部署脚本测试-ca14bb93",
+          "session_wiki_path": "sessions/FEISHU-334_chat_oc_95a1908001469fb3511314931c960-5fd68080/session_wiki.md",
+          "source_session_id": "task:FEISHU-334::chat:oc_95a1908001469fb3511314931c960609",
+          "current_items": {
+            "conclusion": [],
+            "rationale": [],
+            "objection": [],
+            "constraint": [
+              {
+                "slot": "constraint",
+                "topic_key": "自动化部署脚本测试",
+                "topic_title": "自动化部署脚本测试",
+                "subject_key": "自动化部署脚本测试",
+                "claim": "安全环境没就绪，自动化部署脚本也无法测试。",
+                "event_id": "evt_bf835bd9b1fb8ee8",
+                "event_time": "1778209556000",
+                "evidence_quote": "安全环境没就绪，自动化部署脚本也无法测试。",
+                "event_path": "sessions/FEISHU-334_chat_oc_95a1908001469fb3511314931c960-5fd68080/session_events.jsonl#evt_bf835bd9b1fb8ee8",
+                "event_ref": "[[sessions/FEISHU-334_chat_oc_95a1908001469fb3511314931c960-5fd68080/session_events.jsonl#evt_bf835bd9b1fb8ee8|evt_bf835bd9b1fb8ee8]]",
+                "source_session_id": "task:FEISHU-334::chat:oc_95a1908001469fb3511314931c960609",
+                "session_wiki_path": "sessions/FEISHU-334_chat_oc_95a1908001469fb3511314931c960-5fd68080/session_wiki.md",
+                "block_anchor": "block-自动化部署脚本测试-ca14bb93",
+                "block_link": "sessions/FEISHU-334_chat_oc_95a1908001469fb3511314931c960-5fd68080/session_wiki.md#block-自动化部署脚本测试-ca14bb93",
+                "block_summary": "自动化部署脚本测试因安全环境未就绪而受阻。"
+              }
+            ],
+            "commitment": [],
+            "status": [],
+            "time": [],
+            "scope": []
+          }
+        }
+      ],
+      "updated_at": "2026-05-08T03:46:36.547Z"
+    }
+  },
+  "sections": {
+    "conclusion": [
+      {
+        "slot": "conclusion",
+        "topic_key": "发布阻塞风险",
+        "topic_title": "发布阻塞风险",
+        "subject_key": "发布阻塞风险",
+        "claim": "FEISHU-334 的 blocker 只有安全审查。",
+        "event_id": "evt_f4446fee75e72cb2",
+        "event_time": "1778209556000",
+        "evidence_quote": "同意，FEISHU-334 的 blocker 只有安全审查。",
+        "event_path": "sessions/FEISHU-334_chat_oc_95a1908001469fb3511314931c960-5fd68080/session_events.jsonl#evt_f4446fee75e72cb2",
+        "event_ref": "[[sessions/FEISHU-334_chat_oc_95a1908001469fb3511314931c960-5fd68080/session_events.jsonl#evt_f4446fee75e72cb2|evt_f4446fee75e72cb2]]",
+        "source_session_id": "task:FEISHU-334::chat:oc_95a1908001469fb3511314931c960609",
+        "session_wiki_path": "sessions/FEISHU-334_chat_oc_95a1908001469fb3511314931c960-5fd68080/session_wiki.md",
+        "block_anchor": "block-发布阻塞风险-45763a86",
+        "block_link": "sessions/FEISHU-334_chat_oc_95a1908001469fb3511314931c960-5fd68080/session_wiki.md#block-发布阻塞风险-45763a86",
+        "block_summary": "FEISHU-334 发布阻塞风险已解决，仅剩安全审查未完成，合规检查清单待补充。"
+      }
+    ],
+    "rationale": [],
+    "objection": [],
+    "constraint": [
+      {
+        "slot": "constraint",
+        "topic_key": "部署计划",
+        "topic_title": "部署计划",
+        "subject_key": "feishu-334 的 ops 部署计划",
+        "claim": "FEISHU-334 的 ops 部署计划已草拟，等审查通过。",
+        "event_id": "evt_6392e04548f77e67",
+        "event_time": "1778209556000",
+        "evidence_quote": "等审查通过",
+        "event_path": "sessions/FEISHU-334_chat_oc_95a1908001469fb3511314931c960-5fd68080/session_events.jsonl#evt_6392e04548f77e67",
+        "event_ref": "[[sessions/FEISHU-334_chat_oc_95a1908001469fb3511314931c960-5fd68080/session_events.jsonl#evt_6392e04548f77e67|evt_6392e04548f77e67]]",
+        "source_session_id": "task:FEISHU-334::chat:oc_95a1908001469fb3511314931c960609",
+        "session_wiki_path": "sessions/FEISHU-334_chat_oc_95a1908001469fb3511314931c960-5fd68080/session_wiki.md",
+        "block_anchor": "block-部署计划-78f2ac29",
+        "block_link": "sessions/FEISHU-334_chat_oc_95a1908001469fb3511314931c960-5fd68080/session_wiki.md#block-部署计划-78f2ac29",
+        "block_summary": "FEISHU-334的ops部署计划已草拟，等待审查通过。"
+      },
+      {
+        "slot": "constraint",
+        "topic_key": "测试用例执行约束",
+        "topic_title": "测试用例执行约束",
+        "subject_key": "测试用例",
+        "claim": "安全审查通过前不跑测试用例。",
+        "event_id": "evt_7bb161f00af7f5b7",
+        "event_time": "1778209556000",
+        "evidence_quote": "安全审查通过前不跑。",
+        "event_path": "sessions/FEISHU-334_chat_oc_95a1908001469fb3511314931c960-5fd68080/session_events.jsonl#evt_7bb161f00af7f5b7",
+        "event_ref": "[[sessions/FEISHU-334_chat_oc_95a1908001469fb3511314931c960-5fd68080/session_events.jsonl#evt_7bb161f00af7f5b7|evt_7bb161f00af7f5b7]]",
+        "source_session_id": "task:FEISHU-334::chat:oc_95a1908001469fb3511314931c960609",
+        "session_wiki_path": "sessions/FEISHU-334_chat_oc_95a1908001469fb3511314931c960-5fd68080/session_wiki.md",
+        "block_anchor": "block-测试用例执行约束-1431efd9",
+        "block_link": "sessions/FEISHU-334_chat_oc_95a1908001469fb3511314931c960-5fd68080/session_wiki.md#block-测试用例执行约束-1431efd9",
+        "block_summary": "安全审查通过前不执行测试用例。"
+      },
+      {
+        "slot": "constraint",
+        "topic_key": "自动化部署脚本测试",
+        "topic_title": "自动化部署脚本测试",
+        "subject_key": "自动化部署脚本测试",
+        "claim": "安全环境没就绪，自动化部署脚本也无法测试。",
+        "event_id": "evt_bf835bd9b1fb8ee8",
+        "event_time": "1778209556000",
+        "evidence_quote": "安全环境没就绪，自动化部署脚本也无法测试。",
+        "event_path": "sessions/FEISHU-334_chat_oc_95a1908001469fb3511314931c960-5fd68080/session_events.jsonl#evt_bf835bd9b1fb8ee8",
+        "event_ref": "[[sessions/FEISHU-334_chat_oc_95a1908001469fb3511314931c960-5fd68080/session_events.jsonl#evt_bf835bd9b1fb8ee8|evt_bf835bd9b1fb8ee8]]",
+        "source_session_id": "task:FEISHU-334::chat:oc_95a1908001469fb3511314931c960609",
+        "session_wiki_path": "sessions/FEISHU-334_chat_oc_95a1908001469fb3511314931c960-5fd68080/session_wiki.md",
+        "block_anchor": "block-自动化部署脚本测试-ca14bb93",
+        "block_link": "sessions/FEISHU-334_chat_oc_95a1908001469fb3511314931c960-5fd68080/session_wiki.md#block-自动化部署脚本测试-ca14bb93",
+        "block_summary": "自动化部署脚本测试因安全环境未就绪而受阻。"
+      }
+    ],
+    "commitment": [
+      {
+        "slot": "commitment",
+        "topic_key": "网络拓扑图获取",
+        "topic_title": "网络拓扑图获取",
+        "subject_key": "联系厂商提供网络拓扑图",
+        "claim": "网络拓扑图我联系厂商提供。",
+        "event_id": "evt_e29cb6a55138223c",
+        "event_time": "1778209556000",
+        "evidence_quote": "网络拓扑图我联系厂商提供。",
+        "event_path": "sessions/FEISHU-334_chat_oc_e1c2f6562931721f49f7af7a2a02d-c461e39a/session_events.jsonl#evt_e29cb6a55138223c",
+        "event_ref": "[[sessions/FEISHU-334_chat_oc_e1c2f6562931721f49f7af7a2a02d-c461e39a/session_events.jsonl#evt_e29cb6a55138223c|evt_e29cb6a55138223c]]",
+        "source_session_id": "task:FEISHU-334::chat:oc_e1c2f6562931721f49f7af7a2a02db9a",
+        "session_wiki_path": "sessions/FEISHU-334_chat_oc_e1c2f6562931721f49f7af7a2a02d-c461e39a/session_wiki.md",
+        "block_anchor": "block-网络拓扑图获取-7a44cd0f",
+        "block_link": "sessions/FEISHU-334_chat_oc_e1c2f6562931721f49f7af7a2a02d-c461e39a/session_wiki.md#block-网络拓扑图获取-7a44cd0f",
+        "block_summary": "联系厂商获取网络拓扑图"
+      },
+      {
+        "slot": "commitment",
+        "topic_key": "文档补全",
+        "topic_title": "文档补全",
+        "subject_key": "补 compliance 那章",
+        "claim": "compliance 那章等 秦怡 补",
+        "event_id": "evt_4d535064811992de",
+        "event_time": "1778209556000",
+        "evidence_quote": "compliance 那章等 秦怡 补",
+        "event_path": "sessions/FEISHU-334_chat_oc_e1c2f6562931721f49f7af7a2a02d-c461e39a/session_events.jsonl#evt_4d535064811992de",
+        "event_ref": "[[sessions/FEISHU-334_chat_oc_e1c2f6562931721f49f7af7a2a02d-c461e39a/session_events.jsonl#evt_4d535064811992de|evt_4d535064811992de]]",
+        "source_session_id": "task:FEISHU-334::chat:oc_e1c2f6562931721f49f7af7a2a02db9a",
+        "session_wiki_path": "sessions/FEISHU-334_chat_oc_e1c2f6562931721f49f7af7a2a02d-c461e39a/session_wiki.md",
+        "block_anchor": "block-文档补全-f7714a85",
+        "block_link": "sessions/FEISHU-334_chat_oc_e1c2f6562931721f49f7af7a2a02d-c461e39a/session_wiki.md#block-文档补全-f7714a85",
+        "block_summary": "秦怡负责补全compliance章节"
+      },
+      {
+        "slot": "commitment",
+        "topic_key": "文档反馈整理",
+        "topic_title": "文档反馈整理",
+        "subject_key": "整理其他章节的反馈",
+        "claim": "好的，那我先整理其他章节的反馈。",
+        "event_id": "evt_beccd9dead9b6aec",
+        "event_time": "1778209556000",
+        "evidence_quote": "那我先整理其他章节的反馈。",
+        "event_path": "sessions/FEISHU-334_chat_oc_e1c2f6562931721f49f7af7a2a02d-c461e39a/session_events.jsonl#evt_beccd9dead9b6aec",
+        "event_ref": "[[sessions/FEISHU-334_chat_oc_e1c2f6562931721f49f7af7a2a02d-c461e39a/session_events.jsonl#evt_beccd9dead9b6aec|evt_beccd9dead9b6aec]]",
+        "source_session_id": "task:FEISHU-334::chat:oc_e1c2f6562931721f49f7af7a2a02db9a",
+        "session_wiki_path": "sessions/FEISHU-334_chat_oc_e1c2f6562931721f49f7af7a2a02d-c461e39a/session_wiki.md",
+        "block_anchor": "block-文档反馈整理-b5b52bf7",
+        "block_link": "sessions/FEISHU-334_chat_oc_e1c2f6562931721f49f7af7a2a02d-c461e39a/session_wiki.md#block-文档反馈整理-b5b52bf7",
+        "block_summary": "整理其他章节的反馈"
+      },
+      {
+        "slot": "commitment",
+        "topic_key": "测试用例准备",
+        "topic_title": "测试用例准备",
+        "subject_key": "准备测试用例",
+        "claim": "那我先准备测试用例，等环境就绪再跑。",
+        "event_id": "evt_a46057af611cce0b",
+        "event_time": "1778209556000",
+        "evidence_quote": "那我先准备测试用例，等环境就绪再跑。",
+        "event_path": "sessions/FEISHU-334_chat_oc_95a1908001469fb3511314931c960-5fd68080/session_events.jsonl#evt_a46057af611cce0b",
+        "event_ref": "[[sessions/FEISHU-334_chat_oc_95a1908001469fb3511314931c960-5fd68080/session_events.jsonl#evt_a46057af611cce0b|evt_a46057af611cce0b]]",
+        "source_session_id": "task:FEISHU-334::chat:oc_95a1908001469fb3511314931c960609",
+        "session_wiki_path": "sessions/FEISHU-334_chat_oc_95a1908001469fb3511314931c960-5fd68080/session_wiki.md",
+        "block_anchor": "block-测试用例准备-a7a66507",
+        "block_link": "sessions/FEISHU-334_chat_oc_95a1908001469fb3511314931c960-5fd68080/session_wiki.md#block-测试用例准备-a7a66507",
+        "block_summary": "准备测试用例，等待环境就绪后执行。"
+      },
+      {
+        "slot": "commitment",
+        "topic_key": "测试执行",
+        "topic_title": "测试执行",
+        "subject_key": "看 feishu-334 的测试执行",
+        "claim": "收到，我就看 FEISHU-334 的测试执行。",
+        "event_id": "evt_6b7d22b6e74ce996",
+        "event_time": "1778209556000",
+        "evidence_quote": "我就看 FEISHU-334 的测试执行",
+        "event_path": "sessions/FEISHU-334_chat_oc_95a1908001469fb3511314931c960-5fd68080/session_events.jsonl#evt_6b7d22b6e74ce996",
+        "event_ref": "[[sessions/FEISHU-334_chat_oc_95a1908001469fb3511314931c960-5fd68080/session_events.jsonl#evt_6b7d22b6e74ce996|evt_6b7d22b6e74ce996]]",
+        "source_session_id": "task:FEISHU-334::chat:oc_95a1908001469fb3511314931c960609",
+        "session_wiki_path": "sessions/FEISHU-334_chat_oc_95a1908001469fb3511314931c960-5fd68080/session_wiki.md",
+        "block_anchor": "block-测试执行-9be189d0",
+        "block_link": "sessions/FEISHU-334_chat_oc_95a1908001469fb3511314931c960-5fd68080/session_wiki.md#block-测试执行-9be189d0",
+        "block_summary": "测试执行：处理FEISHU-334任务"
+      },
+      {
+        "slot": "commitment",
+        "topic_key": "发布阻塞风险",
+        "topic_title": "发布阻塞风险",
+        "subject_key": "发布阻塞风险",
+        "claim": "Compliance checklist 我这边还缺几条，今天补上。",
+        "event_id": "evt_22056847d093018b",
+        "event_time": "1778209556000",
+        "evidence_quote": "Compliance checklist 我这边还缺几条，今天补上。",
+        "event_path": "sessions/FEISHU-334_chat_oc_95a1908001469fb3511314931c960-5fd68080/session_events.jsonl#evt_22056847d093018b",
+        "event_ref": "[[sessions/FEISHU-334_chat_oc_95a1908001469fb3511314931c960-5fd68080/session_events.jsonl#evt_22056847d093018b|evt_22056847d093018b]]",
+        "source_session_id": "task:FEISHU-334::chat:oc_95a1908001469fb3511314931c960609",
+        "session_wiki_path": "sessions/FEISHU-334_chat_oc_95a1908001469fb3511314931c960-5fd68080/session_wiki.md",
+        "block_anchor": "block-发布阻塞风险-45763a86",
+        "block_link": "sessions/FEISHU-334_chat_oc_95a1908001469fb3511314931c960-5fd68080/session_wiki.md#block-发布阻塞风险-45763a86",
+        "block_summary": "FEISHU-334 发布阻塞风险已解决，仅剩安全审查未完成，合规检查清单待补充。"
+      },
+      {
+        "slot": "commitment",
+        "topic_key": "任务负责人",
+        "topic_title": "任务负责人",
+        "subject_key": "负责 feishu-334",
+        "claim": "FEISHU-334 由我负责",
+        "event_id": "evt_f71ad1330bbea6dc",
+        "event_time": "1778209556000",
+        "evidence_quote": "FEISHU-334 由我负责",
+        "event_path": "sessions/FEISHU-334_chat_oc_95a1908001469fb3511314931c960-5fd68080/session_events.jsonl#evt_f71ad1330bbea6dc",
+        "event_ref": "[[sessions/FEISHU-334_chat_oc_95a1908001469fb3511314931c960-5fd68080/session_events.jsonl#evt_f71ad1330bbea6dc|evt_f71ad1330bbea6dc]]",
+        "source_session_id": "task:FEISHU-334::chat:oc_95a1908001469fb3511314931c960609",
+        "session_wiki_path": "sessions/FEISHU-334_chat_oc_95a1908001469fb3511314931c960-5fd68080/session_wiki.md",
+        "block_anchor": "block-任务负责人-63e117cf",
+        "block_link": "sessions/FEISHU-334_chat_oc_95a1908001469fb3511314931c960-5fd68080/session_wiki.md#block-任务负责人-63e117cf",
+        "block_summary": "FEISHU-334 由我负责"
+      }
+    ],
+    "status": [
+      {
+        "slot": "status",
+        "topic_key": "操作手册更新",
+        "topic_title": "操作手册更新",
+        "subject_key": "feishu-334 操作手册",
+        "claim": "FEISHU-334 操作手册已更新，但还缺网络拓扑图。",
+        "event_id": "evt_df96bfcc3298d409",
+        "event_time": "1778209556000",
+        "evidence_quote": "FEISHU-334 操作手册已更新，但还缺网络拓扑图。",
+        "event_path": "sessions/FEISHU-334_chat_oc_e1c2f6562931721f49f7af7a2a02d-c461e39a/session_events.jsonl#evt_df96bfcc3298d409",
+        "event_ref": "[[sessions/FEISHU-334_chat_oc_e1c2f6562931721f49f7af7a2a02d-c461e39a/session_events.jsonl#evt_df96bfcc3298d409|evt_df96bfcc3298d409]]",
+        "source_session_id": "task:FEISHU-334::chat:oc_e1c2f6562931721f49f7af7a2a02db9a",
+        "session_wiki_path": "sessions/FEISHU-334_chat_oc_e1c2f6562931721f49f7af7a2a02d-c461e39a/session_wiki.md",
+        "block_anchor": "block-操作手册更新-f0a178af",
+        "block_link": "sessions/FEISHU-334_chat_oc_e1c2f6562931721f49f7af7a2a02d-c461e39a/session_wiki.md#block-操作手册更新-f0a178af",
+        "block_summary": "操作手册已更新，缺网络拓扑图。"
+      },
+      {
+        "slot": "status",
+        "topic_key": "文档评审",
+        "topic_title": "文档评审",
+        "subject_key": "文档评审",
+        "claim": "文档评审基本看完",
+        "event_id": "evt_0422e2bcf3208f62",
+        "event_time": "1778209556000",
+        "evidence_quote": "文档评审基本看完",
+        "event_path": "sessions/FEISHU-334_chat_oc_e1c2f6562931721f49f7af7a2a02d-c461e39a/session_events.jsonl#evt_0422e2bcf3208f62",
+        "event_ref": "[[sessions/FEISHU-334_chat_oc_e1c2f6562931721f49f7af7a2a02d-c461e39a/session_events.jsonl#evt_0422e2bcf3208f62|evt_0422e2bcf3208f62]]",
+        "source_session_id": "task:FEISHU-334::chat:oc_e1c2f6562931721f49f7af7a2a02db9a",
+        "session_wiki_path": "sessions/FEISHU-334_chat_oc_e1c2f6562931721f49f7af7a2a02d-c461e39a/session_wiki.md",
+        "block_anchor": "block-文档评审-3d2bb270",
+        "block_link": "sessions/FEISHU-334_chat_oc_e1c2f6562931721f49f7af7a2a02d-c461e39a/session_wiki.md#block-文档评审-3d2bb270",
+        "block_summary": "文档评审基本完成"
+      },
+      {
+        "slot": "status",
+        "topic_key": "发布阻塞风险",
+        "topic_title": "发布阻塞风险",
+        "subject_key": "发布阻塞风险",
+        "claim": "运维排练的 blocker 是网络环境，王源 在协调。",
+        "event_id": "evt_34f0c154d07edc4a",
+        "event_time": "1778209556000",
+        "evidence_quote": "运维排练的 blocker 是网络环境，王源 在协调。",
+        "event_path": "sessions/FEISHU-334_chat_oc_ec85126f897b2cee55c91aff8737b-976471af/session_events.jsonl#evt_34f0c154d07edc4a",
+        "event_ref": "[[sessions/FEISHU-334_chat_oc_ec85126f897b2cee55c91aff8737b-976471af/session_events.jsonl#evt_34f0c154d07edc4a|evt_34f0c154d07edc4a]]",
+        "source_session_id": "task:FEISHU-334::chat:oc_ec85126f897b2cee55c91aff8737bab8",
+        "session_wiki_path": "sessions/FEISHU-334_chat_oc_ec85126f897b2cee55c91aff8737b-976471af/session_wiki.md",
+        "block_anchor": "block-发布阻塞风险-45763a86",
+        "block_link": "sessions/FEISHU-334_chat_oc_ec85126f897b2cee55c91aff8737b-976471af/session_wiki.md#block-发布阻塞风险-45763a86",
+        "block_summary": "运维排练阻塞于网络环境，王源正在协调。"
+      },
+      {
+        "slot": "status",
+        "topic_key": "网络环境配置",
+        "topic_title": "网络环境配置",
+        "subject_key": "网络环境配置",
+        "claim": "网络环境配置还在进行，预计下周就绪。",
+        "event_id": "evt_99567de638fbce7e",
+        "event_time": "1778209556000",
+        "evidence_quote": "网络环境配置还在进行，预计下周就绪。",
+        "event_path": "sessions/FEISHU-334_chat_oc_ec85126f897b2cee55c91aff8737b-976471af/session_events.jsonl#evt_99567de638fbce7e",
+        "event_ref": "[[sessions/FEISHU-334_chat_oc_ec85126f897b2cee55c91aff8737b-976471af/session_events.jsonl#evt_99567de638fbce7e|evt_99567de638fbce7e]]",
+        "source_session_id": "task:FEISHU-334::chat:oc_ec85126f897b2cee55c91aff8737bab8",
+        "session_wiki_path": "sessions/FEISHU-334_chat_oc_ec85126f897b2cee55c91aff8737b-976471af/session_wiki.md",
+        "block_anchor": "block-网络环境配置-bef927a2",
+        "block_link": "sessions/FEISHU-334_chat_oc_ec85126f897b2cee55c91aff8737b-976471af/session_wiki.md#block-网络环境配置-bef927a2",
+        "block_summary": "网络环境配置进行中，预计下周就绪。"
+      },
+      {
+        "slot": "status",
+        "topic_key": "安全审查",
+        "topic_title": "安全审查",
+        "subject_key": "feishu-334",
+        "claim": "安全审查还没通过",
+        "event_id": "evt_4cf107b9dc78a991",
+        "event_time": "1778209556000",
+        "evidence_quote": "安全审查还没通过",
+        "event_path": "sessions/FEISHU-334_chat_oc_95a1908001469fb3511314931c960-5fd68080/session_events.jsonl#evt_4cf107b9dc78a991",
+        "event_ref": "[[sessions/FEISHU-334_chat_oc_95a1908001469fb3511314931c960-5fd68080/session_events.jsonl#evt_4cf107b9dc78a991|evt_4cf107b9dc78a991]]",
+        "source_session_id": "task:FEISHU-334::chat:oc_95a1908001469fb3511314931c960609",
+        "session_wiki_path": "sessions/FEISHU-334_chat_oc_95a1908001469fb3511314931c960-5fd68080/session_wiki.md",
+        "block_anchor": "block-安全审查-d2e06d4b",
+        "block_link": "sessions/FEISHU-334_chat_oc_95a1908001469fb3511314931c960-5fd68080/session_wiki.md#block-安全审查-d2e06d4b",
+        "block_summary": "安全审查尚未通过"
+      },
+      {
+        "slot": "status",
+        "topic_key": "部署计划",
+        "topic_title": "部署计划",
+        "subject_key": "feishu-334 的 ops 部署计划",
+        "claim": "FEISHU-334 的 ops 部署计划已草拟，等审查通过。",
+        "event_id": "evt_9931bb02d574b786",
+        "event_time": "1778209556000",
+        "evidence_quote": "FEISHU-334 的 ops 部署计划已草拟，等审查通过。",
+        "event_path": "sessions/FEISHU-334_chat_oc_95a1908001469fb3511314931c960-5fd68080/session_events.jsonl#evt_9931bb02d574b786",
+        "event_ref": "[[sessions/FEISHU-334_chat_oc_95a1908001469fb3511314931c960-5fd68080/session_events.jsonl#evt_9931bb02d574b786|evt_9931bb02d574b786]]",
+        "source_session_id": "task:FEISHU-334::chat:oc_95a1908001469fb3511314931c960609",
+        "session_wiki_path": "sessions/FEISHU-334_chat_oc_95a1908001469fb3511314931c960-5fd68080/session_wiki.md",
+        "block_anchor": "block-部署计划-78f2ac29",
+        "block_link": "sessions/FEISHU-334_chat_oc_95a1908001469fb3511314931c960-5fd68080/session_wiki.md#block-部署计划-78f2ac29",
+        "block_summary": "FEISHU-334的ops部署计划已草拟，等待审查通过。"
+      },
+      {
+        "slot": "status",
+        "topic_key": "监控配置",
+        "topic_title": "监控配置",
+        "subject_key": "feishu-334 的监控配置",
+        "claim": "SRE 这边监控配置已就绪，只等业务部署。",
+        "event_id": "evt_5f90400112a945ed",
+        "event_time": "1778209556000",
+        "evidence_quote": "监控配置已就绪",
+        "event_path": "sessions/FEISHU-334_chat_oc_95a1908001469fb3511314931c960-5fd68080/session_events.jsonl#evt_5f90400112a945ed",
+        "event_ref": "[[sessions/FEISHU-334_chat_oc_95a1908001469fb3511314931c960-5fd68080/session_events.jsonl#evt_5f90400112a945ed|evt_5f90400112a945ed]]",
+        "source_session_id": "task:FEISHU-334::chat:oc_95a1908001469fb3511314931c960609",
+        "session_wiki_path": "sessions/FEISHU-334_chat_oc_95a1908001469fb3511314931c960-5fd68080/session_wiki.md",
+        "block_anchor": "block-监控配置-f68a97c6",
+        "block_link": "sessions/FEISHU-334_chat_oc_95a1908001469fb3511314931c960-5fd68080/session_wiki.md#block-监控配置-f68a97c6",
+        "block_summary": "监控配置已就绪，等待业务部署。"
+      },
+      {
+        "slot": "status",
+        "topic_key": "脚本部署计划",
+        "topic_title": "脚本部署计划",
+        "subject_key": "脚本部署计划",
+        "claim": "脚本部署计划我确认过，环境就绪就能跑。",
+        "event_id": "evt_24725d8968841a23",
+        "event_time": "1778209556000",
+        "evidence_quote": "脚本部署计划我确认过，环境就绪就能跑。",
+        "event_path": "sessions/FEISHU-334_chat_oc_95a1908001469fb3511314931c960-5fd68080/session_events.jsonl#evt_24725d8968841a23",
+        "event_ref": "[[sessions/FEISHU-334_chat_oc_95a1908001469fb3511314931c960-5fd68080/session_events.jsonl#evt_24725d8968841a23|evt_24725d8968841a23]]",
+        "source_session_id": "task:FEISHU-334::chat:oc_95a1908001469fb3511314931c960609",
+        "session_wiki_path": "sessions/FEISHU-334_chat_oc_95a1908001469fb3511314931c960-5fd68080/session_wiki.md",
+        "block_anchor": "block-脚本部署计划-5ceb338a",
+        "block_link": "sessions/FEISHU-334_chat_oc_95a1908001469fb3511314931c960-5fd68080/session_wiki.md#block-脚本部署计划-5ceb338a",
+        "block_summary": "脚本部署计划已确认，环境就绪即可运行。"
+      },
+      {
+        "slot": "status",
+        "topic_key": "用户培训材料",
+        "topic_title": "用户培训材料",
+        "subject_key": "用户培训材料",
+        "claim": "BA 这边用户培训材料已准备好。",
+        "event_id": "evt_8c8f5638ba2bbf16",
+        "event_time": "1778209556000",
+        "evidence_quote": "BA 这边用户培训材料已准备好。",
+        "event_path": "sessions/FEISHU-334_chat_oc_95a1908001469fb3511314931c960-5fd68080/session_events.jsonl#evt_8c8f5638ba2bbf16",
+        "event_ref": "[[sessions/FEISHU-334_chat_oc_95a1908001469fb3511314931c960-5fd68080/session_events.jsonl#evt_8c8f5638ba2bbf16|evt_8c8f5638ba2bbf16]]",
+        "source_session_id": "task:FEISHU-334::chat:oc_95a1908001469fb3511314931c960609",
+        "session_wiki_path": "sessions/FEISHU-334_chat_oc_95a1908001469fb3511314931c960-5fd68080/session_wiki.md",
+        "block_anchor": "block-用户培训材料-7b595cd9",
+        "block_link": "sessions/FEISHU-334_chat_oc_95a1908001469fb3511314931c960-5fd68080/session_wiki.md#block-用户培训材料-7b595cd9",
+        "block_summary": "BA已准备好用户培训材料。"
+      },
+      {
+        "slot": "status",
+        "topic_key": "正式升级窗口",
+        "topic_title": "正式升级窗口",
+        "subject_key": "正式升级窗口",
+        "claim": "Ops 部署计划已草拟，等审查通过定窗口。",
+        "event_id": "evt_0c079da7157a0984",
+        "event_time": "1778209556000",
+        "evidence_quote": "Ops 部署计划已草拟，等审查通过定窗口。",
+        "event_path": "sessions/FEISHU-334_chat_oc_95a1908001469fb3511314931c960-5fd68080/session_events.jsonl#evt_0c079da7157a0984",
+        "event_ref": "[[sessions/FEISHU-334_chat_oc_95a1908001469fb3511314931c960-5fd68080/session_events.jsonl#evt_0c079da7157a0984|evt_0c079da7157a0984]]",
+        "source_session_id": "task:FEISHU-334::chat:oc_95a1908001469fb3511314931c960609",
+        "session_wiki_path": "sessions/FEISHU-334_chat_oc_95a1908001469fb3511314931c960-5fd68080/session_wiki.md",
+        "block_anchor": "block-正式升级窗口-930e601a",
+        "block_link": "sessions/FEISHU-334_chat_oc_95a1908001469fb3511314931c960-5fd68080/session_wiki.md#block-正式升级窗口-930e601a",
+        "block_summary": "正式升级窗口状态为活跃，Ops部署计划已草拟待审查，FEISHU-334部署窗口暂未确定。"
+      }
+    ],
+    "time": [
+      {
+        "slot": "time",
+        "topic_key": "网络环境配置",
+        "topic_title": "网络环境配置",
+        "subject_key": "网络环境配置",
+        "claim": "网络环境配置还在进行，预计下周就绪。",
+        "event_id": "evt_cfd48c4307986426",
+        "event_time": "1778209556000",
+        "evidence_quote": "预计下周就绪",
+        "event_path": "sessions/FEISHU-334_chat_oc_ec85126f897b2cee55c91aff8737b-976471af/session_events.jsonl#evt_cfd48c4307986426",
+        "event_ref": "[[sessions/FEISHU-334_chat_oc_ec85126f897b2cee55c91aff8737b-976471af/session_events.jsonl#evt_cfd48c4307986426|evt_cfd48c4307986426]]",
+        "source_session_id": "task:FEISHU-334::chat:oc_ec85126f897b2cee55c91aff8737bab8",
+        "session_wiki_path": "sessions/FEISHU-334_chat_oc_ec85126f897b2cee55c91aff8737b-976471af/session_wiki.md",
+        "block_anchor": "block-网络环境配置-bef927a2",
+        "block_link": "sessions/FEISHU-334_chat_oc_ec85126f897b2cee55c91aff8737b-976471af/session_wiki.md#block-网络环境配置-bef927a2",
+        "block_summary": "网络环境配置进行中，预计下周就绪。"
+      },
+      {
+        "slot": "time",
+        "topic_key": "正式升级窗口",
+        "topic_title": "正式升级窗口",
+        "subject_key": "正式升级窗口",
+        "claim": "FEISHU-334 部署窗口暂不定",
+        "event_id": "evt_2d6a35370746cb07",
+        "event_time": "1778209556000",
+        "evidence_quote": "FEISHU-334 部署窗口暂不定",
+        "event_path": "sessions/FEISHU-334_chat_oc_95a1908001469fb3511314931c960-5fd68080/session_events.jsonl#evt_2d6a35370746cb07",
+        "event_ref": "[[sessions/FEISHU-334_chat_oc_95a1908001469fb3511314931c960-5fd68080/session_events.jsonl#evt_2d6a35370746cb07|evt_2d6a35370746cb07]]",
+        "source_session_id": "task:FEISHU-334::chat:oc_95a1908001469fb3511314931c960609",
+        "session_wiki_path": "sessions/FEISHU-334_chat_oc_95a1908001469fb3511314931c960-5fd68080/session_wiki.md",
+        "block_anchor": "block-正式升级窗口-930e601a",
+        "block_link": "sessions/FEISHU-334_chat_oc_95a1908001469fb3511314931c960-5fd68080/session_wiki.md#block-正式升级窗口-930e601a",
+        "block_summary": "正式升级窗口状态为活跃，Ops部署计划已草拟待审查，FEISHU-334部署窗口暂未确定。"
+      }
+    ],
+    "scope": []
+  },
+  "current_summary": "FEISHU-334 阻塞于安全审查，网络环境预计下周就绪，部署计划已草拟，文档评审基本完成，待补网络拓扑图和合规章节。",
+  "related_blocks": [
+    {
+      "topic_key": "安全审查",
+      "topic_title": "安全审查",
+      "summary": "安全审查尚未通过",
+      "block_link": "sessions/FEISHU-334_chat_oc_95a1908001469fb3511314931c960-5fd68080/session_wiki.md#block-安全审查-d2e06d4b",
+      "session_wiki_path": "sessions/FEISHU-334_chat_oc_95a1908001469fb3511314931c960-5fd68080/session_wiki.md",
+      "source_session_id": "task:FEISHU-334::chat:oc_95a1908001469fb3511314931c960609",
+      "status": "active"
+    },
+    {
+      "topic_key": "部署计划",
+      "topic_title": "部署计划",
+      "summary": "FEISHU-334的ops部署计划已草拟，等待审查通过。",
+      "block_link": "sessions/FEISHU-334_chat_oc_95a1908001469fb3511314931c960-5fd68080/session_wiki.md#block-部署计划-78f2ac29",
+      "session_wiki_path": "sessions/FEISHU-334_chat_oc_95a1908001469fb3511314931c960-5fd68080/session_wiki.md",
+      "source_session_id": "task:FEISHU-334::chat:oc_95a1908001469fb3511314931c960609",
+      "status": "open"
+    },
+    {
+      "topic_key": "操作手册更新",
+      "topic_title": "操作手册更新",
+      "summary": "操作手册已更新，缺网络拓扑图。",
+      "block_link": "sessions/FEISHU-334_chat_oc_e1c2f6562931721f49f7af7a2a02d-c461e39a/session_wiki.md#block-操作手册更新-f0a178af",
+      "session_wiki_path": "sessions/FEISHU-334_chat_oc_e1c2f6562931721f49f7af7a2a02d-c461e39a/session_wiki.md",
+      "source_session_id": "task:FEISHU-334::chat:oc_e1c2f6562931721f49f7af7a2a02db9a",
+      "status": "active"
+    },
+    {
+      "topic_key": "测试用例执行约束",
+      "topic_title": "测试用例执行约束",
+      "summary": "安全审查通过前不执行测试用例。",
+      "block_link": "sessions/FEISHU-334_chat_oc_95a1908001469fb3511314931c960-5fd68080/session_wiki.md#block-测试用例执行约束-1431efd9",
+      "session_wiki_path": "sessions/FEISHU-334_chat_oc_95a1908001469fb3511314931c960-5fd68080/session_wiki.md",
+      "source_session_id": "task:FEISHU-334::chat:oc_95a1908001469fb3511314931c960609",
+      "status": "open"
+    },
+    {
+      "topic_key": "测试用例准备",
+      "topic_title": "测试用例准备",
+      "summary": "准备测试用例，等待环境就绪后执行。",
+      "block_link": "sessions/FEISHU-334_chat_oc_95a1908001469fb3511314931c960-5fd68080/session_wiki.md#block-测试用例准备-a7a66507",
+      "session_wiki_path": "sessions/FEISHU-334_chat_oc_95a1908001469fb3511314931c960-5fd68080/session_wiki.md",
+      "source_session_id": "task:FEISHU-334::chat:oc_95a1908001469fb3511314931c960609",
+      "status": "active"
+    },
+    {
+      "topic_key": "测试执行",
+      "topic_title": "测试执行",
+      "summary": "测试执行：处理FEISHU-334任务",
+      "block_link": "sessions/FEISHU-334_chat_oc_95a1908001469fb3511314931c960-5fd68080/session_wiki.md#block-测试执行-9be189d0",
+      "session_wiki_path": "sessions/FEISHU-334_chat_oc_95a1908001469fb3511314931c960-5fd68080/session_wiki.md",
+      "source_session_id": "task:FEISHU-334::chat:oc_95a1908001469fb3511314931c960609",
+      "status": "active"
+    },
+    {
+      "topic_key": "发布阻塞风险",
+      "topic_title": "发布阻塞风险",
+      "summary": "运维排练阻塞于网络环境，王源正在协调。",
+      "block_link": "sessions/FEISHU-334_chat_oc_ec85126f897b2cee55c91aff8737b-976471af/session_wiki.md#block-发布阻塞风险-45763a86",
+      "session_wiki_path": "sessions/FEISHU-334_chat_oc_ec85126f897b2cee55c91aff8737b-976471af/session_wiki.md",
+      "source_session_id": "task:FEISHU-334::chat:oc_ec85126f897b2cee55c91aff8737bab8",
+      "status": "active"
+    },
+    {
+      "topic_key": "发布阻塞风险",
+      "topic_title": "发布阻塞风险",
+      "summary": "FEISHU-334 安全审查关键模块还有三个风险未关闭，状态已解决。",
+      "block_link": "sessions/FEISHU-334_chat_oc_12bb18378549a0d4a0a00eb680e8d-f2f0b6cd/session_wiki.md#block-发布阻塞风险-45763a86",
+      "session_wiki_path": "sessions/FEISHU-334_chat_oc_12bb18378549a0d4a0a00eb680e8d-f2f0b6cd/session_wiki.md",
+      "source_session_id": "task:FEISHU-334::chat:oc_12bb18378549a0d4a0a00eb680e8d349",
+      "status": "resolved"
+    },
+    {
+      "topic_key": "发布阻塞风险",
+      "topic_title": "发布阻塞风险",
+      "summary": "FEISHU-334 发布阻塞风险已解决，仅剩安全审查未完成，合规检查清单待补充。",
+      "block_link": "sessions/FEISHU-334_chat_oc_95a1908001469fb3511314931c960-5fd68080/session_wiki.md#block-发布阻塞风险-45763a86",
+      "session_wiki_path": "sessions/FEISHU-334_chat_oc_95a1908001469fb3511314931c960-5fd68080/session_wiki.md",
+      "source_session_id": "task:FEISHU-334::chat:oc_95a1908001469fb3511314931c960609",
+      "status": "resolved"
+    },
+    {
+      "topic_key": "监控配置",
+      "topic_title": "监控配置",
+      "summary": "监控配置已就绪，等待业务部署。",
+      "block_link": "sessions/FEISHU-334_chat_oc_95a1908001469fb3511314931c960-5fd68080/session_wiki.md#block-监控配置-f68a97c6",
+      "session_wiki_path": "sessions/FEISHU-334_chat_oc_95a1908001469fb3511314931c960-5fd68080/session_wiki.md",
+      "source_session_id": "task:FEISHU-334::chat:oc_95a1908001469fb3511314931c960609",
+      "status": "active"
+    },
+    {
+      "topic_key": "脚本部署计划",
+      "topic_title": "脚本部署计划",
+      "summary": "脚本部署计划已确认，环境就绪即可运行。",
+      "block_link": "sessions/FEISHU-334_chat_oc_95a1908001469fb3511314931c960-5fd68080/session_wiki.md#block-脚本部署计划-5ceb338a",
+      "session_wiki_path": "sessions/FEISHU-334_chat_oc_95a1908001469fb3511314931c960-5fd68080/session_wiki.md",
+      "source_session_id": "task:FEISHU-334::chat:oc_95a1908001469fb3511314931c960609",
+      "status": "active"
+    },
+    {
+      "topic_key": "任务负责人",
+      "topic_title": "任务负责人",
+      "summary": "FEISHU-334 由我负责",
+      "block_link": "sessions/FEISHU-334_chat_oc_95a1908001469fb3511314931c960-5fd68080/session_wiki.md#block-任务负责人-63e117cf",
+      "session_wiki_path": "sessions/FEISHU-334_chat_oc_95a1908001469fb3511314931c960-5fd68080/session_wiki.md",
+      "source_session_id": "task:FEISHU-334::chat:oc_95a1908001469fb3511314931c960609",
+      "status": "active"
+    },
+    {
+      "topic_key": "网络环境配置",
+      "topic_title": "网络环境配置",
+      "summary": "网络环境配置进行中，预计下周就绪。",
+      "block_link": "sessions/FEISHU-334_chat_oc_ec85126f897b2cee55c91aff8737b-976471af/session_wiki.md#block-网络环境配置-bef927a2",
+      "session_wiki_path": "sessions/FEISHU-334_chat_oc_ec85126f897b2cee55c91aff8737b-976471af/session_wiki.md",
+      "source_session_id": "task:FEISHU-334::chat:oc_ec85126f897b2cee55c91aff8737bab8",
+      "status": "active"
+    },
+    {
+      "topic_key": "网络拓扑图获取",
+      "topic_title": "网络拓扑图获取",
+      "summary": "联系厂商获取网络拓扑图",
+      "block_link": "sessions/FEISHU-334_chat_oc_e1c2f6562931721f49f7af7a2a02d-c461e39a/session_wiki.md#block-网络拓扑图获取-7a44cd0f",
+      "session_wiki_path": "sessions/FEISHU-334_chat_oc_e1c2f6562931721f49f7af7a2a02d-c461e39a/session_wiki.md",
+      "source_session_id": "task:FEISHU-334::chat:oc_e1c2f6562931721f49f7af7a2a02db9a",
+      "status": "active"
+    },
+    {
+      "topic_key": "文档补全",
+      "topic_title": "文档补全",
+      "summary": "秦怡负责补全compliance章节",
+      "block_link": "sessions/FEISHU-334_chat_oc_e1c2f6562931721f49f7af7a2a02d-c461e39a/session_wiki.md#block-文档补全-f7714a85",
+      "session_wiki_path": "sessions/FEISHU-334_chat_oc_e1c2f6562931721f49f7af7a2a02d-c461e39a/session_wiki.md",
+      "source_session_id": "task:FEISHU-334::chat:oc_e1c2f6562931721f49f7af7a2a02db9a",
+      "status": "active"
+    },
+    {
+      "topic_key": "文档反馈整理",
+      "topic_title": "文档反馈整理",
+      "summary": "整理其他章节的反馈",
+      "block_link": "sessions/FEISHU-334_chat_oc_e1c2f6562931721f49f7af7a2a02d-c461e39a/session_wiki.md#block-文档反馈整理-b5b52bf7",
+      "session_wiki_path": "sessions/FEISHU-334_chat_oc_e1c2f6562931721f49f7af7a2a02d-c461e39a/session_wiki.md",
+      "source_session_id": "task:FEISHU-334::chat:oc_e1c2f6562931721f49f7af7a2a02db9a",
+      "status": "active"
+    },
+    {
+      "topic_key": "文档评审",
+      "topic_title": "文档评审",
+      "summary": "文档评审基本完成",
+      "block_link": "sessions/FEISHU-334_chat_oc_e1c2f6562931721f49f7af7a2a02d-c461e39a/session_wiki.md#block-文档评审-3d2bb270",
+      "session_wiki_path": "sessions/FEISHU-334_chat_oc_e1c2f6562931721f49f7af7a2a02d-c461e39a/session_wiki.md",
+      "source_session_id": "task:FEISHU-334::chat:oc_e1c2f6562931721f49f7af7a2a02db9a",
+      "status": "active"
+    },
+    {
+      "topic_key": "用户培训材料",
+      "topic_title": "用户培训材料",
+      "summary": "BA已准备好用户培训材料。",
+      "block_link": "sessions/FEISHU-334_chat_oc_95a1908001469fb3511314931c960-5fd68080/session_wiki.md#block-用户培训材料-7b595cd9",
+      "session_wiki_path": "sessions/FEISHU-334_chat_oc_95a1908001469fb3511314931c960-5fd68080/session_wiki.md",
+      "source_session_id": "task:FEISHU-334::chat:oc_95a1908001469fb3511314931c960609",
+      "status": "active"
+    },
+    {
+      "topic_key": "正式升级窗口",
+      "topic_title": "正式升级窗口",
+      "summary": "正式升级窗口状态为活跃，Ops部署计划已草拟待审查，FEISHU-334部署窗口暂未确定。",
+      "block_link": "sessions/FEISHU-334_chat_oc_95a1908001469fb3511314931c960-5fd68080/session_wiki.md#block-正式升级窗口-930e601a",
+      "session_wiki_path": "sessions/FEISHU-334_chat_oc_95a1908001469fb3511314931c960-5fd68080/session_wiki.md",
+      "source_session_id": "task:FEISHU-334::chat:oc_95a1908001469fb3511314931c960609",
+      "status": "active"
+    },
+    {
+      "topic_key": "自动化部署脚本测试",
+      "topic_title": "自动化部署脚本测试",
+      "summary": "自动化部署脚本测试因安全环境未就绪而受阻。",
+      "block_link": "sessions/FEISHU-334_chat_oc_95a1908001469fb3511314931c960-5fd68080/session_wiki.md#block-自动化部署脚本测试-ca14bb93",
+      "session_wiki_path": "sessions/FEISHU-334_chat_oc_95a1908001469fb3511314931c960-5fd68080/session_wiki.md",
+      "source_session_id": "task:FEISHU-334::chat:oc_95a1908001469fb3511314931c960609",
+      "status": "open"
+    }
+  ],
+  "updated_at": "2026-05-08T03:46:37.825Z"
+}

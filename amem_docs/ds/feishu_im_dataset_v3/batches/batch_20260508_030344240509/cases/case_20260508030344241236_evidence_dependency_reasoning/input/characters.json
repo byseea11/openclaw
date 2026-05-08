@@ -1,0 +1,199 @@
+{
+  "case_id": "case_20260508030344241236_evidence_dependency_reasoning",
+  "family_id": "evidence_dependency_reasoning",
+  "task_id": "FEISHU-336",
+  "characters": [
+    {
+      "person_id": "alice",
+      "actor_slot_id": "alice",
+      "simulated_open_id": "ou_sim_alice",
+      "name": "林晨",
+      "department": "项目管理",
+      "role": "项目负责人",
+      "task_ids": [
+        "FEISHU-336"
+      ],
+      "default_channels": [
+        "chat_main_chat",
+        "chat_risk_review_thread"
+      ],
+      "profile": "林晨来自项目管理，在本 benchmark 中承接 `alice` 槽位，负责制造或澄清跨 source 的任务记忆证据。"
+    },
+    {
+      "person_id": "bob",
+      "actor_slot_id": "bob",
+      "simulated_open_id": "ou_sim_bob",
+      "name": "周宇",
+      "department": "运维保障",
+      "role": "运维协作者",
+      "task_ids": [
+        "FEISHU-336"
+      ],
+      "default_channels": [
+        "chat_main_chat",
+        "chat_risk_review_thread"
+      ],
+      "profile": "周宇来自运维保障，在本 benchmark 中承接 `bob` 槽位，负责制造或澄清跨 source 的任务记忆证据。"
+    },
+    {
+      "person_id": "carol",
+      "actor_slot_id": "carol",
+      "simulated_open_id": "ou_sim_carol",
+      "name": "陈雪",
+      "department": "项目管理",
+      "role": "当前负责人",
+      "task_ids": [
+        "FEISHU-336"
+      ],
+      "default_channels": [
+        "chat_main_chat",
+        "chat_risk_review_thread"
+      ],
+      "profile": "陈雪来自项目管理，在本 benchmark 中承接 `carol` 槽位，负责制造或澄清跨 source 的任务记忆证据。"
+    },
+    {
+      "person_id": "xavier",
+      "actor_slot_id": "xavier",
+      "simulated_open_id": "ou_sim_xavier",
+      "name": "王源",
+      "department": "项目管理",
+      "role": "当前负责人",
+      "task_ids": [
+        "FEISHU-336"
+      ],
+      "default_channels": [
+        "chat_main_chat",
+        "chat_risk_review_thread"
+      ],
+      "profile": "王源来自项目管理，在本 benchmark 中承接 `xavier` 槽位，负责制造或澄清跨 source 的任务记忆证据。"
+    },
+    {
+      "person_id": "diana",
+      "actor_slot_id": "diana",
+      "simulated_open_id": "ou_sim_diana",
+      "name": "高骏",
+      "department": "企业协作",
+      "role": "质量复核人",
+      "task_ids": [
+        "FEISHU-336"
+      ],
+      "default_channels": [
+        "chat_main_chat",
+        "chat_risk_review_thread"
+      ],
+      "profile": "高骏来自企业协作，在本 benchmark 中承接 `diana` 槽位，负责制造或澄清跨 source 的任务记忆证据。"
+    },
+    {
+      "person_id": "ethan",
+      "actor_slot_id": "ethan",
+      "simulated_open_id": "ou_sim_ethan",
+      "name": "赵敏",
+      "department": "质量保障",
+      "role": "质量复核人",
+      "task_ids": [
+        "FEISHU-336"
+      ],
+      "default_channels": [
+        "chat_main_chat",
+        "chat_risk_review_thread"
+      ],
+      "profile": "赵敏来自质量保障，在本 benchmark 中承接 `ethan` 槽位，负责制造或澄清跨 source 的任务记忆证据。"
+    },
+    {
+      "person_id": "fiona",
+      "actor_slot_id": "fiona",
+      "simulated_open_id": "ou_sim_fiona",
+      "name": "何然",
+      "department": "项目管理",
+      "role": "当前负责人",
+      "task_ids": [
+        "FEISHU-336"
+      ],
+      "default_channels": [
+        "chat_main_chat",
+        "chat_risk_review_thread"
+      ],
+      "profile": "何然来自项目管理，在本 benchmark 中承接 `fiona` 槽位，负责制造或澄清跨 source 的任务记忆证据。"
+    },
+    {
+      "person_id": "george",
+      "actor_slot_id": "george",
+      "simulated_open_id": "ou_sim_george",
+      "name": "秦怡",
+      "department": "研发平台",
+      "role": "研发协作者",
+      "task_ids": [
+        "FEISHU-336"
+      ],
+      "default_channels": [
+        "chat_main_chat",
+        "chat_risk_review_thread"
+      ],
+      "profile": "秦怡来自研发平台，在本 benchmark 中承接 `george` 槽位，负责制造或澄清跨 source 的任务记忆证据。"
+    },
+    {
+      "person_id": "helen",
+      "actor_slot_id": "helen",
+      "simulated_open_id": "ou_sim_helen",
+      "name": "罗天",
+      "department": "安全合规",
+      "role": "合规确认人",
+      "task_ids": [
+        "FEISHU-336"
+      ],
+      "default_channels": [
+        "chat_main_chat",
+        "chat_risk_review_thread"
+      ],
+      "profile": "罗天来自安全合规，在本 benchmark 中承接 `helen` 槽位，负责制造或澄清跨 source 的任务记忆证据。"
+    },
+    {
+      "person_id": "ivan",
+      "actor_slot_id": "ivan",
+      "simulated_open_id": "ou_sim_ivan",
+      "name": "苏禾",
+      "department": "企业协作",
+      "role": "vendor partner",
+      "task_ids": [
+        "FEISHU-336"
+      ],
+      "default_channels": [
+        "chat_main_chat",
+        "chat_risk_review_thread"
+      ],
+      "profile": "苏禾来自企业协作，在本 benchmark 中承接 `ivan` 槽位，负责制造或澄清跨 source 的任务记忆证据。"
+    },
+    {
+      "person_id": "judy",
+      "actor_slot_id": "judy",
+      "simulated_open_id": "ou_sim_judy",
+      "name": "唐越",
+      "department": "安全合规",
+      "role": "合规确认人",
+      "task_ids": [
+        "FEISHU-336"
+      ],
+      "default_channels": [
+        "chat_main_chat",
+        "chat_risk_review_thread"
+      ],
+      "profile": "唐越来自安全合规，在本 benchmark 中承接 `judy` 槽位，负责制造或澄清跨 source 的任务记忆证据。"
+    },
+    {
+      "person_id": "kevin",
+      "actor_slot_id": "kevin",
+      "simulated_open_id": "ou_sim_kevin",
+      "name": "许薇",
+      "department": "客户协作",
+      "role": "客户接口人",
+      "task_ids": [
+        "FEISHU-336"
+      ],
+      "default_channels": [
+        "chat_main_chat",
+        "chat_risk_review_thread"
+      ],
+      "profile": "许薇来自客户协作，在本 benchmark 中承接 `kevin` 槽位，负责制造或澄清跨 source 的任务记忆证据。"
+    }
+  ]
+}

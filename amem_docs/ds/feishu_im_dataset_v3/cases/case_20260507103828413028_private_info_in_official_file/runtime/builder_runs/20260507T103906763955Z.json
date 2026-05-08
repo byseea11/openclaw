@@ -1,0 +1,13 @@
+{
+  "phase": "phase1",
+  "stage": "coverage-spec",
+  "status": "completed",
+  "started_at": "2026-05-07T10:39:06.762920+00:00",
+  "ended_at": "2026-05-07T10:39:06.763938+00:00",
+  "artifact_paths": [
+    "amem_docs/ds/feishu_im_dataset_v3/cases/case_20260507103828413028_private_info_in_official_file/input/coverage_spec.json"
+  ],
+  "skipped": false,
+  "run_id": "20260507T103906763955Z",
+  "updated_at": "2026-05-07T10:39:06.763964+00:00"
+}

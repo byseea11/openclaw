@@ -1,0 +1,11 @@
+{
+  "case_id": "case_20260507112905870826_contradiction_update",
+  "case_dir": "amem_docs/ds/feishu_im_dataset_v3/cases/case_20260507112905870826_contradiction_update",
+  "family_id": "contradiction_update",
+  "task_id": "FEISHU-726",
+  "allowed_task_ids": [
+    "FEISHU-726"
+  ],
+  "status": "passed",
+  "issues": []
+}

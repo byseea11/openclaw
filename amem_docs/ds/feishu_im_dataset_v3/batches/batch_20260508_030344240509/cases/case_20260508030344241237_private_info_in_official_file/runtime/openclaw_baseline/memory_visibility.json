@@ -1,0 +1,26 @@
+{
+  "status": "failed",
+  "visibility_quality": "failed",
+  "task_id": "FEISHU-337",
+  "required_message_id_count": 1,
+  "recommended_message_id_count": 3,
+  "found_message_ids": [],
+  "missing_expected_message_ids_sample": [
+    "om_x100b50e102056c4cc42d6fb8f2c2568",
+    "om_x100b50e102154a08c32bf6a336b8924",
+    "om_x100b50e10544b8a4c2b9797d34a2e49",
+    "om_x100b50e1055958acc3833f181f2a7bd",
+    "om_x100b50e1056d69b0c2213ca05f5370f",
+    "om_x100b50e1056154a4c4e61b50b5e682b",
+    "om_x100b50e105749c8cc4d03d16249abe0",
+    "om_x100b50e1050b90a0c2bafc3893ae66d",
+    "om_x100b50e1051c48b0c2c78a0b493a6eb",
+    "om_x100b50e10513a8bcc2c1951d8bb7ea3"
+  ],
+  "probe_answers": [],
+  "reasons": [
+    "真实 OpenClaw gateway source session ingest 失败 session_key=agent:main:feishu-benchmark:case_20260508030344241237_private_info_in_official_file:run:1778213190192:case-transcript: agent.wait status=timeout"
+  ],
+  "warnings": [],
+  "raw_runs": []
+}

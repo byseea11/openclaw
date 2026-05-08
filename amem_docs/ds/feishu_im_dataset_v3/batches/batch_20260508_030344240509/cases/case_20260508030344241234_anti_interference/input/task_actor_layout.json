@@ -1,0 +1,98 @@
+{
+  "case_id": "case_20260508030344241234_anti_interference",
+  "family_id": "anti_interference",
+  "task_id": "FEISHU-334",
+  "actors": [
+    {
+      "actor_id": "alice",
+      "display_name": "Alice",
+      "role": "release_pm"
+    },
+    {
+      "actor_id": "bob",
+      "display_name": "Bob",
+      "role": "infra_engineer"
+    },
+    {
+      "actor_id": "carol",
+      "display_name": "Carol",
+      "role": "qa_lead"
+    },
+    {
+      "actor_id": "dave",
+      "display_name": "Dave",
+      "role": "ops_engineer"
+    },
+    {
+      "actor_id": "eve",
+      "display_name": "Eve",
+      "role": "doc_reviewer"
+    },
+    {
+      "actor_id": "frank",
+      "display_name": "Frank",
+      "role": "security_engineer"
+    },
+    {
+      "actor_id": "grace",
+      "display_name": "Grace",
+      "role": "network_admin"
+    },
+    {
+      "actor_id": "heidi",
+      "display_name": "Heidi",
+      "role": "compliance_officer"
+    },
+    {
+      "actor_id": "ivan",
+      "display_name": "Ivan",
+      "role": "vendor_coordinator"
+    },
+    {
+      "actor_id": "judy",
+      "display_name": "Judy",
+      "role": "training_coordinator"
+    },
+    {
+      "actor_id": "kyle",
+      "display_name": "Kyle",
+      "role": "sre_engineer"
+    },
+    {
+      "actor_id": "laura",
+      "display_name": "Laura",
+      "role": "business_analyst"
+    }
+  ],
+  "task_actor_layout": {
+    "target_task_id": "FEISHU-334",
+    "shared_actors": [
+      "alice",
+      "bob",
+      "carol",
+      "dave"
+    ],
+    "actor_task_roles": [
+      {
+        "actor_id": "alice",
+        "task_id": "FEISHU-334",
+        "role": "owner"
+      },
+      {
+        "actor_id": "bob",
+        "task_id": "FEISHU-334",
+        "role": "deployment_engineer"
+      },
+      {
+        "actor_id": "carol",
+        "task_id": "FEISHU-334",
+        "role": "qa_tester"
+      },
+      {
+        "actor_id": "dave",
+        "task_id": "FEISHU-334",
+        "role": "ops_contact"
+      }
+    ]
+  }
+}

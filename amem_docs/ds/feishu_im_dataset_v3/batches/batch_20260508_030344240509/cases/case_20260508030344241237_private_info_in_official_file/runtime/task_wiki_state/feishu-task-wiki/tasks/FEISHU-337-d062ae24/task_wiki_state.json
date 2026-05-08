@@ -1,0 +1,797 @@
+{
+  "version": 1,
+  "task_id": "task:FEISHU-337",
+  "task_key": "FEISHU-337",
+  "sources": {
+    "task:FEISHU-337::chat:oc_d0eb1851297fe210861a72653d64a9e3": {
+      "source_session_id": "task:FEISHU-337::chat:oc_d0eb1851297fe210861a72653d64a9e3",
+      "session_wiki_path": "sessions/FEISHU-337_chat_oc_d0eb1851297fe210861a72653d64a-1d2fb90b/session_wiki.md",
+      "blocks": [],
+      "updated_at": "2026-05-08T04:05:13.981Z"
+    },
+    "task:FEISHU-337::chat:oc_c5105e1f07d9b3b98aaf1b6375e2f13a": {
+      "source_session_id": "task:FEISHU-337::chat:oc_c5105e1f07d9b3b98aaf1b6375e2f13a",
+      "session_wiki_path": "sessions/FEISHU-337_chat_oc_c5105e1f07d9b3b98aaf1b6375e2f-4a03aebd/session_wiki.md",
+      "blocks": [],
+      "updated_at": "2026-05-08T04:05:18.075Z"
+    },
+    "task:FEISHU-337::chat:oc_7be9cdd70c88b72dca99253a34f035c0": {
+      "source_session_id": "task:FEISHU-337::chat:oc_7be9cdd70c88b72dca99253a34f035c0",
+      "session_wiki_path": "sessions/FEISHU-337_chat_oc_7be9cdd70c88b72dca99253a34f03-7d5e165c/session_wiki.md",
+      "blocks": [
+        {
+          "block_id": "block-发布时间口径-867908bd",
+          "topic_key": "发布时间口径",
+          "topic_title": "发布时间口径",
+          "summary": "FEISHU-337 服务器迁移上线计划启动，目标5月底完成。",
+          "status": "active",
+          "block_link": "sessions/FEISHU-337_chat_oc_7be9cdd70c88b72dca99253a34f03-7d5e165c/session_wiki.md#block-发布时间口径-867908bd",
+          "session_wiki_path": "sessions/FEISHU-337_chat_oc_7be9cdd70c88b72dca99253a34f03-7d5e165c/session_wiki.md",
+          "source_session_id": "task:FEISHU-337::chat:oc_7be9cdd70c88b72dca99253a34f035c0",
+          "current_items": {
+            "conclusion": [],
+            "rationale": [],
+            "objection": [],
+            "constraint": [],
+            "commitment": [
+              {
+                "slot": "commitment",
+                "topic_key": "发布时间口径",
+                "topic_title": "发布时间口径",
+                "subject_key": "发布时间口径",
+                "claim": "FEISHU-337 服务器迁移上线计划启动，目标 5 月底完成。",
+                "event_id": "evt_9d98c6f9ee3eda51",
+                "event_time": "1778210003000",
+                "evidence_quote": "FEISHU-337 服务器迁移上线计划启动，目标 5 月底完成。",
+                "event_path": "sessions/FEISHU-337_chat_oc_7be9cdd70c88b72dca99253a34f03-7d5e165c/session_events.jsonl#evt_9d98c6f9ee3eda51",
+                "event_ref": "[[sessions/FEISHU-337_chat_oc_7be9cdd70c88b72dca99253a34f03-7d5e165c/session_events.jsonl#evt_9d98c6f9ee3eda51|evt_9d98c6f9ee3eda51]]",
+                "source_session_id": "task:FEISHU-337::chat:oc_7be9cdd70c88b72dca99253a34f035c0",
+                "session_wiki_path": "sessions/FEISHU-337_chat_oc_7be9cdd70c88b72dca99253a34f03-7d5e165c/session_wiki.md",
+                "block_anchor": "block-发布时间口径-867908bd",
+                "block_link": "sessions/FEISHU-337_chat_oc_7be9cdd70c88b72dca99253a34f03-7d5e165c/session_wiki.md#block-发布时间口径-867908bd",
+                "block_summary": "FEISHU-337 服务器迁移上线计划启动，目标5月底完成。"
+              }
+            ],
+            "status": [],
+            "time": [],
+            "scope": []
+          }
+        },
+        {
+          "block_id": "block-发布阻塞风险-45763a86",
+          "topic_key": "发布阻塞风险",
+          "topic_title": "发布阻塞风险",
+          "summary": "QA结论按标准执行，上线checklist已上传并含备注。",
+          "status": "active",
+          "block_link": "sessions/FEISHU-337_chat_oc_7be9cdd70c88b72dca99253a34f03-7d5e165c/session_wiki.md#block-发布阻塞风险-45763a86",
+          "session_wiki_path": "sessions/FEISHU-337_chat_oc_7be9cdd70c88b72dca99253a34f03-7d5e165c/session_wiki.md",
+          "source_session_id": "task:FEISHU-337::chat:oc_7be9cdd70c88b72dca99253a34f035c0",
+          "current_items": {
+            "conclusion": [
+              {
+                "slot": "conclusion",
+                "topic_key": "发布阻塞风险",
+                "topic_title": "发布阻塞风险",
+                "subject_key": "发布阻塞风险",
+                "claim": "QA 结论按 checklist 标准项执行，没有掺入个人备注。",
+                "event_id": "evt_2e88a7e6824ecb36",
+                "event_time": "1778210003000",
+                "evidence_quote": "QA 结论按 checklist 标准项执行，没有掺入个人备注。",
+                "event_path": "sessions/FEISHU-337_chat_oc_7be9cdd70c88b72dca99253a34f03-7d5e165c/session_events.jsonl#evt_2e88a7e6824ecb36",
+                "event_ref": "[[sessions/FEISHU-337_chat_oc_7be9cdd70c88b72dca99253a34f03-7d5e165c/session_events.jsonl#evt_2e88a7e6824ecb36|evt_2e88a7e6824ecb36]]",
+                "source_session_id": "task:FEISHU-337::chat:oc_7be9cdd70c88b72dca99253a34f035c0",
+                "session_wiki_path": "sessions/FEISHU-337_chat_oc_7be9cdd70c88b72dca99253a34f03-7d5e165c/session_wiki.md",
+                "block_anchor": "block-发布阻塞风险-45763a86",
+                "block_link": "sessions/FEISHU-337_chat_oc_7be9cdd70c88b72dca99253a34f03-7d5e165c/session_wiki.md#block-发布阻塞风险-45763a86",
+                "block_summary": "QA结论按标准执行，上线checklist已上传并含备注。"
+              }
+            ],
+            "rationale": [],
+            "objection": [],
+            "constraint": [],
+            "commitment": [],
+            "status": [
+              {
+                "slot": "status",
+                "topic_key": "发布阻塞风险",
+                "topic_title": "发布阻塞风险",
+                "subject_key": "发布阻塞风险",
+                "claim": "上线 checklist 已上传，附件里每人填了备注，请查看。",
+                "event_id": "evt_e7a3315000ea834e",
+                "event_time": "1778210003000",
+                "evidence_quote": "上线 checklist 已上传",
+                "event_path": "sessions/FEISHU-337_chat_oc_7be9cdd70c88b72dca99253a34f03-7d5e165c/session_events.jsonl#evt_e7a3315000ea834e",
+                "event_ref": "[[sessions/FEISHU-337_chat_oc_7be9cdd70c88b72dca99253a34f03-7d5e165c/session_events.jsonl#evt_e7a3315000ea834e|evt_e7a3315000ea834e]]",
+                "source_session_id": "task:FEISHU-337::chat:oc_7be9cdd70c88b72dca99253a34f035c0",
+                "session_wiki_path": "sessions/FEISHU-337_chat_oc_7be9cdd70c88b72dca99253a34f03-7d5e165c/session_wiki.md",
+                "block_anchor": "block-发布阻塞风险-45763a86",
+                "block_link": "sessions/FEISHU-337_chat_oc_7be9cdd70c88b72dca99253a34f03-7d5e165c/session_wiki.md#block-发布阻塞风险-45763a86",
+                "block_summary": "QA结论按标准执行，上线checklist已上传并含备注。"
+              }
+            ],
+            "time": [],
+            "scope": []
+          }
+        },
+        {
+          "block_id": "block-看依赖项-8904e7e6",
+          "topic_key": "看依赖项",
+          "topic_title": "看依赖项",
+          "summary": "用户表示先查看依赖项。",
+          "status": "active",
+          "block_link": "sessions/FEISHU-337_chat_oc_7be9cdd70c88b72dca99253a34f03-7d5e165c/session_wiki.md#block-看依赖项-8904e7e6",
+          "session_wiki_path": "sessions/FEISHU-337_chat_oc_7be9cdd70c88b72dca99253a34f03-7d5e165c/session_wiki.md",
+          "source_session_id": "task:FEISHU-337::chat:oc_7be9cdd70c88b72dca99253a34f035c0",
+          "current_items": {
+            "conclusion": [],
+            "rationale": [],
+            "objection": [],
+            "constraint": [],
+            "commitment": [
+              {
+                "slot": "commitment",
+                "topic_key": "看依赖项",
+                "topic_title": "看依赖项",
+                "subject_key": "看依赖项",
+                "claim": "我先看依赖项。",
+                "event_id": "evt_026bba8da90b7bab",
+                "event_time": "1778210003000",
+                "evidence_quote": "我先看依赖项。",
+                "event_path": "sessions/FEISHU-337_chat_oc_7be9cdd70c88b72dca99253a34f03-7d5e165c/session_events.jsonl#evt_026bba8da90b7bab",
+                "event_ref": "[[sessions/FEISHU-337_chat_oc_7be9cdd70c88b72dca99253a34f03-7d5e165c/session_events.jsonl#evt_026bba8da90b7bab|evt_026bba8da90b7bab]]",
+                "source_session_id": "task:FEISHU-337::chat:oc_7be9cdd70c88b72dca99253a34f035c0",
+                "session_wiki_path": "sessions/FEISHU-337_chat_oc_7be9cdd70c88b72dca99253a34f03-7d5e165c/session_wiki.md",
+                "block_anchor": "block-看依赖项-8904e7e6",
+                "block_link": "sessions/FEISHU-337_chat_oc_7be9cdd70c88b72dca99253a34f03-7d5e165c/session_wiki.md#block-看依赖项-8904e7e6",
+                "block_summary": "用户表示先查看依赖项。"
+              }
+            ],
+            "status": [],
+            "time": [],
+            "scope": []
+          }
+        },
+        {
+          "block_id": "block-联系周伟-47ca9922",
+          "topic_key": "联系周伟",
+          "topic_title": "联系周伟",
+          "summary": "主动联系周伟",
+          "status": "active",
+          "block_link": "sessions/FEISHU-337_chat_oc_7be9cdd70c88b72dca99253a34f03-7d5e165c/session_wiki.md#block-联系周伟-47ca9922",
+          "session_wiki_path": "sessions/FEISHU-337_chat_oc_7be9cdd70c88b72dca99253a34f03-7d5e165c/session_wiki.md",
+          "source_session_id": "task:FEISHU-337::chat:oc_7be9cdd70c88b72dca99253a34f035c0",
+          "current_items": {
+            "conclusion": [],
+            "rationale": [],
+            "objection": [],
+            "constraint": [],
+            "commitment": [
+              {
+                "slot": "commitment",
+                "topic_key": "联系周伟",
+                "topic_title": "联系周伟",
+                "subject_key": "联系周伟",
+                "claim": "那我来联系周伟。",
+                "event_id": "evt_213cacaebbf368e4",
+                "event_time": "1778210003000",
+                "evidence_quote": "那我来联系周伟。",
+                "event_path": "sessions/FEISHU-337_chat_oc_7be9cdd70c88b72dca99253a34f03-7d5e165c/session_events.jsonl#evt_213cacaebbf368e4",
+                "event_ref": "[[sessions/FEISHU-337_chat_oc_7be9cdd70c88b72dca99253a34f03-7d5e165c/session_events.jsonl#evt_213cacaebbf368e4|evt_213cacaebbf368e4]]",
+                "source_session_id": "task:FEISHU-337::chat:oc_7be9cdd70c88b72dca99253a34f035c0",
+                "session_wiki_path": "sessions/FEISHU-337_chat_oc_7be9cdd70c88b72dca99253a34f03-7d5e165c/session_wiki.md",
+                "block_anchor": "block-联系周伟-47ca9922",
+                "block_link": "sessions/FEISHU-337_chat_oc_7be9cdd70c88b72dca99253a34f03-7d5e165c/session_wiki.md#block-联系周伟-47ca9922",
+                "block_summary": "主动联系周伟"
+              }
+            ],
+            "status": [],
+            "time": [],
+            "scope": []
+          }
+        },
+        {
+          "block_id": "block-评审-04a63b37",
+          "topic_key": "评审",
+          "topic_title": "评审",
+          "summary": "高骏20-21号上午无法参加评审，需调整时间至下午。",
+          "status": "open",
+          "block_link": "sessions/FEISHU-337_chat_oc_7be9cdd70c88b72dca99253a34f03-7d5e165c/session_wiki.md#block-评审-04a63b37",
+          "session_wiki_path": "sessions/FEISHU-337_chat_oc_7be9cdd70c88b72dca99253a34f03-7d5e165c/session_wiki.md",
+          "source_session_id": "task:FEISHU-337::chat:oc_7be9cdd70c88b72dca99253a34f035c0",
+          "current_items": {
+            "conclusion": [],
+            "rationale": [],
+            "objection": [
+              {
+                "slot": "objection",
+                "topic_key": "评审",
+                "topic_title": "评审",
+                "subject_key": "评审",
+                "claim": "高骏 20-21 号上午不行，那评审得调时间？",
+                "event_id": "evt_5da239dad1a1bdcf",
+                "event_time": "1778210003000",
+                "evidence_quote": "高骏 20-21 号上午不行",
+                "event_path": "sessions/FEISHU-337_chat_oc_7be9cdd70c88b72dca99253a34f03-7d5e165c/session_events.jsonl#evt_5da239dad1a1bdcf",
+                "event_ref": "[[sessions/FEISHU-337_chat_oc_7be9cdd70c88b72dca99253a34f03-7d5e165c/session_events.jsonl#evt_5da239dad1a1bdcf|evt_5da239dad1a1bdcf]]",
+                "source_session_id": "task:FEISHU-337::chat:oc_7be9cdd70c88b72dca99253a34f035c0",
+                "session_wiki_path": "sessions/FEISHU-337_chat_oc_7be9cdd70c88b72dca99253a34f03-7d5e165c/session_wiki.md",
+                "block_anchor": "block-评审-04a63b37",
+                "block_link": "sessions/FEISHU-337_chat_oc_7be9cdd70c88b72dca99253a34f03-7d5e165c/session_wiki.md#block-评审-04a63b37",
+                "block_summary": "高骏20-21号上午无法参加评审，需调整时间至下午。"
+              }
+            ],
+            "constraint": [
+              {
+                "slot": "constraint",
+                "topic_key": "评审",
+                "topic_title": "评审",
+                "subject_key": "评审",
+                "claim": "20-21 号只能下午参加评审，上午有私事。",
+                "event_id": "evt_bbfa3aee99d5af2c",
+                "event_time": "1778210003000",
+                "evidence_quote": "20-21 号只能下午参加评审，上午有私事。",
+                "event_path": "sessions/FEISHU-337_chat_oc_7be9cdd70c88b72dca99253a34f03-7d5e165c/session_events.jsonl#evt_bbfa3aee99d5af2c",
+                "event_ref": "[[sessions/FEISHU-337_chat_oc_7be9cdd70c88b72dca99253a34f03-7d5e165c/session_events.jsonl#evt_bbfa3aee99d5af2c|evt_bbfa3aee99d5af2c]]",
+                "source_session_id": "task:FEISHU-337::chat:oc_7be9cdd70c88b72dca99253a34f035c0",
+                "session_wiki_path": "sessions/FEISHU-337_chat_oc_7be9cdd70c88b72dca99253a34f03-7d5e165c/session_wiki.md",
+                "block_anchor": "block-评审-04a63b37",
+                "block_link": "sessions/FEISHU-337_chat_oc_7be9cdd70c88b72dca99253a34f03-7d5e165c/session_wiki.md#block-评审-04a63b37",
+                "block_summary": "高骏20-21号上午无法参加评审，需调整时间至下午。"
+              }
+            ],
+            "commitment": [],
+            "status": [],
+            "time": [],
+            "scope": []
+          }
+        },
+        {
+          "block_id": "block-销售承诺风险-3d675c35",
+          "topic_key": "销售承诺风险",
+          "topic_title": "销售承诺风险",
+          "summary": "销售承诺风险：Qianhao称唐越私下答应补材料，但未被视作正式承诺；陈雪承诺立即查看。",
+          "status": "open",
+          "block_link": "sessions/FEISHU-337_chat_oc_7be9cdd70c88b72dca99253a34f03-7d5e165c/session_wiki.md#block-销售承诺风险-3d675c35",
+          "session_wiki_path": "sessions/FEISHU-337_chat_oc_7be9cdd70c88b72dca99253a34f03-7d5e165c/session_wiki.md",
+          "source_session_id": "task:FEISHU-337::chat:oc_7be9cdd70c88b72dca99253a34f035c0",
+          "current_items": {
+            "conclusion": [],
+            "rationale": [],
+            "objection": [
+              {
+                "slot": "objection",
+                "topic_key": "销售承诺风险",
+                "topic_title": "销售承诺风险",
+                "subject_key": "销售承诺风险",
+                "claim": "Qianhao 说唐越私下答应补供应商材料，但我觉得那不算正式承诺。",
+                "event_id": "evt_706a9c480f267b07",
+                "event_time": "1778210003000",
+                "evidence_quote": "但我觉得那不算正式承诺。",
+                "event_path": "sessions/FEISHU-337_chat_oc_7be9cdd70c88b72dca99253a34f03-7d5e165c/session_events.jsonl#evt_706a9c480f267b07",
+                "event_ref": "[[sessions/FEISHU-337_chat_oc_7be9cdd70c88b72dca99253a34f03-7d5e165c/session_events.jsonl#evt_706a9c480f267b07|evt_706a9c480f267b07]]",
+                "source_session_id": "task:FEISHU-337::chat:oc_7be9cdd70c88b72dca99253a34f035c0",
+                "session_wiki_path": "sessions/FEISHU-337_chat_oc_7be9cdd70c88b72dca99253a34f03-7d5e165c/session_wiki.md",
+                "block_anchor": "block-销售承诺风险-3d675c35",
+                "block_link": "sessions/FEISHU-337_chat_oc_7be9cdd70c88b72dca99253a34f03-7d5e165c/session_wiki.md#block-销售承诺风险-3d675c35",
+                "block_summary": "销售承诺风险：Qianhao称唐越私下答应补材料，但未被视作正式承诺；陈雪承诺立即查看。"
+              }
+            ],
+            "constraint": [],
+            "commitment": [
+              {
+                "slot": "commitment",
+                "topic_key": "销售承诺风险",
+                "topic_title": "销售承诺风险",
+                "subject_key": "销售承诺风险",
+                "claim": "陈雪承诺马上看",
+                "event_id": "evt_95ec2a0c135d5fb2",
+                "event_time": "1778210003000",
+                "evidence_quote": "好的，我马上看。",
+                "event_path": "sessions/FEISHU-337_chat_oc_7be9cdd70c88b72dca99253a34f03-7d5e165c/session_events.jsonl#evt_95ec2a0c135d5fb2",
+                "event_ref": "[[sessions/FEISHU-337_chat_oc_7be9cdd70c88b72dca99253a34f03-7d5e165c/session_events.jsonl#evt_95ec2a0c135d5fb2|evt_95ec2a0c135d5fb2]]",
+                "source_session_id": "task:FEISHU-337::chat:oc_7be9cdd70c88b72dca99253a34f035c0",
+                "session_wiki_path": "sessions/FEISHU-337_chat_oc_7be9cdd70c88b72dca99253a34f03-7d5e165c/session_wiki.md",
+                "block_anchor": "block-销售承诺风险-3d675c35",
+                "block_link": "sessions/FEISHU-337_chat_oc_7be9cdd70c88b72dca99253a34f03-7d5e165c/session_wiki.md#block-销售承诺风险-3d675c35",
+                "block_summary": "销售承诺风险：Qianhao称唐越私下答应补材料，但未被视作正式承诺；陈雪承诺立即查看。"
+              }
+            ],
+            "status": [],
+            "time": [],
+            "scope": []
+          }
+        },
+        {
+          "block_id": "block-正式升级窗口-930e601a",
+          "topic_key": "正式升级窗口",
+          "topic_title": "正式升级窗口",
+          "summary": "评估迁移窗口",
+          "status": "active",
+          "block_link": "sessions/FEISHU-337_chat_oc_7be9cdd70c88b72dca99253a34f03-7d5e165c/session_wiki.md#block-正式升级窗口-930e601a",
+          "session_wiki_path": "sessions/FEISHU-337_chat_oc_7be9cdd70c88b72dca99253a34f03-7d5e165c/session_wiki.md",
+          "source_session_id": "task:FEISHU-337::chat:oc_7be9cdd70c88b72dca99253a34f035c0",
+          "current_items": {
+            "conclusion": [],
+            "rationale": [],
+            "objection": [],
+            "constraint": [],
+            "commitment": [
+              {
+                "slot": "commitment",
+                "topic_key": "正式升级窗口",
+                "topic_title": "正式升级窗口",
+                "subject_key": "正式升级窗口",
+                "claim": "收到，我先评估一下迁移窗口。",
+                "event_id": "evt_82e94c303d33450d",
+                "event_time": "1778210003000",
+                "evidence_quote": "收到，我先评估一下迁移窗口。",
+                "event_path": "sessions/FEISHU-337_chat_oc_7be9cdd70c88b72dca99253a34f03-7d5e165c/session_events.jsonl#evt_82e94c303d33450d",
+                "event_ref": "[[sessions/FEISHU-337_chat_oc_7be9cdd70c88b72dca99253a34f03-7d5e165c/session_events.jsonl#evt_82e94c303d33450d|evt_82e94c303d33450d]]",
+                "source_session_id": "task:FEISHU-337::chat:oc_7be9cdd70c88b72dca99253a34f035c0",
+                "session_wiki_path": "sessions/FEISHU-337_chat_oc_7be9cdd70c88b72dca99253a34f03-7d5e165c/session_wiki.md",
+                "block_anchor": "block-正式升级窗口-930e601a",
+                "block_link": "sessions/FEISHU-337_chat_oc_7be9cdd70c88b72dca99253a34f03-7d5e165c/session_wiki.md#block-正式升级窗口-930e601a",
+                "block_summary": "评估迁移窗口"
+              }
+            ],
+            "status": [],
+            "time": [],
+            "scope": []
+          }
+        },
+        {
+          "block_id": "block-QA-d851aefa",
+          "topic_key": "QA",
+          "topic_title": "QA",
+          "summary": "QA 状态正常，无问题。",
+          "status": "active",
+          "block_link": "sessions/FEISHU-337_chat_oc_7be9cdd70c88b72dca99253a34f03-7d5e165c/session_wiki.md#block-QA-d851aefa",
+          "session_wiki_path": "sessions/FEISHU-337_chat_oc_7be9cdd70c88b72dca99253a34f03-7d5e165c/session_wiki.md",
+          "source_session_id": "task:FEISHU-337::chat:oc_7be9cdd70c88b72dca99253a34f035c0",
+          "current_items": {
+            "conclusion": [],
+            "rationale": [],
+            "objection": [],
+            "constraint": [],
+            "commitment": [],
+            "status": [
+              {
+                "slot": "status",
+                "topic_key": "QA",
+                "topic_title": "QA",
+                "subject_key": "qa",
+                "claim": "QA 没问题。",
+                "event_id": "evt_3dd0fe61c9a5fa77",
+                "event_time": "1778210003000",
+                "evidence_quote": "好，QA 没问题。",
+                "event_path": "sessions/FEISHU-337_chat_oc_7be9cdd70c88b72dca99253a34f03-7d5e165c/session_events.jsonl#evt_3dd0fe61c9a5fa77",
+                "event_ref": "[[sessions/FEISHU-337_chat_oc_7be9cdd70c88b72dca99253a34f03-7d5e165c/session_events.jsonl#evt_3dd0fe61c9a5fa77|evt_3dd0fe61c9a5fa77]]",
+                "source_session_id": "task:FEISHU-337::chat:oc_7be9cdd70c88b72dca99253a34f035c0",
+                "session_wiki_path": "sessions/FEISHU-337_chat_oc_7be9cdd70c88b72dca99253a34f03-7d5e165c/session_wiki.md",
+                "block_anchor": "block-QA-d851aefa",
+                "block_link": "sessions/FEISHU-337_chat_oc_7be9cdd70c88b72dca99253a34f03-7d5e165c/session_wiki.md#block-QA-d851aefa",
+                "block_summary": "QA 状态正常，无问题。"
+              }
+            ],
+            "time": [],
+            "scope": []
+          }
+        }
+      ],
+      "updated_at": "2026-05-08T04:06:16.788Z"
+    },
+    "task:FEISHU-337::chat:oc_242cd4c6793d8560d8d40d264966b529": {
+      "source_session_id": "task:FEISHU-337::chat:oc_242cd4c6793d8560d8d40d264966b529",
+      "session_wiki_path": "sessions/FEISHU-337_chat_oc_242cd4c6793d8560d8d40d264966b-874fbab0/session_wiki.md",
+      "blocks": [
+        {
+          "block_id": "block-发布阻塞风险-45763a86",
+          "topic_key": "发布阻塞风险",
+          "topic_title": "发布阻塞风险",
+          "summary": "用户认为个人安排不应视为上线阻塞风险。",
+          "status": "open",
+          "block_link": "sessions/FEISHU-337_chat_oc_242cd4c6793d8560d8d40d264966b-874fbab0/session_wiki.md#block-发布阻塞风险-45763a86",
+          "session_wiki_path": "sessions/FEISHU-337_chat_oc_242cd4c6793d8560d8d40d264966b-874fbab0/session_wiki.md",
+          "source_session_id": "task:FEISHU-337::chat:oc_242cd4c6793d8560d8d40d264966b529",
+          "current_items": {
+            "conclusion": [],
+            "rationale": [],
+            "objection": [
+              {
+                "slot": "objection",
+                "topic_key": "发布阻塞风险",
+                "topic_title": "发布阻塞风险",
+                "subject_key": "发布阻塞风险",
+                "claim": "我上午有事是个人安排，不算上线 blocker。",
+                "event_id": "evt_a08353a49a6c618f",
+                "event_time": "1778210003000",
+                "evidence_quote": "我上午有事是个人安排，不算上线 blocker。",
+                "event_path": "sessions/FEISHU-337_chat_oc_242cd4c6793d8560d8d40d264966b-874fbab0/session_events.jsonl#evt_a08353a49a6c618f",
+                "event_ref": "[[sessions/FEISHU-337_chat_oc_242cd4c6793d8560d8d40d264966b-874fbab0/session_events.jsonl#evt_a08353a49a6c618f|evt_a08353a49a6c618f]]",
+                "source_session_id": "task:FEISHU-337::chat:oc_242cd4c6793d8560d8d40d264966b529",
+                "session_wiki_path": "sessions/FEISHU-337_chat_oc_242cd4c6793d8560d8d40d264966b-874fbab0/session_wiki.md",
+                "block_anchor": "block-发布阻塞风险-45763a86",
+                "block_link": "sessions/FEISHU-337_chat_oc_242cd4c6793d8560d8d40d264966b-874fbab0/session_wiki.md#block-发布阻塞风险-45763a86",
+                "block_summary": "用户认为个人安排不应视为上线阻塞风险。"
+              }
+            ],
+            "constraint": [],
+            "commitment": [],
+            "status": [],
+            "time": [],
+            "scope": []
+          }
+        },
+        {
+          "block_id": "block-FEISHU-337_交接修正线程-62c920dc",
+          "topic_key": "FEISHU-337 交接修正线程",
+          "topic_title": "FEISHU-337 交接修正线程",
+          "summary": "FEISHU-337 交接修正线程状态为活跃，当前项目状态不受影响。",
+          "status": "active",
+          "block_link": "sessions/FEISHU-337_chat_oc_242cd4c6793d8560d8d40d264966b-874fbab0/session_wiki.md#block-FEISHU-337_交接修正线程-62c920dc",
+          "session_wiki_path": "sessions/FEISHU-337_chat_oc_242cd4c6793d8560d8d40d264966b-874fbab0/session_wiki.md",
+          "source_session_id": "task:FEISHU-337::chat:oc_242cd4c6793d8560d8d40d264966b529",
+          "current_items": {
+            "conclusion": [],
+            "rationale": [],
+            "objection": [],
+            "constraint": [],
+            "commitment": [],
+            "status": [
+              {
+                "slot": "status",
+                "topic_key": "FEISHU-337 交接修正线程",
+                "topic_title": "FEISHU-337 交接修正线程",
+                "subject_key": "feishu-337 交接修正线程",
+                "claim": "不受影响",
+                "event_id": "evt_6dec4d60e3096037",
+                "event_time": "1778210003000",
+                "evidence_quote": "明白，不受影响。",
+                "event_path": "sessions/FEISHU-337_chat_oc_242cd4c6793d8560d8d40d264966b-874fbab0/session_events.jsonl#evt_6dec4d60e3096037",
+                "event_ref": "[[sessions/FEISHU-337_chat_oc_242cd4c6793d8560d8d40d264966b-874fbab0/session_events.jsonl#evt_6dec4d60e3096037|evt_6dec4d60e3096037]]",
+                "source_session_id": "task:FEISHU-337::chat:oc_242cd4c6793d8560d8d40d264966b529",
+                "session_wiki_path": "sessions/FEISHU-337_chat_oc_242cd4c6793d8560d8d40d264966b-874fbab0/session_wiki.md",
+                "block_anchor": "block-FEISHU-337_交接修正线程-62c920dc",
+                "block_link": "sessions/FEISHU-337_chat_oc_242cd4c6793d8560d8d40d264966b-874fbab0/session_wiki.md#block-FEISHU-337_交接修正线程-62c920dc",
+                "block_summary": "FEISHU-337 交接修正线程状态为活跃，当前项目状态不受影响。"
+              }
+            ],
+            "time": [],
+            "scope": []
+          }
+        }
+      ],
+      "updated_at": "2026-05-08T04:06:28.896Z"
+    }
+  },
+  "sections": {
+    "conclusion": [
+      {
+        "slot": "conclusion",
+        "topic_key": "发布阻塞风险",
+        "topic_title": "发布阻塞风险",
+        "subject_key": "发布阻塞风险",
+        "claim": "QA 结论按 checklist 标准项执行，没有掺入个人备注。",
+        "event_id": "evt_2e88a7e6824ecb36",
+        "event_time": "1778210003000",
+        "evidence_quote": "QA 结论按 checklist 标准项执行，没有掺入个人备注。",
+        "event_path": "sessions/FEISHU-337_chat_oc_7be9cdd70c88b72dca99253a34f03-7d5e165c/session_events.jsonl#evt_2e88a7e6824ecb36",
+        "event_ref": "[[sessions/FEISHU-337_chat_oc_7be9cdd70c88b72dca99253a34f03-7d5e165c/session_events.jsonl#evt_2e88a7e6824ecb36|evt_2e88a7e6824ecb36]]",
+        "source_session_id": "task:FEISHU-337::chat:oc_7be9cdd70c88b72dca99253a34f035c0",
+        "session_wiki_path": "sessions/FEISHU-337_chat_oc_7be9cdd70c88b72dca99253a34f03-7d5e165c/session_wiki.md",
+        "block_anchor": "block-发布阻塞风险-45763a86",
+        "block_link": "sessions/FEISHU-337_chat_oc_7be9cdd70c88b72dca99253a34f03-7d5e165c/session_wiki.md#block-发布阻塞风险-45763a86",
+        "block_summary": "QA结论按标准执行，上线checklist已上传并含备注。"
+      }
+    ],
+    "rationale": [],
+    "objection": [
+      {
+        "slot": "objection",
+        "topic_key": "评审",
+        "topic_title": "评审",
+        "subject_key": "评审",
+        "claim": "高骏 20-21 号上午不行，那评审得调时间？",
+        "event_id": "evt_5da239dad1a1bdcf",
+        "event_time": "1778210003000",
+        "evidence_quote": "高骏 20-21 号上午不行",
+        "event_path": "sessions/FEISHU-337_chat_oc_7be9cdd70c88b72dca99253a34f03-7d5e165c/session_events.jsonl#evt_5da239dad1a1bdcf",
+        "event_ref": "[[sessions/FEISHU-337_chat_oc_7be9cdd70c88b72dca99253a34f03-7d5e165c/session_events.jsonl#evt_5da239dad1a1bdcf|evt_5da239dad1a1bdcf]]",
+        "source_session_id": "task:FEISHU-337::chat:oc_7be9cdd70c88b72dca99253a34f035c0",
+        "session_wiki_path": "sessions/FEISHU-337_chat_oc_7be9cdd70c88b72dca99253a34f03-7d5e165c/session_wiki.md",
+        "block_anchor": "block-评审-04a63b37",
+        "block_link": "sessions/FEISHU-337_chat_oc_7be9cdd70c88b72dca99253a34f03-7d5e165c/session_wiki.md#block-评审-04a63b37",
+        "block_summary": "高骏20-21号上午无法参加评审，需调整时间至下午。"
+      },
+      {
+        "slot": "objection",
+        "topic_key": "销售承诺风险",
+        "topic_title": "销售承诺风险",
+        "subject_key": "销售承诺风险",
+        "claim": "Qianhao 说唐越私下答应补供应商材料，但我觉得那不算正式承诺。",
+        "event_id": "evt_706a9c480f267b07",
+        "event_time": "1778210003000",
+        "evidence_quote": "但我觉得那不算正式承诺。",
+        "event_path": "sessions/FEISHU-337_chat_oc_7be9cdd70c88b72dca99253a34f03-7d5e165c/session_events.jsonl#evt_706a9c480f267b07",
+        "event_ref": "[[sessions/FEISHU-337_chat_oc_7be9cdd70c88b72dca99253a34f03-7d5e165c/session_events.jsonl#evt_706a9c480f267b07|evt_706a9c480f267b07]]",
+        "source_session_id": "task:FEISHU-337::chat:oc_7be9cdd70c88b72dca99253a34f035c0",
+        "session_wiki_path": "sessions/FEISHU-337_chat_oc_7be9cdd70c88b72dca99253a34f03-7d5e165c/session_wiki.md",
+        "block_anchor": "block-销售承诺风险-3d675c35",
+        "block_link": "sessions/FEISHU-337_chat_oc_7be9cdd70c88b72dca99253a34f03-7d5e165c/session_wiki.md#block-销售承诺风险-3d675c35",
+        "block_summary": "销售承诺风险：Qianhao称唐越私下答应补材料，但未被视作正式承诺；陈雪承诺立即查看。"
+      },
+      {
+        "slot": "objection",
+        "topic_key": "发布阻塞风险",
+        "topic_title": "发布阻塞风险",
+        "subject_key": "发布阻塞风险",
+        "claim": "我上午有事是个人安排，不算上线 blocker。",
+        "event_id": "evt_a08353a49a6c618f",
+        "event_time": "1778210003000",
+        "evidence_quote": "我上午有事是个人安排，不算上线 blocker。",
+        "event_path": "sessions/FEISHU-337_chat_oc_242cd4c6793d8560d8d40d264966b-874fbab0/session_events.jsonl#evt_a08353a49a6c618f",
+        "event_ref": "[[sessions/FEISHU-337_chat_oc_242cd4c6793d8560d8d40d264966b-874fbab0/session_events.jsonl#evt_a08353a49a6c618f|evt_a08353a49a6c618f]]",
+        "source_session_id": "task:FEISHU-337::chat:oc_242cd4c6793d8560d8d40d264966b529",
+        "session_wiki_path": "sessions/FEISHU-337_chat_oc_242cd4c6793d8560d8d40d264966b-874fbab0/session_wiki.md",
+        "block_anchor": "block-发布阻塞风险-45763a86",
+        "block_link": "sessions/FEISHU-337_chat_oc_242cd4c6793d8560d8d40d264966b-874fbab0/session_wiki.md#block-发布阻塞风险-45763a86",
+        "block_summary": "用户认为个人安排不应视为上线阻塞风险。"
+      }
+    ],
+    "constraint": [
+      {
+        "slot": "constraint",
+        "topic_key": "评审",
+        "topic_title": "评审",
+        "subject_key": "评审",
+        "claim": "20-21 号只能下午参加评审，上午有私事。",
+        "event_id": "evt_bbfa3aee99d5af2c",
+        "event_time": "1778210003000",
+        "evidence_quote": "20-21 号只能下午参加评审，上午有私事。",
+        "event_path": "sessions/FEISHU-337_chat_oc_7be9cdd70c88b72dca99253a34f03-7d5e165c/session_events.jsonl#evt_bbfa3aee99d5af2c",
+        "event_ref": "[[sessions/FEISHU-337_chat_oc_7be9cdd70c88b72dca99253a34f03-7d5e165c/session_events.jsonl#evt_bbfa3aee99d5af2c|evt_bbfa3aee99d5af2c]]",
+        "source_session_id": "task:FEISHU-337::chat:oc_7be9cdd70c88b72dca99253a34f035c0",
+        "session_wiki_path": "sessions/FEISHU-337_chat_oc_7be9cdd70c88b72dca99253a34f03-7d5e165c/session_wiki.md",
+        "block_anchor": "block-评审-04a63b37",
+        "block_link": "sessions/FEISHU-337_chat_oc_7be9cdd70c88b72dca99253a34f03-7d5e165c/session_wiki.md#block-评审-04a63b37",
+        "block_summary": "高骏20-21号上午无法参加评审，需调整时间至下午。"
+      }
+    ],
+    "commitment": [
+      {
+        "slot": "commitment",
+        "topic_key": "发布时间口径",
+        "topic_title": "发布时间口径",
+        "subject_key": "发布时间口径",
+        "claim": "FEISHU-337 服务器迁移上线计划启动，目标 5 月底完成。",
+        "event_id": "evt_9d98c6f9ee3eda51",
+        "event_time": "1778210003000",
+        "evidence_quote": "FEISHU-337 服务器迁移上线计划启动，目标 5 月底完成。",
+        "event_path": "sessions/FEISHU-337_chat_oc_7be9cdd70c88b72dca99253a34f03-7d5e165c/session_events.jsonl#evt_9d98c6f9ee3eda51",
+        "event_ref": "[[sessions/FEISHU-337_chat_oc_7be9cdd70c88b72dca99253a34f03-7d5e165c/session_events.jsonl#evt_9d98c6f9ee3eda51|evt_9d98c6f9ee3eda51]]",
+        "source_session_id": "task:FEISHU-337::chat:oc_7be9cdd70c88b72dca99253a34f035c0",
+        "session_wiki_path": "sessions/FEISHU-337_chat_oc_7be9cdd70c88b72dca99253a34f03-7d5e165c/session_wiki.md",
+        "block_anchor": "block-发布时间口径-867908bd",
+        "block_link": "sessions/FEISHU-337_chat_oc_7be9cdd70c88b72dca99253a34f03-7d5e165c/session_wiki.md#block-发布时间口径-867908bd",
+        "block_summary": "FEISHU-337 服务器迁移上线计划启动，目标5月底完成。"
+      },
+      {
+        "slot": "commitment",
+        "topic_key": "看依赖项",
+        "topic_title": "看依赖项",
+        "subject_key": "看依赖项",
+        "claim": "我先看依赖项。",
+        "event_id": "evt_026bba8da90b7bab",
+        "event_time": "1778210003000",
+        "evidence_quote": "我先看依赖项。",
+        "event_path": "sessions/FEISHU-337_chat_oc_7be9cdd70c88b72dca99253a34f03-7d5e165c/session_events.jsonl#evt_026bba8da90b7bab",
+        "event_ref": "[[sessions/FEISHU-337_chat_oc_7be9cdd70c88b72dca99253a34f03-7d5e165c/session_events.jsonl#evt_026bba8da90b7bab|evt_026bba8da90b7bab]]",
+        "source_session_id": "task:FEISHU-337::chat:oc_7be9cdd70c88b72dca99253a34f035c0",
+        "session_wiki_path": "sessions/FEISHU-337_chat_oc_7be9cdd70c88b72dca99253a34f03-7d5e165c/session_wiki.md",
+        "block_anchor": "block-看依赖项-8904e7e6",
+        "block_link": "sessions/FEISHU-337_chat_oc_7be9cdd70c88b72dca99253a34f03-7d5e165c/session_wiki.md#block-看依赖项-8904e7e6",
+        "block_summary": "用户表示先查看依赖项。"
+      },
+      {
+        "slot": "commitment",
+        "topic_key": "联系周伟",
+        "topic_title": "联系周伟",
+        "subject_key": "联系周伟",
+        "claim": "那我来联系周伟。",
+        "event_id": "evt_213cacaebbf368e4",
+        "event_time": "1778210003000",
+        "evidence_quote": "那我来联系周伟。",
+        "event_path": "sessions/FEISHU-337_chat_oc_7be9cdd70c88b72dca99253a34f03-7d5e165c/session_events.jsonl#evt_213cacaebbf368e4",
+        "event_ref": "[[sessions/FEISHU-337_chat_oc_7be9cdd70c88b72dca99253a34f03-7d5e165c/session_events.jsonl#evt_213cacaebbf368e4|evt_213cacaebbf368e4]]",
+        "source_session_id": "task:FEISHU-337::chat:oc_7be9cdd70c88b72dca99253a34f035c0",
+        "session_wiki_path": "sessions/FEISHU-337_chat_oc_7be9cdd70c88b72dca99253a34f03-7d5e165c/session_wiki.md",
+        "block_anchor": "block-联系周伟-47ca9922",
+        "block_link": "sessions/FEISHU-337_chat_oc_7be9cdd70c88b72dca99253a34f03-7d5e165c/session_wiki.md#block-联系周伟-47ca9922",
+        "block_summary": "主动联系周伟"
+      },
+      {
+        "slot": "commitment",
+        "topic_key": "销售承诺风险",
+        "topic_title": "销售承诺风险",
+        "subject_key": "销售承诺风险",
+        "claim": "陈雪承诺马上看",
+        "event_id": "evt_95ec2a0c135d5fb2",
+        "event_time": "1778210003000",
+        "evidence_quote": "好的，我马上看。",
+        "event_path": "sessions/FEISHU-337_chat_oc_7be9cdd70c88b72dca99253a34f03-7d5e165c/session_events.jsonl#evt_95ec2a0c135d5fb2",
+        "event_ref": "[[sessions/FEISHU-337_chat_oc_7be9cdd70c88b72dca99253a34f03-7d5e165c/session_events.jsonl#evt_95ec2a0c135d5fb2|evt_95ec2a0c135d5fb2]]",
+        "source_session_id": "task:FEISHU-337::chat:oc_7be9cdd70c88b72dca99253a34f035c0",
+        "session_wiki_path": "sessions/FEISHU-337_chat_oc_7be9cdd70c88b72dca99253a34f03-7d5e165c/session_wiki.md",
+        "block_anchor": "block-销售承诺风险-3d675c35",
+        "block_link": "sessions/FEISHU-337_chat_oc_7be9cdd70c88b72dca99253a34f03-7d5e165c/session_wiki.md#block-销售承诺风险-3d675c35",
+        "block_summary": "销售承诺风险：Qianhao称唐越私下答应补材料，但未被视作正式承诺；陈雪承诺立即查看。"
+      },
+      {
+        "slot": "commitment",
+        "topic_key": "正式升级窗口",
+        "topic_title": "正式升级窗口",
+        "subject_key": "正式升级窗口",
+        "claim": "收到，我先评估一下迁移窗口。",
+        "event_id": "evt_82e94c303d33450d",
+        "event_time": "1778210003000",
+        "evidence_quote": "收到，我先评估一下迁移窗口。",
+        "event_path": "sessions/FEISHU-337_chat_oc_7be9cdd70c88b72dca99253a34f03-7d5e165c/session_events.jsonl#evt_82e94c303d33450d",
+        "event_ref": "[[sessions/FEISHU-337_chat_oc_7be9cdd70c88b72dca99253a34f03-7d5e165c/session_events.jsonl#evt_82e94c303d33450d|evt_82e94c303d33450d]]",
+        "source_session_id": "task:FEISHU-337::chat:oc_7be9cdd70c88b72dca99253a34f035c0",
+        "session_wiki_path": "sessions/FEISHU-337_chat_oc_7be9cdd70c88b72dca99253a34f03-7d5e165c/session_wiki.md",
+        "block_anchor": "block-正式升级窗口-930e601a",
+        "block_link": "sessions/FEISHU-337_chat_oc_7be9cdd70c88b72dca99253a34f03-7d5e165c/session_wiki.md#block-正式升级窗口-930e601a",
+        "block_summary": "评估迁移窗口"
+      }
+    ],
+    "status": [
+      {
+        "slot": "status",
+        "topic_key": "发布阻塞风险",
+        "topic_title": "发布阻塞风险",
+        "subject_key": "发布阻塞风险",
+        "claim": "上线 checklist 已上传，附件里每人填了备注，请查看。",
+        "event_id": "evt_e7a3315000ea834e",
+        "event_time": "1778210003000",
+        "evidence_quote": "上线 checklist 已上传",
+        "event_path": "sessions/FEISHU-337_chat_oc_7be9cdd70c88b72dca99253a34f03-7d5e165c/session_events.jsonl#evt_e7a3315000ea834e",
+        "event_ref": "[[sessions/FEISHU-337_chat_oc_7be9cdd70c88b72dca99253a34f03-7d5e165c/session_events.jsonl#evt_e7a3315000ea834e|evt_e7a3315000ea834e]]",
+        "source_session_id": "task:FEISHU-337::chat:oc_7be9cdd70c88b72dca99253a34f035c0",
+        "session_wiki_path": "sessions/FEISHU-337_chat_oc_7be9cdd70c88b72dca99253a34f03-7d5e165c/session_wiki.md",
+        "block_anchor": "block-发布阻塞风险-45763a86",
+        "block_link": "sessions/FEISHU-337_chat_oc_7be9cdd70c88b72dca99253a34f03-7d5e165c/session_wiki.md#block-发布阻塞风险-45763a86",
+        "block_summary": "QA结论按标准执行，上线checklist已上传并含备注。"
+      },
+      {
+        "slot": "status",
+        "topic_key": "QA",
+        "topic_title": "QA",
+        "subject_key": "qa",
+        "claim": "QA 没问题。",
+        "event_id": "evt_3dd0fe61c9a5fa77",
+        "event_time": "1778210003000",
+        "evidence_quote": "好，QA 没问题。",
+        "event_path": "sessions/FEISHU-337_chat_oc_7be9cdd70c88b72dca99253a34f03-7d5e165c/session_events.jsonl#evt_3dd0fe61c9a5fa77",
+        "event_ref": "[[sessions/FEISHU-337_chat_oc_7be9cdd70c88b72dca99253a34f03-7d5e165c/session_events.jsonl#evt_3dd0fe61c9a5fa77|evt_3dd0fe61c9a5fa77]]",
+        "source_session_id": "task:FEISHU-337::chat:oc_7be9cdd70c88b72dca99253a34f035c0",
+        "session_wiki_path": "sessions/FEISHU-337_chat_oc_7be9cdd70c88b72dca99253a34f03-7d5e165c/session_wiki.md",
+        "block_anchor": "block-QA-d851aefa",
+        "block_link": "sessions/FEISHU-337_chat_oc_7be9cdd70c88b72dca99253a34f03-7d5e165c/session_wiki.md#block-QA-d851aefa",
+        "block_summary": "QA 状态正常，无问题。"
+      },
+      {
+        "slot": "status",
+        "topic_key": "FEISHU-337 交接修正线程",
+        "topic_title": "FEISHU-337 交接修正线程",
+        "subject_key": "feishu-337 交接修正线程",
+        "claim": "不受影响",
+        "event_id": "evt_6dec4d60e3096037",
+        "event_time": "1778210003000",
+        "evidence_quote": "明白，不受影响。",
+        "event_path": "sessions/FEISHU-337_chat_oc_242cd4c6793d8560d8d40d264966b-874fbab0/session_events.jsonl#evt_6dec4d60e3096037",
+        "event_ref": "[[sessions/FEISHU-337_chat_oc_242cd4c6793d8560d8d40d264966b-874fbab0/session_events.jsonl#evt_6dec4d60e3096037|evt_6dec4d60e3096037]]",
+        "source_session_id": "task:FEISHU-337::chat:oc_242cd4c6793d8560d8d40d264966b529",
+        "session_wiki_path": "sessions/FEISHU-337_chat_oc_242cd4c6793d8560d8d40d264966b-874fbab0/session_wiki.md",
+        "block_anchor": "block-FEISHU-337_交接修正线程-62c920dc",
+        "block_link": "sessions/FEISHU-337_chat_oc_242cd4c6793d8560d8d40d264966b-874fbab0/session_wiki.md#block-FEISHU-337_交接修正线程-62c920dc",
+        "block_summary": "FEISHU-337 交接修正线程状态为活跃，当前项目状态不受影响。"
+      }
+    ],
+    "time": [],
+    "scope": []
+  },
+  "current_summary": "FEISHU-337 服务器迁移计划5月底完成，QA无问题，但评审时间需调整（高骏20-21号上午不行），销售承诺风险待确认，陈雪承诺跟进，周伟联系中，迁移窗口待评估。",
+  "related_blocks": [
+    {
+      "topic_key": "发布时间口径",
+      "topic_title": "发布时间口径",
+      "summary": "FEISHU-337 服务器迁移上线计划启动，目标5月底完成。",
+      "block_link": "sessions/FEISHU-337_chat_oc_7be9cdd70c88b72dca99253a34f03-7d5e165c/session_wiki.md#block-发布时间口径-867908bd",
+      "session_wiki_path": "sessions/FEISHU-337_chat_oc_7be9cdd70c88b72dca99253a34f03-7d5e165c/session_wiki.md",
+      "source_session_id": "task:FEISHU-337::chat:oc_7be9cdd70c88b72dca99253a34f035c0",
+      "status": "active"
+    },
+    {
+      "topic_key": "发布阻塞风险",
+      "topic_title": "发布阻塞风险",
+      "summary": "QA结论按标准执行，上线checklist已上传并含备注。",
+      "block_link": "sessions/FEISHU-337_chat_oc_7be9cdd70c88b72dca99253a34f03-7d5e165c/session_wiki.md#block-发布阻塞风险-45763a86",
+      "session_wiki_path": "sessions/FEISHU-337_chat_oc_7be9cdd70c88b72dca99253a34f03-7d5e165c/session_wiki.md",
+      "source_session_id": "task:FEISHU-337::chat:oc_7be9cdd70c88b72dca99253a34f035c0",
+      "status": "active"
+    },
+    {
+      "topic_key": "发布阻塞风险",
+      "topic_title": "发布阻塞风险",
+      "summary": "用户认为个人安排不应视为上线阻塞风险。",
+      "block_link": "sessions/FEISHU-337_chat_oc_242cd4c6793d8560d8d40d264966b-874fbab0/session_wiki.md#block-发布阻塞风险-45763a86",
+      "session_wiki_path": "sessions/FEISHU-337_chat_oc_242cd4c6793d8560d8d40d264966b-874fbab0/session_wiki.md",
+      "source_session_id": "task:FEISHU-337::chat:oc_242cd4c6793d8560d8d40d264966b529",
+      "status": "open"
+    },
+    {
+      "topic_key": "看依赖项",
+      "topic_title": "看依赖项",
+      "summary": "用户表示先查看依赖项。",
+      "block_link": "sessions/FEISHU-337_chat_oc_7be9cdd70c88b72dca99253a34f03-7d5e165c/session_wiki.md#block-看依赖项-8904e7e6",
+      "session_wiki_path": "sessions/FEISHU-337_chat_oc_7be9cdd70c88b72dca99253a34f03-7d5e165c/session_wiki.md",
+      "source_session_id": "task:FEISHU-337::chat:oc_7be9cdd70c88b72dca99253a34f035c0",
+      "status": "active"
+    },
+    {
+      "topic_key": "联系周伟",
+      "topic_title": "联系周伟",
+      "summary": "主动联系周伟",
+      "block_link": "sessions/FEISHU-337_chat_oc_7be9cdd70c88b72dca99253a34f03-7d5e165c/session_wiki.md#block-联系周伟-47ca9922",
+      "session_wiki_path": "sessions/FEISHU-337_chat_oc_7be9cdd70c88b72dca99253a34f03-7d5e165c/session_wiki.md",
+      "source_session_id": "task:FEISHU-337::chat:oc_7be9cdd70c88b72dca99253a34f035c0",
+      "status": "active"
+    },
+    {
+      "topic_key": "评审",
+      "topic_title": "评审",
+      "summary": "高骏20-21号上午无法参加评审，需调整时间至下午。",
+      "block_link": "sessions/FEISHU-337_chat_oc_7be9cdd70c88b72dca99253a34f03-7d5e165c/session_wiki.md#block-评审-04a63b37",
+      "session_wiki_path": "sessions/FEISHU-337_chat_oc_7be9cdd70c88b72dca99253a34f03-7d5e165c/session_wiki.md",
+      "source_session_id": "task:FEISHU-337::chat:oc_7be9cdd70c88b72dca99253a34f035c0",
+      "status": "open"
+    },
+    {
+      "topic_key": "销售承诺风险",
+      "topic_title": "销售承诺风险",
+      "summary": "销售承诺风险：Qianhao称唐越私下答应补材料，但未被视作正式承诺；陈雪承诺立即查看。",
+      "block_link": "sessions/FEISHU-337_chat_oc_7be9cdd70c88b72dca99253a34f03-7d5e165c/session_wiki.md#block-销售承诺风险-3d675c35",
+      "session_wiki_path": "sessions/FEISHU-337_chat_oc_7be9cdd70c88b72dca99253a34f03-7d5e165c/session_wiki.md",
+      "source_session_id": "task:FEISHU-337::chat:oc_7be9cdd70c88b72dca99253a34f035c0",
+      "status": "open"
+    },
+    {
+      "topic_key": "正式升级窗口",
+      "topic_title": "正式升级窗口",
+      "summary": "评估迁移窗口",
+      "block_link": "sessions/FEISHU-337_chat_oc_7be9cdd70c88b72dca99253a34f03-7d5e165c/session_wiki.md#block-正式升级窗口-930e601a",
+      "session_wiki_path": "sessions/FEISHU-337_chat_oc_7be9cdd70c88b72dca99253a34f03-7d5e165c/session_wiki.md",
+      "source_session_id": "task:FEISHU-337::chat:oc_7be9cdd70c88b72dca99253a34f035c0",
+      "status": "active"
+    },
+    {
+      "topic_key": "FEISHU-337 交接修正线程",
+      "topic_title": "FEISHU-337 交接修正线程",
+      "summary": "FEISHU-337 交接修正线程状态为活跃，当前项目状态不受影响。",
+      "block_link": "sessions/FEISHU-337_chat_oc_242cd4c6793d8560d8d40d264966b-874fbab0/session_wiki.md#block-FEISHU-337_交接修正线程-62c920dc",
+      "session_wiki_path": "sessions/FEISHU-337_chat_oc_242cd4c6793d8560d8d40d264966b-874fbab0/session_wiki.md",
+      "source_session_id": "task:FEISHU-337::chat:oc_242cd4c6793d8560d8d40d264966b529",
+      "status": "active"
+    },
+    {
+      "topic_key": "QA",
+      "topic_title": "QA",
+      "summary": "QA 状态正常，无问题。",
+      "block_link": "sessions/FEISHU-337_chat_oc_7be9cdd70c88b72dca99253a34f03-7d5e165c/session_wiki.md#block-QA-d851aefa",
+      "session_wiki_path": "sessions/FEISHU-337_chat_oc_7be9cdd70c88b72dca99253a34f03-7d5e165c/session_wiki.md",
+      "source_session_id": "task:FEISHU-337::chat:oc_7be9cdd70c88b72dca99253a34f035c0",
+      "status": "active"
+    }
+  ],
+  "updated_at": "2026-05-08T04:06:30.078Z"
+}

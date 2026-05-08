@@ -1,0 +1,84 @@
+{
+  "version": 1,
+  "task_id": "task:FEISHU-335",
+  "task_key": "FEISHU-335",
+  "source_session_id": "task:FEISHU-335::chat:oc_3f833cdfb811d37de2a96f250c231139",
+  "source_scope": "chat:oc_3f833cdfb811d37de2a96f250c231139",
+  "source_type": "thread",
+  "source_id": "thread:risk_review_thread",
+  "session_title": "task:FEISHU-335::chat:oc_3f833cdfb811d37de2a96f250c231139",
+  "time_range": {
+    "start": "2026-05-08T03:38:21.759Z",
+    "end": "2026-05-08T03:39:49.723Z"
+  },
+  "participants": [
+    "Benchmark Root",
+    "林晨"
+  ],
+  "relative_page_path": "sessions/FEISHU-335_chat_oc_3f833cdfb811d37de2a96f250c231-08c7f48f/session_wiki.md",
+  "session_summary": "FEISHU-335发布阻塞风险已登记，状态为开放，阻塞原因待确认。",
+  "block_order": [
+    "block-发布阻塞风险-45763a86"
+  ],
+  "blocks": {
+    "block-发布阻塞风险-45763a86": {
+      "block_id": "block-发布阻塞风险-45763a86",
+      "anchor_id": "block-发布阻塞风险-45763a86",
+      "topic_key": "发布阻塞风险",
+      "topic_title": "发布阻塞风险",
+      "event_ids": [
+        "evt_bc9795b0b2858167"
+      ],
+      "slots": {
+        "conclusion": [],
+        "rationale": [],
+        "objection": [],
+        "constraint": [],
+        "commitment": [],
+        "status": [
+          {
+            "event_id": "evt_bc9795b0b2858167",
+            "event_type": "status_event",
+            "claim": "FEISHU-335 风险已登记，阻塞原因待确认。",
+            "event_time": "1778209726000",
+            "evidence_quote": "FEISHU-335 风险已登记，阻塞原因待确认。",
+            "event_path": "sessions/FEISHU-335_chat_oc_3f833cdfb811d37de2a96f250c231-08c7f48f/session_events.jsonl#evt_bc9795b0b2858167",
+            "event_ref": "[[sessions/FEISHU-335_chat_oc_3f833cdfb811d37de2a96f250c231-08c7f48f/session_events.jsonl#evt_bc9795b0b2858167|evt_bc9795b0b2858167]]",
+            "entry_ref": "[[sessions/FEISHU-335_chat_oc_3f833cdfb811d37de2a96f250c231-08c7f48f/session.md#om_x100b50e175ac90d4c397414fb608fcf|om_x100b50e175ac90d4c397414fb608fcf]]",
+            "core_entry_id": "om_x100b50e175ac90d4c397414fb608fcf",
+            "subject_key": "发布阻塞风险",
+            "is_current": true,
+            "lifecycle_status": "active",
+            "lifecycle_reason": null,
+            "target": "FEISHU-335",
+            "time_target": null,
+            "scope_target": null,
+            "action": null,
+            "owner": null,
+            "objector": null,
+            "status": "已登记",
+            "certainty": null
+          }
+        ],
+        "time": [],
+        "scope": []
+      },
+      "status": "open",
+      "evidence_refs": [
+        {
+          "event_id": "evt_bc9795b0b2858167",
+          "event_path": "sessions/FEISHU-335_chat_oc_3f833cdfb811d37de2a96f250c231-08c7f48f/session_events.jsonl#evt_bc9795b0b2858167",
+          "entry_ref": "[[sessions/FEISHU-335_chat_oc_3f833cdfb811d37de2a96f250c231-08c7f48f/session.md#om_x100b50e175ac90d4c397414fb608fcf|om_x100b50e175ac90d4c397414fb608fcf]]",
+          "quote": "FEISHU-335 风险已登记，阻塞原因待确认。"
+        }
+      ],
+      "summary": "FEISHU-335风险已登记，阻塞原因待确认。"
+    }
+  },
+  "lifecycle_summary": {
+    "active_event_count": 1,
+    "historical_event_count": 0,
+    "invalid_event_count": 0
+  },
+  "updated_at": "2026-05-08T03:39:55.809Z"
+}

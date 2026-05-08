@@ -1,0 +1,8 @@
+{
+  "case_id": "case_20260508030344241234_anti_interference",
+  "task_id": "FEISHU-334",
+  "seed": 20260508030344241234,
+  "difficulty": "easy",
+  "comparison_target": "default_memory_architectures",
+  "family_id": "anti_interference"
+}

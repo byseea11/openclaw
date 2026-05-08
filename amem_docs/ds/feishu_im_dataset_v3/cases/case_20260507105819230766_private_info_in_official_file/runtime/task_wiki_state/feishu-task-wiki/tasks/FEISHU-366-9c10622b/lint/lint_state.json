@@ -1,0 +1,42 @@
+{
+  "version": 1,
+  "generated_at": "2026-05-07T11:05:36.835Z",
+  "orphan_event_count": 0,
+  "missing_evidence_ref_count": 3,
+  "stale_claim_count": 0,
+  "quote_strength_count": 0,
+  "unresolved_objection_count": 0,
+  "overdue_commitment_count": 0,
+  "open_conflict_count": 0,
+  "orphan_block_count": 0,
+  "missing_cross_ref_count": 0,
+  "orphan_session_wiki_count": 0,
+  "findings": {
+    "orphan_events": [],
+    "missing_evidence_refs": [
+      {
+        "type": "missing_evidence_refs",
+        "source_session_id": "task:FEISHU-366::chat:oc_3fa8c2bc7c2955b3158248ce3f33ff61",
+        "relative_page_path": "sessions/FEISHU-366_chat_oc_3fa8c2bc7c2955b3158248ce3f33f-d7ee1dab/session_wiki.md"
+      },
+      {
+        "type": "missing_evidence_refs",
+        "source_session_id": "task:FEISHU-366::chat:oc_d5a10bb59e4bd3868e07d66286c5c237",
+        "relative_page_path": "sessions/FEISHU-366_chat_oc_d5a10bb59e4bd3868e07d66286c5c-3237abda/session_wiki.md"
+      },
+      {
+        "type": "missing_evidence_refs",
+        "source_session_id": "task:FEISHU-366::chat:oc_fb0d8f92897c92703c25fb241008c414",
+        "relative_page_path": "sessions/FEISHU-366_chat_oc_fb0d8f92897c92703c25fb241008c-29233f3b/session_wiki.md"
+      }
+    ],
+    "stale_claims": [],
+    "quote_strength": [],
+    "unresolved_objections": [],
+    "overdue_commitments": [],
+    "open_conflicts": [],
+    "orphan_blocks": [],
+    "missing_cross_refs": [],
+    "orphan_session_wikis": []
+  }
+}

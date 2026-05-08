@@ -1,0 +1,119 @@
+{
+  "version": 1,
+  "task_id": "task:FEISHU-366",
+  "task_key": "FEISHU-366",
+  "source_session_id": "task:FEISHU-366::chat:oc_f4e834723eae7e250708739fe8f3b9e3",
+  "source_scope": "chat:oc_f4e834723eae7e250708739fe8f3b9e3",
+  "source_type": "thread",
+  "source_id": "thread:risk_review_thread",
+  "session_title": "task:FEISHU-366::chat:oc_f4e834723eae7e250708739fe8f3b9e3",
+  "time_range": {
+    "start": "2026-05-07T11:05:36.303Z",
+    "end": "2026-05-07T11:05:36.700Z"
+  },
+  "participants": [
+    "Benchmark Root",
+    "何然",
+    "陈雪",
+    "罗天",
+    "苏禾",
+    "周宇",
+    "梁昕"
+  ],
+  "relative_page_path": "sessions/FEISHU-366_chat_oc_f4e834723eae7e250708739fe8f3b-938eea86/session_wiki.md",
+  "session_summary": "这次讨论主要涉及：发布阻塞风险。",
+  "block_order": [
+    "block-发布阻塞风险-45763a86"
+  ],
+  "blocks": {
+    "block-发布阻塞风险-45763a86": {
+      "block_id": "block-发布阻塞风险-45763a86",
+      "anchor_id": "block-发布阻塞风险-45763a86",
+      "topic_key": "发布阻塞风险",
+      "topic_title": "发布阻塞风险",
+      "event_ids": [
+        "evt_59ba3b3669ad46f5",
+        "evt_34e39c15e3be0e5c"
+      ],
+      "slots": {
+        "conclusion": [],
+        "rationale": [],
+        "objection": [],
+        "constraint": [],
+        "commitment": [],
+        "status": [
+          {
+            "event_id": "evt_59ba3b3669ad46f5",
+            "event_type": "status_event",
+            "claim": "备注已记录周宇的合规文件预计周五，但未作为正式风险项",
+            "event_time": "1778151846000",
+            "evidence_quote": "备注已记录周宇的合规文件预计周五，但未作为正式风险项",
+            "event_path": "sessions/FEISHU-366_chat_oc_f4e834723eae7e250708739fe8f3b-938eea86/session_events.jsonl#evt_59ba3b3669ad46f5",
+            "event_ref": "[[sessions/FEISHU-366_chat_oc_f4e834723eae7e250708739fe8f3b-938eea86/session_events.jsonl#evt_59ba3b3669ad46f5|evt_59ba3b3669ad46f5]]",
+            "entry_ref": "[[sessions/FEISHU-366_chat_oc_f4e834723eae7e250708739fe8f3b-938eea86/session.md#om_x100b50f356bc94b4c3d39f915e7f2c0|om_x100b50f356bc94b4c3d39f915e7f2c0]]",
+            "core_entry_id": "om_x100b50f356bc94b4c3d39f915e7f2c0",
+            "subject_key": "发布阻塞风险",
+            "is_current": true,
+            "lifecycle_status": "active",
+            "lifecycle_reason": null,
+            "target": "风险",
+            "time_target": null,
+            "scope_target": null,
+            "action": null,
+            "owner": null,
+            "objector": null,
+            "status": "备注已记录周宇的合规文件预计周五，但未作为正式风险项",
+            "certainty": null
+          },
+          {
+            "event_id": "evt_34e39c15e3be0e5c",
+            "event_type": "status_event",
+            "claim": "风险登记表最终版已提交，无更新",
+            "event_time": "1778151846000",
+            "evidence_quote": "风险登记表最终版已提交，无更新",
+            "event_path": "sessions/FEISHU-366_chat_oc_f4e834723eae7e250708739fe8f3b-938eea86/session_events.jsonl#evt_34e39c15e3be0e5c",
+            "event_ref": "[[sessions/FEISHU-366_chat_oc_f4e834723eae7e250708739fe8f3b-938eea86/session_events.jsonl#evt_34e39c15e3be0e5c|evt_34e39c15e3be0e5c]]",
+            "entry_ref": "[[sessions/FEISHU-366_chat_oc_f4e834723eae7e250708739fe8f3b-938eea86/session.md#om_x100b50f356b17098c4ee6c8d25c42b5|om_x100b50f356b17098c4ee6c8d25c42b5]]",
+            "core_entry_id": "om_x100b50f356b17098c4ee6c8d25c42b5",
+            "subject_key": "发布阻塞风险",
+            "is_current": false,
+            "lifecycle_status": "active",
+            "lifecycle_reason": null,
+            "target": "风险",
+            "time_target": null,
+            "scope_target": null,
+            "action": null,
+            "owner": null,
+            "objector": null,
+            "status": "风险登记表最终版已提交，无更新",
+            "certainty": null
+          }
+        ],
+        "time": [],
+        "scope": []
+      },
+      "status": "open",
+      "evidence_refs": [
+        {
+          "event_id": "evt_59ba3b3669ad46f5",
+          "event_path": "sessions/FEISHU-366_chat_oc_f4e834723eae7e250708739fe8f3b-938eea86/session_events.jsonl#evt_59ba3b3669ad46f5",
+          "entry_ref": "[[sessions/FEISHU-366_chat_oc_f4e834723eae7e250708739fe8f3b-938eea86/session.md#om_x100b50f356bc94b4c3d39f915e7f2c0|om_x100b50f356bc94b4c3d39f915e7f2c0]]",
+          "quote": "备注已记录周宇的合规文件预计周五，但未作为正式风险项"
+        },
+        {
+          "event_id": "evt_34e39c15e3be0e5c",
+          "event_path": "sessions/FEISHU-366_chat_oc_f4e834723eae7e250708739fe8f3b-938eea86/session_events.jsonl#evt_34e39c15e3be0e5c",
+          "entry_ref": "[[sessions/FEISHU-366_chat_oc_f4e834723eae7e250708739fe8f3b-938eea86/session.md#om_x100b50f356b17098c4ee6c8d25c42b5|om_x100b50f356b17098c4ee6c8d25c42b5]]",
+          "quote": "风险登记表最终版已提交，无更新"
+        }
+      ],
+      "summary": "备注已记录周宇的合规文件预计周五，但未作为正式风险项"
+    }
+  },
+  "lifecycle_summary": {
+    "active_event_count": 2,
+    "historical_event_count": 0,
+    "invalid_event_count": 0
+  },
+  "updated_at": "2026-05-07T11:05:36.739Z"
+}

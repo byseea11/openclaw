@@ -1,0 +1,24 @@
+task_id: task:FEISHU-337
+task_key: FEISHU-337
+source_session_id: task:FEISHU-337::chat:oc_242cd4c6793d8560d8d40d264966b529
+source_scope: chat:oc_242cd4c6793d8560d8d40d264966b529
+source_type: chat
+source_id: chat:thread_release
+chat_id: oc_242cd4c6793d8560d8d40d264966b529
+thread_id: null
+root_id: null
+time_range:
+  start: 2026-05-08T04:04:56.920Z
+  end: 2026-05-08T04:06:20.783Z
+participants:
+  - 高骏
+  - 陈雪
+source_locator: chat:thread_release
+binding_mode: source_id
+created_at: 2026-05-08T04:04:56.920Z
+updated_at: 2026-05-08T04:06:20.788Z
+latest_ingest_version: 2
+raw_ingest_count: 2
+visible_ingest_count: 2
+compacted_at: 2026-05-08T04:06:20.788Z
+retained_entry_count: 2

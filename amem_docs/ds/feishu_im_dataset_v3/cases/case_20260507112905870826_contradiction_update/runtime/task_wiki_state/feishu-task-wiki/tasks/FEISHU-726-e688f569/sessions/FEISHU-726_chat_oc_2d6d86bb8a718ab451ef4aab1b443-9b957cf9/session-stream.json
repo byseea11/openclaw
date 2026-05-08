@@ -1,0 +1,11 @@
+{
+  "task_id": "task:FEISHU-726",
+  "task_key": "FEISHU-726",
+  "source_session_id": "task:FEISHU-726::chat:oc_2d6d86bb8a718ab451ef4aab1b443b70",
+  "source_scope": "chat:oc_2d6d86bb8a718ab451ef4aab1b443b70",
+  "source_type": "thread",
+  "source_id": "thread:finance_thread",
+  "latest_ingest_version": 5,
+  "created_at": "2026-05-07T20:08:07.590Z",
+  "updated_at": "2026-05-07T20:10:34.066Z"
+}

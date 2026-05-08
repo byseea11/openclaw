@@ -1,0 +1,27 @@
+{
+  "version": 1,
+  "task_id": "task:FEISHU-337",
+  "task_key": "FEISHU-337",
+  "source_session_id": "task:FEISHU-337::chat:oc_c5105e1f07d9b3b98aaf1b6375e2f13a",
+  "source_scope": "chat:oc_c5105e1f07d9b3b98aaf1b6375e2f13a",
+  "source_type": "thread",
+  "source_id": "thread:risk_review_thread",
+  "session_title": "task:FEISHU-337::chat:oc_c5105e1f07d9b3b98aaf1b6375e2f13a",
+  "time_range": {
+    "start": "2026-05-08T04:03:08.721Z",
+    "end": "2026-05-08T04:05:16.746Z"
+  },
+  "participants": [
+    "Benchmark Root"
+  ],
+  "relative_page_path": "sessions/FEISHU-337_chat_oc_c5105e1f07d9b3b98aaf1b6375e2f-4a03aebd/session_wiki.md",
+  "session_summary": "暂无内容",
+  "block_order": [],
+  "blocks": {},
+  "lifecycle_summary": {
+    "active_event_count": 0,
+    "historical_event_count": 0,
+    "invalid_event_count": 0
+  },
+  "updated_at": "2026-05-08T04:05:18.068Z"
+}

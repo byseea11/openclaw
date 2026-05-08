@@ -1,0 +1,226 @@
+{
+  "version": 1,
+  "task_id": "task:FEISHU-336",
+  "task_key": "FEISHU-336",
+  "source_session_id": "task:FEISHU-336::chat:oc_fafd78fbd7b4bd09d7f375c53021161e",
+  "source_scope": "chat:oc_fafd78fbd7b4bd09d7f375c53021161e",
+  "source_type": "thread",
+  "source_id": "thread:handoff_thread",
+  "session_title": "task:FEISHU-336::chat:oc_fafd78fbd7b4bd09d7f375c53021161e",
+  "time_range": {
+    "start": "2026-05-08T03:57:21.147Z",
+    "end": "2026-05-08T03:59:06.814Z"
+  },
+  "participants": [
+    "Benchmark Root",
+    "王源",
+    "陈雪",
+    "苏禾",
+    "罗天"
+  ],
+  "relative_page_path": "sessions/FEISHU-336_chat_oc_fafd78fbd7b4bd09d7f375c530211-fe12be56/session_wiki.md",
+  "session_summary": "FEISHU-336 由新负责人接手，任务交接完成，正式升级窗口已开放，安全侧需窗口锁定后签署。",
+  "block_order": [
+    "block-按最新_owner_跟进-aed5b419",
+    "block-任务交接-6d33ae0b",
+    "block-正式升级窗口-930e601a"
+  ],
+  "blocks": {
+    "block-按最新_owner_跟进-aed5b419": {
+      "block_id": "block-按最新_owner_跟进-aed5b419",
+      "anchor_id": "block-按最新_owner_跟进-aed5b419",
+      "topic_key": "按最新 owner 跟进",
+      "topic_title": "按最新 owner 跟进",
+      "event_ids": [
+        "evt_7339a376567776ee"
+      ],
+      "slots": {
+        "conclusion": [],
+        "rationale": [],
+        "objection": [],
+        "constraint": [],
+        "commitment": [
+          {
+            "event_id": "evt_7339a376567776ee",
+            "event_type": "commitment_event",
+            "claim": "收到，我会按最新 owner 跟进。",
+            "event_time": "1778210409000",
+            "evidence_quote": "收到，我会按最新 owner 跟进。",
+            "event_path": "sessions/FEISHU-336_chat_oc_fafd78fbd7b4bd09d7f375c530211-fe12be56/session_events.jsonl#evt_7339a376567776ee",
+            "event_ref": "[[sessions/FEISHU-336_chat_oc_fafd78fbd7b4bd09d7f375c530211-fe12be56/session_events.jsonl#evt_7339a376567776ee|evt_7339a376567776ee]]",
+            "entry_ref": "[[sessions/FEISHU-336_chat_oc_fafd78fbd7b4bd09d7f375c530211-fe12be56/session.md#om_x100b50e12be15870c2d8e36a0b73c1b|om_x100b50e12be15870c2d8e36a0b73c1b]]",
+            "core_entry_id": "om_x100b50e12be15870c2d8e36a0b73c1b",
+            "subject_key": "按最新 owner 跟进",
+            "is_current": true,
+            "lifecycle_status": "active",
+            "lifecycle_reason": null,
+            "target": null,
+            "time_target": null,
+            "scope_target": null,
+            "action": "按最新 owner 跟进",
+            "owner": "苏禾",
+            "objector": null,
+            "status": null,
+            "certainty": null
+          }
+        ],
+        "status": [],
+        "time": [],
+        "scope": []
+      },
+      "status": "active",
+      "evidence_refs": [
+        {
+          "event_id": "evt_7339a376567776ee",
+          "event_path": "sessions/FEISHU-336_chat_oc_fafd78fbd7b4bd09d7f375c530211-fe12be56/session_events.jsonl#evt_7339a376567776ee",
+          "entry_ref": "[[sessions/FEISHU-336_chat_oc_fafd78fbd7b4bd09d7f375c530211-fe12be56/session.md#om_x100b50e12be15870c2d8e36a0b73c1b|om_x100b50e12be15870c2d8e36a0b73c1b]]",
+          "quote": "收到，我会按最新 owner 跟进。"
+        }
+      ],
+      "summary": "按最新负责人跟进任务"
+    },
+    "block-任务交接-6d33ae0b": {
+      "block_id": "block-任务交接-6d33ae0b",
+      "anchor_id": "block-任务交接-6d33ae0b",
+      "topic_key": "任务交接",
+      "topic_title": "任务交接",
+      "event_ids": [
+        "evt_8dc19c5a0431dd50"
+      ],
+      "slots": {
+        "conclusion": [],
+        "rationale": [],
+        "objection": [],
+        "constraint": [],
+        "commitment": [],
+        "status": [
+          {
+            "event_id": "evt_8dc19c5a0431dd50",
+            "event_type": "status_event",
+            "claim": "老负责人已离岗，FEISHU-336 现由我接手。",
+            "event_time": "1778210409000",
+            "evidence_quote": "老负责人已离岗，FEISHU-336 现由我接手。",
+            "event_path": "sessions/FEISHU-336_chat_oc_fafd78fbd7b4bd09d7f375c530211-fe12be56/session_events.jsonl#evt_8dc19c5a0431dd50",
+            "event_ref": "[[sessions/FEISHU-336_chat_oc_fafd78fbd7b4bd09d7f375c530211-fe12be56/session_events.jsonl#evt_8dc19c5a0431dd50|evt_8dc19c5a0431dd50]]",
+            "entry_ref": "[[sessions/FEISHU-336_chat_oc_fafd78fbd7b4bd09d7f375c530211-fe12be56/session.md#om_x100b50e12bd968b0c4ddb7885dc36db|om_x100b50e12bd968b0c4ddb7885dc36db]]",
+            "core_entry_id": "om_x100b50e12bd968b0c4ddb7885dc36db",
+            "subject_key": "feishu-336",
+            "is_current": true,
+            "lifecycle_status": "active",
+            "lifecycle_reason": null,
+            "target": "FEISHU-336",
+            "time_target": null,
+            "scope_target": null,
+            "action": null,
+            "owner": null,
+            "objector": null,
+            "status": "接手",
+            "certainty": null
+          }
+        ],
+        "time": [],
+        "scope": []
+      },
+      "status": "active",
+      "evidence_refs": [
+        {
+          "event_id": "evt_8dc19c5a0431dd50",
+          "event_path": "sessions/FEISHU-336_chat_oc_fafd78fbd7b4bd09d7f375c530211-fe12be56/session_events.jsonl#evt_8dc19c5a0431dd50",
+          "entry_ref": "[[sessions/FEISHU-336_chat_oc_fafd78fbd7b4bd09d7f375c530211-fe12be56/session.md#om_x100b50e12bd968b0c4ddb7885dc36db|om_x100b50e12bd968b0c4ddb7885dc36db]]",
+          "quote": "老负责人已离岗，FEISHU-336 现由我接手。"
+        }
+      ],
+      "summary": "任务交接：老负责人已离岗，FEISHU-336 现由我接手。"
+    },
+    "block-正式升级窗口-930e601a": {
+      "block_id": "block-正式升级窗口-930e601a",
+      "anchor_id": "block-正式升级窗口-930e601a",
+      "topic_key": "正式升级窗口",
+      "topic_title": "正式升级窗口",
+      "event_ids": [
+        "evt_04d20a471c7c7888",
+        "evt_f7753222af8271d3"
+      ],
+      "slots": {
+        "conclusion": [],
+        "rationale": [],
+        "objection": [],
+        "constraint": [
+          {
+            "event_id": "evt_f7753222af8271d3",
+            "event_type": "constraint_event",
+            "claim": "安全侧也需要窗口锁定后才能签。",
+            "event_time": "1778210409000",
+            "evidence_quote": "安全侧也需要窗口锁定后才能签。",
+            "event_path": "sessions/FEISHU-336_chat_oc_fafd78fbd7b4bd09d7f375c530211-fe12be56/session_events.jsonl#evt_f7753222af8271d3",
+            "event_ref": "[[sessions/FEISHU-336_chat_oc_fafd78fbd7b4bd09d7f375c530211-fe12be56/session_events.jsonl#evt_f7753222af8271d3|evt_f7753222af8271d3]]",
+            "entry_ref": "[[sessions/FEISHU-336_chat_oc_fafd78fbd7b4bd09d7f375c530211-fe12be56/session.md#om_x100b50e12bf498b0c22441c457405c0|om_x100b50e12bf498b0c22441c457405c0]]",
+            "core_entry_id": "om_x100b50e12bf498b0c22441c457405c0",
+            "subject_key": "正式升级窗口",
+            "is_current": true,
+            "lifecycle_status": "active",
+            "lifecycle_reason": null,
+            "target": "安全侧签",
+            "time_target": null,
+            "scope_target": null,
+            "action": null,
+            "owner": null,
+            "objector": null,
+            "status": null,
+            "certainty": null
+          }
+        ],
+        "commitment": [],
+        "status": [
+          {
+            "event_id": "evt_04d20a471c7c7888",
+            "event_type": "status_event",
+            "claim": "交接文件已签。窗口状态以我发的消息为准。",
+            "event_time": "1778210409000",
+            "evidence_quote": "交接文件已签。窗口状态以我发的消息为准。",
+            "event_path": "sessions/FEISHU-336_chat_oc_fafd78fbd7b4bd09d7f375c530211-fe12be56/session_events.jsonl#evt_04d20a471c7c7888",
+            "event_ref": "[[sessions/FEISHU-336_chat_oc_fafd78fbd7b4bd09d7f375c530211-fe12be56/session_events.jsonl#evt_04d20a471c7c7888|evt_04d20a471c7c7888]]",
+            "entry_ref": "[[sessions/FEISHU-336_chat_oc_fafd78fbd7b4bd09d7f375c530211-fe12be56/session.md#om_x100b50e12becc4b8c315fad9f3c10d4|om_x100b50e12becc4b8c315fad9f3c10d4]]",
+            "core_entry_id": "om_x100b50e12becc4b8c315fad9f3c10d4",
+            "subject_key": "正式升级窗口",
+            "is_current": true,
+            "lifecycle_status": "active",
+            "lifecycle_reason": null,
+            "target": "交接文件",
+            "time_target": null,
+            "scope_target": null,
+            "action": null,
+            "owner": null,
+            "objector": null,
+            "status": "已签",
+            "certainty": null
+          }
+        ],
+        "time": [],
+        "scope": []
+      },
+      "status": "open",
+      "evidence_refs": [
+        {
+          "event_id": "evt_04d20a471c7c7888",
+          "event_path": "sessions/FEISHU-336_chat_oc_fafd78fbd7b4bd09d7f375c530211-fe12be56/session_events.jsonl#evt_04d20a471c7c7888",
+          "entry_ref": "[[sessions/FEISHU-336_chat_oc_fafd78fbd7b4bd09d7f375c530211-fe12be56/session.md#om_x100b50e12becc4b8c315fad9f3c10d4|om_x100b50e12becc4b8c315fad9f3c10d4]]",
+          "quote": "交接文件已签。窗口状态以我发的消息为准。"
+        },
+        {
+          "event_id": "evt_f7753222af8271d3",
+          "event_path": "sessions/FEISHU-336_chat_oc_fafd78fbd7b4bd09d7f375c530211-fe12be56/session_events.jsonl#evt_f7753222af8271d3",
+          "entry_ref": "[[sessions/FEISHU-336_chat_oc_fafd78fbd7b4bd09d7f375c530211-fe12be56/session.md#om_x100b50e12bf498b0c22441c457405c0|om_x100b50e12bf498b0c22441c457405c0]]",
+          "quote": "安全侧也需要窗口锁定后才能签。"
+        }
+      ],
+      "summary": "正式升级窗口状态为开放，安全侧需窗口锁定后签署，交接文件已签署，窗口状态以消息为准。"
+    }
+  },
+  "lifecycle_summary": {
+    "active_event_count": 4,
+    "historical_event_count": 0,
+    "invalid_event_count": 0
+  },
+  "updated_at": "2026-05-08T03:59:19.670Z"
+}

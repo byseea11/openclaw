@@ -1,0 +1,60 @@
+{
+  "case_id": "case_20260507105819230766_private_info_in_official_file",
+  "family_id": "private_info_in_official_file",
+  "task_id": "FEISHU-366",
+  "organization": "星云科技集团",
+  "team": "技术风险与合规部",
+  "business_goal": "确保上线评审流程中任务状态仅反映正式决议，避免个人时间偏好或私下承诺被误记为项目阻塞。",
+  "scenario_summary": "在 FEISHU-366 上线评审过程中，林晨（个人）多次提出只能在周三上午参加评审，但正式上线 checklist 和风险登记表均未将这一限制列为任务事实；唐越私下承诺补充材料但未兑现；最终评审纪要明确将上线审查结论定为等待安全审批。系统需要区分个人上下文与正式结论，正确回答任务当前状态。",
+  "family_fit_explanation": "个人时间限制（林晨只能周三）、私人承诺（唐越补材料）与正式评审结论（等待安全审批）在消息流中紧密交织，系统容易把个人偏好误作为任务事实，属于 private_info_in_official_file 典型场景。同时存在误读与纠正：有同事将林晨的个人时间误当作项目阻断，后被纠正。",
+  "source_sessions": [
+    {
+      "session_id": "main_chat",
+      "session_type": "main_chat",
+      "title": "主群协调",
+      "session_purpose": "沉淀目标任务的主线协作信息和最终 current state。"
+    },
+    {
+      "session_id": "risk_review_thread",
+      "session_type": "risk_review_thread",
+      "title": "风险复核线程",
+      "session_purpose": "承载依赖、风险和证据分层补充信息。"
+    },
+    {
+      "session_id": "security_thread",
+      "session_type": "thread",
+      "title": "security_thread 线程",
+      "session_purpose": "承载局部修正、依赖或补充说明。"
+    },
+    {
+      "session_id": "review_meeting_thread",
+      "session_type": "thread",
+      "title": "review_meeting_thread 线程",
+      "session_purpose": "承载局部修正、依赖或补充说明。"
+    },
+    {
+      "session_id": "handoff_thread",
+      "session_type": "handoff_thread",
+      "title": "交接修正线程",
+      "session_purpose": "承载 owner 交接、旧状态修正和 supersession 说明。"
+    },
+    {
+      "session_id": "customer_sync_chat",
+      "session_type": "customer_sync_chat",
+      "title": "客户同步侧群",
+      "session_purpose": "承接外部压力、模糊口径和对外同步上下文。"
+    },
+    {
+      "session_id": "exec_sync_chat",
+      "session_type": "exec_sync_chat",
+      "title": "管理层同步侧群",
+      "session_purpose": "承载跨部门升级、相似措辞和并行决策噪声。"
+    },
+    {
+      "session_id": "qa_triage_chat",
+      "session_type": "chat",
+      "title": "质量联调群",
+      "session_purpose": "承载测试、验收、缺陷确认和状态复核。"
+    }
+  ]
+}

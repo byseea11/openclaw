@@ -1,0 +1,35 @@
+{
+  "case_id": "case_20260508030344241236_evidence_dependency_reasoning",
+  "family_id": "evidence_dependency_reasoning",
+  "task_id": "FEISHU-336",
+  "state_changes": [
+    {
+      "task_id": "FEISHU-336",
+      "field": "upstream_window_locked",
+      "sequence": [
+        {
+          "value": "未锁定",
+          "status": "historical"
+        },
+        {
+          "value": "已锁定",
+          "status": "current"
+        }
+      ]
+    },
+    {
+      "task_id": "FEISHU-336",
+      "field": "rollback_plan_approval_blocked",
+      "sequence": [
+        {
+          "value": "阻塞",
+          "status": "historical"
+        },
+        {
+          "value": "解除",
+          "status": "current"
+        }
+      ]
+    }
+  ]
+}

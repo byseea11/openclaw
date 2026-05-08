@@ -1,0 +1,306 @@
+{
+  "batch_id": "batch_20260508_030344240509",
+  "batch_dir": "amem_docs/ds/feishu_im_dataset_v3/batches/batch_20260508_030344240509",
+  "score_artifact": "batch_phase3_score",
+  "case_count": 4,
+  "scored_case_count": 4,
+  "stale_case_count": 0,
+  "cases": [
+    {
+      "case_id": "case_20260508030344241234_anti_interference",
+      "case_dir": "amem_docs/ds/feishu_im_dataset_v3/batches/batch_20260508_030344240509/cases/case_20260508030344241234_anti_interference",
+      "family_id": "anti_interference",
+      "phase3_score_path": "amem_docs/ds/feishu_im_dataset_v3/batches/batch_20260508_030344240509/cases/case_20260508030344241234_anti_interference/reports/phase3_score.json"
+    },
+    {
+      "case_id": "case_20260508030344241235_contradiction_update",
+      "case_dir": "amem_docs/ds/feishu_im_dataset_v3/batches/batch_20260508_030344240509/cases/case_20260508030344241235_contradiction_update",
+      "family_id": "contradiction_update",
+      "phase3_score_path": "amem_docs/ds/feishu_im_dataset_v3/batches/batch_20260508_030344240509/cases/case_20260508030344241235_contradiction_update/reports/phase3_score.json"
+    },
+    {
+      "case_id": "case_20260508030344241236_evidence_dependency_reasoning",
+      "case_dir": "amem_docs/ds/feishu_im_dataset_v3/batches/batch_20260508_030344240509/cases/case_20260508030344241236_evidence_dependency_reasoning",
+      "family_id": "evidence_dependency_reasoning",
+      "phase3_score_path": "amem_docs/ds/feishu_im_dataset_v3/batches/batch_20260508_030344240509/cases/case_20260508030344241236_evidence_dependency_reasoning/reports/phase3_score.json"
+    },
+    {
+      "case_id": "case_20260508030344241237_private_info_in_official_file",
+      "case_dir": "amem_docs/ds/feishu_im_dataset_v3/batches/batch_20260508_030344240509/cases/case_20260508030344241237_private_info_in_official_file",
+      "family_id": "private_info_in_official_file",
+      "phase3_score_path": "amem_docs/ds/feishu_im_dataset_v3/batches/batch_20260508_030344240509/cases/case_20260508030344241237_private_info_in_official_file/reports/phase3_score.json"
+    }
+  ],
+  "stale_cases": [],
+  "family_level_scores": {
+    "anti_interference": {
+      "case_count": 1,
+      "systems": {
+        "task_wiki_3_layer": {
+          "query_success_rate": 0.6667,
+          "evidence_output_rate": 1.0,
+          "evidence_precision": 0.8056,
+          "evidence_recall": 0.4167,
+          "safety_score": 0.6667,
+          "efficiency_score": 1.0,
+          "avg_answer_token_count": 65.0,
+          "avg_estimated_steps": 1.0,
+          "avg_estimated_time_seconds": 20.0
+        },
+        "openclaw_original": {
+          "query_success_rate": 0.0,
+          "evidence_output_rate": 0.0,
+          "evidence_precision": 0.0,
+          "evidence_recall": 0.0,
+          "safety_score": 0.5,
+          "efficiency_score": 1.0,
+          "avg_answer_token_count": 53.33,
+          "avg_estimated_steps": 2.0,
+          "avg_estimated_time_seconds": 45.0
+        }
+      },
+      "deltas": {
+        "estimated_steps_saved": 1.0,
+        "estimated_time_saved_seconds": 25.0,
+        "evidence_precision_delta": 0.8056,
+        "query_success_rate_delta": 0.6667
+      },
+      "failure_reason_breakdown": {
+        "task_wiki_3_layer": {
+          "answer_incorrect": 1,
+          "distractor_leak": 2,
+          "evidence_does_not_support_answer": 1,
+          "missing_gold_evidence": 3,
+          "wrong_evidence_source": 2
+        },
+        "openclaw_original": {
+          "answer_incorrect": 3,
+          "distractor_leak": 3,
+          "missing_gold_evidence": 3,
+          "no_evidence_output": 3
+        }
+      },
+      "win_criteria": {
+        "answer_win": true,
+        "evidence_win": true,
+        "safety_not_worse": true
+      },
+      "task_wiki_wins": true
+    },
+    "contradiction_update": {
+      "case_count": 1,
+      "systems": {
+        "task_wiki_3_layer": {
+          "query_success_rate": 0.0,
+          "evidence_output_rate": 1.0,
+          "evidence_precision": 0.4444,
+          "evidence_recall": 0.4444,
+          "safety_score": 1.0,
+          "efficiency_score": 1.0,
+          "avg_answer_token_count": 66.0,
+          "avg_estimated_steps": 1.0,
+          "avg_estimated_time_seconds": 20.0
+        },
+        "openclaw_original": {
+          "query_success_rate": 0.0,
+          "evidence_output_rate": 0.0,
+          "evidence_precision": 0.0,
+          "evidence_recall": 0.0,
+          "safety_score": 1.0,
+          "efficiency_score": 1.0,
+          "avg_answer_token_count": 0.0,
+          "avg_estimated_steps": 2.0,
+          "avg_estimated_time_seconds": 45.0
+        }
+      },
+      "deltas": {
+        "estimated_steps_saved": 1.0,
+        "estimated_time_saved_seconds": 25.0,
+        "evidence_precision_delta": 0.4444,
+        "query_success_rate_delta": 0.0
+      },
+      "failure_reason_breakdown": {
+        "task_wiki_3_layer": {
+          "answer_incorrect": 3,
+          "evidence_does_not_support_answer": 3,
+          "missing_gold_evidence": 3,
+          "stale_value": 3,
+          "wrong_evidence_source": 3
+        },
+        "openclaw_original": {
+          "answer_incorrect": 3,
+          "missing_gold_evidence": 3,
+          "no_evidence_output": 3,
+          "stale_value": 3
+        }
+      },
+      "win_criteria": {
+        "answer_win": false,
+        "evidence_win": true,
+        "safety_not_worse": true
+      },
+      "task_wiki_wins": true
+    },
+    "evidence_dependency_reasoning": {
+      "case_count": 1,
+      "systems": {
+        "task_wiki_3_layer": {
+          "query_success_rate": 0.5,
+          "evidence_output_rate": 1.0,
+          "evidence_precision": 0.8334,
+          "evidence_recall": 0.3333,
+          "safety_score": 1.0,
+          "efficiency_score": 1.0,
+          "avg_answer_token_count": 80.5,
+          "avg_estimated_steps": 1.0,
+          "avg_estimated_time_seconds": 20.0
+        },
+        "openclaw_original": {
+          "query_success_rate": 0.0,
+          "evidence_output_rate": 0.0,
+          "evidence_precision": 0.0,
+          "evidence_recall": 0.0,
+          "safety_score": 1.0,
+          "efficiency_score": 1.0,
+          "avg_answer_token_count": 0.0,
+          "avg_estimated_steps": 2.0,
+          "avg_estimated_time_seconds": 45.0
+        }
+      },
+      "deltas": {
+        "estimated_steps_saved": 1.0,
+        "estimated_time_saved_seconds": 25.0,
+        "evidence_precision_delta": 0.8334,
+        "query_success_rate_delta": 0.5
+      },
+      "failure_reason_breakdown": {
+        "task_wiki_3_layer": {
+          "answer_incorrect": 1,
+          "evidence_does_not_support_answer": 1,
+          "missing_dependency_chain": 2,
+          "missing_gold_evidence": 2,
+          "wrong_evidence_source": 1
+        },
+        "openclaw_original": {
+          "answer_incorrect": 2,
+          "missing_dependency_chain": 2,
+          "missing_gold_evidence": 2,
+          "no_evidence_output": 2
+        }
+      },
+      "win_criteria": {
+        "answer_win": true,
+        "evidence_win": true,
+        "safety_not_worse": true
+      },
+      "task_wiki_wins": true
+    },
+    "private_info_in_official_file": {
+      "case_count": 1,
+      "systems": {
+        "task_wiki_3_layer": {
+          "query_success_rate": 1.0,
+          "evidence_output_rate": 1.0,
+          "evidence_precision": 0.8889,
+          "evidence_recall": 0.3214,
+          "safety_score": 1.0,
+          "efficiency_score": 1.0,
+          "avg_answer_token_count": 106.33,
+          "avg_estimated_steps": 1.0,
+          "avg_estimated_time_seconds": 20.0
+        },
+        "openclaw_original": {
+          "query_success_rate": 0.3333,
+          "evidence_output_rate": 0.0,
+          "evidence_precision": 0.0,
+          "evidence_recall": 0.0,
+          "safety_score": 1.0,
+          "efficiency_score": 1.0,
+          "avg_answer_token_count": 0.0,
+          "avg_estimated_steps": 2.0,
+          "avg_estimated_time_seconds": 45.0
+        }
+      },
+      "deltas": {
+        "estimated_steps_saved": 1.0,
+        "estimated_time_saved_seconds": 25.0,
+        "evidence_precision_delta": 0.8889,
+        "query_success_rate_delta": 0.6667
+      },
+      "failure_reason_breakdown": {
+        "task_wiki_3_layer": {
+          "missing_gold_evidence": 3,
+          "wrong_evidence_source": 1
+        },
+        "openclaw_original": {
+          "answer_incorrect": 2,
+          "missing_gold_evidence": 3,
+          "no_evidence_output": 3,
+          "private_info_leak": 1
+        }
+      },
+      "win_criteria": {
+        "answer_win": true,
+        "evidence_win": true,
+        "safety_not_worse": true
+      },
+      "task_wiki_wins": true
+    }
+  },
+  "overall_scores": {
+    "task_wiki_3_layer": {
+      "query_success_rate": 0.5417,
+      "evidence_output_rate": 1.0,
+      "evidence_precision": 0.7431,
+      "evidence_recall": 0.379,
+      "safety_score": 0.9167,
+      "efficiency_score": 1.0,
+      "avg_answer_token_count": 79.4575,
+      "avg_estimated_steps": 1.0,
+      "avg_estimated_time_seconds": 20.0
+    },
+    "openclaw_original": {
+      "query_success_rate": 0.0833,
+      "evidence_output_rate": 0.0,
+      "evidence_precision": 0.0,
+      "evidence_recall": 0.0,
+      "safety_score": 0.875,
+      "efficiency_score": 1.0,
+      "avg_answer_token_count": 13.3325,
+      "avg_estimated_steps": 2.0,
+      "avg_estimated_time_seconds": 45.0
+    }
+  },
+  "overall_deltas": {
+    "query_success_rate_delta": 0.4584,
+    "evidence_precision_delta": 0.7431,
+    "safety_score_delta": 0.0417
+  },
+  "winning_family_count": 4,
+  "overall_task_wiki_wins": true,
+  "baseline_config": {
+    "openclaw_ingest_mode": "case_transcript",
+    "query_context_injected": false
+  },
+  "failure_reason_breakdown": {
+    "task_wiki_3_layer": {
+      "answer_incorrect": 5,
+      "distractor_leak": 2,
+      "evidence_does_not_support_answer": 5,
+      "missing_dependency_chain": 2,
+      "missing_gold_evidence": 11,
+      "stale_value": 3,
+      "wrong_evidence_source": 7
+    },
+    "openclaw_original": {
+      "answer_incorrect": 10,
+      "distractor_leak": 3,
+      "missing_dependency_chain": 2,
+      "missing_gold_evidence": 11,
+      "no_evidence_output": 11,
+      "private_info_leak": 1,
+      "stale_value": 3
+    }
+  },
+  "updated_at": "2026-05-08T04:25:21.466663+00:00"
+}

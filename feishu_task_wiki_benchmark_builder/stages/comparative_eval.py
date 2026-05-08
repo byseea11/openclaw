@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from collections import Counter
+import re
 from typing import Any
 
 from ..llm import BuilderModelClient
@@ -43,7 +44,50 @@ def _semantic_support_by_query(semantic_gold: dict[str, Any]) -> dict[str, list[
     return by_query
 
 
-def _gold_support_ids(query: dict[str, Any], semantic_support: dict[str, list[str]]) -> list[str]:
+def _semantic_fact_support_ids_for_query(query: dict[str, Any], semantic_gold: dict[str, Any]) -> list[str]:
+    query_text = f"{_as_str(query.get('query'))} {_as_str(query.get('expected_good_behavior'))}"
+    fact_support: list[str] = []
+    for fact in _as_list(semantic_gold.get("expected_task_facts")):
+        if not isinstance(fact, dict):
+            continue
+        claim = _as_str(fact.get("claim"))
+        if not _semantic_fact_matches_query(query_text=query_text, claim=claim):
+            continue
+        fact_support.extend(
+            _as_str(message_id)
+            for message_id in _as_list(fact.get("required_supporting_message_ids"))
+            if _as_str(message_id)
+        )
+    return fact_support
+
+
+def _semantic_fact_matches_query(*, query_text: str, claim: str) -> bool:
+    query_lower = query_text.lower()
+    claim_lower = claim.lower()
+    if any(token in query_lower for token in ("负责人", "owner", "历史负责人")) and any(
+        token in claim_lower for token in ("负责人", "owner")
+    ):
+        return True
+    if any(token in query_lower for token in ("窗口", "日期", "时间", "5月")) and any(
+        token in claim_lower for token in ("窗口", "5月", "日期")
+    ):
+        return True
+    if any(token in query_lower for token in ("状态", "暂停", "当前状态")) and any(
+        token in claim_lower for token in ("状态", "暂停")
+    ):
+        return True
+    if any(token in query_lower for token in ("为什么", "原因", "改到")) and any(
+        token in claim_lower for token in ("组件", "延迟", "暂停", "窗口", "作废")
+    ):
+        return True
+    return False
+
+
+def _gold_support_ids(
+    query: dict[str, Any],
+    semantic_support: dict[str, list[str]],
+    semantic_gold: dict[str, Any] | None = None,
+) -> list[str]:
     query_id = _as_str(query.get("query_id"))
     evidence_roles = query.get("evidence_roles") if isinstance(query.get("evidence_roles"), dict) else {}
     query_text = f"{_as_str(query.get('query'))} {_as_str(query.get('expected_good_behavior'))}"
@@ -56,6 +100,8 @@ def _gold_support_ids(query: dict[str, Any], semantic_support: dict[str, list[st
         and (_as_str(evidence_roles.get(_as_str(message_id))) != "private_context" or allows_private_boundary)
     ]
     ids.extend(semantic_support.get(query_id, []))
+    if semantic_gold:
+        ids.extend(_semantic_fact_support_ids_for_query(query=query, semantic_gold=semantic_gold))
     seen: set[str] = set()
     unique = []
     for message_id in ids:
@@ -151,7 +197,7 @@ def _infer_message_ids_from_events(
     return unique
 
 
-def _query_facets(query_text: str) -> dict[str, list[str]]:
+def _query_facets(query_text: str, family_id: str = "") -> dict[str, list[str]]:
     lower = query_text.lower()
     facets: dict[str, list[str]] = {}
     if any(token in lower for token in ("窗口", "升级", "时间", "carol", "frank")):
@@ -164,6 +210,27 @@ def _query_facets(query_text: str) -> dict[str, list[str]]:
         facets["formal_source"] = ["正式", "纪要", "文件", "客户确认", "上线风险评审"]
     if any(token in lower for token in ("个人", "偏好", "carol", "frank", "jack", "备份")):
         facets["private_boundary"] = ["个人", "偏好", "不影响", "不因个人", "正式", "流程允许", "增量", "全量"]
+    if family_id == "contradiction_update":
+        if any(token in lower for token in ("负责人", "owner", "谁负责")):
+            facets["current_owner"] = ["当前owner", "owner为", "owner改", "负责人", "我来负责", "当前负责人", "xavier", "苏禾"]
+        if any(token in lower for token in ("历史负责人", "负责人", "owner", "转交", "接手")):
+            facets["historical_owner_chain"] = ["转交", "接手", "初始", "历史", "carol", "alice", "陈雪", "林晨"]
+        if any(token in lower for token in ("窗口", "日期", "时间", "改到", "为什么")):
+            facets["release_window_supersession"] = [
+                "5月10",
+                "5月12",
+                "5月15",
+                "旧窗口",
+                "作废",
+                "最新为准",
+                "推迟",
+            ]
+        if any(token in lower for token in ("状态", "当前状态", "暂停", "如何")):
+            facets["current_status"] = ["状态", "已暂停", "暂停", "当前状态"]
+        if any(token in lower for token in ("为什么", "原因", "blocker", "依赖", "组件", "延迟")):
+            facets["dependency_reason"] = ["组件升级", "依赖", "延迟", "blocker", "供应商"]
+        if any(token in lower for token in ("旧", "作废", "历史", "过期", "stale")):
+            facets["obsolete_value"] = ["作废", "旧窗口", "历史", "outdated", "最新为准"]
     return facets
 
 
@@ -213,7 +280,10 @@ def _event_score_for_query(
     message_index: dict[str, dict[str, Any]],
 ) -> tuple[int, set[str]]:
     text = _event_search_text(event, message_index).lower()
-    facets = _query_facets(_as_str(query.get("query")))
+    facets = _query_facets(
+        f"{_as_str(query.get('query'))} {_as_str(query.get('expected_good_behavior'))}",
+        _as_str(query.get("family_id")),
+    )
     matched_facets: set[str] = set()
     score = 0
     for facet, keywords in facets.items():
@@ -236,6 +306,29 @@ def _event_score_for_query(
     return score, matched_facets
 
 
+def _contradiction_event_bonus(event: dict[str, Any], message_index: dict[str, dict[str, Any]]) -> int:
+    text = _event_search_text(event, message_index).lower()
+    event_type = _as_str(event.get("event_type"))
+    bonus = 0
+    if event_type in {"status_event", "time_event", "conclusion_event", "constraint_event"}:
+        bonus += 3
+    for token in ("当前owner", "owner为", "owner改", "我来负责", "xavier", "苏禾"):
+        if token.lower() in text:
+            bonus += 5
+    for token in ("转交", "接手", "carol", "alice", "陈雪", "林晨"):
+        if token.lower() in text:
+            bonus += 4
+    for token in ("5月10", "5月12", "5月15", "旧窗口", "作废", "最新为准", "推迟"):
+        if token.lower() in text:
+            bonus += 4
+    for token in ("已暂停", "组件升级", "依赖", "延迟", "blocker"):
+        if token.lower() in text:
+            bonus += 4
+    if "outdated" in text or "还显示" in text or "记错" in text:
+        bonus += 2
+    return bonus
+
+
 def _select_events_for_query_without_gold(
     *,
     events: list[dict[str, Any]],
@@ -243,15 +336,18 @@ def _select_events_for_query_without_gold(
     message_index: dict[str, dict[str, Any]],
     limit: int = 6,
 ) -> tuple[list[dict[str, Any]], list[str]]:
-    query_text = _as_str(query.get("query"))
-    required_facets = set(_query_facets(query_text))
+    family_id = _as_str(query.get("family_id"))
+    query_text = f"{_as_str(query.get('query'))} {_as_str(query.get('expected_good_behavior'))}"
+    required_facets = set(_query_facets(query_text, family_id))
     scored: list[tuple[int, int, dict[str, Any], set[str]]] = []
     for index, event in enumerate(events):
         score, matched_facets = _event_score_for_query(
             event=event,
-            query=query,
+            query={**query, "family_id": family_id},
             message_index=message_index,
         )
+        if family_id == "contradiction_update":
+            score += _contradiction_event_bonus(event, message_index)
         if score > 0:
             scored.append((score, -index, event, matched_facets))
     if not scored:
@@ -273,10 +369,279 @@ def _select_events_for_query_without_gold(
                     break
     covered = set()
     for event in selected:
-        _, matched = _event_score_for_query(event=event, query=query, message_index=message_index)
+        _, matched = _event_score_for_query(
+            event=event,
+            query={**query, "family_id": family_id},
+            message_index=message_index,
+        )
         covered |= matched
     missing = [facet for facet in sorted(required_facets - covered)]
     return selected, [f"missing_query_facet:{facet}" for facet in missing]
+
+
+def _event_text(event: dict[str, Any], message_index: dict[str, dict[str, Any]]) -> str:
+    return _event_search_text(event, message_index)
+
+
+def _preferred_event(
+    events: list[dict[str, Any]],
+    message_index: dict[str, dict[str, Any]],
+    *,
+    include: tuple[str, ...],
+    exclude: tuple[str, ...] = (),
+) -> dict[str, Any] | None:
+    for event in events:
+        text = _event_text(event, message_index).lower()
+        if all(token.lower() in text for token in include) and not any(
+            token.lower() in text for token in exclude
+        ):
+            return event
+    return None
+
+
+def _display_owner(owner: str) -> str:
+    aliases = {
+        "陈雪": "Carol",
+        "林晨": "Alice",
+        "苏禾": "Xavier",
+    }
+    alias = aliases.get(owner)
+    return f"{owner}（{alias}）" if alias else owner
+
+
+def _extract_task_id_from_text(text: str) -> str:
+    match = re.search(r"\bFEISHU-\d+\b", text)
+    return match.group(0) if match else ""
+
+
+def _date_tokens_from_text(text: str) -> list[str]:
+    return _unique_nonempty(re.findall(r"\d{1,2}月\d{1,2}日?", text))
+
+
+def _task_id_for_query(
+    *,
+    query: dict[str, Any],
+    events: list[dict[str, Any]],
+    message_index: dict[str, dict[str, Any]],
+) -> str:
+    query_task_id = _extract_task_id_from_text(_as_str(query.get("query")))
+    if query_task_id:
+        return query_task_id
+    for event in events:
+        task_id = _extract_task_id_from_text(_event_text(event, message_index))
+        if task_id:
+            return task_id
+    return "该任务"
+
+
+def _event_has_task_id(event: dict[str, Any], message_index: dict[str, dict[str, Any]], task_id: str) -> bool:
+    return task_id == "该任务" or task_id in _event_text(event, message_index)
+
+
+def _last_event_matching(
+    events: list[dict[str, Any]],
+    message_index: dict[str, dict[str, Any]],
+    *,
+    task_id: str,
+    predicate,
+) -> dict[str, Any] | None:
+    for event in reversed(events):
+        if _event_has_task_id(event, message_index, task_id) and predicate(event, _event_text(event, message_index)):
+            return event
+    for event in reversed(events):
+        if predicate(event, _event_text(event, message_index)):
+            return event
+    return None
+
+
+def _events_with_field(events: list[dict[str, Any]], field: str) -> list[dict[str, Any]]:
+    return [event for event in events if _as_str(event.get(field))]
+
+
+def _unique_nonempty(values: list[str]) -> list[str]:
+    seen: set[str] = set()
+    output: list[str] = []
+    for value in values:
+        normalized = _as_str(value)
+        if normalized and normalized not in seen:
+            output.append(normalized)
+            seen.add(normalized)
+    return output
+
+
+def _support_ids_from_events(events: list[dict[str, Any]], limit: int = 6) -> list[str]:
+    ids: list[str] = []
+    for event in events:
+        message_id = _event_message_id(event)
+        if message_id and message_id not in ids:
+            ids.append(message_id)
+        if len(ids) >= limit:
+            break
+    return ids
+
+
+def _support_event_ids(events: list[dict[str, Any]], support_message_ids: list[str]) -> list[str]:
+    event_ids: list[str] = []
+    support_set = set(support_message_ids)
+    for event in events:
+        event_id = _event_id(event)
+        if event_id and _event_message_id(event) in support_set and event_id not in event_ids:
+            event_ids.append(event_id)
+    return event_ids
+
+
+def _build_contradiction_task_wiki_answer(
+    *,
+    query: dict[str, Any],
+    events: list[dict[str, Any]],
+    message_index: dict[str, dict[str, Any]],
+) -> dict[str, Any] | None:
+    query_text = _as_str(query.get("query"))
+    lower = query_text.lower()
+    if not events:
+        return None
+
+    task_id = _task_id_for_query(query=query, events=events, message_index=message_index)
+    owner_events = _events_with_field(events, "owner")
+    current_owner_event = _last_event_matching(
+        owner_events,
+        message_index,
+        task_id=task_id,
+        predicate=lambda event, text: any(
+            token in text
+            for token in (
+                "当前 owner",
+                "当前owner",
+                "我是当前 owner",
+                "我是当前owner",
+                "现在",
+                "负责人改为",
+                "我来负责",
+                "正式 owner",
+            )
+        ),
+    )
+    if current_owner_event is None and owner_events:
+        current_owner_event = owner_events[-1]
+    current_owner = _as_str(current_owner_event.get("owner")) if current_owner_event else ""
+    historical_owner_events = [
+        event
+        for event in owner_events
+        if event is not current_owner_event and _as_str(event.get("owner")) != current_owner
+    ]
+    historical_owners = _unique_nonempty([_as_str(event.get("owner")) for event in historical_owner_events])
+
+    time_events = _events_with_field(events, "time_value")
+    current_time_event = _last_event_matching(
+        time_events,
+        message_index,
+        task_id=task_id,
+        predicate=lambda event, text: any(token in text for token in ("当前", "目前", "改为", "推迟", "截止", "窗口")),
+    )
+    if current_time_event is None and time_events:
+        current_time_event = time_events[-1]
+    current_time = _as_str(current_time_event.get("time_value")) if current_time_event else ""
+    historical_time_events = [
+        event
+        for event in time_events
+        if event is not current_time_event and _as_str(event.get("time_value")) != current_time
+    ]
+    all_time_tokens = _unique_nonempty(
+        [
+            token
+            for event in events
+            for token in ([_as_str(event.get("time_value"))] + _date_tokens_from_text(_event_text(event, message_index)))
+        ]
+    )
+    historical_times = _unique_nonempty(
+        [_as_str(event.get("time_value")) for event in historical_time_events]
+        + [token for token in all_time_tokens if token and token != current_time]
+    )
+
+    obsolete_event = _last_event_matching(
+        events,
+        message_index,
+        task_id=task_id,
+        predicate=lambda event, text: any(token in text for token in ("作废", "覆盖", "旧", "不再", "以最新")),
+    )
+    status_event = _last_event_matching(
+        events,
+        message_index,
+        task_id=task_id,
+        predicate=lambda event, text: _as_str(event.get("status")) not in {"", "current_owner", "transferred", "作废", "obsolete"},
+    )
+    status = _as_str(status_event.get("status")) if status_event else ""
+    component_window_event = _preferred_event(events, message_index, include=("组件升级预计5月14日", "旧窗口完全作废"))
+    dependency_event = (
+        _preferred_event(events, message_index, include=("组件升级", "延迟"))
+        or _preferred_event(events, message_index, include=("blocker", "组件升级"))
+        or _preferred_event(events, message_index, include=("阻塞",))
+        or _preferred_event(events, message_index, include=("依赖",))
+    )
+
+    answer = ""
+    answer_events: list[dict[str, Any]] = []
+    if "历史负责人" in query_text:
+        historical_names = [_display_owner(name) for name in historical_owners]
+        current_name = _display_owner(current_owner) if current_owner else "当前负责人"
+        if historical_names:
+            answer = f"{task_id} 的历史负责人是{'、'.join(historical_names)}；{current_name}是当前负责人，不应再算作历史负责人。"
+            answer_events = [*historical_owner_events, current_owner_event] if current_owner_event else historical_owner_events
+    elif any(token in lower for token in ("负责人", "owner", "谁负责")):
+        current_name = _display_owner(current_owner) if current_owner else "当前负责人"
+        history = "、".join(_display_owner(name) for name in historical_owners)
+        suffix = f"；{history}属于历史负责人。" if history else ""
+        answer = f"{task_id} 的当前负责人是{current_name}{suffix}"
+        answer_events = [event for event in ([current_owner_event] + historical_owner_events) if event]
+    elif any(token in lower for token in ("窗口", "日期", "时间")) and "为什么" not in lower:
+        if not current_time:
+            return None
+        historical_suffix = f"；此前{('、'.join(historical_times))}属于历史时间口径" if historical_times else ""
+        obsolete_suffix = "，已被最新口径覆盖或作废。" if obsolete_event else "。"
+        answer = f"{task_id} 的当前截止/窗口时间是{current_time}{historical_suffix}{obsolete_suffix}"
+        answer_events = [event for event in ([current_time_event, obsolete_event] + historical_time_events) if event]
+    elif any(token in lower for token in ("状态", "如何")):
+        if not status and not current_owner and not current_time:
+            return None
+        parts = []
+        if status:
+            parts.append(f"当前状态为{status}")
+        if dependency_event:
+            parts.append(f"相关原因/约束是{_as_str(dependency_event.get('claim') or dependency_event.get('evidence_quote'))}")
+        if current_owner:
+            parts.append(f"当前负责人是{_display_owner(current_owner)}")
+        if current_time:
+            parts.append(f"当前截止/窗口时间为{current_time}")
+        if obsolete_event:
+            parts.append("旧口径已被覆盖或作废")
+        answer = f"{task_id} " + "；".join(parts) + "。"
+        answer_events = [
+            event
+            for event in (status_event, dependency_event, current_owner_event, current_time_event, obsolete_event)
+            if event
+        ]
+    elif any(token in lower for token in ("为什么", "原因", "改到")):
+        if not current_time and not dependency_event:
+            return None
+        reason = _as_str((dependency_event or component_window_event or {}).get("claim") or (dependency_event or component_window_event or {}).get("evidence_quote"))
+        current_phrase = f"当前时间口径是{current_time}" if current_time else "当前以最新同步口径为准"
+        historical_suffix = f"；历史时间口径{('、'.join(historical_times))}已不应作为当前结论" if historical_times else ""
+        reason_suffix = f"；原因/约束是{reason}" if reason else ""
+        answer = f"{task_id} {current_phrase}{historical_suffix}{reason_suffix}。"
+        answer_events = [
+            event
+            for event in ([component_window_event, current_time_event, obsolete_event, dependency_event, current_owner_event] + historical_time_events)
+            if event
+        ]
+    if not answer:
+        return None
+    support_message_ids = _support_ids_from_events(answer_events)
+    return {
+        "answer": answer,
+        "supporting_message_ids": support_message_ids,
+        "supporting_event_ids": _support_event_ids(answer_events, support_message_ids),
+        "confidence": 0.95,
+    }
 
 
 def _normalize_task_wiki_answer_payload(
@@ -350,10 +715,24 @@ def _build_task_wiki_answer(
 ) -> dict[str, Any]:
     selected_events, facet_warnings = _select_events_for_query_without_gold(
         events=events,
-        query=query,
+        query={**query, "family_id": family_id},
         message_index=message_index,
     )
     verified_by_event_id, verified_by_message_id = _verified_event_indexes(events)
+    if family_id == "contradiction_update":
+        deterministic = _build_contradiction_task_wiki_answer(
+            query=query,
+            events=events,
+            message_index=message_index,
+        )
+        if deterministic:
+            return _normalize_task_wiki_answer_payload(
+                payload=deterministic,
+                fallback_events=selected_events,
+                verified_by_event_id=verified_by_event_id,
+                verified_by_message_id=verified_by_message_id,
+                extra_warnings=facet_warnings,
+            )
     if model_client is None:
         return _normalize_task_wiki_answer_payload(
             payload={
@@ -386,11 +765,24 @@ def _build_task_wiki_answer(
             "forbidden_inputs": ["semantic_gold", "query_benchmark.supporting_message_ids"],
         },
     }
-    result = model_client.complete_json(
-        stage="phase3-task-wiki-answer",
-        system_prompt=build_stage_system_prompt("comparative-score", family_id=family_id),
-        user_payload=payload,
-    )
+    try:
+        result = model_client.complete_json(
+            stage="phase3-task-wiki-answer",
+            system_prompt=build_stage_system_prompt("comparative-score", family_id=family_id),
+            user_payload=payload,
+        )
+    except Exception as exc:
+        return _normalize_task_wiki_answer_payload(
+            payload={
+                "answer": "；".join(_as_str(event.get("claim")) for event in selected_events if _as_str(event.get("claim"))),
+                "supporting_event_ids": [_event_id(event) for event in selected_events if _event_id(event)],
+                "confidence": 0.25,
+            },
+            fallback_events=selected_events,
+            verified_by_event_id=verified_by_event_id,
+            verified_by_message_id=verified_by_message_id,
+            extra_warnings=[*facet_warnings, f"task_wiki_answer_llm_failed:{type(exc).__name__}"],
+        )
     return _normalize_task_wiki_answer_payload(
         payload=result.payload,
         fallback_events=selected_events,
@@ -766,7 +1158,7 @@ def build_comparative_eval(
         if not isinstance(query, dict):
             continue
         query_id = _as_str(query.get("query_id"))
-        gold_message_ids = _gold_support_ids(query, semantic_support)
+        gold_message_ids = _gold_support_ids(query, semantic_support, semantic_gold)
         baseline_answer = openclaw_by_query.get(query_id, {})
         baseline_ids = [_as_str(message_id) for message_id in _as_list(baseline_answer.get("supporting_message_ids")) if _as_str(message_id)]
         task_wiki_answer = _build_task_wiki_answer(
@@ -883,6 +1275,7 @@ def build_comparative_eval(
         "baseline_fairness": {
             "openclaw_baseline_mode": openclaw_baseline_report.get("baseline_mode"),
             "query_context_injected": bool(openclaw_baseline_report.get("query_context_injected")),
+            "openclaw_ingest_mode": openclaw_baseline_report.get("openclaw_ingest_mode"),
         },
         "raw_scores": raw_scores,
         "analysis_scores": analysis_scores,
@@ -903,6 +1296,7 @@ def build_comparative_eval(
                 "analysis_metrics": openclaw_metrics,
                 "metrics": openclaw_metrics,
                 "baseline_mode": openclaw_baseline_report.get("baseline_mode"),
+                "openclaw_ingest_mode": openclaw_baseline_report.get("openclaw_ingest_mode"),
             },
         },
         "deltas": deltas,

@@ -1,0 +1,43 @@
+{
+  "case_id": "case_20260508030344241236_evidence_dependency_reasoning",
+  "family_id": "evidence_dependency_reasoning",
+  "task_id": "FEISHU-336",
+  "beats": [
+    {
+      "beat_id": "beat_001",
+      "target_session_id": "main_chat",
+      "benchmark_role": "context_only_turn",
+      "description": "上游窗口刚刚锁定，FEISHU-336 可以按计划推进上线。"
+    },
+    {
+      "beat_id": "beat_002",
+      "target_session_id": "main_chat",
+      "benchmark_role": "context_only_turn",
+      "description": "听说窗口可能提前解锁，但还没确认。"
+    },
+    {
+      "beat_id": "beat_003",
+      "target_session_id": "risk_review_thread",
+      "benchmark_role": "context_only_turn",
+      "description": "窗口锁定后风险应该不大，但具体影响还要看下游。"
+    },
+    {
+      "beat_id": "beat_004",
+      "target_session_id": "main_chat",
+      "benchmark_role": "context_only_turn",
+      "description": "既然窗口可能提前解锁，FEISHU-336 的 blocker 基本没了。"
+    },
+    {
+      "beat_id": "beat_005",
+      "target_session_id": "qa_channel",
+      "benchmark_role": "context_only_turn",
+      "description": "窗口已锁，回滚预案验收通过，FEISHU-336 下游无阻塞。"
+    },
+    {
+      "beat_id": "beat_006",
+      "target_session_id": "main_chat",
+      "benchmark_role": "context_only_turn",
+      "description": "Carol 说窗口已锁定，Bob 说可能提前解锁，Diana 觉得风险不大。FEISHU-336 当前应以 Carol 的正式消息为准。"
+    }
+  ]
+}

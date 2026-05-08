@@ -1,0 +1,8 @@
+{
+  "case_id": "case_20260507104732829477_private_info_in_official_file",
+  "task_id": "FEISHU-477",
+  "seed": 20260507104732829477,
+  "difficulty": "hard",
+  "comparison_target": "default_memory_architectures",
+  "family_id": "private_info_in_official_file"
+}

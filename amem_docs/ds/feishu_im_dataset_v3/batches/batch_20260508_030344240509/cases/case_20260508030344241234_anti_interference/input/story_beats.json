@@ -1,0 +1,67 @@
+{
+  "case_id": "case_20260508030344241234_anti_interference",
+  "family_id": "anti_interference",
+  "task_id": "FEISHU-334",
+  "beats": [
+    {
+      "beat_id": "beat_001",
+      "target_session_id": "main_chat",
+      "benchmark_role": "memory_pollution_turn",
+      "description": "安全审查还没通过，FEISHU-334 的部署窗口暂不能定，等 Frank 的最终评审报告。"
+    },
+    {
+      "beat_id": "beat_002",
+      "target_session_id": "main_chat",
+      "benchmark_role": "memory_pollution_turn",
+      "description": "连安全环境还没就绪，FEISHU-334 的自动化部署脚本也无法测试。"
+    },
+    {
+      "beat_id": "beat_003",
+      "target_session_id": "doc_review_thread",
+      "benchmark_role": "memory_pollution_turn",
+      "description": "文档评审我基本看完了，就还有 compliance 那章需要 Heidi 补一份 checklist。"
+    },
+    {
+      "beat_id": "beat_004",
+      "target_session_id": "ops_rehearsal_thread",
+      "benchmark_role": "memory_pollution_turn",
+      "description": "运维排练的 blocker 是网络环境没准备好，Dave 在协调。"
+    },
+    {
+      "beat_id": "beat_005",
+      "target_session_id": "main_chat",
+      "benchmark_role": "memory_pollution_turn",
+      "description": "FEISHU-334 的测试用例已准备，但安全审查没通前我不会跑集成。"
+    },
+    {
+      "beat_id": "beat_006",
+      "target_session_id": "main_chat",
+      "benchmark_role": "memory_pollution_turn",
+      "description": "FEISHU-334 的 ops 部署计划已草拟，只等安全审查通过后确定窗口。"
+    },
+    {
+      "beat_id": "beat_007",
+      "target_session_id": "doc_review_thread",
+      "benchmark_role": "memory_pollution_turn",
+      "description": "FEISHU-334 的操作手册已更新，但文档评审任务本身还缺网络拓扑图。"
+    },
+    {
+      "beat_id": "beat_008",
+      "target_session_id": "security_review_thread",
+      "benchmark_role": "memory_pollution_turn",
+      "description": "FEISHU-334 的安全审查进展缓慢，关键模块还有三个风险项未关闭。"
+    },
+    {
+      "beat_id": "beat_009",
+      "target_session_id": "ops_rehearsal_thread",
+      "benchmark_role": "memory_pollution_turn",
+      "description": "运维排练的网络环境配置还在进行，预计下周可以就绪。"
+    },
+    {
+      "beat_id": "beat_010",
+      "target_session_id": "main_chat",
+      "benchmark_role": "memory_pollution_turn",
+      "description": "总结一下，FEISHU-334 目前由我主导，安全审查是唯一 blocker，部署窗口待定。其他任务的讨论不影响本任务。"
+    }
+  ]
+}

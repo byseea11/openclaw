@@ -3,6 +3,7 @@ from __future__ import annotations
 from typing import Any
 
 from ..schemas import validate_query_benchmark
+from .task_id_audit import validate_gold_task_ids
 
 
 def _as_text(value: Any) -> str:
@@ -131,6 +132,8 @@ def build_query_benchmark(
     story_plan: dict[str, Any],
     annotation_gold_rows: list[dict[str, Any]],
     semantic_gold: dict[str, Any] | None = None,
+    case_context: dict[str, Any] | None = None,
+    allowed_task_ids: set[str] | None = None,
 ) -> dict[str, Any]:
     semantic_support = _semantic_query_support(semantic_gold)
     queries: list[dict[str, Any]] = []
@@ -167,4 +170,13 @@ def build_query_benchmark(
         "family_id": family_id,
         "queries": queries,
     }
+    if case_context is not None:
+        issues = validate_gold_task_ids(
+            case_context=case_context,
+            query_benchmark=payload,
+            semantic_gold=None,
+            allowed_task_ids=allowed_task_ids,
+        )
+        if issues:
+            raise ValueError("; ".join(issues))
     return validate_query_benchmark(payload)

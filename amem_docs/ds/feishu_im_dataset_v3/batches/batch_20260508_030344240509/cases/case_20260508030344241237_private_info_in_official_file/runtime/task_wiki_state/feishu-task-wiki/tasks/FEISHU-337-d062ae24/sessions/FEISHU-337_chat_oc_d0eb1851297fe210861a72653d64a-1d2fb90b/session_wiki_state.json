@@ -1,0 +1,27 @@
+{
+  "version": 1,
+  "task_id": "task:FEISHU-337",
+  "task_key": "FEISHU-337",
+  "source_session_id": "task:FEISHU-337::chat:oc_d0eb1851297fe210861a72653d64a9e3",
+  "source_scope": "chat:oc_d0eb1851297fe210861a72653d64a9e3",
+  "source_type": "thread",
+  "source_id": "thread:handoff_thread",
+  "session_title": "task:FEISHU-337::chat:oc_d0eb1851297fe210861a72653d64a9e3",
+  "time_range": {
+    "start": "2026-05-08T04:03:08.115Z",
+    "end": "2026-05-08T04:03:08.719Z"
+  },
+  "participants": [
+    "Benchmark Root"
+  ],
+  "relative_page_path": "sessions/FEISHU-337_chat_oc_d0eb1851297fe210861a72653d64a-1d2fb90b/session_wiki.md",
+  "session_summary": "暂无内容",
+  "block_order": [],
+  "blocks": {},
+  "lifecycle_summary": {
+    "active_event_count": 0,
+    "historical_event_count": 0,
+    "invalid_event_count": 0
+  },
+  "updated_at": "2026-05-08T04:05:13.972Z"
+}

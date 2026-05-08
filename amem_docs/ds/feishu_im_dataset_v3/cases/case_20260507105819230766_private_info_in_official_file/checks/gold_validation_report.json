@@ -1,0 +1,11 @@
+{
+  "case_id": "case_20260507105819230766_private_info_in_official_file",
+  "status": "passed",
+  "annotation_count": 27,
+  "missing_message_ids": [],
+  "allowed_task_ids": [
+    "FEISHU-366"
+  ],
+  "task_id_issues": [],
+  "dataset_audit_status": "passed"
+}

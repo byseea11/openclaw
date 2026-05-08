@@ -1,0 +1,1264 @@
+{
+  "case_id": "case_20260508030344241234_anti_interference",
+  "family_id": "anti_interference",
+  "score_artifact": "phase3_score",
+  "baseline_fairness": {
+    "openclaw_baseline_mode": "openclaw_real_replay",
+    "query_context_injected": false,
+    "openclaw_ingest_mode": "case_transcript"
+  },
+  "raw_scores": {
+    "task_wiki_3_layer": {
+      "input": {
+        "ingress_count": 28,
+        "collected_message_count": 28
+      },
+      "layer1_binding": {
+        "binding_total": 28,
+        "binding_bound": 28,
+        "binding_rate": 1,
+        "target_task_binding_rate": 1,
+        "skipped_count": 0,
+        "status": "passed",
+        "score": 100,
+        "blocking_failures": [],
+        "warnings": []
+      },
+      "layer2_events": {
+        "ingested_count": 28,
+        "skipped_count": 0,
+        "candidate_events_returned_during_ingest": 30,
+        "verification_jobs_queued": 28,
+        "candidate_event_count": 30,
+        "verified_event_count": 27,
+        "verification_rate": 0.9,
+        "session_count": 4,
+        "sessions_with_events": 4,
+        "candidate_validation_breakdown": {
+          "ready_for_verification": 28,
+          "rejected": 2
+        },
+        "rejected_candidate_count": 2,
+        "ready_for_verification_count": 28,
+        "queued_verification_count": 28,
+        "rejection_reason_breakdown": {
+          "quote_location:missing_entry": 2
+        },
+        "missing_field_breakdown": {},
+        "status": "passed",
+        "score": 90,
+        "blocking_failures": [],
+        "warnings": []
+      },
+      "layer3_wiki": {
+        "task_root_count": 1,
+        "projected_task_count": 1,
+        "projection_rate": 1,
+        "projection_status": "projected",
+        "lint_result_count": 1,
+        "orphan_event_count": 0,
+        "missing_evidence_ref_count": 0,
+        "stale_claim_count": 0,
+        "quote_strength_count": 1,
+        "unresolved_objection_count": 0,
+        "overdue_commitment_count": 0,
+        "open_conflict_count": 0,
+        "orphan_block_count": 0,
+        "missing_cross_ref_count": 0,
+        "orphan_session_wiki_count": 0,
+        "lint_blocking_count": 0,
+        "lint_warning_count": 1,
+        "status": "passed",
+        "score": 100,
+        "blocking_failures": [],
+        "warnings": [
+          "layer3:lint_warnings_present"
+        ]
+      },
+      "overall": {
+        "status": "passed",
+        "blocking_failures": [],
+        "warnings": [
+          "layer3:lint_warnings_present"
+        ],
+        "health_score": 96.5
+      }
+    },
+    "openclaw_original": {
+      "query_success_rate": 0,
+      "evidence_output_rate": 0,
+      "evidence_trace_rate": 0,
+      "current_state_accuracy": 1,
+      "private_info_leak_rate": 0
+    }
+  },
+  "analysis_scores": {
+    "task_wiki_3_layer": {
+      "query_success_rate": 0.6667,
+      "evidence_output_rate": 1.0,
+      "evidence_precision": 0.8056,
+      "evidence_recall": 0.4167,
+      "safety_score": 0.6667,
+      "efficiency_score": 1.0,
+      "avg_answer_token_count": 65.0,
+      "avg_estimated_steps": 1.0,
+      "avg_estimated_time_seconds": 20.0,
+      "failure_reason_breakdown": {
+        "answer_incorrect": 1,
+        "distractor_leak": 2,
+        "evidence_does_not_support_answer": 1,
+        "missing_gold_evidence": 3,
+        "wrong_evidence_source": 2
+      }
+    },
+    "openclaw_original": {
+      "query_success_rate": 0.0,
+      "evidence_output_rate": 0.0,
+      "evidence_precision": 0.0,
+      "evidence_recall": 0.0,
+      "safety_score": 0.5,
+      "efficiency_score": 1.0,
+      "avg_answer_token_count": 53.33,
+      "avg_estimated_steps": 2.0,
+      "avg_estimated_time_seconds": 45.0,
+      "failure_reason_breakdown": {
+        "answer_incorrect": 3,
+        "distractor_leak": 3,
+        "missing_gold_evidence": 3,
+        "no_evidence_output": 3
+      }
+    }
+  },
+  "aggregate_scores": {
+    "task_wiki_3_layer": {
+      "query_success_rate": 0.6667,
+      "evidence_output_rate": 1.0,
+      "evidence_precision": 0.8056,
+      "evidence_recall": 0.4167,
+      "safety_score": 0.6667,
+      "efficiency_score": 1.0,
+      "avg_answer_token_count": 65.0,
+      "avg_estimated_steps": 1.0,
+      "avg_estimated_time_seconds": 20.0,
+      "failure_reason_breakdown": {
+        "answer_incorrect": 1,
+        "distractor_leak": 2,
+        "evidence_does_not_support_answer": 1,
+        "missing_gold_evidence": 3,
+        "wrong_evidence_source": 2
+      }
+    },
+    "openclaw_original": {
+      "query_success_rate": 0.0,
+      "evidence_output_rate": 0.0,
+      "evidence_precision": 0.0,
+      "evidence_recall": 0.0,
+      "safety_score": 0.5,
+      "efficiency_score": 1.0,
+      "avg_answer_token_count": 53.33,
+      "avg_estimated_steps": 2.0,
+      "avg_estimated_time_seconds": 45.0,
+      "failure_reason_breakdown": {
+        "answer_incorrect": 3,
+        "distractor_leak": 3,
+        "missing_gold_evidence": 3,
+        "no_evidence_output": 3
+      }
+    }
+  },
+  "per_query_scores": [
+    {
+      "query_id": "case_20260508030344241234_anti_interference_query_001",
+      "query": "FEISHU-334 当前的负责人是谁，还有哪些 blocker？",
+      "gold_supporting_message_ids": [
+        "om_x100b50e161e2e098c4a7d6ae43be6b8",
+        "om_x100b50e161f2dca4c22a575690d2c6f",
+        "om_x100b50e16195ac94c2e817c79608c7d",
+        "om_x100b50e17e5e54c8c2ec4e2b6bc8b01",
+        "om_x100b50e1612a98a8c4da805985b02aa",
+        "om_x100b50e161aac898c3fbbfeda5c94c5",
+        "om_x100b50e161b87c84c22f69108517a4a",
+        "om_x100b50e1614f0098c2148aeaec2ed5d"
+      ],
+      "systems": {
+        "task_wiki_3_layer": {
+          "system_id": "task_wiki_3_layer",
+          "query_id": "case_20260508030344241234_anti_interference_query_001",
+          "answer_text": "FEISHU-334 当前的负责人是王源，唯一的 blocker 是安全审查。",
+          "answer_correct": false,
+          "answer_judge": {
+            "answer_correct": false,
+            "evidence_supports_answer": false,
+            "private_info_leak": false,
+            "stale_value": false,
+            "reasons": [
+              "系统回答的负责人是王源，但语义金标准显示负责人是林晨（fact_008）。系统引用证据om_x100b50e1612a98a8c4da805985b02aa中林晨明确说'由我负责'，但系统却输出王源，自相矛盾。",
+              "系统引用的证据om_x100b50e16103ec9cc4cb8175a9d65d1中周宇同意'blocker只有安全审查'，但该消息本身并非正式结论，且与金标准中王源作为ops起草者的角色冲突。",
+              "系统未能正确识别target_owner为林晨，且将林晨之外的角色（王源）错误归为负责人，表明系统被共享actor噪声干扰。",
+              "证据om_x100b50e1612a98a8c4da805985b02aa被引用，但其内容支持林晨为负责人，系统却得出王源，证据使用有误。"
+            ]
+          },
+          "evidence": {
+            "output_message_ids": [
+              "om_x100b50e16103ec9cc4cb8175a9d65d1",
+              "om_x100b50e1612a98a8c4da805985b02aa",
+              "om_x100b50e161e2e098c4a7d6ae43be6b8"
+            ],
+            "gold_message_ids": [
+              "om_x100b50e1612a98a8c4da805985b02aa",
+              "om_x100b50e1614f0098c2148aeaec2ed5d",
+              "om_x100b50e16195ac94c2e817c79608c7d",
+              "om_x100b50e161aac898c3fbbfeda5c94c5",
+              "om_x100b50e161b87c84c22f69108517a4a",
+              "om_x100b50e161e2e098c4a7d6ae43be6b8",
+              "om_x100b50e161f2dca4c22a575690d2c6f",
+              "om_x100b50e17e5e54c8c2ec4e2b6bc8b01"
+            ],
+            "matched_message_ids": [
+              "om_x100b50e1612a98a8c4da805985b02aa",
+              "om_x100b50e161e2e098c4a7d6ae43be6b8"
+            ],
+            "wrong_message_ids": [
+              "om_x100b50e16103ec9cc4cb8175a9d65d1"
+            ],
+            "evidence_output": true,
+            "evidence_precision": 0.6667,
+            "evidence_recall": 0.25,
+            "evidence_task_relevance": false,
+            "evidence_temporal_correctness": true,
+            "evidence_chain_completeness": 0.25,
+            "evidence_private_info_safety": true,
+            "official_evidence_citation_rate": 0.6667
+          },
+          "scores": {
+            "answer_score": 0.0,
+            "evidence_score": 0.4583,
+            "safety_score": 0.5,
+            "efficiency_score": 1.0,
+            "answer_token_count": 39,
+            "estimated_steps": 1,
+            "estimated_time_seconds": 20
+          },
+          "failure_reasons": [
+            "answer_incorrect",
+            "wrong_evidence_source",
+            "missing_gold_evidence",
+            "distractor_leak",
+            "evidence_does_not_support_answer"
+          ],
+          "task_wiki_answer_adapter": {
+            "supporting_event_ids": [
+              "evt_4cf107b9dc78a991",
+              "evt_e325376ba5002434",
+              "evt_f4446fee75e72cb2"
+            ],
+            "confidence": 0.9,
+            "validation_warnings": []
+          }
+        },
+        "openclaw_original": {
+          "system_id": "openclaw_original",
+          "query_id": "case_20260508030344241234_anti_interference_query_001",
+          "answer_text": "当前记忆中未查询到与FEISHU-334任务相关的任何信息，无法提供其负责人及阻塞问题的内容。",
+          "answer_correct": false,
+          "answer_judge": {
+            "answer_correct": false,
+            "evidence_supports_answer": false,
+            "private_info_leak": false,
+            "stale_value": false,
+            "reasons": [
+              "系统未能提供任何关于FEISHU-334的有效信息，声称未查询到相关信息，但实际observed messages中包含充分的支持证据。",
+              "系统未输出任何证据消息ID，evidence_output_rate为0。",
+              "正确答案应为：负责人是林晨，blocker是安全审查未通过（三个风险项未关闭），部署窗口待定。"
+            ]
+          },
+          "evidence": {
+            "output_message_ids": [],
+            "gold_message_ids": [
+              "om_x100b50e1612a98a8c4da805985b02aa",
+              "om_x100b50e1614f0098c2148aeaec2ed5d",
+              "om_x100b50e16195ac94c2e817c79608c7d",
+              "om_x100b50e161aac898c3fbbfeda5c94c5",
+              "om_x100b50e161b87c84c22f69108517a4a",
+              "om_x100b50e161e2e098c4a7d6ae43be6b8",
+              "om_x100b50e161f2dca4c22a575690d2c6f",
+              "om_x100b50e17e5e54c8c2ec4e2b6bc8b01"
+            ],
+            "matched_message_ids": [],
+            "wrong_message_ids": [],
+            "evidence_output": false,
+            "evidence_precision": 0.0,
+            "evidence_recall": 0.0,
+            "evidence_task_relevance": false,
+            "evidence_temporal_correctness": true,
+            "evidence_chain_completeness": 0.0,
+            "evidence_private_info_safety": true,
+            "official_evidence_citation_rate": 0.0
+          },
+          "scores": {
+            "answer_score": 0.0,
+            "evidence_score": 0.0,
+            "safety_score": 0.5,
+            "efficiency_score": 1.0,
+            "answer_token_count": 47,
+            "estimated_steps": 2,
+            "estimated_time_seconds": 45
+          },
+          "failure_reasons": [
+            "answer_incorrect",
+            "no_evidence_output",
+            "missing_gold_evidence",
+            "distractor_leak"
+          ]
+        }
+      }
+    },
+    {
+      "query_id": "case_20260508030344241234_anti_interference_query_002",
+      "query": "FEISHU-334 的当前状态是什么？是否已准备就绪？",
+      "gold_supporting_message_ids": [
+        "om_x100b50e161e2e098c4a7d6ae43be6b8",
+        "om_x100b50e16195ac94c2e817c79608c7d",
+        "om_x100b50e161f2dca4c22a575690d2c6f",
+        "om_x100b50e161aac898c3fbbfeda5c94c5",
+        "om_x100b50e161b87c84c22f69108517a4a",
+        "om_x100b50e1614f0098c2148aeaec2ed5d",
+        "om_x100b50e17e5e54c8c2ec4e2b6bc8b01",
+        "om_x100b50e1612a98a8c4da805985b02aa"
+      ],
+      "systems": {
+        "task_wiki_3_layer": {
+          "system_id": "task_wiki_3_layer",
+          "query_id": "case_20260508030344241234_anti_interference_query_002",
+          "answer_text": "FEISHU-334 当前尚未准备就绪。安全审查还未通过，三个风险项未关闭，部署窗口待定，自动化部署脚本也无法测试。",
+          "answer_correct": true,
+          "answer_judge": {
+            "answer_correct": true,
+            "evidence_supports_answer": true,
+            "private_info_leak": false,
+            "stale_value": false,
+            "reasons": [
+              "Answer correctly states FEISHU-334 is not ready due to pending security review, unresolved risks, and no deployment window.",
+              "All cited evidence messages directly support the answer and are relevant to the target task.",
+              "No evidence from interference contexts (e.g., Eve's doc review, Grace's rehearsal) was used.",
+              "Evidence includes current information, no stale values.",
+              "No private/personal info leaked."
+            ]
+          },
+          "evidence": {
+            "output_message_ids": [
+              "om_x100b50e16195ac94c2e817c79608c7d",
+              "om_x100b50e161aac898c3fbbfeda5c94c5",
+              "om_x100b50e161b87c84c22f69108517a4a",
+              "om_x100b50e161e2e098c4a7d6ae43be6b8",
+              "om_x100b50e161f2dca4c22a575690d2c6f"
+            ],
+            "gold_message_ids": [
+              "om_x100b50e1612a98a8c4da805985b02aa",
+              "om_x100b50e1614f0098c2148aeaec2ed5d",
+              "om_x100b50e16195ac94c2e817c79608c7d",
+              "om_x100b50e161aac898c3fbbfeda5c94c5",
+              "om_x100b50e161b87c84c22f69108517a4a",
+              "om_x100b50e161e2e098c4a7d6ae43be6b8",
+              "om_x100b50e161f2dca4c22a575690d2c6f",
+              "om_x100b50e17e5e54c8c2ec4e2b6bc8b01"
+            ],
+            "matched_message_ids": [
+              "om_x100b50e16195ac94c2e817c79608c7d",
+              "om_x100b50e161aac898c3fbbfeda5c94c5",
+              "om_x100b50e161b87c84c22f69108517a4a",
+              "om_x100b50e161e2e098c4a7d6ae43be6b8",
+              "om_x100b50e161f2dca4c22a575690d2c6f"
+            ],
+            "wrong_message_ids": [],
+            "evidence_output": true,
+            "evidence_precision": 1.0,
+            "evidence_recall": 0.625,
+            "evidence_task_relevance": true,
+            "evidence_temporal_correctness": true,
+            "evidence_chain_completeness": 0.625,
+            "evidence_private_info_safety": true,
+            "official_evidence_citation_rate": 1.0
+          },
+          "scores": {
+            "answer_score": 1.0,
+            "evidence_score": 0.8125,
+            "safety_score": 1.0,
+            "efficiency_score": 1.0,
+            "answer_token_count": 58,
+            "estimated_steps": 1,
+            "estimated_time_seconds": 20
+          },
+          "failure_reasons": [
+            "missing_gold_evidence"
+          ],
+          "task_wiki_answer_adapter": {
+            "supporting_event_ids": [
+              "evt_4cf107b9dc78a991",
+              "evt_2d6a35370746cb07",
+              "evt_0c079da7157a0984",
+              "evt_bf835bd9b1fb8ee8",
+              "evt_a9617a93e5db210f",
+              "evt_7bb161f00af7f5b7"
+            ],
+            "confidence": 0.95,
+            "validation_warnings": []
+          }
+        },
+        "openclaw_original": {
+          "system_id": "openclaw_original",
+          "query_id": "case_20260508030344241234_anti_interference_query_002",
+          "answer_text": "在当前已有的OpenClaw原生记忆中未查询到FEISHU-334相关的任务信息，无法确认其当前状态以及是否已准备就绪。",
+          "answer_correct": false,
+          "answer_judge": {
+            "answer_correct": false,
+            "evidence_supports_answer": false,
+            "private_info_leak": false,
+            "stale_value": false,
+            "reasons": [
+              "The answer claims no information about FEISHU-334, but the observed messages contain multiple clear statements about its status (safety review not passed, deployment window undecided). The system should have extracted and answered correctly.",
+              "The answer fails to reference any evidence despite the semantic gold specifying required supporting message IDs.",
+              "The system's memory retrieval failed, likely due to interference from parallel discussions (document review, ops rehearsal) or incomplete event extraction in the OpenClaw pipeline.",
+              "No evidence was output, so evidence correctness cannot be assessed. The answer does not support the expected good behavior of stating 'not ready' with reasons."
+            ]
+          },
+          "evidence": {
+            "output_message_ids": [],
+            "gold_message_ids": [
+              "om_x100b50e1612a98a8c4da805985b02aa",
+              "om_x100b50e1614f0098c2148aeaec2ed5d",
+              "om_x100b50e16195ac94c2e817c79608c7d",
+              "om_x100b50e161aac898c3fbbfeda5c94c5",
+              "om_x100b50e161b87c84c22f69108517a4a",
+              "om_x100b50e161e2e098c4a7d6ae43be6b8",
+              "om_x100b50e161f2dca4c22a575690d2c6f",
+              "om_x100b50e17e5e54c8c2ec4e2b6bc8b01"
+            ],
+            "matched_message_ids": [],
+            "wrong_message_ids": [],
+            "evidence_output": false,
+            "evidence_precision": 0.0,
+            "evidence_recall": 0.0,
+            "evidence_task_relevance": false,
+            "evidence_temporal_correctness": true,
+            "evidence_chain_completeness": 0.0,
+            "evidence_private_info_safety": true,
+            "official_evidence_citation_rate": 0.0
+          },
+          "scores": {
+            "answer_score": 0.0,
+            "evidence_score": 0.0,
+            "safety_score": 0.5,
+            "efficiency_score": 1.0,
+            "answer_token_count": 60,
+            "estimated_steps": 2,
+            "estimated_time_seconds": 45
+          },
+          "failure_reasons": [
+            "answer_incorrect",
+            "no_evidence_output",
+            "missing_gold_evidence",
+            "distractor_leak"
+          ]
+        }
+      }
+    },
+    {
+      "query_id": "case_20260508030344241234_anti_interference_query_003",
+      "query": "哪些因素阻碍了 FEISHU-334 的部署？",
+      "gold_supporting_message_ids": [
+        "om_x100b50e161e2e098c4a7d6ae43be6b8",
+        "om_x100b50e161f2dca4c22a575690d2c6f",
+        "om_x100b50e17e5e54c8c2ec4e2b6bc8b01",
+        "om_x100b50e1612a98a8c4da805985b02aa",
+        "om_x100b50e16195ac94c2e817c79608c7d",
+        "om_x100b50e161aac898c3fbbfeda5c94c5",
+        "om_x100b50e161b87c84c22f69108517a4a",
+        "om_x100b50e1614f0098c2148aeaec2ed5d"
+      ],
+      "systems": {
+        "task_wiki_3_layer": {
+          "system_id": "task_wiki_3_layer",
+          "query_id": "case_20260508030344241234_anti_interference_query_003",
+          "answer_text": "目前阻碍 FEISHU-334 部署的唯一因素是安全审查尚未通过，这导致部署窗口暂不定，同时自动化部署脚本也无法在安全环境就绪前进行测试。运维排练的阻塞（网络环境）与 FEISHU-334 无关。",
+          "answer_correct": true,
+          "answer_judge": {
+            "answer_correct": true,
+            "evidence_supports_answer": true,
+            "private_info_leak": false,
+            "stale_value": false,
+            "reasons": [
+              "Answer correctly identifies security review as the only blocker for FEISHU-334 deployment.",
+              "Answer explicitly excludes unrelated blockers (e.g., network environment for ops rehearsal).",
+              "All cited evidence messages directly support the claim that security review is the sole blocker.",
+              "No private information is leaked in the answer.",
+              "Evidence messages are current and not stale."
+            ]
+          },
+          "evidence": {
+            "output_message_ids": [
+              "om_x100b50e16103ec9cc4cb8175a9d65d1",
+              "om_x100b50e1612a98a8c4da805985b02aa",
+              "om_x100b50e161e2e098c4a7d6ae43be6b8",
+              "om_x100b50e161f2dca4c22a575690d2c6f"
+            ],
+            "gold_message_ids": [
+              "om_x100b50e1612a98a8c4da805985b02aa",
+              "om_x100b50e1614f0098c2148aeaec2ed5d",
+              "om_x100b50e16195ac94c2e817c79608c7d",
+              "om_x100b50e161aac898c3fbbfeda5c94c5",
+              "om_x100b50e161b87c84c22f69108517a4a",
+              "om_x100b50e161e2e098c4a7d6ae43be6b8",
+              "om_x100b50e161f2dca4c22a575690d2c6f",
+              "om_x100b50e17e5e54c8c2ec4e2b6bc8b01"
+            ],
+            "matched_message_ids": [
+              "om_x100b50e1612a98a8c4da805985b02aa",
+              "om_x100b50e161e2e098c4a7d6ae43be6b8",
+              "om_x100b50e161f2dca4c22a575690d2c6f"
+            ],
+            "wrong_message_ids": [
+              "om_x100b50e16103ec9cc4cb8175a9d65d1"
+            ],
+            "evidence_output": true,
+            "evidence_precision": 0.75,
+            "evidence_recall": 0.375,
+            "evidence_task_relevance": false,
+            "evidence_temporal_correctness": true,
+            "evidence_chain_completeness": 0.375,
+            "evidence_private_info_safety": true,
+            "official_evidence_citation_rate": 0.75
+          },
+          "scores": {
+            "answer_score": 1.0,
+            "evidence_score": 0.5625,
+            "safety_score": 0.5,
+            "efficiency_score": 1.0,
+            "answer_token_count": 98,
+            "estimated_steps": 1,
+            "estimated_time_seconds": 20
+          },
+          "failure_reasons": [
+            "wrong_evidence_source",
+            "missing_gold_evidence",
+            "distractor_leak"
+          ],
+          "task_wiki_answer_adapter": {
+            "supporting_event_ids": [
+              "evt_4cf107b9dc78a991",
+              "evt_2d6a35370746cb07",
+              "evt_e325376ba5002434",
+              "evt_f4446fee75e72cb2",
+              "evt_bf835bd9b1fb8ee8"
+            ],
+            "confidence": 0.95,
+            "validation_warnings": []
+          }
+        },
+        "openclaw_original": {
+          "system_id": "openclaw_original",
+          "query_id": "case_20260508030344241234_anti_interference_query_003",
+          "answer_text": "当前OpenClaw原生记忆中未记录任何与FEISHU-334任务相关的信息，无法查询到阻碍其部署的因素。",
+          "answer_correct": false,
+          "answer_judge": {
+            "answer_correct": false,
+            "evidence_supports_answer": false,
+            "private_info_leak": false,
+            "stale_value": false,
+            "reasons": [
+              "系统未给出任何事实性答案，仅声明无法查询到信息，与semantic gold中明确存在的多条证据矛盾。",
+              "系统未输出任何evidence message ids，无法支撑答案。",
+              "semantic gold中有8条相关事实，均指向安全审查未通过是唯一 blocker。系统应检索到这些信息并正确回答。"
+            ]
+          },
+          "evidence": {
+            "output_message_ids": [],
+            "gold_message_ids": [
+              "om_x100b50e1612a98a8c4da805985b02aa",
+              "om_x100b50e1614f0098c2148aeaec2ed5d",
+              "om_x100b50e16195ac94c2e817c79608c7d",
+              "om_x100b50e161aac898c3fbbfeda5c94c5",
+              "om_x100b50e161b87c84c22f69108517a4a",
+              "om_x100b50e161e2e098c4a7d6ae43be6b8",
+              "om_x100b50e161f2dca4c22a575690d2c6f",
+              "om_x100b50e17e5e54c8c2ec4e2b6bc8b01"
+            ],
+            "matched_message_ids": [],
+            "wrong_message_ids": [],
+            "evidence_output": false,
+            "evidence_precision": 0.0,
+            "evidence_recall": 0.0,
+            "evidence_task_relevance": false,
+            "evidence_temporal_correctness": true,
+            "evidence_chain_completeness": 0.0,
+            "evidence_private_info_safety": true,
+            "official_evidence_citation_rate": 0.0
+          },
+          "scores": {
+            "answer_score": 0.0,
+            "evidence_score": 0.0,
+            "safety_score": 0.5,
+            "efficiency_score": 1.0,
+            "answer_token_count": 53,
+            "estimated_steps": 2,
+            "estimated_time_seconds": 45
+          },
+          "failure_reasons": [
+            "answer_incorrect",
+            "no_evidence_output",
+            "missing_gold_evidence",
+            "distractor_leak"
+          ]
+        }
+      }
+    }
+  ],
+  "failure_reason_breakdown": {
+    "task_wiki_3_layer": {
+      "answer_incorrect": 1,
+      "distractor_leak": 2,
+      "evidence_does_not_support_answer": 1,
+      "missing_gold_evidence": 3,
+      "wrong_evidence_source": 2
+    },
+    "openclaw_original": {
+      "answer_incorrect": 3,
+      "distractor_leak": 3,
+      "missing_gold_evidence": 3,
+      "no_evidence_output": 3
+    }
+  },
+  "evidence_metrics": {
+    "task_wiki_3_layer": {
+      "evidence_output_rate": 1.0,
+      "evidence_precision": 0.8056,
+      "evidence_recall": 0.4167
+    },
+    "openclaw_original": {
+      "evidence_output_rate": 0.0,
+      "evidence_precision": 0.0,
+      "evidence_recall": 0.0
+    }
+  },
+  "systems": {
+    "task_wiki_3_layer": {
+      "source": "runtime/task_wiki_replay",
+      "raw_metrics": {
+        "input": {
+          "ingress_count": 28,
+          "collected_message_count": 28
+        },
+        "layer1_binding": {
+          "binding_total": 28,
+          "binding_bound": 28,
+          "binding_rate": 1,
+          "target_task_binding_rate": 1,
+          "skipped_count": 0,
+          "status": "passed",
+          "score": 100,
+          "blocking_failures": [],
+          "warnings": []
+        },
+        "layer2_events": {
+          "ingested_count": 28,
+          "skipped_count": 0,
+          "candidate_events_returned_during_ingest": 30,
+          "verification_jobs_queued": 28,
+          "candidate_event_count": 30,
+          "verified_event_count": 27,
+          "verification_rate": 0.9,
+          "session_count": 4,
+          "sessions_with_events": 4,
+          "candidate_validation_breakdown": {
+            "ready_for_verification": 28,
+            "rejected": 2
+          },
+          "rejected_candidate_count": 2,
+          "ready_for_verification_count": 28,
+          "queued_verification_count": 28,
+          "rejection_reason_breakdown": {
+            "quote_location:missing_entry": 2
+          },
+          "missing_field_breakdown": {},
+          "status": "passed",
+          "score": 90,
+          "blocking_failures": [],
+          "warnings": []
+        },
+        "layer3_wiki": {
+          "task_root_count": 1,
+          "projected_task_count": 1,
+          "projection_rate": 1,
+          "projection_status": "projected",
+          "lint_result_count": 1,
+          "orphan_event_count": 0,
+          "missing_evidence_ref_count": 0,
+          "stale_claim_count": 0,
+          "quote_strength_count": 1,
+          "unresolved_objection_count": 0,
+          "overdue_commitment_count": 0,
+          "open_conflict_count": 0,
+          "orphan_block_count": 0,
+          "missing_cross_ref_count": 0,
+          "orphan_session_wiki_count": 0,
+          "lint_blocking_count": 0,
+          "lint_warning_count": 1,
+          "status": "passed",
+          "score": 100,
+          "blocking_failures": [],
+          "warnings": [
+            "layer3:lint_warnings_present"
+          ]
+        },
+        "overall": {
+          "status": "passed",
+          "blocking_failures": [],
+          "warnings": [
+            "layer3:lint_warnings_present"
+          ],
+          "health_score": 96.5
+        }
+      },
+      "analysis_metrics": {
+        "query_success_rate": 0.6667,
+        "evidence_output_rate": 1.0,
+        "evidence_precision": 0.8056,
+        "evidence_recall": 0.4167,
+        "safety_score": 0.6667,
+        "efficiency_score": 1.0,
+        "avg_answer_token_count": 65.0,
+        "avg_estimated_steps": 1.0,
+        "avg_estimated_time_seconds": 20.0,
+        "failure_reason_breakdown": {
+          "answer_incorrect": 1,
+          "distractor_leak": 2,
+          "evidence_does_not_support_answer": 1,
+          "missing_gold_evidence": 3,
+          "wrong_evidence_source": 2
+        }
+      },
+      "metrics": {
+        "query_success_rate": 0.6667,
+        "evidence_output_rate": 1.0,
+        "evidence_precision": 0.8056,
+        "evidence_recall": 0.4167,
+        "safety_score": 0.6667,
+        "efficiency_score": 1.0,
+        "avg_answer_token_count": 65.0,
+        "avg_estimated_steps": 1.0,
+        "avg_estimated_time_seconds": 20.0,
+        "failure_reason_breakdown": {
+          "answer_incorrect": 1,
+          "distractor_leak": 2,
+          "evidence_does_not_support_answer": 1,
+          "missing_gold_evidence": 3,
+          "wrong_evidence_source": 2
+        }
+      }
+    },
+    "openclaw_original": {
+      "source": "runtime/openclaw_baseline",
+      "raw_metrics": {
+        "query_success_rate": 0,
+        "evidence_output_rate": 0,
+        "evidence_trace_rate": 0,
+        "current_state_accuracy": 1,
+        "private_info_leak_rate": 0
+      },
+      "analysis_metrics": {
+        "query_success_rate": 0.0,
+        "evidence_output_rate": 0.0,
+        "evidence_precision": 0.0,
+        "evidence_recall": 0.0,
+        "safety_score": 0.5,
+        "efficiency_score": 1.0,
+        "avg_answer_token_count": 53.33,
+        "avg_estimated_steps": 2.0,
+        "avg_estimated_time_seconds": 45.0,
+        "failure_reason_breakdown": {
+          "answer_incorrect": 3,
+          "distractor_leak": 3,
+          "missing_gold_evidence": 3,
+          "no_evidence_output": 3
+        }
+      },
+      "metrics": {
+        "query_success_rate": 0.0,
+        "evidence_output_rate": 0.0,
+        "evidence_precision": 0.0,
+        "evidence_recall": 0.0,
+        "safety_score": 0.5,
+        "efficiency_score": 1.0,
+        "avg_answer_token_count": 53.33,
+        "avg_estimated_steps": 2.0,
+        "avg_estimated_time_seconds": 45.0,
+        "failure_reason_breakdown": {
+          "answer_incorrect": 3,
+          "distractor_leak": 3,
+          "missing_gold_evidence": 3,
+          "no_evidence_output": 3
+        }
+      },
+      "baseline_mode": "openclaw_real_replay",
+      "openclaw_ingest_mode": "case_transcript"
+    }
+  },
+  "deltas": {
+    "query_success_rate_delta": 0.6667,
+    "evidence_precision_delta": 0.8056,
+    "estimated_steps_saved": 1.0,
+    "estimated_time_saved_seconds": 25.0
+  },
+  "query_results": [
+    {
+      "query_id": "case_20260508030344241234_anti_interference_query_001",
+      "query": "FEISHU-334 当前的负责人是谁，还有哪些 blocker？",
+      "gold_supporting_message_ids": [
+        "om_x100b50e161e2e098c4a7d6ae43be6b8",
+        "om_x100b50e161f2dca4c22a575690d2c6f",
+        "om_x100b50e16195ac94c2e817c79608c7d",
+        "om_x100b50e17e5e54c8c2ec4e2b6bc8b01",
+        "om_x100b50e1612a98a8c4da805985b02aa",
+        "om_x100b50e161aac898c3fbbfeda5c94c5",
+        "om_x100b50e161b87c84c22f69108517a4a",
+        "om_x100b50e1614f0098c2148aeaec2ed5d"
+      ],
+      "systems": {
+        "task_wiki_3_layer": {
+          "system_id": "task_wiki_3_layer",
+          "query_id": "case_20260508030344241234_anti_interference_query_001",
+          "answer_text": "FEISHU-334 当前的负责人是王源，唯一的 blocker 是安全审查。",
+          "answer_correct": false,
+          "answer_judge": {
+            "answer_correct": false,
+            "evidence_supports_answer": false,
+            "private_info_leak": false,
+            "stale_value": false,
+            "reasons": [
+              "系统回答的负责人是王源，但语义金标准显示负责人是林晨（fact_008）。系统引用证据om_x100b50e1612a98a8c4da805985b02aa中林晨明确说'由我负责'，但系统却输出王源，自相矛盾。",
+              "系统引用的证据om_x100b50e16103ec9cc4cb8175a9d65d1中周宇同意'blocker只有安全审查'，但该消息本身并非正式结论，且与金标准中王源作为ops起草者的角色冲突。",
+              "系统未能正确识别target_owner为林晨，且将林晨之外的角色（王源）错误归为负责人，表明系统被共享actor噪声干扰。",
+              "证据om_x100b50e1612a98a8c4da805985b02aa被引用，但其内容支持林晨为负责人，系统却得出王源，证据使用有误。"
+            ]
+          },
+          "evidence": {
+            "output_message_ids": [
+              "om_x100b50e16103ec9cc4cb8175a9d65d1",
+              "om_x100b50e1612a98a8c4da805985b02aa",
+              "om_x100b50e161e2e098c4a7d6ae43be6b8"
+            ],
+            "gold_message_ids": [
+              "om_x100b50e1612a98a8c4da805985b02aa",
+              "om_x100b50e1614f0098c2148aeaec2ed5d",
+              "om_x100b50e16195ac94c2e817c79608c7d",
+              "om_x100b50e161aac898c3fbbfeda5c94c5",
+              "om_x100b50e161b87c84c22f69108517a4a",
+              "om_x100b50e161e2e098c4a7d6ae43be6b8",
+              "om_x100b50e161f2dca4c22a575690d2c6f",
+              "om_x100b50e17e5e54c8c2ec4e2b6bc8b01"
+            ],
+            "matched_message_ids": [
+              "om_x100b50e1612a98a8c4da805985b02aa",
+              "om_x100b50e161e2e098c4a7d6ae43be6b8"
+            ],
+            "wrong_message_ids": [
+              "om_x100b50e16103ec9cc4cb8175a9d65d1"
+            ],
+            "evidence_output": true,
+            "evidence_precision": 0.6667,
+            "evidence_recall": 0.25,
+            "evidence_task_relevance": false,
+            "evidence_temporal_correctness": true,
+            "evidence_chain_completeness": 0.25,
+            "evidence_private_info_safety": true,
+            "official_evidence_citation_rate": 0.6667
+          },
+          "scores": {
+            "answer_score": 0.0,
+            "evidence_score": 0.4583,
+            "safety_score": 0.5,
+            "efficiency_score": 1.0,
+            "answer_token_count": 39,
+            "estimated_steps": 1,
+            "estimated_time_seconds": 20
+          },
+          "failure_reasons": [
+            "answer_incorrect",
+            "wrong_evidence_source",
+            "missing_gold_evidence",
+            "distractor_leak",
+            "evidence_does_not_support_answer"
+          ],
+          "task_wiki_answer_adapter": {
+            "supporting_event_ids": [
+              "evt_4cf107b9dc78a991",
+              "evt_e325376ba5002434",
+              "evt_f4446fee75e72cb2"
+            ],
+            "confidence": 0.9,
+            "validation_warnings": []
+          }
+        },
+        "openclaw_original": {
+          "system_id": "openclaw_original",
+          "query_id": "case_20260508030344241234_anti_interference_query_001",
+          "answer_text": "当前记忆中未查询到与FEISHU-334任务相关的任何信息，无法提供其负责人及阻塞问题的内容。",
+          "answer_correct": false,
+          "answer_judge": {
+            "answer_correct": false,
+            "evidence_supports_answer": false,
+            "private_info_leak": false,
+            "stale_value": false,
+            "reasons": [
+              "系统未能提供任何关于FEISHU-334的有效信息，声称未查询到相关信息，但实际observed messages中包含充分的支持证据。",
+              "系统未输出任何证据消息ID，evidence_output_rate为0。",
+              "正确答案应为：负责人是林晨，blocker是安全审查未通过（三个风险项未关闭），部署窗口待定。"
+            ]
+          },
+          "evidence": {
+            "output_message_ids": [],
+            "gold_message_ids": [
+              "om_x100b50e1612a98a8c4da805985b02aa",
+              "om_x100b50e1614f0098c2148aeaec2ed5d",
+              "om_x100b50e16195ac94c2e817c79608c7d",
+              "om_x100b50e161aac898c3fbbfeda5c94c5",
+              "om_x100b50e161b87c84c22f69108517a4a",
+              "om_x100b50e161e2e098c4a7d6ae43be6b8",
+              "om_x100b50e161f2dca4c22a575690d2c6f",
+              "om_x100b50e17e5e54c8c2ec4e2b6bc8b01"
+            ],
+            "matched_message_ids": [],
+            "wrong_message_ids": [],
+            "evidence_output": false,
+            "evidence_precision": 0.0,
+            "evidence_recall": 0.0,
+            "evidence_task_relevance": false,
+            "evidence_temporal_correctness": true,
+            "evidence_chain_completeness": 0.0,
+            "evidence_private_info_safety": true,
+            "official_evidence_citation_rate": 0.0
+          },
+          "scores": {
+            "answer_score": 0.0,
+            "evidence_score": 0.0,
+            "safety_score": 0.5,
+            "efficiency_score": 1.0,
+            "answer_token_count": 47,
+            "estimated_steps": 2,
+            "estimated_time_seconds": 45
+          },
+          "failure_reasons": [
+            "answer_incorrect",
+            "no_evidence_output",
+            "missing_gold_evidence",
+            "distractor_leak"
+          ]
+        }
+      }
+    },
+    {
+      "query_id": "case_20260508030344241234_anti_interference_query_002",
+      "query": "FEISHU-334 的当前状态是什么？是否已准备就绪？",
+      "gold_supporting_message_ids": [
+        "om_x100b50e161e2e098c4a7d6ae43be6b8",
+        "om_x100b50e16195ac94c2e817c79608c7d",
+        "om_x100b50e161f2dca4c22a575690d2c6f",
+        "om_x100b50e161aac898c3fbbfeda5c94c5",
+        "om_x100b50e161b87c84c22f69108517a4a",
+        "om_x100b50e1614f0098c2148aeaec2ed5d",
+        "om_x100b50e17e5e54c8c2ec4e2b6bc8b01",
+        "om_x100b50e1612a98a8c4da805985b02aa"
+      ],
+      "systems": {
+        "task_wiki_3_layer": {
+          "system_id": "task_wiki_3_layer",
+          "query_id": "case_20260508030344241234_anti_interference_query_002",
+          "answer_text": "FEISHU-334 当前尚未准备就绪。安全审查还未通过，三个风险项未关闭，部署窗口待定，自动化部署脚本也无法测试。",
+          "answer_correct": true,
+          "answer_judge": {
+            "answer_correct": true,
+            "evidence_supports_answer": true,
+            "private_info_leak": false,
+            "stale_value": false,
+            "reasons": [
+              "Answer correctly states FEISHU-334 is not ready due to pending security review, unresolved risks, and no deployment window.",
+              "All cited evidence messages directly support the answer and are relevant to the target task.",
+              "No evidence from interference contexts (e.g., Eve's doc review, Grace's rehearsal) was used.",
+              "Evidence includes current information, no stale values.",
+              "No private/personal info leaked."
+            ]
+          },
+          "evidence": {
+            "output_message_ids": [
+              "om_x100b50e16195ac94c2e817c79608c7d",
+              "om_x100b50e161aac898c3fbbfeda5c94c5",
+              "om_x100b50e161b87c84c22f69108517a4a",
+              "om_x100b50e161e2e098c4a7d6ae43be6b8",
+              "om_x100b50e161f2dca4c22a575690d2c6f"
+            ],
+            "gold_message_ids": [
+              "om_x100b50e1612a98a8c4da805985b02aa",
+              "om_x100b50e1614f0098c2148aeaec2ed5d",
+              "om_x100b50e16195ac94c2e817c79608c7d",
+              "om_x100b50e161aac898c3fbbfeda5c94c5",
+              "om_x100b50e161b87c84c22f69108517a4a",
+              "om_x100b50e161e2e098c4a7d6ae43be6b8",
+              "om_x100b50e161f2dca4c22a575690d2c6f",
+              "om_x100b50e17e5e54c8c2ec4e2b6bc8b01"
+            ],
+            "matched_message_ids": [
+              "om_x100b50e16195ac94c2e817c79608c7d",
+              "om_x100b50e161aac898c3fbbfeda5c94c5",
+              "om_x100b50e161b87c84c22f69108517a4a",
+              "om_x100b50e161e2e098c4a7d6ae43be6b8",
+              "om_x100b50e161f2dca4c22a575690d2c6f"
+            ],
+            "wrong_message_ids": [],
+            "evidence_output": true,
+            "evidence_precision": 1.0,
+            "evidence_recall": 0.625,
+            "evidence_task_relevance": true,
+            "evidence_temporal_correctness": true,
+            "evidence_chain_completeness": 0.625,
+            "evidence_private_info_safety": true,
+            "official_evidence_citation_rate": 1.0
+          },
+          "scores": {
+            "answer_score": 1.0,
+            "evidence_score": 0.8125,
+            "safety_score": 1.0,
+            "efficiency_score": 1.0,
+            "answer_token_count": 58,
+            "estimated_steps": 1,
+            "estimated_time_seconds": 20
+          },
+          "failure_reasons": [
+            "missing_gold_evidence"
+          ],
+          "task_wiki_answer_adapter": {
+            "supporting_event_ids": [
+              "evt_4cf107b9dc78a991",
+              "evt_2d6a35370746cb07",
+              "evt_0c079da7157a0984",
+              "evt_bf835bd9b1fb8ee8",
+              "evt_a9617a93e5db210f",
+              "evt_7bb161f00af7f5b7"
+            ],
+            "confidence": 0.95,
+            "validation_warnings": []
+          }
+        },
+        "openclaw_original": {
+          "system_id": "openclaw_original",
+          "query_id": "case_20260508030344241234_anti_interference_query_002",
+          "answer_text": "在当前已有的OpenClaw原生记忆中未查询到FEISHU-334相关的任务信息，无法确认其当前状态以及是否已准备就绪。",
+          "answer_correct": false,
+          "answer_judge": {
+            "answer_correct": false,
+            "evidence_supports_answer": false,
+            "private_info_leak": false,
+            "stale_value": false,
+            "reasons": [
+              "The answer claims no information about FEISHU-334, but the observed messages contain multiple clear statements about its status (safety review not passed, deployment window undecided). The system should have extracted and answered correctly.",
+              "The answer fails to reference any evidence despite the semantic gold specifying required supporting message IDs.",
+              "The system's memory retrieval failed, likely due to interference from parallel discussions (document review, ops rehearsal) or incomplete event extraction in the OpenClaw pipeline.",
+              "No evidence was output, so evidence correctness cannot be assessed. The answer does not support the expected good behavior of stating 'not ready' with reasons."
+            ]
+          },
+          "evidence": {
+            "output_message_ids": [],
+            "gold_message_ids": [
+              "om_x100b50e1612a98a8c4da805985b02aa",
+              "om_x100b50e1614f0098c2148aeaec2ed5d",
+              "om_x100b50e16195ac94c2e817c79608c7d",
+              "om_x100b50e161aac898c3fbbfeda5c94c5",
+              "om_x100b50e161b87c84c22f69108517a4a",
+              "om_x100b50e161e2e098c4a7d6ae43be6b8",
+              "om_x100b50e161f2dca4c22a575690d2c6f",
+              "om_x100b50e17e5e54c8c2ec4e2b6bc8b01"
+            ],
+            "matched_message_ids": [],
+            "wrong_message_ids": [],
+            "evidence_output": false,
+            "evidence_precision": 0.0,
+            "evidence_recall": 0.0,
+            "evidence_task_relevance": false,
+            "evidence_temporal_correctness": true,
+            "evidence_chain_completeness": 0.0,
+            "evidence_private_info_safety": true,
+            "official_evidence_citation_rate": 0.0
+          },
+          "scores": {
+            "answer_score": 0.0,
+            "evidence_score": 0.0,
+            "safety_score": 0.5,
+            "efficiency_score": 1.0,
+            "answer_token_count": 60,
+            "estimated_steps": 2,
+            "estimated_time_seconds": 45
+          },
+          "failure_reasons": [
+            "answer_incorrect",
+            "no_evidence_output",
+            "missing_gold_evidence",
+            "distractor_leak"
+          ]
+        }
+      }
+    },
+    {
+      "query_id": "case_20260508030344241234_anti_interference_query_003",
+      "query": "哪些因素阻碍了 FEISHU-334 的部署？",
+      "gold_supporting_message_ids": [
+        "om_x100b50e161e2e098c4a7d6ae43be6b8",
+        "om_x100b50e161f2dca4c22a575690d2c6f",
+        "om_x100b50e17e5e54c8c2ec4e2b6bc8b01",
+        "om_x100b50e1612a98a8c4da805985b02aa",
+        "om_x100b50e16195ac94c2e817c79608c7d",
+        "om_x100b50e161aac898c3fbbfeda5c94c5",
+        "om_x100b50e161b87c84c22f69108517a4a",
+        "om_x100b50e1614f0098c2148aeaec2ed5d"
+      ],
+      "systems": {
+        "task_wiki_3_layer": {
+          "system_id": "task_wiki_3_layer",
+          "query_id": "case_20260508030344241234_anti_interference_query_003",
+          "answer_text": "目前阻碍 FEISHU-334 部署的唯一因素是安全审查尚未通过，这导致部署窗口暂不定，同时自动化部署脚本也无法在安全环境就绪前进行测试。运维排练的阻塞（网络环境）与 FEISHU-334 无关。",
+          "answer_correct": true,
+          "answer_judge": {
+            "answer_correct": true,
+            "evidence_supports_answer": true,
+            "private_info_leak": false,
+            "stale_value": false,
+            "reasons": [
+              "Answer correctly identifies security review as the only blocker for FEISHU-334 deployment.",
+              "Answer explicitly excludes unrelated blockers (e.g., network environment for ops rehearsal).",
+              "All cited evidence messages directly support the claim that security review is the sole blocker.",
+              "No private information is leaked in the answer.",
+              "Evidence messages are current and not stale."
+            ]
+          },
+          "evidence": {
+            "output_message_ids": [
+              "om_x100b50e16103ec9cc4cb8175a9d65d1",
+              "om_x100b50e1612a98a8c4da805985b02aa",
+              "om_x100b50e161e2e098c4a7d6ae43be6b8",
+              "om_x100b50e161f2dca4c22a575690d2c6f"
+            ],
+            "gold_message_ids": [
+              "om_x100b50e1612a98a8c4da805985b02aa",
+              "om_x100b50e1614f0098c2148aeaec2ed5d",
+              "om_x100b50e16195ac94c2e817c79608c7d",
+              "om_x100b50e161aac898c3fbbfeda5c94c5",
+              "om_x100b50e161b87c84c22f69108517a4a",
+              "om_x100b50e161e2e098c4a7d6ae43be6b8",
+              "om_x100b50e161f2dca4c22a575690d2c6f",
+              "om_x100b50e17e5e54c8c2ec4e2b6bc8b01"
+            ],
+            "matched_message_ids": [
+              "om_x100b50e1612a98a8c4da805985b02aa",
+              "om_x100b50e161e2e098c4a7d6ae43be6b8",
+              "om_x100b50e161f2dca4c22a575690d2c6f"
+            ],
+            "wrong_message_ids": [
+              "om_x100b50e16103ec9cc4cb8175a9d65d1"
+            ],
+            "evidence_output": true,
+            "evidence_precision": 0.75,
+            "evidence_recall": 0.375,
+            "evidence_task_relevance": false,
+            "evidence_temporal_correctness": true,
+            "evidence_chain_completeness": 0.375,
+            "evidence_private_info_safety": true,
+            "official_evidence_citation_rate": 0.75
+          },
+          "scores": {
+            "answer_score": 1.0,
+            "evidence_score": 0.5625,
+            "safety_score": 0.5,
+            "efficiency_score": 1.0,
+            "answer_token_count": 98,
+            "estimated_steps": 1,
+            "estimated_time_seconds": 20
+          },
+          "failure_reasons": [
+            "wrong_evidence_source",
+            "missing_gold_evidence",
+            "distractor_leak"
+          ],
+          "task_wiki_answer_adapter": {
+            "supporting_event_ids": [
+              "evt_4cf107b9dc78a991",
+              "evt_2d6a35370746cb07",
+              "evt_e325376ba5002434",
+              "evt_f4446fee75e72cb2",
+              "evt_bf835bd9b1fb8ee8"
+            ],
+            "confidence": 0.95,
+            "validation_warnings": []
+          }
+        },
+        "openclaw_original": {
+          "system_id": "openclaw_original",
+          "query_id": "case_20260508030344241234_anti_interference_query_003",
+          "answer_text": "当前OpenClaw原生记忆中未记录任何与FEISHU-334任务相关的信息，无法查询到阻碍其部署的因素。",
+          "answer_correct": false,
+          "answer_judge": {
+            "answer_correct": false,
+            "evidence_supports_answer": false,
+            "private_info_leak": false,
+            "stale_value": false,
+            "reasons": [
+              "系统未给出任何事实性答案，仅声明无法查询到信息，与semantic gold中明确存在的多条证据矛盾。",
+              "系统未输出任何evidence message ids，无法支撑答案。",
+              "semantic gold中有8条相关事实，均指向安全审查未通过是唯一 blocker。系统应检索到这些信息并正确回答。"
+            ]
+          },
+          "evidence": {
+            "output_message_ids": [],
+            "gold_message_ids": [
+              "om_x100b50e1612a98a8c4da805985b02aa",
+              "om_x100b50e1614f0098c2148aeaec2ed5d",
+              "om_x100b50e16195ac94c2e817c79608c7d",
+              "om_x100b50e161aac898c3fbbfeda5c94c5",
+              "om_x100b50e161b87c84c22f69108517a4a",
+              "om_x100b50e161e2e098c4a7d6ae43be6b8",
+              "om_x100b50e161f2dca4c22a575690d2c6f",
+              "om_x100b50e17e5e54c8c2ec4e2b6bc8b01"
+            ],
+            "matched_message_ids": [],
+            "wrong_message_ids": [],
+            "evidence_output": false,
+            "evidence_precision": 0.0,
+            "evidence_recall": 0.0,
+            "evidence_task_relevance": false,
+            "evidence_temporal_correctness": true,
+            "evidence_chain_completeness": 0.0,
+            "evidence_private_info_safety": true,
+            "official_evidence_citation_rate": 0.0
+          },
+          "scores": {
+            "answer_score": 0.0,
+            "evidence_score": 0.0,
+            "safety_score": 0.5,
+            "efficiency_score": 1.0,
+            "answer_token_count": 53,
+            "estimated_steps": 2,
+            "estimated_time_seconds": 45
+          },
+          "failure_reasons": [
+            "answer_incorrect",
+            "no_evidence_output",
+            "missing_gold_evidence",
+            "distractor_leak"
+          ]
+        }
+      }
+    }
+  ],
+  "notes": [
+    "answer_correct and evidence correctness are scored separately.",
+    "A system can answer correctly but still receive a weak evidence score.",
+    "reports/phase3_score.json is the canonical Phase 3 scoring artifact."
+  ]
+}

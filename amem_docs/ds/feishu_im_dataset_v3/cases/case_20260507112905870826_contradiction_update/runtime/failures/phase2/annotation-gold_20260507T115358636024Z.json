@@ -1,0 +1,11 @@
+{
+  "phase": "phase2",
+  "stage": "annotation-gold",
+  "status": "failed",
+  "run_id": "20260507T115358636024Z",
+  "failed_at": "2026-05-07T11:53:58.636185+00:00",
+  "case_dir": "amem_docs/ds/feishu_im_dataset_v3/cases/case_20260507112905870826_contradiction_update",
+  "error_type": "ValueError",
+  "error_message": "pre_annotation_validation_report indicates the case is invalid",
+  "extra": {}
+}

@@ -13,6 +13,7 @@ from ..llm import (
 from ..prompt_loader import build_stage_system_prompt
 from ..schemas import ValidationError, validate_case_context
 from .common import build_case_id, build_task_id, normalize_seed
+from .task_id_audit import extract_task_ids
 
 
 def _build_case_context_user_payload(
@@ -41,6 +42,13 @@ def _build_case_context_user_payload(
         "requested_family_id": requested_family_id,
         "difficulty": difficulty,
         "comparison_target": comparison_target,
+        "canonical_case_fields": {
+            "case_id_by_family": {
+                family_id: build_case_id(seed, family_id)
+                for family_id in ordered_family_ids()
+            },
+            "task_id": build_task_id(seed),
+        },
         "formal_families": families,
         "output_contract": {
             "artifact_name": "case_context",
@@ -64,6 +72,7 @@ def _build_case_context_user_payload(
             ],
             "validation_rules": [
                 "If requested_family_id is set, family_id must equal requested_family_id.",
+                "Use canonical_case_fields.task_id whenever the scenario mentions the target FEISHU task.",
                 "Copy benchmark/capability fields from formal_families[family_id] exactly.",
                 "organization, team, business_goal, scenario_summary, and family_fit_explanation must be non-empty.",
             ],
@@ -86,10 +95,25 @@ def _build_case_context_repair_user_payload(
                 "Rewrite the invalid case context into a complete valid JSON object. "
                 "Preserve the chosen family and scenario if they are compatible with the request, "
                 "copy missing benchmark/capability fields from formal_families[family_id], and "
+                "replace any target-task FEISHU id with canonical_case_fields.task_id. "
                 "return only the repaired JSON object."
             ),
         },
     }
+
+
+def _validate_case_context_task_ids(case_context: dict[str, Any]) -> dict[str, Any]:
+    target_task_id = str(case_context["task_id"])
+    scenario_ids = extract_task_ids(case_context.get("scenario_summary") or "")
+    if scenario_ids and target_task_id not in scenario_ids:
+        raise ValidationError(f"case_context.scenario_summary must mention target task_id {target_task_id}")
+    family_id = str(case_context["family_id"])
+    if family_id in {"private_info_in_official_file", "contradiction_update"}:
+        all_ids = extract_task_ids(case_context)
+        invalid_ids = sorted(task_id for task_id in all_ids if task_id != target_task_id)
+        if invalid_ids:
+            raise ValidationError(f"case_context contains undeclared non-target task ids: {invalid_ids}")
+    return case_context
 
 
 def _merge_model_case_context_with_system_fields(
@@ -149,12 +173,14 @@ def generate_case_context(
         )
     ]
     try:
-        validated = validate_case_context(
-            _merge_model_case_context_with_system_fields(
-                model_payload=result.payload,
-                seed=normalized_seed,
-                difficulty=difficulty,
-                comparison_target=comparison_target,
+        validated = _validate_case_context_task_ids(
+            validate_case_context(
+                _merge_model_case_context_with_system_fields(
+                    model_payload=result.payload,
+                    seed=normalized_seed,
+                    difficulty=difficulty,
+                    comparison_target=comparison_target,
+                )
             )
         )
     except ValidationError as exc:
@@ -177,12 +203,14 @@ def generate_case_context(
             )
         )
         try:
-            validated = validate_case_context(
-                _merge_model_case_context_with_system_fields(
-                    model_payload=repair_result.payload,
-                    seed=normalized_seed,
-                    difficulty=difficulty,
-                    comparison_target=comparison_target,
+            validated = _validate_case_context_task_ids(
+                validate_case_context(
+                    _merge_model_case_context_with_system_fields(
+                        model_payload=repair_result.payload,
+                        seed=normalized_seed,
+                        difficulty=difficulty,
+                        comparison_target=comparison_target,
+                    )
                 )
             )
         except ValidationError as repair_exc:

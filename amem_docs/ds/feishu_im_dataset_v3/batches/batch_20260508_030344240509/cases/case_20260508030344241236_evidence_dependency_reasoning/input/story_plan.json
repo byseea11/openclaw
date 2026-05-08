@@ -1,0 +1,186 @@
+{
+  "story_id": "story_case_20260508030344241236_evidence_dependency_reasoning",
+  "case_id": "case_20260508030344241236_evidence_dependency_reasoning",
+  "family_id": "evidence_dependency_reasoning",
+  "task": {
+    "task_id": "FEISHU-336",
+    "task_name": "用户中心迁移上线规划",
+    "role": "target_task"
+  },
+  "actors": [
+    {
+      "actor_id": "alice",
+      "display_name": "Alice",
+      "role": "release_pm"
+    },
+    {
+      "actor_id": "bob",
+      "display_name": "Bob",
+      "role": "ops_partner"
+    },
+    {
+      "actor_id": "carol",
+      "display_name": "Carol",
+      "role": "migration_owner"
+    },
+    {
+      "actor_id": "xavier",
+      "display_name": "Xavier",
+      "role": "target_owner"
+    },
+    {
+      "actor_id": "diana",
+      "display_name": "Diana",
+      "role": "risk_reviewer"
+    },
+    {
+      "actor_id": "ethan",
+      "display_name": "Ethan",
+      "role": "qa_lead"
+    },
+    {
+      "actor_id": "fiona",
+      "display_name": "Fiona",
+      "role": "product_owner"
+    },
+    {
+      "actor_id": "george",
+      "display_name": "George",
+      "role": "infra_engineer"
+    },
+    {
+      "actor_id": "helen",
+      "display_name": "Helen",
+      "role": "security_officer"
+    },
+    {
+      "actor_id": "ivan",
+      "display_name": "Ivan",
+      "role": "vendor_partner"
+    },
+    {
+      "actor_id": "judy",
+      "display_name": "Judy",
+      "role": "compliance_manager"
+    },
+    {
+      "actor_id": "kevin",
+      "display_name": "Kevin",
+      "role": "support_lead"
+    }
+  ],
+  "task_actor_layout": {
+    "target_task_id": "FEISHU-336",
+    "shared_actors": [
+      "carol",
+      "xavier"
+    ],
+    "actor_task_roles": [
+      {
+        "actor_id": "alice",
+        "task_id": "FEISHU-336",
+        "role": "release_pm"
+      },
+      {
+        "actor_id": "xavier",
+        "task_id": "FEISHU-336",
+        "role": "target_owner"
+      },
+      {
+        "actor_id": "carol",
+        "task_id": "FEISHU-336",
+        "role": "upstream_context_source"
+      }
+    ]
+  },
+  "state_changes": [
+    {
+      "task_id": "FEISHU-336",
+      "field": "upstream_window_locked",
+      "sequence": [
+        {
+          "value": "未锁定",
+          "status": "historical"
+        },
+        {
+          "value": "已锁定",
+          "status": "current"
+        }
+      ]
+    },
+    {
+      "task_id": "FEISHU-336",
+      "field": "rollback_plan_approval_blocked",
+      "sequence": [
+        {
+          "value": "阻塞",
+          "status": "historical"
+        },
+        {
+          "value": "解除",
+          "status": "current"
+        }
+      ]
+    }
+  ],
+  "message_beats": [
+    {
+      "beat_id": "beat_001",
+      "purpose": "Carol 正式确认上游迁移窗口已锁定，是 verified anchor",
+      "speaker_actor_id": "carol",
+      "session_id": "main_chat",
+      "message_intent": "上游窗口刚刚锁定，FEISHU-336 可以按计划推进上线。",
+      "speaker": "Carol"
+    },
+    {
+      "beat_id": "beat_002",
+      "purpose": "Bob 传播传闻说窗口可能会提前解锁，属于 hearsay",
+      "speaker_actor_id": "bob",
+      "session_id": "main_chat",
+      "message_intent": "听说窗口可能提前解锁，但还没确认。",
+      "speaker": "Bob"
+    },
+    {
+      "beat_id": "beat_003",
+      "purpose": "Diana 给出模糊推断，认为风险可控，属于 ambiguous",
+      "speaker_actor_id": "diana",
+      "session_id": "risk_review_thread",
+      "message_intent": "窗口锁定后风险应该不大，但具体影响还要看下游。",
+      "speaker": "Diana"
+    },
+    {
+      "beat_id": "beat_004",
+      "purpose": "Alice 基于 hearsay 过早判断 blocker 已消失",
+      "speaker_actor_id": "alice",
+      "session_id": "main_chat",
+      "message_intent": "既然窗口可能提前解锁，FEISHU-336 的 blocker 基本没了。",
+      "speaker": "Alice"
+    },
+    {
+      "beat_id": "beat_005",
+      "purpose": "Ethan 确认下游回滚预案验收因窗口解锁而解除阻塞",
+      "speaker_actor_id": "ethan",
+      "session_id": "qa_channel",
+      "message_intent": "窗口已锁，回滚预案验收通过，FEISHU-336 下游无阻塞。",
+      "speaker": "Ethan"
+    },
+    {
+      "beat_id": "beat_006",
+      "purpose": "Xavier 总结当前状态，需区分谁是可靠来源",
+      "speaker_actor_id": "xavier",
+      "session_id": "main_chat",
+      "message_intent": "Carol 说窗口已锁定，Bob 说可能提前解锁，Diana 觉得风险不大。FEISHU-336 当前应以 Carol 的正式消息为准。",
+      "speaker": "Xavier"
+    }
+  ],
+  "planned_probe_queries": [
+    {
+      "query": "FEISHU-336 当前的 blocker 是什么？依据来自谁的哪条消息？",
+      "expected_good_behavior": "指出当前 blocker（上游窗口已锁定），依据来自 Carol 的正式确认（beat_001），并说明 Bob 的传闻（beat_002）不可作为正式依据。"
+    },
+    {
+      "query": "FEISHU-336 的上游窗口状态如何影响下游任务？",
+      "expected_good_behavior": "解释上游窗口锁定解除了下游回滚预案验收的阻塞，具体依据 Ethan 的确认（beat_005），并区分 Carol 的正式消息与 Diana 的模糊推断（beat_003）。"
+    }
+  ]
+}

@@ -25,16 +25,29 @@ function messageRow({
   messageId,
   text,
   createTime,
+  chatId = "oc_fixture",
+  threadId = "",
+  senderOpenId = "ou_sim_default",
+  senderName = "Fixture Sender",
 }: {
   messageId: string;
   text: string;
   createTime: number;
+  chatId?: string;
+  threadId?: string;
+  senderOpenId?: string;
+  senderName?: string;
 }): Record<string, unknown> {
   return {
+    sender: {
+      sender_id: { open_id: senderOpenId },
+      sender_type: "user",
+      sender_name: senderName,
+    },
     message: {
       message_id: messageId,
-      chat_id: "oc_fixture",
-      thread_id: "",
+      chat_id: chatId,
+      thread_id: threadId,
       root_id: "",
       create_time: String(createTime),
       content: JSON.stringify({ text }),
@@ -131,8 +144,8 @@ function createFixtureCase(): string {
       { actor_id: "alice", display_name: "林晨", role: "项目负责人" },
       { actor_id: "carol", display_name: "陈雪", role: "研发协作者" },
     ],
-    task_actor_layout: { owner: "alice" },
-    state_changes: [{ state_id: "state_001", summary: "正式窗口已确认。" }],
+    task_actor_layout: { target_task_id: "FEISHU-666", owner: "alice" },
+    state_changes: [{ state_id: "state_001", task_id: "FEISHU-666", summary: "正式窗口已确认。" }],
     message_beats: [
       {
         beat_id: "beat_001",
@@ -196,16 +209,24 @@ function createFixtureCase(): string {
       messageId: "om_official",
       text: String(collectedRows[0].message_text),
       createTime: 1,
+      senderOpenId: "ou_sim_alice",
+      senderName: "林晨",
     }),
     messageRow({
       messageId: "om_private",
       text: String(collectedRows[1].message_text),
       createTime: 2,
+      chatId: "oc_fixture_private_thread",
+      senderOpenId: "ou_sim_carol",
+      senderName: "陈雪",
     }),
     messageRow({
       messageId: "om_correction",
       text: String(collectedRows[2].message_text),
       createTime: 3,
+      chatId: "oc_fixture_correction_thread",
+      senderOpenId: "ou_sim_alice",
+      senderName: "林晨",
     }),
   ];
   writeJson(join(caseDir, "input", "case_context.json"), caseContext);
@@ -270,6 +291,134 @@ process.stdin.on("end", () => {
     }]
   }));
 });
+`.trim() + "\n",
+    "utf8",
+  );
+  return script;
+}
+
+function writeFakeGatewayCommand(root: string): string {
+  const script = join(root, "fake-openclaw-gateway.mjs");
+  writeFileSync(
+    script,
+    `
+import { readFileSync, writeFileSync, existsSync } from "node:fs";
+import crypto from "node:crypto";
+
+const statePath = process.env.FAKE_GATEWAY_STATE;
+function readState() {
+  if (!statePath || !existsSync(statePath)) return { ingests: [], runs: {}, histories: {} };
+  return JSON.parse(readFileSync(statePath, "utf8"));
+}
+function writeState(state) {
+  if (statePath) writeFileSync(statePath, JSON.stringify(state, null, 2) + "\\n", "utf8");
+}
+function hash(value) {
+  return crypto.createHash("sha256").update(String(value)).digest("hex").slice(0, 12);
+}
+function paramsFromArgv() {
+  const index = process.argv.indexOf("--params");
+  return index >= 0 ? JSON.parse(process.argv[index + 1]) : {};
+}
+
+const method = process.argv[process.argv.indexOf("call") + 1];
+if (method === "health") {
+  process.stdout.write(JSON.stringify({ ok: true }));
+  process.exit(0);
+}
+if (method === "agent.wait") {
+  const params = paramsFromArgv();
+  const status = process.env.FAKE_GATEWAY_WAIT_STATUS || "ok";
+  process.stdout.write(JSON.stringify({
+    runId: params.runId,
+    status,
+    result: {
+      runId: params.runId,
+      status,
+    },
+  }));
+  process.exit(0);
+}
+if (method === "chat.history") {
+  const params = paramsFromArgv();
+  const state = readState();
+  const sessionId = "sid_" + hash(params.sessionKey || "");
+  process.stdout.write(JSON.stringify({
+    sessionKey: params.sessionKey,
+    sessionId,
+    messages: state.histories?.[params.sessionKey] || [],
+  }));
+  process.exit(0);
+}
+if (method !== "agent") {
+  process.stderr.write("unsupported method");
+  process.exit(2);
+}
+const params = paramsFromArgv();
+const message = String(params.message || "");
+const state = readState();
+const sessionId = "sid_" + hash(params.sessionKey || "");
+const runId = "run_" + hash(params.idempotencyKey || "");
+let finalAssistantVisibleText = JSON.stringify({ ok: true });
+if (message.includes("Observed transcript:")) {
+  const ids = Array.from(message.matchAll(/message_id=(om_[a-zA-Z0-9_]+)/g)).map((match) => match[1]);
+  state.ingests.push({
+    sessionKey: params.sessionKey,
+    idempotencyKey: params.idempotencyKey,
+    messageIds: ids,
+    message,
+  });
+  writeState(state);
+  finalAssistantVisibleText = JSON.stringify({ status: "ingested" });
+} else if (message.includes("memory visibility probe")) {
+  const ids = state.ingests.flatMap((item) => item.messageIds || []);
+  if (process.env.FAKE_GATEWAY_VISIBILITY === "fail") {
+    finalAssistantVisibleText = JSON.stringify({
+      status: "failed",
+      task_id: "FEISHU-666",
+      found_message_ids: [],
+      answer: "no task memory visible",
+    });
+  } else {
+    finalAssistantVisibleText = JSON.stringify({
+      status: "passed",
+      task_id: "FEISHU-666",
+      found_message_ids: ids.slice(0, 3),
+      answer: "FEISHU-666 visible with " + ids.slice(0, 3).join(", "),
+    });
+  }
+} else {
+  const ids = state.ingests.flatMap((item) => item.messageIds || []);
+  finalAssistantVisibleText = JSON.stringify({
+    answer: "FEISHU-666 baseline answer cites " + ids[0],
+    supporting_message_ids: ids.slice(0, 1),
+    confidence: 0.8,
+  });
+}
+state.runs ||= {};
+state.runs[runId] = {
+  meta: { agentMeta: { sessionId } },
+};
+state.histories ||= {};
+state.histories[params.sessionKey] ||= [];
+state.histories[params.sessionKey].push({
+  role: "user",
+  content: [{ type: "text", text: message }],
+});
+state.histories[params.sessionKey].push({
+  role: "assistant",
+  content: [{ type: "text", text: finalAssistantVisibleText }],
+});
+writeState(state);
+process.stdout.write(JSON.stringify({
+  runId,
+  status: "accepted",
+  result: {
+    runId,
+    status: "accepted",
+    meta: { agentMeta: { sessionId } },
+  },
+}));
 `.trim() + "\n",
     "utf8",
   );
@@ -349,19 +498,208 @@ describe("openclaw real baseline eval", () => {
     expect(source).not.toContain("agent --local");
   });
 
-  test("gateway replay waits for final agent answers", () => {
+  test("gateway replay starts agent runs and waits for terminal snapshots", () => {
     const source = readFileSync(scriptPath, "utf8");
-    expect(source).toContain("--expect-final");
-    expect(source).toContain("finalAssistantVisibleText");
+    expect(source).toContain("runOpenClawAgentTurn");
+    expect(source).toContain('"agent.wait"');
+    expect(source).toContain('"chat.history"');
+    expect(source).toContain("agent_wait_completed");
+    expect(source).toContain("chat_history_fetched");
+    expect(source).toContain("extractLatestAssistantTextFromHistory");
     expect(source).toContain("no_final_answer");
     expect(source).toContain("isAcceptedOnlyGatewayResponse");
-    expect(source).toContain("OPENCLAW_BENCHMARK_GATEWAY_TIMEOUT_MS");
+    expect(source).toContain("OPENCLAW_BENCHMARK_GATEWAY_RPC_TIMEOUT_MS");
+    expect(source).toContain("OPENCLAW_BENCHMARK_AGENT_WAIT_MS");
+  });
+
+  test("gateway replay uses collision-resistant idempotency keys", () => {
+    const source = readFileSync(scriptPath, "utf8");
+    expect(source).toContain('import crypto from "node:crypto"');
+    expect(source).toContain("stableShortHash");
+    expect(source).toContain("idempotencyKeyFor");
+    expect(source).toContain("ingest_gateway_session_count");
+    expect(source).not.toContain("phase3-${caseContext.case_id}-ingest-${sessionToken(sessionKey)}");
+  });
+
+  test("gateway replay defaults to one case transcript ingest", () => {
+    const caseDir = createFixtureCase();
+    const fakeGateway = writeFakeGatewayCommand(caseDir);
+    const fakeState = join(caseDir, "fake-gateway-state.json");
+    const result = spawnSync(
+      "node",
+      [scriptPath, "--case-dir", caseDir, "--semantic-gold", "rule", "--json"],
+      {
+        cwd: repoRoot,
+        env: {
+          ...process.env,
+          OPENCLAW_BENCHMARK_OPENCLAW_COMMAND: `node ${fakeGateway}`,
+          FAKE_GATEWAY_STATE: fakeState,
+        },
+        encoding: "utf8",
+      },
+    );
+    expect(result.status, `${result.stdout}\n${result.stderr}`).toBe(0);
+    const replayMetadata = JSON.parse(
+      readFileSync(join(caseDir, "runtime", "openclaw_baseline", "replay_metadata.json"), "utf8"),
+    ) as {
+      ingress_count: number;
+      openclaw_ingest_mode: string;
+      ingest_session_count: number;
+      sender_session_count: number;
+      source_session_count: number;
+      unique_idempotency_key_count: number;
+      ingest_gateway_session_count: number;
+      ingest_gateway_run_count: number;
+      sender_scope_stats: Array<{ message_count: number; source_scope_count: number }>;
+    };
+    expect(replayMetadata.ingress_count).toBe(3);
+    expect(replayMetadata.openclaw_ingest_mode).toBe("case_transcript");
+    expect(replayMetadata.ingest_session_count).toBe(1);
+    expect(replayMetadata.sender_session_count).toBe(1);
+    expect(replayMetadata.source_session_count).toBe(1);
+    expect(replayMetadata.unique_idempotency_key_count).toBe(1);
+    expect(replayMetadata.ingest_gateway_session_count).toBe(1);
+    expect(replayMetadata.ingest_gateway_run_count).toBe(1);
+    expect(replayMetadata.sender_scope_stats.map((row) => row.message_count)).toEqual([3]);
+    expect(replayMetadata.sender_scope_stats.every((row) => row.source_scope_count >= 1)).toBe(
+      true,
+    );
+    expect(readFileSync(scriptPath, "utf8")).toContain("OPENCLAW_BENCHMARK_INGEST_MODE");
+    expect(readFileSync(scriptPath, "utf8")).toContain("sender_sessions");
+  });
+
+  test("gateway replay fails before scoring when memory visibility is missing", () => {
+    const caseDir = createFixtureCase();
+    const fakeGateway = writeFakeGatewayCommand(caseDir);
+    const fakeState = join(caseDir, "fake-gateway-state.json");
+    const result = spawnSync(
+      "node",
+      [scriptPath, "--case-dir", caseDir, "--semantic-gold", "rule", "--json"],
+      {
+        cwd: repoRoot,
+        env: {
+          ...process.env,
+          OPENCLAW_BENCHMARK_OPENCLAW_COMMAND: `node ${fakeGateway}`,
+          FAKE_GATEWAY_STATE: fakeState,
+          FAKE_GATEWAY_VISIBILITY: "fail",
+        },
+        encoding: "utf8",
+      },
+    );
+    expect(result.status, `${result.stdout}\n${result.stderr}`).toBe(0);
+    const failure = JSON.parse(
+      readFileSync(join(caseDir, "runtime", "openclaw_baseline", "failure.json"), "utf8"),
+    ) as { status: string; replay_failure: { phase: string }; scoring_policy: string };
+    const visibility = JSON.parse(
+      readFileSync(
+        join(caseDir, "runtime", "openclaw_baseline", "memory_visibility.json"),
+        "utf8",
+      ),
+    ) as { status: string; found_message_ids: string[] };
+    const answers = JSON.parse(
+      readFileSync(join(caseDir, "runtime", "openclaw_baseline", "answers.json"), "utf8"),
+    ) as { answers: Array<{ no_final_answer: boolean; judge_result: { success: boolean } }> };
+    const report = JSON.parse(
+      readFileSync(join(caseDir, "reports", "openclaw_baseline_eval.json"), "utf8"),
+    ) as { metrics: { query_success_rate: number } };
+    expect(failure.status).toBe("failed_but_scored");
+    expect(failure.replay_failure.phase).toBe("memory_visibility_probe");
+    expect(failure.scoring_policy).toContain("batch Phase 3 can continue");
+    expect(visibility.status).toBe("failed");
+    expect(visibility.found_message_ids).toEqual([]);
+    expect(answers.answers.every((answer) => answer.no_final_answer)).toBe(true);
+    expect(answers.answers.every((answer) => answer.judge_result.success === false)).toBe(true);
+    expect(report.metrics.query_success_rate).toBe(0);
+  });
+
+  test("gateway replay records failure when agent.wait times out", () => {
+    const caseDir = createFixtureCase();
+    const fakeGateway = writeFakeGatewayCommand(caseDir);
+    const fakeState = join(caseDir, "fake-gateway-state.json");
+    const result = spawnSync(
+      "node",
+      [scriptPath, "--case-dir", caseDir, "--semantic-gold", "rule", "--json"],
+      {
+        cwd: repoRoot,
+        env: {
+          ...process.env,
+          OPENCLAW_BENCHMARK_OPENCLAW_COMMAND: `node ${fakeGateway}`,
+          FAKE_GATEWAY_STATE: fakeState,
+          FAKE_GATEWAY_WAIT_STATUS: "timeout",
+        },
+        encoding: "utf8",
+      },
+    );
+    expect(result.status, `${result.stdout}\n${result.stderr}`).toBe(0);
+    const failure = JSON.parse(
+      readFileSync(join(caseDir, "runtime", "openclaw_baseline", "failure.json"), "utf8"),
+    ) as { status: string; replay_failure: { phase: string; gateway_state: Record<string, unknown> } };
+    const answers = JSON.parse(
+      readFileSync(join(caseDir, "runtime", "openclaw_baseline", "answers.json"), "utf8"),
+    ) as { answers: Array<{ no_final_answer: boolean; judge_result: { success: boolean } }> };
+    const progress = readFileSync(
+      join(caseDir, "runtime", "openclaw_baseline", "replay_progress.jsonl"),
+      "utf8",
+    );
+    expect(failure.status).toBe("failed_but_scored");
+    expect(failure.replay_failure.phase).toBe("ingest_source_session");
+    expect(failure.replay_failure.gateway_state.failed_wait_status).toBe("timeout");
+    expect(progress).toContain('"phase":"agent_started"');
+    expect(progress).toContain('"phase":"agent_wait_completed"');
+    expect(progress).toContain('"wait_status":"timeout"');
+    expect(answers.answers.every((answer) => answer.no_final_answer)).toBe(true);
+    expect(answers.answers.every((answer) => answer.judge_result.success === false)).toBe(true);
+  });
+
+  test("gateway replay writes memory visibility and answers when probe passes", () => {
+    const caseDir = createFixtureCase();
+    const fakeGateway = writeFakeGatewayCommand(caseDir);
+    const fakeState = join(caseDir, "fake-gateway-state.json");
+    const result = spawnSync(
+      "node",
+      [scriptPath, "--case-dir", caseDir, "--semantic-gold", "rule", "--json"],
+      {
+        cwd: repoRoot,
+        env: {
+          ...process.env,
+          OPENCLAW_BENCHMARK_OPENCLAW_COMMAND: `node ${fakeGateway}`,
+          FAKE_GATEWAY_STATE: fakeState,
+        },
+        encoding: "utf8",
+      },
+    );
+    expect(result.status, `${result.stdout}\n${result.stderr}`).toBe(0);
+    const visibility = JSON.parse(
+      readFileSync(
+        join(caseDir, "runtime", "openclaw_baseline", "memory_visibility.json"),
+        "utf8",
+      ),
+    ) as { status: string; found_message_ids: string[] };
+    const report = JSON.parse(
+      readFileSync(join(caseDir, "reports", "openclaw_baseline_eval.json"), "utf8"),
+    ) as { memory_visibility_status: string; answer_ids: string[] };
+    const progress = readFileSync(
+      join(caseDir, "runtime", "openclaw_baseline", "replay_progress.jsonl"),
+      "utf8",
+    );
+    expect(visibility.status).toBe("passed");
+    expect(visibility.found_message_ids).toEqual(["om_official", "om_private", "om_correction"]);
+    expect(report.memory_visibility_status).toBe("passed");
+    expect(report.answer_ids).toHaveLength(1);
+    expect(progress).toContain('"phase":"baseline_started"');
+    expect(progress).toContain('"phase":"agent_started"');
+    expect(progress).toContain('"phase":"agent_wait_completed"');
+    expect(progress).toContain('"phase":"chat_history_fetched"');
+    expect(progress).toContain('"phase":"ingest_completed"');
+    expect(progress).toContain('"phase":"memory_visibility_probe_completed"');
+    expect(progress).toContain('"phase":"replay_completed"');
   });
 
   test("canonical query prompt does not inject query-relevant transcript candidates", () => {
     const source = readFileSync(scriptPath, "utf8");
     expect(source).not.toContain("Query-relevant observed memory candidates");
     expect(source).not.toContain("Candidate message ids for this query");
+    expect(source).not.toContain("Known observed message_id samples");
     expect(source).toContain("query_context_injected: false");
   });
 

@@ -1,0 +1,41 @@
+{
+  "version": 1,
+  "generated_at": "2026-05-08T03:41:13.924Z",
+  "orphan_event_count": 0,
+  "missing_evidence_ref_count": 0,
+  "stale_claim_count": 0,
+  "quote_strength_count": 1,
+  "unresolved_objection_count": 0,
+  "overdue_commitment_count": 1,
+  "open_conflict_count": 0,
+  "orphan_block_count": 0,
+  "missing_cross_ref_count": 0,
+  "orphan_session_wiki_count": 0,
+  "findings": {
+    "orphan_events": [],
+    "missing_evidence_refs": [],
+    "stale_claims": [],
+    "quote_strength": [
+      {
+        "source_session_id": "task:FEISHU-335::chat:oc_e04355a17fcd34369ab4eda64d84c019",
+        "event_id": "evt_dbb856db9994c85a",
+        "claim": "FEISHU-335 负责人改为 陈雪，截止 3月25日。",
+        "evidence_quote": "FEISHU-335 负责人改为 陈雪，截止 3月25日，状态阻塞。"
+      }
+    ],
+    "unresolved_objections": [],
+    "overdue_commitments": [
+      {
+        "source_session_id": "task:FEISHU-335::chat:oc_e04355a17fcd34369ab4eda64d84c019",
+        "block_id": "block-发布阻塞风险-45763a86",
+        "topic_title": "发布阻塞风险",
+        "claim": "FEISHU-335 负责人改为 陈雪，截止 3月25日。",
+        "event_id": "evt_dbb856db9994c85a"
+      }
+    ],
+    "open_conflicts": [],
+    "orphan_blocks": [],
+    "missing_cross_refs": [],
+    "orphan_session_wikis": []
+  }
+}

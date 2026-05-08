@@ -1,0 +1,170 @@
+{
+  "version": 1,
+  "task_id": "task:FEISHU-334",
+  "task_key": "FEISHU-334",
+  "source_session_id": "task:FEISHU-334::chat:oc_ec85126f897b2cee55c91aff8737bab8",
+  "source_scope": "chat:oc_ec85126f897b2cee55c91aff8737bab8",
+  "source_type": "thread",
+  "source_id": "thread:ops_rehearsal_thread",
+  "session_title": "task:FEISHU-334::chat:oc_ec85126f897b2cee55c91aff8737bab8",
+  "time_range": {
+    "start": "2026-05-08T03:43:36.434Z",
+    "end": "2026-05-08T03:45:09.700Z"
+  },
+  "participants": [
+    "Benchmark Root",
+    "林晨",
+    "何然"
+  ],
+  "relative_page_path": "sessions/FEISHU-334_chat_oc_ec85126f897b2cee55c91aff8737b-976471af/session_wiki.md",
+  "session_summary": "运维排练因网络环境阻塞，王源协调中；网络环境配置预计下周就绪。",
+  "block_order": [
+    "block-发布阻塞风险-45763a86",
+    "block-网络环境配置-bef927a2"
+  ],
+  "blocks": {
+    "block-发布阻塞风险-45763a86": {
+      "block_id": "block-发布阻塞风险-45763a86",
+      "anchor_id": "block-发布阻塞风险-45763a86",
+      "topic_key": "发布阻塞风险",
+      "topic_title": "发布阻塞风险",
+      "event_ids": [
+        "evt_34f0c154d07edc4a"
+      ],
+      "slots": {
+        "conclusion": [],
+        "rationale": [],
+        "objection": [],
+        "constraint": [],
+        "commitment": [],
+        "status": [
+          {
+            "event_id": "evt_34f0c154d07edc4a",
+            "event_type": "status_event",
+            "claim": "运维排练的 blocker 是网络环境，王源 在协调。",
+            "event_time": "1778209556000",
+            "evidence_quote": "运维排练的 blocker 是网络环境，王源 在协调。",
+            "event_path": "sessions/FEISHU-334_chat_oc_ec85126f897b2cee55c91aff8737b-976471af/session_events.jsonl#evt_34f0c154d07edc4a",
+            "event_ref": "[[sessions/FEISHU-334_chat_oc_ec85126f897b2cee55c91aff8737b-976471af/session_events.jsonl#evt_34f0c154d07edc4a|evt_34f0c154d07edc4a]]",
+            "entry_ref": "[[sessions/FEISHU-334_chat_oc_ec85126f897b2cee55c91aff8737b-976471af/session.md#om_x100b50e17eb5b49cc2a14922a5e44e1|om_x100b50e17eb5b49cc2a14922a5e44e1]]",
+            "core_entry_id": "om_x100b50e17eb5b49cc2a14922a5e44e1",
+            "subject_key": "发布阻塞风险",
+            "is_current": true,
+            "lifecycle_status": "active",
+            "lifecycle_reason": null,
+            "target": "运维排练",
+            "time_target": null,
+            "scope_target": null,
+            "action": null,
+            "owner": null,
+            "objector": null,
+            "status": "blocked",
+            "certainty": null
+          }
+        ],
+        "time": [],
+        "scope": []
+      },
+      "status": "active",
+      "evidence_refs": [
+        {
+          "event_id": "evt_34f0c154d07edc4a",
+          "event_path": "sessions/FEISHU-334_chat_oc_ec85126f897b2cee55c91aff8737b-976471af/session_events.jsonl#evt_34f0c154d07edc4a",
+          "entry_ref": "[[sessions/FEISHU-334_chat_oc_ec85126f897b2cee55c91aff8737b-976471af/session.md#om_x100b50e17eb5b49cc2a14922a5e44e1|om_x100b50e17eb5b49cc2a14922a5e44e1]]",
+          "quote": "运维排练的 blocker 是网络环境，王源 在协调。"
+        }
+      ],
+      "summary": "运维排练阻塞于网络环境，王源正在协调。"
+    },
+    "block-网络环境配置-bef927a2": {
+      "block_id": "block-网络环境配置-bef927a2",
+      "anchor_id": "block-网络环境配置-bef927a2",
+      "topic_key": "网络环境配置",
+      "topic_title": "网络环境配置",
+      "event_ids": [
+        "evt_99567de638fbce7e",
+        "evt_cfd48c4307986426"
+      ],
+      "slots": {
+        "conclusion": [],
+        "rationale": [],
+        "objection": [],
+        "constraint": [],
+        "commitment": [],
+        "status": [
+          {
+            "event_id": "evt_99567de638fbce7e",
+            "event_type": "status_event",
+            "claim": "网络环境配置还在进行，预计下周就绪。",
+            "event_time": "1778209556000",
+            "evidence_quote": "网络环境配置还在进行，预计下周就绪。",
+            "event_path": "sessions/FEISHU-334_chat_oc_ec85126f897b2cee55c91aff8737b-976471af/session_events.jsonl#evt_99567de638fbce7e",
+            "event_ref": "[[sessions/FEISHU-334_chat_oc_ec85126f897b2cee55c91aff8737b-976471af/session_events.jsonl#evt_99567de638fbce7e|evt_99567de638fbce7e]]",
+            "entry_ref": "[[sessions/FEISHU-334_chat_oc_ec85126f897b2cee55c91aff8737b-976471af/session.md#om_x100b50e17e4968a0c39db18c9de8fa7|om_x100b50e17e4968a0c39db18c9de8fa7]]",
+            "core_entry_id": "om_x100b50e17e4968a0c39db18c9de8fa7",
+            "subject_key": "网络环境配置",
+            "is_current": true,
+            "lifecycle_status": "active",
+            "lifecycle_reason": null,
+            "target": "网络环境配置",
+            "time_target": null,
+            "scope_target": null,
+            "action": null,
+            "owner": null,
+            "objector": null,
+            "status": "in_progress",
+            "certainty": null
+          }
+        ],
+        "time": [
+          {
+            "event_id": "evt_cfd48c4307986426",
+            "event_type": "time_event",
+            "claim": "网络环境配置还在进行，预计下周就绪。",
+            "event_time": "1778209556000",
+            "evidence_quote": "预计下周就绪",
+            "event_path": "sessions/FEISHU-334_chat_oc_ec85126f897b2cee55c91aff8737b-976471af/session_events.jsonl#evt_cfd48c4307986426",
+            "event_ref": "[[sessions/FEISHU-334_chat_oc_ec85126f897b2cee55c91aff8737b-976471af/session_events.jsonl#evt_cfd48c4307986426|evt_cfd48c4307986426]]",
+            "entry_ref": "[[sessions/FEISHU-334_chat_oc_ec85126f897b2cee55c91aff8737b-976471af/session.md#om_x100b50e17e4968a0c39db18c9de8fa7|om_x100b50e17e4968a0c39db18c9de8fa7]]",
+            "core_entry_id": "om_x100b50e17e4968a0c39db18c9de8fa7",
+            "subject_key": "网络环境配置",
+            "is_current": true,
+            "lifecycle_status": "active",
+            "lifecycle_reason": null,
+            "target": null,
+            "time_target": "网络环境配置",
+            "scope_target": null,
+            "action": null,
+            "owner": null,
+            "objector": null,
+            "status": null,
+            "certainty": "high"
+          }
+        ],
+        "scope": []
+      },
+      "status": "active",
+      "evidence_refs": [
+        {
+          "event_id": "evt_99567de638fbce7e",
+          "event_path": "sessions/FEISHU-334_chat_oc_ec85126f897b2cee55c91aff8737b-976471af/session_events.jsonl#evt_99567de638fbce7e",
+          "entry_ref": "[[sessions/FEISHU-334_chat_oc_ec85126f897b2cee55c91aff8737b-976471af/session.md#om_x100b50e17e4968a0c39db18c9de8fa7|om_x100b50e17e4968a0c39db18c9de8fa7]]",
+          "quote": "网络环境配置还在进行，预计下周就绪。"
+        },
+        {
+          "event_id": "evt_cfd48c4307986426",
+          "event_path": "sessions/FEISHU-334_chat_oc_ec85126f897b2cee55c91aff8737b-976471af/session_events.jsonl#evt_cfd48c4307986426",
+          "entry_ref": "[[sessions/FEISHU-334_chat_oc_ec85126f897b2cee55c91aff8737b-976471af/session.md#om_x100b50e17e4968a0c39db18c9de8fa7|om_x100b50e17e4968a0c39db18c9de8fa7]]",
+          "quote": "预计下周就绪"
+        }
+      ],
+      "summary": "网络环境配置进行中，预计下周就绪。"
+    }
+  },
+  "lifecycle_summary": {
+    "active_event_count": 3,
+    "historical_event_count": 0,
+    "invalid_event_count": 0
+  },
+  "updated_at": "2026-05-08T03:45:20.006Z"
+}

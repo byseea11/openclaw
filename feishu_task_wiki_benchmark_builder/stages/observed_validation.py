@@ -88,14 +88,14 @@ def build_pre_annotation_validation_report(
         private_refs = {str(row.get("private_info_ref") or "") for row in collected_messages}
         boundary_rows = [row for row in collected_messages if str(row.get("task_relevance_boundary") or "").strip()]
         family_id = str(official_file_plan.get("family_id") or "")
-        checks.append(
-            {
-                "check_id": "official_file_references_landed",
-                "passed": any(ref for ref in official_refs),
-                "details": f"official file refs in observed messages: {sorted(ref for ref in official_refs if ref)}",
-            }
-        )
         if family_id == "private_info_in_official_file":
+            checks.append(
+                {
+                    "check_id": "official_file_references_landed",
+                    "passed": any(ref for ref in official_refs),
+                    "details": f"official file refs in observed messages: {sorted(ref for ref in official_refs if ref)}",
+                }
+            )
             checks.append(
                 {
                     "check_id": "private_info_boundary_landed",

@@ -1,0 +1,15 @@
+{
+  "case_id": "case_20260508030344241236_evidence_dependency_reasoning",
+  "family_id": "evidence_dependency_reasoning",
+  "annotation_count": 6,
+  "query_count": 2,
+  "stage_contract": [
+    "annotation-gold",
+    "semantic-gold",
+    "query-benchmark",
+    "build-checks",
+    "gold-validate",
+    "replay-runtime",
+    "replay-eval"
+  ]
+}

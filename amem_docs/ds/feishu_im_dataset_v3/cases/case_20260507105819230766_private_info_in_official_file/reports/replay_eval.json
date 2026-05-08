@@ -1,0 +1,11 @@
+{
+  "case_id": "case_20260507105819230766_private_info_in_official_file",
+  "family_id": "private_info_in_official_file",
+  "system": "task_wiki",
+  "query_count": 5,
+  "metrics": {
+    "query_success_rate": 1.0,
+    "evidence_trace_rate": 1.0,
+    "current_state_accuracy": 1.0
+  }
+}

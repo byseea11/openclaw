@@ -105,6 +105,20 @@ class StoryPlanTests(unittest.TestCase):
         self.assertIn("story_plan.task is required", repair_context["validation_error"])
         self.assertEqual(repair_context["invalid_payload"], invalid_payload)
 
+    def test_repair_pass_fixes_wrong_target_task_id(self) -> None:
+        invalid_payload = _valid_story_plan()
+        invalid_payload["task"] = {"task_id": "FEISHU-301", "task_name": "错误任务", "role": "target_task"}
+        invalid_payload["task_actor_layout"]["target_task_id"] = "FEISHU-301"
+        invalid_payload["state_changes"][0]["task_id"] = "FEISHU-301"
+        invalid_payload["planned_probe_queries"][0]["query"] = "FEISHU-301 当前由谁负责？"
+        client = SequenceClient([invalid_payload, _valid_story_plan()])
+
+        artifact, _ = generate_story_plan(case_context=CASE_CONTEXT, model_client=client)
+
+        self.assertEqual(artifact["task"]["task_id"], "FEISHU-201")
+        self.assertEqual(client.stages, ["story-plan", "story-plan-repair"])
+        self.assertIn("story_plan.task.task_id must be FEISHU-201", client.user_payloads[1]["repair_context"]["validation_error"])
+
     def test_repair_failure_raises_payload_validation_error_with_both_payloads(self) -> None:
         initial_invalid = {"story_id": "story_case_001_anti_interference"}
         repair_invalid = {

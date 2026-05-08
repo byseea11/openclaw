@@ -1,0 +1,11 @@
+{
+  "case_id": "case_20260508030344241234_anti_interference",
+  "status": "passed",
+  "annotation_count": 8,
+  "missing_message_ids": [],
+  "allowed_task_ids": [
+    "FEISHU-334"
+  ],
+  "task_id_issues": [],
+  "dataset_audit_status": "passed"
+}

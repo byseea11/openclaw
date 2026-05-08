@@ -181,6 +181,21 @@ process.stdin.on("end", () => {
             self.assertTrue(check_ids["official_file_references_landed"])
             self.assertTrue(check_ids["private_info_boundary_landed"])
 
+    def test_non_private_family_does_not_require_official_file_refs(self) -> None:
+        with tempfile.TemporaryDirectory() as tmpdir:
+            compiled = compile_phase1(
+                dataset_root=tmpdir,
+                seed=25,
+                difficulty="hard",
+                family_id="contradiction_update",
+            )
+            case_dir = Path(compiled["case_dir"])
+            validation_report = read_json(case_dir / "checks" / "pre_annotation_validation_report.json")
+            check_ids = {check["check_id"]: check["passed"] for check in validation_report["checks"]}
+
+            self.assertTrue(validation_report["is_valid"])
+            self.assertNotIn("official_file_references_landed", check_ids)
+
     def test_build_all_supports_every_formal_family(self) -> None:
         with tempfile.TemporaryDirectory() as tmpdir:
             for offset, family_id in enumerate(ordered_family_ids(), start=31):

@@ -1,0 +1,11 @@
+{
+  "task_id": "task:FEISHU-335",
+  "task_key": "FEISHU-335",
+  "source_session_id": "task:FEISHU-335::chat:oc_360477e1d835fbdd2b71188a4b330405",
+  "source_scope": "chat:oc_360477e1d835fbdd2b71188a4b330405",
+  "source_type": "thread",
+  "source_id": "thread:handoff_thread",
+  "latest_ingest_version": 4,
+  "created_at": "2026-05-08T03:38:20.893Z",
+  "updated_at": "2026-05-08T03:39:19.651Z"
+}

@@ -1,0 +1,36 @@
+{
+  "case_id": "case_20260508030344241237_private_info_in_official_file",
+  "family_id": "private_info_in_official_file",
+  "task_id": "FEISHU-337",
+  "organization": "Globex Corporation",
+  "team": "Platform Engineering",
+  "business_goal": "确保项目计划和调度数据始终反映正式决策，不影响交付，且不因个人信息干扰导致任务状态描述错误。",
+  "scenario_summary": "Platform Engineering 团队在筹备一个跨部门上线评审，涉及正式上线 checklist、个人时间备注以及风险登记表。项目经理陈薇发起 FEISHU-337（服务器迁移上线计划）。在项目群多次讨论中，成员提供了正式文件引用、个人私有背景（如个人时间限制、私聊承诺），以及第三方转述。系统需要正确识别哪些是正式结论并投影到任务状态，哪些是个人上下文不应混入。",
+  "family_fit_explanation": "该场景中，正式上线 checklist 包含任务阻点和个人备注。多名成员引用、误读该文件，同时夹杂个人时间限制和私聊承诺。系统容易将个人备注当作任务阻塞或将个人承诺当作任务 owner 变更，属于典型的 private_info_in_official_file 测试。",
+  "source_sessions": [
+    {
+      "session_id": "main_chat",
+      "session_type": "main_chat",
+      "title": "主群协调",
+      "session_purpose": "沉淀目标任务的主线协作信息和最终 current state。"
+    },
+    {
+      "session_id": "thread_release",
+      "session_type": "chat",
+      "title": "thread_release 会话",
+      "session_purpose": "承载目标任务相关的补充协作上下文。"
+    },
+    {
+      "session_id": "handoff_thread",
+      "session_type": "handoff_thread",
+      "title": "交接修正线程",
+      "session_purpose": "承载 owner 交接、旧状态修正和 supersession 说明。"
+    },
+    {
+      "session_id": "risk_review_thread",
+      "session_type": "risk_review_thread",
+      "title": "风险复核线程",
+      "session_purpose": "承载依赖、风险和证据分层补充信息。"
+    }
+  ]
+}

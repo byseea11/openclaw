@@ -1,0 +1,49 @@
+{
+  "case_id": "case_20260508030344241234_anti_interference",
+  "family_id": "anti_interference",
+  "runtime": "task_wiki_replay_placeholder",
+  "answers": [
+    {
+      "query_id": "case_20260508030344241234_anti_interference_query_001",
+      "answer": "回答 Alice 是负责人，当前 blocker 是安全审查未通过，部署窗口待定。不应混入文档评审或运维排练中的信息。",
+      "supporting_message_ids": [
+        "om_x100b50e161e2e098c4a7d6ae43be6b8",
+        "om_x100b50e161f2dca4c22a575690d2c6f",
+        "om_x100b50e16195ac94c2e817c79608c7d",
+        "om_x100b50e17e5e54c8c2ec4e2b6bc8b01",
+        "om_x100b50e1612a98a8c4da805985b02aa",
+        "om_x100b50e161aac898c3fbbfeda5c94c5",
+        "om_x100b50e161b87c84c22f69108517a4a",
+        "om_x100b50e1614f0098c2148aeaec2ed5d"
+      ]
+    },
+    {
+      "query_id": "case_20260508030344241234_anti_interference_query_002",
+      "answer": "回答尚未就绪，因为安全审查未完成，部署窗口未确定。不应引用Eve在文档评审线程中关于手册的评论或Grace的排练内容。",
+      "supporting_message_ids": [
+        "om_x100b50e161e2e098c4a7d6ae43be6b8",
+        "om_x100b50e16195ac94c2e817c79608c7d",
+        "om_x100b50e161f2dca4c22a575690d2c6f",
+        "om_x100b50e161aac898c3fbbfeda5c94c5",
+        "om_x100b50e161b87c84c22f69108517a4a",
+        "om_x100b50e1614f0098c2148aeaec2ed5d",
+        "om_x100b50e17e5e54c8c2ec4e2b6bc8b01",
+        "om_x100b50e1612a98a8c4da805985b02aa"
+      ]
+    },
+    {
+      "query_id": "case_20260508030344241234_anti_interference_query_003",
+      "answer": "只提及安全审查未通过是唯一 blocker，不混入网络配置或文档评审中的其他问题。",
+      "supporting_message_ids": [
+        "om_x100b50e161e2e098c4a7d6ae43be6b8",
+        "om_x100b50e161f2dca4c22a575690d2c6f",
+        "om_x100b50e17e5e54c8c2ec4e2b6bc8b01",
+        "om_x100b50e1612a98a8c4da805985b02aa",
+        "om_x100b50e16195ac94c2e817c79608c7d",
+        "om_x100b50e161aac898c3fbbfeda5c94c5",
+        "om_x100b50e161b87c84c22f69108517a4a",
+        "om_x100b50e1614f0098c2148aeaec2ed5d"
+      ]
+    }
+  ]
+}

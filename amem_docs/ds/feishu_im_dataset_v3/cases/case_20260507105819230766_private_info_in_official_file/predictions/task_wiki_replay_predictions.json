@@ -1,0 +1,77 @@
+{
+  "case_id": "case_20260507105819230766_private_info_in_official_file",
+  "family_id": "private_info_in_official_file",
+  "runtime": "task_wiki_replay_placeholder",
+  "answers": [
+    {
+      "query_id": "case_20260507105819230766_private_info_in_official_file_query_001",
+      "answer": "回答应该明确指出当前状态是 '评审通过，等待安全审批'，blocker 是赵磊的安全审批。不应提及林晨只能周三参加评审或唐越的私下承诺作为 blocker。",
+      "supporting_message_ids": [
+        "om_x100b50f35669c8a8c2ff1e0a333df4d",
+        "om_x100b50f359bc74a8c4415529f1d8b69",
+        "om_x100b50f35623d0a8c27c3def99763b9",
+        "om_x100b50f359cf6880c2f5d079732a9ee",
+        "om_x100b50f3567d28acc3b1ba2387c5f58",
+        "om_x100b50f35604e10cc3bf2786e96584b",
+        "om_x100b50f359d150b4c282cec4ca6c5f3",
+        "om_x100b50f35b0de890c3b6b78c3bacb00"
+      ]
+    },
+    {
+      "query_id": "case_20260507105819230766_private_info_in_official_file_query_002",
+      "answer": "回答应说明林晨的个人时间限制不影响 FEISHU-366 的上线计划，因为正式评审无需全员同时参加，该限制未在正式文件中列为条件。当前只有安全审批是正式 blocker。",
+      "supporting_message_ids": [
+        "om_x100b50f35669c8a8c2ff1e0a333df4d",
+        "om_x100b50f35623d0a8c27c3def99763b9",
+        "om_x100b50f35b0de890c3b6b78c3bacb00",
+        "om_x100b50f359bc74a8c4415529f1d8b69",
+        "om_x100b50f359cf6880c2f5d079732a9ee",
+        "om_x100b50f3567d28acc3b1ba2387c5f58",
+        "om_x100b50f35604e10cc3bf2786e96584b",
+        "om_x100b50f359d150b4c282cec4ca6c5f3"
+      ]
+    },
+    {
+      "query_id": "case_20260507105819230766_private_info_in_official_file_query_003",
+      "answer": "回答应指出唐越的私下承诺不属于正式文件，合规确认尚未完成，法律确认仍以正式文件为准。不能将个人承诺等同于正式结论。",
+      "supporting_message_ids": [
+        "om_x100b50f35669c8a8c2ff1e0a333df4d",
+        "om_x100b50f35623d0a8c27c3def99763b9",
+        "om_x100b50f35b0de890c3b6b78c3bacb00",
+        "om_x100b50f359cf6880c2f5d079732a9ee",
+        "om_x100b50f3567d28acc3b1ba2387c5f58",
+        "om_x100b50f35604e10cc3bf2786e96584b",
+        "om_x100b50f359d150b4c282cec4ca6c5f3",
+        "om_x100b50f356aeb8bcc2c7c6b6e536f5c"
+      ]
+    },
+    {
+      "query_id": "case_20260507105819230766_private_info_in_official_file_query_004",
+      "answer": "回答应列出正式条件：安全审批、QA 签字、法律确认、产品确认、运维就绪。明确林晨的时间限制不是正式条件，只是个人上下文。",
+      "supporting_message_ids": [
+        "om_x100b50f35669c8a8c2ff1e0a333df4d",
+        "om_x100b50f35623d0a8c27c3def99763b9",
+        "om_x100b50f35b0de890c3b6b78c3bacb00",
+        "om_x100b50f359cf6880c2f5d079732a9ee",
+        "om_x100b50f3567d28acc3b1ba2387c5f58",
+        "om_x100b50f35604e10cc3bf2786e96584b",
+        "om_x100b50f359d150b4c282cec4ca6c5f3",
+        "om_x100b50f356aeb8bcc2c7c6b6e536f5c"
+      ]
+    },
+    {
+      "query_id": "case_20260507105819230766_private_info_in_official_file_query_005",
+      "answer": "回答应提取正式结论：评审通过、等待安全审批。并说明纪要备注中提到了林晨的个人时间偏好，但该备注不是正式结论，不改变任务状态。",
+      "supporting_message_ids": [
+        "om_x100b50f35623d0a8c27c3def99763b9",
+        "om_x100b50f35669c8a8c2ff1e0a333df4d",
+        "om_x100b50f35b0de890c3b6b78c3bacb00",
+        "om_x100b50f359cf6880c2f5d079732a9ee",
+        "om_x100b50f3567d28acc3b1ba2387c5f58",
+        "om_x100b50f35604e10cc3bf2786e96584b",
+        "om_x100b50f359d150b4c282cec4ca6c5f3",
+        "om_x100b50f356aeb8bcc2c7c6b6e536f5c"
+      ]
+    }
+  ]
+}

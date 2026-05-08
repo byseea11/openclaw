@@ -27,13 +27,18 @@ usage() {
       -> comparative-score
 
       Task Wiki runtime health 检查三层是否跑通。
-      OpenClaw real baseline 使用已启动 Gateway，按 sender_open_id + source session 保留多人物记忆边界，再检查 query answers 和 evidence traces。
+      OpenClaw real baseline 使用已启动 Gateway，按真实 source session replay，同一 source session 内保留多人物 transcript，再检查 query answers 和 evidence traces。
       Comparative score 比较两套系统在 answer / evidence / safety / efficiency 上的表现。
 
   phase3 --task-wiki-only
   phase3 --stage task-wiki-runtime-eval
       只执行 Task Wiki 三层 runtime eval，不启动或调用 OpenClaw baseline。
       适合先验证 `task_wiki_3_layer` 本身效果，输出 runtime/task_wiki_replay/* 和 reports/task_wiki_runtime_eval.md。
+
+  phase3 --openclaw-only
+  phase3 --stage openclaw-real-baseline-eval
+      只执行 OpenClaw 原始 baseline，不重跑 Task Wiki 三层。
+      适合调试 `openclaw_original` 是否完整 ingest、memory visibility 是否通过。
 
 评估口径：
   - answer correctness 和 evidence correctness 分开评分。
@@ -61,6 +66,9 @@ usage() {
 
   --stage task-wiki-runtime-eval
       等价于 --task-wiki-only。
+
+  --openclaw-only
+      只跑 OpenClaw baseline，不跑三层和 comparative-score。
 
 输出：
   <case_dir>/runtime/task_wiki_replay/*
@@ -97,6 +105,7 @@ usage() {
 示例：
   amem_docs/scripts/03-feishu-task-wiki-phase3-eval.sh
   amem_docs/scripts/03-feishu-task-wiki-phase3-eval.sh --task-wiki-only
+  amem_docs/scripts/03-feishu-task-wiki-phase3-eval.sh --openclaw-only --case-dir amem_docs/ds/feishu_im_dataset_v3/cases/<case_id> --semantic-gold rule
   amem_docs/scripts/03-feishu-task-wiki-phase3-eval.sh --stage task-wiki-runtime-eval --case-dir amem_docs/ds/feishu_im_dataset_v3/cases/<case_id>
   amem_docs/scripts/03-feishu-task-wiki-phase3-eval.sh --case-dir amem_docs/ds/feishu_im_dataset_v3/cases/<case_id>
   amem_docs/scripts/03-feishu-task-wiki-phase3-eval.sh --batch-dir amem_docs/ds/feishu_im_dataset_v3/batches/<batch_id>
@@ -120,12 +129,19 @@ while (($# > 0)); do
       mode="task_wiki_only"
       shift
       ;;
+    --openclaw-only|--openclaw-real-baseline-eval)
+      mode="openclaw_only"
+      shift
+      ;;
     --stage)
-      if [[ "${2:-}" != "task-wiki-runtime-eval" ]]; then
-        echo "--stage 当前只支持 task-wiki-runtime-eval；完整 Phase3 请不传 --stage。" >&2
+      if [[ "${2:-}" == "task-wiki-runtime-eval" ]]; then
+        mode="task_wiki_only"
+      elif [[ "${2:-}" == "openclaw-real-baseline-eval" ]]; then
+        mode="openclaw_only"
+      else
+        echo "--stage 当前只支持 task-wiki-runtime-eval 或 openclaw-real-baseline-eval；完整 Phase3 请不传 --stage。" >&2
         exit 2
       fi
-      mode="task_wiki_only"
       shift 2
       ;;
     --batch-dir|--continue-on-error|--force)
@@ -154,6 +170,26 @@ if [[ "${mode}" == "task_wiki_only" ]]; then
     node feishu_task_wiki_benchmark_builder/runtime/task_wiki_runtime_eval.mjs "${forward_args[@]}"
   else
     node feishu_task_wiki_benchmark_builder/runtime/task_wiki_runtime_eval.mjs
+  fi
+elif [[ "${mode}" == "openclaw_only" ]]; then
+  openclaw_args=()
+  for ((i=0; i<${#forward_args[@]}; i++)); do
+    case "${forward_args[$i]}" in
+      --batch-dir|--continue-on-error)
+        echo "只跑 openclaw-real-baseline-eval 时不支持：${forward_args[$i]}；请改用完整 Phase3 或逐个传 --case-dir。" >&2
+        exit 2
+        ;;
+      --force)
+        ;;
+      *)
+        openclaw_args+=("${forward_args[$i]}")
+        ;;
+    esac
+  done
+  if ((${#openclaw_args[@]} > 0)); then
+    node feishu_task_wiki_benchmark_builder/runtime/openclaw_baseline_eval.mjs "${openclaw_args[@]}"
+  else
+    node feishu_task_wiki_benchmark_builder/runtime/openclaw_baseline_eval.mjs
   fi
 else
   if ((${#forward_args[@]} > 0)); then

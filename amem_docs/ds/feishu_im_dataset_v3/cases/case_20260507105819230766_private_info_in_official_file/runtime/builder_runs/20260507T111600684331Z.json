@@ -1,0 +1,13 @@
+{
+  "phase": "phase1",
+  "stage": "capability-brief",
+  "status": "skipped",
+  "started_at": "2026-05-07T11:16:00.684104+00:00",
+  "ended_at": "2026-05-07T11:16:00.684319+00:00",
+  "artifact_paths": [
+    "amem_docs/ds/feishu_im_dataset_v3/cases/case_20260507105819230766_private_info_in_official_file/input/memory_capability_brief.json"
+  ],
+  "skipped": true,
+  "run_id": "20260507T111600684331Z",
+  "updated_at": "2026-05-07T11:16:00.684336+00:00"
+}

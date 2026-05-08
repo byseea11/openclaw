@@ -1,0 +1,13 @@
+{
+  "phase": "phase3",
+  "stage": "openclaw-real-baseline-eval",
+  "status": "completed",
+  "started_at": "2026-05-07T12:20:59.215938+00:00",
+  "ended_at": "2026-05-07T12:24:49.291295+00:00",
+  "artifact_paths": [
+    "amem_docs/ds/feishu_im_dataset_v3/cases/case_20260507112905870826_contradiction_update/reports/openclaw_baseline_eval.json"
+  ],
+  "skipped": false,
+  "run_id": "20260507T122449291320Z",
+  "updated_at": "2026-05-07T12:24:49.292040+00:00"
+}

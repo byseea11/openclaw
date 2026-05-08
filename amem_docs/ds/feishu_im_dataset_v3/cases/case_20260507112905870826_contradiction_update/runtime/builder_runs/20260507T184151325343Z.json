@@ -1,0 +1,16 @@
+{
+  "phase": "phase3",
+  "stage": "openclaw-real-baseline-eval",
+  "status": "skipped",
+  "started_at": "2026-05-07T18:41:51.322474+00:00",
+  "ended_at": "2026-05-07T18:41:51.325323+00:00",
+  "artifact_paths": [
+    "amem_docs/ds/feishu_im_dataset_v3/cases/case_20260507112905870826_contradiction_update/runtime/openclaw_baseline/answers.json",
+    "amem_docs/ds/feishu_im_dataset_v3/cases/case_20260507112905870826_contradiction_update/runtime/openclaw_baseline/evidence_traces.json",
+    "amem_docs/ds/feishu_im_dataset_v3/cases/case_20260507112905870826_contradiction_update/runtime/openclaw_baseline/replay_metadata.json",
+    "amem_docs/ds/feishu_im_dataset_v3/cases/case_20260507112905870826_contradiction_update/reports/openclaw_baseline_eval.json"
+  ],
+  "skipped": true,
+  "run_id": "20260507T184151325343Z",
+  "updated_at": "2026-05-07T18:41:51.325424+00:00"
+}

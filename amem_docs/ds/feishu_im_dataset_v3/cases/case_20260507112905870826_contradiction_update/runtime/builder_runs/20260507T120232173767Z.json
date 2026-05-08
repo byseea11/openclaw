@@ -1,0 +1,14 @@
+{
+  "phase": "phase2",
+  "stage": "build-checks",
+  "status": "skipped",
+  "started_at": "2026-05-07T12:02:32.173408+00:00",
+  "ended_at": "2026-05-07T12:02:32.173755+00:00",
+  "artifact_paths": [
+    "amem_docs/ds/feishu_im_dataset_v3/cases/case_20260507112905870826_contradiction_update/checks/eval_manifest.json",
+    "amem_docs/ds/feishu_im_dataset_v3/cases/case_20260507112905870826_contradiction_update/checks/integrity_gate.json"
+  ],
+  "skipped": true,
+  "run_id": "20260507T120232173767Z",
+  "updated_at": "2026-05-07T12:02:32.173771+00:00"
+}

@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+import crypto from "node:crypto";
 import { spawnSync } from "node:child_process";
 import fs from "node:fs";
 import path from "node:path";
@@ -34,6 +35,8 @@ function parseArgs(argv) {
       args.json = true;
     } else if (item === "--quiet") {
       args.quiet = true;
+    } else if (item === "--force") {
+      // Accepted for shell wrapper compatibility; this runtime always reruns.
     } else if (item === "-h" || item === "--help" || item === "help") {
       printHelp();
       process.exit(0);
@@ -55,10 +58,12 @@ function printHelp() {
   - 这个脚本是 Phase 3 的底层 OpenClaw baseline 调试入口。
   - 日常 Phase 3 请使用：amem_docs/scripts/03-feishu-task-wiki-phase3-eval.sh
   - 本脚本只评估原始 OpenClaw，不调用 Task Wiki 三层实现。
-  - 默认使用 openclaw_real_replay：先检查已启动的 OpenClaw Gateway，再按 sender_open_id + source session 写入多个 Gateway agent session，并用 query session 回答 benchmark query。
+  - 默认使用 openclaw_real_replay：先检查已启动的 OpenClaw Gateway，再按真实 source session 写入多个 Gateway agent session，并用 query session 回答 benchmark query。
   - 不再隐式使用近似 baseline；如果真实 OpenClaw replay 入口不可用，脚本直接失败。
   - 测试或专用 harness 可通过 OPENCLAW_BENCHMARK_REPLAY_COMMAND 注入 benchmark-only replay command。
   - 如需指定 CLI，可设置 OPENCLAW_BENCHMARK_OPENCLAW_COMMAND；默认使用 PATH 中的 openclaw。
+  - Gateway agent 启动 RPC 超时可设置 OPENCLAW_BENCHMARK_GATEWAY_RPC_TIMEOUT_MS，默认 30000ms。
+  - agent.wait 等待上限可设置 OPENCLAW_BENCHMARK_AGENT_WAIT_MS，默认 600000ms。
 
 参数：
   --case-dir <path>
@@ -86,6 +91,7 @@ function printHelp() {
   <case_dir>/runtime/openclaw_baseline/answers.json
   <case_dir>/runtime/openclaw_baseline/evidence_traces.json
   <case_dir>/runtime/openclaw_baseline/replay_metadata.json
+  <case_dir>/runtime/openclaw_baseline/memory_visibility.json
   <case_dir>/reports/openclaw_baseline_eval.json
 
 示例：
@@ -117,6 +123,11 @@ function readJsonl(filePath) {
 function writeJson(filePath, payload) {
   fs.mkdirSync(path.dirname(filePath), { recursive: true });
   fs.writeFileSync(filePath, `${JSON.stringify(payload, null, 2)}\n`, "utf8");
+}
+
+function appendJsonl(filePath, payload) {
+  fs.mkdirSync(path.dirname(filePath), { recursive: true });
+  fs.appendFileSync(filePath, `${JSON.stringify(payload)}\n`, "utf8");
 }
 
 function truncateText(value, limit = 12000) {
@@ -294,6 +305,7 @@ function buildQueryPrompt({ caseContext, query }) {
   return [
     "你正在以原始 OpenClaw 助手身份回答 benchmark query。",
     "只能依据 OpenClaw 已写入的 workspace/session memory 回答。",
+    "如果当前 memory context 只给出截断内容或截断 message_id，必须先调用 OpenClaw 原生 memory_search / memory_get 找到完整记忆条目。",
     "不要使用 Task Wiki 的三层 event/wiki/gold artifact。",
     "不要使用外部 transcript、planned data 或 benchmark gold。",
     "请输出一个 JSON object，不要输出 Markdown。",
@@ -303,6 +315,7 @@ function buildQueryPrompt({ caseContext, query }) {
     "",
     "证据要求：",
     "- supporting_message_ids 只能来自 OpenClaw 记忆中实际保存过的 observed message_id。",
+    "- 必须尽量返回完整 observed message_id；如果记忆中只有截断 ID，请先读取原始 memory 条目后再回答。",
     "- 如果 OpenClaw 原生记忆没有给出可定位 message_id，supporting_message_ids 返回空数组。",
     "- 不要编造 message_id。",
     "",
@@ -332,8 +345,11 @@ function buildTranscriptIngestPrompt({ caseContext, observedRows }) {
     .join("\n");
   return [
     "你是原始 OpenClaw 记忆系统。下面是一批 benchmark observed transcript。",
-    "请把它们作为当前 OpenClaw session 的记忆上下文保存，后续 query 只能依据这些消息回答。",
-    "必须保留 message_id、sender_open_id、source session 与原文的对应关系；不要使用 Task Wiki 的 event/wiki/gold artifact。",
+    "请使用 OpenClaw 原生 workspace/memory 机制保存一个 compact evidence index，后续 query 只能依据这些原生记忆回答。",
+    "必须保存 task_id、source session、每条 observed message_id、sender_open_id、sender、原文摘要之间的对应关系。",
+    "必须保留每条 observed message_id 的原始 ID，不要改写、缩写或编造 ID。",
+    "不要使用 Task Wiki 的 event/wiki/gold artifact，不要使用 planned-only data。",
+    "如果需要写入记忆文件，请写入原生 memory/workspace，而不是回复给用户。",
     "",
     `Case: ${caseContext.case_id}`,
     `Task: ${caseContext.task_id}`,
@@ -342,7 +358,7 @@ function buildTranscriptIngestPrompt({ caseContext, observedRows }) {
     "Observed transcript:",
     transcript,
     "",
-    '回复一个简短 JSON：{"status":"ingested"}',
+    '完成保存后只回复一个简短 JSON：{"status":"ingested"}',
   ].join("\n");
 }
 
@@ -357,24 +373,72 @@ function sessionToken(value) {
 }
 
 function sourceScopeForRow(row) {
-  return row.thread_id || row.chat_id || row.session_id || "unknown-source";
+  return (
+    row?.benchmark_trace?.source_session_id ||
+    row?.benchmark_trace?.source_ref ||
+    row.session_id ||
+    row.thread_id ||
+    row.chat_id ||
+    row.message?.thread_id ||
+    row.message?.chat_id ||
+    row.message?.session_id ||
+    "unknown-source"
+  );
+}
+
+function senderScopeForRow(row) {
+  return row.sender_open_id || row?.sender?.sender_id?.open_id || "unknown-sender";
 }
 
 function openClawSenderSessionKey({ caseContext, row, runToken }) {
   const caseToken = sessionToken(caseContext.case_id);
   const run = sessionToken(runToken);
-  const sourceToken = sessionToken(sourceScopeForRow(row));
-  const senderToken = sessionToken(row.sender_open_id || "unknown-sender");
-  return `agent:main:feishu-benchmark:${caseToken}:run:${run}:source:${sourceToken}:sender:${senderToken}`;
+  const senderToken = sessionToken(senderScopeForRow(row));
+  return `agent:main:feishu-benchmark:${caseToken}:run:${run}:sender:${senderToken}`;
+}
+
+function openClawCaseTranscriptSessionKey({ caseContext, runToken }) {
+  return `agent:main:feishu-benchmark:${sessionToken(caseContext.case_id)}:run:${sessionToken(runToken)}:case-transcript`;
+}
+
+function baselineIngestMode() {
+  const mode = String(process.env.OPENCLAW_BENCHMARK_INGEST_MODE || "case_transcript").trim();
+  return mode === "sender_sessions" ? "sender_sessions" : "case_transcript";
 }
 
 function openClawQuerySessionKey({ caseContext, runToken, queryId }) {
   return `agent:main:feishu-benchmark:${sessionToken(caseContext.case_id)}:run:${sessionToken(runToken)}:query:${sessionToken(queryId)}`;
 }
 
+function openClawProbeSessionKey({ caseContext, runToken }) {
+  return `agent:main:feishu-benchmark:${sessionToken(caseContext.case_id)}:run:${sessionToken(runToken)}:probe:memory-visibility`;
+}
+
+function stableShortHash(value) {
+  return crypto.createHash("sha256").update(String(value)).digest("hex").slice(0, 16);
+}
+
+function idempotencyKeyFor({ caseContext, runToken, purpose, key }) {
+  return [
+    "phase3",
+    sessionToken(caseContext.case_id).slice(0, 48),
+    sessionToken(runToken),
+    sessionToken(purpose).slice(0, 24),
+    stableShortHash(key),
+  ].join("-");
+}
+
 function groupRowsByOpenClawSession({ caseContext, observedRows, runToken }) {
   const groups = new Map();
   const sessionKeysByMessageId = new Map();
+  if (baselineIngestMode() === "case_transcript") {
+    const sessionKey = openClawCaseTranscriptSessionKey({ caseContext, runToken });
+    groups.set(sessionKey, observedRows);
+    for (const row of observedRows) {
+      sessionKeysByMessageId.set(row.message_id, sessionKey);
+    }
+    return { groups, sessionKeysByMessageId };
+  }
   for (const row of observedRows) {
     const sessionKey = openClawSenderSessionKey({ caseContext, row, runToken });
     sessionKeysByMessageId.set(row.message_id, sessionKey);
@@ -383,6 +447,30 @@ function groupRowsByOpenClawSession({ caseContext, observedRows, runToken }) {
     groups.set(sessionKey, group);
   }
   return { groups, sessionKeysByMessageId };
+}
+
+function buildSourceScopeStats(groups) {
+  return Array.from(groups.entries()).map(([sessionKey, rows]) => {
+    const sourceScopes = new Set(rows.map((row) => sourceScopeForRow(row)).filter(Boolean));
+    return {
+      session_key: sessionKey,
+      sender_open_id: senderScopeForRow(rows[0] || {}),
+      message_count: rows.length,
+      source_scope_count: sourceScopes.size,
+      first_message_id: rows[0]?.message_id || "",
+      last_message_id: rows.at(-1)?.message_id || "",
+    };
+  });
+}
+
+function writeReplayProgress(progressPath, payload) {
+  if (!progressPath) {
+    return;
+  }
+  appendJsonl(progressPath, {
+    at: new Date().toISOString(),
+    ...payload,
+  });
 }
 
 function parseJsonFromText(text) {
@@ -406,20 +494,47 @@ function parseJsonFromText(text) {
   return null;
 }
 
+function gatewaySessionIdFromPayload(payload) {
+  const value =
+    payload?.result?.meta?.agentMeta?.sessionId ||
+    payload?.meta?.agentMeta?.sessionId ||
+    payload?.result?.sessionId ||
+    payload?.sessionId;
+  return typeof value === "string" ? value : "";
+}
+
+function gatewayRunIdFromPayload(payload) {
+  const value = payload?.runId || payload?.result?.runId;
+  return typeof value === "string" ? value : "";
+}
+
 function commandParts() {
   return (process.env.OPENCLAW_BENCHMARK_OPENCLAW_COMMAND || "openclaw").trim().split(/\s+/);
 }
 
-function gatewayCallTimeoutMs() {
-  const parsed = Number(process.env.OPENCLAW_BENCHMARK_GATEWAY_TIMEOUT_MS || "180000");
-  return Number.isFinite(parsed) && parsed > 0 ? parsed : 180000;
+function gatewayRpcTimeoutMs() {
+  const parsed = Number(
+    process.env.OPENCLAW_BENCHMARK_GATEWAY_RPC_TIMEOUT_MS ||
+      process.env.OPENCLAW_BENCHMARK_GATEWAY_TIMEOUT_MS ||
+      "30000",
+  );
+  return Number.isFinite(parsed) && parsed > 0 ? parsed : 30_000;
+}
+
+function agentWaitMs() {
+  const parsed = Number(
+    process.env.OPENCLAW_BENCHMARK_AGENT_WAIT_MS ||
+      process.env.OPENCLAW_BENCHMARK_GATEWAY_TIMEOUT_MS ||
+      "600000",
+  );
+  return Number.isFinite(parsed) && parsed > 0 ? parsed : 600_000;
 }
 
 function gatewayAgentTimeoutSeconds(timeoutMs) {
   return Math.max(1, Math.ceil(timeoutMs / 1000));
 }
 
-function runOpenClawGatewayCall({ method, params, timeout = gatewayCallTimeoutMs(), expectFinal = false }) {
+function runOpenClawGatewayCall({ method, params, timeout = gatewayRpcTimeoutMs(), expectFinal = false }) {
   const args = [
     ...commandParts(),
     "gateway",
@@ -468,6 +583,182 @@ function preflightOpenClawGateway() {
     );
   }
   return call;
+}
+
+function gatewayWaitStatusFromPayload(payload) {
+  const result = payload?.result && typeof payload.result === "object" ? payload.result : payload;
+  const status = result?.status ?? payload?.status;
+  return typeof status === "string" ? status : "";
+}
+
+function isSuccessfulAgentWaitStatus(status) {
+  return !status || status === "ok" || status === "completed" || status === "success";
+}
+
+function runOpenClawChatHistory({ sessionKey }) {
+  return runOpenClawGatewayCall({
+    method: "chat.history",
+    params: {
+      sessionKey,
+      limit: 30,
+      maxChars: 120_000,
+    },
+    timeout: gatewayRpcTimeoutMs(),
+    expectFinal: false,
+  });
+}
+
+function historyMessagesFromPayload(payload) {
+  const result = payload?.result && typeof payload.result === "object" ? payload.result : payload;
+  const messages = result?.messages ?? payload?.messages;
+  return Array.isArray(messages) ? messages : [];
+}
+
+function roleFromHistoryMessage(message) {
+  const role = message?.role ?? message?.message?.role;
+  return typeof role === "string" ? role : "";
+}
+
+function textFromHistoryValue(value) {
+  if (typeof value === "string") {
+    return value;
+  }
+  if (Array.isArray(value)) {
+    return value
+      .map((item) => textFromHistoryValue(item))
+      .filter(Boolean)
+      .join("\n");
+  }
+  if (!value || typeof value !== "object") {
+    return "";
+  }
+  const direct = firstStringAtKeys(value, ["text", "content", "message", "answer", "output"]);
+  if (direct) {
+    return direct;
+  }
+  return "";
+}
+
+function textFromHistoryMessage(message) {
+  if (!message || typeof message !== "object") {
+    return "";
+  }
+  const nestedMessage = message.message && typeof message.message === "object" ? message.message : {};
+  const candidates = [
+    message.visibleText,
+    message.text,
+    message.content,
+    nestedMessage.visibleText,
+    nestedMessage.text,
+    nestedMessage.content,
+  ];
+  return candidates
+    .map((candidate) => textFromHistoryValue(candidate))
+    .filter(Boolean)
+    .join("\n")
+    .trim();
+}
+
+function extractLatestAssistantTextFromHistory(payload) {
+  const messages = historyMessagesFromPayload(payload);
+  for (let index = messages.length - 1; index >= 0; index -= 1) {
+    const message = messages[index];
+    if (roleFromHistoryMessage(message) !== "assistant") {
+      continue;
+    }
+    const text = textFromHistoryMessage(message);
+    if (text) {
+      return text;
+    }
+  }
+  return "";
+}
+
+function runOpenClawAgentTurn({
+  params,
+  waitMs = agentWaitMs(),
+  progressPath,
+  progress,
+}) {
+  const startCall = runOpenClawGatewayCall({
+    method: "agent",
+    params,
+    timeout: gatewayRpcTimeoutMs(),
+    expectFinal: false,
+  });
+  const runId = gatewayRunIdFromPayload(startCall.payload);
+  writeReplayProgress(progressPath, {
+    phase: "agent_started",
+    ...progress,
+    run_id: runId,
+    returncode: startCall.returncode,
+    stderr: truncateText(startCall.stderr, 2000),
+  });
+  if (startCall.returncode !== 0 || !runId) {
+    return {
+      ...startCall,
+      run_id: runId,
+      wait_call: null,
+      start_call: startCall,
+      wait_status: "",
+      returncode: startCall.returncode || 1,
+      stderr: [
+        startCall.stderr,
+        runId ? "" : "Gateway agent start response did not include runId",
+      ]
+        .filter(Boolean)
+        .join("\n"),
+    };
+  }
+
+  const waitTimeoutMs = waitMs + 5_000;
+  const waitCall = runOpenClawGatewayCall({
+    method: "agent.wait",
+    params: { runId, timeoutMs: waitMs },
+    timeout: waitTimeoutMs,
+    expectFinal: false,
+  });
+  const waitStatus = gatewayWaitStatusFromPayload(waitCall.payload);
+  const terminalOk = waitCall.returncode === 0 && isSuccessfulAgentWaitStatus(waitStatus);
+  writeReplayProgress(progressPath, {
+    phase: "agent_wait_completed",
+    ...progress,
+    run_id: runId,
+    wait_status: waitStatus,
+    returncode: waitCall.returncode,
+    stderr: truncateText(waitCall.stderr, 2000),
+  });
+  const historyCall =
+    terminalOk && typeof params.sessionKey === "string" && params.sessionKey
+      ? runOpenClawChatHistory({ sessionKey: params.sessionKey })
+      : null;
+  const assistantText = historyCall ? extractLatestAssistantTextFromHistory(historyCall.payload) : "";
+  if (historyCall) {
+    writeReplayProgress(progressPath, {
+      phase: "chat_history_fetched",
+      ...progress,
+      run_id: runId,
+      session_key: params.sessionKey,
+      returncode: historyCall.returncode,
+      assistant_text_chars: assistantText.length,
+      stderr: truncateText(historyCall.stderr, 2000),
+    });
+  }
+  return {
+    ...waitCall,
+    run_id: runId,
+    wait_status: waitStatus,
+    wait_call: waitCall,
+    start_call: startCall,
+    history_call: historyCall,
+    assistant_text: assistantText,
+    returncode: terminalOk ? 0 : waitCall.returncode || 1,
+    stderr: terminalOk
+      ? waitCall.stderr
+      : [waitCall.stderr, waitStatus ? `agent.wait status=${waitStatus}` : ""]
+          .filter(Boolean)
+          .join("\n"),
+  };
 }
 
 function extractGatewayReplyText(payload, stdout) {
@@ -527,11 +818,40 @@ function firstStringAtKeys(value, keys) {
   return "";
 }
 
+function canonicalAllowedId(candidate, allowedIds) {
+  const id = String(candidate || "").trim();
+  if (!id) {
+    return "";
+  }
+  if (allowedIds.includes(id)) {
+    return id;
+  }
+  if (id.length < 16) {
+    return "";
+  }
+  const prefixMatches = allowedIds.filter((allowedId) => allowedId.startsWith(id));
+  if (prefixMatches.length === 1) {
+    return prefixMatches[0];
+  }
+  const containingMatches = allowedIds.filter((allowedId) => id.startsWith(allowedId));
+  if (containingMatches.length === 1) {
+    return containingMatches[0];
+  }
+  return "";
+}
+
 function extractIdsFromText(text, allowedIds) {
   const output = new Set();
   for (const id of allowedIds) {
     if (id && String(text).includes(id)) {
       output.add(id);
+    }
+  }
+  const candidatePattern = /om_[A-Za-z0-9_]+/gu;
+  for (const match of String(text || "").matchAll(candidatePattern)) {
+    const canonical = canonicalAllowedId(match[0], allowedIds);
+    if (canonical) {
+      output.add(canonical);
     }
   }
   return Array.from(output);
@@ -550,8 +870,8 @@ function normalizeReplayAnswer({ raw, query, allowedIds, stdout }) {
       ? payload.evidence_message_ids
       : [];
   const supportingIds = rawIds
-    .map((id) => String(id || "").trim())
-    .filter((id) => allowedIds.includes(id));
+    .map((id) => canonicalAllowedId(id, allowedIds))
+    .filter(Boolean);
   for (const id of extractIdsFromText(answer, allowedIds)) {
     if (!supportingIds.includes(id)) {
       supportingIds.push(id);
@@ -583,6 +903,125 @@ function normalizeReplayAnswer({ raw, query, allowedIds, stdout }) {
           : "原始 OpenClaw 输出未引用 query gold observed message_id",
       ],
     },
+  };
+}
+
+function buildFailedReplayAnswers({ queries, reason, rawOutput = null }) {
+  return queries.map((query) => ({
+    query_id: query.query_id,
+    query: query.query,
+    expected_good_behavior: query.expected_good_behavior,
+    answer: "",
+    supporting_message_ids: [],
+    support_quotes: [],
+    raw_openclaw_output: rawOutput || { status: "failed", reason },
+    no_final_answer: true,
+    judge_result: {
+      success: false,
+      evidence_trace_ok: false,
+      current_state_ok: false,
+      private_info_leaked: false,
+      official_fact_ok: false,
+      reasons: [reason],
+    },
+  }));
+}
+
+function buildMemoryVisibilityProbePrompt({ caseContext }) {
+  return [
+    "你正在执行 OpenClaw baseline memory visibility probe。",
+    "只能依据 OpenClaw 已写入的 workspace/session memory 回答。",
+    "如果当前 memory context 只显示截断摘要或截断 message_id，必须调用 OpenClaw 原生 memory_search / memory_get 读取完整记忆条目。",
+    "不要使用 Task Wiki 的三层 event/wiki/gold artifact。",
+    "不要使用外部 transcript、planned data 或 benchmark gold。",
+    "请检查当前 OpenClaw 原生记忆是否能召回本次 benchmark task。",
+    "",
+    "请输出一个 JSON object，不要输出 Markdown。",
+    'JSON schema: {"status":"passed|failed","task_id":"...","found_message_ids":["om_..."],"answer":"..."}',
+    "",
+    `Case: ${caseContext.case_id}`,
+    `Task: ${caseContext.task_id}`,
+    "",
+    `Probe: 请从 OpenClaw 原生记忆中查找 ${caseContext.task_id}，优先返回至少 3 个完整 observed message_id。`,
+  ].join("\n");
+}
+
+function buildMemoryVisibilityResult({ caseContext, observedRows, probeCall, replyText }) {
+  const allowedIds = observedRows.map((row) => row.message_id).filter(Boolean);
+  const parsed = parseJsonFromText(replyText) || parseJsonFromText(probeCall.stdout) || {};
+  const answerText = [
+    typeof parsed.answer === "string" ? parsed.answer : "",
+    typeof parsed.text === "string" ? parsed.text : "",
+    typeof parsed.message === "string" ? parsed.message : "",
+    replyText,
+  ]
+    .filter(Boolean)
+    .join("\n");
+  const idsFromPayload = Array.isArray(parsed.found_message_ids)
+    ? parsed.found_message_ids
+    : Array.isArray(parsed.supporting_message_ids)
+      ? parsed.supporting_message_ids
+      : [];
+  const foundIds = new Set(
+    idsFromPayload.map((id) => canonicalAllowedId(id, allowedIds)).filter(Boolean),
+  );
+  for (const id of extractIdsFromText(answerText, allowedIds)) {
+    foundIds.add(id);
+  }
+  const observedOrder = new Map(allowedIds.map((id, index) => [id, index]));
+  const foundMessageIds = Array.from(foundIds).sort(
+    (left, right) =>
+      (observedOrder.get(left) ?? Number.MAX_SAFE_INTEGER) -
+      (observedOrder.get(right) ?? Number.MAX_SAFE_INTEGER),
+  );
+  const recommendedMessageIdCount = Math.min(3, allowedIds.length);
+  const requiredMessageIdCount = Math.min(1, allowedIds.length);
+  const taskVisible = answerText.includes(caseContext.task_id);
+  const status =
+    probeCall.returncode === 0 && taskVisible && foundMessageIds.length >= requiredMessageIdCount
+      ? "passed"
+      : "failed";
+  const visibilityQuality =
+    status === "passed" && foundMessageIds.length < recommendedMessageIdCount
+      ? "degraded"
+      : status === "passed"
+        ? "full"
+        : "failed";
+  const missingExpected = allowedIds.filter((id) => !foundIds.has(id)).slice(0, 10);
+  const reasons = [];
+  const warnings = [];
+  if (probeCall.returncode !== 0) {
+    reasons.push("memory visibility probe command failed");
+  }
+  if (!taskVisible) {
+    reasons.push(`probe answer did not mention ${caseContext.task_id}`);
+  }
+  if (foundMessageIds.length < requiredMessageIdCount) {
+    reasons.push(
+      `probe found ${foundMessageIds.length} observed message ids; required ${requiredMessageIdCount}`,
+    );
+  }
+  if (status === "passed" && foundMessageIds.length < recommendedMessageIdCount) {
+    warnings.push(
+      `probe found ${foundMessageIds.length} observed message ids; recommended ${recommendedMessageIdCount}`,
+    );
+  }
+  return {
+    status,
+    visibility_quality: visibilityQuality,
+    task_id: caseContext.task_id,
+    required_message_id_count: requiredMessageIdCount,
+    recommended_message_id_count: recommendedMessageIdCount,
+    found_message_ids: foundMessageIds,
+    missing_expected_message_ids_sample: missingExpected,
+    probe_answers: [
+      {
+        answer: answerText,
+        raw_openclaw_output: parsed && Object.keys(parsed).length > 0 ? parsed : replyText,
+      },
+    ],
+    reasons,
+    warnings,
   };
 }
 
@@ -640,7 +1079,13 @@ function runInjectedReplayCommand({ replayInput }) {
   return payload;
 }
 
-function runOpenClawAgentReplay({ caseContext, queryBenchmark, observedRows, stateDir }) {
+function runOpenClawAgentReplay({
+  caseContext,
+  queryBenchmark,
+  observedRows,
+  stateDir,
+  progressPath,
+}) {
   const allowedIds = observedRows.map((row) => row.message_id).filter(Boolean);
   fs.mkdirSync(stateDir, { recursive: true });
   const runToken = String(Date.now());
@@ -650,10 +1095,26 @@ function runOpenClawAgentReplay({ caseContext, queryBenchmark, observedRows, sta
     runToken,
   });
   const healthCall = preflightOpenClawGateway();
-  const commandPreview = `${commandParts().join(" ")} gateway call agent --params <json> --json`;
-  const gatewayTimeoutMs = gatewayCallTimeoutMs();
-  const gatewayTimeoutSeconds = gatewayAgentTimeoutSeconds(gatewayTimeoutMs);
+  const agentCommandPreview = `${commandParts().join(" ")} gateway call agent --params <json> --json`;
+  const waitCommandPreview = `${commandParts().join(" ")} gateway call agent.wait --params <json> --json`;
+  const waitMs = agentWaitMs();
+  const gatewayTimeoutSeconds = gatewayAgentTimeoutSeconds(waitMs);
   const answers = [];
+  const ingestGatewaySessionIds = new Set();
+  const ingestGatewayRunIds = new Set();
+  const ingestIdempotencyKeys = new Set();
+  const sourceScopeStats = buildSourceScopeStats(groups);
+  writeReplayProgress(progressPath, {
+    phase: "replay_start",
+    ingress_count: observedRows.length,
+    query_count: queryBenchmark.queries.length,
+    openclaw_ingest_mode: baselineIngestMode(),
+    ingest_session_count: groups.size,
+    sender_session_count: groups.size,
+    source_session_count: groups.size,
+    sender_scope_stats: sourceScopeStats,
+    source_scope_stats: sourceScopeStats,
+  });
   const rawRuns = [
     {
       phase: "gateway_health",
@@ -663,11 +1124,23 @@ function runOpenClawAgentReplay({ caseContext, queryBenchmark, observedRows, sta
       stderr: healthCall.stderr,
     },
   ];
+  writeReplayProgress(progressPath, {
+    phase: "gateway_health_completed",
+    command: healthCall.command,
+    returncode: healthCall.returncode,
+  });
   for (const [sessionKey, rows] of groups.entries()) {
+    const idempotencyKey = idempotencyKeyFor({
+      caseContext,
+      runToken,
+      purpose: "ingest",
+      key: sessionKey,
+    });
+    ingestIdempotencyKeys.add(idempotencyKey);
     const ingestParams = {
       message: buildTranscriptIngestPrompt({ caseContext, observedRows: rows }),
       sessionKey,
-      idempotencyKey: `phase3-${caseContext.case_id}-ingest-${sessionToken(sessionKey)}`,
+      idempotencyKey,
       deliver: false,
       timeout: gatewayTimeoutSeconds,
       inputProvenance: {
@@ -676,34 +1149,79 @@ function runOpenClawAgentReplay({ caseContext, queryBenchmark, observedRows, sta
         sourceChannel: "feishu-benchmark",
       },
     };
-    const ingestCall = runOpenClawGatewayCall({
-      method: "agent",
-      params: ingestParams,
-      timeout: gatewayTimeoutMs,
-      expectFinal: true,
-    });
-    rawRuns.push({
-      phase: "ingest_sender_session",
+    writeReplayProgress(progressPath, {
+      phase: "ingest_started",
       session_key: sessionKey,
+      idempotency_key: idempotencyKey,
       message_count: rows.length,
-      command: commandPreview,
+      first_message_id: rows[0]?.message_id || "",
+      last_message_id: rows.at(-1)?.message_id || "",
+    });
+    const ingestCall = runOpenClawAgentTurn({
+      params: ingestParams,
+      waitMs,
+      progressPath,
+      progress: {
+        source_phase: "ingest",
+        session_key: sessionKey,
+        idempotency_key: idempotencyKey,
+      },
+    });
+    const gatewaySessionId =
+      gatewaySessionIdFromPayload(ingestCall.payload) ||
+      gatewaySessionIdFromPayload(ingestCall.history_call?.payload);
+    const gatewayRunId = ingestCall.run_id || gatewayRunIdFromPayload(ingestCall.payload);
+    if (gatewaySessionId) {
+      ingestGatewaySessionIds.add(gatewaySessionId);
+    }
+    if (gatewayRunId) {
+      ingestGatewayRunIds.add(gatewayRunId);
+    }
+    rawRuns.push({
+      phase: "ingest_source_session",
+      session_key: sessionKey,
+      idempotency_key: idempotencyKey,
+      message_count: rows.length,
+      gateway_session_id: gatewaySessionId,
+      gateway_run_id: gatewayRunId,
+      command: agentCommandPreview,
+      wait_command: waitCommandPreview,
+      history_command: ingestCall.history_call?.command || "",
+      wait_status: ingestCall.wait_status,
       returncode: ingestCall.returncode,
       stdout: ingestCall.stdout,
+      history_stdout: ingestCall.history_call?.stdout || "",
       stderr: ingestCall.stderr,
+    });
+    writeReplayProgress(progressPath, {
+      phase: "ingest_completed",
+      session_key: sessionKey,
+      idempotency_key: idempotencyKey,
+      message_count: rows.length,
+      gateway_session_id: gatewaySessionId,
+      gateway_run_id: gatewayRunId,
+      returncode: ingestCall.returncode,
+      stderr: truncateText(ingestCall.stderr, 2000),
     });
     if (ingestCall.returncode !== 0) {
       const error = new Error(
-        `真实 OpenClaw gateway sender session ingest 失败 session_key=${sessionKey}: ${ingestCall.stderr || ingestCall.stdout}`,
+        `真实 OpenClaw gateway source session ingest 失败 session_key=${sessionKey}: ${ingestCall.stderr || ingestCall.stdout}`,
       );
       error.replay_failure = {
-        phase: "ingest_sender_session",
-        command: commandPreview,
+        phase: "ingest_source_session",
+        command: agentCommandPreview,
+        wait_command: waitCommandPreview,
         returncode: ingestCall.returncode,
         stdout: truncateText(ingestCall.stdout),
         stderr: truncateText(ingestCall.stderr),
         gateway_state: {
           failed_session_key: sessionKey,
+          failed_run_id: gatewayRunId,
+          failed_wait_status: ingestCall.wait_status,
+          openclaw_ingest_mode: baselineIngestMode(),
+          ingest_session_count: groups.size,
           sender_session_count: groups.size,
+          source_session_count: groups.size,
           run_token: runToken,
           state_dir: relativePath(stateDir),
         },
@@ -716,6 +1234,165 @@ function runOpenClawAgentReplay({ caseContext, queryBenchmark, observedRows, sta
       throw error;
     }
   }
+  const ingestCompleteness = {
+    ingress_count: observedRows.length,
+    openclaw_ingest_mode: baselineIngestMode(),
+    ingest_session_count: groups.size,
+    sender_session_count: groups.size,
+    source_session_count: groups.size,
+    unique_idempotency_key_count: ingestIdempotencyKeys.size,
+    ingest_gateway_session_count: ingestGatewaySessionIds.size,
+    ingest_gateway_run_count: ingestGatewayRunIds.size,
+    sender_scope_stats: sourceScopeStats,
+    source_scope_stats: sourceScopeStats,
+  };
+  writeReplayProgress(progressPath, {
+    phase: "ingest_completeness_checked",
+    ...ingestCompleteness,
+  });
+  if (
+    ingestCompleteness.unique_idempotency_key_count !== groups.size ||
+    ingestCompleteness.ingest_gateway_run_count !== groups.size
+  ) {
+    const error = new Error(
+      [
+        "真实 OpenClaw baseline ingest completeness 校验失败。",
+        `sender_session_count=${groups.size}`,
+        `unique_idempotency_key_count=${ingestCompleteness.unique_idempotency_key_count}`,
+        `ingest_gateway_run_count=${ingestCompleteness.ingest_gateway_run_count}`,
+      ].join(" "),
+    );
+    error.replay_failure = {
+      phase: "ingest_completeness",
+      command: agentCommandPreview,
+      wait_command: waitCommandPreview,
+      returncode: 1,
+      stdout: "",
+      stderr: error.message,
+      gateway_state: {
+        run_token: runToken,
+        ...ingestCompleteness,
+        state_dir: relativePath(stateDir),
+      },
+      raw_runs: rawRuns.map((run) => ({
+        ...run,
+        stdout: truncateText(run.stdout),
+        stderr: truncateText(run.stderr),
+      })),
+    };
+    throw error;
+  }
+
+  const probeSessionKey = openClawProbeSessionKey({ caseContext, runToken });
+  writeReplayProgress(progressPath, {
+    phase: "memory_visibility_probe_started",
+    session_key: probeSessionKey,
+  });
+  const probeCall = runOpenClawAgentTurn({
+    params: {
+      message: buildMemoryVisibilityProbePrompt({ caseContext }),
+      sessionKey: probeSessionKey,
+      idempotencyKey: idempotencyKeyFor({
+        caseContext,
+        runToken,
+        purpose: "memory-visibility",
+        key: probeSessionKey,
+      }),
+      deliver: false,
+      timeout: gatewayTimeoutSeconds,
+    },
+    waitMs,
+    progressPath,
+    progress: {
+      source_phase: "memory_visibility_probe",
+      session_key: probeSessionKey,
+    },
+  });
+  const probeReplyText =
+    probeCall.assistant_text || extractGatewayReplyText(probeCall.payload, probeCall.stdout);
+  const memoryVisibility = buildMemoryVisibilityResult({
+    caseContext,
+    observedRows,
+    probeCall,
+    replyText: probeReplyText || probeCall.stdout,
+  });
+  rawRuns.push({
+    phase: "memory_visibility_probe",
+    session_key: probeSessionKey,
+    command: agentCommandPreview,
+    wait_command: waitCommandPreview,
+    history_command: probeCall.history_call?.command || "",
+    gateway_run_id: probeCall.run_id,
+    wait_status: probeCall.wait_status,
+    returncode: probeCall.returncode,
+    stdout: probeCall.stdout,
+    history_stdout: probeCall.history_call?.stdout || "",
+    stderr: probeCall.stderr,
+  });
+  memoryVisibility.raw_runs = [
+    {
+      phase: "memory_visibility_probe",
+      command: agentCommandPreview,
+      wait_command: waitCommandPreview,
+      history_command: probeCall.history_call?.command || "",
+      gateway_run_id: probeCall.run_id,
+      wait_status: probeCall.wait_status,
+      returncode: probeCall.returncode,
+      stdout: truncateText(probeCall.stdout),
+      history_stdout: truncateText(probeCall.history_call?.stdout || ""),
+      stderr: truncateText(probeCall.stderr),
+    },
+  ];
+  writeReplayProgress(progressPath, {
+    phase: "memory_visibility_probe_completed",
+    session_key: probeSessionKey,
+    status: memoryVisibility.status,
+    returncode: probeCall.returncode,
+    found_message_id_count: memoryVisibility.found_message_ids.length,
+    reasons: memoryVisibility.reasons,
+  });
+  if (memoryVisibility.status !== "passed") {
+    const error = new Error(
+      `真实 OpenClaw baseline memory visibility probe 失败：${memoryVisibility.reasons.join("; ")}`,
+    );
+    error.replay_failure = {
+      phase: "memory_visibility_probe",
+      command: agentCommandPreview,
+      wait_command: waitCommandPreview,
+      returncode: probeCall.returncode || 1,
+      stdout: truncateText(probeCall.stdout),
+      stderr: truncateText(probeCall.stderr || error.message),
+      gateway_state: {
+        run_token: runToken,
+        ...ingestCompleteness,
+        state_dir: relativePath(stateDir),
+      },
+      memory_visibility: {
+        ...memoryVisibility,
+        raw_runs: [
+          {
+            phase: "memory_visibility_probe",
+            command: agentCommandPreview,
+            wait_command: waitCommandPreview,
+            history_command: probeCall.history_call?.command || "",
+            gateway_run_id: probeCall.run_id,
+            wait_status: probeCall.wait_status,
+            returncode: probeCall.returncode,
+            stdout: truncateText(probeCall.stdout),
+            history_stdout: truncateText(probeCall.history_call?.stdout || ""),
+            stderr: truncateText(probeCall.stderr),
+          },
+        ],
+      },
+      raw_runs: rawRuns.map((run) => ({
+        ...run,
+        stdout: truncateText(run.stdout),
+        stderr: truncateText(run.stderr),
+      })),
+    };
+    throw error;
+  }
+
   for (const query of queryBenchmark.queries) {
     const querySessionKey = openClawQuerySessionKey({
       caseContext,
@@ -726,24 +1403,51 @@ function runOpenClawAgentReplay({ caseContext, queryBenchmark, observedRows, sta
       caseContext,
       query,
     });
-    const queryCall = runOpenClawGatewayCall({
-      method: "agent",
-      params: {
-        message: prompt,
-        sessionKey: querySessionKey,
-        idempotencyKey: `phase3-${caseContext.case_id}-${query.query_id}`,
-        deliver: false,
-        timeout: gatewayTimeoutSeconds,
+    writeReplayProgress(progressPath, {
+      phase: "query_started",
+      query_id: query.query_id,
+      session_key: querySessionKey,
+    });
+    const queryParams = {
+      message: prompt,
+      sessionKey: querySessionKey,
+      idempotencyKey: idempotencyKeyFor({
+        caseContext,
+        runToken,
+        purpose: "query",
+        key: query.query_id,
+      }),
+      deliver: false,
+      timeout: gatewayTimeoutSeconds,
+    };
+    const queryCall = runOpenClawAgentTurn({
+      params: queryParams,
+      waitMs,
+      progressPath,
+      progress: {
+        source_phase: "query",
+        query_id: query.query_id,
+        session_key: querySessionKey,
       },
-      timeout: gatewayTimeoutMs,
-      expectFinal: true,
     });
     rawRuns.push({
       query_id: query.query_id,
-      command: commandPreview,
+      command: agentCommandPreview,
+      wait_command: waitCommandPreview,
+      history_command: queryCall.history_call?.command || "",
+      gateway_run_id: queryCall.run_id,
+      wait_status: queryCall.wait_status,
       returncode: queryCall.returncode,
       stdout: queryCall.stdout,
+      history_stdout: queryCall.history_call?.stdout || "",
       stderr: queryCall.stderr,
+    });
+    writeReplayProgress(progressPath, {
+      phase: "query_completed",
+      query_id: query.query_id,
+      session_key: querySessionKey,
+      returncode: queryCall.returncode,
+      stderr: truncateText(queryCall.stderr, 2000),
     });
     if (queryCall.returncode !== 0) {
       const error = new Error(
@@ -751,13 +1455,19 @@ function runOpenClawAgentReplay({ caseContext, queryBenchmark, observedRows, sta
       );
       error.replay_failure = {
         query_id: query.query_id,
-        command: commandPreview,
+        command: agentCommandPreview,
+        wait_command: waitCommandPreview,
         returncode: queryCall.returncode,
         stdout: truncateText(queryCall.stdout),
         stderr: truncateText(queryCall.stderr),
         gateway_state: {
           query_session_key: querySessionKey,
+          failed_run_id: queryCall.run_id,
+          failed_wait_status: queryCall.wait_status,
+          openclaw_ingest_mode: baselineIngestMode(),
+          ingest_session_count: groups.size,
           sender_session_count: groups.size,
+          source_session_count: groups.size,
           run_token: runToken,
           state_dir: relativePath(stateDir),
         },
@@ -769,7 +1479,8 @@ function runOpenClawAgentReplay({ caseContext, queryBenchmark, observedRows, sta
       };
       throw error;
     }
-    const replyText = extractGatewayReplyText(queryCall.payload, queryCall.stdout);
+    const replyText =
+      queryCall.assistant_text || extractGatewayReplyText(queryCall.payload, queryCall.stdout);
     answers.push(
       normalizeReplayAnswer({
         raw: parseJsonFromText(replyText) || queryCall.payload,
@@ -779,6 +1490,14 @@ function runOpenClawAgentReplay({ caseContext, queryBenchmark, observedRows, sta
       }),
     );
   }
+  writeReplayProgress(progressPath, {
+    phase: "replay_completed",
+    answer_count: answers.length,
+    openclaw_ingest_mode: baselineIngestMode(),
+    ingest_session_count: groups.size,
+    sender_session_count: groups.size,
+    source_session_count: groups.size,
+  });
   return {
     case_id: caseContext.case_id,
     family_id: caseContext.family_id,
@@ -787,19 +1506,30 @@ function runOpenClawAgentReplay({ caseContext, queryBenchmark, observedRows, sta
     replay_kind: "gateway_agent_rpc",
     gateway_state: {
       run_token: runToken,
+      openclaw_ingest_mode: baselineIngestMode(),
+      ingest_session_count: groups.size,
       sender_session_count: groups.size,
+      source_session_count: groups.size,
+      ingress_count: observedRows.length,
+      unique_idempotency_key_count: ingestIdempotencyKeys.size,
       sender_session_keys: Array.from(groups.keys()),
+      source_session_keys: Array.from(groups.keys()),
+      ingest_gateway_session_count: ingestGatewaySessionIds.size,
+      ingest_gateway_run_count: ingestGatewayRunIds.size,
+      sender_scope_stats: sourceScopeStats,
+      source_scope_stats: sourceScopeStats,
       state_dir: relativePath(stateDir),
     },
     ingress_count: observedRows.length,
     query_count: queryBenchmark.queries.length,
     answers,
     raw_runs: rawRuns,
+    memory_visibility: memoryVisibility,
     query_context_injected: false,
   };
 }
 
-function runBaseline({ caseContext, queryBenchmark, observedRows, stateDir }) {
+function runBaseline({ caseContext, queryBenchmark, observedRows, stateDir, progressPath }) {
   const replayInput = {
     case_context: caseContext,
     observed_messages: observedRows,
@@ -830,7 +1560,13 @@ function runBaseline({ caseContext, queryBenchmark, observedRows, stateDir }) {
       replay_command_used: true,
     };
   }
-  return runOpenClawAgentReplay({ caseContext, queryBenchmark, observedRows, stateDir });
+  return runOpenClawAgentReplay({
+    caseContext,
+    queryBenchmark,
+    observedRows,
+    stateDir,
+    progressPath,
+  });
 }
 
 function safeRate(numerator, denominator) {
@@ -914,14 +1650,93 @@ function main() {
   const answersPath = path.join(runtimeDir, "answers.json");
   const tracesPath = path.join(runtimeDir, "evidence_traces.json");
   const replayMetadataPath = path.join(runtimeDir, "replay_metadata.json");
+  const replayProgressPath = path.join(runtimeDir, "replay_progress.jsonl");
+  const memoryVisibilityPath = path.join(runtimeDir, "memory_visibility.json");
   const baselineReportPath = path.join(reportsDir, "openclaw_baseline_eval.json");
   const failurePath = path.join(runtimeDir, "failure.json");
+  if (fs.existsSync(replayProgressPath)) {
+    fs.rmSync(replayProgressPath, { force: true });
+  }
+  writeReplayProgress(replayProgressPath, {
+    phase: "baseline_started",
+    case_id: caseContext.case_id,
+    task_id: caseContext.task_id,
+    ingress_count: observedRows.length,
+    query_count: queryBenchmark.queries.length,
+    state_dir: relativePath(stateDir),
+  });
 
   let baselineResult;
   try {
-    baselineResult = runBaseline({ caseContext, queryBenchmark, observedRows, stateDir });
+    baselineResult = runBaseline({
+      caseContext,
+      queryBenchmark,
+      observedRows,
+      stateDir,
+      progressPath: replayProgressPath,
+    });
   } catch (error) {
     const replayFailure = error && typeof error === "object" ? error.replay_failure : null;
+    if (replayFailure) {
+      const reason =
+        error instanceof Error
+          ? error.message
+          : "真实 OpenClaw baseline replay failed";
+      const memoryVisibility = replayFailure.memory_visibility || {
+        status: "failed",
+        visibility_quality: "failed",
+        task_id: caseContext.task_id,
+        required_message_id_count: 1,
+        recommended_message_id_count: 3,
+        found_message_ids: [],
+        missing_expected_message_ids_sample: observedRows
+          .map((row) => row.message_id)
+          .filter(Boolean)
+          .slice(0, 10),
+        probe_answers: [],
+        reasons: [reason],
+        warnings: [],
+        raw_runs: [],
+      };
+      writeJson(memoryVisibilityPath, {
+        ...memoryVisibility,
+        written_at: new Date().toISOString(),
+      });
+      writeJson(failurePath, {
+        case_id: caseContext.case_id,
+        family_id: caseContext.family_id,
+        task_id: caseContext.task_id,
+        baseline_mode: baselineMode,
+        status: "failed_but_scored",
+        failed_at: new Date().toISOString(),
+        error_type: error instanceof Error ? error.name : typeof error,
+        error_message: reason,
+        ingress_count: observedRows.length,
+        query_count: queryBenchmark.queries.length,
+        state_dir: relativePath(stateDir),
+        replay_failure: replayFailure,
+        scoring_policy:
+          "replay failure is converted to failed OpenClaw answers so batch Phase 3 can continue.",
+      });
+      baselineResult = {
+        case_id: caseContext.case_id,
+        family_id: caseContext.family_id,
+        task_id: caseContext.task_id,
+        baseline_mode: baselineMode,
+        replay_kind: "gateway_agent_rpc",
+        gateway_state: replayFailure.gateway_state || null,
+        ingress_count: observedRows.length,
+        query_count: queryBenchmark.queries.length,
+        answers: buildFailedReplayAnswers({
+          queries: queryBenchmark.queries,
+          reason,
+          rawOutput: memoryVisibility,
+        }),
+        raw_runs: replayFailure.raw_runs || [],
+        memory_visibility: memoryVisibility,
+        query_context_injected: false,
+      };
+    } else {
     const failurePayload = {
       case_id: caseContext.case_id,
       family_id: caseContext.family_id,
@@ -937,16 +1752,40 @@ function main() {
       replay_failure: replayFailure || null,
     };
     writeJson(failurePath, failurePayload);
+    if (replayFailure?.memory_visibility) {
+      writeJson(memoryVisibilityPath, {
+        ...replayFailure.memory_visibility,
+        written_at: new Date().toISOString(),
+      });
+    }
+    if (fs.existsSync(baselineReportPath)) {
+      fs.rmSync(baselineReportPath, { force: true });
+    }
     writeJson(replayMetadataPath, {
       baseline_mode: baselineMode,
       replay_kind: replayFailure ? "gateway_agent_rpc" : "unknown",
       replay_command_used: Boolean(process.env.OPENCLAW_BENCHMARK_REPLAY_COMMAND),
       gateway_state: replayFailure?.gateway_state || null,
+      ingress_count: observedRows.length,
+      openclaw_ingest_mode: replayFailure?.gateway_state?.openclaw_ingest_mode || baselineIngestMode(),
+      ingest_session_count: replayFailure?.gateway_state?.ingest_session_count || null,
+      sender_session_count: replayFailure?.gateway_state?.sender_session_count || null,
+      source_session_count: replayFailure?.gateway_state?.source_session_count || null,
+      unique_idempotency_key_count:
+        replayFailure?.gateway_state?.unique_idempotency_key_count || null,
+      ingest_gateway_session_count:
+        replayFailure?.gateway_state?.ingest_gateway_session_count || null,
+      ingest_gateway_run_count: replayFailure?.gateway_state?.ingest_gateway_run_count || null,
+      sender_scope_stats: replayFailure?.gateway_state?.sender_scope_stats || [],
+      source_scope_stats: replayFailure?.gateway_state?.source_scope_stats || [],
+      memory_visibility: replayFailure?.memory_visibility || null,
+      progress_path: relativePath(replayProgressPath),
       raw_runs: replayFailure?.raw_runs || [],
       status: "failed",
       failure_path: relativePath(failurePath),
     });
     throw error;
+    }
   }
   const metrics = computeMetrics(baselineResult.answers);
 
@@ -963,7 +1802,30 @@ function main() {
     query_context_injected: Boolean(baselineResult.query_context_injected),
     replay_command_used: Boolean(baselineResult.replay_command_used),
     gateway_state: baselineResult.gateway_state || null,
+    ingress_count: observedRows.length,
+    openclaw_ingest_mode: baselineResult.gateway_state?.openclaw_ingest_mode || baselineIngestMode(),
+    ingest_session_count: baselineResult.gateway_state?.ingest_session_count || null,
+    sender_session_count: baselineResult.gateway_state?.sender_session_count || null,
+    source_session_count: baselineResult.gateway_state?.source_session_count || null,
+    unique_idempotency_key_count:
+      baselineResult.gateway_state?.unique_idempotency_key_count || null,
+    ingest_gateway_session_count:
+      baselineResult.gateway_state?.ingest_gateway_session_count || null,
+    ingest_gateway_run_count: baselineResult.gateway_state?.ingest_gateway_run_count || null,
+    sender_scope_stats: baselineResult.gateway_state?.sender_scope_stats || [],
+    source_scope_stats: baselineResult.gateway_state?.source_scope_stats || [],
+    memory_visibility: baselineResult.memory_visibility || null,
+    progress_path: relativePath(replayProgressPath),
     raw_runs: baselineResult.raw_runs || [],
+  };
+  const memoryVisibility = baselineResult.memory_visibility || {
+    status: "skipped",
+    task_id: caseContext.task_id,
+    probe_answers: [],
+    found_message_ids: [],
+    missing_expected_message_ids_sample: [],
+    raw_runs: [],
+    reason: "benchmark replay command bypasses real OpenClaw Gateway",
   };
   const baselineReport = {
     case_id: caseContext.case_id,
@@ -972,11 +1834,15 @@ function main() {
     baseline_mode: baselineResult.baseline_mode,
     replay_kind: baselineResult.replay_kind,
     query_context_injected: Boolean(baselineResult.query_context_injected),
+    openclaw_ingest_mode: baselineResult.gateway_state?.openclaw_ingest_mode || baselineIngestMode(),
     gateway_state: baselineResult.gateway_state || null,
     ingress_count: observedRows.length,
     collected_message_count: collectedRows.length,
     query_count: queryBenchmark.queries.length,
     semantic_gold_mode: semanticGold.mode || args.semanticGold,
+    memory_visibility_status: memoryVisibility.status,
+    memory_visibility_quality: memoryVisibility.visibility_quality || memoryVisibility.status,
+    memory_visibility_warnings: memoryVisibility.warnings || [],
     gold_generation: goldGeneration,
     metrics,
     answer_ids: baselineResult.answers.map((answer) => answer.query_id),
@@ -987,6 +1853,8 @@ function main() {
     answers: relativePath(answersPath),
     traces: relativePath(tracesPath),
     replayMetadata: relativePath(replayMetadataPath),
+    replayProgress: relativePath(replayProgressPath),
+    memoryVisibility: relativePath(memoryVisibilityPath),
     baselineReport: relativePath(baselineReportPath),
   };
 
@@ -996,6 +1864,7 @@ function main() {
   writeJson(answersPath, answersPayload);
   writeJson(tracesPath, evidenceTraces);
   writeJson(replayMetadataPath, replayMetadata);
+  writeJson(memoryVisibilityPath, memoryVisibility);
   writeJson(baselineReportPath, baselineReport);
 
   const summary = {
@@ -1018,6 +1887,9 @@ function main() {
     console.log(`- queries: ${queryBenchmark.queries.length}`);
     console.log(`- baseline json: ${paths.baselineReport}`);
   }
+  setImmediate(() => {
+    process.exit(0);
+  });
 }
 
 try {

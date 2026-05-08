@@ -1,0 +1,30 @@
+{
+  "case_id": "case_20260508030344241236_evidence_dependency_reasoning",
+  "family_id": "evidence_dependency_reasoning",
+  "task_id": "FEISHU-336",
+  "required_case_structure": [
+    "upstream_dependency_context",
+    "downstream_dependency_context",
+    "blocking_or_risk_source",
+    "evidence_strength_gradient",
+    "impact_chain"
+  ],
+  "message_beat_ids": [
+    "beat_001",
+    "beat_002",
+    "beat_003",
+    "beat_004",
+    "beat_005",
+    "beat_006"
+  ],
+  "probe_queries": [
+    {
+      "query": "FEISHU-336 当前的 blocker 是什么？依据来自谁的哪条消息？",
+      "expected_good_behavior": "指出当前 blocker（上游窗口已锁定），依据来自 Carol 的正式确认（beat_001），并说明 Bob 的传闻（beat_002）不可作为正式依据。"
+    },
+    {
+      "query": "FEISHU-336 的上游窗口状态如何影响下游任务？",
+      "expected_good_behavior": "解释上游窗口锁定解除了下游回滚预案验收的阻塞，具体依据 Ethan 的确认（beat_005），并区分 Carol 的正式消息与 Diana 的模糊推断（beat_003）。"
+    }
+  ]
+}

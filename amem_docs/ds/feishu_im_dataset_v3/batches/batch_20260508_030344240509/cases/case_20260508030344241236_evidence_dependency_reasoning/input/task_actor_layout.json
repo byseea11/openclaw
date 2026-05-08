@@ -1,0 +1,91 @@
+{
+  "case_id": "case_20260508030344241236_evidence_dependency_reasoning",
+  "family_id": "evidence_dependency_reasoning",
+  "task_id": "FEISHU-336",
+  "actors": [
+    {
+      "actor_id": "alice",
+      "display_name": "Alice",
+      "role": "release_pm"
+    },
+    {
+      "actor_id": "bob",
+      "display_name": "Bob",
+      "role": "ops_partner"
+    },
+    {
+      "actor_id": "carol",
+      "display_name": "Carol",
+      "role": "migration_owner"
+    },
+    {
+      "actor_id": "xavier",
+      "display_name": "Xavier",
+      "role": "target_owner"
+    },
+    {
+      "actor_id": "diana",
+      "display_name": "Diana",
+      "role": "risk_reviewer"
+    },
+    {
+      "actor_id": "ethan",
+      "display_name": "Ethan",
+      "role": "qa_lead"
+    },
+    {
+      "actor_id": "fiona",
+      "display_name": "Fiona",
+      "role": "product_owner"
+    },
+    {
+      "actor_id": "george",
+      "display_name": "George",
+      "role": "infra_engineer"
+    },
+    {
+      "actor_id": "helen",
+      "display_name": "Helen",
+      "role": "security_officer"
+    },
+    {
+      "actor_id": "ivan",
+      "display_name": "Ivan",
+      "role": "vendor_partner"
+    },
+    {
+      "actor_id": "judy",
+      "display_name": "Judy",
+      "role": "compliance_manager"
+    },
+    {
+      "actor_id": "kevin",
+      "display_name": "Kevin",
+      "role": "support_lead"
+    }
+  ],
+  "task_actor_layout": {
+    "target_task_id": "FEISHU-336",
+    "shared_actors": [
+      "carol",
+      "xavier"
+    ],
+    "actor_task_roles": [
+      {
+        "actor_id": "alice",
+        "task_id": "FEISHU-336",
+        "role": "release_pm"
+      },
+      {
+        "actor_id": "xavier",
+        "task_id": "FEISHU-336",
+        "role": "target_owner"
+      },
+      {
+        "actor_id": "carol",
+        "task_id": "FEISHU-336",
+        "role": "upstream_context_source"
+      }
+    ]
+  }
+}

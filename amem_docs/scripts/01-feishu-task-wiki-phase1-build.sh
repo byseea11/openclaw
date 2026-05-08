@@ -8,7 +8,9 @@ cd "${REPO_ROOT}"
 usage() {
   cat <<'EOF'
 用法：
-  amem_docs/scripts/01-feishu-task-wiki-phase1-build.sh [options]
+  amem_docs/scripts/01-feishu-task-wiki-phase1-build.sh [case|phase1] [options]
+  amem_docs/scripts/01-feishu-task-wiki-phase1-build.sh resume [options]
+  amem_docs/scripts/01-feishu-task-wiki-phase1-build.sh batch [options]
 
 正式 family：
   - anti_interference              抗干扰测试
@@ -24,7 +26,7 @@ usage() {
   - 成功后会刷新 dataset root 下的 active_case.json。
 
 命令：
-  phase1
+  case / phase1
       执行：
       spec-generation
       -> family-selection
@@ -45,6 +47,19 @@ usage() {
       并通过 execute / collect 回收真实 observed messages。
 
       注意：`效能指标验证` 不是独立 family，它属于 Phase 3 的最终对比维度。
+
+      如果只执行：
+        amem_docs/scripts/01-feishu-task-wiki-phase1-build.sh phase1
+      默认就是新建 single-case，不会 resume active case，也不会使用 batch 模式。
+
+  resume
+      续跑当前 active case。这个模式保留 Phase1 聚合命令的默认 resume 行为，
+      已存在且可校验的 stage artifact 会被跳过，避免重复调用大模型和飞书发送。
+
+  batch
+      批量生成 case。等价于传入 --batch-size <N>。
+      例如：
+        amem_docs/scripts/01-feishu-task-wiki-phase1-build.sh batch --batch-size 12 --difficulty hard --families all
 
 常用参数：
   --family-id <id>
@@ -92,19 +107,61 @@ usage() {
 
 示例：
   amem_docs/scripts/01-feishu-task-wiki-phase1-build.sh
+  amem_docs/scripts/01-feishu-task-wiki-phase1-build.sh phase1
+  amem_docs/scripts/01-feishu-task-wiki-phase1-build.sh case
+  amem_docs/scripts/01-feishu-task-wiki-phase1-build.sh resume
   amem_docs/scripts/01-feishu-task-wiki-phase1-build.sh --family-id anti_interference --difficulty hard
   amem_docs/scripts/01-feishu-task-wiki-phase1-build.sh --seed 12 --family-id contradiction_update
   amem_docs/scripts/01-feishu-task-wiki-phase1-build.sh --seed 15 --family-id private_info_in_official_file
+  amem_docs/scripts/01-feishu-task-wiki-phase1-build.sh batch --batch-size 12 --difficulty hard --families all
   amem_docs/scripts/01-feishu-task-wiki-phase1-build.sh --batch-size 12 --difficulty hard --families all
   amem_docs/scripts/01-feishu-task-wiki-phase1-build.sh --batch-size 4 --family-id contradiction_update --seed 20260507
 EOF
 }
 
+mode="case"
 case "${1:-}" in
   -h|--help|help)
     usage
     exit 0
     ;;
+  case|phase1)
+    mode="case"
+    shift
+    ;;
+  resume)
+    mode="resume"
+    shift
+    ;;
+  batch)
+    mode="batch"
+    shift
+    ;;
 esac
+
+case "${1:-}" in
+  -h|--help|help)
+    python3 -m feishu_task_wiki_benchmark_builder.cli phase1 "$@"
+    exit 0
+    ;;
+esac
+
+if [[ "${mode}" == "batch" && " $* " != *" --batch-size "* ]]; then
+  has_batch_size=0
+  for arg in "$@"; do
+    if [[ "${arg}" == "--batch-size" || "${arg}" == --batch-size=* ]]; then
+      has_batch_size=1
+      break
+    fi
+  done
+  if [[ "${has_batch_size}" == "0" ]]; then
+    echo "batch 模式必须显式传 --batch-size <N>。" >&2
+    exit 2
+  fi
+fi
+
+if [[ "${mode}" == "case" && "$#" -eq 0 ]]; then
+  set -- --force
+fi
 
 python3 -m feishu_task_wiki_benchmark_builder.cli phase1 "$@"

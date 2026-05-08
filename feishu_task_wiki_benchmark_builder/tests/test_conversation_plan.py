@@ -158,6 +158,24 @@ def _generate(client: SequenceClient) -> tuple[dict[str, Any], list[dict[str, An
     )
 
 
+def _generate_with(
+    *,
+    client: SequenceClient,
+    case_context: dict[str, Any],
+    story_plan: dict[str, Any],
+) -> tuple[dict[str, Any], list[dict[str, Any]]]:
+    return generate_conversation_plan(
+        case_context=case_context,
+        case_world_artifact={**CASE_WORLD, "family_id": case_context["family_id"], "task_id": case_context["task_id"]},
+        story_beats_artifact={**STORY_BEATS, "family_id": case_context["family_id"], "task_id": case_context["task_id"]},
+        story_plan=story_plan,
+        characters={**CHARACTERS, "family_id": case_context["family_id"], "task_id": case_context["task_id"]},
+        actor_registry={**ACTOR_REGISTRY, "family_id": case_context["family_id"], "task_id": case_context["task_id"]},
+        official_file_plan={**OFFICIAL_FILE_PLAN, "family_id": case_context["family_id"], "task_id": case_context["task_id"]},
+        model_client=client,
+    )
+
+
 class ConversationPlanTests(unittest.TestCase):
     def test_repair_pass_fixes_unknown_speaker_actor_id(self) -> None:
         client = SequenceClient([_payload(speaker_actor_id="paula"), _payload(speaker_actor_id="alice")])
@@ -181,6 +199,69 @@ class ConversationPlanTests(unittest.TestCase):
         self.assertEqual(client.stages, ["conversation-plan", "conversation-plan-repair"])
         self.assertEqual(ctx.exception.payload["initial_invalid_payload"], _payload(speaker_actor_id="paula"))
         self.assertEqual(ctx.exception.payload["repair_invalid_payload"], _payload(speaker_actor_id="paula"))
+
+    def test_anti_interference_keeps_declared_distractor_task_id(self) -> None:
+        story_plan = {
+            **STORY_PLAN,
+            "planned_probe_queries": [
+                {
+                    "query": "FEISHU-201 和 FEISHU-999 是否应该混淆？",
+                    "expected_good_behavior": "回答 FEISHU-201 当前状态，并排除 FEISHU-999。",
+                }
+            ],
+            "message_beats": [
+                {
+                    "beat_id": "beat_001",
+                    "purpose": "distractor FEISHU-999 must be excluded",
+                    "message_intent": "FEISHU-999 是并行干扰任务，不是 FEISHU-201。",
+                }
+            ],
+        }
+        payload = _payload(speaker_actor_id="alice")
+        payload["turns"][0]["planned_message_text"] = "FEISHU-999 是并行干扰任务，不是 FEISHU-201。"
+        client = SequenceClient([payload])
+
+        artifact, _ = _generate_with(client=client, case_context=CASE_CONTEXT, story_plan=story_plan)
+
+        self.assertEqual(client.stages, ["conversation-plan"])
+        self.assertIn("FEISHU-999", artifact["turns"][0]["planned_message_text"])
+
+    def test_normalizes_obvious_event_bearing_turns_before_repair(self) -> None:
+        payload = _payload(speaker_actor_id="alice")
+        payload["turns"][5]["beat_id"] = ""
+        payload["turns"][5]["annotation_target"] = False
+        payload["turns"][5]["event_bearing"] = False
+        payload["turns"][5]["turn_kind"] = "summary_or_confirmation"
+        payload["turns"][5]["planned_message_text"] = "QA 确认回滚验收通过，FEISHU-201 下游无阻塞。"
+        client = SequenceClient([payload])
+
+        artifact, _ = _generate(client)
+
+        self.assertEqual(client.stages, ["conversation-plan"])
+        self.assertGreaterEqual(sum(1 for turn in artifact["turns"] if turn["event_bearing"]), 6)
+        self.assertTrue(artifact["turns"][5]["event_bearing"])
+
+    def test_non_anti_family_rejects_undeclared_task_id_without_rewriting(self) -> None:
+        case_context = {**CASE_CONTEXT, "family_id": "contradiction_update"}
+        story_plan = {
+            **STORY_PLAN,
+            "family_id": "contradiction_update",
+            "planned_probe_queries": [
+                {
+                    "query": "FEISHU-201 当前正式结论是什么？",
+                    "expected_good_behavior": "回答 FEISHU-201 的正式结论。",
+                }
+            ],
+        }
+        payload = _payload(speaker_actor_id="alice")
+        payload["turns"][0]["planned_message_text"] = "FEISHU-999 是错误任务。"
+        client = SequenceClient([payload, payload])
+
+        with self.assertRaises(ModelPayloadValidationError) as ctx:
+            _generate_with(client=client, case_context=case_context, story_plan=story_plan)
+
+        self.assertIn("undeclared task ids", ctx.exception.payload["initial_validation_error"])
+        self.assertEqual(ctx.exception.payload["initial_invalid_payload"]["turns"][0]["planned_message_text"], "FEISHU-999 是错误任务。")
 
 
 if __name__ == "__main__":

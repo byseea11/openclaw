@@ -1,0 +1,74 @@
+{
+  "tasks": [
+    {
+      "accountId": "benchmark",
+      "taskId": "task:FEISHU-334",
+      "taskKey": "FEISHU-334",
+      "taskTitle": "FEISHU-334 doc_review_thread 线程：以下回复…",
+      "taskSummary": "FEISHU-334 runtime eval / FEISHU-334 doc_review_thread 线程：以下回复承载该 source session 的真实 benchmark 消息。",
+      "taskKeywords": [
+        "FEISHU-334",
+        "的真实",
+        "线程",
+        "消息",
+        "以下回复承载该",
+        "benchmark",
+        "安全审查还没通过",
+        "部署窗口暂不定"
+      ],
+      "taskStatus": "active",
+      "createdAt": 1778211813196,
+      "updatedAt": 1778211817842
+    }
+  ],
+  "bindings": [
+    {
+      "accountId": "benchmark",
+      "taskId": "task:FEISHU-334",
+      "sourceType": "thread",
+      "sourceId": "thread:doc_review_thread",
+      "chatId": "oc_e1c2f6562931721f49f7af7a2a02db9a",
+      "threadId": null,
+      "rootId": null,
+      "bindingStatus": "active",
+      "createdAt": 1778211813196,
+      "updatedAt": 1778211813196
+    },
+    {
+      "accountId": "benchmark",
+      "taskId": "task:FEISHU-334",
+      "sourceType": "thread",
+      "sourceId": "thread:ops_rehearsal_thread",
+      "chatId": "oc_ec85126f897b2cee55c91aff8737bab8",
+      "threadId": null,
+      "rootId": null,
+      "bindingStatus": "active",
+      "createdAt": 1778211816434,
+      "updatedAt": 1778211816434
+    },
+    {
+      "accountId": "benchmark",
+      "taskId": "task:FEISHU-334",
+      "sourceType": "thread",
+      "sourceId": "thread:security_review_thread",
+      "chatId": "oc_12bb18378549a0d4a0a00eb680e8d349",
+      "threadId": null,
+      "rootId": null,
+      "bindingStatus": "active",
+      "createdAt": 1778211817231,
+      "updatedAt": 1778211817231
+    },
+    {
+      "accountId": "benchmark",
+      "taskId": "task:FEISHU-334",
+      "sourceType": "chat",
+      "sourceId": "chat:main_chat",
+      "chatId": "oc_95a1908001469fb3511314931c960609",
+      "threadId": null,
+      "rootId": null,
+      "bindingStatus": "active",
+      "createdAt": 1778211817842,
+      "updatedAt": 1778211817842
+    }
+  ]
+}

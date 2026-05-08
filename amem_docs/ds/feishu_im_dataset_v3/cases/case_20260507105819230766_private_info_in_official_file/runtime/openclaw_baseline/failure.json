@@ -1,0 +1,14 @@
+{
+  "case_id": "case_20260507105819230766_private_info_in_official_file",
+  "family_id": "private_info_in_official_file",
+  "task_id": "FEISHU-366",
+  "baseline_mode": "openclaw_real_replay",
+  "status": "failed",
+  "failed_at": "2026-05-07T11:05:58.735Z",
+  "error_type": "Error",
+  "error_message": "真实 OpenClaw baseline 需要已启动且可访问的 Gateway。\n请先运行 openclaw gateway status 或 openclaw gateway call health。\nhealth command=openclaw gateway call health --params {} --timeout 60000 --json\nstderr=Gateway call failed: Error: gateway closed (1006 abnormal closure (no close frame)): no close reason\nGateway target: ws://127.0.0.1:18789\nSource: local loopback\nConfig: /Users/byseea/.openclaw/openclaw.json\nBind: custom\n\nstdout=",
+  "ingress_count": 84,
+  "query_count": 5,
+  "state_dir": "amem_docs/ds/feishu_im_dataset_v3/cases/case_20260507105819230766_private_info_in_official_file/runtime/openclaw_baseline_state",
+  "replay_failure": null
+}

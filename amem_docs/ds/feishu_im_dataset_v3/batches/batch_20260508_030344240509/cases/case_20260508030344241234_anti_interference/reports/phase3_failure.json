@@ -1,0 +1,9 @@
+{
+  "case_dir": "amem_docs/ds/feishu_im_dataset_v3/batches/batch_20260508_030344240509/cases/case_20260508030344241234_anti_interference",
+  "phase": "phase3",
+  "failed_stage": "openclaw-real-baseline-eval",
+  "status": "failed",
+  "failed_at": "2026-05-08T03:38:20.735450+00:00",
+  "error_type": "RuntimeScriptError",
+  "error_message": "Phase 3 runtime script failed: command=node /Users/byseea/programscoding/nanobot/openclaw-main/feishu_task_wiki_benchmark_builder/runtime/openclaw_baseline_eval.mjs --case-dir amem_docs/ds/feishu_im_dataset_v3/batches/batch_20260508_030344240509/cases/case_20260508030344241234_anti_interference --semantic-gold rule --json returncode=1 stderr=真实 OpenClaw gateway source session ingest 失败 session_key=agent:main:feishu-benchmark:case_20260508030344241234_anti_interference:run:1778211367097:case-transcript: Error: spawnSync openclaw ETIMEDOUT"
+}

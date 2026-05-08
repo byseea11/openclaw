@@ -1,0 +1,14 @@
+{
+  "phase": "phase1",
+  "stage": "characters",
+  "status": "completed",
+  "started_at": "2026-05-07T11:30:01.489450+00:00",
+  "ended_at": "2026-05-07T11:30:01.491230+00:00",
+  "artifact_paths": [
+    "amem_docs/ds/feishu_im_dataset_v3/cases/case_20260507112905870826_contradiction_update/input/characters.json",
+    "amem_docs/ds/feishu_im_dataset_v3/cases/case_20260507112905870826_contradiction_update/input/actor_registry.json"
+  ],
+  "skipped": false,
+  "run_id": "20260507T113001491250Z",
+  "updated_at": "2026-05-07T11:30:01.491263+00:00"
+}

@@ -1,0 +1,37 @@
+{
+  "case_id": "case_20260508030344241234_anti_interference",
+  "family_id": "anti_interference",
+  "task_id": "FEISHU-334",
+  "required_case_structure": [
+    "target_task",
+    "distractor_context",
+    "shared_actors",
+    "scope_limited_query_need"
+  ],
+  "message_beat_ids": [
+    "beat_001",
+    "beat_002",
+    "beat_003",
+    "beat_004",
+    "beat_005",
+    "beat_006",
+    "beat_007",
+    "beat_008",
+    "beat_009",
+    "beat_010"
+  ],
+  "probe_queries": [
+    {
+      "query": "FEISHU-334 当前的负责人是谁，还有哪些 blocker？",
+      "expected_good_behavior": "回答 Alice 是负责人，当前 blocker 是安全审查未通过，部署窗口待定。不应混入文档评审或运维排练中的信息。"
+    },
+    {
+      "query": "FEISHU-334 的当前状态是什么？是否已准备就绪？",
+      "expected_good_behavior": "回答尚未就绪，因为安全审查未完成，部署窗口未确定。不应引用Eve在文档评审线程中关于手册的评论或Grace的排练内容。"
+    },
+    {
+      "query": "哪些因素阻碍了 FEISHU-334 的部署？",
+      "expected_good_behavior": "只提及安全审查未通过是唯一 blocker，不混入网络配置或文档评审中的其他问题。"
+    }
+  ]
+}

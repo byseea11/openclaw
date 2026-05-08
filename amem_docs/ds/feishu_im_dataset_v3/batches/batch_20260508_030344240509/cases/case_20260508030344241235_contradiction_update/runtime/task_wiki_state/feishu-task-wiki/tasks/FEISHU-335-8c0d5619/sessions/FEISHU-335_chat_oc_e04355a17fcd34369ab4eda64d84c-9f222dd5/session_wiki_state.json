@@ -1,0 +1,997 @@
+{
+  "version": 1,
+  "task_id": "task:FEISHU-335",
+  "task_key": "FEISHU-335",
+  "source_session_id": "task:FEISHU-335::chat:oc_e04355a17fcd34369ab4eda64d84c019",
+  "source_scope": "chat:oc_e04355a17fcd34369ab4eda64d84c019",
+  "source_type": "chat",
+  "source_id": "chat:main_chat",
+  "session_title": "task:FEISHU-335::chat:oc_e04355a17fcd34369ab4eda64d84c019",
+  "time_range": {
+    "start": "2026-05-08T03:38:22.449Z",
+    "end": "2026-05-08T03:40:48.639Z"
+  },
+  "participants": [
+    "林晨",
+    "周宇",
+    "高骏",
+    "何然",
+    "许薇",
+    "王源",
+    "陈雪",
+    "秦怡",
+    "唐越",
+    "苏禾",
+    "罗天"
+  ],
+  "relative_page_path": "sessions/FEISHU-335_chat_oc_e04355a17fcd34369ab4eda64d84c-9f222dd5/session_wiki.md",
+  "session_summary": "FEISHU-335 安全审查需两周，接口已修复可测试，阻塞至3月25日，负责人变更为周宇，截止3月15日，开发中，需求梳理中，周末可值班需提前给权限。",
+  "block_order": [
+    "block-安全审查-d2e06d4b",
+    "block-测试安排-55bff6ea",
+    "block-发布阻塞风险-45763a86",
+    "block-负责人变更-fedbb427",
+    "block-接口修复-d5fe02dc",
+    "block-截止时间-864048b3",
+    "block-开发行动-a4ab6c51",
+    "block-任务状态-b7d4128d",
+    "block-需求梳理-652e0607",
+    "block-值班安排-a28785da",
+    "block-阻塞原因-853fe27a"
+  ],
+  "blocks": {
+    "block-安全审查-d2e06d4b": {
+      "block_id": "block-安全审查-d2e06d4b",
+      "anchor_id": "block-安全审查-d2e06d4b",
+      "topic_key": "安全审查",
+      "topic_title": "安全审查",
+      "event_ids": [
+        "evt_8317e3df8d907719"
+      ],
+      "slots": {
+        "conclusion": [],
+        "rationale": [],
+        "objection": [],
+        "constraint": [],
+        "commitment": [],
+        "status": [],
+        "time": [
+          {
+            "event_id": "evt_8317e3df8d907719",
+            "event_type": "time_event",
+            "claim": "安全审查需要两周，建议提前安排。",
+            "event_time": "1778209726000",
+            "evidence_quote": "安全审查需要两周",
+            "event_path": "sessions/FEISHU-335_chat_oc_e04355a17fcd34369ab4eda64d84c-9f222dd5/session_events.jsonl#evt_8317e3df8d907719",
+            "event_ref": "[[sessions/FEISHU-335_chat_oc_e04355a17fcd34369ab4eda64d84c-9f222dd5/session_events.jsonl#evt_8317e3df8d907719|evt_8317e3df8d907719]]",
+            "entry_ref": "[[sessions/FEISHU-335_chat_oc_e04355a17fcd34369ab4eda64d84c-9f222dd5/session.md#om_x100b50e174b2d8e0c3bf9a3bd93d511|om_x100b50e174b2d8e0c3bf9a3bd93d511]]",
+            "core_entry_id": "om_x100b50e174b2d8e0c3bf9a3bd93d511",
+            "subject_key": "安全审查",
+            "is_current": true,
+            "lifecycle_status": "active",
+            "lifecycle_reason": null,
+            "target": null,
+            "time_target": "安全审查",
+            "scope_target": null,
+            "action": null,
+            "owner": null,
+            "objector": null,
+            "status": null,
+            "certainty": "certain"
+          }
+        ],
+        "scope": []
+      },
+      "status": "active",
+      "evidence_refs": [
+        {
+          "event_id": "evt_8317e3df8d907719",
+          "event_path": "sessions/FEISHU-335_chat_oc_e04355a17fcd34369ab4eda64d84c-9f222dd5/session_events.jsonl#evt_8317e3df8d907719",
+          "entry_ref": "[[sessions/FEISHU-335_chat_oc_e04355a17fcd34369ab4eda64d84c-9f222dd5/session.md#om_x100b50e174b2d8e0c3bf9a3bd93d511|om_x100b50e174b2d8e0c3bf9a3bd93d511]]",
+          "quote": "安全审查需要两周"
+        }
+      ],
+      "summary": "安全审查需两周，建议提前安排。"
+    },
+    "block-测试安排-55bff6ea": {
+      "block_id": "block-测试安排-55bff6ea",
+      "anchor_id": "block-测试安排-55bff6ea",
+      "topic_key": "测试安排",
+      "topic_title": "测试安排",
+      "event_ids": [
+        "evt_cea2f88a843d9369"
+      ],
+      "slots": {
+        "conclusion": [],
+        "rationale": [],
+        "objection": [],
+        "constraint": [],
+        "commitment": [],
+        "status": [],
+        "time": [
+          {
+            "event_id": "evt_cea2f88a843d9369",
+            "event_type": "time_event",
+            "claim": "接口已修复，明天可测试。",
+            "event_time": "1778209726000",
+            "evidence_quote": "明天可测试",
+            "event_path": "sessions/FEISHU-335_chat_oc_e04355a17fcd34369ab4eda64d84c-9f222dd5/session_events.jsonl#evt_cea2f88a843d9369",
+            "event_ref": "[[sessions/FEISHU-335_chat_oc_e04355a17fcd34369ab4eda64d84c-9f222dd5/session_events.jsonl#evt_cea2f88a843d9369|evt_cea2f88a843d9369]]",
+            "entry_ref": "[[sessions/FEISHU-335_chat_oc_e04355a17fcd34369ab4eda64d84c-9f222dd5/session.md#om_x100b50e174045164c4e3cf1a89a5dfd|om_x100b50e174045164c4e3cf1a89a5dfd]]",
+            "core_entry_id": "om_x100b50e174045164c4e3cf1a89a5dfd",
+            "subject_key": "测试",
+            "is_current": true,
+            "lifecycle_status": "active",
+            "lifecycle_reason": null,
+            "target": null,
+            "time_target": "测试",
+            "scope_target": null,
+            "action": null,
+            "owner": null,
+            "objector": null,
+            "status": null,
+            "certainty": "high"
+          }
+        ],
+        "scope": []
+      },
+      "status": "active",
+      "evidence_refs": [
+        {
+          "event_id": "evt_cea2f88a843d9369",
+          "event_path": "sessions/FEISHU-335_chat_oc_e04355a17fcd34369ab4eda64d84c-9f222dd5/session_events.jsonl#evt_cea2f88a843d9369",
+          "entry_ref": "[[sessions/FEISHU-335_chat_oc_e04355a17fcd34369ab4eda64d84c-9f222dd5/session.md#om_x100b50e174045164c4e3cf1a89a5dfd|om_x100b50e174045164c4e3cf1a89a5dfd]]",
+          "quote": "明天可测试"
+        }
+      ],
+      "summary": "接口已修复，明天可测试"
+    },
+    "block-发布阻塞风险-45763a86": {
+      "block_id": "block-发布阻塞风险-45763a86",
+      "anchor_id": "block-发布阻塞风险-45763a86",
+      "topic_key": "发布阻塞风险",
+      "topic_title": "发布阻塞风险",
+      "event_ids": [
+        "evt_acfb678ebe773e51",
+        "evt_dbb856db9994c85a",
+        "evt_36008c5115a0f84f",
+        "evt_2a6d903ddbd9a238",
+        "evt_a117b61d2876d2b1"
+      ],
+      "slots": {
+        "conclusion": [],
+        "rationale": [],
+        "objection": [],
+        "constraint": [],
+        "commitment": [
+          {
+            "event_id": "evt_dbb856db9994c85a",
+            "event_type": "commitment_event",
+            "claim": "FEISHU-335 负责人改为 陈雪，截止 3月25日。",
+            "event_time": "1778209726000",
+            "evidence_quote": "FEISHU-335 负责人改为 陈雪，截止 3月25日，状态阻塞。",
+            "event_path": "sessions/FEISHU-335_chat_oc_e04355a17fcd34369ab4eda64d84c-9f222dd5/session_events.jsonl#evt_dbb856db9994c85a",
+            "event_ref": "[[sessions/FEISHU-335_chat_oc_e04355a17fcd34369ab4eda64d84c-9f222dd5/session_events.jsonl#evt_dbb856db9994c85a|evt_dbb856db9994c85a]]",
+            "entry_ref": "[[sessions/FEISHU-335_chat_oc_e04355a17fcd34369ab4eda64d84c-9f222dd5/session.md#om_x100b50e1749c68a0c2bf8cab6010f6e|om_x100b50e1749c68a0c2bf8cab6010f6e]]",
+            "core_entry_id": "om_x100b50e1749c68a0c2bf8cab6010f6e",
+            "subject_key": "发布阻塞风险",
+            "is_current": true,
+            "lifecycle_status": "active",
+            "lifecycle_reason": null,
+            "target": null,
+            "time_target": null,
+            "scope_target": null,
+            "action": "负责 FEISHU-335",
+            "owner": "陈雪",
+            "objector": null,
+            "status": null,
+            "certainty": null
+          },
+          {
+            "event_id": "evt_2a6d903ddbd9a238",
+            "event_type": "commitment_event",
+            "claim": "我来看看阻塞原因。",
+            "event_time": "1778209726000",
+            "evidence_quote": "我来看看阻塞原因。",
+            "event_path": "sessions/FEISHU-335_chat_oc_e04355a17fcd34369ab4eda64d84c-9f222dd5/session_events.jsonl#evt_2a6d903ddbd9a238",
+            "event_ref": "[[sessions/FEISHU-335_chat_oc_e04355a17fcd34369ab4eda64d84c-9f222dd5/session_events.jsonl#evt_2a6d903ddbd9a238|evt_2a6d903ddbd9a238]]",
+            "entry_ref": "[[sessions/FEISHU-335_chat_oc_e04355a17fcd34369ab4eda64d84c-9f222dd5/session.md#om_x100b50e174913c88c2ad7959ada64d9|om_x100b50e174913c88c2ad7959ada64d9]]",
+            "core_entry_id": "om_x100b50e174913c88c2ad7959ada64d9",
+            "subject_key": "发布阻塞风险",
+            "is_current": false,
+            "lifecycle_status": "active",
+            "lifecycle_reason": null,
+            "target": null,
+            "time_target": null,
+            "scope_target": null,
+            "action": "看看阻塞原因",
+            "owner": "陈雪",
+            "objector": null,
+            "status": null,
+            "certainty": null
+          }
+        ],
+        "status": [
+          {
+            "event_id": "evt_acfb678ebe773e51",
+            "event_type": "status_event",
+            "claim": "FEISHU-335 状态阻塞。",
+            "event_time": "1778209726000",
+            "evidence_quote": "FEISHU-335 负责人改为 陈雪，截止 3月25日，状态阻塞。",
+            "event_path": "sessions/FEISHU-335_chat_oc_e04355a17fcd34369ab4eda64d84c-9f222dd5/session_events.jsonl#evt_acfb678ebe773e51",
+            "event_ref": "[[sessions/FEISHU-335_chat_oc_e04355a17fcd34369ab4eda64d84c-9f222dd5/session_events.jsonl#evt_acfb678ebe773e51|evt_acfb678ebe773e51]]",
+            "entry_ref": "[[sessions/FEISHU-335_chat_oc_e04355a17fcd34369ab4eda64d84c-9f222dd5/session.md#om_x100b50e1749c68a0c2bf8cab6010f6e|om_x100b50e1749c68a0c2bf8cab6010f6e]]",
+            "core_entry_id": "om_x100b50e1749c68a0c2bf8cab6010f6e",
+            "subject_key": "发布阻塞风险",
+            "is_current": true,
+            "lifecycle_status": "active",
+            "lifecycle_reason": null,
+            "target": "FEISHU-335",
+            "time_target": null,
+            "scope_target": null,
+            "action": null,
+            "owner": null,
+            "objector": null,
+            "status": "阻塞",
+            "certainty": null
+          },
+          {
+            "event_id": "evt_a117b61d2876d2b1",
+            "event_type": "status_event",
+            "claim": "我是当前 owner，正在处理阻塞问题。",
+            "event_time": "1778209726000",
+            "evidence_quote": "我是当前 owner，正在处理阻塞问题。",
+            "event_path": "sessions/FEISHU-335_chat_oc_e04355a17fcd34369ab4eda64d84c-9f222dd5/session_events.jsonl#evt_a117b61d2876d2b1",
+            "event_ref": "[[sessions/FEISHU-335_chat_oc_e04355a17fcd34369ab4eda64d84c-9f222dd5/session_events.jsonl#evt_a117b61d2876d2b1|evt_a117b61d2876d2b1]]",
+            "entry_ref": "[[sessions/FEISHU-335_chat_oc_e04355a17fcd34369ab4eda64d84c-9f222dd5/session.md#om_x100b50e17470b4a0c2c1408429fc5ee|om_x100b50e17470b4a0c2c1408429fc5ee]]",
+            "core_entry_id": "om_x100b50e17470b4a0c2c1408429fc5ee",
+            "subject_key": "发布阻塞风险",
+            "is_current": false,
+            "lifecycle_status": "active",
+            "lifecycle_reason": null,
+            "target": "FEISHU-335",
+            "time_target": null,
+            "scope_target": null,
+            "action": null,
+            "owner": null,
+            "objector": null,
+            "status": "ongoing",
+            "certainty": null
+          }
+        ],
+        "time": [
+          {
+            "event_id": "evt_36008c5115a0f84f",
+            "event_type": "time_event",
+            "claim": "FEISHU-335 截止 3月25日。",
+            "event_time": "1778209726000",
+            "evidence_quote": "FEISHU-335 负责人改为 陈雪，截止 3月25日，状态阻塞。",
+            "event_path": "sessions/FEISHU-335_chat_oc_e04355a17fcd34369ab4eda64d84c-9f222dd5/session_events.jsonl#evt_36008c5115a0f84f",
+            "event_ref": "[[sessions/FEISHU-335_chat_oc_e04355a17fcd34369ab4eda64d84c-9f222dd5/session_events.jsonl#evt_36008c5115a0f84f|evt_36008c5115a0f84f]]",
+            "entry_ref": "[[sessions/FEISHU-335_chat_oc_e04355a17fcd34369ab4eda64d84c-9f222dd5/session.md#om_x100b50e1749c68a0c2bf8cab6010f6e|om_x100b50e1749c68a0c2bf8cab6010f6e]]",
+            "core_entry_id": "om_x100b50e1749c68a0c2bf8cab6010f6e",
+            "subject_key": "发布阻塞风险",
+            "is_current": true,
+            "lifecycle_status": "active",
+            "lifecycle_reason": null,
+            "target": null,
+            "time_target": "FEISHU-335",
+            "scope_target": null,
+            "action": null,
+            "owner": null,
+            "objector": null,
+            "status": null,
+            "certainty": "明确"
+          }
+        ],
+        "scope": []
+      },
+      "status": "open",
+      "evidence_refs": [
+        {
+          "event_id": "evt_acfb678ebe773e51",
+          "event_path": "sessions/FEISHU-335_chat_oc_e04355a17fcd34369ab4eda64d84c-9f222dd5/session_events.jsonl#evt_acfb678ebe773e51",
+          "entry_ref": "[[sessions/FEISHU-335_chat_oc_e04355a17fcd34369ab4eda64d84c-9f222dd5/session.md#om_x100b50e1749c68a0c2bf8cab6010f6e|om_x100b50e1749c68a0c2bf8cab6010f6e]]",
+          "quote": "FEISHU-335 负责人改为 陈雪，截止 3月25日，状态阻塞。"
+        },
+        {
+          "event_id": "evt_dbb856db9994c85a",
+          "event_path": "sessions/FEISHU-335_chat_oc_e04355a17fcd34369ab4eda64d84c-9f222dd5/session_events.jsonl#evt_dbb856db9994c85a",
+          "entry_ref": "[[sessions/FEISHU-335_chat_oc_e04355a17fcd34369ab4eda64d84c-9f222dd5/session.md#om_x100b50e1749c68a0c2bf8cab6010f6e|om_x100b50e1749c68a0c2bf8cab6010f6e]]",
+          "quote": "FEISHU-335 负责人改为 陈雪，截止 3月25日，状态阻塞。"
+        },
+        {
+          "event_id": "evt_36008c5115a0f84f",
+          "event_path": "sessions/FEISHU-335_chat_oc_e04355a17fcd34369ab4eda64d84c-9f222dd5/session_events.jsonl#evt_36008c5115a0f84f",
+          "entry_ref": "[[sessions/FEISHU-335_chat_oc_e04355a17fcd34369ab4eda64d84c-9f222dd5/session.md#om_x100b50e1749c68a0c2bf8cab6010f6e|om_x100b50e1749c68a0c2bf8cab6010f6e]]",
+          "quote": "FEISHU-335 负责人改为 陈雪，截止 3月25日，状态阻塞。"
+        },
+        {
+          "event_id": "evt_2a6d903ddbd9a238",
+          "event_path": "sessions/FEISHU-335_chat_oc_e04355a17fcd34369ab4eda64d84c-9f222dd5/session_events.jsonl#evt_2a6d903ddbd9a238",
+          "entry_ref": "[[sessions/FEISHU-335_chat_oc_e04355a17fcd34369ab4eda64d84c-9f222dd5/session.md#om_x100b50e174913c88c2ad7959ada64d9|om_x100b50e174913c88c2ad7959ada64d9]]",
+          "quote": "我来看看阻塞原因。"
+        },
+        {
+          "event_id": "evt_a117b61d2876d2b1",
+          "event_path": "sessions/FEISHU-335_chat_oc_e04355a17fcd34369ab4eda64d84c-9f222dd5/session_events.jsonl#evt_a117b61d2876d2b1",
+          "entry_ref": "[[sessions/FEISHU-335_chat_oc_e04355a17fcd34369ab4eda64d84c-9f222dd5/session.md#om_x100b50e17470b4a0c2c1408429fc5ee|om_x100b50e17470b4a0c2c1408429fc5ee]]",
+          "quote": "我是当前 owner，正在处理阻塞问题。"
+        }
+      ],
+      "summary": "FEISHU-335 阻塞，负责人陈雪，截止3月25日。"
+    },
+    "block-负责人变更-fedbb427": {
+      "block_id": "block-负责人变更-fedbb427",
+      "anchor_id": "block-负责人变更-fedbb427",
+      "topic_key": "负责人变更",
+      "topic_title": "负责人变更",
+      "event_ids": [
+        "evt_f82851e61c7d0ec0",
+        "evt_b05ed8c56348c922",
+        "evt_69a651110515149d",
+        "evt_793bf69dc7f46999",
+        "evt_ff807bd55bcbeeb0"
+      ],
+      "slots": {
+        "conclusion": [],
+        "rationale": [],
+        "objection": [],
+        "constraint": [],
+        "commitment": [
+          {
+            "event_id": "evt_f82851e61c7d0ec0",
+            "event_type": "commitment_event",
+            "claim": "FEISHU-335 交给 周宇 负责",
+            "event_time": "1778209726000",
+            "evidence_quote": "FEISHU-335 交给 周宇 负责",
+            "event_path": "sessions/FEISHU-335_chat_oc_e04355a17fcd34369ab4eda64d84c-9f222dd5/session_events.jsonl#evt_f82851e61c7d0ec0",
+            "event_ref": "[[sessions/FEISHU-335_chat_oc_e04355a17fcd34369ab4eda64d84c-9f222dd5/session_events.jsonl#evt_f82851e61c7d0ec0|evt_f82851e61c7d0ec0]]",
+            "entry_ref": "[[sessions/FEISHU-335_chat_oc_e04355a17fcd34369ab4eda64d84c-9f222dd5/session.md#om_x100b50e17738f4acc39e76265606037|om_x100b50e17738f4acc39e76265606037]]",
+            "core_entry_id": "om_x100b50e17738f4acc39e76265606037",
+            "subject_key": "负责 feishu-335",
+            "is_current": true,
+            "lifecycle_status": "active",
+            "lifecycle_reason": null,
+            "target": null,
+            "time_target": null,
+            "scope_target": null,
+            "action": "负责 FEISHU-335",
+            "owner": "周宇",
+            "objector": null,
+            "status": null,
+            "certainty": null
+          },
+          {
+            "event_id": "evt_b05ed8c56348c922",
+            "event_type": "commitment_event",
+            "claim": "我现在是 owner，但准备转给 陈雪。",
+            "event_time": "1778209726000",
+            "evidence_quote": "我现在是 owner，但准备转给 陈雪。",
+            "event_path": "sessions/FEISHU-335_chat_oc_e04355a17fcd34369ab4eda64d84c-9f222dd5/session_events.jsonl#evt_b05ed8c56348c922",
+            "event_ref": "[[sessions/FEISHU-335_chat_oc_e04355a17fcd34369ab4eda64d84c-9f222dd5/session_events.jsonl#evt_b05ed8c56348c922|evt_b05ed8c56348c922]]",
+            "entry_ref": "[[sessions/FEISHU-335_chat_oc_e04355a17fcd34369ab4eda64d84c-9f222dd5/session.md#om_x100b50e1748b40a8c21419d83ef5aa6|om_x100b50e1748b40a8c21419d83ef5aa6]]",
+            "core_entry_id": "om_x100b50e1748b40a8c21419d83ef5aa6",
+            "subject_key": "转给 陈雪",
+            "is_current": true,
+            "lifecycle_status": "active",
+            "lifecycle_reason": null,
+            "target": null,
+            "time_target": null,
+            "scope_target": null,
+            "action": "转给 陈雪",
+            "owner": "王源",
+            "objector": null,
+            "status": null,
+            "certainty": null
+          },
+          {
+            "event_id": "evt_793bf69dc7f46999",
+            "event_type": "commitment_event",
+            "claim": "确认，我之前 owner，现在 陈雪 负责。",
+            "event_time": "1778209726000",
+            "evidence_quote": "现在 陈雪 负责。",
+            "event_path": "sessions/FEISHU-335_chat_oc_e04355a17fcd34369ab4eda64d84c-9f222dd5/session_events.jsonl#evt_793bf69dc7f46999",
+            "event_ref": "[[sessions/FEISHU-335_chat_oc_e04355a17fcd34369ab4eda64d84c-9f222dd5/session_events.jsonl#evt_793bf69dc7f46999|evt_793bf69dc7f46999]]",
+            "entry_ref": "[[sessions/FEISHU-335_chat_oc_e04355a17fcd34369ab4eda64d84c-9f222dd5/session.md#om_x100b50e1747f2cb8c420283d944ffa5|om_x100b50e1747f2cb8c420283d944ffa5]]",
+            "core_entry_id": "om_x100b50e1747f2cb8c420283d944ffa5",
+            "subject_key": "负责 feishu-335",
+            "is_current": false,
+            "lifecycle_status": "active",
+            "lifecycle_reason": null,
+            "target": null,
+            "time_target": null,
+            "scope_target": null,
+            "action": "负责 FEISHU-335",
+            "owner": "陈雪",
+            "objector": null,
+            "status": null,
+            "certainty": null
+          },
+          {
+            "event_id": "evt_ff807bd55bcbeeb0",
+            "event_type": "commitment_event",
+            "claim": "那 FEISHU-335 最终负责人是 陈雪，截止 3月25日。",
+            "event_time": "1778209726000",
+            "evidence_quote": "那 FEISHU-335 最终负责人是 陈雪，截止 3月25日。",
+            "event_path": "sessions/FEISHU-335_chat_oc_e04355a17fcd34369ab4eda64d84c-9f222dd5/session_events.jsonl#evt_ff807bd55bcbeeb0",
+            "event_ref": "[[sessions/FEISHU-335_chat_oc_e04355a17fcd34369ab4eda64d84c-9f222dd5/session_events.jsonl#evt_ff807bd55bcbeeb0|evt_ff807bd55bcbeeb0]]",
+            "entry_ref": "[[sessions/FEISHU-335_chat_oc_e04355a17fcd34369ab4eda64d84c-9f222dd5/session.md#om_x100b50e1741b91a4c4a72585739af6c|om_x100b50e1741b91a4c4a72585739af6c]]",
+            "core_entry_id": "om_x100b50e1741b91a4c4a72585739af6c",
+            "subject_key": "负责 feishu-335",
+            "is_current": false,
+            "lifecycle_status": "active",
+            "lifecycle_reason": null,
+            "target": null,
+            "time_target": null,
+            "scope_target": null,
+            "action": "负责 FEISHU-335",
+            "owner": "陈雪",
+            "objector": null,
+            "status": null,
+            "certainty": null
+          }
+        ],
+        "status": [
+          {
+            "event_id": "evt_69a651110515149d",
+            "event_type": "status_event",
+            "claim": "王源 之前是历史负责人，现在已转给 陈雪。",
+            "event_time": "1778209726000",
+            "evidence_quote": "王源 之前是历史负责人，现在已转给 陈雪。",
+            "event_path": "sessions/FEISHU-335_chat_oc_e04355a17fcd34369ab4eda64d84c-9f222dd5/session_events.jsonl#evt_69a651110515149d",
+            "event_ref": "[[sessions/FEISHU-335_chat_oc_e04355a17fcd34369ab4eda64d84c-9f222dd5/session_events.jsonl#evt_69a651110515149d|evt_69a651110515149d]]",
+            "entry_ref": "[[sessions/FEISHU-335_chat_oc_e04355a17fcd34369ab4eda64d84c-9f222dd5/session.md#om_x100b50e17468b48cc2c2d1da6c3fbb0|om_x100b50e17468b48cc2c2d1da6c3fbb0]]",
+            "core_entry_id": "om_x100b50e17468b48cc2c2d1da6c3fbb0",
+            "subject_key": "feishu-335",
+            "is_current": true,
+            "lifecycle_status": "active",
+            "lifecycle_reason": null,
+            "target": "FEISHU-335",
+            "time_target": null,
+            "scope_target": null,
+            "action": null,
+            "owner": null,
+            "objector": null,
+            "status": "transferred",
+            "certainty": null
+          }
+        ],
+        "time": [],
+        "scope": []
+      },
+      "status": "active",
+      "evidence_refs": [
+        {
+          "event_id": "evt_f82851e61c7d0ec0",
+          "event_path": "sessions/FEISHU-335_chat_oc_e04355a17fcd34369ab4eda64d84c-9f222dd5/session_events.jsonl#evt_f82851e61c7d0ec0",
+          "entry_ref": "[[sessions/FEISHU-335_chat_oc_e04355a17fcd34369ab4eda64d84c-9f222dd5/session.md#om_x100b50e17738f4acc39e76265606037|om_x100b50e17738f4acc39e76265606037]]",
+          "quote": "FEISHU-335 交给 周宇 负责"
+        },
+        {
+          "event_id": "evt_b05ed8c56348c922",
+          "event_path": "sessions/FEISHU-335_chat_oc_e04355a17fcd34369ab4eda64d84c-9f222dd5/session_events.jsonl#evt_b05ed8c56348c922",
+          "entry_ref": "[[sessions/FEISHU-335_chat_oc_e04355a17fcd34369ab4eda64d84c-9f222dd5/session.md#om_x100b50e1748b40a8c21419d83ef5aa6|om_x100b50e1748b40a8c21419d83ef5aa6]]",
+          "quote": "我现在是 owner，但准备转给 陈雪。"
+        },
+        {
+          "event_id": "evt_69a651110515149d",
+          "event_path": "sessions/FEISHU-335_chat_oc_e04355a17fcd34369ab4eda64d84c-9f222dd5/session_events.jsonl#evt_69a651110515149d",
+          "entry_ref": "[[sessions/FEISHU-335_chat_oc_e04355a17fcd34369ab4eda64d84c-9f222dd5/session.md#om_x100b50e17468b48cc2c2d1da6c3fbb0|om_x100b50e17468b48cc2c2d1da6c3fbb0]]",
+          "quote": "王源 之前是历史负责人，现在已转给 陈雪。"
+        },
+        {
+          "event_id": "evt_793bf69dc7f46999",
+          "event_path": "sessions/FEISHU-335_chat_oc_e04355a17fcd34369ab4eda64d84c-9f222dd5/session_events.jsonl#evt_793bf69dc7f46999",
+          "entry_ref": "[[sessions/FEISHU-335_chat_oc_e04355a17fcd34369ab4eda64d84c-9f222dd5/session.md#om_x100b50e1747f2cb8c420283d944ffa5|om_x100b50e1747f2cb8c420283d944ffa5]]",
+          "quote": "现在 陈雪 负责。"
+        },
+        {
+          "event_id": "evt_ff807bd55bcbeeb0",
+          "event_path": "sessions/FEISHU-335_chat_oc_e04355a17fcd34369ab4eda64d84c-9f222dd5/session_events.jsonl#evt_ff807bd55bcbeeb0",
+          "entry_ref": "[[sessions/FEISHU-335_chat_oc_e04355a17fcd34369ab4eda64d84c-9f222dd5/session.md#om_x100b50e1741b91a4c4a72585739af6c|om_x100b50e1741b91a4c4a72585739af6c]]",
+          "quote": "那 FEISHU-335 最终负责人是 陈雪，截止 3月25日。"
+        }
+      ],
+      "summary": "负责人变更：FEISHU-335转交周宇，陈雪接替王源成为新负责人。"
+    },
+    "block-接口修复-d5fe02dc": {
+      "block_id": "block-接口修复-d5fe02dc",
+      "anchor_id": "block-接口修复-d5fe02dc",
+      "topic_key": "接口修复",
+      "topic_title": "接口修复",
+      "event_ids": [
+        "evt_9b423af8c13e27a4"
+      ],
+      "slots": {
+        "conclusion": [],
+        "rationale": [],
+        "objection": [],
+        "constraint": [],
+        "commitment": [],
+        "status": [
+          {
+            "event_id": "evt_9b423af8c13e27a4",
+            "event_type": "status_event",
+            "claim": "接口已修复，明天可测试。",
+            "event_time": "1778209726000",
+            "evidence_quote": "接口已修复，明天可测试。",
+            "event_path": "sessions/FEISHU-335_chat_oc_e04355a17fcd34369ab4eda64d84c-9f222dd5/session_events.jsonl#evt_9b423af8c13e27a4",
+            "event_ref": "[[sessions/FEISHU-335_chat_oc_e04355a17fcd34369ab4eda64d84c-9f222dd5/session_events.jsonl#evt_9b423af8c13e27a4|evt_9b423af8c13e27a4]]",
+            "entry_ref": "[[sessions/FEISHU-335_chat_oc_e04355a17fcd34369ab4eda64d84c-9f222dd5/session.md#om_x100b50e174045164c4e3cf1a89a5dfd|om_x100b50e174045164c4e3cf1a89a5dfd]]",
+            "core_entry_id": "om_x100b50e174045164c4e3cf1a89a5dfd",
+            "subject_key": "接口",
+            "is_current": true,
+            "lifecycle_status": "active",
+            "lifecycle_reason": null,
+            "target": "接口",
+            "time_target": null,
+            "scope_target": null,
+            "action": null,
+            "owner": null,
+            "objector": null,
+            "status": "已修复",
+            "certainty": null
+          }
+        ],
+        "time": [],
+        "scope": []
+      },
+      "status": "active",
+      "evidence_refs": [
+        {
+          "event_id": "evt_9b423af8c13e27a4",
+          "event_path": "sessions/FEISHU-335_chat_oc_e04355a17fcd34369ab4eda64d84c-9f222dd5/session_events.jsonl#evt_9b423af8c13e27a4",
+          "entry_ref": "[[sessions/FEISHU-335_chat_oc_e04355a17fcd34369ab4eda64d84c-9f222dd5/session.md#om_x100b50e174045164c4e3cf1a89a5dfd|om_x100b50e174045164c4e3cf1a89a5dfd]]",
+          "quote": "接口已修复，明天可测试。"
+        }
+      ],
+      "summary": "接口已修复，明天可测试。"
+    },
+    "block-截止时间-864048b3": {
+      "block_id": "block-截止时间-864048b3",
+      "anchor_id": "block-截止时间-864048b3",
+      "topic_key": "截止时间",
+      "topic_title": "截止时间",
+      "event_ids": [
+        "evt_4fb9df3f304f944d",
+        "evt_a74f02ea49ba41c9"
+      ],
+      "slots": {
+        "conclusion": [],
+        "rationale": [],
+        "objection": [],
+        "constraint": [],
+        "commitment": [],
+        "status": [],
+        "time": [
+          {
+            "event_id": "evt_4fb9df3f304f944d",
+            "event_type": "time_event",
+            "claim": "截止日 3月15日",
+            "event_time": "1778209726000",
+            "evidence_quote": "截止日 3月15日",
+            "event_path": "sessions/FEISHU-335_chat_oc_e04355a17fcd34369ab4eda64d84c-9f222dd5/session_events.jsonl#evt_4fb9df3f304f944d",
+            "event_ref": "[[sessions/FEISHU-335_chat_oc_e04355a17fcd34369ab4eda64d84c-9f222dd5/session_events.jsonl#evt_4fb9df3f304f944d|evt_4fb9df3f304f944d]]",
+            "entry_ref": "[[sessions/FEISHU-335_chat_oc_e04355a17fcd34369ab4eda64d84c-9f222dd5/session.md#om_x100b50e17738f4acc39e76265606037|om_x100b50e17738f4acc39e76265606037]]",
+            "core_entry_id": "om_x100b50e17738f4acc39e76265606037",
+            "subject_key": "feishu-335",
+            "is_current": true,
+            "lifecycle_status": "active",
+            "lifecycle_reason": null,
+            "target": null,
+            "time_target": "FEISHU-335",
+            "scope_target": null,
+            "action": null,
+            "owner": null,
+            "objector": null,
+            "status": null,
+            "certainty": "definite"
+          },
+          {
+            "event_id": "evt_a74f02ea49ba41c9",
+            "event_type": "time_event",
+            "claim": "那 FEISHU-335 最终负责人是 陈雪，截止 3月25日。",
+            "event_time": "1778209726000",
+            "evidence_quote": "截止 3月25日",
+            "event_path": "sessions/FEISHU-335_chat_oc_e04355a17fcd34369ab4eda64d84c-9f222dd5/session_events.jsonl#evt_a74f02ea49ba41c9",
+            "event_ref": "[[sessions/FEISHU-335_chat_oc_e04355a17fcd34369ab4eda64d84c-9f222dd5/session_events.jsonl#evt_a74f02ea49ba41c9|evt_a74f02ea49ba41c9]]",
+            "entry_ref": "[[sessions/FEISHU-335_chat_oc_e04355a17fcd34369ab4eda64d84c-9f222dd5/session.md#om_x100b50e1741b91a4c4a72585739af6c|om_x100b50e1741b91a4c4a72585739af6c]]",
+            "core_entry_id": "om_x100b50e1741b91a4c4a72585739af6c",
+            "subject_key": "feishu-335",
+            "is_current": false,
+            "lifecycle_status": "active",
+            "lifecycle_reason": null,
+            "target": null,
+            "time_target": "FEISHU-335",
+            "scope_target": null,
+            "action": null,
+            "owner": null,
+            "objector": null,
+            "status": null,
+            "certainty": "confirmed"
+          }
+        ],
+        "scope": []
+      },
+      "status": "active",
+      "evidence_refs": [
+        {
+          "event_id": "evt_4fb9df3f304f944d",
+          "event_path": "sessions/FEISHU-335_chat_oc_e04355a17fcd34369ab4eda64d84c-9f222dd5/session_events.jsonl#evt_4fb9df3f304f944d",
+          "entry_ref": "[[sessions/FEISHU-335_chat_oc_e04355a17fcd34369ab4eda64d84c-9f222dd5/session.md#om_x100b50e17738f4acc39e76265606037|om_x100b50e17738f4acc39e76265606037]]",
+          "quote": "截止日 3月15日"
+        },
+        {
+          "event_id": "evt_a74f02ea49ba41c9",
+          "event_path": "sessions/FEISHU-335_chat_oc_e04355a17fcd34369ab4eda64d84c-9f222dd5/session_events.jsonl#evt_a74f02ea49ba41c9",
+          "entry_ref": "[[sessions/FEISHU-335_chat_oc_e04355a17fcd34369ab4eda64d84c-9f222dd5/session.md#om_x100b50e1741b91a4c4a72585739af6c|om_x100b50e1741b91a4c4a72585739af6c]]",
+          "quote": "截止 3月25日"
+        }
+      ],
+      "summary": "截止时间为3月15日"
+    },
+    "block-开发行动-a4ab6c51": {
+      "block_id": "block-开发行动-a4ab6c51",
+      "anchor_id": "block-开发行动-a4ab6c51",
+      "topic_key": "开发行动",
+      "topic_title": "开发行动",
+      "event_ids": [
+        "evt_e112537c48c80807"
+      ],
+      "slots": {
+        "conclusion": [],
+        "rationale": [],
+        "objection": [],
+        "constraint": [],
+        "commitment": [
+          {
+            "event_id": "evt_e112537c48c80807",
+            "event_type": "commitment_event",
+            "claim": "FEISHU-335 状态改为进行中，我已在开发。",
+            "event_time": "1778209726000",
+            "evidence_quote": "我已在开发",
+            "event_path": "sessions/FEISHU-335_chat_oc_e04355a17fcd34369ab4eda64d84c-9f222dd5/session_events.jsonl#evt_e112537c48c80807",
+            "event_ref": "[[sessions/FEISHU-335_chat_oc_e04355a17fcd34369ab4eda64d84c-9f222dd5/session_events.jsonl#evt_e112537c48c80807|evt_e112537c48c80807]]",
+            "entry_ref": "[[sessions/FEISHU-335_chat_oc_e04355a17fcd34369ab4eda64d84c-9f222dd5/session.md#om_x100b50e174de20e0c2bd2b05c613fac|om_x100b50e174de20e0c2bd2b05c613fac]]",
+            "core_entry_id": "om_x100b50e174de20e0c2bd2b05c613fac",
+            "subject_key": "开发 feishu-335",
+            "is_current": true,
+            "lifecycle_status": "active",
+            "lifecycle_reason": null,
+            "target": null,
+            "time_target": null,
+            "scope_target": null,
+            "action": "开发 FEISHU-335",
+            "owner": "周宇",
+            "objector": null,
+            "status": null,
+            "certainty": null
+          }
+        ],
+        "status": [],
+        "time": [],
+        "scope": []
+      },
+      "status": "active",
+      "evidence_refs": [
+        {
+          "event_id": "evt_e112537c48c80807",
+          "event_path": "sessions/FEISHU-335_chat_oc_e04355a17fcd34369ab4eda64d84c-9f222dd5/session_events.jsonl#evt_e112537c48c80807",
+          "entry_ref": "[[sessions/FEISHU-335_chat_oc_e04355a17fcd34369ab4eda64d84c-9f222dd5/session.md#om_x100b50e174de20e0c2bd2b05c613fac|om_x100b50e174de20e0c2bd2b05c613fac]]",
+          "quote": "我已在开发"
+        }
+      ],
+      "summary": "FEISHU-335 开发中"
+    },
+    "block-任务状态-b7d4128d": {
+      "block_id": "block-任务状态-b7d4128d",
+      "anchor_id": "block-任务状态-b7d4128d",
+      "topic_key": "任务状态",
+      "topic_title": "任务状态",
+      "event_ids": [
+        "evt_1f6112314ef2da53",
+        "evt_9c270a8f4db4aeeb",
+        "evt_8c6692fc3e81496f"
+      ],
+      "slots": {
+        "conclusion": [],
+        "rationale": [],
+        "objection": [],
+        "constraint": [],
+        "commitment": [],
+        "status": [
+          {
+            "event_id": "evt_1f6112314ef2da53",
+            "event_type": "status_event",
+            "claim": "状态新建",
+            "event_time": "1778209726000",
+            "evidence_quote": "状态新建",
+            "event_path": "sessions/FEISHU-335_chat_oc_e04355a17fcd34369ab4eda64d84c-9f222dd5/session_events.jsonl#evt_1f6112314ef2da53",
+            "event_ref": "[[sessions/FEISHU-335_chat_oc_e04355a17fcd34369ab4eda64d84c-9f222dd5/session_events.jsonl#evt_1f6112314ef2da53|evt_1f6112314ef2da53]]",
+            "entry_ref": "[[sessions/FEISHU-335_chat_oc_e04355a17fcd34369ab4eda64d84c-9f222dd5/session.md#om_x100b50e17738f4acc39e76265606037|om_x100b50e17738f4acc39e76265606037]]",
+            "core_entry_id": "om_x100b50e17738f4acc39e76265606037",
+            "subject_key": "feishu-335",
+            "is_current": true,
+            "lifecycle_status": "active",
+            "lifecycle_reason": null,
+            "target": "FEISHU-335",
+            "time_target": null,
+            "scope_target": null,
+            "action": null,
+            "owner": null,
+            "objector": null,
+            "status": "新建",
+            "certainty": null
+          },
+          {
+            "event_id": "evt_9c270a8f4db4aeeb",
+            "event_type": "status_event",
+            "claim": "FEISHU-335 状态改为进行中，我已在开发。",
+            "event_time": "1778209726000",
+            "evidence_quote": "FEISHU-335 状态改为进行中",
+            "event_path": "sessions/FEISHU-335_chat_oc_e04355a17fcd34369ab4eda64d84c-9f222dd5/session_events.jsonl#evt_9c270a8f4db4aeeb",
+            "event_ref": "[[sessions/FEISHU-335_chat_oc_e04355a17fcd34369ab4eda64d84c-9f222dd5/session_events.jsonl#evt_9c270a8f4db4aeeb|evt_9c270a8f4db4aeeb]]",
+            "entry_ref": "[[sessions/FEISHU-335_chat_oc_e04355a17fcd34369ab4eda64d84c-9f222dd5/session.md#om_x100b50e174de20e0c2bd2b05c613fac|om_x100b50e174de20e0c2bd2b05c613fac]]",
+            "core_entry_id": "om_x100b50e174de20e0c2bd2b05c613fac",
+            "subject_key": "feishu-335",
+            "is_current": false,
+            "lifecycle_status": "active",
+            "lifecycle_reason": null,
+            "target": "FEISHU-335",
+            "time_target": null,
+            "scope_target": null,
+            "action": null,
+            "owner": null,
+            "objector": null,
+            "status": "进行中",
+            "certainty": null
+          },
+          {
+            "event_id": "evt_8c6692fc3e81496f",
+            "event_type": "status_event",
+            "claim": "数据表结构需要调整，影响测试。",
+            "event_time": "1778209726000",
+            "evidence_quote": "数据表结构需要调整，影响测试。",
+            "event_path": "sessions/FEISHU-335_chat_oc_e04355a17fcd34369ab4eda64d84c-9f222dd5/session_events.jsonl#evt_8c6692fc3e81496f",
+            "event_ref": "[[sessions/FEISHU-335_chat_oc_e04355a17fcd34369ab4eda64d84c-9f222dd5/session_events.jsonl#evt_8c6692fc3e81496f|evt_8c6692fc3e81496f]]",
+            "entry_ref": "[[sessions/FEISHU-335_chat_oc_e04355a17fcd34369ab4eda64d84c-9f222dd5/session.md#om_x100b50e174b908a8c3c1cfa1f5e03be|om_x100b50e174b908a8c3c1cfa1f5e03be]]",
+            "core_entry_id": "om_x100b50e174b908a8c3c1cfa1f5e03be",
+            "subject_key": "feishu-335",
+            "is_current": false,
+            "lifecycle_status": "active",
+            "lifecycle_reason": null,
+            "target": "FEISHU-335",
+            "time_target": null,
+            "scope_target": null,
+            "action": null,
+            "owner": null,
+            "objector": null,
+            "status": "阻塞",
+            "certainty": null
+          }
+        ],
+        "time": [],
+        "scope": []
+      },
+      "status": "active",
+      "evidence_refs": [
+        {
+          "event_id": "evt_1f6112314ef2da53",
+          "event_path": "sessions/FEISHU-335_chat_oc_e04355a17fcd34369ab4eda64d84c-9f222dd5/session_events.jsonl#evt_1f6112314ef2da53",
+          "entry_ref": "[[sessions/FEISHU-335_chat_oc_e04355a17fcd34369ab4eda64d84c-9f222dd5/session.md#om_x100b50e17738f4acc39e76265606037|om_x100b50e17738f4acc39e76265606037]]",
+          "quote": "状态新建"
+        },
+        {
+          "event_id": "evt_9c270a8f4db4aeeb",
+          "event_path": "sessions/FEISHU-335_chat_oc_e04355a17fcd34369ab4eda64d84c-9f222dd5/session_events.jsonl#evt_9c270a8f4db4aeeb",
+          "entry_ref": "[[sessions/FEISHU-335_chat_oc_e04355a17fcd34369ab4eda64d84c-9f222dd5/session.md#om_x100b50e174de20e0c2bd2b05c613fac|om_x100b50e174de20e0c2bd2b05c613fac]]",
+          "quote": "FEISHU-335 状态改为进行中"
+        },
+        {
+          "event_id": "evt_8c6692fc3e81496f",
+          "event_path": "sessions/FEISHU-335_chat_oc_e04355a17fcd34369ab4eda64d84c-9f222dd5/session_events.jsonl#evt_8c6692fc3e81496f",
+          "entry_ref": "[[sessions/FEISHU-335_chat_oc_e04355a17fcd34369ab4eda64d84c-9f222dd5/session.md#om_x100b50e174b908a8c3c1cfa1f5e03be|om_x100b50e174b908a8c3c1cfa1f5e03be]]",
+          "quote": "数据表结构需要调整，影响测试。"
+        }
+      ],
+      "summary": "任务状态为新建"
+    },
+    "block-需求梳理-652e0607": {
+      "block_id": "block-需求梳理-652e0607",
+      "anchor_id": "block-需求梳理-652e0607",
+      "topic_key": "需求梳理",
+      "topic_title": "需求梳理",
+      "event_ids": [
+        "evt_156b9d771050141c"
+      ],
+      "slots": {
+        "conclusion": [],
+        "rationale": [],
+        "objection": [],
+        "constraint": [],
+        "commitment": [
+          {
+            "event_id": "evt_156b9d771050141c",
+            "event_type": "commitment_event",
+            "claim": "收到，我先梳理需求，稍后更新排期。",
+            "event_time": "1778209726000",
+            "evidence_quote": "收到，我先梳理需求，稍后更新排期。",
+            "event_path": "sessions/FEISHU-335_chat_oc_e04355a17fcd34369ab4eda64d84c-9f222dd5/session_events.jsonl#evt_156b9d771050141c",
+            "event_ref": "[[sessions/FEISHU-335_chat_oc_e04355a17fcd34369ab4eda64d84c-9f222dd5/session_events.jsonl#evt_156b9d771050141c|evt_156b9d771050141c]]",
+            "entry_ref": "[[sessions/FEISHU-335_chat_oc_e04355a17fcd34369ab4eda64d84c-9f222dd5/session.md#om_x100b50e174c9f144c3c75d30b270a88|om_x100b50e174c9f144c3c75d30b270a88]]",
+            "core_entry_id": "om_x100b50e174c9f144c3c75d30b270a88",
+            "subject_key": "梳理需求，稍后更新排期",
+            "is_current": true,
+            "lifecycle_status": "active",
+            "lifecycle_reason": null,
+            "target": null,
+            "time_target": null,
+            "scope_target": null,
+            "action": "梳理需求，稍后更新排期",
+            "owner": "周宇",
+            "objector": null,
+            "status": null,
+            "certainty": null
+          }
+        ],
+        "status": [],
+        "time": [],
+        "scope": []
+      },
+      "status": "active",
+      "evidence_refs": [
+        {
+          "event_id": "evt_156b9d771050141c",
+          "event_path": "sessions/FEISHU-335_chat_oc_e04355a17fcd34369ab4eda64d84c-9f222dd5/session_events.jsonl#evt_156b9d771050141c",
+          "entry_ref": "[[sessions/FEISHU-335_chat_oc_e04355a17fcd34369ab4eda64d84c-9f222dd5/session.md#om_x100b50e174c9f144c3c75d30b270a88|om_x100b50e174c9f144c3c75d30b270a88]]",
+          "quote": "收到，我先梳理需求，稍后更新排期。"
+        }
+      ],
+      "summary": "需求梳理中，承诺稍后更新排期。"
+    },
+    "block-值班安排-a28785da": {
+      "block_id": "block-值班安排-a28785da",
+      "anchor_id": "block-值班安排-a28785da",
+      "topic_key": "值班安排",
+      "topic_title": "值班安排",
+      "event_ids": [
+        "evt_38e7417e6418b8ea",
+        "evt_4570f485376698a8"
+      ],
+      "slots": {
+        "conclusion": [],
+        "rationale": [],
+        "objection": [],
+        "constraint": [
+          {
+            "event_id": "evt_4570f485376698a8",
+            "event_type": "constraint_event",
+            "claim": "我周末可以，但需要提前给权限。",
+            "event_time": "1778209726000",
+            "evidence_quote": "但需要提前给权限",
+            "event_path": "sessions/FEISHU-335_chat_oc_e04355a17fcd34369ab4eda64d84c-9f222dd5/session_events.jsonl#evt_4570f485376698a8",
+            "event_ref": "[[sessions/FEISHU-335_chat_oc_e04355a17fcd34369ab4eda64d84c-9f222dd5/session_events.jsonl#evt_4570f485376698a8|evt_4570f485376698a8]]",
+            "entry_ref": "[[sessions/FEISHU-335_chat_oc_e04355a17fcd34369ab4eda64d84c-9f222dd5/session.md#om_x100b50e174e61cacc2a75c1cea8e0ff|om_x100b50e174e61cacc2a75c1cea8e0ff]]",
+            "core_entry_id": "om_x100b50e174e61cacc2a75c1cea8e0ff",
+            "subject_key": "周末值班",
+            "is_current": true,
+            "lifecycle_status": "active",
+            "lifecycle_reason": null,
+            "target": "周末值班",
+            "time_target": null,
+            "scope_target": null,
+            "action": null,
+            "owner": null,
+            "objector": null,
+            "status": null,
+            "certainty": null
+          }
+        ],
+        "commitment": [
+          {
+            "event_id": "evt_38e7417e6418b8ea",
+            "event_type": "commitment_event",
+            "claim": "我周末可以，但需要提前给权限。",
+            "event_time": "1778209726000",
+            "evidence_quote": "我周末可以，但需要提前给权限。",
+            "event_path": "sessions/FEISHU-335_chat_oc_e04355a17fcd34369ab4eda64d84c-9f222dd5/session_events.jsonl#evt_38e7417e6418b8ea",
+            "event_ref": "[[sessions/FEISHU-335_chat_oc_e04355a17fcd34369ab4eda64d84c-9f222dd5/session_events.jsonl#evt_38e7417e6418b8ea|evt_38e7417e6418b8ea]]",
+            "entry_ref": "[[sessions/FEISHU-335_chat_oc_e04355a17fcd34369ab4eda64d84c-9f222dd5/session.md#om_x100b50e174e61cacc2a75c1cea8e0ff|om_x100b50e174e61cacc2a75c1cea8e0ff]]",
+            "core_entry_id": "om_x100b50e174e61cacc2a75c1cea8e0ff",
+            "subject_key": "周末值班",
+            "is_current": true,
+            "lifecycle_status": "active",
+            "lifecycle_reason": null,
+            "target": null,
+            "time_target": null,
+            "scope_target": null,
+            "action": "周末值班",
+            "owner": "何然",
+            "objector": null,
+            "status": null,
+            "certainty": null
+          }
+        ],
+        "status": [],
+        "time": [],
+        "scope": []
+      },
+      "status": "open",
+      "evidence_refs": [
+        {
+          "event_id": "evt_38e7417e6418b8ea",
+          "event_path": "sessions/FEISHU-335_chat_oc_e04355a17fcd34369ab4eda64d84c-9f222dd5/session_events.jsonl#evt_38e7417e6418b8ea",
+          "entry_ref": "[[sessions/FEISHU-335_chat_oc_e04355a17fcd34369ab4eda64d84c-9f222dd5/session.md#om_x100b50e174e61cacc2a75c1cea8e0ff|om_x100b50e174e61cacc2a75c1cea8e0ff]]",
+          "quote": "我周末可以，但需要提前给权限。"
+        },
+        {
+          "event_id": "evt_4570f485376698a8",
+          "event_path": "sessions/FEISHU-335_chat_oc_e04355a17fcd34369ab4eda64d84c-9f222dd5/session_events.jsonl#evt_4570f485376698a8",
+          "entry_ref": "[[sessions/FEISHU-335_chat_oc_e04355a17fcd34369ab4eda64d84c-9f222dd5/session.md#om_x100b50e174e61cacc2a75c1cea8e0ff|om_x100b50e174e61cacc2a75c1cea8e0ff]]",
+          "quote": "但需要提前给权限"
+        }
+      ],
+      "summary": "值班安排：有人周末可值班但需提前给权限。"
+    },
+    "block-阻塞原因-853fe27a": {
+      "block_id": "block-阻塞原因-853fe27a",
+      "anchor_id": "block-阻塞原因-853fe27a",
+      "topic_key": "阻塞原因",
+      "topic_title": "阻塞原因",
+      "event_ids": [
+        "evt_287a0ea057506939"
+      ],
+      "slots": {
+        "conclusion": [],
+        "rationale": [
+          {
+            "event_id": "evt_287a0ea057506939",
+            "event_type": "rationale_event",
+            "claim": "我这边依赖一个接口，进度稍慢。",
+            "event_time": "1778209726000",
+            "evidence_quote": "我这边依赖一个接口，进度稍慢。",
+            "event_path": "sessions/FEISHU-335_chat_oc_e04355a17fcd34369ab4eda64d84c-9f222dd5/session_events.jsonl#evt_287a0ea057506939",
+            "event_ref": "[[sessions/FEISHU-335_chat_oc_e04355a17fcd34369ab4eda64d84c-9f222dd5/session_events.jsonl#evt_287a0ea057506939|evt_287a0ea057506939]]",
+            "entry_ref": "[[sessions/FEISHU-335_chat_oc_e04355a17fcd34369ab4eda64d84c-9f222dd5/session.md#om_x100b50e174a5f880c4a8aea913513d6|om_x100b50e174a5f880c4a8aea913513d6]]",
+            "core_entry_id": "om_x100b50e174a5f880c4a8aea913513d6",
+            "subject_key": "我这边依赖一个接口，进度稍慢。",
+            "is_current": true,
+            "lifecycle_status": "active",
+            "lifecycle_reason": null,
+            "target": null,
+            "time_target": null,
+            "scope_target": null,
+            "action": null,
+            "owner": null,
+            "objector": null,
+            "status": null,
+            "certainty": null
+          }
+        ],
+        "objection": [],
+        "constraint": [],
+        "commitment": [],
+        "status": [],
+        "time": [],
+        "scope": []
+      },
+      "status": "active",
+      "evidence_refs": [
+        {
+          "event_id": "evt_287a0ea057506939",
+          "event_path": "sessions/FEISHU-335_chat_oc_e04355a17fcd34369ab4eda64d84c-9f222dd5/session_events.jsonl#evt_287a0ea057506939",
+          "entry_ref": "[[sessions/FEISHU-335_chat_oc_e04355a17fcd34369ab4eda64d84c-9f222dd5/session.md#om_x100b50e174a5f880c4a8aea913513d6|om_x100b50e174a5f880c4a8aea913513d6]]",
+          "quote": "我这边依赖一个接口，进度稍慢。"
+        }
+      ],
+      "summary": "依赖接口导致进度缓慢"
+    }
+  },
+  "lifecycle_summary": {
+    "active_event_count": 23,
+    "historical_event_count": 0,
+    "invalid_event_count": 0
+  },
+  "updated_at": "2026-05-08T03:41:12.575Z"
+}

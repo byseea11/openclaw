@@ -1,0 +1,231 @@
+{
+  "story_id": "story_case_20260508030344241234_anti_interference",
+  "case_id": "case_20260508030344241234_anti_interference",
+  "family_id": "anti_interference",
+  "task": {
+    "task_id": "FEISHU-334",
+    "task_name": "新平台部署协调",
+    "role": "target_task"
+  },
+  "actors": [
+    {
+      "actor_id": "alice",
+      "display_name": "Alice",
+      "role": "release_pm"
+    },
+    {
+      "actor_id": "bob",
+      "display_name": "Bob",
+      "role": "infra_engineer"
+    },
+    {
+      "actor_id": "carol",
+      "display_name": "Carol",
+      "role": "qa_lead"
+    },
+    {
+      "actor_id": "dave",
+      "display_name": "Dave",
+      "role": "ops_engineer"
+    },
+    {
+      "actor_id": "eve",
+      "display_name": "Eve",
+      "role": "doc_reviewer"
+    },
+    {
+      "actor_id": "frank",
+      "display_name": "Frank",
+      "role": "security_engineer"
+    },
+    {
+      "actor_id": "grace",
+      "display_name": "Grace",
+      "role": "network_admin"
+    },
+    {
+      "actor_id": "heidi",
+      "display_name": "Heidi",
+      "role": "compliance_officer"
+    },
+    {
+      "actor_id": "ivan",
+      "display_name": "Ivan",
+      "role": "vendor_coordinator"
+    },
+    {
+      "actor_id": "judy",
+      "display_name": "Judy",
+      "role": "training_coordinator"
+    },
+    {
+      "actor_id": "kyle",
+      "display_name": "Kyle",
+      "role": "sre_engineer"
+    },
+    {
+      "actor_id": "laura",
+      "display_name": "Laura",
+      "role": "business_analyst"
+    }
+  ],
+  "task_actor_layout": {
+    "target_task_id": "FEISHU-334",
+    "shared_actors": [
+      "alice",
+      "bob",
+      "carol",
+      "dave"
+    ],
+    "actor_task_roles": [
+      {
+        "actor_id": "alice",
+        "task_id": "FEISHU-334",
+        "role": "owner"
+      },
+      {
+        "actor_id": "bob",
+        "task_id": "FEISHU-334",
+        "role": "deployment_engineer"
+      },
+      {
+        "actor_id": "carol",
+        "task_id": "FEISHU-334",
+        "role": "qa_tester"
+      },
+      {
+        "actor_id": "dave",
+        "task_id": "FEISHU-334",
+        "role": "ops_contact"
+      }
+    ]
+  },
+  "state_changes": [
+    {
+      "task_id": "FEISHU-334",
+      "field": "owner",
+      "sequence": [
+        {
+          "value": "Alice",
+          "status": "current"
+        }
+      ]
+    },
+    {
+      "task_id": "FEISHU-334",
+      "field": "blocker",
+      "sequence": [
+        {
+          "value": "pending_security_review",
+          "status": "current"
+        }
+      ]
+    },
+    {
+      "task_id": "FEISHU-334",
+      "field": "deployment_window",
+      "sequence": [
+        {
+          "value": "TBD (target week 12)",
+          "status": "current"
+        }
+      ]
+    }
+  ],
+  "message_beats": [
+    {
+      "beat_id": "beat_001",
+      "purpose": "Alice 在 FEISHU-334 主群正式确认安全审查未完成，是当前 blocker 核心证据。",
+      "speaker_actor_id": "alice",
+      "session_id": "main_chat",
+      "message_intent": "安全审查还没通过，FEISHU-334 的部署窗口暂不能定，等 Frank 的最终评审报告。",
+      "speaker": "Alice"
+    },
+    {
+      "beat_id": "beat_002",
+      "purpose": "Bob 补充基础设施依赖，加固当前 blocker 信息。",
+      "speaker_actor_id": "bob",
+      "session_id": "main_chat",
+      "message_intent": "连安全环境还没就绪，FEISHU-334 的自动化部署脚本也无法测试。",
+      "speaker": "Bob"
+    },
+    {
+      "beat_id": "beat_003",
+      "purpose": "Alice 在并行文档评审讨论中讨论另一任务，干扰 shared actor 上下文。",
+      "speaker_actor_id": "alice",
+      "session_id": "doc_review_thread",
+      "message_intent": "文档评审我基本看完了，就还有 compliance 那章需要 Heidi 补一份 checklist。",
+      "speaker": "Alice"
+    },
+    {
+      "beat_id": "beat_004",
+      "purpose": "Alice 在运维排练线程中讨论另一任务的 readiness，制造相似措辞干扰。",
+      "speaker_actor_id": "alice",
+      "session_id": "ops_rehearsal_thread",
+      "message_intent": "运维排练的 blocker 是网络环境没准备好，Dave 在协调。",
+      "speaker": "Alice"
+    },
+    {
+      "beat_id": "beat_005",
+      "purpose": "Carol 在 FEISHU-334 主群确认测试进度，加固目标任务上下文。",
+      "speaker_actor_id": "carol",
+      "session_id": "main_chat",
+      "message_intent": "FEISHU-334 的测试用例已准备，但安全审查没通前我不会跑集成。",
+      "speaker": "Carol"
+    },
+    {
+      "beat_id": "beat_006",
+      "purpose": "Dave 在 FEISHU-334 主群回应 ops 依赖，加固目标任务上下文。",
+      "speaker_actor_id": "dave",
+      "session_id": "main_chat",
+      "message_intent": "FEISHU-334 的 ops 部署计划已草拟，只等安全审查通过后确定窗口。",
+      "speaker": "Dave"
+    },
+    {
+      "beat_id": "beat_007",
+      "purpose": "Eve 在文档评审线程中提及 FEISHU-334 相关文档，但属于另一项任务，造成干扰。",
+      "speaker_actor_id": "eve",
+      "session_id": "doc_review_thread",
+      "message_intent": "FEISHU-334 的操作手册已更新，但文档评审任务本身还缺网络拓扑图。",
+      "speaker": "Eve"
+    },
+    {
+      "beat_id": "beat_008",
+      "purpose": "Frank 在安全评审专用线程中更新评审进度，为后续 blocker 状态变化预留。",
+      "speaker_actor_id": "frank",
+      "session_id": "security_review_thread",
+      "message_intent": "FEISHU-334 的安全审查进展缓慢，关键模块还有三个风险项未关闭。",
+      "speaker": "Frank"
+    },
+    {
+      "beat_id": "beat_009",
+      "purpose": "Grace 在运维排练线程中讨论另一任务网络配置，相似措辞干扰。",
+      "speaker_actor_id": "grace",
+      "session_id": "ops_rehearsal_thread",
+      "message_intent": "运维排练的网络环境配置还在进行，预计下周可以就绪。",
+      "speaker": "Grace"
+    },
+    {
+      "beat_id": "beat_010",
+      "purpose": "Alice 在 FEISHU-334 主群做总结，强调当前 blocker 和 owner 不变。",
+      "speaker_actor_id": "alice",
+      "session_id": "main_chat",
+      "message_intent": "总结一下，FEISHU-334 目前由我主导，安全审查是唯一 blocker，部署窗口待定。其他任务的讨论不影响本任务。",
+      "speaker": "Alice"
+    }
+  ],
+  "planned_probe_queries": [
+    {
+      "query": "FEISHU-334 当前的负责人是谁，还有哪些 blocker？",
+      "expected_good_behavior": "回答 Alice 是负责人，当前 blocker 是安全审查未通过，部署窗口待定。不应混入文档评审或运维排练中的信息。"
+    },
+    {
+      "query": "FEISHU-334 的当前状态是什么？是否已准备就绪？",
+      "expected_good_behavior": "回答尚未就绪，因为安全审查未完成，部署窗口未确定。不应引用Eve在文档评审线程中关于手册的评论或Grace的排练内容。"
+    },
+    {
+      "query": "哪些因素阻碍了 FEISHU-334 的部署？",
+      "expected_good_behavior": "只提及安全审查未通过是唯一 blocker，不混入网络配置或文档评审中的其他问题。"
+    }
+  ]
+}

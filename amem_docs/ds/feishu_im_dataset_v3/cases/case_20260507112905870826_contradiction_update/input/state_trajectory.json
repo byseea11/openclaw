@@ -1,0 +1,75 @@
+{
+  "case_id": "case_20260507112905870826_contradiction_update",
+  "family_id": "contradiction_update",
+  "task_id": "FEISHU-726",
+  "state_changes": [
+    {
+      "task_id": "FEISHU-726",
+      "field": "owner",
+      "sequence": [
+        {
+          "value": "Carol",
+          "status": "current"
+        },
+        {
+          "value": "Alice",
+          "status": "historical"
+        },
+        {
+          "value": "Xavier",
+          "status": "current"
+        }
+      ]
+    },
+    {
+      "task_id": "FEISHU-726",
+      "field": "release_window",
+      "sequence": [
+        {
+          "value": "2026-05-10",
+          "status": "historical"
+        },
+        {
+          "value": "2026-05-12",
+          "status": "historical"
+        },
+        {
+          "value": "2026-05-15",
+          "status": "current"
+        }
+      ]
+    },
+    {
+      "task_id": "FEISHU-726",
+      "field": "blocker",
+      "sequence": [
+        {
+          "value": "安全审查未通过",
+          "status": "historical"
+        },
+        {
+          "value": "依赖组件升级延迟",
+          "status": "current"
+        }
+      ]
+    },
+    {
+      "task_id": "FEISHU-726",
+      "field": "status",
+      "sequence": [
+        {
+          "value": "待启动",
+          "status": "historical"
+        },
+        {
+          "value": "进行中",
+          "status": "historical"
+        },
+        {
+          "value": "已暂停",
+          "status": "current"
+        }
+      ]
+    }
+  ]
+}

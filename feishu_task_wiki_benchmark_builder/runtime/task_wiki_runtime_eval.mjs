@@ -697,6 +697,9 @@ async function main() {
   if (summary.status !== "passed") {
     process.exitCode = 2;
   }
+  setImmediate(() => {
+    process.exit(process.exitCode ?? 0);
+  });
 }
 
 main().catch((error) => {

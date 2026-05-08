@@ -1,0 +1,182 @@
+{
+  "case_id": "case_20260507103828413028_private_info_in_official_file",
+  "family_id": "private_info_in_official_file",
+  "task_id": "FEISHU-828",
+  "actors": [
+    {
+      "actor_id": "alice",
+      "display_name": "Alice",
+      "role": "release_pm"
+    },
+    {
+      "actor_id": "bob",
+      "display_name": "Bob",
+      "role": "backend_lead"
+    },
+    {
+      "actor_id": "carol",
+      "display_name": "Carol",
+      "role": "risk_owner"
+    },
+    {
+      "actor_id": "david",
+      "display_name": "David",
+      "role": "security_engineer"
+    },
+    {
+      "actor_id": "eve",
+      "display_name": "Eve",
+      "role": "ops_partner"
+    },
+    {
+      "actor_id": "frank",
+      "display_name": "Frank",
+      "role": "qa_lead"
+    },
+    {
+      "actor_id": "grace",
+      "display_name": "Grace",
+      "role": "compliance_officer"
+    },
+    {
+      "actor_id": "henry",
+      "display_name": "Henry",
+      "role": "data_analyst"
+    },
+    {
+      "actor_id": "ivy",
+      "display_name": "Ivy",
+      "role": "senior_dev"
+    },
+    {
+      "actor_id": "jack",
+      "display_name": "Jack",
+      "role": "devops_engineer"
+    },
+    {
+      "actor_id": "karen",
+      "display_name": "Karen",
+      "role": "product_manager"
+    },
+    {
+      "actor_id": "leo",
+      "display_name": "Leo",
+      "role": "infra_lead"
+    },
+    {
+      "actor_id": "mia",
+      "display_name": "Mia",
+      "role": "tester"
+    },
+    {
+      "actor_id": "nina",
+      "display_name": "Nina",
+      "role": "tech_writer"
+    },
+    {
+      "actor_id": "oscar",
+      "display_name": "Oscar",
+      "role": "architect"
+    },
+    {
+      "actor_id": "paul",
+      "display_name": "Paul",
+      "role": "stakeholder"
+    },
+    {
+      "actor_id": "quinn",
+      "display_name": "Quinn",
+      "role": "vendor_coordinator"
+    },
+    {
+      "actor_id": "rachel",
+      "display_name": "Rachel",
+      "role": "hr_representative"
+    },
+    {
+      "actor_id": "sam",
+      "display_name": "Sam",
+      "role": "legal_advisor"
+    },
+    {
+      "actor_id": "tina",
+      "display_name": "Tina",
+      "role": "finance_analyst"
+    },
+    {
+      "actor_id": "ulysses",
+      "display_name": "Ulysses",
+      "role": "support_engineer"
+    },
+    {
+      "actor_id": "victor",
+      "display_name": "Victor",
+      "role": "network_engineer"
+    },
+    {
+      "actor_id": "wendy",
+      "display_name": "Wendy",
+      "role": "designer"
+    },
+    {
+      "actor_id": "xavier",
+      "display_name": "Xavier",
+      "role": "customer_rep"
+    },
+    {
+      "actor_id": "yara",
+      "display_name": "Yara",
+      "role": "researcher"
+    },
+    {
+      "actor_id": "zack",
+      "display_name": "Zack",
+      "role": "intern"
+    },
+    {
+      "actor_id": "aaron",
+      "display_name": "Aaron",
+      "role": "trainer"
+    },
+    {
+      "actor_id": "bella",
+      "display_name": "Bella",
+      "role": "recruiter"
+    }
+  ],
+  "task_actor_layout": {
+    "target_task_id": "FEISHU-828",
+    "shared_actors": [
+      "carol",
+      "alice",
+      "frank"
+    ],
+    "actor_task_roles": [
+      {
+        "actor_id": "carol",
+        "task_id": "FEISHU-828",
+        "role": "risk_owner"
+      },
+      {
+        "actor_id": "alice",
+        "task_id": "FEISHU-828",
+        "role": "release_pm"
+      },
+      {
+        "actor_id": "frank",
+        "task_id": "FEISHU-828",
+        "role": "qa_lead"
+      },
+      {
+        "actor_id": "bob",
+        "task_id": "FEISHU-828",
+        "role": "backend_lead"
+      },
+      {
+        "actor_id": "david",
+        "task_id": "FEISHU-828",
+        "role": "security_engineer"
+      }
+    ]
+  }
+}

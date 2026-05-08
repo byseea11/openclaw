@@ -13,6 +13,7 @@ from ..llm import (
 from ..prompt_loader import FAMILY_CONTEXT_SKILL_PATHS
 from ..prompt_settings_renderer import render_prompt_settings_summary
 from ..schemas import ValidationError, validate_story_plan
+from .task_id_audit import validate_story_plan_task_ids
 
 
 STORY_PLAN_REQUIRED_SECTIONS = [
@@ -112,6 +113,7 @@ def _build_story_plan_output_contract(*, case_context: dict[str, Any]) -> dict[s
             "task is mandatory; do not return only actors/task_actor_layout.",
             "actors, state_changes, message_beats, and planned_probe_queries must be non-empty arrays.",
             "Every message_beats[].speaker_actor_id must reference an actor_id from actors.",
+            "Every planned_probe_queries[].query must explicitly mention the exact case_context.task_id.",
             "planned_probe_queries[].expected_good_behavior must describe the answer, not repeat the query.",
             "Use the exact case_id, family_id, and task_id from case_context.",
         ],
@@ -140,7 +142,10 @@ def _build_story_plan_repair_user_payload(
             "repair_instruction": (
                 "Rewrite the invalid payload into a complete valid story_plan JSON object. "
                 "Preserve any useful actors or task_actor_layout content, but add or correct every "
-                "missing required top-level section. Return only the repaired JSON object."
+                "missing required top-level section. All target task references must use the exact "
+                "case_context.task_id; do not invent or preserve a different FEISHU task id for the "
+                "target task. Every planned_probe_queries[].query must mention case_context.task_id. "
+                "Return only the repaired JSON object."
             ),
         },
     }
@@ -164,6 +169,7 @@ def generate_story_plan(
     )
     try:
         validated = validate_story_plan(result.payload)
+        validate_story_plan_task_ids(story_plan=validated, case_context=case_context)
     except ValidationError as exc:
         repair_payload = _build_story_plan_repair_user_payload(
             case_context=case_context,
@@ -177,6 +183,7 @@ def generate_story_plan(
         )
         try:
             validated = validate_story_plan(repair_result.payload)
+            validate_story_plan_task_ids(story_plan=validated, case_context=case_context)
         except ValidationError as repair_exc:
             raise ModelPayloadValidationError(
                 f"story-plan payload validation failed after repair: {repair_exc}",

@@ -1,0 +1,14 @@
+{
+  "phase": "phase1",
+  "stage": "command-plan",
+  "status": "completed",
+  "started_at": "2026-05-07T11:33:08.917085+00:00",
+  "ended_at": "2026-05-07T11:33:08.935470+00:00",
+  "artifact_paths": [
+    "amem_docs/ds/feishu_im_dataset_v3/cases/case_20260507112905870826_contradiction_update/input/command_plan.jsonl",
+    "amem_docs/ds/feishu_im_dataset_v3/cases/case_20260507112905870826_contradiction_update/execution_plan.json"
+  ],
+  "skipped": false,
+  "run_id": "20260507T113308935501Z",
+  "updated_at": "2026-05-07T11:33:08.935523+00:00"
+}

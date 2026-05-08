@@ -1,0 +1,13 @@
+{
+  "phase": "phase2",
+  "stage": "semantic-gold",
+  "status": "completed",
+  "started_at": "2026-05-08T03:21:32.597284+00:00",
+  "ended_at": "2026-05-08T03:21:32.598361+00:00",
+  "artifact_paths": [
+    "amem_docs/ds/feishu_im_dataset_v3/batches/batch_20260508_030344240509/cases/case_20260508030344241234_anti_interference/gold/task_wiki_semantic_gold.json"
+  ],
+  "skipped": false,
+  "run_id": "20260508T032132598376Z",
+  "updated_at": "2026-05-08T03:21:32.598384+00:00"
+}

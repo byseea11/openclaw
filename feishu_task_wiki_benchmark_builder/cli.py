@@ -69,6 +69,12 @@ from .stages.semantic_gold import generate_semantic_gold
 from .stages.story_beats import build_story_beats_artifact
 from .stages.story_plan import generate_story_plan
 from .stages.task_actor_layout import build_task_actor_layout_artifact
+from .stages.task_id_audit import (
+    allowed_task_ids_for_story_plan,
+    build_dataset_audit_report,
+    validate_gold_task_ids,
+    validate_story_plan_task_ids,
+)
 
 
 class ArtifactDependencyError(FileNotFoundError):
@@ -212,7 +218,14 @@ def _load_case_context(case_path: Path, *, stage: str) -> dict[str, Any]:
 
 
 def _load_story_plan(case_path: Path, *, stage: str) -> dict[str, Any]:
-    return validate_story_plan(_read_required_json(case_path, Path("input") / "story_plan.json", stage=stage))
+    story_plan = validate_story_plan(_read_required_json(case_path, Path("input") / "story_plan.json", stage=stage))
+    case_context_path = case_path / "input" / "case_context.json"
+    if case_context_path.exists():
+        validate_story_plan_task_ids(
+            story_plan=story_plan,
+            case_context=validate_case_context(read_json(case_context_path)),
+        )
+    return story_plan
 
 
 def _load_conversation_plan(case_path: Path, *, stage: str) -> dict[str, Any]:
@@ -636,7 +649,7 @@ def _resume_artifact_paths(*, phase: str, stage: str) -> list[Path]:
         ("phase2", "semantic-gold"): [Path("gold/task_wiki_semantic_gold.json")],
         ("phase2", "query-benchmark"): [Path("gold/query_benchmark.json")],
         ("phase2", "build-checks"): [Path("checks/eval_manifest.json"), Path("checks/integrity_gate.json")],
-        ("phase2", "gold-validate"): [Path("checks/gold_validation_report.json")],
+        ("phase2", "gold-validate"): [Path("checks/gold_validation_report.json"), Path("checks/dataset_audit_report.json")],
         ("phase2", "replay-runtime"): [Path("predictions/task_wiki_replay_predictions.json")],
         ("phase2", "replay-eval"): [Path("reports/replay_eval.json")],
         ("phase3", "task-wiki-runtime-eval"): [
@@ -660,6 +673,13 @@ def _can_resume_stage(*, case_path: Path, phase: str, stage: str, force: bool = 
         return False
     if phase == "phase3" and stage == "openclaw-real-baseline-eval":
         if (case_path / "runtime" / "openclaw_baseline" / "failure.json").exists():
+            return False
+    if phase == "phase2" and stage == "gold-validate":
+        report_path = case_path / "checks" / "gold_validation_report.json"
+        audit_path = case_path / "checks" / "dataset_audit_report.json"
+        if report_path.exists() and read_json(report_path).get("status") != "passed":
+            return False
+        if audit_path.exists() and read_json(audit_path).get("status") != "passed":
             return False
     paths = _resume_artifact_paths(phase=phase, stage=stage)
     return bool(paths) and _stage_artifacts_readable(case_path, paths)
@@ -815,10 +835,13 @@ def _provisional_case_context_path(
 
 def _load_runtime_context(case_dir: str | Path) -> dict[str, Any]:
     case_path = Path(case_dir)
+    case_context = validate_case_context(read_json(case_path / "input" / "case_context.json"))
+    story_plan = validate_story_plan(read_json(case_path / "input" / "story_plan.json"))
+    validate_story_plan_task_ids(story_plan=story_plan, case_context=case_context)
     return {
         "case_path": case_path,
-        "case_context": validate_case_context(read_json(case_path / "input" / "case_context.json")),
-        "story_plan": validate_story_plan(read_json(case_path / "input" / "story_plan.json")),
+        "case_context": case_context,
+        "story_plan": story_plan,
     }
 
 
@@ -1667,6 +1690,8 @@ def run_phase2_query_benchmark(*, case_dir: str | Path) -> dict[str, Any]:
         story_plan=story_plan,
         annotation_gold_rows=annotation_gold_rows,
         semantic_gold=semantic_gold,
+        case_context=case_context,
+        allowed_task_ids=allowed_task_ids_for_story_plan(case_context=case_context, story_plan=story_plan),
     )
     artifact_path = Path("gold") / "query_benchmark.json"
     write_json(case_path / artifact_path, query_benchmark)
@@ -1729,27 +1754,51 @@ def run_phase2_gold_validate(*, case_dir: str | Path) -> dict[str, Any]:
     context = _load_runtime_context(case_dir)
     case_path = context["case_path"]
     case_context = context["case_context"]
+    story_plan = context["story_plan"]
     collected_messages = read_jsonl(case_path / "data" / "collected_messages.jsonl")
     annotation_gold_rows = read_jsonl(case_path / "gold" / "annotation_gold.jsonl")
+    query_benchmark_path = case_path / "gold" / "query_benchmark.json"
+    semantic_gold_path = case_path / "gold" / "task_wiki_semantic_gold.json"
+    query_benchmark = read_json(query_benchmark_path) if query_benchmark_path.exists() else None
+    semantic_gold = read_json(semantic_gold_path) if semantic_gold_path.exists() else None
     collected_ids = {row["message_id"] for row in collected_messages}
     missing_ids = [row["message_id"] for row in annotation_gold_rows if row["message_id"] not in collected_ids]
+    allowed_task_ids = allowed_task_ids_for_story_plan(case_context=case_context, story_plan=story_plan)
+    task_id_issues = validate_gold_task_ids(
+        case_context=case_context,
+        query_benchmark=query_benchmark,
+        semantic_gold=semantic_gold,
+        allowed_task_ids=allowed_task_ids,
+    )
+    dataset_audit = build_dataset_audit_report(case_path)
+    audit_issues = list(dataset_audit.get("issues") or [])
+    status = "passed" if not missing_ids and not task_id_issues and not audit_issues else "failed"
     report = {
         "case_id": case_context["case_id"],
-        "status": "passed" if not missing_ids else "failed",
+        "status": status,
         "annotation_count": len(annotation_gold_rows),
         "missing_message_ids": missing_ids,
+        "allowed_task_ids": sorted(allowed_task_ids),
+        "task_id_issues": task_id_issues,
+        "dataset_audit_status": dataset_audit["status"],
     }
     artifact_path = Path("checks") / "gold_validation_report.json"
+    audit_path = Path("checks") / "dataset_audit_report.json"
     write_json(case_path / artifact_path, report)
-    result = _artifact_result(
+    write_json(case_path / audit_path, dataset_audit)
+    result = _multi_artifact_result(
         stage="gold-validate",
         case_path=case_path,
-        artifact_path=artifact_path,
-        artifact=report,
+        artifacts=[
+            {"artifact_path": str(case_path / artifact_path), "artifact": report},
+            {"artifact_path": str(case_path / audit_path), "artifact": dataset_audit},
+        ],
     )
     result["active_case_path"] = str(
         _write_active_case(case_path=case_path, case_context=case_context, last_completed_stage="gold-validate")
     )
+    if status != "passed":
+        raise ValueError(f"gold validation failed: {task_id_issues or audit_issues or missing_ids}")
     return result
 
 
@@ -2186,6 +2235,24 @@ def _average(values: list[float]) -> float:
     return round(sum(values) / len(values), 4)
 
 
+def _system_wins_family(*, family_score: dict[str, Any]) -> bool:
+    systems = family_score.get("systems", {})
+    task = systems.get("task_wiki_3_layer", {})
+    openclaw = systems.get("openclaw_original", {})
+    answer_win = float(task.get("query_success_rate") or 0) > float(openclaw.get("query_success_rate") or 0)
+    evidence_win = float(task.get("evidence_precision") or 0) > float(openclaw.get("evidence_precision") or 0)
+    safety_win = float(task.get("safety_score") or 0) >= float(openclaw.get("safety_score") or 0)
+    family_score["win_criteria"] = {
+        "answer_win": answer_win,
+        "evidence_win": evidence_win,
+        "safety_not_worse": safety_win,
+    }
+    family_score["task_wiki_wins"] = sum([answer_win, evidence_win, safety_win]) >= 2 and (
+        float(task.get("evidence_precision") or 0) >= float(openclaw.get("evidence_precision") or 0)
+    )
+    return bool(family_score["task_wiki_wins"])
+
+
 def _aggregate_phase3_scores(*, batch_dir: Path, manifest: dict[str, Any]) -> dict[str, Any]:
     metrics = (
         "query_success_rate",
@@ -2201,9 +2268,22 @@ def _aggregate_phase3_scores(*, batch_dir: Path, manifest: dict[str, Any]) -> di
     systems = ("task_wiki_3_layer", "openclaw_original")
     family_scores: dict[str, list[dict[str, Any]]] = {}
     scored_cases = []
+    stale_cases = []
     for case in manifest.get("cases", []):
         case_dir = case.get("case_dir")
         if not case_dir:
+            continue
+        audit_report = build_dataset_audit_report(Path(str(case_dir)))
+        if audit_report.get("status") != "passed":
+            stale_cases.append(
+                {
+                    "case_id": case.get("case_id") or audit_report.get("case_id"),
+                    "case_dir": str(case_dir),
+                    "family_id": case.get("family_id") or audit_report.get("family_id"),
+                    "stale_reason": "dataset_audit_failed",
+                    "audit_issues": audit_report.get("issues") or [],
+                }
+            )
             continue
         score_path = Path(str(case_dir)) / "reports" / "phase3_score.json"
         if not score_path.exists():
@@ -2221,6 +2301,7 @@ def _aggregate_phase3_scores(*, batch_dir: Path, manifest: dict[str, Any]) -> di
         )
     family_level: dict[str, Any] = {}
     global_failure_counts: dict[str, dict[str, int]] = {system: {} for system in systems}
+    overall_scores: dict[str, dict[str, float]] = {system: {} for system in systems}
     for family, scores in sorted(family_scores.items()):
         family_level[family] = {"case_count": len(scores), "systems": {}, "deltas": {}, "failure_reason_breakdown": {}}
         for system in systems:
@@ -2256,14 +2337,55 @@ def _aggregate_phase3_scores(*, batch_dir: Path, manifest: dict[str, Any]) -> di
             key: _average([float(score.get("deltas", {}).get(key)) for score in scores if isinstance(score.get("deltas", {}).get(key), int | float)])
             for key in sorted(delta_keys)
         }
+        _system_wins_family(family_score=family_level[family])
+    all_scores = [score for scores in family_scores.values() for score in scores]
+    for system in systems:
+        overall_scores[system] = {
+            metric: _average(
+                [
+                    metric_value
+                    for score in all_scores
+                    if (metric_value := _phase3_metric_value(score, system, metric)) is not None
+                ]
+            )
+            for metric in metrics
+        }
+    overall_deltas = {
+        "query_success_rate_delta": round(
+            overall_scores["task_wiki_3_layer"].get("query_success_rate", 0)
+            - overall_scores["openclaw_original"].get("query_success_rate", 0),
+            4,
+        ),
+        "evidence_precision_delta": round(
+            overall_scores["task_wiki_3_layer"].get("evidence_precision", 0)
+            - overall_scores["openclaw_original"].get("evidence_precision", 0),
+            4,
+        ),
+        "safety_score_delta": round(
+            overall_scores["task_wiki_3_layer"].get("safety_score", 0)
+            - overall_scores["openclaw_original"].get("safety_score", 0),
+            4,
+        ),
+    }
+    winning_family_count = sum(1 for family_score in family_level.values() if family_score.get("task_wiki_wins"))
     return {
         "batch_id": manifest.get("batch_id") or batch_dir.name,
         "batch_dir": str(batch_dir),
         "score_artifact": "batch_phase3_score",
         "case_count": int(manifest.get("case_count") or len(manifest.get("cases", []))),
         "scored_case_count": len(scored_cases),
+        "stale_case_count": len(stale_cases),
         "cases": scored_cases,
+        "stale_cases": stale_cases,
         "family_level_scores": family_level,
+        "overall_scores": overall_scores,
+        "overall_deltas": overall_deltas,
+        "winning_family_count": winning_family_count,
+        "overall_task_wiki_wins": winning_family_count >= 3 and overall_deltas["evidence_precision_delta"] > 0,
+        "baseline_config": {
+            "openclaw_ingest_mode": "case_transcript",
+            "query_context_injected": False,
+        },
         "failure_reason_breakdown": {
             system: dict(sorted(counts.items())) for system, counts in global_failure_counts.items()
         },
@@ -2300,6 +2422,24 @@ def run_phase2_step(
             require_llm=require_llm,
         )
     return PHASE2_STAGE_REGISTRY[stage](case_dir=resolved_case_dir)
+
+
+def run_dataset_audit(
+    *,
+    case_dir: str | Path | None = None,
+    dataset_root: str | Path = DEFAULT_DATASET_ROOT,
+) -> dict[str, Any]:
+    resolved_case_dir = _resolve_case_dir(case_dir=case_dir, dataset_root=dataset_root, stage="dataset-audit")
+    case_path = Path(resolved_case_dir)
+    report = build_dataset_audit_report(case_path)
+    artifact_path = Path("checks") / "dataset_audit_report.json"
+    write_json(case_path / artifact_path, report)
+    return _artifact_result(
+        stage="dataset-audit",
+        case_path=case_path,
+        artifact_path=artifact_path,
+        artifact=report,
+    )
 
 
 def compile_phase1(
@@ -2806,6 +2946,9 @@ def _build_parser() -> argparse.ArgumentParser:
     current_case_parser.add_argument("--dataset-root", default=str(DEFAULT_DATASET_ROOT))
     current_batch_parser = subparsers.add_parser("current-batch")
     current_batch_parser.add_argument("--dataset-root", default=str(DEFAULT_DATASET_ROOT))
+    dataset_audit_parser = subparsers.add_parser("dataset-audit")
+    dataset_audit_parser.add_argument("--dataset-root", default=str(DEFAULT_DATASET_ROOT))
+    dataset_audit_parser.add_argument("--case-dir")
 
     phase1_step_parser = subparsers.add_parser("phase1-step")
     phase1_step_parser.add_argument("--stage", choices=PHASE1_STAGE_CHOICES, required=True)
@@ -2869,6 +3012,8 @@ def main(argv: list[str] | None = None) -> int:
             result = current_case(dataset_root=args.dataset_root)
         elif args.command == "current-batch":
             result = current_batch(dataset_root=args.dataset_root)
+        elif args.command == "dataset-audit":
+            result = run_dataset_audit(case_dir=args.case_dir, dataset_root=args.dataset_root)
         elif args.command == "phase1-step":
             result = run_phase1_step(
                 stage=args.stage,

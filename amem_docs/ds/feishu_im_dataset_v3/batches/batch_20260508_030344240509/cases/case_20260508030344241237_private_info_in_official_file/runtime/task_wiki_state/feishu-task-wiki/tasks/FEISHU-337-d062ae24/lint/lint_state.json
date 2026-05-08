@@ -1,0 +1,59 @@
+{
+  "version": 1,
+  "generated_at": "2026-05-08T04:06:30.084Z",
+  "orphan_event_count": 0,
+  "missing_evidence_ref_count": 2,
+  "stale_claim_count": 0,
+  "quote_strength_count": 0,
+  "unresolved_objection_count": 3,
+  "overdue_commitment_count": 0,
+  "open_conflict_count": 0,
+  "orphan_block_count": 0,
+  "missing_cross_ref_count": 0,
+  "orphan_session_wiki_count": 0,
+  "findings": {
+    "orphan_events": [],
+    "missing_evidence_refs": [
+      {
+        "type": "missing_evidence_refs",
+        "source_session_id": "task:FEISHU-337::chat:oc_c5105e1f07d9b3b98aaf1b6375e2f13a",
+        "relative_page_path": "sessions/FEISHU-337_chat_oc_c5105e1f07d9b3b98aaf1b6375e2f-4a03aebd/session_wiki.md"
+      },
+      {
+        "type": "missing_evidence_refs",
+        "source_session_id": "task:FEISHU-337::chat:oc_d0eb1851297fe210861a72653d64a9e3",
+        "relative_page_path": "sessions/FEISHU-337_chat_oc_d0eb1851297fe210861a72653d64a-1d2fb90b/session_wiki.md"
+      }
+    ],
+    "stale_claims": [],
+    "quote_strength": [],
+    "unresolved_objections": [
+      {
+        "source_session_id": "task:FEISHU-337::chat:oc_242cd4c6793d8560d8d40d264966b529",
+        "block_id": "block-发布阻塞风险-45763a86",
+        "topic_title": "发布阻塞风险",
+        "claim": "我上午有事是个人安排，不算上线 blocker。",
+        "event_id": "evt_a08353a49a6c618f"
+      },
+      {
+        "source_session_id": "task:FEISHU-337::chat:oc_7be9cdd70c88b72dca99253a34f035c0",
+        "block_id": "block-评审-04a63b37",
+        "topic_title": "评审",
+        "claim": "高骏 20-21 号上午不行，那评审得调时间？",
+        "event_id": "evt_5da239dad1a1bdcf"
+      },
+      {
+        "source_session_id": "task:FEISHU-337::chat:oc_7be9cdd70c88b72dca99253a34f035c0",
+        "block_id": "block-销售承诺风险-3d675c35",
+        "topic_title": "销售承诺风险",
+        "claim": "Qianhao 说唐越私下答应补供应商材料，但我觉得那不算正式承诺。",
+        "event_id": "evt_706a9c480f267b07"
+      }
+    ],
+    "overdue_commitments": [],
+    "open_conflicts": [],
+    "orphan_blocks": [],
+    "missing_cross_refs": [],
+    "orphan_session_wikis": []
+  }
+}

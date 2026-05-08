@@ -1,0 +1,14 @@
+{
+  "phase": "phase1",
+  "stage": "execute",
+  "status": "completed",
+  "started_at": "2026-05-07T11:02:24.488555+00:00",
+  "ended_at": "2026-05-07T11:03:56.726058+00:00",
+  "artifact_paths": [
+    "amem_docs/ds/feishu_im_dataset_v3/cases/case_20260507105819230766_private_info_in_official_file/runtime/execution_result.json",
+    "amem_docs/ds/feishu_im_dataset_v3/cases/case_20260507105819230766_private_info_in_official_file/runtime/executed_commands.jsonl"
+  ],
+  "skipped": false,
+  "run_id": "20260507T110356726085Z",
+  "updated_at": "2026-05-07T11:03:56.726126+00:00"
+}

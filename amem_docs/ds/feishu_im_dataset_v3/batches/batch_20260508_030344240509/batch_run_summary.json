@@ -1,0 +1,40 @@
+{
+  "batch_id": "batch_20260508_030344240509",
+  "batch_dir": "amem_docs/ds/feishu_im_dataset_v3/batches/batch_20260508_030344240509",
+  "phases": {
+    "phase1": {
+      "phase": "phase1",
+      "status": "completed",
+      "started_at": "2026-05-08T03:03:44.241803+00:00",
+      "completed_at": "2026-05-08T03:20:42.000000+00:00",
+      "case_count": 4,
+      "completed_case_count": 4,
+      "failed_case_count": 0,
+      "skipped_case_count": 0,
+      "errors": []
+    },
+    "phase2": {
+      "phase": "phase2",
+      "status": "completed",
+      "started_at": "2026-05-08T03:21:32.593370+00:00",
+      "completed_at": "2026-05-08T03:21:32.660773+00:00",
+      "case_count": 4,
+      "completed_case_count": 4,
+      "failed_case_count": 0,
+      "skipped_case_count": 0,
+      "errors": []
+    },
+    "phase3": {
+      "phase": "phase3",
+      "status": "completed",
+      "started_at": "2026-05-08T04:25:21.414758+00:00",
+      "completed_at": "2026-05-08T04:25:21.443047+00:00",
+      "case_count": 4,
+      "completed_case_count": 4,
+      "failed_case_count": 0,
+      "skipped_case_count": 0,
+      "errors": []
+    }
+  },
+  "updated_at": "2026-05-08T04:25:21.467141+00:00"
+}

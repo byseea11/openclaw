@@ -1,0 +1,85 @@
+{
+  "version": 1,
+  "task_id": "task:FEISHU-334",
+  "task_key": "FEISHU-334",
+  "source_session_id": "task:FEISHU-334::chat:oc_12bb18378549a0d4a0a00eb680e8d349",
+  "source_scope": "chat:oc_12bb18378549a0d4a0a00eb680e8d349",
+  "source_type": "thread",
+  "source_id": "thread:security_review_thread",
+  "session_title": "task:FEISHU-334::chat:oc_12bb18378549a0d4a0a00eb680e8d349",
+  "time_range": {
+    "start": "2026-05-08T03:43:37.231Z",
+    "end": "2026-05-08T03:45:25.442Z"
+  },
+  "participants": [
+    "Benchmark Root",
+    "赵敏",
+    "苏禾"
+  ],
+  "relative_page_path": "sessions/FEISHU-334_chat_oc_12bb18378549a0d4a0a00eb680e8d-f2f0b6cd/session_wiki.md",
+  "session_summary": "FEISHU-334 安全审查关键模块三个风险未关闭，状态已解决。",
+  "block_order": [
+    "block-发布阻塞风险-45763a86"
+  ],
+  "blocks": {
+    "block-发布阻塞风险-45763a86": {
+      "block_id": "block-发布阻塞风险-45763a86",
+      "anchor_id": "block-发布阻塞风险-45763a86",
+      "topic_key": "发布阻塞风险",
+      "topic_title": "发布阻塞风险",
+      "event_ids": [
+        "evt_05508d98e1096c18"
+      ],
+      "slots": {
+        "conclusion": [],
+        "rationale": [],
+        "objection": [],
+        "constraint": [],
+        "commitment": [],
+        "status": [
+          {
+            "event_id": "evt_05508d98e1096c18",
+            "event_type": "status_event",
+            "claim": "FEISHU-334 安全审查关键模块还有三个风险未关闭。",
+            "event_time": "1778209556000",
+            "evidence_quote": "FEISHU-334 安全审查关键模块还有三个风险未关闭。",
+            "event_path": "sessions/FEISHU-334_chat_oc_12bb18378549a0d4a0a00eb680e8d-f2f0b6cd/session_events.jsonl#evt_05508d98e1096c18",
+            "event_ref": "[[sessions/FEISHU-334_chat_oc_12bb18378549a0d4a0a00eb680e8d-f2f0b6cd/session_events.jsonl#evt_05508d98e1096c18|evt_05508d98e1096c18]]",
+            "entry_ref": "[[sessions/FEISHU-334_chat_oc_12bb18378549a0d4a0a00eb680e8d-f2f0b6cd/session.md#om_x100b50e17e5e54c8c2ec4e2b6bc8b01|om_x100b50e17e5e54c8c2ec4e2b6bc8b01]]",
+            "core_entry_id": "om_x100b50e17e5e54c8c2ec4e2b6bc8b01",
+            "subject_key": "发布阻塞风险",
+            "is_current": true,
+            "lifecycle_status": "active",
+            "lifecycle_reason": null,
+            "target": "FEISHU-334 安全审查关键模块的三个风险",
+            "time_target": null,
+            "scope_target": null,
+            "action": null,
+            "owner": null,
+            "objector": null,
+            "status": "未关闭",
+            "certainty": null
+          }
+        ],
+        "time": [],
+        "scope": []
+      },
+      "status": "resolved",
+      "evidence_refs": [
+        {
+          "event_id": "evt_05508d98e1096c18",
+          "event_path": "sessions/FEISHU-334_chat_oc_12bb18378549a0d4a0a00eb680e8d-f2f0b6cd/session_events.jsonl#evt_05508d98e1096c18",
+          "entry_ref": "[[sessions/FEISHU-334_chat_oc_12bb18378549a0d4a0a00eb680e8d-f2f0b6cd/session.md#om_x100b50e17e5e54c8c2ec4e2b6bc8b01|om_x100b50e17e5e54c8c2ec4e2b6bc8b01]]",
+          "quote": "FEISHU-334 安全审查关键模块还有三个风险未关闭。"
+        }
+      ],
+      "summary": "FEISHU-334 安全审查关键模块还有三个风险未关闭，状态已解决。"
+    }
+  },
+  "lifecycle_summary": {
+    "active_event_count": 1,
+    "historical_event_count": 0,
+    "invalid_event_count": 0
+  },
+  "updated_at": "2026-05-08T03:45:31.986Z"
+}

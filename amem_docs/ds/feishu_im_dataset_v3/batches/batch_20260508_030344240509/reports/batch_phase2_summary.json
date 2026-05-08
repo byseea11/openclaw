@@ -1,0 +1,11 @@
+{
+  "phase": "phase2",
+  "status": "completed",
+  "started_at": "2026-05-08T03:21:32.593370+00:00",
+  "completed_at": "2026-05-08T03:21:32.660773+00:00",
+  "case_count": 4,
+  "completed_case_count": 4,
+  "failed_case_count": 0,
+  "skipped_case_count": 0,
+  "errors": []
+}

@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-import re
 from itertools import cycle
 from typing import Any
 
@@ -13,6 +12,7 @@ from ..llm import (
 )
 from ..prompt import build_conversation_plan_system_prompt
 from ..schemas import ValidationError, validate_conversation_plan_artifact, validate_official_file_plan
+from .task_id_audit import allowed_task_ids_for_story_plan, validate_conversation_plan_task_ids
 
 
 TURN_KINDS = (
@@ -26,6 +26,41 @@ TURN_KINDS = (
 FORBIDDEN_TEMPLATE_SNIPPETS = (
     "企业协作补充事实",
     "收到，我先按这个口径记录",
+)
+
+EVENT_BEARING_KIND_HINTS = (
+    "event_bearing",
+    "misleading_event_bearing",
+    "corrective_bearing",
+    "summary_or_confirmation",
+    "clarification_answer",
+    "endorsement",
+)
+
+EVENT_BEARING_TEXT_HINTS = (
+    "正式",
+    "确认",
+    "锁定",
+    "解锁",
+    "窗口",
+    "blocker",
+    "阻塞",
+    "无阻塞",
+    "风险",
+    "依赖",
+    "下游",
+    "回滚",
+    "验收",
+    "依据",
+    "传闻",
+    "不可靠",
+    "不能当",
+    "不应成为",
+    "以",
+    "为准",
+    "当前",
+    "状态",
+    "结论",
 )
 
 
@@ -104,8 +139,14 @@ def _build_conversation_plan_user_payload(
             "must_generate_complete_transcript": True,
             "planned_message_text_max_chars": 45,
             "must_output_exact_turn_count": difficulty["total_turn_count_min"],
+            "event_bearing_turn_count_min": difficulty["event_bearing_turn_count_min"],
             "allowed_speaker_actor_ids": [str(actor["person_id"]) for actor in actor_registry["actors"]],
             "speaker_actor_id_rule": "Every turn must use one of allowed_speaker_actor_ids exactly; do not invent new people.",
+            "task_id_rule": (
+                "Use case_context.task_id for the target task. For anti_interference only, other FEISHU ids may "
+                "appear when they are explicit distractor tasks from story_plan; other families must not mention "
+                "undeclared FEISHU ids."
+            ),
             "forbidden_template_snippets": list(FORBIDDEN_TEMPLATE_SNIPPETS),
             "turn_trace_fields": [
                 "turn_kind",
@@ -134,7 +175,11 @@ def _build_conversation_plan_repair_user_payload(
                 "Rewrite the invalid conversation plan into a complete valid artifact. "
                 "Preserve the transcript intent and turn count, but replace every invalid "
                 "speaker_actor_id with one of output_contract.allowed_speaker_actor_ids and keep "
-                "all turn/session references valid. Return only the repaired JSON object."
+                "all turn/session references valid. Ensure every story_beats_artifact.beats[].beat_id appears "
+                "in at least one turn and at least output_contract.event_bearing_turn_count_min turns have "
+                "event_bearing=true. Also correct undeclared FEISHU task ids: target-task "
+                "statements must use case_context.task_id, and non-anti families must not include other FEISHU ids. "
+                "Return only the repaired JSON object."
             ),
         },
     }
@@ -179,17 +224,66 @@ def _normalize_model_conversation_plan(
         private_ref = str(turn.get("private_info_ref") or "").strip()
         if private_ref and private_refs and private_ref not in private_refs:
             turn["private_info_ref"] = private_refs[(index - 1) % len(private_refs)]
-        text = str(turn.get("planned_message_text") or "")
-        turn["planned_message_text"] = re.sub(r"FEISHU-\d+", task_id, text)
+        turn["planned_message_text"] = str(turn.get("planned_message_text") or "")
         turns.append(turn)
     normalized["turns"] = turns
     return normalized
+
+
+def _event_bearing_score(turn: dict[str, Any]) -> int:
+    score = 0
+    if str(turn.get("beat_id") or "").strip():
+        score += 8
+    turn_kind = str(turn.get("turn_kind") or "").strip()
+    if turn_kind in EVENT_BEARING_KIND_HINTS:
+        score += 6
+    text = str(turn.get("planned_message_text") or "")
+    boundary = str(turn.get("task_relevance_boundary") or "")
+    role = str(turn.get("benchmark_role") or "")
+    combined = f"{text}\n{boundary}\n{role}"
+    score += sum(1 for hint in EVENT_BEARING_TEXT_HINTS if hint in combined)
+    if "ack" in turn_kind or "coordination" in turn_kind:
+        score -= 3
+    if "question" in turn_kind:
+        score -= 2
+    return score
+
+
+def _repair_event_bearing_flags(*, artifact: dict[str, Any], case_context: dict[str, Any]) -> dict[str, Any]:
+    difficulty = resolve_difficulty_settings(str(case_context["difficulty"]))
+    required_count = int(difficulty["event_bearing_turn_count_min"])
+    turns = [dict(turn) for turn in artifact["turns"]]
+    current_count = sum(1 for turn in turns if turn.get("event_bearing"))
+    if current_count >= required_count:
+        return artifact
+
+    candidates = [
+        (index, _event_bearing_score(turn))
+        for index, turn in enumerate(turns)
+        if not turn.get("event_bearing") and str(turn.get("planned_message_text") or "").strip()
+    ]
+    candidates.sort(key=lambda item: item[1], reverse=True)
+    for index, score in candidates:
+        if current_count >= required_count:
+            break
+        if score < 3:
+            continue
+        turns[index]["event_bearing"] = True
+        turns[index]["turn_kind"] = "event_bearing"
+        if str(turns[index].get("beat_id") or "").strip():
+            turns[index]["annotation_target"] = True
+        current_count += 1
+
+    repaired = dict(artifact)
+    repaired["turns"] = turns
+    return repaired
 
 
 def validate_conversation_plan_quality(
     *,
     artifact: dict[str, Any],
     case_context: dict[str, Any],
+    story_beats_artifact: dict[str, Any] | None = None,
     actor_registry: dict[str, Any] | None = None,
     official_file_plan: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
@@ -210,6 +304,12 @@ def validate_conversation_plan_quality(
     repeated_texts = {text for text in texts if texts.count(text) > 2}
     if repeated_texts:
         raise ValidationError("conversation_plan_artifact has excessive duplicate message text")
+    if story_beats_artifact is not None:
+        required_beat_ids = {str(beat["beat_id"]) for beat in story_beats_artifact["beats"]}
+        observed_beat_ids = {str(turn.get("beat_id") or "") for turn in turns if str(turn.get("beat_id") or "")}
+        missing_beat_ids = sorted(required_beat_ids - observed_beat_ids)
+        if missing_beat_ids:
+            raise ValidationError(f"conversation_plan_artifact is missing story beat turns: {missing_beat_ids}")
     if actor_registry is not None:
         known_actor_ids = {str(actor["person_id"]) for actor in actor_registry["actors"]}
         for turn in turns:
@@ -276,6 +376,7 @@ def generate_conversation_plan(
         )
     ]
     try:
+        allowed_task_ids = allowed_task_ids_for_story_plan(case_context=case_context, story_plan=story_plan)
         validated = validate_conversation_plan_artifact(
             _normalize_model_conversation_plan(
                 model_payload=result.payload,
@@ -284,11 +385,18 @@ def generate_conversation_plan(
                 official_file_plan=official_file_plan,
             )
         )
+        validated = _repair_event_bearing_flags(artifact=validated, case_context=case_context)
         validate_conversation_plan_quality(
             artifact=validated,
             case_context=case_context,
+            story_beats_artifact=story_beats_artifact,
             actor_registry=actor_registry,
             official_file_plan=official_file_plan,
+        )
+        validate_conversation_plan_task_ids(
+            artifact=validated,
+            case_context=case_context,
+            allowed_task_ids=allowed_task_ids,
         )
     except ValidationError as exc:
         repair_payload = _build_conversation_plan_repair_user_payload(
@@ -318,11 +426,18 @@ def generate_conversation_plan(
                     official_file_plan=official_file_plan,
                 )
             )
+            validated = _repair_event_bearing_flags(artifact=validated, case_context=case_context)
             validate_conversation_plan_quality(
                 artifact=validated,
                 case_context=case_context,
+                story_beats_artifact=story_beats_artifact,
                 actor_registry=actor_registry,
                 official_file_plan=official_file_plan,
+            )
+            validate_conversation_plan_task_ids(
+                artifact=validated,
+                case_context=case_context,
+                allowed_task_ids=allowed_task_ids,
             )
         except ValidationError as repair_exc:
             raise ModelPayloadValidationError(

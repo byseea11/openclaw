@@ -1,0 +1,74 @@
+{
+  "case_id": "case_20260507112905870826_contradiction_update",
+  "family_id": "contradiction_update",
+  "task_id": "FEISHU-726",
+  "baseline_mode": "openclaw_real_replay",
+  "replay_kind": "gateway_agent_rpc",
+  "query_context_injected": false,
+  "openclaw_ingest_mode": "case_transcript",
+  "gateway_state": {
+    "run_token": "1778185832009",
+    "openclaw_ingest_mode": "case_transcript",
+    "ingest_session_count": 1,
+    "sender_session_count": 1,
+    "source_session_count": 1,
+    "ingress_count": 88,
+    "unique_idempotency_key_count": 1,
+    "sender_session_keys": [
+      "agent:main:feishu-benchmark:case_20260507112905870826_contradiction_update:run:1778185832009:case-transcript"
+    ],
+    "source_session_keys": [
+      "agent:main:feishu-benchmark:case_20260507112905870826_contradiction_update:run:1778185832009:case-transcript"
+    ],
+    "ingest_gateway_session_count": 1,
+    "ingest_gateway_run_count": 1,
+    "sender_scope_stats": [
+      {
+        "session_key": "agent:main:feishu-benchmark:case_20260507112905870826_contradiction_update:run:1778185832009:case-transcript",
+        "sender_open_id": "ou_sim_benchmark_root",
+        "message_count": 88,
+        "source_scope_count": 11,
+        "first_message_id": "om_x100b50f3c748b0a8c4966f446dbf0de",
+        "last_message_id": "om_x100b50f3c7b5d0a4c4e48d4715c7a67"
+      }
+    ],
+    "source_scope_stats": [
+      {
+        "session_key": "agent:main:feishu-benchmark:case_20260507112905870826_contradiction_update:run:1778185832009:case-transcript",
+        "sender_open_id": "ou_sim_benchmark_root",
+        "message_count": 88,
+        "source_scope_count": 11,
+        "first_message_id": "om_x100b50f3c748b0a8c4966f446dbf0de",
+        "last_message_id": "om_x100b50f3c7b5d0a4c4e48d4715c7a67"
+      }
+    ],
+    "state_dir": "amem_docs/ds/feishu_im_dataset_v3/cases/case_20260507112905870826_contradiction_update/runtime/openclaw_baseline_state"
+  },
+  "ingress_count": 88,
+  "collected_message_count": 88,
+  "query_count": 5,
+  "semantic_gold_mode": "llm",
+  "memory_visibility_status": "passed",
+  "memory_visibility_quality": "full",
+  "memory_visibility_warnings": [],
+  "gold_generation": {
+    "generated": false,
+    "missing_before": [],
+    "generated_stages": []
+  },
+  "metrics": {
+    "query_success_rate": 0.8,
+    "evidence_output_rate": 1,
+    "evidence_trace_rate": 0.8,
+    "current_state_accuracy": 1,
+    "private_info_leak_rate": 0
+  },
+  "answer_ids": [
+    "case_20260507112905870826_contradiction_update_query_001",
+    "case_20260507112905870826_contradiction_update_query_002",
+    "case_20260507112905870826_contradiction_update_query_003",
+    "case_20260507112905870826_contradiction_update_query_004",
+    "case_20260507112905870826_contradiction_update_query_005"
+  ],
+  "evidence_policy": "No evidence is fabricated. If OpenClaw does not output observed message ids, evidence_output_rate remains 0."
+}

@@ -10,6 +10,7 @@ from ..llm import (
     create_model_client,
 )
 from ..prompt_loader import build_stage_system_prompt
+from .task_id_audit import allowed_task_ids_for_story_plan, validate_gold_task_ids
 
 
 class SemanticGoldValidationError(ValueError):
@@ -272,22 +273,40 @@ def generate_semantic_gold(
     if mode not in {"auto", "llm", "rule"}:
         raise ValueError("semantic gold mode must be auto, llm, rule, or off")
     if mode == "rule":
-        return build_rule_semantic_gold(
+        artifact = build_rule_semantic_gold(
             case_context=case_context,
             story_plan=story_plan,
             annotation_gold_rows=annotation_gold_rows,
-        ), []
+        )
+        issues = validate_gold_task_ids(
+            case_context=case_context,
+            query_benchmark=None,
+            semantic_gold=artifact,
+            allowed_task_ids=allowed_task_ids_for_story_plan(case_context=case_context, story_plan=story_plan),
+        )
+        if issues:
+            raise SemanticGoldValidationError("; ".join(issues))
+        return artifact, []
 
     try:
         client = model_client or create_model_client()
     except ModelBackendError:
         if require_llm or mode == "llm":
             raise
-        return build_rule_semantic_gold(
+        artifact = build_rule_semantic_gold(
             case_context=case_context,
             story_plan=story_plan,
             annotation_gold_rows=annotation_gold_rows,
-        ), []
+        )
+        issues = validate_gold_task_ids(
+            case_context=case_context,
+            query_benchmark=None,
+            semantic_gold=artifact,
+            allowed_task_ids=allowed_task_ids_for_story_plan(case_context=case_context, story_plan=story_plan),
+        )
+        if issues:
+            raise SemanticGoldValidationError("; ".join(issues))
+        return artifact, []
 
     collected_message_ids = {str(row["message_id"]) for row in collected_messages if row.get("message_id")}
     observed_evidence_rows = [
@@ -326,6 +345,14 @@ def generate_semantic_gold(
             allowed_message_ids=allowed_ids,
             citation_aliases=citation_aliases,
         )
+        issues = validate_gold_task_ids(
+            case_context=case_context,
+            query_benchmark=None,
+            semantic_gold=normalized,
+            allowed_task_ids=allowed_task_ids_for_story_plan(case_context=case_context, story_plan=story_plan),
+        )
+        if issues:
+            raise SemanticGoldValidationError("; ".join(issues))
     except SemanticGoldValidationError as exc:
         repair_payload = _build_semantic_gold_user_payload(
             case_context=case_context,
@@ -335,7 +362,10 @@ def generate_semantic_gold(
                 "validation_error": str(exc),
                 "validation_warnings": exc.warnings,
                 "invalid_payload": result.payload,
-                "repair_instruction": "Rewrite the artifact so every item cites observed message_id values copied exactly from allowed_message_ids.",
+                "repair_instruction": (
+                    "Rewrite the artifact so every item cites observed message_id values copied exactly from "
+                    "allowed_message_ids and uses case_context.task_id for all target-task claims and query answers."
+                ),
             },
         )
         repair_result = client.complete_json(
@@ -362,6 +392,14 @@ def generate_semantic_gold(
                 allowed_message_ids=allowed_ids,
                 citation_aliases=citation_aliases,
             )
+            issues = validate_gold_task_ids(
+                case_context=case_context,
+                query_benchmark=None,
+                semantic_gold=normalized,
+                allowed_task_ids=allowed_task_ids_for_story_plan(case_context=case_context, story_plan=story_plan),
+            )
+            if issues:
+                raise SemanticGoldValidationError("; ".join(issues))
         except SemanticGoldValidationError as repair_exc:
             raise ModelPayloadValidationError(
                 f"semantic-gold payload validation failed after repair: {repair_exc}",
