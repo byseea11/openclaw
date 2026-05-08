@@ -1,0 +1,11 @@
+{
+  "case_id": "case_20260507105819230766_private_info_in_official_file",
+  "case_dir": "amem_docs/ds/feishu_im_dataset_v3/cases/case_20260507105819230766_private_info_in_official_file",
+  "family_id": "private_info_in_official_file",
+  "task_id": "FEISHU-366",
+  "allowed_task_ids": [
+    "FEISHU-366"
+  ],
+  "status": "passed",
+  "issues": []
+}

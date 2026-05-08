@@ -1,0 +1,358 @@
+{
+  "case_id": "case_20260506213133524022_anti_interference",
+  "operator_identity": "user",
+  "delivery_mode": "prefixed_single_operator",
+  "actions": [
+    {
+      "action_id": "step_001",
+      "action_type": "create_chat",
+      "depends_on": [],
+      "params": {
+        "chat_ref": "chat_main_chat",
+        "name": "主群协调",
+        "members": [
+          "alice",
+          "amy",
+          "bob",
+          "brian",
+          "carol",
+          "david",
+          "eve",
+          "frank",
+          "grace",
+          "heidi",
+          "ivan",
+          "judy",
+          "karen",
+          "leo",
+          "mia",
+          "nick",
+          "olivia",
+          "peter",
+          "quinn",
+          "rachel",
+          "sam",
+          "tina",
+          "ulysses",
+          "victor",
+          "wendy",
+          "xavier",
+          "yvonne",
+          "zack"
+        ]
+      },
+      "output_ref": "chat_main_chat"
+    },
+    {
+      "action_id": "step_002",
+      "action_type": "create_chat",
+      "depends_on": [],
+      "params": {
+        "chat_ref": "chat_thread_docs",
+        "name": "thread_docs 会话",
+        "members": [
+          "alice",
+          "amy",
+          "bob",
+          "brian",
+          "carol",
+          "david",
+          "eve",
+          "frank",
+          "grace",
+          "heidi",
+          "ivan",
+          "judy",
+          "karen",
+          "leo",
+          "mia",
+          "nick",
+          "olivia",
+          "peter",
+          "quinn",
+          "rachel",
+          "sam",
+          "tina",
+          "ulysses",
+          "victor",
+          "wendy",
+          "xavier",
+          "yvonne",
+          "zack"
+        ]
+      },
+      "output_ref": "chat_thread_docs"
+    },
+    {
+      "action_id": "step_003",
+      "action_type": "create_chat",
+      "depends_on": [],
+      "params": {
+        "chat_ref": "chat_thread_infra",
+        "name": "thread_infra 会话",
+        "members": [
+          "alice",
+          "amy",
+          "bob",
+          "brian",
+          "carol",
+          "david",
+          "eve",
+          "frank",
+          "grace",
+          "heidi",
+          "ivan",
+          "judy",
+          "karen",
+          "leo",
+          "mia",
+          "nick",
+          "olivia",
+          "peter",
+          "quinn",
+          "rachel",
+          "sam",
+          "tina",
+          "ulysses",
+          "victor",
+          "wendy",
+          "xavier",
+          "yvonne",
+          "zack"
+        ]
+      },
+      "output_ref": "chat_thread_infra"
+    },
+    {
+      "action_id": "step_004",
+      "action_type": "create_chat",
+      "depends_on": [],
+      "params": {
+        "chat_ref": "chat_thread_customer",
+        "name": "thread_customer 会话",
+        "members": [
+          "alice",
+          "amy",
+          "bob",
+          "brian",
+          "carol",
+          "david",
+          "eve",
+          "frank",
+          "grace",
+          "heidi",
+          "ivan",
+          "judy",
+          "karen",
+          "leo",
+          "mia",
+          "nick",
+          "olivia",
+          "peter",
+          "quinn",
+          "rachel",
+          "sam",
+          "tina",
+          "ulysses",
+          "victor",
+          "wendy",
+          "xavier",
+          "yvonne",
+          "zack"
+        ]
+      },
+      "output_ref": "chat_thread_customer"
+    },
+    {
+      "action_id": "step_005",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_001"
+      ],
+      "params": {
+        "chat_ref": "chat_main_chat",
+        "sender_ref": "alice",
+        "content_text": "【project_manager/Alice】FEISHU-201 当前由 Alice 负责收口，真正 blocker 还是支付风控回归没有完成。"
+      },
+      "output_ref": "msg_turn_001"
+    },
+    {
+      "action_id": "step_006",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_001"
+      ],
+      "params": {
+        "chat_ref": "chat_main_chat",
+        "sender_ref": "bob",
+        "content_text": "【ops_manager/Bob】运维演练那边也卡在 blocker，但这是另外一条并行讨论，不是 FEISHU-201 的 owner 变更。"
+      },
+      "output_ref": "msg_turn_002"
+    },
+    {
+      "action_id": "step_007",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_002"
+      ],
+      "params": {
+        "chat_ref": "chat_thread_docs",
+        "sender_ref": "carol",
+        "content_text": "【release_manager/Carol】Alice 晚上还要审文档收口，不过那只是 reviewer 身份，不代表 FEISHU-201 再次换 owner。"
+      },
+      "output_ref": "msg_turn_003"
+    },
+    {
+      "action_id": "step_008",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_001"
+      ],
+      "params": {
+        "chat_ref": "chat_main_chat",
+        "sender_ref": "eve",
+        "content_text": "【qa_lead/Eve】运维演练的 blocker 已经解决了，但这是演练的事，不是 FEISHU-201 的。"
+      },
+      "output_ref": "msg_turn_004"
+    },
+    {
+      "action_id": "step_009",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_003"
+      ],
+      "params": {
+        "chat_ref": "chat_thread_infra",
+        "sender_ref": "david",
+        "content_text": "【infra_engineer/David】基础设施升级的依赖还没有完全就绪，但那是独立的项目，不影响支付灰度。"
+      },
+      "output_ref": "msg_turn_005"
+    },
+    {
+      "action_id": "step_010",
+      "action_type": "reply_in_thread",
+      "depends_on": [
+        "step_003",
+        "step_009"
+      ],
+      "params": {
+        "chat_ref": "chat_thread_infra",
+        "sender_ref": "frank",
+        "content_text": "【security_engineer/Frank】安全审查通过了，不过这是针对基础设施升级的，与 FEISHU-201 无关。",
+        "root_message_ref": "msg_turn_005"
+      },
+      "output_ref": "msg_turn_006"
+    },
+    {
+      "action_id": "step_011",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_004"
+      ],
+      "params": {
+        "chat_ref": "chat_thread_customer",
+        "sender_ref": "heidi",
+        "content_text": "【customer_support/Heidi】客户案例的 blocker 已解决，但现在可以对外承诺了吗？这是客户问题，不是灰度。"
+      },
+      "output_ref": "msg_turn_007"
+    },
+    {
+      "action_id": "step_012",
+      "action_type": "reply_in_thread",
+      "depends_on": [
+        "step_004",
+        "step_011"
+      ],
+      "params": {
+        "chat_ref": "chat_thread_customer",
+        "sender_ref": "grace",
+        "content_text": "【compliance_officer/Grace】合规要求已经满足，但客户案例与支付灰度无关。",
+        "root_message_ref": "msg_turn_007"
+      },
+      "output_ref": "msg_turn_008"
+    },
+    {
+      "action_id": "step_013",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_001"
+      ],
+      "params": {
+        "chat_ref": "chat_main_chat",
+        "sender_ref": "carol",
+        "content_text": "【release_manager/Carol】发布节奏同步会上提到的 window 是另一个项目的，FEISHU-201 的窗口还在待定。"
+      },
+      "output_ref": "msg_turn_009"
+    },
+    {
+      "action_id": "step_014",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_001"
+      ],
+      "params": {
+        "chat_ref": "chat_main_chat",
+        "sender_ref": "alice",
+        "content_text": "【project_manager/Alice】再次确认：FEISHU-201 的 owner 是我，blocker 是支付风控回归，这些信息不要和其他讨论混淆。"
+      },
+      "output_ref": "msg_turn_010"
+    },
+    {
+      "action_id": "step_015",
+      "action_type": "fetch_chat_messages",
+      "depends_on": [
+        "step_001",
+        "step_005",
+        "step_006",
+        "step_008",
+        "step_013",
+        "step_014"
+      ],
+      "params": {
+        "chat_ref": "chat_main_chat"
+      },
+      "output_ref": ""
+    },
+    {
+      "action_id": "step_016",
+      "action_type": "fetch_thread_messages",
+      "depends_on": [
+        "step_002",
+        "step_007"
+      ],
+      "params": {
+        "chat_ref": "chat_thread_docs",
+        "root_message_ref": "msg_turn_003"
+      },
+      "output_ref": ""
+    },
+    {
+      "action_id": "step_017",
+      "action_type": "fetch_thread_messages",
+      "depends_on": [
+        "step_003",
+        "step_009",
+        "step_010"
+      ],
+      "params": {
+        "chat_ref": "chat_thread_infra",
+        "root_message_ref": "msg_turn_005"
+      },
+      "output_ref": ""
+    },
+    {
+      "action_id": "step_018",
+      "action_type": "fetch_thread_messages",
+      "depends_on": [
+        "step_004",
+        "step_011",
+        "step_012"
+      ],
+      "params": {
+        "chat_ref": "chat_thread_customer",
+        "root_message_ref": "msg_turn_007"
+      },
+      "output_ref": ""
+    }
+  ]
+}

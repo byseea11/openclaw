@@ -1,0 +1,426 @@
+{
+  "version": 1,
+  "task_id": "task:FEISHU-366",
+  "task_key": "FEISHU-366",
+  "sources": {
+    "task:FEISHU-366::chat:oc_f4e834723eae7e250708739fe8f3b9e3": {
+      "source_session_id": "task:FEISHU-366::chat:oc_f4e834723eae7e250708739fe8f3b9e3",
+      "session_wiki_path": "sessions/FEISHU-366_chat_oc_f4e834723eae7e250708739fe8f3b-938eea86/session_wiki.md",
+      "blocks": [
+        {
+          "block_id": "block-发布阻塞风险-45763a86",
+          "topic_key": "发布阻塞风险",
+          "topic_title": "发布阻塞风险",
+          "summary": "备注已记录周宇的合规文件预计周五，但未作为正式风险项",
+          "status": "open",
+          "block_link": "sessions/FEISHU-366_chat_oc_f4e834723eae7e250708739fe8f3b-938eea86/session_wiki.md#block-发布阻塞风险-45763a86",
+          "session_wiki_path": "sessions/FEISHU-366_chat_oc_f4e834723eae7e250708739fe8f3b-938eea86/session_wiki.md",
+          "source_session_id": "task:FEISHU-366::chat:oc_f4e834723eae7e250708739fe8f3b9e3",
+          "current_items": {
+            "conclusion": [],
+            "rationale": [],
+            "objection": [],
+            "constraint": [],
+            "commitment": [],
+            "status": [
+              {
+                "slot": "status",
+                "topic_key": "发布阻塞风险",
+                "topic_title": "发布阻塞风险",
+                "subject_key": "发布阻塞风险",
+                "claim": "备注已记录周宇的合规文件预计周五，但未作为正式风险项",
+                "event_id": "evt_59ba3b3669ad46f5",
+                "event_time": "1778151846000",
+                "evidence_quote": "备注已记录周宇的合规文件预计周五，但未作为正式风险项",
+                "event_path": "sessions/FEISHU-366_chat_oc_f4e834723eae7e250708739fe8f3b-938eea86/session_events.jsonl#evt_59ba3b3669ad46f5",
+                "event_ref": "[[sessions/FEISHU-366_chat_oc_f4e834723eae7e250708739fe8f3b-938eea86/session_events.jsonl#evt_59ba3b3669ad46f5|evt_59ba3b3669ad46f5]]",
+                "source_session_id": "task:FEISHU-366::chat:oc_f4e834723eae7e250708739fe8f3b9e3",
+                "session_wiki_path": "sessions/FEISHU-366_chat_oc_f4e834723eae7e250708739fe8f3b-938eea86/session_wiki.md",
+                "block_anchor": "block-发布阻塞风险-45763a86",
+                "block_link": "sessions/FEISHU-366_chat_oc_f4e834723eae7e250708739fe8f3b-938eea86/session_wiki.md#block-发布阻塞风险-45763a86",
+                "block_summary": "备注已记录周宇的合规文件预计周五，但未作为正式风险项"
+              }
+            ],
+            "time": [],
+            "scope": []
+          }
+        }
+      ],
+      "updated_at": "2026-05-07T11:05:36.740Z"
+    },
+    "task:FEISHU-366::chat:oc_3fa8c2bc7c2955b3158248ce3f33ff61": {
+      "source_session_id": "task:FEISHU-366::chat:oc_3fa8c2bc7c2955b3158248ce3f33ff61",
+      "session_wiki_path": "sessions/FEISHU-366_chat_oc_3fa8c2bc7c2955b3158248ce3f33f-d7ee1dab/session_wiki.md",
+      "blocks": [],
+      "updated_at": "2026-05-07T11:05:36.746Z"
+    },
+    "task:FEISHU-366::chat:oc_c949da97e65ae9aabb90c69957d363bd": {
+      "source_session_id": "task:FEISHU-366::chat:oc_c949da97e65ae9aabb90c69957d363bd",
+      "session_wiki_path": "sessions/FEISHU-366_chat_oc_c949da97e65ae9aabb90c69957d36-aa0f566c/session_wiki.md",
+      "blocks": [
+        {
+          "block_id": "block-发布时间口径-867908bd",
+          "topic_key": "发布时间口径",
+          "topic_title": "发布时间口径",
+          "summary": "评审纪要：FEISHU-366 上线评审通过，签名条件满足，上线前需赵磊安全审批完成",
+          "status": "resolved",
+          "block_link": "sessions/FEISHU-366_chat_oc_c949da97e65ae9aabb90c69957d36-aa0f566c/session_wiki.md#block-发布时间口径-867908bd",
+          "session_wiki_path": "sessions/FEISHU-366_chat_oc_c949da97e65ae9aabb90c69957d36-aa0f566c/session_wiki.md",
+          "source_session_id": "task:FEISHU-366::chat:oc_c949da97e65ae9aabb90c69957d363bd",
+          "current_items": {
+            "conclusion": [],
+            "rationale": [],
+            "objection": [],
+            "constraint": [],
+            "commitment": [],
+            "status": [
+              {
+                "slot": "status",
+                "topic_key": "发布时间口径",
+                "topic_title": "发布时间口径",
+                "subject_key": "发布时间口径",
+                "claim": "评审纪要：FEISHU-366 上线评审通过，签名条件满足，上线前需赵磊安全审批完成",
+                "event_id": "evt_409642e81306d7a3",
+                "event_time": "1778151846000",
+                "evidence_quote": "评审纪要：FEISHU-366 上线评审通过，签名条件满足，上线前需赵磊安全审批完成",
+                "event_path": "sessions/FEISHU-366_chat_oc_c949da97e65ae9aabb90c69957d36-aa0f566c/session_events.jsonl#evt_409642e81306d7a3",
+                "event_ref": "[[sessions/FEISHU-366_chat_oc_c949da97e65ae9aabb90c69957d36-aa0f566c/session_events.jsonl#evt_409642e81306d7a3|evt_409642e81306d7a3]]",
+                "source_session_id": "task:FEISHU-366::chat:oc_c949da97e65ae9aabb90c69957d363bd",
+                "session_wiki_path": "sessions/FEISHU-366_chat_oc_c949da97e65ae9aabb90c69957d36-aa0f566c/session_wiki.md",
+                "block_anchor": "block-发布时间口径-867908bd",
+                "block_link": "sessions/FEISHU-366_chat_oc_c949da97e65ae9aabb90c69957d36-aa0f566c/session_wiki.md#block-发布时间口径-867908bd",
+                "block_summary": "评审纪要：FEISHU-366 上线评审通过，签名条件满足，上线前需赵磊安全审批完成"
+              }
+            ],
+            "time": [],
+            "scope": []
+          }
+        }
+      ],
+      "updated_at": "2026-05-07T11:05:36.759Z"
+    },
+    "task:FEISHU-366::chat:oc_44e54ac15060a6eab01c6e242e582755": {
+      "source_session_id": "task:FEISHU-366::chat:oc_44e54ac15060a6eab01c6e242e582755",
+      "session_wiki_path": "sessions/FEISHU-366_chat_oc_44e54ac15060a6eab01c6e242e582-7e7d0bee/session_wiki.md",
+      "blocks": [
+        {
+          "block_id": "block-确认收到交接_按当前状态推进-5a3b98d1",
+          "topic_key": "确认收到交接，按当前状态推进",
+          "topic_title": "确认收到交接，按当前状态推进",
+          "summary": "确认收到交接，按当前状态推进",
+          "status": "active",
+          "block_link": "sessions/FEISHU-366_chat_oc_44e54ac15060a6eab01c6e242e582-7e7d0bee/session_wiki.md#block-确认收到交接_按当前状态推进-5a3b98d1",
+          "session_wiki_path": "sessions/FEISHU-366_chat_oc_44e54ac15060a6eab01c6e242e582-7e7d0bee/session_wiki.md",
+          "source_session_id": "task:FEISHU-366::chat:oc_44e54ac15060a6eab01c6e242e582755",
+          "current_items": {
+            "conclusion": [],
+            "rationale": [],
+            "objection": [],
+            "constraint": [],
+            "commitment": [
+              {
+                "slot": "commitment",
+                "topic_key": "确认收到交接，按当前状态推进",
+                "topic_title": "确认收到交接，按当前状态推进",
+                "subject_key": "确认收到交接，按当前状态推进",
+                "claim": "确认收到交接，按当前状态推进",
+                "event_id": "evt_d0b77b1f8d49889f",
+                "event_time": "1778151846000",
+                "evidence_quote": "确认收到交接，按当前状态推进",
+                "event_path": "sessions/FEISHU-366_chat_oc_44e54ac15060a6eab01c6e242e582-7e7d0bee/session_events.jsonl#evt_d0b77b1f8d49889f",
+                "event_ref": "[[sessions/FEISHU-366_chat_oc_44e54ac15060a6eab01c6e242e582-7e7d0bee/session_events.jsonl#evt_d0b77b1f8d49889f|evt_d0b77b1f8d49889f]]",
+                "source_session_id": "task:FEISHU-366::chat:oc_44e54ac15060a6eab01c6e242e582755",
+                "session_wiki_path": "sessions/FEISHU-366_chat_oc_44e54ac15060a6eab01c6e242e582-7e7d0bee/session_wiki.md",
+                "block_anchor": "block-确认收到交接_按当前状态推进-5a3b98d1",
+                "block_link": "sessions/FEISHU-366_chat_oc_44e54ac15060a6eab01c6e242e582-7e7d0bee/session_wiki.md#block-确认收到交接_按当前状态推进-5a3b98d1",
+                "block_summary": "确认收到交接，按当前状态推进"
+              }
+            ],
+            "status": [],
+            "time": [],
+            "scope": []
+          }
+        }
+      ],
+      "updated_at": "2026-05-07T11:05:36.774Z"
+    },
+    "task:FEISHU-366::chat:oc_ee55cc5ba6391fd53db4f0b55f23283c": {
+      "source_session_id": "task:FEISHU-366::chat:oc_ee55cc5ba6391fd53db4f0b55f23283c",
+      "session_wiki_path": "sessions/FEISHU-366_chat_oc_ee55cc5ba6391fd53db4f0b55f232-3e7a6958/session_wiki.md",
+      "blocks": [
+        {
+          "block_id": "block-发布阻塞风险-45763a86",
+          "topic_key": "发布阻塞风险",
+          "topic_title": "发布阻塞风险",
+          "summary": "FEISHU-366 上线 checklist v2.3 已发布",
+          "status": "active",
+          "block_link": "sessions/FEISHU-366_chat_oc_ee55cc5ba6391fd53db4f0b55f232-3e7a6958/session_wiki.md#block-发布阻塞风险-45763a86",
+          "session_wiki_path": "sessions/FEISHU-366_chat_oc_ee55cc5ba6391fd53db4f0b55f232-3e7a6958/session_wiki.md",
+          "source_session_id": "task:FEISHU-366::chat:oc_ee55cc5ba6391fd53db4f0b55f23283c",
+          "current_items": {
+            "conclusion": [],
+            "rationale": [],
+            "objection": [],
+            "constraint": [],
+            "commitment": [],
+            "status": [
+              {
+                "slot": "status",
+                "topic_key": "发布阻塞风险",
+                "topic_title": "发布阻塞风险",
+                "subject_key": "发布阻塞风险",
+                "claim": "FEISHU-366 上线 checklist v2.3 已发布",
+                "event_id": "evt_c09ca9f3e5f0b6af",
+                "event_time": "1778151846000",
+                "evidence_quote": "FEISHU-366 上线 checklist v2.3 已发布",
+                "event_path": "sessions/FEISHU-366_chat_oc_ee55cc5ba6391fd53db4f0b55f232-3e7a6958/session_events.jsonl#evt_c09ca9f3e5f0b6af",
+                "event_ref": "[[sessions/FEISHU-366_chat_oc_ee55cc5ba6391fd53db4f0b55f232-3e7a6958/session_events.jsonl#evt_c09ca9f3e5f0b6af|evt_c09ca9f3e5f0b6af]]",
+                "source_session_id": "task:FEISHU-366::chat:oc_ee55cc5ba6391fd53db4f0b55f23283c",
+                "session_wiki_path": "sessions/FEISHU-366_chat_oc_ee55cc5ba6391fd53db4f0b55f232-3e7a6958/session_wiki.md",
+                "block_anchor": "block-发布阻塞风险-45763a86",
+                "block_link": "sessions/FEISHU-366_chat_oc_ee55cc5ba6391fd53db4f0b55f232-3e7a6958/session_wiki.md#block-发布阻塞风险-45763a86",
+                "block_summary": "FEISHU-366 上线 checklist v2.3 已发布"
+              }
+            ],
+            "time": [],
+            "scope": []
+          }
+        }
+      ],
+      "updated_at": "2026-05-07T11:05:36.801Z"
+    },
+    "task:FEISHU-366::chat:oc_fb0d8f92897c92703c25fb241008c414": {
+      "source_session_id": "task:FEISHU-366::chat:oc_fb0d8f92897c92703c25fb241008c414",
+      "session_wiki_path": "sessions/FEISHU-366_chat_oc_fb0d8f92897c92703c25fb241008c-29233f3b/session_wiki.md",
+      "blocks": [],
+      "updated_at": "2026-05-07T11:05:36.808Z"
+    },
+    "task:FEISHU-366::chat:oc_67ca34f833958744f77a9c9fcbdcda2f": {
+      "source_session_id": "task:FEISHU-366::chat:oc_67ca34f833958744f77a9c9fcbdcda2f",
+      "session_wiki_path": "sessions/FEISHU-366_chat_oc_67ca34f833958744f77a9c9fcbdcd-93af5f9c/session_wiki.md",
+      "blocks": [
+        {
+          "block_id": "block-发布阻塞风险-45763a86",
+          "topic_key": "发布阻塞风险",
+          "topic_title": "发布阻塞风险",
+          "summary": "报告已发给管理层，仅提安全审批为 blocker",
+          "status": "active",
+          "block_link": "sessions/FEISHU-366_chat_oc_67ca34f833958744f77a9c9fcbdcd-93af5f9c/session_wiki.md#block-发布阻塞风险-45763a86",
+          "session_wiki_path": "sessions/FEISHU-366_chat_oc_67ca34f833958744f77a9c9fcbdcd-93af5f9c/session_wiki.md",
+          "source_session_id": "task:FEISHU-366::chat:oc_67ca34f833958744f77a9c9fcbdcda2f",
+          "current_items": {
+            "conclusion": [],
+            "rationale": [],
+            "objection": [],
+            "constraint": [],
+            "commitment": [],
+            "status": [
+              {
+                "slot": "status",
+                "topic_key": "发布阻塞风险",
+                "topic_title": "发布阻塞风险",
+                "subject_key": "发布阻塞风险",
+                "claim": "报告已发给管理层，仅提安全审批为 blocker",
+                "event_id": "evt_502ec330c7af11ac",
+                "event_time": "1778151846000",
+                "evidence_quote": "报告已发给管理层，仅提安全审批为 blocker",
+                "event_path": "sessions/FEISHU-366_chat_oc_67ca34f833958744f77a9c9fcbdcd-93af5f9c/session_events.jsonl#evt_502ec330c7af11ac",
+                "event_ref": "[[sessions/FEISHU-366_chat_oc_67ca34f833958744f77a9c9fcbdcd-93af5f9c/session_events.jsonl#evt_502ec330c7af11ac|evt_502ec330c7af11ac]]",
+                "source_session_id": "task:FEISHU-366::chat:oc_67ca34f833958744f77a9c9fcbdcda2f",
+                "session_wiki_path": "sessions/FEISHU-366_chat_oc_67ca34f833958744f77a9c9fcbdcd-93af5f9c/session_wiki.md",
+                "block_anchor": "block-发布阻塞风险-45763a86",
+                "block_link": "sessions/FEISHU-366_chat_oc_67ca34f833958744f77a9c9fcbdcd-93af5f9c/session_wiki.md#block-发布阻塞风险-45763a86",
+                "block_summary": "报告已发给管理层，仅提安全审批为 blocker"
+              }
+            ],
+            "time": [],
+            "scope": []
+          }
+        },
+        {
+          "block_id": "block-管理层无异议_继续推进-3f91f06c",
+          "topic_key": "管理层无异议，继续推进",
+          "topic_title": "管理层无异议，继续推进",
+          "summary": "管理层无异议，继续推进",
+          "status": "active",
+          "block_link": "sessions/FEISHU-366_chat_oc_67ca34f833958744f77a9c9fcbdcd-93af5f9c/session_wiki.md#block-管理层无异议_继续推进-3f91f06c",
+          "session_wiki_path": "sessions/FEISHU-366_chat_oc_67ca34f833958744f77a9c9fcbdcd-93af5f9c/session_wiki.md",
+          "source_session_id": "task:FEISHU-366::chat:oc_67ca34f833958744f77a9c9fcbdcda2f",
+          "current_items": {
+            "conclusion": [],
+            "rationale": [],
+            "objection": [],
+            "constraint": [],
+            "commitment": [
+              {
+                "slot": "commitment",
+                "topic_key": "管理层无异议，继续推进",
+                "topic_title": "管理层无异议，继续推进",
+                "subject_key": "管理层无异议，继续推进",
+                "claim": "管理层无异议，继续推进",
+                "event_id": "evt_298beae79b025992",
+                "event_time": "1778151846000",
+                "evidence_quote": "管理层无异议，继续推进",
+                "event_path": "sessions/FEISHU-366_chat_oc_67ca34f833958744f77a9c9fcbdcd-93af5f9c/session_events.jsonl#evt_298beae79b025992",
+                "event_ref": "[[sessions/FEISHU-366_chat_oc_67ca34f833958744f77a9c9fcbdcd-93af5f9c/session_events.jsonl#evt_298beae79b025992|evt_298beae79b025992]]",
+                "source_session_id": "task:FEISHU-366::chat:oc_67ca34f833958744f77a9c9fcbdcda2f",
+                "session_wiki_path": "sessions/FEISHU-366_chat_oc_67ca34f833958744f77a9c9fcbdcd-93af5f9c/session_wiki.md",
+                "block_anchor": "block-管理层无异议_继续推进-3f91f06c",
+                "block_link": "sessions/FEISHU-366_chat_oc_67ca34f833958744f77a9c9fcbdcd-93af5f9c/session_wiki.md#block-管理层无异议_继续推进-3f91f06c",
+                "block_summary": "管理层无异议，继续推进"
+              }
+            ],
+            "status": [],
+            "time": [],
+            "scope": []
+          }
+        }
+      ],
+      "updated_at": "2026-05-07T11:05:36.826Z"
+    },
+    "task:FEISHU-366::chat:oc_d5a10bb59e4bd3868e07d66286c5c237": {
+      "source_session_id": "task:FEISHU-366::chat:oc_d5a10bb59e4bd3868e07d66286c5c237",
+      "session_wiki_path": "sessions/FEISHU-366_chat_oc_d5a10bb59e4bd3868e07d66286c5c-3237abda/session_wiki.md",
+      "blocks": [],
+      "updated_at": "2026-05-07T11:05:36.831Z"
+    }
+  },
+  "sections": {
+    "conclusion": [],
+    "rationale": [],
+    "objection": [],
+    "constraint": [],
+    "commitment": [
+      {
+        "slot": "commitment",
+        "topic_key": "确认收到交接，按当前状态推进",
+        "topic_title": "确认收到交接，按当前状态推进",
+        "subject_key": "确认收到交接，按当前状态推进",
+        "claim": "确认收到交接，按当前状态推进",
+        "event_id": "evt_d0b77b1f8d49889f",
+        "event_time": "1778151846000",
+        "evidence_quote": "确认收到交接，按当前状态推进",
+        "event_path": "sessions/FEISHU-366_chat_oc_44e54ac15060a6eab01c6e242e582-7e7d0bee/session_events.jsonl#evt_d0b77b1f8d49889f",
+        "event_ref": "[[sessions/FEISHU-366_chat_oc_44e54ac15060a6eab01c6e242e582-7e7d0bee/session_events.jsonl#evt_d0b77b1f8d49889f|evt_d0b77b1f8d49889f]]",
+        "source_session_id": "task:FEISHU-366::chat:oc_44e54ac15060a6eab01c6e242e582755",
+        "session_wiki_path": "sessions/FEISHU-366_chat_oc_44e54ac15060a6eab01c6e242e582-7e7d0bee/session_wiki.md",
+        "block_anchor": "block-确认收到交接_按当前状态推进-5a3b98d1",
+        "block_link": "sessions/FEISHU-366_chat_oc_44e54ac15060a6eab01c6e242e582-7e7d0bee/session_wiki.md#block-确认收到交接_按当前状态推进-5a3b98d1",
+        "block_summary": "确认收到交接，按当前状态推进"
+      },
+      {
+        "slot": "commitment",
+        "topic_key": "管理层无异议，继续推进",
+        "topic_title": "管理层无异议，继续推进",
+        "subject_key": "管理层无异议，继续推进",
+        "claim": "管理层无异议，继续推进",
+        "event_id": "evt_298beae79b025992",
+        "event_time": "1778151846000",
+        "evidence_quote": "管理层无异议，继续推进",
+        "event_path": "sessions/FEISHU-366_chat_oc_67ca34f833958744f77a9c9fcbdcd-93af5f9c/session_events.jsonl#evt_298beae79b025992",
+        "event_ref": "[[sessions/FEISHU-366_chat_oc_67ca34f833958744f77a9c9fcbdcd-93af5f9c/session_events.jsonl#evt_298beae79b025992|evt_298beae79b025992]]",
+        "source_session_id": "task:FEISHU-366::chat:oc_67ca34f833958744f77a9c9fcbdcda2f",
+        "session_wiki_path": "sessions/FEISHU-366_chat_oc_67ca34f833958744f77a9c9fcbdcd-93af5f9c/session_wiki.md",
+        "block_anchor": "block-管理层无异议_继续推进-3f91f06c",
+        "block_link": "sessions/FEISHU-366_chat_oc_67ca34f833958744f77a9c9fcbdcd-93af5f9c/session_wiki.md#block-管理层无异议_继续推进-3f91f06c",
+        "block_summary": "管理层无异议，继续推进"
+      }
+    ],
+    "status": [
+      {
+        "slot": "status",
+        "topic_key": "发布阻塞风险",
+        "topic_title": "发布阻塞风险",
+        "subject_key": "发布阻塞风险",
+        "claim": "备注已记录周宇的合规文件预计周五，但未作为正式风险项",
+        "event_id": "evt_59ba3b3669ad46f5",
+        "event_time": "1778151846000",
+        "evidence_quote": "备注已记录周宇的合规文件预计周五，但未作为正式风险项",
+        "event_path": "sessions/FEISHU-366_chat_oc_f4e834723eae7e250708739fe8f3b-938eea86/session_events.jsonl#evt_59ba3b3669ad46f5",
+        "event_ref": "[[sessions/FEISHU-366_chat_oc_f4e834723eae7e250708739fe8f3b-938eea86/session_events.jsonl#evt_59ba3b3669ad46f5|evt_59ba3b3669ad46f5]]",
+        "source_session_id": "task:FEISHU-366::chat:oc_f4e834723eae7e250708739fe8f3b9e3",
+        "session_wiki_path": "sessions/FEISHU-366_chat_oc_f4e834723eae7e250708739fe8f3b-938eea86/session_wiki.md",
+        "block_anchor": "block-发布阻塞风险-45763a86",
+        "block_link": "sessions/FEISHU-366_chat_oc_f4e834723eae7e250708739fe8f3b-938eea86/session_wiki.md#block-发布阻塞风险-45763a86",
+        "block_summary": "备注已记录周宇的合规文件预计周五，但未作为正式风险项"
+      },
+      {
+        "slot": "status",
+        "topic_key": "发布时间口径",
+        "topic_title": "发布时间口径",
+        "subject_key": "发布时间口径",
+        "claim": "评审纪要：FEISHU-366 上线评审通过，签名条件满足，上线前需赵磊安全审批完成",
+        "event_id": "evt_409642e81306d7a3",
+        "event_time": "1778151846000",
+        "evidence_quote": "评审纪要：FEISHU-366 上线评审通过，签名条件满足，上线前需赵磊安全审批完成",
+        "event_path": "sessions/FEISHU-366_chat_oc_c949da97e65ae9aabb90c69957d36-aa0f566c/session_events.jsonl#evt_409642e81306d7a3",
+        "event_ref": "[[sessions/FEISHU-366_chat_oc_c949da97e65ae9aabb90c69957d36-aa0f566c/session_events.jsonl#evt_409642e81306d7a3|evt_409642e81306d7a3]]",
+        "source_session_id": "task:FEISHU-366::chat:oc_c949da97e65ae9aabb90c69957d363bd",
+        "session_wiki_path": "sessions/FEISHU-366_chat_oc_c949da97e65ae9aabb90c69957d36-aa0f566c/session_wiki.md",
+        "block_anchor": "block-发布时间口径-867908bd",
+        "block_link": "sessions/FEISHU-366_chat_oc_c949da97e65ae9aabb90c69957d36-aa0f566c/session_wiki.md#block-发布时间口径-867908bd",
+        "block_summary": "评审纪要：FEISHU-366 上线评审通过，签名条件满足，上线前需赵磊安全审批完成"
+      }
+    ],
+    "time": [],
+    "scope": []
+  },
+  "current_summary": "当前任务重点集中在：发布阻塞风险、发布时间口径、确认收到交接，按当前状态推进、管理层无异议，继续推进。",
+  "related_blocks": [
+    {
+      "topic_key": "发布时间口径",
+      "topic_title": "发布时间口径",
+      "summary": "评审纪要：FEISHU-366 上线评审通过，签名条件满足，上线前需赵磊安全审批完成",
+      "block_link": "sessions/FEISHU-366_chat_oc_c949da97e65ae9aabb90c69957d36-aa0f566c/session_wiki.md#block-发布时间口径-867908bd",
+      "session_wiki_path": "sessions/FEISHU-366_chat_oc_c949da97e65ae9aabb90c69957d36-aa0f566c/session_wiki.md",
+      "source_session_id": "task:FEISHU-366::chat:oc_c949da97e65ae9aabb90c69957d363bd",
+      "status": "resolved"
+    },
+    {
+      "topic_key": "发布阻塞风险",
+      "topic_title": "发布阻塞风险",
+      "summary": "备注已记录周宇的合规文件预计周五，但未作为正式风险项",
+      "block_link": "sessions/FEISHU-366_chat_oc_f4e834723eae7e250708739fe8f3b-938eea86/session_wiki.md#block-发布阻塞风险-45763a86",
+      "session_wiki_path": "sessions/FEISHU-366_chat_oc_f4e834723eae7e250708739fe8f3b-938eea86/session_wiki.md",
+      "source_session_id": "task:FEISHU-366::chat:oc_f4e834723eae7e250708739fe8f3b9e3",
+      "status": "open"
+    },
+    {
+      "topic_key": "发布阻塞风险",
+      "topic_title": "发布阻塞风险",
+      "summary": "FEISHU-366 上线 checklist v2.3 已发布",
+      "block_link": "sessions/FEISHU-366_chat_oc_ee55cc5ba6391fd53db4f0b55f232-3e7a6958/session_wiki.md#block-发布阻塞风险-45763a86",
+      "session_wiki_path": "sessions/FEISHU-366_chat_oc_ee55cc5ba6391fd53db4f0b55f232-3e7a6958/session_wiki.md",
+      "source_session_id": "task:FEISHU-366::chat:oc_ee55cc5ba6391fd53db4f0b55f23283c",
+      "status": "active"
+    },
+    {
+      "topic_key": "发布阻塞风险",
+      "topic_title": "发布阻塞风险",
+      "summary": "报告已发给管理层，仅提安全审批为 blocker",
+      "block_link": "sessions/FEISHU-366_chat_oc_67ca34f833958744f77a9c9fcbdcd-93af5f9c/session_wiki.md#block-发布阻塞风险-45763a86",
+      "session_wiki_path": "sessions/FEISHU-366_chat_oc_67ca34f833958744f77a9c9fcbdcd-93af5f9c/session_wiki.md",
+      "source_session_id": "task:FEISHU-366::chat:oc_67ca34f833958744f77a9c9fcbdcda2f",
+      "status": "active"
+    },
+    {
+      "topic_key": "管理层无异议，继续推进",
+      "topic_title": "管理层无异议，继续推进",
+      "summary": "管理层无异议，继续推进",
+      "block_link": "sessions/FEISHU-366_chat_oc_67ca34f833958744f77a9c9fcbdcd-93af5f9c/session_wiki.md#block-管理层无异议_继续推进-3f91f06c",
+      "session_wiki_path": "sessions/FEISHU-366_chat_oc_67ca34f833958744f77a9c9fcbdcd-93af5f9c/session_wiki.md",
+      "source_session_id": "task:FEISHU-366::chat:oc_67ca34f833958744f77a9c9fcbdcda2f",
+      "status": "active"
+    },
+    {
+      "topic_key": "确认收到交接，按当前状态推进",
+      "topic_title": "确认收到交接，按当前状态推进",
+      "summary": "确认收到交接，按当前状态推进",
+      "block_link": "sessions/FEISHU-366_chat_oc_44e54ac15060a6eab01c6e242e582-7e7d0bee/session_wiki.md#block-确认收到交接_按当前状态推进-5a3b98d1",
+      "session_wiki_path": "sessions/FEISHU-366_chat_oc_44e54ac15060a6eab01c6e242e582-7e7d0bee/session_wiki.md",
+      "source_session_id": "task:FEISHU-366::chat:oc_44e54ac15060a6eab01c6e242e582755",
+      "status": "active"
+    }
+  ],
+  "updated_at": "2026-05-07T11:05:36.832Z"
+}

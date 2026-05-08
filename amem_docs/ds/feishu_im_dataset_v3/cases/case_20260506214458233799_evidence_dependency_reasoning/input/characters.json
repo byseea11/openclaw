@@ -1,0 +1,147 @@
+{
+  "case_id": "case_20260506214458233799_evidence_dependency_reasoning",
+  "family_id": "evidence_dependency_reasoning",
+  "task_id": "FEISHU-499",
+  "characters": [
+    {
+      "actor_id": "alice",
+      "display_name": "Alice",
+      "role": "release_pm"
+    },
+    {
+      "actor_id": "bob",
+      "display_name": "Bob",
+      "role": "ops_partner"
+    },
+    {
+      "actor_id": "carol",
+      "display_name": "Carol",
+      "role": "migration_owner"
+    },
+    {
+      "actor_id": "dave",
+      "display_name": "Dave",
+      "role": "dba_lead"
+    },
+    {
+      "actor_id": "eve",
+      "display_name": "Eve",
+      "role": "security_officer"
+    },
+    {
+      "actor_id": "frank",
+      "display_name": "Frank",
+      "role": "compliance_lead"
+    },
+    {
+      "actor_id": "grace",
+      "display_name": "Grace",
+      "role": "finance_controller"
+    },
+    {
+      "actor_id": "henry",
+      "display_name": "Henry",
+      "role": "na_ops_manager"
+    },
+    {
+      "actor_id": "ivy",
+      "display_name": "Ivy",
+      "role": "eu_ops_manager"
+    },
+    {
+      "actor_id": "jack",
+      "display_name": "Jack",
+      "role": "apac_ops_manager"
+    },
+    {
+      "actor_id": "kate",
+      "display_name": "Kate",
+      "role": "qa_lead"
+    },
+    {
+      "actor_id": "leo",
+      "display_name": "Leo",
+      "role": "release_coordinator"
+    },
+    {
+      "actor_id": "mia",
+      "display_name": "Mia",
+      "role": "sre_lead"
+    },
+    {
+      "actor_id": "nick",
+      "display_name": "Nick",
+      "role": "network_engineer"
+    },
+    {
+      "actor_id": "olivia",
+      "display_name": "Olivia",
+      "role": "product_manager"
+    },
+    {
+      "actor_id": "paul",
+      "display_name": "Paul",
+      "role": "vendor_coordinator"
+    },
+    {
+      "actor_id": "quinn",
+      "display_name": "Quinn",
+      "role": "legal_counsel"
+    },
+    {
+      "actor_id": "rachel",
+      "display_name": "Rachel",
+      "role": "training_lead"
+    },
+    {
+      "actor_id": "sam",
+      "display_name": "Sam",
+      "role": "customer_support_lead"
+    },
+    {
+      "actor_id": "tina",
+      "display_name": "Tina",
+      "role": "regional_risk_analyst"
+    },
+    {
+      "actor_id": "ulysses",
+      "display_name": "Ulysses",
+      "role": "data_engineer"
+    },
+    {
+      "actor_id": "victor",
+      "display_name": "Victor",
+      "role": "infra_architect"
+    },
+    {
+      "actor_id": "wendy",
+      "display_name": "Wendy",
+      "role": "program_manager"
+    },
+    {
+      "actor_id": "xavier",
+      "display_name": "Xavier",
+      "role": "target_owner"
+    },
+    {
+      "actor_id": "yara",
+      "display_name": "Yara",
+      "role": "regional_compliance_analyst"
+    },
+    {
+      "actor_id": "zack",
+      "display_name": "Zack",
+      "role": "audit_lead"
+    },
+    {
+      "actor_id": "amy",
+      "display_name": "Amy",
+      "role": "security_analyst"
+    },
+    {
+      "actor_id": "brian",
+      "display_name": "Brian",
+      "role": "sre_engineer"
+    }
+  ]
+}

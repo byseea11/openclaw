@@ -1,0 +1,73 @@
+{
+  "case_id": "case_20260507112905870826_contradiction_update",
+  "family_id": "contradiction_update",
+  "task_id": "FEISHU-726",
+  "official_files": [
+    {
+      "file_ref": "official_file_001",
+      "file_type": "release_checklist",
+      "title": "FEISHU-726 上线 checklist",
+      "authority_level": "formal_task_record",
+      "official_conclusions": [
+        "FEISHU-726 的 current state 只能以正式 checklist 的任务项结论为准。",
+        "个人备注可以作为 evidence/context，但不能直接变成任务 current state。"
+      ],
+      "private_info_items": [
+        {
+          "private_info_ref": "private_info_001",
+          "person_ref": "alice",
+          "private_info_summary": "该同事本周三下午有个人安排，只能异步补充意见。",
+          "must_not_become_task_state": true
+        }
+      ],
+      "task_relevance_boundaries": [
+        "个人时间限制不是任务阻塞，除非 owner 在正式任务项里明确升级。",
+        "私下承诺不是正式 owner 变更。",
+        "文件附注中的个人偏好不能替代正式结论。",
+        "聊天转述如果和 checklist 冲突，必须回到正式文件和最新纠偏消息。"
+      ]
+    },
+    {
+      "file_ref": "official_file_002",
+      "file_type": "meeting_minutes",
+      "title": "FEISHU-726 风险复盘纪要",
+      "authority_level": "formal_meeting_record",
+      "official_conclusions": [
+        "复盘纪要只确认任务风险归属，不确认个人私事会改变发布计划。",
+        "所有 current-state 问答必须区分正式结论和个人上下文。"
+      ],
+      "private_info_items": [
+        {
+          "private_info_ref": "private_info_001",
+          "person_ref": "alice",
+          "private_info_summary": "该同事本周三下午有个人安排，只能异步补充意见。",
+          "must_not_become_task_state": true
+        }
+      ],
+      "task_relevance_boundaries": [
+        "纪要里的个人背景用于解释沟通延迟，不用于改写任务状态。",
+        "误读消息需要被后续纠偏消息覆盖。"
+      ]
+    },
+    {
+      "file_ref": "official_file_003",
+      "file_type": "risk_register",
+      "title": "FEISHU-726 风险登记表",
+      "authority_level": "formal_risk_record",
+      "official_conclusions": [
+        "风险登记表只记录任务风险和处理人，不记录个人偏好为任务结论。"
+      ],
+      "private_info_items": [
+        {
+          "private_info_ref": "private_info_001",
+          "person_ref": "alice",
+          "private_info_summary": "该同事本周三下午有个人安排，只能异步补充意见。",
+          "must_not_become_task_state": true
+        }
+      ],
+      "task_relevance_boundaries": [
+        "个人偏好只能作为沟通背景，不是风险状态。"
+      ]
+    }
+  ]
+}

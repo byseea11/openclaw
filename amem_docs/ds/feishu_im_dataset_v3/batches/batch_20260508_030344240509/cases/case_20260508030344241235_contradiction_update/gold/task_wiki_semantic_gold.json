@@ -1,0 +1,141 @@
+{
+  "case_id": "case_20260508030344241235_contradiction_update",
+  "family_id": "contradiction_update",
+  "task_id": "FEISHU-335",
+  "mode": "rule",
+  "expected_task_facts": [
+    {
+      "fact_id": "fact_001",
+      "claim": "【企业协作/林晨】FEISHU-335 交给 周宇 负责，截止日 3月15日，状态新建。",
+      "required_supporting_message_ids": [
+        "om_x100b50e17738f4acc39e76265606037"
+      ]
+    },
+    {
+      "fact_id": "fact_002",
+      "claim": "【企业协作/周宇】FEISHU-335 状态改为进行中，我已在开发。",
+      "required_supporting_message_ids": [
+        "om_x100b50e174de20e0c2bd2b05c613fac"
+      ]
+    },
+    {
+      "fact_id": "fact_003",
+      "claim": "【企业协作/林晨】@王源 FEISHU-335 转交给你，截止延到 3月20日。",
+      "required_supporting_message_ids": [
+        "om_x100b50e175f82498c2caccfd654e36b"
+      ]
+    },
+    {
+      "fact_id": "fact_004",
+      "claim": "【企业协作/王源】FEISHU-335 负责人改为 陈雪，截止 3月25日，状态阻塞。",
+      "required_supporting_message_ids": [
+        "om_x100b50e1749c68a0c2bf8cab6010f6e"
+      ]
+    },
+    {
+      "fact_id": "fact_005",
+      "claim": "【企业协作/林晨】王源 之前是历史负责人，现在已转给 陈雪。",
+      "required_supporting_message_ids": [
+        "om_x100b50e17468b48cc2c2d1da6c3fbb0"
+      ]
+    },
+    {
+      "fact_id": "fact_006",
+      "claim": "【企业协作/陈雪】我是当前 owner，正在处理阻塞问题。",
+      "required_supporting_message_ids": [
+        "om_x100b50e17470b4a0c2c1408429fc5ee"
+      ]
+    }
+  ],
+  "expected_event_semantics": [
+    {
+      "event_semantic_id": "event_semantic_001",
+      "purpose": "initial assignment of FEISHU-335 to bob",
+      "turn_kind": "event_bearing",
+      "required_supporting_message_ids": [
+        "om_x100b50e17738f4acc39e76265606037"
+      ]
+    },
+    {
+      "event_semantic_id": "event_semantic_002",
+      "purpose": "status update to in_progress",
+      "turn_kind": "event_bearing",
+      "required_supporting_message_ids": [
+        "om_x100b50e174de20e0c2bd2b05c613fac"
+      ]
+    },
+    {
+      "event_semantic_id": "event_semantic_003",
+      "purpose": "transfer owner to david with deadline extended",
+      "turn_kind": "event_bearing",
+      "required_supporting_message_ids": [
+        "om_x100b50e175f82498c2caccfd654e36b"
+      ]
+    },
+    {
+      "event_semantic_id": "event_semantic_004",
+      "purpose": "david changes owner to carol with final deadline",
+      "turn_kind": "event_bearing",
+      "required_supporting_message_ids": [
+        "om_x100b50e1749c68a0c2bf8cab6010f6e"
+      ]
+    },
+    {
+      "event_semantic_id": "event_semantic_005",
+      "purpose": "historical confirmation of old owner",
+      "turn_kind": "event_bearing",
+      "required_supporting_message_ids": [
+        "om_x100b50e17468b48cc2c2d1da6c3fbb0"
+      ]
+    },
+    {
+      "event_semantic_id": "event_semantic_006",
+      "purpose": "final ack by current owner",
+      "turn_kind": "event_bearing",
+      "required_supporting_message_ids": [
+        "om_x100b50e17470b4a0c2c1408429fc5ee"
+      ]
+    }
+  ],
+  "expected_query_answers": [
+    {
+      "query_id": "case_20260508030344241235_contradiction_update_semantic_query_001",
+      "query": "FEISHU-335 现在的负责人是谁？",
+      "expected_answer_summary": "返回 Carol，并说明 Bob 和 David 是历史负责人。",
+      "required_supporting_message_ids": [
+        "om_x100b50e17738f4acc39e76265606037",
+        "om_x100b50e174de20e0c2bd2b05c613fac",
+        "om_x100b50e175f82498c2caccfd654e36b",
+        "om_x100b50e1749c68a0c2bf8cab6010f6e",
+        "om_x100b50e17468b48cc2c2d1da6c3fbb0",
+        "om_x100b50e17470b4a0c2c1408429fc5ee"
+      ]
+    },
+    {
+      "query_id": "case_20260508030344241235_contradiction_update_semantic_query_002",
+      "query": "FEISHU-335 的截止日期目前是多少？",
+      "expected_answer_summary": "返回 2026-03-25，并说明之前是 2026-03-20 和 2026-03-15。",
+      "required_supporting_message_ids": [
+        "om_x100b50e17738f4acc39e76265606037",
+        "om_x100b50e174de20e0c2bd2b05c613fac",
+        "om_x100b50e175f82498c2caccfd654e36b",
+        "om_x100b50e1749c68a0c2bf8cab6010f6e",
+        "om_x100b50e17468b48cc2c2d1da6c3fbb0",
+        "om_x100b50e17470b4a0c2c1408429fc5ee"
+      ]
+    },
+    {
+      "query_id": "case_20260508030344241235_contradiction_update_semantic_query_003",
+      "query": "FEISHU-335 当前的状态是什么？",
+      "expected_answer_summary": "返回 blocked，并说明之前是 in_progress 和 open。",
+      "required_supporting_message_ids": [
+        "om_x100b50e17738f4acc39e76265606037",
+        "om_x100b50e174de20e0c2bd2b05c613fac",
+        "om_x100b50e175f82498c2caccfd654e36b",
+        "om_x100b50e1749c68a0c2bf8cab6010f6e",
+        "om_x100b50e17468b48cc2c2d1da6c3fbb0",
+        "om_x100b50e17470b4a0c2c1408429fc5ee"
+      ]
+    }
+  ]
+}

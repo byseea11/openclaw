@@ -1,0 +1,15 @@
+{
+  "phase": "phase3",
+  "stage": "task-wiki-runtime-eval",
+  "status": "skipped",
+  "started_at": "2026-05-07T03:13:03.209813+00:00",
+  "ended_at": "2026-05-07T03:13:03.211311+00:00",
+  "artifact_paths": [
+    "amem_docs/ds/feishu_im_dataset_v3/cases/case_20260506224026669766_private_info_in_official_file/runtime/task_wiki_replay/summary.json",
+    "amem_docs/ds/feishu_im_dataset_v3/cases/case_20260506224026669766_private_info_in_official_file/runtime/task_wiki_replay/layer_metrics.json",
+    "amem_docs/ds/feishu_im_dataset_v3/cases/case_20260506224026669766_private_info_in_official_file/runtime/task_wiki_replay/task_wiki_runtime_predictions.json"
+  ],
+  "skipped": true,
+  "run_id": "20260507T031303211337Z",
+  "updated_at": "2026-05-07T03:13:03.211349+00:00"
+}

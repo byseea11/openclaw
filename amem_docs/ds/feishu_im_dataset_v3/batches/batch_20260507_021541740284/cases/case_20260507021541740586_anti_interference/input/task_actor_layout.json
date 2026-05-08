@@ -1,0 +1,264 @@
+{
+  "case_id": "case_20260507021541740586_anti_interference",
+  "family_id": "anti_interference",
+  "task_id": "FEISHU-686",
+  "actors": [
+    {
+      "actor_id": "alice_liu",
+      "display_name": "Alice Liu",
+      "role": "release_pm"
+    },
+    {
+      "actor_id": "bob_chen",
+      "display_name": "Bob Chen",
+      "role": "platform_engineer"
+    },
+    {
+      "actor_id": "carol_wang",
+      "display_name": "Carol Wang",
+      "role": "qa_lead"
+    },
+    {
+      "actor_id": "david_zhang",
+      "display_name": "David Zhang",
+      "role": "devops_engineer"
+    },
+    {
+      "actor_id": "eve_li",
+      "display_name": "Eve Li",
+      "role": "engineering_director"
+    },
+    {
+      "actor_id": "frank_lin",
+      "display_name": "Frank Lin",
+      "role": "product_manager"
+    },
+    {
+      "actor_id": "grace_huang",
+      "display_name": "Grace Huang",
+      "role": "tech_writer"
+    },
+    {
+      "actor_id": "henry_zhou",
+      "display_name": "Henry Zhou",
+      "role": "backend_engineer"
+    },
+    {
+      "actor_id": "iris_wu",
+      "display_name": "Iris Wu",
+      "role": "frontend_engineer"
+    },
+    {
+      "actor_id": "jack_sun",
+      "display_name": "Jack Sun",
+      "role": "infra_engineer"
+    },
+    {
+      "actor_id": "kate_li",
+      "display_name": "Kate Li",
+      "role": "security_engineer"
+    },
+    {
+      "actor_id": "leo_xu",
+      "display_name": "Leo Xu",
+      "role": "data_analyst"
+    },
+    {
+      "actor_id": "mia_zhao",
+      "display_name": "Mia Zhao",
+      "role": "designer"
+    },
+    {
+      "actor_id": "nina_li",
+      "display_name": "Nina Li",
+      "role": "hr_bp"
+    },
+    {
+      "actor_id": "oliver_li",
+      "display_name": "Oliver Li",
+      "role": "finance_controller"
+    },
+    {
+      "actor_id": "peter_cai",
+      "display_name": "Peter Cai",
+      "role": "legal_counsel"
+    },
+    {
+      "actor_id": "quinn_tao",
+      "display_name": "Quinn Tao",
+      "role": "vendor_coordinator"
+    },
+    {
+      "actor_id": "ray_feng",
+      "display_name": "Ray Feng",
+      "role": "customer_success"
+    },
+    {
+      "actor_id": "sara_hong",
+      "display_name": "Sara Hong",
+      "role": "support_engineer"
+    },
+    {
+      "actor_id": "tom_liang",
+      "display_name": "Tom Liang",
+      "role": "operations_lead"
+    },
+    {
+      "actor_id": "uma_ma",
+      "display_name": "Uma Ma",
+      "role": "release_train_engineer"
+    },
+    {
+      "actor_id": "victor_hu",
+      "display_name": "Victor Hu",
+      "role": "compliance_officer"
+    },
+    {
+      "actor_id": "wendy_yan",
+      "display_name": "Wendy Yan",
+      "role": "documentation_manager"
+    },
+    {
+      "actor_id": "xander_du",
+      "display_name": "Xander Du",
+      "role": "test_engineer"
+    },
+    {
+      "actor_id": "yuki_shi",
+      "display_name": "Yuki Shi",
+      "role": "site_reliability_engineer"
+    },
+    {
+      "actor_id": "zara_guo",
+      "display_name": "Zara Guo",
+      "role": "release_manager"
+    },
+    {
+      "actor_id": "adam_wu",
+      "display_name": "Adam Wu",
+      "role": "senior_platform_architect"
+    },
+    {
+      "actor_id": "bella_li",
+      "display_name": "Bella Li",
+      "role": "project_coordinator"
+    }
+  ],
+  "task_actor_layout": {
+    "target_task_id": "FEISHU-686",
+    "shared_actors": [
+      "alice_liu",
+      "bob_chen",
+      "carol_wang",
+      "david_zhang",
+      "henry_zhou",
+      "iris_wu",
+      "jack_sun",
+      "leo_xu",
+      "sara_hong"
+    ],
+    "interference_context_blocks": [
+      {
+        "context_ref": "ctx_doc_review_parallel",
+        "context_label": "并行文档审阅收口讨论",
+        "noise_source_type": "shared_actor_noise",
+        "relationship_to_target": "Alice和Bob也参与另一个并行文档审阅收口任务，该任务有相似的owner变更和截止日期讨论，易与 FEISHU-686 混淆。"
+      },
+      {
+        "context_ref": "ctx_ops_rehearsal",
+        "context_label": "运维演练准备讨论",
+        "noise_source_type": "similar_wording_noise",
+        "relationship_to_target": "讨论中频繁出现'blocker'、'ready'、'收口'等相似措辞，但属于不同任务。"
+      },
+      {
+        "context_ref": "ctx_database_migration",
+        "context_label": "数据库迁移计划讨论",
+        "noise_source_type": "shared_actor_noise",
+        "relationship_to_target": "Carol和David同时参与数据库迁移任务，该任务也有截止日期和负责人变更。"
+      },
+      {
+        "context_ref": "ctx_perf_testing",
+        "context_label": "性能测试结果讨论",
+        "noise_source_type": "parallel_discussion_noise",
+        "relationship_to_target": "与 FEISHU-686 几乎同时进行的性能测试讨论，涉及相同团队，容易导致时间线混淆。"
+      }
+    ],
+    "actor_task_roles": [
+      {
+        "actor_id": "alice_liu",
+        "task_id": "FEISHU-686",
+        "role": "target_owner"
+      },
+      {
+        "actor_id": "bob_chen",
+        "task_id": "FEISHU-686",
+        "role": "target_contributor"
+      },
+      {
+        "actor_id": "carol_wang",
+        "task_id": "FEISHU-686",
+        "role": "target_reviewer"
+      },
+      {
+        "actor_id": "david_zhang",
+        "task_id": "FEISHU-686",
+        "role": "infra_support"
+      },
+      {
+        "actor_id": "alice_liu",
+        "context_ref": "ctx_doc_review_parallel",
+        "role": "reviewer"
+      },
+      {
+        "actor_id": "bob_chen",
+        "context_ref": "ctx_doc_review_parallel",
+        "role": "contributor"
+      },
+      {
+        "actor_id": "bob_chen",
+        "context_ref": "ctx_ops_rehearsal",
+        "role": "ops_owner"
+      },
+      {
+        "actor_id": "carol_wang",
+        "context_ref": "ctx_database_migration",
+        "role": "migration_lead"
+      },
+      {
+        "actor_id": "david_zhang",
+        "context_ref": "ctx_database_migration",
+        "role": "migration_engineer"
+      },
+      {
+        "actor_id": "david_zhang",
+        "context_ref": "ctx_perf_testing",
+        "role": "perf_test_coordinator"
+      },
+      {
+        "actor_id": "henry_zhou",
+        "task_id": "FEISHU-686",
+        "role": "target_backend_owner"
+      },
+      {
+        "actor_id": "iris_wu",
+        "task_id": "FEISHU-686",
+        "role": "target_frontend_owner"
+      },
+      {
+        "actor_id": "jack_sun",
+        "task_id": "FEISHU-686",
+        "role": "infra_engineer"
+      },
+      {
+        "actor_id": "leo_xu",
+        "task_id": "FEISHU-686",
+        "role": "data_analyst"
+      },
+      {
+        "actor_id": "sara_hong",
+        "task_id": "FEISHU-686",
+        "role": "support_engineer"
+      }
+    ]
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "phase": "phase3",
+  "stage": "openclaw-real-baseline-eval",
+  "status": "failed",
+  "started_at": "2026-05-07T15:42:00.261169+00:00",
+  "ended_at": "2026-05-07T15:59:29.848381+00:00",
+  "failure_artifact_path": "amem_docs/ds/feishu_im_dataset_v3/cases/case_20260507112905870826_contradiction_update/runtime/failures/phase3/openclaw-real-baseline-eval_20260507T155929846803Z.json",
+  "error_type": "RuntimeScriptError",
+  "error_message": "Phase 3 runtime script failed: command=node /Users/byseea/programscoding/nanobot/openclaw-main/feishu_task_wiki_benchmark_builder/runtime/openclaw_baseline_eval.mjs --case-dir amem_docs/ds/feishu_im_dataset_v3/cases/case_20260507112905870826_contradiction_update --semantic-gold rule --json returncode=-15 stderr=",
+  "skipped": false,
+  "run_id": "20260507T155929848535Z",
+  "updated_at": "2026-05-07T15:59:29.848552+00:00"
+}

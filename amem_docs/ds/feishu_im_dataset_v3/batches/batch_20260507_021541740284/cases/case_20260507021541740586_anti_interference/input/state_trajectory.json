@@ -1,0 +1,47 @@
+{
+  "case_id": "case_20260507021541740586_anti_interference",
+  "family_id": "anti_interference",
+  "task_id": "FEISHU-686",
+  "state_changes": [
+    {
+      "task_id": "FEISHU-686",
+      "field": "owner",
+      "sequence": [
+        {
+          "value": "Alice Liu",
+          "status": "current"
+        }
+      ]
+    },
+    {
+      "task_id": "FEISHU-686",
+      "field": "blocker",
+      "sequence": [
+        {
+          "value": "内部文档API认证流程修改",
+          "status": "current"
+        }
+      ]
+    },
+    {
+      "task_id": "FEISHU-686",
+      "field": "window",
+      "sequence": [
+        {
+          "value": "未锁定，等待安全评审",
+          "status": "current"
+        }
+      ]
+    },
+    {
+      "task_id": "FEISHU-686",
+      "field": "status",
+      "sequence": [
+        {
+          "value": "进行中",
+          "status": "current"
+        }
+      ]
+    }
+  ]
+}

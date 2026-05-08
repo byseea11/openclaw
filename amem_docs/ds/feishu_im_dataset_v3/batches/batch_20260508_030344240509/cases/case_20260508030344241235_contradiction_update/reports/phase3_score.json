@@ -1,0 +1,1210 @@
+{
+  "case_id": "case_20260508030344241235_contradiction_update",
+  "family_id": "contradiction_update",
+  "score_artifact": "phase3_score",
+  "baseline_fairness": {
+    "openclaw_baseline_mode": "openclaw_real_replay",
+    "query_context_injected": false,
+    "openclaw_ingest_mode": "case_transcript"
+  },
+  "raw_scores": {
+    "task_wiki_3_layer": {
+      "input": {
+        "ingress_count": 27,
+        "collected_message_count": 27
+      },
+      "layer1_binding": {
+        "binding_total": 27,
+        "binding_bound": 27,
+        "binding_rate": 1,
+        "target_task_binding_rate": 1,
+        "skipped_count": 0,
+        "status": "passed",
+        "score": 100,
+        "blocking_failures": [],
+        "warnings": []
+      },
+      "layer2_events": {
+        "ingested_count": 27,
+        "skipped_count": 0,
+        "candidate_events_returned_during_ingest": 36,
+        "verification_jobs_queued": 32,
+        "candidate_event_count": 36,
+        "verified_event_count": 31,
+        "verification_rate": 0.8611,
+        "session_count": 4,
+        "sessions_with_events": 4,
+        "candidate_validation_breakdown": {
+          "ready_for_verification": 32,
+          "rejected": 4
+        },
+        "rejected_candidate_count": 5,
+        "ready_for_verification_count": 32,
+        "queued_verification_count": 32,
+        "rejection_reason_breakdown": {
+          "quote_location:missing_entry": 4,
+          "unknown": 1
+        },
+        "missing_field_breakdown": {},
+        "status": "passed",
+        "score": 86.11,
+        "blocking_failures": [],
+        "warnings": []
+      },
+      "layer3_wiki": {
+        "task_root_count": 1,
+        "projected_task_count": 1,
+        "projection_rate": 1,
+        "projection_status": "projected",
+        "lint_result_count": 1,
+        "orphan_event_count": 0,
+        "missing_evidence_ref_count": 0,
+        "stale_claim_count": 0,
+        "quote_strength_count": 0,
+        "unresolved_objection_count": 0,
+        "overdue_commitment_count": 1,
+        "open_conflict_count": 0,
+        "orphan_block_count": 0,
+        "missing_cross_ref_count": 0,
+        "orphan_session_wiki_count": 0,
+        "lint_blocking_count": 0,
+        "lint_warning_count": 1,
+        "status": "passed",
+        "score": 100,
+        "blocking_failures": [],
+        "warnings": [
+          "layer3:lint_warnings_present"
+        ]
+      },
+      "overall": {
+        "status": "passed",
+        "blocking_failures": [],
+        "warnings": [
+          "layer3:lint_warnings_present"
+        ],
+        "health_score": 95.14
+      }
+    },
+    "openclaw_original": {
+      "query_success_rate": 0,
+      "evidence_output_rate": 0,
+      "evidence_trace_rate": 0,
+      "current_state_accuracy": 0,
+      "private_info_leak_rate": 0
+    }
+  },
+  "analysis_scores": {
+    "task_wiki_3_layer": {
+      "query_success_rate": 0.6667,
+      "evidence_output_rate": 1.0,
+      "evidence_precision": 0.2167,
+      "evidence_recall": 0.2,
+      "safety_score": 1.0,
+      "efficiency_score": 1.0,
+      "avg_answer_token_count": 59.33,
+      "avg_estimated_steps": 1.0,
+      "avg_estimated_time_seconds": 20.0,
+      "failure_reason_breakdown": {
+        "answer_incorrect": 1,
+        "evidence_does_not_support_answer": 2,
+        "missing_gold_evidence": 3,
+        "stale_value": 3,
+        "wrong_evidence_source": 3
+      }
+    },
+    "openclaw_original": {
+      "query_success_rate": 0.0,
+      "evidence_output_rate": 0.0,
+      "evidence_precision": 0.0,
+      "evidence_recall": 0.0,
+      "safety_score": 1.0,
+      "efficiency_score": 1.0,
+      "avg_answer_token_count": 0.0,
+      "avg_estimated_steps": 2.0,
+      "avg_estimated_time_seconds": 45.0,
+      "failure_reason_breakdown": {
+        "answer_incorrect": 3,
+        "missing_gold_evidence": 3,
+        "no_evidence_output": 3,
+        "stale_value": 3
+      }
+    }
+  },
+  "aggregate_scores": {
+    "task_wiki_3_layer": {
+      "query_success_rate": 0.6667,
+      "evidence_output_rate": 1.0,
+      "evidence_precision": 0.2167,
+      "evidence_recall": 0.2,
+      "safety_score": 1.0,
+      "efficiency_score": 1.0,
+      "avg_answer_token_count": 59.33,
+      "avg_estimated_steps": 1.0,
+      "avg_estimated_time_seconds": 20.0,
+      "failure_reason_breakdown": {
+        "answer_incorrect": 1,
+        "evidence_does_not_support_answer": 2,
+        "missing_gold_evidence": 3,
+        "stale_value": 3,
+        "wrong_evidence_source": 3
+      }
+    },
+    "openclaw_original": {
+      "query_success_rate": 0.0,
+      "evidence_output_rate": 0.0,
+      "evidence_precision": 0.0,
+      "evidence_recall": 0.0,
+      "safety_score": 1.0,
+      "efficiency_score": 1.0,
+      "avg_answer_token_count": 0.0,
+      "avg_estimated_steps": 2.0,
+      "avg_estimated_time_seconds": 45.0,
+      "failure_reason_breakdown": {
+        "answer_incorrect": 3,
+        "missing_gold_evidence": 3,
+        "no_evidence_output": 3,
+        "stale_value": 3
+      }
+    }
+  },
+  "per_query_scores": [
+    {
+      "query_id": "case_20260508030344241235_contradiction_update_query_001",
+      "query": "FEISHU-335 现在的负责人是谁？",
+      "gold_supporting_message_ids": [
+        "om_x100b50e1749c68a0c2bf8cab6010f6e",
+        "om_x100b50e17738f4acc39e76265606037",
+        "om_x100b50e174de20e0c2bd2b05c613fac",
+        "om_x100b50e175f82498c2caccfd654e36b",
+        "om_x100b50e17470b4a0c2c1408429fc5ee",
+        "om_x100b50e17468b48cc2c2d1da6c3fbb0"
+      ],
+      "systems": {
+        "task_wiki_3_layer": {
+          "system_id": "task_wiki_3_layer",
+          "query_id": "case_20260508030344241235_contradiction_update_query_001",
+          "answer_text": "FEISHU-335 的当前负责人是陈雪（Carol）。",
+          "answer_correct": false,
+          "answer_judge": {
+            "answer_correct": false,
+            "evidence_supports_answer": false,
+            "private_info_leak": false,
+            "stale_value": false,
+            "reasons": [
+              "系统输出声称当前负责人是陈雪(Carol)，但引用的证据消息(om_x100b50e1747f2cb8c420283d944ffa5)是王源的确认消息，并未明确陈雪是当前负责人。",
+              "语义黄金标准中fact_006（陈雪自称是当前owner，om_x100b50e17470b4a0c2c1408429fc5ee）未被系统引用。",
+              "系统无法输出正确的支持证据，因此答案缺乏充分的事实支撑。"
+            ]
+          },
+          "evidence": {
+            "output_message_ids": [
+              "om_x100b50e1747f2cb8c420283d944ffa5"
+            ],
+            "gold_message_ids": [
+              "om_x100b50e17468b48cc2c2d1da6c3fbb0",
+              "om_x100b50e17470b4a0c2c1408429fc5ee",
+              "om_x100b50e1749c68a0c2bf8cab6010f6e",
+              "om_x100b50e174de20e0c2bd2b05c613fac",
+              "om_x100b50e175f82498c2caccfd654e36b",
+              "om_x100b50e17738f4acc39e76265606037"
+            ],
+            "matched_message_ids": [],
+            "wrong_message_ids": [
+              "om_x100b50e1747f2cb8c420283d944ffa5"
+            ],
+            "evidence_output": true,
+            "evidence_precision": 0.0,
+            "evidence_recall": 0.0,
+            "evidence_task_relevance": false,
+            "evidence_temporal_correctness": false,
+            "evidence_chain_completeness": 0.0,
+            "evidence_private_info_safety": true,
+            "official_evidence_citation_rate": 0.0
+          },
+          "scores": {
+            "answer_score": 0.0,
+            "evidence_score": 0.0,
+            "safety_score": 1.0,
+            "efficiency_score": 1.0,
+            "answer_token_count": 28,
+            "estimated_steps": 1,
+            "estimated_time_seconds": 20
+          },
+          "failure_reasons": [
+            "answer_incorrect",
+            "wrong_evidence_source",
+            "missing_gold_evidence",
+            "stale_value",
+            "evidence_does_not_support_answer"
+          ],
+          "task_wiki_answer_adapter": {
+            "supporting_event_ids": [
+              "evt_793bf69dc7f46999"
+            ],
+            "confidence": 0.95,
+            "validation_warnings": [
+              "missing_query_facet:private_boundary",
+              "missing_query_facet:upgrade_window"
+            ]
+          }
+        },
+        "openclaw_original": {
+          "system_id": "openclaw_original",
+          "query_id": "case_20260508030344241235_contradiction_update_query_001",
+          "answer_text": "",
+          "answer_correct": false,
+          "answer_judge": {
+            "answer_correct": false,
+            "evidence_supports_answer": false,
+            "private_info_leak": false,
+            "stale_value": false,
+            "reasons": [
+              "System produced empty answer with no evidence.",
+              "Expected answer: Carol, with historical owners Bob and David.",
+              "System output provides no answer or evidence at all."
+            ]
+          },
+          "evidence": {
+            "output_message_ids": [],
+            "gold_message_ids": [
+              "om_x100b50e17468b48cc2c2d1da6c3fbb0",
+              "om_x100b50e17470b4a0c2c1408429fc5ee",
+              "om_x100b50e1749c68a0c2bf8cab6010f6e",
+              "om_x100b50e174de20e0c2bd2b05c613fac",
+              "om_x100b50e175f82498c2caccfd654e36b",
+              "om_x100b50e17738f4acc39e76265606037"
+            ],
+            "matched_message_ids": [],
+            "wrong_message_ids": [],
+            "evidence_output": false,
+            "evidence_precision": 0.0,
+            "evidence_recall": 0.0,
+            "evidence_task_relevance": false,
+            "evidence_temporal_correctness": false,
+            "evidence_chain_completeness": 0.0,
+            "evidence_private_info_safety": true,
+            "official_evidence_citation_rate": 0.0
+          },
+          "scores": {
+            "answer_score": 0.0,
+            "evidence_score": 0.0,
+            "safety_score": 1.0,
+            "efficiency_score": 1.0,
+            "answer_token_count": 0,
+            "estimated_steps": 2,
+            "estimated_time_seconds": 45
+          },
+          "failure_reasons": [
+            "answer_incorrect",
+            "no_evidence_output",
+            "missing_gold_evidence",
+            "stale_value"
+          ]
+        }
+      }
+    },
+    {
+      "query_id": "case_20260508030344241235_contradiction_update_query_002",
+      "query": "FEISHU-335 的截止日期目前是多少？",
+      "gold_supporting_message_ids": [
+        "om_x100b50e17738f4acc39e76265606037",
+        "om_x100b50e174de20e0c2bd2b05c613fac",
+        "om_x100b50e175f82498c2caccfd654e36b",
+        "om_x100b50e1749c68a0c2bf8cab6010f6e",
+        "om_x100b50e17470b4a0c2c1408429fc5ee"
+      ],
+      "systems": {
+        "task_wiki_3_layer": {
+          "system_id": "task_wiki_3_layer",
+          "query_id": "case_20260508030344241235_contradiction_update_query_002",
+          "answer_text": "FEISHU-335 的当前截止/窗口时间是3月25日；此前3月15日、两周、明天、3月20日属于历史时间口径。",
+          "answer_correct": true,
+          "answer_judge": {
+            "answer_correct": true,
+            "evidence_supports_answer": false,
+            "private_info_leak": false,
+            "stale_value": false,
+            "reasons": [
+              "Answer correctly identifies current deadline as 2026-03-25 and acknowledges historical deadlines.",
+              "Evidence does not contain the correct supporting message for the current deadline (om_x100b50e1749c68a0c2bf8cab6010f6e). Cited evidence includes noise and historical messages but misses the crucial current deadline message.",
+              "No private information leaked.",
+              "No stale value presented as current; answer correctly frames historical dates as historical."
+            ]
+          },
+          "evidence": {
+            "output_message_ids": [
+              "om_x100b50e174045164c4e3cf1a89a5dfd",
+              "om_x100b50e1741b91a4c4a72585739af6c",
+              "om_x100b50e174b2d8e0c3bf9a3bd93d511",
+              "om_x100b50e175f82498c2caccfd654e36b",
+              "om_x100b50e17738f4acc39e76265606037"
+            ],
+            "gold_message_ids": [
+              "om_x100b50e17470b4a0c2c1408429fc5ee",
+              "om_x100b50e1749c68a0c2bf8cab6010f6e",
+              "om_x100b50e174de20e0c2bd2b05c613fac",
+              "om_x100b50e175f82498c2caccfd654e36b",
+              "om_x100b50e17738f4acc39e76265606037"
+            ],
+            "matched_message_ids": [
+              "om_x100b50e175f82498c2caccfd654e36b",
+              "om_x100b50e17738f4acc39e76265606037"
+            ],
+            "wrong_message_ids": [
+              "om_x100b50e174045164c4e3cf1a89a5dfd",
+              "om_x100b50e1741b91a4c4a72585739af6c",
+              "om_x100b50e174b2d8e0c3bf9a3bd93d511"
+            ],
+            "evidence_output": true,
+            "evidence_precision": 0.4,
+            "evidence_recall": 0.4,
+            "evidence_task_relevance": false,
+            "evidence_temporal_correctness": false,
+            "evidence_chain_completeness": 0.4,
+            "evidence_private_info_safety": true,
+            "official_evidence_citation_rate": 0.0
+          },
+          "scores": {
+            "answer_score": 1.0,
+            "evidence_score": 0.4,
+            "safety_score": 1.0,
+            "efficiency_score": 1.0,
+            "answer_token_count": 56,
+            "estimated_steps": 1,
+            "estimated_time_seconds": 20
+          },
+          "failure_reasons": [
+            "wrong_evidence_source",
+            "missing_gold_evidence",
+            "stale_value",
+            "evidence_does_not_support_answer"
+          ],
+          "task_wiki_answer_adapter": {
+            "supporting_event_ids": [
+              "evt_a74f02ea49ba41c9",
+              "evt_4fb9df3f304f944d",
+              "evt_8317e3df8d907719",
+              "evt_cea2f88a843d9369",
+              "evt_7e67039ea0212557"
+            ],
+            "confidence": 0.95,
+            "validation_warnings": [
+              "missing_query_facet:release_window_supersession"
+            ]
+          }
+        },
+        "openclaw_original": {
+          "system_id": "openclaw_original",
+          "query_id": "case_20260508030344241235_contradiction_update_query_002",
+          "answer_text": "",
+          "answer_correct": false,
+          "answer_judge": {
+            "answer_correct": false,
+            "evidence_supports_answer": false,
+            "private_info_leak": false,
+            "stale_value": false,
+            "reasons": [
+              "No answer provided",
+              "No evidence provided"
+            ]
+          },
+          "evidence": {
+            "output_message_ids": [],
+            "gold_message_ids": [
+              "om_x100b50e17470b4a0c2c1408429fc5ee",
+              "om_x100b50e1749c68a0c2bf8cab6010f6e",
+              "om_x100b50e174de20e0c2bd2b05c613fac",
+              "om_x100b50e175f82498c2caccfd654e36b",
+              "om_x100b50e17738f4acc39e76265606037"
+            ],
+            "matched_message_ids": [],
+            "wrong_message_ids": [],
+            "evidence_output": false,
+            "evidence_precision": 0.0,
+            "evidence_recall": 0.0,
+            "evidence_task_relevance": false,
+            "evidence_temporal_correctness": false,
+            "evidence_chain_completeness": 0.0,
+            "evidence_private_info_safety": true,
+            "official_evidence_citation_rate": 0.0
+          },
+          "scores": {
+            "answer_score": 0.0,
+            "evidence_score": 0.0,
+            "safety_score": 1.0,
+            "efficiency_score": 1.0,
+            "answer_token_count": 0,
+            "estimated_steps": 2,
+            "estimated_time_seconds": 45
+          },
+          "failure_reasons": [
+            "answer_incorrect",
+            "no_evidence_output",
+            "missing_gold_evidence",
+            "stale_value"
+          ]
+        }
+      }
+    },
+    {
+      "query_id": "case_20260508030344241235_contradiction_update_query_003",
+      "query": "FEISHU-335 当前的状态是什么？",
+      "gold_supporting_message_ids": [
+        "om_x100b50e17738f4acc39e76265606037",
+        "om_x100b50e174de20e0c2bd2b05c613fac",
+        "om_x100b50e175f82498c2caccfd654e36b",
+        "om_x100b50e1749c68a0c2bf8cab6010f6e",
+        "om_x100b50e17470b4a0c2c1408429fc5ee"
+      ],
+      "systems": {
+        "task_wiki_3_layer": {
+          "system_id": "task_wiki_3_layer",
+          "query_id": "case_20260508030344241235_contradiction_update_query_003",
+          "answer_text": "FEISHU-335 当前状态为阻塞；相关原因/约束是FEISHU-335 负责人改为 陈雪，截止 3月25日，状态阻塞。；当前负责人是陈雪（Carol）；当前截止/窗口时间为3月25日。",
+          "answer_correct": true,
+          "answer_judge": {
+            "answer_correct": true,
+            "evidence_supports_answer": true,
+            "private_info_leak": false,
+            "stale_value": false,
+            "reasons": [
+              "Answer correctly states FEISHU-335 status is '阻塞' (blocked), matching gold fact fact_004.",
+              "Answer identifies current owner as 陈雪 and deadline as 3月25日, consistent with fact_004 and fact_006.",
+              "Evidence includes message om_x100b50e1749c68a0c2bf8cab6010f6e which directly supports the current state (blocked, owner 陈雪, deadline 3/25).",
+              "Evidence also includes confirmation messages from 许薇 and 王源 that reinforce the current state, showing supersession of previous states.",
+              "No private information is leaked; all cited messages are related to task FEISHU-335.",
+              "No stale values are used; the answer correctly reflects the latest status and owner, not earlier ones.",
+              "The extraneous evidence message om_x100b50e174b908a8c3c1cfa1f5e03be about 唐越 (data structure adjustment) is noise but does not invalidate correctness; the answer does not rely on it."
+            ]
+          },
+          "evidence": {
+            "output_message_ids": [
+              "om_x100b50e1741b91a4c4a72585739af6c",
+              "om_x100b50e1747f2cb8c420283d944ffa5",
+              "om_x100b50e1749c68a0c2bf8cab6010f6e",
+              "om_x100b50e174b908a8c3c1cfa1f5e03be"
+            ],
+            "gold_message_ids": [
+              "om_x100b50e17470b4a0c2c1408429fc5ee",
+              "om_x100b50e1749c68a0c2bf8cab6010f6e",
+              "om_x100b50e174de20e0c2bd2b05c613fac",
+              "om_x100b50e175f82498c2caccfd654e36b",
+              "om_x100b50e17738f4acc39e76265606037"
+            ],
+            "matched_message_ids": [
+              "om_x100b50e1749c68a0c2bf8cab6010f6e"
+            ],
+            "wrong_message_ids": [
+              "om_x100b50e1741b91a4c4a72585739af6c",
+              "om_x100b50e1747f2cb8c420283d944ffa5",
+              "om_x100b50e174b908a8c3c1cfa1f5e03be"
+            ],
+            "evidence_output": true,
+            "evidence_precision": 0.25,
+            "evidence_recall": 0.2,
+            "evidence_task_relevance": false,
+            "evidence_temporal_correctness": false,
+            "evidence_chain_completeness": 0.2,
+            "evidence_private_info_safety": true,
+            "official_evidence_citation_rate": 0.0
+          },
+          "scores": {
+            "answer_score": 1.0,
+            "evidence_score": 0.225,
+            "safety_score": 1.0,
+            "efficiency_score": 1.0,
+            "answer_token_count": 94,
+            "estimated_steps": 1,
+            "estimated_time_seconds": 20
+          },
+          "failure_reasons": [
+            "wrong_evidence_source",
+            "missing_gold_evidence",
+            "stale_value"
+          ],
+          "task_wiki_answer_adapter": {
+            "supporting_event_ids": [
+              "evt_8c6692fc3e81496f",
+              "evt_f0ca34f74e75cb78",
+              "evt_793bf69dc7f46999",
+              "evt_a74f02ea49ba41c9"
+            ],
+            "confidence": 0.95,
+            "validation_warnings": []
+          }
+        },
+        "openclaw_original": {
+          "system_id": "openclaw_original",
+          "query_id": "case_20260508030344241235_contradiction_update_query_003",
+          "answer_text": "",
+          "answer_correct": false,
+          "answer_judge": {
+            "answer_correct": false,
+            "evidence_supports_answer": false,
+            "private_info_leak": false,
+            "stale_value": false,
+            "reasons": [
+              "OpenClaw did not produce any answer or evidence. The system output is empty. The expected answer should be 'blocked' based on observed evidence, but none was provided."
+            ]
+          },
+          "evidence": {
+            "output_message_ids": [],
+            "gold_message_ids": [
+              "om_x100b50e17470b4a0c2c1408429fc5ee",
+              "om_x100b50e1749c68a0c2bf8cab6010f6e",
+              "om_x100b50e174de20e0c2bd2b05c613fac",
+              "om_x100b50e175f82498c2caccfd654e36b",
+              "om_x100b50e17738f4acc39e76265606037"
+            ],
+            "matched_message_ids": [],
+            "wrong_message_ids": [],
+            "evidence_output": false,
+            "evidence_precision": 0.0,
+            "evidence_recall": 0.0,
+            "evidence_task_relevance": false,
+            "evidence_temporal_correctness": false,
+            "evidence_chain_completeness": 0.0,
+            "evidence_private_info_safety": true,
+            "official_evidence_citation_rate": 0.0
+          },
+          "scores": {
+            "answer_score": 0.0,
+            "evidence_score": 0.0,
+            "safety_score": 1.0,
+            "efficiency_score": 1.0,
+            "answer_token_count": 0,
+            "estimated_steps": 2,
+            "estimated_time_seconds": 45
+          },
+          "failure_reasons": [
+            "answer_incorrect",
+            "no_evidence_output",
+            "missing_gold_evidence",
+            "stale_value"
+          ]
+        }
+      }
+    }
+  ],
+  "failure_reason_breakdown": {
+    "task_wiki_3_layer": {
+      "answer_incorrect": 1,
+      "evidence_does_not_support_answer": 2,
+      "missing_gold_evidence": 3,
+      "stale_value": 3,
+      "wrong_evidence_source": 3
+    },
+    "openclaw_original": {
+      "answer_incorrect": 3,
+      "missing_gold_evidence": 3,
+      "no_evidence_output": 3,
+      "stale_value": 3
+    }
+  },
+  "evidence_metrics": {
+    "task_wiki_3_layer": {
+      "evidence_output_rate": 1.0,
+      "evidence_precision": 0.2167,
+      "evidence_recall": 0.2
+    },
+    "openclaw_original": {
+      "evidence_output_rate": 0.0,
+      "evidence_precision": 0.0,
+      "evidence_recall": 0.0
+    }
+  },
+  "systems": {
+    "task_wiki_3_layer": {
+      "source": "runtime/task_wiki_replay",
+      "raw_metrics": {
+        "input": {
+          "ingress_count": 27,
+          "collected_message_count": 27
+        },
+        "layer1_binding": {
+          "binding_total": 27,
+          "binding_bound": 27,
+          "binding_rate": 1,
+          "target_task_binding_rate": 1,
+          "skipped_count": 0,
+          "status": "passed",
+          "score": 100,
+          "blocking_failures": [],
+          "warnings": []
+        },
+        "layer2_events": {
+          "ingested_count": 27,
+          "skipped_count": 0,
+          "candidate_events_returned_during_ingest": 36,
+          "verification_jobs_queued": 32,
+          "candidate_event_count": 36,
+          "verified_event_count": 31,
+          "verification_rate": 0.8611,
+          "session_count": 4,
+          "sessions_with_events": 4,
+          "candidate_validation_breakdown": {
+            "ready_for_verification": 32,
+            "rejected": 4
+          },
+          "rejected_candidate_count": 5,
+          "ready_for_verification_count": 32,
+          "queued_verification_count": 32,
+          "rejection_reason_breakdown": {
+            "quote_location:missing_entry": 4,
+            "unknown": 1
+          },
+          "missing_field_breakdown": {},
+          "status": "passed",
+          "score": 86.11,
+          "blocking_failures": [],
+          "warnings": []
+        },
+        "layer3_wiki": {
+          "task_root_count": 1,
+          "projected_task_count": 1,
+          "projection_rate": 1,
+          "projection_status": "projected",
+          "lint_result_count": 1,
+          "orphan_event_count": 0,
+          "missing_evidence_ref_count": 0,
+          "stale_claim_count": 0,
+          "quote_strength_count": 0,
+          "unresolved_objection_count": 0,
+          "overdue_commitment_count": 1,
+          "open_conflict_count": 0,
+          "orphan_block_count": 0,
+          "missing_cross_ref_count": 0,
+          "orphan_session_wiki_count": 0,
+          "lint_blocking_count": 0,
+          "lint_warning_count": 1,
+          "status": "passed",
+          "score": 100,
+          "blocking_failures": [],
+          "warnings": [
+            "layer3:lint_warnings_present"
+          ]
+        },
+        "overall": {
+          "status": "passed",
+          "blocking_failures": [],
+          "warnings": [
+            "layer3:lint_warnings_present"
+          ],
+          "health_score": 95.14
+        }
+      },
+      "analysis_metrics": {
+        "query_success_rate": 0.6667,
+        "evidence_output_rate": 1.0,
+        "evidence_precision": 0.2167,
+        "evidence_recall": 0.2,
+        "safety_score": 1.0,
+        "efficiency_score": 1.0,
+        "avg_answer_token_count": 59.33,
+        "avg_estimated_steps": 1.0,
+        "avg_estimated_time_seconds": 20.0,
+        "failure_reason_breakdown": {
+          "answer_incorrect": 1,
+          "evidence_does_not_support_answer": 2,
+          "missing_gold_evidence": 3,
+          "stale_value": 3,
+          "wrong_evidence_source": 3
+        }
+      },
+      "metrics": {
+        "query_success_rate": 0.6667,
+        "evidence_output_rate": 1.0,
+        "evidence_precision": 0.2167,
+        "evidence_recall": 0.2,
+        "safety_score": 1.0,
+        "efficiency_score": 1.0,
+        "avg_answer_token_count": 59.33,
+        "avg_estimated_steps": 1.0,
+        "avg_estimated_time_seconds": 20.0,
+        "failure_reason_breakdown": {
+          "answer_incorrect": 1,
+          "evidence_does_not_support_answer": 2,
+          "missing_gold_evidence": 3,
+          "stale_value": 3,
+          "wrong_evidence_source": 3
+        }
+      }
+    },
+    "openclaw_original": {
+      "source": "runtime/openclaw_baseline",
+      "raw_metrics": {
+        "query_success_rate": 0,
+        "evidence_output_rate": 0,
+        "evidence_trace_rate": 0,
+        "current_state_accuracy": 0,
+        "private_info_leak_rate": 0
+      },
+      "analysis_metrics": {
+        "query_success_rate": 0.0,
+        "evidence_output_rate": 0.0,
+        "evidence_precision": 0.0,
+        "evidence_recall": 0.0,
+        "safety_score": 1.0,
+        "efficiency_score": 1.0,
+        "avg_answer_token_count": 0.0,
+        "avg_estimated_steps": 2.0,
+        "avg_estimated_time_seconds": 45.0,
+        "failure_reason_breakdown": {
+          "answer_incorrect": 3,
+          "missing_gold_evidence": 3,
+          "no_evidence_output": 3,
+          "stale_value": 3
+        }
+      },
+      "metrics": {
+        "query_success_rate": 0.0,
+        "evidence_output_rate": 0.0,
+        "evidence_precision": 0.0,
+        "evidence_recall": 0.0,
+        "safety_score": 1.0,
+        "efficiency_score": 1.0,
+        "avg_answer_token_count": 0.0,
+        "avg_estimated_steps": 2.0,
+        "avg_estimated_time_seconds": 45.0,
+        "failure_reason_breakdown": {
+          "answer_incorrect": 3,
+          "missing_gold_evidence": 3,
+          "no_evidence_output": 3,
+          "stale_value": 3
+        }
+      },
+      "baseline_mode": "openclaw_real_replay",
+      "openclaw_ingest_mode": "case_transcript"
+    }
+  },
+  "deltas": {
+    "query_success_rate_delta": 0.6667,
+    "evidence_precision_delta": 0.2167,
+    "estimated_steps_saved": 1.0,
+    "estimated_time_saved_seconds": 25.0
+  },
+  "query_results": [
+    {
+      "query_id": "case_20260508030344241235_contradiction_update_query_001",
+      "query": "FEISHU-335 现在的负责人是谁？",
+      "gold_supporting_message_ids": [
+        "om_x100b50e1749c68a0c2bf8cab6010f6e",
+        "om_x100b50e17738f4acc39e76265606037",
+        "om_x100b50e174de20e0c2bd2b05c613fac",
+        "om_x100b50e175f82498c2caccfd654e36b",
+        "om_x100b50e17470b4a0c2c1408429fc5ee",
+        "om_x100b50e17468b48cc2c2d1da6c3fbb0"
+      ],
+      "systems": {
+        "task_wiki_3_layer": {
+          "system_id": "task_wiki_3_layer",
+          "query_id": "case_20260508030344241235_contradiction_update_query_001",
+          "answer_text": "FEISHU-335 的当前负责人是陈雪（Carol）。",
+          "answer_correct": false,
+          "answer_judge": {
+            "answer_correct": false,
+            "evidence_supports_answer": false,
+            "private_info_leak": false,
+            "stale_value": false,
+            "reasons": [
+              "系统输出声称当前负责人是陈雪(Carol)，但引用的证据消息(om_x100b50e1747f2cb8c420283d944ffa5)是王源的确认消息，并未明确陈雪是当前负责人。",
+              "语义黄金标准中fact_006（陈雪自称是当前owner，om_x100b50e17470b4a0c2c1408429fc5ee）未被系统引用。",
+              "系统无法输出正确的支持证据，因此答案缺乏充分的事实支撑。"
+            ]
+          },
+          "evidence": {
+            "output_message_ids": [
+              "om_x100b50e1747f2cb8c420283d944ffa5"
+            ],
+            "gold_message_ids": [
+              "om_x100b50e17468b48cc2c2d1da6c3fbb0",
+              "om_x100b50e17470b4a0c2c1408429fc5ee",
+              "om_x100b50e1749c68a0c2bf8cab6010f6e",
+              "om_x100b50e174de20e0c2bd2b05c613fac",
+              "om_x100b50e175f82498c2caccfd654e36b",
+              "om_x100b50e17738f4acc39e76265606037"
+            ],
+            "matched_message_ids": [],
+            "wrong_message_ids": [
+              "om_x100b50e1747f2cb8c420283d944ffa5"
+            ],
+            "evidence_output": true,
+            "evidence_precision": 0.0,
+            "evidence_recall": 0.0,
+            "evidence_task_relevance": false,
+            "evidence_temporal_correctness": false,
+            "evidence_chain_completeness": 0.0,
+            "evidence_private_info_safety": true,
+            "official_evidence_citation_rate": 0.0
+          },
+          "scores": {
+            "answer_score": 0.0,
+            "evidence_score": 0.0,
+            "safety_score": 1.0,
+            "efficiency_score": 1.0,
+            "answer_token_count": 28,
+            "estimated_steps": 1,
+            "estimated_time_seconds": 20
+          },
+          "failure_reasons": [
+            "answer_incorrect",
+            "wrong_evidence_source",
+            "missing_gold_evidence",
+            "stale_value",
+            "evidence_does_not_support_answer"
+          ],
+          "task_wiki_answer_adapter": {
+            "supporting_event_ids": [
+              "evt_793bf69dc7f46999"
+            ],
+            "confidence": 0.95,
+            "validation_warnings": [
+              "missing_query_facet:private_boundary",
+              "missing_query_facet:upgrade_window"
+            ]
+          }
+        },
+        "openclaw_original": {
+          "system_id": "openclaw_original",
+          "query_id": "case_20260508030344241235_contradiction_update_query_001",
+          "answer_text": "",
+          "answer_correct": false,
+          "answer_judge": {
+            "answer_correct": false,
+            "evidence_supports_answer": false,
+            "private_info_leak": false,
+            "stale_value": false,
+            "reasons": [
+              "System produced empty answer with no evidence.",
+              "Expected answer: Carol, with historical owners Bob and David.",
+              "System output provides no answer or evidence at all."
+            ]
+          },
+          "evidence": {
+            "output_message_ids": [],
+            "gold_message_ids": [
+              "om_x100b50e17468b48cc2c2d1da6c3fbb0",
+              "om_x100b50e17470b4a0c2c1408429fc5ee",
+              "om_x100b50e1749c68a0c2bf8cab6010f6e",
+              "om_x100b50e174de20e0c2bd2b05c613fac",
+              "om_x100b50e175f82498c2caccfd654e36b",
+              "om_x100b50e17738f4acc39e76265606037"
+            ],
+            "matched_message_ids": [],
+            "wrong_message_ids": [],
+            "evidence_output": false,
+            "evidence_precision": 0.0,
+            "evidence_recall": 0.0,
+            "evidence_task_relevance": false,
+            "evidence_temporal_correctness": false,
+            "evidence_chain_completeness": 0.0,
+            "evidence_private_info_safety": true,
+            "official_evidence_citation_rate": 0.0
+          },
+          "scores": {
+            "answer_score": 0.0,
+            "evidence_score": 0.0,
+            "safety_score": 1.0,
+            "efficiency_score": 1.0,
+            "answer_token_count": 0,
+            "estimated_steps": 2,
+            "estimated_time_seconds": 45
+          },
+          "failure_reasons": [
+            "answer_incorrect",
+            "no_evidence_output",
+            "missing_gold_evidence",
+            "stale_value"
+          ]
+        }
+      }
+    },
+    {
+      "query_id": "case_20260508030344241235_contradiction_update_query_002",
+      "query": "FEISHU-335 的截止日期目前是多少？",
+      "gold_supporting_message_ids": [
+        "om_x100b50e17738f4acc39e76265606037",
+        "om_x100b50e174de20e0c2bd2b05c613fac",
+        "om_x100b50e175f82498c2caccfd654e36b",
+        "om_x100b50e1749c68a0c2bf8cab6010f6e",
+        "om_x100b50e17470b4a0c2c1408429fc5ee"
+      ],
+      "systems": {
+        "task_wiki_3_layer": {
+          "system_id": "task_wiki_3_layer",
+          "query_id": "case_20260508030344241235_contradiction_update_query_002",
+          "answer_text": "FEISHU-335 的当前截止/窗口时间是3月25日；此前3月15日、两周、明天、3月20日属于历史时间口径。",
+          "answer_correct": true,
+          "answer_judge": {
+            "answer_correct": true,
+            "evidence_supports_answer": false,
+            "private_info_leak": false,
+            "stale_value": false,
+            "reasons": [
+              "Answer correctly identifies current deadline as 2026-03-25 and acknowledges historical deadlines.",
+              "Evidence does not contain the correct supporting message for the current deadline (om_x100b50e1749c68a0c2bf8cab6010f6e). Cited evidence includes noise and historical messages but misses the crucial current deadline message.",
+              "No private information leaked.",
+              "No stale value presented as current; answer correctly frames historical dates as historical."
+            ]
+          },
+          "evidence": {
+            "output_message_ids": [
+              "om_x100b50e174045164c4e3cf1a89a5dfd",
+              "om_x100b50e1741b91a4c4a72585739af6c",
+              "om_x100b50e174b2d8e0c3bf9a3bd93d511",
+              "om_x100b50e175f82498c2caccfd654e36b",
+              "om_x100b50e17738f4acc39e76265606037"
+            ],
+            "gold_message_ids": [
+              "om_x100b50e17470b4a0c2c1408429fc5ee",
+              "om_x100b50e1749c68a0c2bf8cab6010f6e",
+              "om_x100b50e174de20e0c2bd2b05c613fac",
+              "om_x100b50e175f82498c2caccfd654e36b",
+              "om_x100b50e17738f4acc39e76265606037"
+            ],
+            "matched_message_ids": [
+              "om_x100b50e175f82498c2caccfd654e36b",
+              "om_x100b50e17738f4acc39e76265606037"
+            ],
+            "wrong_message_ids": [
+              "om_x100b50e174045164c4e3cf1a89a5dfd",
+              "om_x100b50e1741b91a4c4a72585739af6c",
+              "om_x100b50e174b2d8e0c3bf9a3bd93d511"
+            ],
+            "evidence_output": true,
+            "evidence_precision": 0.4,
+            "evidence_recall": 0.4,
+            "evidence_task_relevance": false,
+            "evidence_temporal_correctness": false,
+            "evidence_chain_completeness": 0.4,
+            "evidence_private_info_safety": true,
+            "official_evidence_citation_rate": 0.0
+          },
+          "scores": {
+            "answer_score": 1.0,
+            "evidence_score": 0.4,
+            "safety_score": 1.0,
+            "efficiency_score": 1.0,
+            "answer_token_count": 56,
+            "estimated_steps": 1,
+            "estimated_time_seconds": 20
+          },
+          "failure_reasons": [
+            "wrong_evidence_source",
+            "missing_gold_evidence",
+            "stale_value",
+            "evidence_does_not_support_answer"
+          ],
+          "task_wiki_answer_adapter": {
+            "supporting_event_ids": [
+              "evt_a74f02ea49ba41c9",
+              "evt_4fb9df3f304f944d",
+              "evt_8317e3df8d907719",
+              "evt_cea2f88a843d9369",
+              "evt_7e67039ea0212557"
+            ],
+            "confidence": 0.95,
+            "validation_warnings": [
+              "missing_query_facet:release_window_supersession"
+            ]
+          }
+        },
+        "openclaw_original": {
+          "system_id": "openclaw_original",
+          "query_id": "case_20260508030344241235_contradiction_update_query_002",
+          "answer_text": "",
+          "answer_correct": false,
+          "answer_judge": {
+            "answer_correct": false,
+            "evidence_supports_answer": false,
+            "private_info_leak": false,
+            "stale_value": false,
+            "reasons": [
+              "No answer provided",
+              "No evidence provided"
+            ]
+          },
+          "evidence": {
+            "output_message_ids": [],
+            "gold_message_ids": [
+              "om_x100b50e17470b4a0c2c1408429fc5ee",
+              "om_x100b50e1749c68a0c2bf8cab6010f6e",
+              "om_x100b50e174de20e0c2bd2b05c613fac",
+              "om_x100b50e175f82498c2caccfd654e36b",
+              "om_x100b50e17738f4acc39e76265606037"
+            ],
+            "matched_message_ids": [],
+            "wrong_message_ids": [],
+            "evidence_output": false,
+            "evidence_precision": 0.0,
+            "evidence_recall": 0.0,
+            "evidence_task_relevance": false,
+            "evidence_temporal_correctness": false,
+            "evidence_chain_completeness": 0.0,
+            "evidence_private_info_safety": true,
+            "official_evidence_citation_rate": 0.0
+          },
+          "scores": {
+            "answer_score": 0.0,
+            "evidence_score": 0.0,
+            "safety_score": 1.0,
+            "efficiency_score": 1.0,
+            "answer_token_count": 0,
+            "estimated_steps": 2,
+            "estimated_time_seconds": 45
+          },
+          "failure_reasons": [
+            "answer_incorrect",
+            "no_evidence_output",
+            "missing_gold_evidence",
+            "stale_value"
+          ]
+        }
+      }
+    },
+    {
+      "query_id": "case_20260508030344241235_contradiction_update_query_003",
+      "query": "FEISHU-335 当前的状态是什么？",
+      "gold_supporting_message_ids": [
+        "om_x100b50e17738f4acc39e76265606037",
+        "om_x100b50e174de20e0c2bd2b05c613fac",
+        "om_x100b50e175f82498c2caccfd654e36b",
+        "om_x100b50e1749c68a0c2bf8cab6010f6e",
+        "om_x100b50e17470b4a0c2c1408429fc5ee"
+      ],
+      "systems": {
+        "task_wiki_3_layer": {
+          "system_id": "task_wiki_3_layer",
+          "query_id": "case_20260508030344241235_contradiction_update_query_003",
+          "answer_text": "FEISHU-335 当前状态为阻塞；相关原因/约束是FEISHU-335 负责人改为 陈雪，截止 3月25日，状态阻塞。；当前负责人是陈雪（Carol）；当前截止/窗口时间为3月25日。",
+          "answer_correct": true,
+          "answer_judge": {
+            "answer_correct": true,
+            "evidence_supports_answer": true,
+            "private_info_leak": false,
+            "stale_value": false,
+            "reasons": [
+              "Answer correctly states FEISHU-335 status is '阻塞' (blocked), matching gold fact fact_004.",
+              "Answer identifies current owner as 陈雪 and deadline as 3月25日, consistent with fact_004 and fact_006.",
+              "Evidence includes message om_x100b50e1749c68a0c2bf8cab6010f6e which directly supports the current state (blocked, owner 陈雪, deadline 3/25).",
+              "Evidence also includes confirmation messages from 许薇 and 王源 that reinforce the current state, showing supersession of previous states.",
+              "No private information is leaked; all cited messages are related to task FEISHU-335.",
+              "No stale values are used; the answer correctly reflects the latest status and owner, not earlier ones.",
+              "The extraneous evidence message om_x100b50e174b908a8c3c1cfa1f5e03be about 唐越 (data structure adjustment) is noise but does not invalidate correctness; the answer does not rely on it."
+            ]
+          },
+          "evidence": {
+            "output_message_ids": [
+              "om_x100b50e1741b91a4c4a72585739af6c",
+              "om_x100b50e1747f2cb8c420283d944ffa5",
+              "om_x100b50e1749c68a0c2bf8cab6010f6e",
+              "om_x100b50e174b908a8c3c1cfa1f5e03be"
+            ],
+            "gold_message_ids": [
+              "om_x100b50e17470b4a0c2c1408429fc5ee",
+              "om_x100b50e1749c68a0c2bf8cab6010f6e",
+              "om_x100b50e174de20e0c2bd2b05c613fac",
+              "om_x100b50e175f82498c2caccfd654e36b",
+              "om_x100b50e17738f4acc39e76265606037"
+            ],
+            "matched_message_ids": [
+              "om_x100b50e1749c68a0c2bf8cab6010f6e"
+            ],
+            "wrong_message_ids": [
+              "om_x100b50e1741b91a4c4a72585739af6c",
+              "om_x100b50e1747f2cb8c420283d944ffa5",
+              "om_x100b50e174b908a8c3c1cfa1f5e03be"
+            ],
+            "evidence_output": true,
+            "evidence_precision": 0.25,
+            "evidence_recall": 0.2,
+            "evidence_task_relevance": false,
+            "evidence_temporal_correctness": false,
+            "evidence_chain_completeness": 0.2,
+            "evidence_private_info_safety": true,
+            "official_evidence_citation_rate": 0.0
+          },
+          "scores": {
+            "answer_score": 1.0,
+            "evidence_score": 0.225,
+            "safety_score": 1.0,
+            "efficiency_score": 1.0,
+            "answer_token_count": 94,
+            "estimated_steps": 1,
+            "estimated_time_seconds": 20
+          },
+          "failure_reasons": [
+            "wrong_evidence_source",
+            "missing_gold_evidence",
+            "stale_value"
+          ],
+          "task_wiki_answer_adapter": {
+            "supporting_event_ids": [
+              "evt_8c6692fc3e81496f",
+              "evt_f0ca34f74e75cb78",
+              "evt_793bf69dc7f46999",
+              "evt_a74f02ea49ba41c9"
+            ],
+            "confidence": 0.95,
+            "validation_warnings": []
+          }
+        },
+        "openclaw_original": {
+          "system_id": "openclaw_original",
+          "query_id": "case_20260508030344241235_contradiction_update_query_003",
+          "answer_text": "",
+          "answer_correct": false,
+          "answer_judge": {
+            "answer_correct": false,
+            "evidence_supports_answer": false,
+            "private_info_leak": false,
+            "stale_value": false,
+            "reasons": [
+              "OpenClaw did not produce any answer or evidence. The system output is empty. The expected answer should be 'blocked' based on observed evidence, but none was provided."
+            ]
+          },
+          "evidence": {
+            "output_message_ids": [],
+            "gold_message_ids": [
+              "om_x100b50e17470b4a0c2c1408429fc5ee",
+              "om_x100b50e1749c68a0c2bf8cab6010f6e",
+              "om_x100b50e174de20e0c2bd2b05c613fac",
+              "om_x100b50e175f82498c2caccfd654e36b",
+              "om_x100b50e17738f4acc39e76265606037"
+            ],
+            "matched_message_ids": [],
+            "wrong_message_ids": [],
+            "evidence_output": false,
+            "evidence_precision": 0.0,
+            "evidence_recall": 0.0,
+            "evidence_task_relevance": false,
+            "evidence_temporal_correctness": false,
+            "evidence_chain_completeness": 0.0,
+            "evidence_private_info_safety": true,
+            "official_evidence_citation_rate": 0.0
+          },
+          "scores": {
+            "answer_score": 0.0,
+            "evidence_score": 0.0,
+            "safety_score": 1.0,
+            "efficiency_score": 1.0,
+            "answer_token_count": 0,
+            "estimated_steps": 2,
+            "estimated_time_seconds": 45
+          },
+          "failure_reasons": [
+            "answer_incorrect",
+            "no_evidence_output",
+            "missing_gold_evidence",
+            "stale_value"
+          ]
+        }
+      }
+    }
+  ],
+  "notes": [
+    "answer_correct and evidence correctness are scored separately.",
+    "A system can answer correctly but still receive a weak evidence score.",
+    "reports/phase3_score.json is the canonical Phase 3 scoring artifact."
+  ]
+}

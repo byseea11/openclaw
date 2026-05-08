@@ -1,0 +1,106 @@
+{
+  "case_id": "case_20260508030344241235_contradiction_update",
+  "family_id": "contradiction_update",
+  "task_id": "FEISHU-335",
+  "actors": [
+    {
+      "actor_id": "alice",
+      "display_name": "Alice",
+      "role": "项目经理"
+    },
+    {
+      "actor_id": "bob",
+      "display_name": "Bob",
+      "role": "开发工程师"
+    },
+    {
+      "actor_id": "carol",
+      "display_name": "Carol",
+      "role": "测试工程师"
+    },
+    {
+      "actor_id": "david",
+      "display_name": "David",
+      "role": "产品经理"
+    },
+    {
+      "actor_id": "eve",
+      "display_name": "Eve",
+      "role": "运维工程师"
+    },
+    {
+      "actor_id": "frank",
+      "display_name": "Frank",
+      "role": "架构师"
+    },
+    {
+      "actor_id": "grace",
+      "display_name": "Grace",
+      "role": "前端工程师"
+    },
+    {
+      "actor_id": "henry",
+      "display_name": "Henry",
+      "role": "后端工程师"
+    },
+    {
+      "actor_id": "ivy",
+      "display_name": "Ivy",
+      "role": "设计师"
+    },
+    {
+      "actor_id": "jack",
+      "display_name": "Jack",
+      "role": "安全工程师"
+    },
+    {
+      "actor_id": "kevin",
+      "display_name": "Kevin",
+      "role": "数据工程师"
+    },
+    {
+      "actor_id": "lisa",
+      "display_name": "Lisa",
+      "role": "技术经理"
+    }
+  ],
+  "task_actor_layout": {
+    "target_task_id": "FEISHU-335",
+    "shared_actors": [
+      "alice",
+      "bob",
+      "carol",
+      "david",
+      "eve",
+      "frank",
+      "grace",
+      "henry",
+      "ivy",
+      "jack",
+      "kevin",
+      "lisa"
+    ],
+    "actor_task_roles": [
+      {
+        "actor_id": "alice",
+        "task_id": "FEISHU-335",
+        "role": "task_owner"
+      },
+      {
+        "actor_id": "bob",
+        "task_id": "FEISHU-335",
+        "role": "initial_owner"
+      },
+      {
+        "actor_id": "carol",
+        "task_id": "FEISHU-335",
+        "role": "current_owner"
+      },
+      {
+        "actor_id": "david",
+        "task_id": "FEISHU-335",
+        "role": "historical_owner"
+      }
+    ]
+  }
+}

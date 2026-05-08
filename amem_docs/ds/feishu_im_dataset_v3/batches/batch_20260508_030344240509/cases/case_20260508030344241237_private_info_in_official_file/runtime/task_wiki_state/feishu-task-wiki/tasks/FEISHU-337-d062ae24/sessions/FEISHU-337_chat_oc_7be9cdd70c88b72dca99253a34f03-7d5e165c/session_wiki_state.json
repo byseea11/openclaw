@@ -1,0 +1,655 @@
+{
+  "version": 1,
+  "task_id": "task:FEISHU-337",
+  "task_key": "FEISHU-337",
+  "source_session_id": "task:FEISHU-337::chat:oc_7be9cdd70c88b72dca99253a34f035c0",
+  "source_scope": "chat:oc_7be9cdd70c88b72dca99253a34f035c0",
+  "source_type": "chat",
+  "source_id": "chat:main_chat",
+  "session_title": "task:FEISHU-337::chat:oc_7be9cdd70c88b72dca99253a34f035c0",
+  "time_range": {
+    "start": "2026-05-08T04:03:11.136Z",
+    "end": "2026-05-08T04:05:12.246Z"
+  },
+  "participants": [
+    "林晨",
+    "周宇",
+    "何然",
+    "陈雪",
+    "高骏",
+    "秦怡",
+    "王源",
+    "苏禾",
+    "罗天",
+    "赵敏",
+    "唐越",
+    "许薇"
+  ],
+  "relative_page_path": "sessions/FEISHU-337_chat_oc_7be9cdd70c88b72dca99253a34f03-7d5e165c/session_wiki.md",
+  "session_summary": "FEISHU-337 服务器迁移计划启动，目标5月底完成；QA结论按标准执行，上线checklist已上传；高骏评审时间需调整至下午；销售承诺风险待确认；迁移窗口评估中。",
+  "block_order": [
+    "block-发布时间口径-867908bd",
+    "block-发布阻塞风险-45763a86",
+    "block-看依赖项-8904e7e6",
+    "block-联系周伟-47ca9922",
+    "block-评审-04a63b37",
+    "block-销售承诺风险-3d675c35",
+    "block-正式升级窗口-930e601a",
+    "block-QA-d851aefa"
+  ],
+  "blocks": {
+    "block-发布时间口径-867908bd": {
+      "block_id": "block-发布时间口径-867908bd",
+      "anchor_id": "block-发布时间口径-867908bd",
+      "topic_key": "发布时间口径",
+      "topic_title": "发布时间口径",
+      "event_ids": [
+        "evt_9d98c6f9ee3eda51"
+      ],
+      "slots": {
+        "conclusion": [],
+        "rationale": [],
+        "objection": [],
+        "constraint": [],
+        "commitment": [
+          {
+            "event_id": "evt_9d98c6f9ee3eda51",
+            "event_type": "commitment_event",
+            "claim": "FEISHU-337 服务器迁移上线计划启动，目标 5 月底完成。",
+            "event_time": "1778210003000",
+            "evidence_quote": "FEISHU-337 服务器迁移上线计划启动，目标 5 月底完成。",
+            "event_path": "sessions/FEISHU-337_chat_oc_7be9cdd70c88b72dca99253a34f03-7d5e165c/session_events.jsonl#evt_9d98c6f9ee3eda51",
+            "event_ref": "[[sessions/FEISHU-337_chat_oc_7be9cdd70c88b72dca99253a34f03-7d5e165c/session_events.jsonl#evt_9d98c6f9ee3eda51|evt_9d98c6f9ee3eda51]]",
+            "entry_ref": "[[sessions/FEISHU-337_chat_oc_7be9cdd70c88b72dca99253a34f03-7d5e165c/session.md#om_x100b50e10544b8a4c2b9797d34a2e49|om_x100b50e10544b8a4c2b9797d34a2e49]]",
+            "core_entry_id": "om_x100b50e10544b8a4c2b9797d34a2e49",
+            "subject_key": "发布时间口径",
+            "is_current": true,
+            "lifecycle_status": "active",
+            "lifecycle_reason": null,
+            "target": null,
+            "time_target": null,
+            "scope_target": null,
+            "action": "完成 FEISHU-337 服务器迁移上线",
+            "owner": "林晨",
+            "objector": null,
+            "status": null,
+            "certainty": null
+          }
+        ],
+        "status": [],
+        "time": [],
+        "scope": []
+      },
+      "status": "active",
+      "evidence_refs": [
+        {
+          "event_id": "evt_9d98c6f9ee3eda51",
+          "event_path": "sessions/FEISHU-337_chat_oc_7be9cdd70c88b72dca99253a34f03-7d5e165c/session_events.jsonl#evt_9d98c6f9ee3eda51",
+          "entry_ref": "[[sessions/FEISHU-337_chat_oc_7be9cdd70c88b72dca99253a34f03-7d5e165c/session.md#om_x100b50e10544b8a4c2b9797d34a2e49|om_x100b50e10544b8a4c2b9797d34a2e49]]",
+          "quote": "FEISHU-337 服务器迁移上线计划启动，目标 5 月底完成。"
+        }
+      ],
+      "summary": "FEISHU-337 服务器迁移上线计划启动，目标5月底完成。"
+    },
+    "block-发布阻塞风险-45763a86": {
+      "block_id": "block-发布阻塞风险-45763a86",
+      "anchor_id": "block-发布阻塞风险-45763a86",
+      "topic_key": "发布阻塞风险",
+      "topic_title": "发布阻塞风险",
+      "event_ids": [
+        "evt_e7a3315000ea834e",
+        "evt_3e4f58751c069ad4",
+        "evt_86c05ed496ed3fc3",
+        "evt_4d534723a3c9ec6a",
+        "evt_2e88a7e6824ecb36"
+      ],
+      "slots": {
+        "conclusion": [
+          {
+            "event_id": "evt_2e88a7e6824ecb36",
+            "event_type": "conclusion_event",
+            "claim": "QA 结论按 checklist 标准项执行，没有掺入个人备注。",
+            "event_time": "1778210003000",
+            "evidence_quote": "QA 结论按 checklist 标准项执行，没有掺入个人备注。",
+            "event_path": "sessions/FEISHU-337_chat_oc_7be9cdd70c88b72dca99253a34f03-7d5e165c/session_events.jsonl#evt_2e88a7e6824ecb36",
+            "event_ref": "[[sessions/FEISHU-337_chat_oc_7be9cdd70c88b72dca99253a34f03-7d5e165c/session_events.jsonl#evt_2e88a7e6824ecb36|evt_2e88a7e6824ecb36]]",
+            "entry_ref": "[[sessions/FEISHU-337_chat_oc_7be9cdd70c88b72dca99253a34f03-7d5e165c/session.md#om_x100b50e102bf6890c49653a02547a75|om_x100b50e102bf6890c49653a02547a75]]",
+            "core_entry_id": "om_x100b50e102bf6890c49653a02547a75",
+            "subject_key": "发布阻塞风险",
+            "is_current": true,
+            "lifecycle_status": "active",
+            "lifecycle_reason": null,
+            "target": "QA 结论",
+            "time_target": null,
+            "scope_target": null,
+            "action": null,
+            "owner": null,
+            "objector": null,
+            "status": null,
+            "certainty": null
+          }
+        ],
+        "rationale": [],
+        "objection": [],
+        "constraint": [],
+        "commitment": [],
+        "status": [
+          {
+            "event_id": "evt_e7a3315000ea834e",
+            "event_type": "status_event",
+            "claim": "上线 checklist 已上传，附件里每人填了备注，请查看。",
+            "event_time": "1778210003000",
+            "evidence_quote": "上线 checklist 已上传",
+            "event_path": "sessions/FEISHU-337_chat_oc_7be9cdd70c88b72dca99253a34f03-7d5e165c/session_events.jsonl#evt_e7a3315000ea834e",
+            "event_ref": "[[sessions/FEISHU-337_chat_oc_7be9cdd70c88b72dca99253a34f03-7d5e165c/session_events.jsonl#evt_e7a3315000ea834e|evt_e7a3315000ea834e]]",
+            "entry_ref": "[[sessions/FEISHU-337_chat_oc_7be9cdd70c88b72dca99253a34f03-7d5e165c/session.md#om_x100b50e1056d69b0c2213ca05f5370f|om_x100b50e1056d69b0c2213ca05f5370f]]",
+            "core_entry_id": "om_x100b50e1056d69b0c2213ca05f5370f",
+            "subject_key": "发布阻塞风险",
+            "is_current": true,
+            "lifecycle_status": "active",
+            "lifecycle_reason": null,
+            "target": "上线 checklist",
+            "time_target": null,
+            "scope_target": null,
+            "action": null,
+            "owner": null,
+            "objector": null,
+            "status": "completed",
+            "certainty": null
+          },
+          {
+            "event_id": "evt_3e4f58751c069ad4",
+            "event_type": "status_event",
+            "claim": "个人备注不影响任务状态，blocker 只有 checklist 里标识的正式依赖项。",
+            "event_time": "1778210003000",
+            "evidence_quote": "个人备注不影响任务状态，blocker 只有 checklist 里标识的正式依赖项。",
+            "event_path": "sessions/FEISHU-337_chat_oc_7be9cdd70c88b72dca99253a34f03-7d5e165c/session_events.jsonl#evt_3e4f58751c069ad4",
+            "event_ref": "[[sessions/FEISHU-337_chat_oc_7be9cdd70c88b72dca99253a34f03-7d5e165c/session_events.jsonl#evt_3e4f58751c069ad4|evt_3e4f58751c069ad4]]",
+            "entry_ref": "[[sessions/FEISHU-337_chat_oc_7be9cdd70c88b72dca99253a34f03-7d5e165c/session.md#om_x100b50e1052744b4c3dec34777a6dcd|om_x100b50e1052744b4c3dec34777a6dcd]]",
+            "core_entry_id": "om_x100b50e1052744b4c3dec34777a6dcd",
+            "subject_key": "发布阻塞风险",
+            "is_current": false,
+            "lifecycle_status": "active",
+            "lifecycle_reason": null,
+            "target": "任务状态",
+            "time_target": null,
+            "scope_target": null,
+            "action": null,
+            "owner": null,
+            "objector": null,
+            "status": "blocker 只有 checklist 里标识的正式依赖项",
+            "certainty": null
+          },
+          {
+            "event_id": "evt_86c05ed496ed3fc3",
+            "event_type": "status_event",
+            "claim": "网络配置依赖已确认，是 checklist 里的正式 blocker，需要周伟协调。",
+            "event_time": "1778210003000",
+            "evidence_quote": "网络配置依赖已确认，是 checklist 里的正式 blocker，需要周伟协调。",
+            "event_path": "sessions/FEISHU-337_chat_oc_7be9cdd70c88b72dca99253a34f03-7d5e165c/session_events.jsonl#evt_86c05ed496ed3fc3",
+            "event_ref": "[[sessions/FEISHU-337_chat_oc_7be9cdd70c88b72dca99253a34f03-7d5e165c/session_events.jsonl#evt_86c05ed496ed3fc3|evt_86c05ed496ed3fc3]]",
+            "entry_ref": "[[sessions/FEISHU-337_chat_oc_7be9cdd70c88b72dca99253a34f03-7d5e165c/session.md#om_x100b50e1028d7484c3d4a88c58a69ee|om_x100b50e1028d7484c3d4a88c58a69ee]]",
+            "core_entry_id": "om_x100b50e1028d7484c3d4a88c58a69ee",
+            "subject_key": "发布阻塞风险",
+            "is_current": false,
+            "lifecycle_status": "active",
+            "lifecycle_reason": null,
+            "target": "网络配置依赖",
+            "time_target": null,
+            "scope_target": null,
+            "action": null,
+            "owner": null,
+            "objector": null,
+            "status": "blocker",
+            "certainty": null
+          },
+          {
+            "event_id": "evt_4d534723a3c9ec6a",
+            "event_type": "status_event",
+            "claim": "网络配置是依赖项，在 checklist 里已标注 blocked。",
+            "event_time": "1778210003000",
+            "evidence_quote": "网络配置确实是依赖项，我在 checklist 里已标注 blocked。",
+            "event_path": "sessions/FEISHU-337_chat_oc_7be9cdd70c88b72dca99253a34f03-7d5e165c/session_events.jsonl#evt_4d534723a3c9ec6a",
+            "event_ref": "[[sessions/FEISHU-337_chat_oc_7be9cdd70c88b72dca99253a34f03-7d5e165c/session_events.jsonl#evt_4d534723a3c9ec6a|evt_4d534723a3c9ec6a]]",
+            "entry_ref": "[[sessions/FEISHU-337_chat_oc_7be9cdd70c88b72dca99253a34f03-7d5e165c/session.md#om_x100b50e10297fc9cc3721335adf6dbc|om_x100b50e10297fc9cc3721335adf6dbc]]",
+            "core_entry_id": "om_x100b50e10297fc9cc3721335adf6dbc",
+            "subject_key": "发布阻塞风险",
+            "is_current": false,
+            "lifecycle_status": "active",
+            "lifecycle_reason": null,
+            "target": "网络配置",
+            "time_target": null,
+            "scope_target": null,
+            "action": null,
+            "owner": null,
+            "objector": null,
+            "status": "blocked",
+            "certainty": null
+          }
+        ],
+        "time": [],
+        "scope": []
+      },
+      "status": "active",
+      "evidence_refs": [
+        {
+          "event_id": "evt_e7a3315000ea834e",
+          "event_path": "sessions/FEISHU-337_chat_oc_7be9cdd70c88b72dca99253a34f03-7d5e165c/session_events.jsonl#evt_e7a3315000ea834e",
+          "entry_ref": "[[sessions/FEISHU-337_chat_oc_7be9cdd70c88b72dca99253a34f03-7d5e165c/session.md#om_x100b50e1056d69b0c2213ca05f5370f|om_x100b50e1056d69b0c2213ca05f5370f]]",
+          "quote": "上线 checklist 已上传"
+        },
+        {
+          "event_id": "evt_3e4f58751c069ad4",
+          "event_path": "sessions/FEISHU-337_chat_oc_7be9cdd70c88b72dca99253a34f03-7d5e165c/session_events.jsonl#evt_3e4f58751c069ad4",
+          "entry_ref": "[[sessions/FEISHU-337_chat_oc_7be9cdd70c88b72dca99253a34f03-7d5e165c/session.md#om_x100b50e1052744b4c3dec34777a6dcd|om_x100b50e1052744b4c3dec34777a6dcd]]",
+          "quote": "个人备注不影响任务状态，blocker 只有 checklist 里标识的正式依赖项。"
+        },
+        {
+          "event_id": "evt_86c05ed496ed3fc3",
+          "event_path": "sessions/FEISHU-337_chat_oc_7be9cdd70c88b72dca99253a34f03-7d5e165c/session_events.jsonl#evt_86c05ed496ed3fc3",
+          "entry_ref": "[[sessions/FEISHU-337_chat_oc_7be9cdd70c88b72dca99253a34f03-7d5e165c/session.md#om_x100b50e1028d7484c3d4a88c58a69ee|om_x100b50e1028d7484c3d4a88c58a69ee]]",
+          "quote": "网络配置依赖已确认，是 checklist 里的正式 blocker，需要周伟协调。"
+        },
+        {
+          "event_id": "evt_4d534723a3c9ec6a",
+          "event_path": "sessions/FEISHU-337_chat_oc_7be9cdd70c88b72dca99253a34f03-7d5e165c/session_events.jsonl#evt_4d534723a3c9ec6a",
+          "entry_ref": "[[sessions/FEISHU-337_chat_oc_7be9cdd70c88b72dca99253a34f03-7d5e165c/session.md#om_x100b50e10297fc9cc3721335adf6dbc|om_x100b50e10297fc9cc3721335adf6dbc]]",
+          "quote": "网络配置确实是依赖项，我在 checklist 里已标注 blocked。"
+        },
+        {
+          "event_id": "evt_2e88a7e6824ecb36",
+          "event_path": "sessions/FEISHU-337_chat_oc_7be9cdd70c88b72dca99253a34f03-7d5e165c/session_events.jsonl#evt_2e88a7e6824ecb36",
+          "entry_ref": "[[sessions/FEISHU-337_chat_oc_7be9cdd70c88b72dca99253a34f03-7d5e165c/session.md#om_x100b50e102bf6890c49653a02547a75|om_x100b50e102bf6890c49653a02547a75]]",
+          "quote": "QA 结论按 checklist 标准项执行，没有掺入个人备注。"
+        }
+      ],
+      "summary": "QA结论按标准执行，上线checklist已上传并含备注。"
+    },
+    "block-看依赖项-8904e7e6": {
+      "block_id": "block-看依赖项-8904e7e6",
+      "anchor_id": "block-看依赖项-8904e7e6",
+      "topic_key": "看依赖项",
+      "topic_title": "看依赖项",
+      "event_ids": [
+        "evt_026bba8da90b7bab"
+      ],
+      "slots": {
+        "conclusion": [],
+        "rationale": [],
+        "objection": [],
+        "constraint": [],
+        "commitment": [
+          {
+            "event_id": "evt_026bba8da90b7bab",
+            "event_type": "commitment_event",
+            "claim": "我先看依赖项。",
+            "event_time": "1778210003000",
+            "evidence_quote": "我先看依赖项。",
+            "event_path": "sessions/FEISHU-337_chat_oc_7be9cdd70c88b72dca99253a34f03-7d5e165c/session_events.jsonl#evt_026bba8da90b7bab",
+            "event_ref": "[[sessions/FEISHU-337_chat_oc_7be9cdd70c88b72dca99253a34f03-7d5e165c/session_events.jsonl#evt_026bba8da90b7bab|evt_026bba8da90b7bab]]",
+            "entry_ref": "[[sessions/FEISHU-337_chat_oc_7be9cdd70c88b72dca99253a34f03-7d5e165c/session.md#om_x100b50e10534dd40c3494cb0f7c560b|om_x100b50e10534dd40c3494cb0f7c560b]]",
+            "core_entry_id": "om_x100b50e10534dd40c3494cb0f7c560b",
+            "subject_key": "看依赖项",
+            "is_current": true,
+            "lifecycle_status": "active",
+            "lifecycle_reason": null,
+            "target": null,
+            "time_target": null,
+            "scope_target": null,
+            "action": "看依赖项",
+            "owner": "罗天",
+            "objector": null,
+            "status": null,
+            "certainty": null
+          }
+        ],
+        "status": [],
+        "time": [],
+        "scope": []
+      },
+      "status": "active",
+      "evidence_refs": [
+        {
+          "event_id": "evt_026bba8da90b7bab",
+          "event_path": "sessions/FEISHU-337_chat_oc_7be9cdd70c88b72dca99253a34f03-7d5e165c/session_events.jsonl#evt_026bba8da90b7bab",
+          "entry_ref": "[[sessions/FEISHU-337_chat_oc_7be9cdd70c88b72dca99253a34f03-7d5e165c/session.md#om_x100b50e10534dd40c3494cb0f7c560b|om_x100b50e10534dd40c3494cb0f7c560b]]",
+          "quote": "我先看依赖项。"
+        }
+      ],
+      "summary": "用户表示先查看依赖项。"
+    },
+    "block-联系周伟-47ca9922": {
+      "block_id": "block-联系周伟-47ca9922",
+      "anchor_id": "block-联系周伟-47ca9922",
+      "topic_key": "联系周伟",
+      "topic_title": "联系周伟",
+      "event_ids": [
+        "evt_213cacaebbf368e4"
+      ],
+      "slots": {
+        "conclusion": [],
+        "rationale": [],
+        "objection": [],
+        "constraint": [],
+        "commitment": [
+          {
+            "event_id": "evt_213cacaebbf368e4",
+            "event_type": "commitment_event",
+            "claim": "那我来联系周伟。",
+            "event_time": "1778210003000",
+            "evidence_quote": "那我来联系周伟。",
+            "event_path": "sessions/FEISHU-337_chat_oc_7be9cdd70c88b72dca99253a34f03-7d5e165c/session_events.jsonl#evt_213cacaebbf368e4",
+            "event_ref": "[[sessions/FEISHU-337_chat_oc_7be9cdd70c88b72dca99253a34f03-7d5e165c/session_events.jsonl#evt_213cacaebbf368e4|evt_213cacaebbf368e4]]",
+            "entry_ref": "[[sessions/FEISHU-337_chat_oc_7be9cdd70c88b72dca99253a34f03-7d5e165c/session.md#om_x100b50e1028164b4c3617dacea25976|om_x100b50e1028164b4c3617dacea25976]]",
+            "core_entry_id": "om_x100b50e1028164b4c3617dacea25976",
+            "subject_key": "联系周伟",
+            "is_current": true,
+            "lifecycle_status": "active",
+            "lifecycle_reason": null,
+            "target": null,
+            "time_target": null,
+            "scope_target": null,
+            "action": "联系周伟",
+            "owner": "周宇",
+            "objector": null,
+            "status": null,
+            "certainty": null
+          }
+        ],
+        "status": [],
+        "time": [],
+        "scope": []
+      },
+      "status": "active",
+      "evidence_refs": [
+        {
+          "event_id": "evt_213cacaebbf368e4",
+          "event_path": "sessions/FEISHU-337_chat_oc_7be9cdd70c88b72dca99253a34f03-7d5e165c/session_events.jsonl#evt_213cacaebbf368e4",
+          "entry_ref": "[[sessions/FEISHU-337_chat_oc_7be9cdd70c88b72dca99253a34f03-7d5e165c/session.md#om_x100b50e1028164b4c3617dacea25976|om_x100b50e1028164b4c3617dacea25976]]",
+          "quote": "那我来联系周伟。"
+        }
+      ],
+      "summary": "主动联系周伟"
+    },
+    "block-评审-04a63b37": {
+      "block_id": "block-评审-04a63b37",
+      "anchor_id": "block-评审-04a63b37",
+      "topic_key": "评审",
+      "topic_title": "评审",
+      "event_ids": [
+        "evt_bbfa3aee99d5af2c",
+        "evt_5da239dad1a1bdcf"
+      ],
+      "slots": {
+        "conclusion": [],
+        "rationale": [],
+        "objection": [
+          {
+            "event_id": "evt_5da239dad1a1bdcf",
+            "event_type": "objection_event",
+            "claim": "高骏 20-21 号上午不行，那评审得调时间？",
+            "event_time": "1778210003000",
+            "evidence_quote": "高骏 20-21 号上午不行",
+            "event_path": "sessions/FEISHU-337_chat_oc_7be9cdd70c88b72dca99253a34f03-7d5e165c/session_events.jsonl#evt_5da239dad1a1bdcf",
+            "event_ref": "[[sessions/FEISHU-337_chat_oc_7be9cdd70c88b72dca99253a34f03-7d5e165c/session_events.jsonl#evt_5da239dad1a1bdcf|evt_5da239dad1a1bdcf]]",
+            "entry_ref": "[[sessions/FEISHU-337_chat_oc_7be9cdd70c88b72dca99253a34f03-7d5e165c/session.md#om_x100b50e1051c48b0c2c78a0b493a6eb|om_x100b50e1051c48b0c2c78a0b493a6eb]]",
+            "core_entry_id": "om_x100b50e1051c48b0c2c78a0b493a6eb",
+            "subject_key": "评审",
+            "is_current": true,
+            "lifecycle_status": "active",
+            "lifecycle_reason": null,
+            "target": "评审",
+            "time_target": null,
+            "scope_target": null,
+            "action": null,
+            "owner": null,
+            "objector": "高骏",
+            "status": null,
+            "certainty": null
+          }
+        ],
+        "constraint": [
+          {
+            "event_id": "evt_bbfa3aee99d5af2c",
+            "event_type": "constraint_event",
+            "claim": "20-21 号只能下午参加评审，上午有私事。",
+            "event_time": "1778210003000",
+            "evidence_quote": "20-21 号只能下午参加评审，上午有私事。",
+            "event_path": "sessions/FEISHU-337_chat_oc_7be9cdd70c88b72dca99253a34f03-7d5e165c/session_events.jsonl#evt_bbfa3aee99d5af2c",
+            "event_ref": "[[sessions/FEISHU-337_chat_oc_7be9cdd70c88b72dca99253a34f03-7d5e165c/session_events.jsonl#evt_bbfa3aee99d5af2c|evt_bbfa3aee99d5af2c]]",
+            "entry_ref": "[[sessions/FEISHU-337_chat_oc_7be9cdd70c88b72dca99253a34f03-7d5e165c/session.md#om_x100b50e105749c8cc4d03d16249abe0|om_x100b50e105749c8cc4d03d16249abe0]]",
+            "core_entry_id": "om_x100b50e105749c8cc4d03d16249abe0",
+            "subject_key": "评审",
+            "is_current": true,
+            "lifecycle_status": "active",
+            "lifecycle_reason": null,
+            "target": "评审",
+            "time_target": null,
+            "scope_target": null,
+            "action": null,
+            "owner": null,
+            "objector": null,
+            "status": null,
+            "certainty": null
+          }
+        ],
+        "commitment": [],
+        "status": [],
+        "time": [],
+        "scope": []
+      },
+      "status": "open",
+      "evidence_refs": [
+        {
+          "event_id": "evt_bbfa3aee99d5af2c",
+          "event_path": "sessions/FEISHU-337_chat_oc_7be9cdd70c88b72dca99253a34f03-7d5e165c/session_events.jsonl#evt_bbfa3aee99d5af2c",
+          "entry_ref": "[[sessions/FEISHU-337_chat_oc_7be9cdd70c88b72dca99253a34f03-7d5e165c/session.md#om_x100b50e105749c8cc4d03d16249abe0|om_x100b50e105749c8cc4d03d16249abe0]]",
+          "quote": "20-21 号只能下午参加评审，上午有私事。"
+        },
+        {
+          "event_id": "evt_5da239dad1a1bdcf",
+          "event_path": "sessions/FEISHU-337_chat_oc_7be9cdd70c88b72dca99253a34f03-7d5e165c/session_events.jsonl#evt_5da239dad1a1bdcf",
+          "entry_ref": "[[sessions/FEISHU-337_chat_oc_7be9cdd70c88b72dca99253a34f03-7d5e165c/session.md#om_x100b50e1051c48b0c2c78a0b493a6eb|om_x100b50e1051c48b0c2c78a0b493a6eb]]",
+          "quote": "高骏 20-21 号上午不行"
+        }
+      ],
+      "summary": "高骏20-21号上午无法参加评审，需调整时间至下午。"
+    },
+    "block-销售承诺风险-3d675c35": {
+      "block_id": "block-销售承诺风险-3d675c35",
+      "anchor_id": "block-销售承诺风险-3d675c35",
+      "topic_key": "销售承诺风险",
+      "topic_title": "销售承诺风险",
+      "event_ids": [
+        "evt_95ec2a0c135d5fb2",
+        "evt_706a9c480f267b07"
+      ],
+      "slots": {
+        "conclusion": [],
+        "rationale": [],
+        "objection": [
+          {
+            "event_id": "evt_706a9c480f267b07",
+            "event_type": "objection_event",
+            "claim": "Qianhao 说唐越私下答应补供应商材料，但我觉得那不算正式承诺。",
+            "event_time": "1778210003000",
+            "evidence_quote": "但我觉得那不算正式承诺。",
+            "event_path": "sessions/FEISHU-337_chat_oc_7be9cdd70c88b72dca99253a34f03-7d5e165c/session_events.jsonl#evt_706a9c480f267b07",
+            "event_ref": "[[sessions/FEISHU-337_chat_oc_7be9cdd70c88b72dca99253a34f03-7d5e165c/session_events.jsonl#evt_706a9c480f267b07|evt_706a9c480f267b07]]",
+            "entry_ref": "[[sessions/FEISHU-337_chat_oc_7be9cdd70c88b72dca99253a34f03-7d5e165c/session.md#om_x100b50e102c120acc29626864c186b8|om_x100b50e102c120acc29626864c186b8]]",
+            "core_entry_id": "om_x100b50e102c120acc29626864c186b8",
+            "subject_key": "销售承诺风险",
+            "is_current": true,
+            "lifecycle_status": "active",
+            "lifecycle_reason": null,
+            "target": "补供应商材料",
+            "time_target": null,
+            "scope_target": null,
+            "action": null,
+            "owner": null,
+            "objector": "赵敏",
+            "status": null,
+            "certainty": null
+          }
+        ],
+        "constraint": [],
+        "commitment": [
+          {
+            "event_id": "evt_95ec2a0c135d5fb2",
+            "event_type": "commitment_event",
+            "claim": "陈雪承诺马上看",
+            "event_time": "1778210003000",
+            "evidence_quote": "好的，我马上看。",
+            "event_path": "sessions/FEISHU-337_chat_oc_7be9cdd70c88b72dca99253a34f03-7d5e165c/session_events.jsonl#evt_95ec2a0c135d5fb2",
+            "event_ref": "[[sessions/FEISHU-337_chat_oc_7be9cdd70c88b72dca99253a34f03-7d5e165c/session_events.jsonl#evt_95ec2a0c135d5fb2|evt_95ec2a0c135d5fb2]]",
+            "entry_ref": "[[sessions/FEISHU-337_chat_oc_7be9cdd70c88b72dca99253a34f03-7d5e165c/session.md#om_x100b50e1056154a4c4e61b50b5e682b|om_x100b50e1056154a4c4e61b50b5e682b]]",
+            "core_entry_id": "om_x100b50e1056154a4c4e61b50b5e682b",
+            "subject_key": "销售承诺风险",
+            "is_current": true,
+            "lifecycle_status": "active",
+            "lifecycle_reason": null,
+            "target": null,
+            "time_target": null,
+            "scope_target": null,
+            "action": "看",
+            "owner": "陈雪",
+            "objector": null,
+            "status": null,
+            "certainty": null
+          }
+        ],
+        "status": [],
+        "time": [],
+        "scope": []
+      },
+      "status": "open",
+      "evidence_refs": [
+        {
+          "event_id": "evt_95ec2a0c135d5fb2",
+          "event_path": "sessions/FEISHU-337_chat_oc_7be9cdd70c88b72dca99253a34f03-7d5e165c/session_events.jsonl#evt_95ec2a0c135d5fb2",
+          "entry_ref": "[[sessions/FEISHU-337_chat_oc_7be9cdd70c88b72dca99253a34f03-7d5e165c/session.md#om_x100b50e1056154a4c4e61b50b5e682b|om_x100b50e1056154a4c4e61b50b5e682b]]",
+          "quote": "好的，我马上看。"
+        },
+        {
+          "event_id": "evt_706a9c480f267b07",
+          "event_path": "sessions/FEISHU-337_chat_oc_7be9cdd70c88b72dca99253a34f03-7d5e165c/session_events.jsonl#evt_706a9c480f267b07",
+          "entry_ref": "[[sessions/FEISHU-337_chat_oc_7be9cdd70c88b72dca99253a34f03-7d5e165c/session.md#om_x100b50e102c120acc29626864c186b8|om_x100b50e102c120acc29626864c186b8]]",
+          "quote": "但我觉得那不算正式承诺。"
+        }
+      ],
+      "summary": "销售承诺风险：Qianhao称唐越私下答应补材料，但未被视作正式承诺；陈雪承诺立即查看。"
+    },
+    "block-正式升级窗口-930e601a": {
+      "block_id": "block-正式升级窗口-930e601a",
+      "anchor_id": "block-正式升级窗口-930e601a",
+      "topic_key": "正式升级窗口",
+      "topic_title": "正式升级窗口",
+      "event_ids": [
+        "evt_82e94c303d33450d"
+      ],
+      "slots": {
+        "conclusion": [],
+        "rationale": [],
+        "objection": [],
+        "constraint": [],
+        "commitment": [
+          {
+            "event_id": "evt_82e94c303d33450d",
+            "event_type": "commitment_event",
+            "claim": "收到，我先评估一下迁移窗口。",
+            "event_time": "1778210003000",
+            "evidence_quote": "收到，我先评估一下迁移窗口。",
+            "event_path": "sessions/FEISHU-337_chat_oc_7be9cdd70c88b72dca99253a34f03-7d5e165c/session_events.jsonl#evt_82e94c303d33450d",
+            "event_ref": "[[sessions/FEISHU-337_chat_oc_7be9cdd70c88b72dca99253a34f03-7d5e165c/session_events.jsonl#evt_82e94c303d33450d|evt_82e94c303d33450d]]",
+            "entry_ref": "[[sessions/FEISHU-337_chat_oc_7be9cdd70c88b72dca99253a34f03-7d5e165c/session.md#om_x100b50e1055958acc3833f181f2a7bd|om_x100b50e1055958acc3833f181f2a7bd]]",
+            "core_entry_id": "om_x100b50e1055958acc3833f181f2a7bd",
+            "subject_key": "正式升级窗口",
+            "is_current": true,
+            "lifecycle_status": "active",
+            "lifecycle_reason": null,
+            "target": null,
+            "time_target": null,
+            "scope_target": null,
+            "action": "评估迁移窗口",
+            "owner": "周宇",
+            "objector": null,
+            "status": null,
+            "certainty": null
+          }
+        ],
+        "status": [],
+        "time": [],
+        "scope": []
+      },
+      "status": "active",
+      "evidence_refs": [
+        {
+          "event_id": "evt_82e94c303d33450d",
+          "event_path": "sessions/FEISHU-337_chat_oc_7be9cdd70c88b72dca99253a34f03-7d5e165c/session_events.jsonl#evt_82e94c303d33450d",
+          "entry_ref": "[[sessions/FEISHU-337_chat_oc_7be9cdd70c88b72dca99253a34f03-7d5e165c/session.md#om_x100b50e1055958acc3833f181f2a7bd|om_x100b50e1055958acc3833f181f2a7bd]]",
+          "quote": "收到，我先评估一下迁移窗口。"
+        }
+      ],
+      "summary": "评估迁移窗口"
+    },
+    "block-QA-d851aefa": {
+      "block_id": "block-QA-d851aefa",
+      "anchor_id": "block-QA-d851aefa",
+      "topic_key": "QA",
+      "topic_title": "QA",
+      "event_ids": [
+        "evt_3dd0fe61c9a5fa77"
+      ],
+      "slots": {
+        "conclusion": [],
+        "rationale": [],
+        "objection": [],
+        "constraint": [],
+        "commitment": [],
+        "status": [
+          {
+            "event_id": "evt_3dd0fe61c9a5fa77",
+            "event_type": "status_event",
+            "claim": "QA 没问题。",
+            "event_time": "1778210003000",
+            "evidence_quote": "好，QA 没问题。",
+            "event_path": "sessions/FEISHU-337_chat_oc_7be9cdd70c88b72dca99253a34f03-7d5e165c/session_events.jsonl#evt_3dd0fe61c9a5fa77",
+            "event_ref": "[[sessions/FEISHU-337_chat_oc_7be9cdd70c88b72dca99253a34f03-7d5e165c/session_events.jsonl#evt_3dd0fe61c9a5fa77|evt_3dd0fe61c9a5fa77]]",
+            "entry_ref": "[[sessions/FEISHU-337_chat_oc_7be9cdd70c88b72dca99253a34f03-7d5e165c/session.md#om_x100b50e102b3f4b8c49e02a8eb9e149|om_x100b50e102b3f4b8c49e02a8eb9e149]]",
+            "core_entry_id": "om_x100b50e102b3f4b8c49e02a8eb9e149",
+            "subject_key": "qa",
+            "is_current": true,
+            "lifecycle_status": "active",
+            "lifecycle_reason": null,
+            "target": "QA",
+            "time_target": null,
+            "scope_target": null,
+            "action": null,
+            "owner": null,
+            "objector": null,
+            "status": "passed",
+            "certainty": null
+          }
+        ],
+        "time": [],
+        "scope": []
+      },
+      "status": "active",
+      "evidence_refs": [
+        {
+          "event_id": "evt_3dd0fe61c9a5fa77",
+          "event_path": "sessions/FEISHU-337_chat_oc_7be9cdd70c88b72dca99253a34f03-7d5e165c/session_events.jsonl#evt_3dd0fe61c9a5fa77",
+          "entry_ref": "[[sessions/FEISHU-337_chat_oc_7be9cdd70c88b72dca99253a34f03-7d5e165c/session.md#om_x100b50e102b3f4b8c49e02a8eb9e149|om_x100b50e102b3f4b8c49e02a8eb9e149]]",
+          "quote": "好，QA 没问题。"
+        }
+      ],
+      "summary": "QA 状态正常，无问题。"
+    }
+  },
+  "lifecycle_summary": {
+    "active_event_count": 14,
+    "historical_event_count": 0,
+    "invalid_event_count": 0
+  },
+  "updated_at": "2026-05-08T04:06:16.781Z"
+}

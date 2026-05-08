@@ -1,0 +1,74 @@
+{
+  "tasks": [
+    {
+      "accountId": "benchmark",
+      "taskId": "task:FEISHU-335",
+      "taskKey": "FEISHU-335",
+      "taskTitle": "FEISHU-335 交接修正线程：以下回复承载该 source ses…",
+      "taskSummary": "FEISHU-335 runtime eval / FEISHU-335 交接修正线程：以下回复承载该 source session 的真实 benchmark 消息。",
+      "taskKeywords": [
+        "FEISHU-335",
+        "的真实",
+        "交接修正线程",
+        "消息",
+        "以下回复承载该",
+        "benchmark",
+        "风险复核线程",
+        "3月15日"
+      ],
+      "taskStatus": "active",
+      "createdAt": 1778211500890,
+      "updatedAt": 1778211523944
+    }
+  ],
+  "bindings": [
+    {
+      "accountId": "benchmark",
+      "taskId": "task:FEISHU-335",
+      "sourceType": "thread",
+      "sourceId": "thread:handoff_thread",
+      "chatId": "oc_360477e1d835fbdd2b71188a4b330405",
+      "threadId": null,
+      "rootId": null,
+      "bindingStatus": "active",
+      "createdAt": 1778211500890,
+      "updatedAt": 1778211500890
+    },
+    {
+      "accountId": "benchmark",
+      "taskId": "task:FEISHU-335",
+      "sourceType": "thread",
+      "sourceId": "thread:risk_review_thread",
+      "chatId": "oc_3f833cdfb811d37de2a96f250c231139",
+      "threadId": null,
+      "rootId": null,
+      "bindingStatus": "active",
+      "createdAt": 1778211501758,
+      "updatedAt": 1778211501758
+    },
+    {
+      "accountId": "benchmark",
+      "taskId": "task:FEISHU-335",
+      "sourceType": "chat",
+      "sourceId": "chat:main_chat",
+      "chatId": "oc_e04355a17fcd34369ab4eda64d84c019",
+      "threadId": null,
+      "rootId": null,
+      "bindingStatus": "active",
+      "createdAt": 1778211502444,
+      "updatedAt": 1778211502444
+    },
+    {
+      "accountId": "benchmark",
+      "taskId": "task:FEISHU-335",
+      "sourceType": "chat",
+      "sourceId": "chat:thread_release",
+      "chatId": "oc_70099f3d4b6000e574d6166ac0832b36",
+      "threadId": null,
+      "rootId": null,
+      "bindingStatus": "active",
+      "createdAt": 1778211523944,
+      "updatedAt": 1778211523944
+    }
+  ]
+}

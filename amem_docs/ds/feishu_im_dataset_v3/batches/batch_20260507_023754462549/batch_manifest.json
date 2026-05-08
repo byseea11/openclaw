@@ -1,0 +1,61 @@
+{
+  "batch_id": "batch_20260507_023754462549",
+  "dataset_root": "amem_docs/ds/feishu_im_dataset_v3",
+  "batch_dir": "amem_docs/ds/feishu_im_dataset_v3/batches/batch_20260507_023754462549",
+  "difficulty": "hard",
+  "base_seed": 20260507023754463002,
+  "family_policy": "all",
+  "case_count": 2,
+  "cases": [
+    {
+      "case_id": "case_20260507023754463002_anti_interference",
+      "case_dir": "amem_docs/ds/feishu_im_dataset_v3/batches/batch_20260507_023754462549/cases/case_20260507023754463002_anti_interference",
+      "family_id": "anti_interference",
+      "seed": 20260507023754463002,
+      "status": "completed",
+      "phase1": {
+        "status": "completed",
+        "completed_stages": [
+          "spec-generation",
+          "family-selection",
+          "capability-brief",
+          "task-actor-layout",
+          "case-world",
+          "characters",
+          "state-trajectory",
+          "coverage-spec",
+          "story-beats",
+          "conversation-plan",
+          "command-plan",
+          "execute",
+          "collect",
+          "pre-annotation-validate"
+        ],
+        "outputs": {
+          "case_dir": "amem_docs/ds/feishu_im_dataset_v3/batches/batch_20260507_023754462549/cases/case_20260507023754463002_anti_interference",
+          "model_call_log_path": "amem_docs/ds/feishu_im_dataset_v3/batches/batch_20260507_023754462549/cases/case_20260507023754463002_anti_interference/logs/model_call_log.jsonl",
+          "active_case_path": "amem_docs/ds/feishu_im_dataset_v3/batches/batch_20260507_023754462549/active_case.json"
+        },
+        "completed_at": "2026-05-07T02:43:44.773610+00:00"
+      },
+      "phase2": {},
+      "phase3": {}
+    },
+    {
+      "case_id": "case_20260507023754463003_contradiction_update",
+      "case_dir": "amem_docs/ds/feishu_im_dataset_v3/batches/batch_20260507_023754462549/cases/case_20260507023754463003_contradiction_update",
+      "family_id": "contradiction_update",
+      "seed": 20260507023754463003,
+      "status": "failed",
+      "phase1": {
+        "status": "failed",
+        "error": "conversation-plan payload validation failed after repair: conversation_plan_artifact has too few event_bearing turns",
+        "completed_at": "2026-05-07T02:51:29.573926+00:00"
+      },
+      "phase2": {},
+      "phase3": {}
+    }
+  ],
+  "created_at": "2026-05-07T02:37:54.463201+00:00",
+  "updated_at": "2026-05-07T02:51:29.574333+00:00"
+}

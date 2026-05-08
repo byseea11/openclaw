@@ -1,0 +1,9 @@
+{
+  "baseline_mode": "openclaw_real_replay",
+  "replay_kind": "unknown",
+  "replay_command_used": false,
+  "gateway_state": null,
+  "raw_runs": [],
+  "status": "failed",
+  "failure_path": "amem_docs/ds/feishu_im_dataset_v3/cases/case_20260507105819230766_private_info_in_official_file/runtime/openclaw_baseline/failure.json"
+}

@@ -1,0 +1,103 @@
+{
+  "case_id": "case_20260507112905870826_contradiction_update",
+  "baseline_mode": "openclaw_real_replay",
+  "traces": [
+    {
+      "query_id": "case_20260507112905870826_contradiction_update_query_001",
+      "supporting_message_ids": [
+        "om_x100b50f3c453f8a4c4d6b03724f035b",
+        "om_x100b50f3c48e5cb4c2d545aaec8d4d8"
+      ],
+      "evidence": [],
+      "judge_result": {
+        "success": true,
+        "evidence_trace_ok": true,
+        "current_state_ok": true,
+        "private_info_leaked": false,
+        "official_fact_ok": true,
+        "reasons": [
+          "原始 OpenClaw 输出引用了 query gold observed message_id"
+        ]
+      }
+    },
+    {
+      "query_id": "case_20260507112905870826_contradiction_update_query_002",
+      "supporting_message_ids": [
+        "om_x100b50f3c453f8a4c4d6b03724f035b",
+        "om_x100b50f3c466c8a8c445fd067564b92",
+        "om_x100b50f3c77b58a4c2c5ab1892c9d58"
+      ],
+      "evidence": [],
+      "judge_result": {
+        "success": true,
+        "evidence_trace_ok": true,
+        "current_state_ok": true,
+        "private_info_leaked": false,
+        "official_fact_ok": true,
+        "reasons": [
+          "原始 OpenClaw 输出引用了 query gold observed message_id"
+        ]
+      }
+    },
+    {
+      "query_id": "case_20260507112905870826_contradiction_update_query_003",
+      "supporting_message_ids": [
+        "om_x100b50f3c7505024c2a5eca5e634233",
+        "om_x100b50f3c7643ca8c2b72e03492b465",
+        "om_x100b50f3c77b58a4c2c5ab1892c9d58",
+        "om_x100b50f3c70918a8c3992d936d63517",
+        "om_x100b50f3c4e1b4acc2821c192b5bb90",
+        "om_x100b50f3c4f590b8c3d76c1ccdb1472",
+        "om_x100b50f3c48e5cb4c2d545aaec8d4d8"
+      ],
+      "evidence": [],
+      "judge_result": {
+        "success": false,
+        "evidence_trace_ok": false,
+        "current_state_ok": true,
+        "private_info_leaked": false,
+        "official_fact_ok": false,
+        "reasons": [
+          "原始 OpenClaw 输出未引用 query gold observed message_id"
+        ]
+      }
+    },
+    {
+      "query_id": "case_20260507112905870826_contradiction_update_query_004",
+      "supporting_message_ids": [
+        "om_x100b50f3c4f590b8c3d76c1ccdb1472",
+        "om_x100b50f3c4e1b4acc2821c192b5bb90",
+        "om_x100b50f3c48e5cb4c2d545aaec8d4d8",
+        "om_x100b50f3c453f8a4c4d6b03724f035b"
+      ],
+      "evidence": [],
+      "judge_result": {
+        "success": true,
+        "evidence_trace_ok": true,
+        "current_state_ok": true,
+        "private_info_leaked": false,
+        "official_fact_ok": true,
+        "reasons": [
+          "原始 OpenClaw 输出引用了 query gold observed message_id"
+        ]
+      }
+    },
+    {
+      "query_id": "case_20260507112905870826_contradiction_update_query_005",
+      "supporting_message_ids": [
+        "om_x100b50f3c453f8a4c4d6b03724f035b"
+      ],
+      "evidence": [],
+      "judge_result": {
+        "success": true,
+        "evidence_trace_ok": true,
+        "current_state_ok": true,
+        "private_info_leaked": false,
+        "official_fact_ok": true,
+        "reasons": [
+          "原始 OpenClaw 输出引用了 query gold observed message_id"
+        ]
+      }
+    }
+  ]
+}

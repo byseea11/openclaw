@@ -1,0 +1,114 @@
+{
+  "case_id": "case_20260506203841812547_contradiction_update",
+  "family_id": "contradiction_update",
+  "task_id": "FEISHU-447",
+  "sessions": [
+    {
+      "session_id": "main_chat",
+      "session_type": "main_chat",
+      "title": "主群协调",
+      "session_purpose": "沉淀目标任务的主线协作信息和最终 current state。"
+    },
+    {
+      "session_id": "handoff_thread",
+      "session_type": "handoff_thread",
+      "title": "交接修正线程",
+      "session_purpose": "承载 owner 交接、旧状态修正和 supersession 说明。"
+    },
+    {
+      "session_id": "risk_review_thread",
+      "session_type": "risk_review_thread",
+      "title": "风险复核线程",
+      "session_purpose": "承载依赖、风险和证据分层补充信息。"
+    },
+    {
+      "session_id": "customer_sync_chat",
+      "session_type": "customer_sync_chat",
+      "title": "客户同步侧群",
+      "session_purpose": "承接外部压力、模糊口径和对外同步上下文。"
+    }
+  ],
+  "turns": [
+    {
+      "turn_id": "turn_001",
+      "beat_id": "beat_001",
+      "sequence_no": 1,
+      "session_id": "main_chat",
+      "speaker_actor_id": "alice",
+      "speaker": "Alice",
+      "planned_message_text": "FEISHU-447 由 Alice 负责，初版上线窗口定在5月8日，blocker是安全审查未完成，优先级P1。"
+    },
+    {
+      "turn_id": "turn_002",
+      "beat_id": "beat_002",
+      "sequence_no": 2,
+      "session_id": "main_chat",
+      "speaker_actor_id": "alice",
+      "speaker": "Alice",
+      "planned_message_text": "Alice 下周要休假，FEISHU-447 先交给 Carol 接手，窗口顺延到5月10日，blocker变为网络延迟优化，优先级降至P2。"
+    },
+    {
+      "turn_id": "turn_003",
+      "beat_id": "beat_003",
+      "sequence_no": 3,
+      "session_id": "main_chat",
+      "speaker_actor_id": "carol",
+      "speaker": "Carol",
+      "planned_message_text": "接 Alice 消息，Carol 确认暂时负责 FEISHU-447，但架构评审工作繁重需要协助。"
+    },
+    {
+      "turn_id": "turn_004",
+      "beat_id": "beat_004",
+      "sequence_no": 4,
+      "session_id": "handoff_thread",
+      "speaker_actor_id": "xavier",
+      "speaker": "Xavier",
+      "planned_message_text": "Carol 建议由 Xavier 最终收口，Xavier 在子线程中接手 FEISHU-447，窗口暂定5月12日，blocker更新为遗留API兼容问题，优先级重新升回P1。"
+    },
+    {
+      "turn_id": "turn_005",
+      "beat_id": "beat_005",
+      "sequence_no": 5,
+      "session_id": "risk_review_thread",
+      "speaker_actor_id": "xavier",
+      "speaker": "Xavier",
+      "planned_message_text": "客户 escalation 要求尽快上线，但安全团队反馈遗留API兼容问题至少需要一周，因此窗口再推迟到5月14日。之前口径作废，最终确认以本轮为准。旧 owner 只算历史信息。以上一轮的结论已不适用。请以我最新消息为准。"
+    },
+    {
+      "turn_id": "turn_006",
+      "beat_id": "beat_006",
+      "sequence_no": 6,
+      "session_id": "risk_review_thread",
+      "speaker_actor_id": "dave",
+      "speaker": "Dave",
+      "planned_message_text": "QA 确认遗留API兼容问题是真正的 blocker，安全审查和网络延迟都已解决。"
+    },
+    {
+      "turn_id": "turn_007",
+      "beat_id": "beat_007",
+      "sequence_no": 7,
+      "session_id": "customer_sync_chat",
+      "speaker_actor_id": "henry",
+      "speaker": "Henry",
+      "planned_message_text": "客户催促5月14日上线，压力较大，但 Xavier 坚持必须等 blocker 解决。"
+    },
+    {
+      "turn_id": "turn_008",
+      "beat_id": "beat_008",
+      "sequence_no": 8,
+      "session_id": "main_chat",
+      "speaker_actor_id": "alice",
+      "speaker": "Alice",
+      "planned_message_text": "Alice 休假回来，确认 FEISHU-447 已由 Xavier 全权负责，自己不再参与。"
+    },
+    {
+      "turn_id": "turn_009",
+      "beat_id": "beat_009",
+      "sequence_no": 9,
+      "session_id": "handoff_thread",
+      "speaker_actor_id": "xavier",
+      "speaker": "Xavier",
+      "planned_message_text": "最终状态：FEISHU-447 owner Xavier，窗口5月14日，blocker遗留API兼容问题，优先级P1。所有之前的分配和日期已作废。"
+    }
+  ]
+}

@@ -1,0 +1,331 @@
+{
+  "story_id": "story_case_20260506220039080624_anti_interference",
+  "case_id": "case_20260506220039080624_anti_interference",
+  "family_id": "anti_interference",
+  "task": {
+    "task_id": "FEISHU-724",
+    "task_name": "支付网关灰度放量",
+    "role": "target_task"
+  },
+  "actors": [
+    {
+      "actor_id": "alice",
+      "display_name": "Alice",
+      "role": "project_manager"
+    },
+    {
+      "actor_id": "bob",
+      "display_name": "Bob",
+      "role": "ops_manager"
+    },
+    {
+      "actor_id": "carol",
+      "display_name": "Carol",
+      "role": "release_manager"
+    },
+    {
+      "actor_id": "diana",
+      "display_name": "Diana",
+      "role": "qa_lead"
+    },
+    {
+      "actor_id": "edward",
+      "display_name": "Edward",
+      "role": "dev_lead"
+    },
+    {
+      "actor_id": "fiona",
+      "display_name": "Fiona",
+      "role": "security_auditor"
+    },
+    {
+      "actor_id": "george",
+      "display_name": "George",
+      "role": "infra_engineer"
+    },
+    {
+      "actor_id": "helen",
+      "display_name": "Helen",
+      "role": "compliance_officer"
+    },
+    {
+      "actor_id": "ivan",
+      "display_name": "Ivan",
+      "role": "tech_writer"
+    },
+    {
+      "actor_id": "julia",
+      "display_name": "Julia",
+      "role": "customer_success_manager"
+    },
+    {
+      "actor_id": "kevin",
+      "display_name": "Kevin",
+      "role": "third_party_vendor_contact"
+    },
+    {
+      "actor_id": "laura",
+      "display_name": "Laura",
+      "role": "data_analyst"
+    },
+    {
+      "actor_id": "mike",
+      "display_name": "Mike",
+      "role": "network_engineer"
+    },
+    {
+      "actor_id": "nancy",
+      "display_name": "Nancy",
+      "role": "hr_business_partner"
+    },
+    {
+      "actor_id": "oscar",
+      "display_name": "Oscar",
+      "role": "finance_controller"
+    },
+    {
+      "actor_id": "pat",
+      "display_name": "Pat",
+      "role": "procurement_specialist"
+    },
+    {
+      "actor_id": "quinn",
+      "display_name": "Quinn",
+      "role": "legal_counsel"
+    },
+    {
+      "actor_id": "rachel",
+      "display_name": "Rachel",
+      "role": "marketing_coordinator"
+    },
+    {
+      "actor_id": "sam",
+      "display_name": "Sam",
+      "role": "sales_engineer"
+    },
+    {
+      "actor_id": "tina",
+      "display_name": "Tina",
+      "role": "training_lead"
+    },
+    {
+      "actor_id": "ursula",
+      "display_name": "Ursula",
+      "role": "ux_designer"
+    },
+    {
+      "actor_id": "victor",
+      "display_name": "Victor",
+      "role": "devops_engineer"
+    },
+    {
+      "actor_id": "wendy",
+      "display_name": "Wendy",
+      "role": "product_owner"
+    },
+    {
+      "actor_id": "xander",
+      "display_name": "Xander",
+      "role": "architect"
+    },
+    {
+      "actor_id": "yvonne",
+      "display_name": "Yvonne",
+      "role": "scrum_master"
+    },
+    {
+      "actor_id": "zack",
+      "display_name": "Zack",
+      "role": "support_engineer"
+    },
+    {
+      "actor_id": "amy",
+      "display_name": "Amy",
+      "role": "release_train_engineer"
+    },
+    {
+      "actor_id": "brian",
+      "display_name": "Brian",
+      "role": "site_reliability_engineer"
+    }
+  ],
+  "task_actor_layout": {
+    "target_task_id": "FEISHU-724",
+    "shared_actors": [
+      "alice",
+      "bob",
+      "carol",
+      "diana",
+      "edward"
+    ],
+    "interference_context_blocks": [
+      {
+        "context_ref": "ctx_doc_review",
+        "context_label": "并行文档收口讨论",
+        "noise_source_type": "shared_actor_noise",
+        "relationship_to_target": "Alice 在文档收口里是 reviewer，不应被误当成 FEISHU-724 的 owner 再次变更。"
+      },
+      {
+        "context_ref": "ctx_ops_rehearsal",
+        "context_label": "运维演练 blocker 讨论",
+        "noise_source_type": "similar_wording_noise",
+        "relationship_to_target": "Bob 在这里说的 blocker 和 ready 不是 FEISHU-724 的当前 blocker。"
+      },
+      {
+        "context_ref": "ctx_release_sync",
+        "context_label": "并行发布节奏同步",
+        "noise_source_type": "parallel_discussion_noise",
+        "relationship_to_target": "并行同步里的 window/ready 讨论会和 FEISHU-724 混淆。"
+      },
+      {
+        "context_ref": "ctx_security_review",
+        "context_label": "安全审查阻塞项",
+        "noise_source_type": "shared_actor_noise",
+        "relationship_to_target": "Alice 是安全审查的 reviewer，但该审查属于另一任务，与 FEISHU-724 无关。"
+      },
+      {
+        "context_ref": "ctx_vendor_onboarding",
+        "context_label": "第三方供应商对接",
+        "noise_source_type": "parallel_discussion_noise",
+        "relationship_to_target": "Kevin 作为第三方 vendor 联系人，参与另一条并行任务对接，其提到的 'blocker' 与 FEISHU-724 无关。"
+      }
+    ],
+    "actor_task_roles": [
+      {
+        "actor_id": "alice",
+        "task_id": "FEISHU-724",
+        "role": "target_owner"
+      },
+      {
+        "actor_id": "alice",
+        "context_ref": "ctx_doc_review",
+        "role": "reviewer"
+      },
+      {
+        "actor_id": "bob",
+        "context_ref": "ctx_ops_rehearsal",
+        "role": "ops_owner"
+      },
+      {
+        "actor_id": "carol",
+        "context_ref": "ctx_release_sync",
+        "role": "release_coordinator"
+      },
+      {
+        "actor_id": "diana",
+        "task_id": "FEISHU-724",
+        "role": "qa_lead"
+      },
+      {
+        "actor_id": "edward",
+        "task_id": "FEISHU-724",
+        "role": "dev_lead"
+      },
+      {
+        "actor_id": "alice",
+        "context_ref": "ctx_security_review",
+        "role": "reviewer"
+      },
+      {
+        "actor_id": "kevin",
+        "context_ref": "ctx_vendor_onboarding",
+        "role": "vendor_contact"
+      }
+    ]
+  },
+  "state_changes": [
+    {
+      "task_id": "FEISHU-724",
+      "field": "owner",
+      "sequence": [
+        {
+          "value": "Alice",
+          "status": "current"
+        }
+      ]
+    },
+    {
+      "task_id": "FEISHU-724",
+      "field": "blocker",
+      "sequence": [
+        {
+          "value": "支付风控回归未完成",
+          "status": "current"
+        }
+      ]
+    }
+  ],
+  "message_beats": [
+    {
+      "beat_id": "beat_001",
+      "speaker": "Alice",
+      "session_id": "main_chat",
+      "message_intent": "FEISHU-724 当前由 Alice 负责收口，真正 blocker 还是支付风控回归没有完成。",
+      "purpose": "FEISHU-724 当前由 Alice 负责收口，真正 blocker 还是支付风控回归没有完成。",
+      "speaker_actor_id": "alice"
+    },
+    {
+      "beat_id": "beat_002",
+      "speaker": "Bob",
+      "session_id": "main_chat",
+      "message_intent": "运维演练那边也卡在 blocker，但这是另外一条并行讨论，不是 FEISHU-724 的 owner 变更。",
+      "purpose": "运维演练那边也卡在 blocker，但这是另外一条并行讨论，不是 FEISHU-724 的 owner 变更。",
+      "speaker_actor_id": "bob"
+    },
+    {
+      "beat_id": "beat_003",
+      "speaker": "Carol",
+      "session_id": "thread_docs",
+      "message_intent": "Alice 晚上还要审文档收口，不过那只是 reviewer 身份，不代表 FEISHU-724 再次换 owner。",
+      "purpose": "Alice 晚上还要审文档收口，不过那只是 reviewer 身份，不代表 FEISHU-724 再次换 owner。",
+      "speaker_actor_id": "carol"
+    },
+    {
+      "beat_id": "beat_004",
+      "speaker": "Diana",
+      "session_id": "main_chat",
+      "message_intent": "QA 角度：FEISHU-724 的回归测试还在进行，风控回归是当前卡点。",
+      "purpose": "QA 角度：FEISHU-724 的回归测试还在进行，风控回归是当前卡点。",
+      "speaker_actor_id": "diana"
+    },
+    {
+      "beat_id": "beat_005",
+      "speaker": "Edward",
+      "session_id": "thread_release",
+      "message_intent": "开发侧，FEISHU-724 代码已冻结，等风控回归完成即可。",
+      "purpose": "开发侧，FEISHU-724 代码已冻结，等风控回归完成即可。",
+      "speaker_actor_id": "edward"
+    },
+    {
+      "beat_id": "beat_006",
+      "speaker": "Alice",
+      "session_id": "handoff_thread",
+      "message_intent": "文档收口已全部完成，我作为 reviewer 签字了，但这是另一件事，不涉及 FEISHU-724 的 owner 变更。",
+      "purpose": "文档收口已全部完成，我作为 reviewer 签字了，但这是另一件事，不涉及 FEISHU-724 的 owner 变更。",
+      "speaker_actor_id": "alice"
+    },
+    {
+      "beat_id": "beat_007",
+      "speaker": "Fiona",
+      "session_id": "risk_review_thread",
+      "message_intent": "安全审查发现几个 low risk 项，需要 Alice 跟进，但这不影响 FEISHU-724 的当前 block。",
+      "explicit_exclusion": true,
+      "purpose": "安全审查发现几个 low risk 项，需要 Alice 跟进，但这不影响 FEISHU-724 的当前 block。",
+      "speaker_actor_id": "fiona"
+    },
+    {
+      "beat_id": "beat_008",
+      "speaker": "Kevin",
+      "session_id": "customer_sync_chat",
+      "message_intent": "第三方供应商对接进度有个 blocker，但不是 FEISHU-724 的。",
+      "purpose": "第三方供应商对接进度有个 blocker，但不是 FEISHU-724 的。",
+      "speaker_actor_id": "kevin"
+    }
+  ],
+  "planned_probe_queries": [
+    {
+      "query": "FEISHU-724 当前 owner 和 blocker 是什么？哪些上下文不应该混入当前答案？为什么文档收口、安全审查、运维演练和第三方供应商对接里的说法不属于 FEISHU-724？",
+      "expected_good_behavior": "只回答 Alice 是当前 owner、支付风控回归未完成是当前 blocker，并明确排除文档收口 reviewer 身份、安全审查跟进项、运维演练 blocker 讨论、第三方供应商对接 blocker，这些都不属于 FEISHU-724 的当前上下文。"
+    }
+  ]
+}

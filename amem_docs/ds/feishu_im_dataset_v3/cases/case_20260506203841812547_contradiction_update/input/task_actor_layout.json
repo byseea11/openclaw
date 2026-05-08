@@ -1,0 +1,235 @@
+{
+  "case_id": "case_20260506203841812547_contradiction_update",
+  "family_id": "contradiction_update",
+  "task_id": "FEISHU-447",
+  "actors": [
+    {
+      "actor_id": "alice",
+      "display_name": "Alice",
+      "role": "release_pm"
+    },
+    {
+      "actor_id": "bob",
+      "display_name": "Bob",
+      "role": "ops_lead"
+    },
+    {
+      "actor_id": "carol",
+      "display_name": "Carol",
+      "role": "platform_architect"
+    },
+    {
+      "actor_id": "xavier",
+      "display_name": "Xavier",
+      "role": "release_manager"
+    },
+    {
+      "actor_id": "dave",
+      "display_name": "Dave",
+      "role": "qa_lead"
+    },
+    {
+      "actor_id": "eve",
+      "display_name": "Eve",
+      "role": "security_lead"
+    },
+    {
+      "actor_id": "frank",
+      "display_name": "Frank",
+      "role": "network_lead"
+    },
+    {
+      "actor_id": "grace",
+      "display_name": "Grace",
+      "role": "compliance_officer"
+    },
+    {
+      "actor_id": "henry",
+      "display_name": "Henry",
+      "role": "customer_support_lead"
+    },
+    {
+      "actor_id": "ivy",
+      "display_name": "Ivy",
+      "role": "data_platform_lead"
+    },
+    {
+      "actor_id": "jack",
+      "display_name": "Jack",
+      "role": "dev_lead"
+    },
+    {
+      "actor_id": "kelly",
+      "display_name": "Kelly",
+      "role": "product_manager"
+    },
+    {
+      "actor_id": "leo",
+      "display_name": "Leo",
+      "role": "infra_lead"
+    },
+    {
+      "actor_id": "mia",
+      "display_name": "Mia",
+      "role": "frontend_lead"
+    },
+    {
+      "actor_id": "nick",
+      "display_name": "Nick",
+      "role": "backend_lead"
+    },
+    {
+      "actor_id": "olivia",
+      "display_name": "Olivia",
+      "role": "integration_lead"
+    },
+    {
+      "actor_id": "peter",
+      "display_name": "Peter",
+      "role": "testing_lead"
+    },
+    {
+      "actor_id": "quinn",
+      "display_name": "Quinn",
+      "role": "sre_lead"
+    },
+    {
+      "actor_id": "rachel",
+      "display_name": "Rachel",
+      "role": "finance_lead"
+    },
+    {
+      "actor_id": "sam",
+      "display_name": "Sam",
+      "role": "legal_lead"
+    },
+    {
+      "actor_id": "tina",
+      "display_name": "Tina",
+      "role": "hr_lead"
+    },
+    {
+      "actor_id": "uma",
+      "display_name": "Uma",
+      "role": "marketing_lead"
+    },
+    {
+      "actor_id": "victor",
+      "display_name": "Victor",
+      "role": "sales_lead"
+    },
+    {
+      "actor_id": "wendy",
+      "display_name": "Wendy",
+      "role": "support_lead"
+    },
+    {
+      "actor_id": "xander",
+      "display_name": "Xander",
+      "role": "devops_lead"
+    },
+    {
+      "actor_id": "yara",
+      "display_name": "Yara",
+      "role": "analytics_lead"
+    },
+    {
+      "actor_id": "zara",
+      "display_name": "Zara",
+      "role": "localization_lead"
+    },
+    {
+      "actor_id": "aaron",
+      "display_name": "Aaron",
+      "role": "vendor_coordinator"
+    }
+  ],
+  "task_actor_layout": {
+    "target_task_id": "FEISHU-447",
+    "shared_actors": [
+      "alice",
+      "xavier",
+      "carol",
+      "dave",
+      "eve",
+      "frank",
+      "grace",
+      "henry"
+    ],
+    "revision_context_blocks": [
+      {
+        "context_ref": "ctx_owner_handoff",
+        "field": "owner",
+        "revision_role": "historical_update",
+        "relationship_to_target": "Alice 最初负责，后移交 Xavier，但期间 Carol 曾临时接手，最终 Xavier 确认。"
+      },
+      {
+        "context_ref": "ctx_window_shift",
+        "field": "release_window",
+        "revision_role": "superseded_schedule",
+        "relationship_to_target": "窗口从 5月8日 → 5月10日 → 5月12日 → 5月14日，多次调整。"
+      },
+      {
+        "context_ref": "ctx_blocker_change",
+        "field": "blocker",
+        "revision_role": "superseded_blocker",
+        "relationship_to_target": "最初 blocker 是安全审查，后变为网络延迟，最终确认遗留 API 兼容。"
+      },
+      {
+        "context_ref": "ctx_priority_change",
+        "field": "priority",
+        "revision_role": "historical_update",
+        "relationship_to_target": "优先级从 P1 → P2 → P1，因客户 escalation 回退。"
+      }
+    ],
+    "supersession_clues": [
+      "之前口径作废",
+      "最终确认以本轮为准",
+      "旧 owner 只算历史信息",
+      "以上一轮的结论已不适用",
+      "请以我最新消息为准"
+    ],
+    "actor_task_roles": [
+      {
+        "actor_id": "alice",
+        "task_id": "FEISHU-447",
+        "role": "initial_owner"
+      },
+      {
+        "actor_id": "carol",
+        "task_id": "FEISHU-447",
+        "role": "interim_owner"
+      },
+      {
+        "actor_id": "xavier",
+        "task_id": "FEISHU-447",
+        "role": "current_owner"
+      },
+      {
+        "actor_id": "dave",
+        "context_ref": "ctx_blocker_change",
+        "role": "qa_verifier"
+      },
+      {
+        "actor_id": "eve",
+        "context_ref": "ctx_blocker_change",
+        "role": "security_reviewer"
+      },
+      {
+        "actor_id": "frank",
+        "context_ref": "ctx_blocker_change",
+        "role": "network_engineer"
+      },
+      {
+        "actor_id": "grace",
+        "context_ref": "ctx_priority_change",
+        "role": "compliance_check"
+      },
+      {
+        "actor_id": "henry",
+        "context_ref": "ctx_priority_change",
+        "role": "customer_escalation"
+      }
+    ]
+  }
+}

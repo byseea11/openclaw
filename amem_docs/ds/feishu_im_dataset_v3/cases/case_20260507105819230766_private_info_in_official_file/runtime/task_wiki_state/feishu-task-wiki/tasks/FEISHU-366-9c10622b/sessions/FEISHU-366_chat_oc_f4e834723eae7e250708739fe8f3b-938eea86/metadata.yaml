@@ -1,0 +1,29 @@
+task_id: task:FEISHU-366
+task_key: FEISHU-366
+source_session_id: task:FEISHU-366::chat:oc_f4e834723eae7e250708739fe8f3b9e3
+source_scope: chat:oc_f4e834723eae7e250708739fe8f3b9e3
+source_type: thread
+source_id: thread:risk_review_thread
+chat_id: oc_f4e834723eae7e250708739fe8f3b9e3
+thread_id: om_x100b50f3565b30b0c2c8890fdcd017c
+root_id: om_x100b50f3565b30b0c2c8890fdcd017c
+time_range:
+  start: 2026-05-07T11:05:36.303Z
+  end: 2026-05-07T11:05:36.700Z
+participants:
+  - Benchmark Root
+  - 何然
+  - 陈雪
+  - 罗天
+  - 苏禾
+  - 周宇
+  - 梁昕
+source_locator: thread:risk_review_thread
+binding_mode: source_id
+created_at: 2026-05-07T11:05:36.307Z
+updated_at: 2026-05-07T11:05:36.727Z
+latest_ingest_version: 14
+raw_ingest_count: 14
+visible_ingest_count: 14
+compacted_at: 2026-05-07T11:05:36.727Z
+retained_entry_count: 14

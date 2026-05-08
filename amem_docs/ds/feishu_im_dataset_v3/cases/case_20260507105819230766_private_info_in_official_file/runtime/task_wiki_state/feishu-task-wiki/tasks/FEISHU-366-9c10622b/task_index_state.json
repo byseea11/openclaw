@@ -1,0 +1,179 @@
+{
+  "version": 1,
+  "task_id": "task:FEISHU-366",
+  "task_key": "FEISHU-366",
+  "pages": {
+    "task:FEISHU-366::chat:oc_f4e834723eae7e250708739fe8f3b9e3": {
+      "source_session_id": "task:FEISHU-366::chat:oc_f4e834723eae7e250708739fe8f3b9e3",
+      "relative_page_path": "sessions/FEISHU-366_chat_oc_f4e834723eae7e250708739fe8f3b-938eea86/session_wiki.md",
+      "summary": "这次讨论主要涉及：发布阻塞风险。",
+      "blocks": [
+        {
+          "block_id": "block-发布阻塞风险-45763a86",
+          "anchor_id": "block-发布阻塞风险-45763a86",
+          "topic_key": "发布阻塞风险",
+          "topic_title": "发布阻塞风险",
+          "status": "open",
+          "slots": [
+            "status"
+          ],
+          "summary": "备注已记录周宇的合规文件预计周五，但未作为正式风险项"
+        }
+      ],
+      "updated_at": "2026-05-07T11:05:36.740Z"
+    },
+    "task:FEISHU-366::chat:oc_3fa8c2bc7c2955b3158248ce3f33ff61": {
+      "source_session_id": "task:FEISHU-366::chat:oc_3fa8c2bc7c2955b3158248ce3f33ff61",
+      "relative_page_path": "sessions/FEISHU-366_chat_oc_3fa8c2bc7c2955b3158248ce3f33f-d7ee1dab/session_wiki.md",
+      "summary": "本次 session 暂无已验证的结构化记忆块。",
+      "blocks": [],
+      "updated_at": "2026-05-07T11:05:36.745Z"
+    },
+    "task:FEISHU-366::chat:oc_c949da97e65ae9aabb90c69957d363bd": {
+      "source_session_id": "task:FEISHU-366::chat:oc_c949da97e65ae9aabb90c69957d363bd",
+      "relative_page_path": "sessions/FEISHU-366_chat_oc_c949da97e65ae9aabb90c69957d36-aa0f566c/session_wiki.md",
+      "summary": "这次讨论主要涉及：发布时间口径。",
+      "blocks": [
+        {
+          "block_id": "block-发布时间口径-867908bd",
+          "anchor_id": "block-发布时间口径-867908bd",
+          "topic_key": "发布时间口径",
+          "topic_title": "发布时间口径",
+          "status": "resolved",
+          "slots": [
+            "status"
+          ],
+          "summary": "评审纪要：FEISHU-366 上线评审通过，签名条件满足，上线前需赵磊安全审批完成"
+        }
+      ],
+      "updated_at": "2026-05-07T11:05:36.759Z"
+    },
+    "task:FEISHU-366::chat:oc_44e54ac15060a6eab01c6e242e582755": {
+      "source_session_id": "task:FEISHU-366::chat:oc_44e54ac15060a6eab01c6e242e582755",
+      "relative_page_path": "sessions/FEISHU-366_chat_oc_44e54ac15060a6eab01c6e242e582-7e7d0bee/session_wiki.md",
+      "summary": "这次讨论主要涉及：确认收到交接，按当前状态推进。",
+      "blocks": [
+        {
+          "block_id": "block-确认收到交接_按当前状态推进-5a3b98d1",
+          "anchor_id": "block-确认收到交接_按当前状态推进-5a3b98d1",
+          "topic_key": "确认收到交接，按当前状态推进",
+          "topic_title": "确认收到交接，按当前状态推进",
+          "status": "active",
+          "slots": [
+            "commitment"
+          ],
+          "summary": "确认收到交接，按当前状态推进"
+        }
+      ],
+      "updated_at": "2026-05-07T11:05:36.773Z"
+    },
+    "task:FEISHU-366::chat:oc_ee55cc5ba6391fd53db4f0b55f23283c": {
+      "source_session_id": "task:FEISHU-366::chat:oc_ee55cc5ba6391fd53db4f0b55f23283c",
+      "relative_page_path": "sessions/FEISHU-366_chat_oc_ee55cc5ba6391fd53db4f0b55f232-3e7a6958/session_wiki.md",
+      "summary": "这次讨论主要涉及：发布阻塞风险。",
+      "blocks": [
+        {
+          "block_id": "block-发布阻塞风险-45763a86",
+          "anchor_id": "block-发布阻塞风险-45763a86",
+          "topic_key": "发布阻塞风险",
+          "topic_title": "发布阻塞风险",
+          "status": "active",
+          "slots": [
+            "status"
+          ],
+          "summary": "FEISHU-366 上线 checklist v2.3 已发布"
+        }
+      ],
+      "updated_at": "2026-05-07T11:05:36.800Z"
+    },
+    "task:FEISHU-366::chat:oc_fb0d8f92897c92703c25fb241008c414": {
+      "source_session_id": "task:FEISHU-366::chat:oc_fb0d8f92897c92703c25fb241008c414",
+      "relative_page_path": "sessions/FEISHU-366_chat_oc_fb0d8f92897c92703c25fb241008c-29233f3b/session_wiki.md",
+      "summary": "本次 session 暂无已验证的结构化记忆块。",
+      "blocks": [],
+      "updated_at": "2026-05-07T11:05:36.807Z"
+    },
+    "task:FEISHU-366::chat:oc_67ca34f833958744f77a9c9fcbdcda2f": {
+      "source_session_id": "task:FEISHU-366::chat:oc_67ca34f833958744f77a9c9fcbdcda2f",
+      "relative_page_path": "sessions/FEISHU-366_chat_oc_67ca34f833958744f77a9c9fcbdcd-93af5f9c/session_wiki.md",
+      "summary": "这次讨论主要涉及：发布阻塞风险、管理层无异议，继续推进。",
+      "blocks": [
+        {
+          "block_id": "block-发布阻塞风险-45763a86",
+          "anchor_id": "block-发布阻塞风险-45763a86",
+          "topic_key": "发布阻塞风险",
+          "topic_title": "发布阻塞风险",
+          "status": "active",
+          "slots": [
+            "status"
+          ],
+          "summary": "报告已发给管理层，仅提安全审批为 blocker"
+        },
+        {
+          "block_id": "block-管理层无异议_继续推进-3f91f06c",
+          "anchor_id": "block-管理层无异议_继续推进-3f91f06c",
+          "topic_key": "管理层无异议，继续推进",
+          "topic_title": "管理层无异议，继续推进",
+          "status": "active",
+          "slots": [
+            "commitment"
+          ],
+          "summary": "管理层无异议，继续推进"
+        }
+      ],
+      "updated_at": "2026-05-07T11:05:36.825Z"
+    },
+    "task:FEISHU-366::chat:oc_d5a10bb59e4bd3868e07d66286c5c237": {
+      "source_session_id": "task:FEISHU-366::chat:oc_d5a10bb59e4bd3868e07d66286c5c237",
+      "relative_page_path": "sessions/FEISHU-366_chat_oc_d5a10bb59e4bd3868e07d66286c5c-3237abda/session_wiki.md",
+      "summary": "本次 session 暂无已验证的结构化记忆块。",
+      "blocks": [],
+      "updated_at": "2026-05-07T11:05:36.831Z"
+    }
+  },
+  "topic_routes": [
+    {
+      "topic_key": "发布时间",
+      "topic_title": "发布时间",
+      "block_links": [
+        {
+          "label": "发布时间口径 (task:FEISHU-366::chat:oc_c949da97e65ae9aabb90c69957d363bd)",
+          "target": "sessions/FEISHU-366_chat_oc_c949da97e65ae9aabb90c69957d36-aa0f566c/session_wiki.md#block-发布时间口径-867908bd"
+        }
+      ]
+    },
+    {
+      "topic_key": "风险",
+      "topic_title": "风险",
+      "block_links": [
+        {
+          "label": "发布阻塞风险 (task:FEISHU-366::chat:oc_67ca34f833958744f77a9c9fcbdcda2f)",
+          "target": "sessions/FEISHU-366_chat_oc_67ca34f833958744f77a9c9fcbdcd-93af5f9c/session_wiki.md#block-发布阻塞风险-45763a86"
+        },
+        {
+          "label": "发布阻塞风险 (task:FEISHU-366::chat:oc_ee55cc5ba6391fd53db4f0b55f23283c)",
+          "target": "sessions/FEISHU-366_chat_oc_ee55cc5ba6391fd53db4f0b55f232-3e7a6958/session_wiki.md#block-发布阻塞风险-45763a86"
+        },
+        {
+          "label": "发布阻塞风险 (task:FEISHU-366::chat:oc_f4e834723eae7e250708739fe8f3b9e3)",
+          "target": "sessions/FEISHU-366_chat_oc_f4e834723eae7e250708739fe8f3b-938eea86/session_wiki.md#block-发布阻塞风险-45763a86"
+        },
+        {
+          "label": "管理层无异议，继续推进 (task:FEISHU-366::chat:oc_67ca34f833958744f77a9c9fcbdcda2f)",
+          "target": "sessions/FEISHU-366_chat_oc_67ca34f833958744f77a9c9fcbdcd-93af5f9c/session_wiki.md#block-管理层无异议_继续推进-3f91f06c"
+        }
+      ]
+    },
+    {
+      "topic_key": "行动项",
+      "topic_title": "行动项",
+      "block_links": [
+        {
+          "label": "确认收到交接，按当前状态推进 (task:FEISHU-366::chat:oc_44e54ac15060a6eab01c6e242e582755)",
+          "target": "sessions/FEISHU-366_chat_oc_44e54ac15060a6eab01c6e242e582-7e7d0bee/session_wiki.md#block-确认收到交接_按当前状态推进-5a3b98d1"
+        }
+      ]
+    }
+  ],
+  "updated_at": "2026-05-07T11:05:36.831Z"
+}

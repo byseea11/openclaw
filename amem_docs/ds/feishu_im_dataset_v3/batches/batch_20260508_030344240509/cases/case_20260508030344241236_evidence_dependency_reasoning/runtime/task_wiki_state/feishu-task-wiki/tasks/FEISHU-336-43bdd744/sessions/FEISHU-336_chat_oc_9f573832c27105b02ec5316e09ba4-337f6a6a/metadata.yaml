@@ -1,0 +1,25 @@
+task_id: task:FEISHU-336
+task_key: FEISHU-336
+source_session_id: task:FEISHU-336::chat:oc_9f573832c27105b02ec5316e09ba4b96
+source_scope: chat:oc_9f573832c27105b02ec5316e09ba4b96
+source_type: chat
+source_id: chat:qa_channel
+chat_id: oc_9f573832c27105b02ec5316e09ba4b96
+thread_id: null
+root_id: null
+time_range:
+  start: 2026-05-08T03:57:54.998Z
+  end: 2026-05-08T04:00:18.032Z
+participants:
+  - 赵敏
+  - 唐越
+  - 许薇
+source_locator: chat:qa_channel
+binding_mode: source_id
+created_at: 2026-05-08T03:57:54.999Z
+updated_at: 2026-05-08T04:00:18.042Z
+latest_ingest_version: 4
+raw_ingest_count: 4
+visible_ingest_count: 4
+compacted_at: 2026-05-08T04:00:18.042Z
+retained_entry_count: 4

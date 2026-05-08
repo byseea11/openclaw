@@ -1,0 +1,46 @@
+{
+  "case_id": "case_20260508030344241236_evidence_dependency_reasoning",
+  "is_valid": true,
+  "checks": [
+    {
+      "check_id": "message_beat_coverage",
+      "passed": true,
+      "details": "所有 story plan beats 都已落地。"
+    },
+    {
+      "check_id": "probe_queries_present",
+      "passed": true,
+      "details": "story plan 已包含 planned probe queries。"
+    },
+    {
+      "check_id": "state_changes_present",
+      "passed": true,
+      "details": "story plan 已包含 state_changes。"
+    },
+    {
+      "check_id": "total_message_count",
+      "passed": true,
+      "details": "observed messages: 27"
+    },
+    {
+      "check_id": "session_distribution",
+      "passed": true,
+      "details": "observed sessions: 4"
+    },
+    {
+      "check_id": "annotation_target_count",
+      "passed": true,
+      "details": "annotation/event-bearing messages: 6"
+    },
+    {
+      "check_id": "openclaw_ingress_count",
+      "passed": true,
+      "details": "openclaw ingress: 27 / observed: 27"
+    },
+    {
+      "check_id": "template_like_message_ratio",
+      "passed": true,
+      "details": "template-like messages: 0"
+    }
+  ]
+}

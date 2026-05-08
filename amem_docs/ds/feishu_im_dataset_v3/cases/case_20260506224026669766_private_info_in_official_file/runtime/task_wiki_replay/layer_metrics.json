@@ -1,0 +1,79 @@
+{
+  "case_id": "case_20260506224026669766_private_info_in_official_file",
+  "task_id": "FEISHU-666",
+  "input": {
+    "ingress_count": 83,
+    "collected_message_count": 83
+  },
+  "layer1_binding": {
+    "binding_total": 83,
+    "binding_bound": 83,
+    "binding_rate": 1,
+    "target_task_binding_rate": 1,
+    "skipped_count": 0,
+    "status": "passed",
+    "score": 100,
+    "blocking_failures": [],
+    "warnings": []
+  },
+  "layer2_events": {
+    "ingested_count": 83,
+    "skipped_count": 0,
+    "candidate_events_returned_during_ingest": 95,
+    "verification_jobs_queued": 85,
+    "candidate_event_count": 95,
+    "verified_event_count": 78,
+    "verification_rate": 0.8211,
+    "session_count": 8,
+    "sessions_with_events": 8,
+    "candidate_validation_breakdown": {
+      "ready_for_verification": 85,
+      "rejected": 10
+    },
+    "rejected_candidate_count": 13,
+    "ready_for_verification_count": 85,
+    "queued_verification_count": 85,
+    "rejection_reason_breakdown": {
+      "quote_location:missing_entry": 10,
+      "unknown": 3
+    },
+    "missing_field_breakdown": {},
+    "status": "passed",
+    "score": 82.11,
+    "blocking_failures": [],
+    "warnings": []
+  },
+  "layer3_wiki": {
+    "task_root_count": 1,
+    "projected_task_count": 1,
+    "projection_rate": 1,
+    "projection_status": "projected",
+    "lint_result_count": 1,
+    "orphan_event_count": 0,
+    "missing_evidence_ref_count": 0,
+    "stale_claim_count": 0,
+    "quote_strength_count": 0,
+    "unresolved_objection_count": 2,
+    "overdue_commitment_count": 0,
+    "open_conflict_count": 0,
+    "orphan_block_count": 0,
+    "missing_cross_ref_count": 0,
+    "orphan_session_wiki_count": 0,
+    "lint_blocking_count": 0,
+    "lint_warning_count": 2,
+    "status": "passed",
+    "score": 100,
+    "blocking_failures": [],
+    "warnings": [
+      "layer3:lint_warnings_present"
+    ]
+  },
+  "overall": {
+    "status": "passed",
+    "blocking_failures": [],
+    "warnings": [
+      "layer3:lint_warnings_present"
+    ],
+    "health_score": 93.74
+  }
+}

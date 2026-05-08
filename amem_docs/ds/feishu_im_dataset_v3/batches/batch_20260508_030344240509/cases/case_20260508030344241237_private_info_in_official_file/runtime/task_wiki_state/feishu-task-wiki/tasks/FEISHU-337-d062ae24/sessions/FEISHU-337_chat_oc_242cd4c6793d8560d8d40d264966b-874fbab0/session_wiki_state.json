@@ -1,0 +1,138 @@
+{
+  "version": 1,
+  "task_id": "task:FEISHU-337",
+  "task_key": "FEISHU-337",
+  "source_session_id": "task:FEISHU-337::chat:oc_242cd4c6793d8560d8d40d264966b529",
+  "source_scope": "chat:oc_242cd4c6793d8560d8d40d264966b529",
+  "source_type": "chat",
+  "source_id": "chat:thread_release",
+  "session_title": "task:FEISHU-337::chat:oc_242cd4c6793d8560d8d40d264966b529",
+  "time_range": {
+    "start": "2026-05-08T04:04:56.920Z",
+    "end": "2026-05-08T04:06:20.783Z"
+  },
+  "participants": [
+    "高骏",
+    "陈雪"
+  ],
+  "relative_page_path": "sessions/FEISHU-337_chat_oc_242cd4c6793d8560d8d40d264966b-874fbab0/session_wiki.md",
+  "session_summary": "用户认为个人安排不应视为上线阻塞风险；FEISHU-337 交接修正线程活跃，项目状态不受影响。",
+  "block_order": [
+    "block-发布阻塞风险-45763a86",
+    "block-FEISHU-337_交接修正线程-62c920dc"
+  ],
+  "blocks": {
+    "block-发布阻塞风险-45763a86": {
+      "block_id": "block-发布阻塞风险-45763a86",
+      "anchor_id": "block-发布阻塞风险-45763a86",
+      "topic_key": "发布阻塞风险",
+      "topic_title": "发布阻塞风险",
+      "event_ids": [
+        "evt_a08353a49a6c618f"
+      ],
+      "slots": {
+        "conclusion": [],
+        "rationale": [],
+        "objection": [
+          {
+            "event_id": "evt_a08353a49a6c618f",
+            "event_type": "objection_event",
+            "claim": "我上午有事是个人安排，不算上线 blocker。",
+            "event_time": "1778210003000",
+            "evidence_quote": "我上午有事是个人安排，不算上线 blocker。",
+            "event_path": "sessions/FEISHU-337_chat_oc_242cd4c6793d8560d8d40d264966b-874fbab0/session_events.jsonl#evt_a08353a49a6c618f",
+            "event_ref": "[[sessions/FEISHU-337_chat_oc_242cd4c6793d8560d8d40d264966b-874fbab0/session_events.jsonl#evt_a08353a49a6c618f|evt_a08353a49a6c618f]]",
+            "entry_ref": "[[sessions/FEISHU-337_chat_oc_242cd4c6793d8560d8d40d264966b-874fbab0/session.md#om_x100b50e1027dd4a0c27c6521cb515a4|om_x100b50e1027dd4a0c27c6521cb515a4]]",
+            "core_entry_id": "om_x100b50e1027dd4a0c27c6521cb515a4",
+            "subject_key": "发布阻塞风险",
+            "is_current": true,
+            "lifecycle_status": "active",
+            "lifecycle_reason": null,
+            "target": "上线",
+            "time_target": null,
+            "scope_target": null,
+            "action": null,
+            "owner": null,
+            "objector": "高骏",
+            "status": null,
+            "certainty": null
+          }
+        ],
+        "constraint": [],
+        "commitment": [],
+        "status": [],
+        "time": [],
+        "scope": []
+      },
+      "status": "open",
+      "evidence_refs": [
+        {
+          "event_id": "evt_a08353a49a6c618f",
+          "event_path": "sessions/FEISHU-337_chat_oc_242cd4c6793d8560d8d40d264966b-874fbab0/session_events.jsonl#evt_a08353a49a6c618f",
+          "entry_ref": "[[sessions/FEISHU-337_chat_oc_242cd4c6793d8560d8d40d264966b-874fbab0/session.md#om_x100b50e1027dd4a0c27c6521cb515a4|om_x100b50e1027dd4a0c27c6521cb515a4]]",
+          "quote": "我上午有事是个人安排，不算上线 blocker。"
+        }
+      ],
+      "summary": "用户认为个人安排不应视为上线阻塞风险。"
+    },
+    "block-FEISHU-337_交接修正线程-62c920dc": {
+      "block_id": "block-FEISHU-337_交接修正线程-62c920dc",
+      "anchor_id": "block-FEISHU-337_交接修正线程-62c920dc",
+      "topic_key": "FEISHU-337 交接修正线程",
+      "topic_title": "FEISHU-337 交接修正线程",
+      "event_ids": [
+        "evt_6dec4d60e3096037"
+      ],
+      "slots": {
+        "conclusion": [],
+        "rationale": [],
+        "objection": [],
+        "constraint": [],
+        "commitment": [],
+        "status": [
+          {
+            "event_id": "evt_6dec4d60e3096037",
+            "event_type": "status_event",
+            "claim": "不受影响",
+            "event_time": "1778210003000",
+            "evidence_quote": "明白，不受影响。",
+            "event_path": "sessions/FEISHU-337_chat_oc_242cd4c6793d8560d8d40d264966b-874fbab0/session_events.jsonl#evt_6dec4d60e3096037",
+            "event_ref": "[[sessions/FEISHU-337_chat_oc_242cd4c6793d8560d8d40d264966b-874fbab0/session_events.jsonl#evt_6dec4d60e3096037|evt_6dec4d60e3096037]]",
+            "entry_ref": "[[sessions/FEISHU-337_chat_oc_242cd4c6793d8560d8d40d264966b-874fbab0/session.md#om_x100b50e10271b094c433469cc3d2197|om_x100b50e10271b094c433469cc3d2197]]",
+            "core_entry_id": "om_x100b50e10271b094c433469cc3d2197",
+            "subject_key": "feishu-337 交接修正线程",
+            "is_current": true,
+            "lifecycle_status": "active",
+            "lifecycle_reason": null,
+            "target": "FEISHU-337 交接修正线程",
+            "time_target": null,
+            "scope_target": null,
+            "action": null,
+            "owner": null,
+            "objector": null,
+            "status": "unaffected",
+            "certainty": null
+          }
+        ],
+        "time": [],
+        "scope": []
+      },
+      "status": "active",
+      "evidence_refs": [
+        {
+          "event_id": "evt_6dec4d60e3096037",
+          "event_path": "sessions/FEISHU-337_chat_oc_242cd4c6793d8560d8d40d264966b-874fbab0/session_events.jsonl#evt_6dec4d60e3096037",
+          "entry_ref": "[[sessions/FEISHU-337_chat_oc_242cd4c6793d8560d8d40d264966b-874fbab0/session.md#om_x100b50e10271b094c433469cc3d2197|om_x100b50e10271b094c433469cc3d2197]]",
+          "quote": "明白，不受影响。"
+        }
+      ],
+      "summary": "FEISHU-337 交接修正线程状态为活跃，当前项目状态不受影响。"
+    }
+  },
+  "lifecycle_summary": {
+    "active_event_count": 2,
+    "historical_event_count": 0,
+    "invalid_event_count": 0
+  },
+  "updated_at": "2026-05-08T04:06:28.887Z"
+}

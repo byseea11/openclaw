@@ -1,0 +1,13 @@
+{
+  "phase": "phase2",
+  "stage": "annotation-gold",
+  "status": "failed",
+  "started_at": "2026-05-07T10:43:40.233486+00:00",
+  "ended_at": "2026-05-07T10:43:40.236737+00:00",
+  "failure_artifact_path": "amem_docs/ds/feishu_im_dataset_v3/cases/case_20260507103828413028_private_info_in_official_file/runtime/failures/phase2/annotation-gold_20260507T104340235999Z.json",
+  "error_type": "ValueError",
+  "error_message": "pre_annotation_validation_report indicates the case is invalid",
+  "skipped": false,
+  "run_id": "20260507T104340236761Z",
+  "updated_at": "2026-05-07T10:43:40.236891+00:00"
+}

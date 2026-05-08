@@ -1,0 +1,38 @@
+{
+  "case_id": "case_20260506214458233799_evidence_dependency_reasoning",
+  "family_id": "evidence_dependency_reasoning",
+  "task_id": "FEISHU-499",
+  "required_case_structure": [
+    "upstream_dependency_context",
+    "downstream_dependency_context",
+    "blocking_or_risk_source",
+    "evidence_strength_gradient",
+    "impact_chain"
+  ],
+  "message_beat_ids": [
+    "beat_001",
+    "beat_002",
+    "beat_003",
+    "beat_004",
+    "beat_005",
+    "beat_006",
+    "beat_007",
+    "beat_008",
+    "beat_009",
+    "beat_010"
+  ],
+  "probe_queries": [
+    {
+      "query": "FEISHU-499 当前真实 blocker 是什么？依据来自谁、哪条消息？Bob 和 Eve 的说法为什么不能当正式确认？这个 blocker 如何影响后续回滚预案验收？",
+      "expected_good_behavior": "回答真实 blocker 是上游迁移窗口未锁定，依据来自 Carol 在 main_chat 的正式确认；Bob 是 hearsay（无正式邮件），Eve 是口头未签字，二者都不能替代正式确认；由于窗口未锁定，FEISHU-499 灰度推迟，导致下游回滚验收顺延至窗口确认后。"
+    },
+    {
+      "query": "除了窗口 blocker，还有哪些潜在风险？这些风险的证据强度如何？哪些可以忽略？",
+      "expected_good_behavior": "列出安全审批（Eve 口头接近完成但未签字，证据强度 ambiguous）、财务预算（Grace 听到 VP 意向但无正式批复，证据强度 hearsay），二者均不能作为正式 blocker 或 release 条件。唯一 verified 风险是窗口未锁定。"
+    },
+    {
+      "query": "FEISHU-499 的灰度时间安排目前是什么状态？哪些信息是可靠的？",
+      "expected_good_behavior": "最初计划 6 月 15 日灰度，但因窗口未锁定已改为等待窗口确认后承诺，当前无确定时间。可靠信息仅来自 Carol 的正式确认，Bob/Grace 的非正式消息不可靠。"
+    }
+  ]
+}

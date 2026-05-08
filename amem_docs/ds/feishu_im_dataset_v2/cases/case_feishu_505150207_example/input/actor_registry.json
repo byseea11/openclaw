@@ -1,0 +1,115 @@
+{
+  "case_id": "case_feishu_505150207_example",
+  "actors": [
+    {
+      "person_id": "product_lead_01",
+      "simulated_open_id": "ou_sim_product_lead_01",
+      "name": "张明",
+      "department": "产品",
+      "role": "产品负责人",
+      "default_channels": [
+        "主群",
+        "管理层同步群"
+      ]
+    },
+    {
+      "person_id": "dev_lead_01",
+      "simulated_open_id": "ou_sim_dev_lead_01",
+      "name": "李强",
+      "department": "研发",
+      "role": "研发负责人",
+      "default_channels": [
+        "主群",
+        "上线窗口子群"
+      ]
+    },
+    {
+      "person_id": "architect_01",
+      "simulated_open_id": "ou_sim_architect_01",
+      "name": "王磊",
+      "department": "架构",
+      "role": "架构师",
+      "default_channels": [
+        "主群",
+        "风险评审子群"
+      ]
+    },
+    {
+      "person_id": "security_lead_01",
+      "simulated_open_id": "ou_sim_security_lead_01",
+      "name": "赵敏",
+      "department": "安全",
+      "role": "安全负责人",
+      "default_channels": [
+        "主群",
+        "风险评审子群"
+      ]
+    },
+    {
+      "person_id": "compliance_lead_01",
+      "simulated_open_id": "ou_sim_compliance_lead_01",
+      "name": "陈静",
+      "department": "合规",
+      "role": "合规负责人",
+      "default_channels": [
+        "客户同步群",
+        "主群"
+      ]
+    },
+    {
+      "person_id": "risk_control_lead_01",
+      "simulated_open_id": "ou_sim_risk_control_lead_01",
+      "name": "刘洋",
+      "department": "风控",
+      "role": "风控负责人",
+      "default_channels": [
+        "客户同步群",
+        "主群"
+      ]
+    },
+    {
+      "person_id": "ops_lead_01",
+      "simulated_open_id": "ou_sim_ops_lead_01",
+      "name": "孙伟",
+      "department": "运维",
+      "role": "运维负责人",
+      "default_channels": [
+        "主群",
+        "风险评审子群"
+      ]
+    },
+    {
+      "person_id": "sre_lead_01",
+      "simulated_open_id": "ou_sim_sre_lead_01",
+      "name": "周涛",
+      "department": "站点可靠性工程",
+      "role": "SRE负责人",
+      "default_channels": [
+        "主群",
+        "风险评审子群"
+      ]
+    },
+    {
+      "person_id": "data_platform_lead_01",
+      "simulated_open_id": "ou_sim_data_platform_lead_01",
+      "name": "吴芳",
+      "department": "数据平台",
+      "role": "数据平台负责人",
+      "default_channels": [
+        "主群",
+        "上线窗口子群"
+      ]
+    },
+    {
+      "person_id": "product_manager_01",
+      "simulated_open_id": "ou_sim_product_manager_01",
+      "name": "苏禾",
+      "department": "产品",
+      "role": "产品经理",
+      "default_channels": [
+        "main_chat",
+        "customer_sync_chat"
+      ]
+    }
+  ]
+}

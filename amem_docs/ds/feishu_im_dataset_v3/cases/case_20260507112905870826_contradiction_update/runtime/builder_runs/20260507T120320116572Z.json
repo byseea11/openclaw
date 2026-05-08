@@ -1,0 +1,13 @@
+{
+  "phase": "phase2",
+  "stage": "query-benchmark",
+  "status": "completed",
+  "started_at": "2026-05-07T12:03:20.114154+00:00",
+  "ended_at": "2026-05-07T12:03:20.116553+00:00",
+  "artifact_paths": [
+    "amem_docs/ds/feishu_im_dataset_v3/cases/case_20260507112905870826_contradiction_update/gold/query_benchmark.json"
+  ],
+  "skipped": false,
+  "run_id": "20260507T120320116572Z",
+  "updated_at": "2026-05-07T12:03:20.116585+00:00"
+}

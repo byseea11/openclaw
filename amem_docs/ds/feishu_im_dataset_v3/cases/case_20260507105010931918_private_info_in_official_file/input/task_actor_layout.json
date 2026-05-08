@@ -1,0 +1,202 @@
+{
+  "case_id": "case_20260507105010931918_private_info_in_official_file",
+  "family_id": "private_info_in_official_file",
+  "task_id": "FEISHU-618",
+  "actors": [
+    {
+      "actor_id": "alice",
+      "display_name": "Alice",
+      "role": "release_pm"
+    },
+    {
+      "actor_id": "bob",
+      "display_name": "Bob",
+      "role": "ops_lead"
+    },
+    {
+      "actor_id": "carol",
+      "display_name": "Carol",
+      "role": "senior_engineer"
+    },
+    {
+      "actor_id": "david",
+      "display_name": "David",
+      "role": "security_officer"
+    },
+    {
+      "actor_id": "eve",
+      "display_name": "Eve",
+      "role": "qa_lead"
+    },
+    {
+      "actor_id": "frank",
+      "display_name": "Frank",
+      "role": "compliance_manager"
+    },
+    {
+      "actor_id": "grace",
+      "display_name": "Grace",
+      "role": "tech_writer"
+    },
+    {
+      "actor_id": "henry",
+      "display_name": "Henry",
+      "role": "infra_engineer"
+    },
+    {
+      "actor_id": "ivy",
+      "display_name": "Ivy",
+      "role": "product_manager"
+    },
+    {
+      "actor_id": "jack",
+      "display_name": "Jack",
+      "role": "vendor_rep"
+    },
+    {
+      "actor_id": "karen",
+      "display_name": "Karen",
+      "role": "legal_counsel"
+    },
+    {
+      "actor_id": "leo",
+      "display_name": "Leo",
+      "role": "finance_analyst"
+    },
+    {
+      "actor_id": "mike",
+      "display_name": "Mike",
+      "role": "data_engineer"
+    },
+    {
+      "actor_id": "nina",
+      "display_name": "Nina",
+      "role": "hr_bp"
+    },
+    {
+      "actor_id": "oscar",
+      "display_name": "Oscar",
+      "role": "support_lead"
+    },
+    {
+      "actor_id": "paul",
+      "display_name": "Paul",
+      "role": "architect"
+    },
+    {
+      "actor_id": "quinn",
+      "display_name": "Quinn",
+      "role": "intern"
+    },
+    {
+      "actor_id": "rachel",
+      "display_name": "Rachel",
+      "role": "designer"
+    },
+    {
+      "actor_id": "sam",
+      "display_name": "Sam",
+      "role": "analyst"
+    },
+    {
+      "actor_id": "tina",
+      "display_name": "Tina",
+      "role": "coordinator"
+    },
+    {
+      "actor_id": "uma",
+      "display_name": "Uma",
+      "role": "trainer"
+    },
+    {
+      "actor_id": "victor",
+      "display_name": "Victor",
+      "role": "researcher"
+    },
+    {
+      "actor_id": "wendy",
+      "display_name": "Wendy",
+      "role": "recruiter"
+    },
+    {
+      "actor_id": "xander",
+      "display_name": "Xander",
+      "role": "marketing_specialist"
+    },
+    {
+      "actor_id": "yara",
+      "display_name": "Yara",
+      "role": "sre_engineer"
+    },
+    {
+      "actor_id": "zack",
+      "display_name": "Zack",
+      "role": "intern_2"
+    },
+    {
+      "actor_id": "amy",
+      "display_name": "Amy",
+      "role": "pm_assistant"
+    },
+    {
+      "actor_id": "brian",
+      "display_name": "Brian",
+      "role": "dev_lead"
+    }
+  ],
+  "task_actor_layout": {
+    "target_task_id": "FEISHU-618",
+    "shared_actors": [
+      "alice",
+      "bob",
+      "carol",
+      "david",
+      "eve",
+      "frank",
+      "grace",
+      "henry"
+    ],
+    "actor_task_roles": [
+      {
+        "actor_id": "alice",
+        "task_id": "FEISHU-618",
+        "role": "release_pm"
+      },
+      {
+        "actor_id": "bob",
+        "task_id": "FEISHU-618",
+        "role": "ops_lead"
+      },
+      {
+        "actor_id": "carol",
+        "task_id": "FEISHU-618",
+        "role": "personal_note_author"
+      },
+      {
+        "actor_id": "david",
+        "task_id": "FEISHU-618",
+        "role": "security_reviewer"
+      },
+      {
+        "actor_id": "eve",
+        "task_id": "FEISHU-618",
+        "role": "qa_lead"
+      },
+      {
+        "actor_id": "frank",
+        "task_id": "FEISHU-618",
+        "role": "compliance_approver"
+      },
+      {
+        "actor_id": "grace",
+        "task_id": "FEISHU-618",
+        "role": "minute_taker"
+      },
+      {
+        "actor_id": "henry",
+        "task_id": "FEISHU-618",
+        "role": "infra_implementer"
+      }
+    ]
+  }
+}

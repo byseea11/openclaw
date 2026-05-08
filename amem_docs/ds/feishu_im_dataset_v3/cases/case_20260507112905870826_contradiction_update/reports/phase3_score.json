@@ -1,0 +1,1969 @@
+{
+  "case_id": "case_20260507112905870826_contradiction_update",
+  "family_id": "contradiction_update",
+  "score_artifact": "phase3_score",
+  "baseline_fairness": {
+    "openclaw_baseline_mode": "openclaw_real_replay",
+    "query_context_injected": false,
+    "openclaw_ingest_mode": "case_transcript"
+  },
+  "raw_scores": {
+    "task_wiki_3_layer": {
+      "input": {
+        "ingress_count": 88,
+        "collected_message_count": 88
+      },
+      "layer1_binding": {
+        "binding_total": 88,
+        "binding_bound": 88,
+        "binding_rate": 1,
+        "target_task_binding_rate": 1,
+        "skipped_count": 0,
+        "status": "passed",
+        "score": 100,
+        "blocking_failures": [],
+        "warnings": []
+      },
+      "layer2_events": {
+        "ingested_count": 88,
+        "skipped_count": 0,
+        "candidate_events_returned_during_ingest": 90,
+        "verification_jobs_queued": 87,
+        "candidate_event_count": 89,
+        "verified_event_count": 77,
+        "verification_rate": 0.8652,
+        "session_count": 11,
+        "sessions_with_events": 11,
+        "candidate_validation_breakdown": {
+          "ready_for_verification": 86,
+          "rejected": 3
+        },
+        "rejected_candidate_count": 6,
+        "ready_for_verification_count": 86,
+        "queued_verification_count": 86,
+        "rejection_reason_breakdown": {
+          "unknown": 3,
+          "quote_location:missing_entry": 3
+        },
+        "missing_field_breakdown": {},
+        "status": "passed",
+        "score": 86.52,
+        "blocking_failures": [],
+        "warnings": []
+      },
+      "layer3_wiki": {
+        "task_root_count": 1,
+        "projected_task_count": 1,
+        "projection_rate": 1,
+        "projection_status": "projected",
+        "lint_result_count": 1,
+        "orphan_event_count": 0,
+        "missing_evidence_ref_count": 0,
+        "stale_claim_count": 0,
+        "quote_strength_count": 2,
+        "unresolved_objection_count": 0,
+        "overdue_commitment_count": 0,
+        "open_conflict_count": 0,
+        "orphan_block_count": 0,
+        "missing_cross_ref_count": 0,
+        "orphan_session_wiki_count": 0,
+        "lint_blocking_count": 0,
+        "lint_warning_count": 2,
+        "status": "passed",
+        "score": 100,
+        "blocking_failures": [],
+        "warnings": [
+          "layer3:lint_warnings_present"
+        ]
+      },
+      "overall": {
+        "status": "passed",
+        "blocking_failures": [],
+        "warnings": [
+          "layer3:lint_warnings_present"
+        ],
+        "health_score": 95.28
+      }
+    },
+    "openclaw_original": {
+      "query_success_rate": 0.8,
+      "evidence_output_rate": 1,
+      "evidence_trace_rate": 0.8,
+      "current_state_accuracy": 1,
+      "private_info_leak_rate": 0
+    }
+  },
+  "analysis_scores": {
+    "task_wiki_3_layer": {
+      "query_success_rate": 1.0,
+      "evidence_output_rate": 1.0,
+      "evidence_precision": 0.9,
+      "evidence_recall": 0.3167,
+      "safety_score": 1.0,
+      "efficiency_score": 1.0,
+      "avg_answer_token_count": 61.0,
+      "avg_estimated_steps": 1.0,
+      "avg_estimated_time_seconds": 20.0,
+      "failure_reason_breakdown": {
+        "missing_gold_evidence": 5,
+        "stale_value": 2,
+        "wrong_evidence_source": 1
+      }
+    },
+    "openclaw_original": {
+      "query_success_rate": 0.4,
+      "evidence_output_rate": 1.0,
+      "evidence_precision": 0.4167,
+      "evidence_recall": 0.0822,
+      "safety_score": 1.0,
+      "efficiency_score": 1.0,
+      "avg_answer_token_count": 69.6,
+      "avg_estimated_steps": 1.0,
+      "avg_estimated_time_seconds": 20.0,
+      "failure_reason_breakdown": {
+        "answer_incorrect": 3,
+        "evidence_does_not_support_answer": 3,
+        "missing_gold_evidence": 5,
+        "stale_value": 5,
+        "wrong_evidence_source": 4
+      }
+    }
+  },
+  "aggregate_scores": {
+    "task_wiki_3_layer": {
+      "query_success_rate": 1.0,
+      "evidence_output_rate": 1.0,
+      "evidence_precision": 0.9,
+      "evidence_recall": 0.3167,
+      "safety_score": 1.0,
+      "efficiency_score": 1.0,
+      "avg_answer_token_count": 61.0,
+      "avg_estimated_steps": 1.0,
+      "avg_estimated_time_seconds": 20.0,
+      "failure_reason_breakdown": {
+        "missing_gold_evidence": 5,
+        "stale_value": 2,
+        "wrong_evidence_source": 1
+      }
+    },
+    "openclaw_original": {
+      "query_success_rate": 0.4,
+      "evidence_output_rate": 1.0,
+      "evidence_precision": 0.4167,
+      "evidence_recall": 0.0822,
+      "safety_score": 1.0,
+      "efficiency_score": 1.0,
+      "avg_answer_token_count": 69.6,
+      "avg_estimated_steps": 1.0,
+      "avg_estimated_time_seconds": 20.0,
+      "failure_reason_breakdown": {
+        "answer_incorrect": 3,
+        "evidence_does_not_support_answer": 3,
+        "missing_gold_evidence": 5,
+        "stale_value": 5,
+        "wrong_evidence_source": 4
+      }
+    }
+  },
+  "per_query_scores": [
+    {
+      "query_id": "case_20260507112905870826_contradiction_update_query_001",
+      "query": "FEISHU-726 的当前负责人是谁？",
+      "gold_supporting_message_ids": [
+        "om_x100b50f3c6b9a8b4c34c5cc273e1ed8",
+        "om_x100b50f3c2aa9560c28682ccfe0da72",
+        "om_x100b50f3c682f8acc376edec5629ec9",
+        "om_x100b50f3c453f8a4c4d6b03724f035b",
+        "om_x100b50f3c6549080c38ad02841aeeb0",
+        "om_x100b50f3c67310a0c3bf23806c779b7",
+        "om_x100b50f3c58d9ca4c217957ea0ce307",
+        "om_x100b50f3c54d90a0c216b474d720036",
+        "om_x100b50f3c61a38a0c2afb100768e6c2",
+        "om_x100b50f3c50648acc32676945ab56af"
+      ],
+      "systems": {
+        "task_wiki_3_layer": {
+          "system_id": "task_wiki_3_layer",
+          "query_id": "case_20260507112905870826_contradiction_update_query_001",
+          "answer_text": "FEISHU-726 的当前负责人是Xavier；陈雪（Carol）、林晨（Alice）属于历史负责人。",
+          "answer_correct": true,
+          "answer_judge": {
+            "answer_correct": true,
+            "evidence_supports_answer": true,
+            "private_info_leak": false,
+            "stale_value": false,
+            "reasons": [
+              "Answer correctly identifies Xavier as current owner and clarifies Carol/Alice as historical owners.",
+              "Evidence messages support ownership transition: om_x100b50f3c682f8acc376edec5629ec9 (initial), om_x100b50f3c6b9a8b4c34c5cc273e1ed8 (handoff to Alice), om_x100b50f3c453f8a4c4d6b03724f035b (Xavier takes over and declares old dates invalid).",
+              "No private information leaked.",
+              "No stale value presented; current owner Xavier is correctly distinguished from historical owners."
+            ]
+          },
+          "evidence": {
+            "output_message_ids": [
+              "om_x100b50f3c453f8a4c4d6b03724f035b",
+              "om_x100b50f3c682f8acc376edec5629ec9",
+              "om_x100b50f3c6b9a8b4c34c5cc273e1ed8"
+            ],
+            "gold_message_ids": [
+              "om_x100b50f3c2aa9560c28682ccfe0da72",
+              "om_x100b50f3c453f8a4c4d6b03724f035b",
+              "om_x100b50f3c50648acc32676945ab56af",
+              "om_x100b50f3c54d90a0c216b474d720036",
+              "om_x100b50f3c58d9ca4c217957ea0ce307",
+              "om_x100b50f3c61a38a0c2afb100768e6c2",
+              "om_x100b50f3c6549080c38ad02841aeeb0",
+              "om_x100b50f3c67310a0c3bf23806c779b7",
+              "om_x100b50f3c682f8acc376edec5629ec9",
+              "om_x100b50f3c6b9a8b4c34c5cc273e1ed8"
+            ],
+            "matched_message_ids": [
+              "om_x100b50f3c453f8a4c4d6b03724f035b",
+              "om_x100b50f3c682f8acc376edec5629ec9",
+              "om_x100b50f3c6b9a8b4c34c5cc273e1ed8"
+            ],
+            "wrong_message_ids": [],
+            "evidence_output": true,
+            "evidence_precision": 1.0,
+            "evidence_recall": 0.3,
+            "evidence_task_relevance": true,
+            "evidence_temporal_correctness": true,
+            "evidence_chain_completeness": 0.3,
+            "evidence_private_info_safety": true,
+            "official_evidence_citation_rate": 0.0
+          },
+          "scores": {
+            "answer_score": 1.0,
+            "evidence_score": 0.65,
+            "safety_score": 1.0,
+            "efficiency_score": 1.0,
+            "answer_token_count": 52,
+            "estimated_steps": 1,
+            "estimated_time_seconds": 20
+          },
+          "failure_reasons": [
+            "missing_gold_evidence"
+          ],
+          "task_wiki_answer_adapter": {
+            "supporting_event_ids": [
+              "evt_c94e71d14236b34b",
+              "evt_48d19e8af769de1b",
+              "evt_2d0302ea07e6e905"
+            ],
+            "confidence": 0.95,
+            "validation_warnings": [
+              "missing_query_facet:private_boundary"
+            ]
+          }
+        },
+        "openclaw_original": {
+          "system_id": "openclaw_original",
+          "query_id": "case_20260507112905870826_contradiction_update_query_001",
+          "answer_text": "FEISHU-726的当前负责人是Xavier（苏禾）",
+          "answer_correct": true,
+          "answer_judge": {
+            "answer_correct": true,
+            "evidence_supports_answer": true,
+            "private_info_leak": false,
+            "stale_value": false,
+            "reasons": [
+              "system answer correctly identifies Xavier as the current owner",
+              "om_x100b50f3c453f8a4c4d6b03724f035b directly states owner handoff to Xavier and window change",
+              "evidence references are from appropriate source and session",
+              "no private information is leaked",
+              "answer does not contain stale value; old owners are correctly excluded"
+            ]
+          },
+          "evidence": {
+            "output_message_ids": [
+              "om_x100b50f3c453f8a4c4d6b03724f035b",
+              "om_x100b50f3c48e5cb4c2d545aaec8d4d8"
+            ],
+            "gold_message_ids": [
+              "om_x100b50f3c2aa9560c28682ccfe0da72",
+              "om_x100b50f3c453f8a4c4d6b03724f035b",
+              "om_x100b50f3c50648acc32676945ab56af",
+              "om_x100b50f3c54d90a0c216b474d720036",
+              "om_x100b50f3c58d9ca4c217957ea0ce307",
+              "om_x100b50f3c61a38a0c2afb100768e6c2",
+              "om_x100b50f3c6549080c38ad02841aeeb0",
+              "om_x100b50f3c67310a0c3bf23806c779b7",
+              "om_x100b50f3c682f8acc376edec5629ec9",
+              "om_x100b50f3c6b9a8b4c34c5cc273e1ed8"
+            ],
+            "matched_message_ids": [
+              "om_x100b50f3c453f8a4c4d6b03724f035b"
+            ],
+            "wrong_message_ids": [
+              "om_x100b50f3c48e5cb4c2d545aaec8d4d8"
+            ],
+            "evidence_output": true,
+            "evidence_precision": 0.5,
+            "evidence_recall": 0.1,
+            "evidence_task_relevance": false,
+            "evidence_temporal_correctness": false,
+            "evidence_chain_completeness": 0.1,
+            "evidence_private_info_safety": true,
+            "official_evidence_citation_rate": 0.0
+          },
+          "scores": {
+            "answer_score": 1.0,
+            "evidence_score": 0.3,
+            "safety_score": 1.0,
+            "efficiency_score": 1.0,
+            "answer_token_count": 27,
+            "estimated_steps": 1,
+            "estimated_time_seconds": 20
+          },
+          "failure_reasons": [
+            "wrong_evidence_source",
+            "missing_gold_evidence",
+            "stale_value"
+          ]
+        }
+      }
+    },
+    {
+      "query_id": "case_20260507112905870826_contradiction_update_query_002",
+      "query": "FEISHU-726 的发布窗口是哪天？",
+      "gold_supporting_message_ids": [
+        "om_x100b50f3c682f8acc376edec5629ec9",
+        "om_x100b50f3c6b9a8b4c34c5cc273e1ed8",
+        "om_x100b50f3c453f8a4c4d6b03724f035b",
+        "om_x100b50f3c67310a0c3bf23806c779b7",
+        "om_x100b50f3c58d9ca4c217957ea0ce307",
+        "om_x100b50f3c54d90a0c216b474d720036",
+        "om_x100b50f3c50648acc32676945ab56af",
+        "om_x100b50f3c2d73ca8c2e49efb580b405",
+        "om_x100b50f3c61a38a0c2afb100768e6c2"
+      ],
+      "systems": {
+        "task_wiki_3_layer": {
+          "system_id": "task_wiki_3_layer",
+          "query_id": "case_20260507112905870826_contradiction_update_query_002",
+          "answer_text": "FEISHU-726 的当前发布窗口是5月15日；此前5月10日、5月12日是历史窗口，已被最新口径作废。",
+          "answer_correct": true,
+          "answer_judge": {
+            "answer_correct": true,
+            "evidence_supports_answer": true,
+            "private_info_leak": false,
+            "stale_value": false,
+            "reasons": [
+              "答案正确返回当前发布窗口5月15日，并说明旧窗口5月10日、5月12日已作废，符合语义gold。",
+              "证据消息om_x100b50f3c61a38a0c2afb100768e6c2明确说明15日窗口不变且旧窗口作废，支撑当前窗口。",
+              "另外两条消息om_x100b50f3c682f8acc376edec5629ec9和om_x100b50f3c6b9a8b4c34c5cc273e1ed8提供了历史窗口信息，证据链完整。",
+              "未披露私有信息，未使用过期值作为当前状态。"
+            ]
+          },
+          "evidence": {
+            "output_message_ids": [
+              "om_x100b50f3c61a38a0c2afb100768e6c2",
+              "om_x100b50f3c682f8acc376edec5629ec9",
+              "om_x100b50f3c6b9a8b4c34c5cc273e1ed8"
+            ],
+            "gold_message_ids": [
+              "om_x100b50f3c2d73ca8c2e49efb580b405",
+              "om_x100b50f3c453f8a4c4d6b03724f035b",
+              "om_x100b50f3c50648acc32676945ab56af",
+              "om_x100b50f3c54d90a0c216b474d720036",
+              "om_x100b50f3c58d9ca4c217957ea0ce307",
+              "om_x100b50f3c61a38a0c2afb100768e6c2",
+              "om_x100b50f3c67310a0c3bf23806c779b7",
+              "om_x100b50f3c682f8acc376edec5629ec9",
+              "om_x100b50f3c6b9a8b4c34c5cc273e1ed8"
+            ],
+            "matched_message_ids": [
+              "om_x100b50f3c61a38a0c2afb100768e6c2",
+              "om_x100b50f3c682f8acc376edec5629ec9",
+              "om_x100b50f3c6b9a8b4c34c5cc273e1ed8"
+            ],
+            "wrong_message_ids": [],
+            "evidence_output": true,
+            "evidence_precision": 1.0,
+            "evidence_recall": 0.3333,
+            "evidence_task_relevance": true,
+            "evidence_temporal_correctness": true,
+            "evidence_chain_completeness": 0.3333,
+            "evidence_private_info_safety": true,
+            "official_evidence_citation_rate": 0.0
+          },
+          "scores": {
+            "answer_score": 1.0,
+            "evidence_score": 0.6666,
+            "safety_score": 1.0,
+            "efficiency_score": 1.0,
+            "answer_token_count": 53,
+            "estimated_steps": 1,
+            "estimated_time_seconds": 20
+          },
+          "failure_reasons": [
+            "missing_gold_evidence"
+          ],
+          "task_wiki_answer_adapter": {
+            "supporting_event_ids": [
+              "evt_79448c6be78620ec",
+              "evt_e01d0c4dd5565159",
+              "evt_2d0302ea07e6e905",
+              "evt_48d19e8af769de1b"
+            ],
+            "confidence": 0.95,
+            "validation_warnings": []
+          }
+        },
+        "openclaw_original": {
+          "system_id": "openclaw_original",
+          "query_id": "case_20260507112905870826_contradiction_update_query_002",
+          "answer_text": "FEISHU-726的发布窗口为5月15日",
+          "answer_correct": true,
+          "answer_judge": {
+            "answer_correct": true,
+            "evidence_supports_answer": true,
+            "private_info_leak": false,
+            "stale_value": true,
+            "reasons": [
+              "Answer correctly states release window as May 15th.",
+              "Evidence includes updated window message (om_x100b50f3c453f8a4c4d6b03724f035b) with '旧日期作废', but other evidence messages (om_x100b50f3c466c8a8c445fd067564b92 and om_x100b50f3c77b58a4c2c5ab1892c9d58) only confirm May 15th without superseding context.",
+              "Stale value detection: om_x100b50f3c77b58a4c2c5ab1892c9d58 is an acknowledgement that contains only current window, no stale value risk.",
+              "However, om_x100b50f3c466c8a8c445fd067564b92 does not explicitly state that older dates are superseded, which could allow inference of May 15th without recognizing supersession chain."
+            ]
+          },
+          "evidence": {
+            "output_message_ids": [
+              "om_x100b50f3c453f8a4c4d6b03724f035b",
+              "om_x100b50f3c466c8a8c445fd067564b92",
+              "om_x100b50f3c77b58a4c2c5ab1892c9d58"
+            ],
+            "gold_message_ids": [
+              "om_x100b50f3c2d73ca8c2e49efb580b405",
+              "om_x100b50f3c453f8a4c4d6b03724f035b",
+              "om_x100b50f3c50648acc32676945ab56af",
+              "om_x100b50f3c54d90a0c216b474d720036",
+              "om_x100b50f3c58d9ca4c217957ea0ce307",
+              "om_x100b50f3c61a38a0c2afb100768e6c2",
+              "om_x100b50f3c67310a0c3bf23806c779b7",
+              "om_x100b50f3c682f8acc376edec5629ec9",
+              "om_x100b50f3c6b9a8b4c34c5cc273e1ed8"
+            ],
+            "matched_message_ids": [
+              "om_x100b50f3c453f8a4c4d6b03724f035b"
+            ],
+            "wrong_message_ids": [
+              "om_x100b50f3c466c8a8c445fd067564b92",
+              "om_x100b50f3c77b58a4c2c5ab1892c9d58"
+            ],
+            "evidence_output": true,
+            "evidence_precision": 0.3333,
+            "evidence_recall": 0.1111,
+            "evidence_task_relevance": false,
+            "evidence_temporal_correctness": false,
+            "evidence_chain_completeness": 0.1111,
+            "evidence_private_info_safety": true,
+            "official_evidence_citation_rate": 0.0
+          },
+          "scores": {
+            "answer_score": 1.0,
+            "evidence_score": 0.2222,
+            "safety_score": 1.0,
+            "efficiency_score": 1.0,
+            "answer_token_count": 21,
+            "estimated_steps": 1,
+            "estimated_time_seconds": 20
+          },
+          "failure_reasons": [
+            "wrong_evidence_source",
+            "missing_gold_evidence",
+            "stale_value"
+          ]
+        }
+      }
+    },
+    {
+      "query_id": "case_20260507112905870826_contradiction_update_query_003",
+      "query": "FEISHU-726 当前状态如何？",
+      "gold_supporting_message_ids": [
+        "om_x100b50f3c682f8acc376edec5629ec9",
+        "om_x100b50f3c6b9a8b4c34c5cc273e1ed8",
+        "om_x100b50f3c453f8a4c4d6b03724f035b",
+        "om_x100b50f3c6549080c38ad02841aeeb0",
+        "om_x100b50f3c67310a0c3bf23806c779b7",
+        "om_x100b50f3c58d9ca4c217957ea0ce307",
+        "om_x100b50f3c54d90a0c216b474d720036",
+        "om_x100b50f3c50648acc32676945ab56af"
+      ],
+      "systems": {
+        "task_wiki_3_layer": {
+          "system_id": "task_wiki_3_layer",
+          "query_id": "case_20260507112905870826_contradiction_update_query_003",
+          "answer_text": "FEISHU-726 当前状态为已暂停，暂停原因是依赖组件升级延迟；当前负责人是Xavier，发布窗口为5月15日，旧窗口已作废。",
+          "answer_correct": true,
+          "answer_judge": {
+            "answer_correct": true,
+            "evidence_supports_answer": true,
+            "private_info_leak": false,
+            "stale_value": false,
+            "reasons": [
+              "Answer correctly states current status '已暂停' with reason '组件升级延迟'.",
+              "Evidence includes messages confirming status change (om_x100b50f3c6549080c38ad02841aeeb0) and blocker (om_x100b50f3c5cc2cb4c4a9b69c6be5393).",
+              "Answer mentions current owner Xavier and window May 15, supported by evidence (om_x100b50f3c453f8a4c4d6b03724f035b, om_x100b50f3c61a38a0c2afb100768e6c2).",
+              "No private information leak detected.",
+              "No stale values reported."
+            ]
+          },
+          "evidence": {
+            "output_message_ids": [
+              "om_x100b50f3c453f8a4c4d6b03724f035b",
+              "om_x100b50f3c5cc2cb4c4a9b69c6be5393",
+              "om_x100b50f3c61a38a0c2afb100768e6c2",
+              "om_x100b50f3c6549080c38ad02841aeeb0"
+            ],
+            "gold_message_ids": [
+              "om_x100b50f3c453f8a4c4d6b03724f035b",
+              "om_x100b50f3c50648acc32676945ab56af",
+              "om_x100b50f3c54d90a0c216b474d720036",
+              "om_x100b50f3c58d9ca4c217957ea0ce307",
+              "om_x100b50f3c6549080c38ad02841aeeb0",
+              "om_x100b50f3c67310a0c3bf23806c779b7",
+              "om_x100b50f3c682f8acc376edec5629ec9",
+              "om_x100b50f3c6b9a8b4c34c5cc273e1ed8"
+            ],
+            "matched_message_ids": [
+              "om_x100b50f3c453f8a4c4d6b03724f035b",
+              "om_x100b50f3c6549080c38ad02841aeeb0"
+            ],
+            "wrong_message_ids": [
+              "om_x100b50f3c5cc2cb4c4a9b69c6be5393",
+              "om_x100b50f3c61a38a0c2afb100768e6c2"
+            ],
+            "evidence_output": true,
+            "evidence_precision": 0.5,
+            "evidence_recall": 0.25,
+            "evidence_task_relevance": false,
+            "evidence_temporal_correctness": false,
+            "evidence_chain_completeness": 0.25,
+            "evidence_private_info_safety": true,
+            "official_evidence_citation_rate": 0.0
+          },
+          "scores": {
+            "answer_score": 1.0,
+            "evidence_score": 0.375,
+            "safety_score": 1.0,
+            "efficiency_score": 1.0,
+            "answer_token_count": 65,
+            "estimated_steps": 1,
+            "estimated_time_seconds": 20
+          },
+          "failure_reasons": [
+            "wrong_evidence_source",
+            "missing_gold_evidence",
+            "stale_value"
+          ],
+          "task_wiki_answer_adapter": {
+            "supporting_event_ids": [
+              "evt_843be33b870b15cb",
+              "evt_82d3f8095137212b",
+              "evt_c94e71d14236b34b",
+              "evt_79448c6be78620ec",
+              "evt_e01d0c4dd5565159"
+            ],
+            "confidence": 0.95,
+            "validation_warnings": []
+          }
+        },
+        "openclaw_original": {
+          "system_id": "openclaw_original",
+          "query_id": "case_20260507112905870826_contradiction_update_query_003",
+          "answer_text": "FEISHU-726当前状态如下：1. 负责人变更：原任务页显示Alice为负责人，已确认负责人变更序列为陈雪->林晨->苏禾，周宇已将任务页负责人更新为Xavier；2. 时间信息修正：此前赵敏记错网络变更窗口为5月10日，已确认勘误，以Xavier公布的时间为准；3. 潜在冲突：梁昕提出网络变更窗口可能与FEISHU-726冲突，尚待协调。",
+          "answer_correct": false,
+          "answer_judge": {
+            "answer_correct": false,
+            "evidence_supports_answer": false,
+            "private_info_leak": false,
+            "stale_value": true,
+            "reasons": [
+              "System output incorrectly states '原任务页显示Alice为负责人' and '负责人变更序列为陈雪->林晨->苏禾', but does not explicitly state the current owner is Xavier (苏禾). It mentions '周宇已将任务页负责人更新为Xavier', which is correct, but the answer lacks a clear final state.",
+              "The answer incorrectly mentions '赵敏记错网络变更窗口为5月10日' and '以Xavier公布的时间为准' without providing the current specific release window (2026年5月15日). It fails to state the current window correctly.",
+              "The answer introduces a '潜在冲突' about network change window conflict, which is not part of the expected query answer. The query asks for '当前状态如何', but the answer includes irrelevant coordination details (conflict with FEISHU-726) not requested.",
+              "The answer does not explicitly state the current status '已暂停，因组件升级延迟' as required by expected_good_behavior. Instead, it discusses owner change and window correction, missing the status entirely.",
+              "Evidence message ids include messages not supporting the required facts (e.g., om_x100b50f3c70918a8c3992d936d63517 about conflict is not required). The supporting evidence for facts (like current status) is missing."
+            ]
+          },
+          "evidence": {
+            "output_message_ids": [
+              "om_x100b50f3c48e5cb4c2d545aaec8d4d8",
+              "om_x100b50f3c4e1b4acc2821c192b5bb90",
+              "om_x100b50f3c4f590b8c3d76c1ccdb1472",
+              "om_x100b50f3c70918a8c3992d936d63517",
+              "om_x100b50f3c7505024c2a5eca5e634233",
+              "om_x100b50f3c7643ca8c2b72e03492b465",
+              "om_x100b50f3c77b58a4c2c5ab1892c9d58"
+            ],
+            "gold_message_ids": [
+              "om_x100b50f3c453f8a4c4d6b03724f035b",
+              "om_x100b50f3c50648acc32676945ab56af",
+              "om_x100b50f3c54d90a0c216b474d720036",
+              "om_x100b50f3c58d9ca4c217957ea0ce307",
+              "om_x100b50f3c6549080c38ad02841aeeb0",
+              "om_x100b50f3c67310a0c3bf23806c779b7",
+              "om_x100b50f3c682f8acc376edec5629ec9",
+              "om_x100b50f3c6b9a8b4c34c5cc273e1ed8"
+            ],
+            "matched_message_ids": [],
+            "wrong_message_ids": [
+              "om_x100b50f3c48e5cb4c2d545aaec8d4d8",
+              "om_x100b50f3c4e1b4acc2821c192b5bb90",
+              "om_x100b50f3c4f590b8c3d76c1ccdb1472",
+              "om_x100b50f3c70918a8c3992d936d63517",
+              "om_x100b50f3c7505024c2a5eca5e634233",
+              "om_x100b50f3c7643ca8c2b72e03492b465",
+              "om_x100b50f3c77b58a4c2c5ab1892c9d58"
+            ],
+            "evidence_output": true,
+            "evidence_precision": 0.0,
+            "evidence_recall": 0.0,
+            "evidence_task_relevance": false,
+            "evidence_temporal_correctness": false,
+            "evidence_chain_completeness": 0.0,
+            "evidence_private_info_safety": true,
+            "official_evidence_citation_rate": 0.0
+          },
+          "scores": {
+            "answer_score": 0.0,
+            "evidence_score": 0.0,
+            "safety_score": 1.0,
+            "efficiency_score": 1.0,
+            "answer_token_count": 173,
+            "estimated_steps": 1,
+            "estimated_time_seconds": 20
+          },
+          "failure_reasons": [
+            "answer_incorrect",
+            "wrong_evidence_source",
+            "missing_gold_evidence",
+            "stale_value",
+            "evidence_does_not_support_answer"
+          ]
+        }
+      }
+    },
+    {
+      "query_id": "case_20260507112905870826_contradiction_update_query_004",
+      "query": "FEISHU-726 有哪些历史负责人？",
+      "gold_supporting_message_ids": [
+        "om_x100b50f3c6b9a8b4c34c5cc273e1ed8",
+        "om_x100b50f3c2aa9560c28682ccfe0da72",
+        "om_x100b50f3c682f8acc376edec5629ec9",
+        "om_x100b50f3c453f8a4c4d6b03724f035b",
+        "om_x100b50f3c6549080c38ad02841aeeb0",
+        "om_x100b50f3c67310a0c3bf23806c779b7",
+        "om_x100b50f3c58d9ca4c217957ea0ce307",
+        "om_x100b50f3c54d90a0c216b474d720036",
+        "om_x100b50f3c61a38a0c2afb100768e6c2",
+        "om_x100b50f3c50648acc32676945ab56af"
+      ],
+      "systems": {
+        "task_wiki_3_layer": {
+          "system_id": "task_wiki_3_layer",
+          "query_id": "case_20260507112905870826_contradiction_update_query_004",
+          "answer_text": "FEISHU-726 的历史负责人是陈雪（Carol）、林晨（Alice）；当前负责人是当前负责人，不应再算作历史负责人。",
+          "answer_correct": true,
+          "answer_judge": {
+            "answer_correct": true,
+            "evidence_supports_answer": true,
+            "private_info_leak": false,
+            "stale_value": false,
+            "reasons": [
+              "系统正确回答了历史负责人（陈雪、林晨），且未将当前负责人苏禾列入历史负责人。",
+              "引用的证据消息 om_x100b50f3c682f8acc376edec5629ec9 和 om_x100b50f3c6b9a8b4c34c5cc273e1ed8 分别支持陈雪为初始负责人、林晨为历史负责人。",
+              "引用的消息 om_x100b50f3c453f8a4c4d6b03724f035b 支持当前负责人为苏禾，但系统未将其列入历史负责人，符合语义。",
+              "答案未包含私有信息。",
+              "答案使用的证据均为目标任务 FEISHU-726 的当前或历史状态，未使用陈旧值。"
+            ]
+          },
+          "evidence": {
+            "output_message_ids": [
+              "om_x100b50f3c453f8a4c4d6b03724f035b",
+              "om_x100b50f3c682f8acc376edec5629ec9",
+              "om_x100b50f3c6b9a8b4c34c5cc273e1ed8"
+            ],
+            "gold_message_ids": [
+              "om_x100b50f3c2aa9560c28682ccfe0da72",
+              "om_x100b50f3c453f8a4c4d6b03724f035b",
+              "om_x100b50f3c50648acc32676945ab56af",
+              "om_x100b50f3c54d90a0c216b474d720036",
+              "om_x100b50f3c58d9ca4c217957ea0ce307",
+              "om_x100b50f3c61a38a0c2afb100768e6c2",
+              "om_x100b50f3c6549080c38ad02841aeeb0",
+              "om_x100b50f3c67310a0c3bf23806c779b7",
+              "om_x100b50f3c682f8acc376edec5629ec9",
+              "om_x100b50f3c6b9a8b4c34c5cc273e1ed8"
+            ],
+            "matched_message_ids": [
+              "om_x100b50f3c453f8a4c4d6b03724f035b",
+              "om_x100b50f3c682f8acc376edec5629ec9",
+              "om_x100b50f3c6b9a8b4c34c5cc273e1ed8"
+            ],
+            "wrong_message_ids": [],
+            "evidence_output": true,
+            "evidence_precision": 1.0,
+            "evidence_recall": 0.3,
+            "evidence_task_relevance": true,
+            "evidence_temporal_correctness": true,
+            "evidence_chain_completeness": 0.3,
+            "evidence_private_info_safety": true,
+            "official_evidence_citation_rate": 0.0
+          },
+          "scores": {
+            "answer_score": 1.0,
+            "evidence_score": 0.65,
+            "safety_score": 1.0,
+            "efficiency_score": 1.0,
+            "answer_token_count": 61,
+            "estimated_steps": 1,
+            "estimated_time_seconds": 20
+          },
+          "failure_reasons": [
+            "missing_gold_evidence"
+          ],
+          "task_wiki_answer_adapter": {
+            "supporting_event_ids": [
+              "evt_48d19e8af769de1b",
+              "evt_2d0302ea07e6e905",
+              "evt_c94e71d14236b34b"
+            ],
+            "confidence": 0.95,
+            "validation_warnings": [
+              "missing_query_facet:private_boundary"
+            ]
+          }
+        },
+        "openclaw_original": {
+          "system_id": "openclaw_original",
+          "query_id": "case_20260507112905870826_contradiction_update_query_004",
+          "answer_text": "FEISHU-726的历史负责人依次为陈雪、林晨（英文名Alice）、苏禾（英文名Xavier），当前负责人为苏禾（Xavier）。",
+          "answer_correct": false,
+          "answer_judge": {
+            "answer_correct": false,
+            "evidence_supports_answer": false,
+            "private_info_leak": false,
+            "stale_value": false,
+            "reasons": [
+              "答案仅回答了历史负责人，但遗漏了当前负责人苏禾（Xavier），而答案中虽提及苏禾为当前负责人，但语义含糊，未明确强调其当前状态，与expected_good_behavior要求不符。",
+              "证据中缺少对历史负责人陈雪（初始）和林晨（历史）的直接支持消息ID，系统输出的证据未包含应引用的om_x100b50f3c682f8acc376edec5629ec9、om_x100b50f3c6b9a8b4c34c5cc273e1ed8等，且引用了一些不直接相关的消息（如om_x100b50f3c48e5cb4c2d545aaec8d4d8和om_x100b50f3c4e1b4acc2821c192b5bb90），未能充分支撑答案。"
+            ]
+          },
+          "evidence": {
+            "output_message_ids": [
+              "om_x100b50f3c453f8a4c4d6b03724f035b",
+              "om_x100b50f3c48e5cb4c2d545aaec8d4d8",
+              "om_x100b50f3c4e1b4acc2821c192b5bb90",
+              "om_x100b50f3c4f590b8c3d76c1ccdb1472"
+            ],
+            "gold_message_ids": [
+              "om_x100b50f3c2aa9560c28682ccfe0da72",
+              "om_x100b50f3c453f8a4c4d6b03724f035b",
+              "om_x100b50f3c50648acc32676945ab56af",
+              "om_x100b50f3c54d90a0c216b474d720036",
+              "om_x100b50f3c58d9ca4c217957ea0ce307",
+              "om_x100b50f3c61a38a0c2afb100768e6c2",
+              "om_x100b50f3c6549080c38ad02841aeeb0",
+              "om_x100b50f3c67310a0c3bf23806c779b7",
+              "om_x100b50f3c682f8acc376edec5629ec9",
+              "om_x100b50f3c6b9a8b4c34c5cc273e1ed8"
+            ],
+            "matched_message_ids": [
+              "om_x100b50f3c453f8a4c4d6b03724f035b"
+            ],
+            "wrong_message_ids": [
+              "om_x100b50f3c48e5cb4c2d545aaec8d4d8",
+              "om_x100b50f3c4e1b4acc2821c192b5bb90",
+              "om_x100b50f3c4f590b8c3d76c1ccdb1472"
+            ],
+            "evidence_output": true,
+            "evidence_precision": 0.25,
+            "evidence_recall": 0.1,
+            "evidence_task_relevance": false,
+            "evidence_temporal_correctness": false,
+            "evidence_chain_completeness": 0.1,
+            "evidence_private_info_safety": true,
+            "official_evidence_citation_rate": 0.0
+          },
+          "scores": {
+            "answer_score": 0.0,
+            "evidence_score": 0.175,
+            "safety_score": 1.0,
+            "efficiency_score": 1.0,
+            "answer_token_count": 66,
+            "estimated_steps": 1,
+            "estimated_time_seconds": 20
+          },
+          "failure_reasons": [
+            "answer_incorrect",
+            "wrong_evidence_source",
+            "missing_gold_evidence",
+            "stale_value",
+            "evidence_does_not_support_answer"
+          ]
+        }
+      }
+    },
+    {
+      "query_id": "case_20260507112905870826_contradiction_update_query_005",
+      "query": "FEISHU-726 的窗口为什么改到5月15日？",
+      "gold_supporting_message_ids": [
+        "om_x100b50f3c682f8acc376edec5629ec9",
+        "om_x100b50f3c6b9a8b4c34c5cc273e1ed8",
+        "om_x100b50f3c453f8a4c4d6b03724f035b",
+        "om_x100b50f3c67310a0c3bf23806c779b7",
+        "om_x100b50f3c58d9ca4c217957ea0ce307",
+        "om_x100b50f3c54d90a0c216b474d720036",
+        "om_x100b50f3c50648acc32676945ab56af",
+        "om_x100b50f3c2d73ca8c2e49efb580b405",
+        "om_x100b50f3c61a38a0c2afb100768e6c2",
+        "om_x100b50f3c6549080c38ad02841aeeb0"
+      ],
+      "systems": {
+        "task_wiki_3_layer": {
+          "system_id": "task_wiki_3_layer",
+          "query_id": "case_20260507112905870826_contradiction_update_query_005",
+          "answer_text": "FEISHU-726 的窗口改到5月15日，是因为组件升级预计5月14日完成，原5月10日和5月12日窗口已作废，并以Xavier最新确认口径为准。",
+          "answer_correct": true,
+          "answer_judge": {
+            "answer_correct": true,
+            "evidence_supports_answer": true,
+            "private_info_leak": false,
+            "stale_value": true,
+            "reasons": [
+              "答案正确指出了窗口改为5月15日的原因是组件升级延迟，并说明旧窗口已作废。",
+              "答案未引用当前负责人Xavier确认最新窗口的消息(om_x100b50f3c67310a0c3bf23806c779b7)，而是依赖于历史消息(om_x100b50f3c682f8acc376edec5629ec9和om_x100b50f3c6b9a8b4c34c5cc273e1ed8)来间接说明旧窗口，这些消息中旧窗口已被后续消息作废，导致evidence中包含了stale value。",
+              "证据中未包含最关键的后续确认消息om_x100b50f3c67310a0c3bf23806c779b7，该消息明确确认旧窗口作废。",
+              "evidence_snippets中消息om_x100b50f3c682f8acc376edec5629ec9和om_x100b50f3c6b9a8b4c34c5cc273e1ed8代表已作废的旧状态，属于stale value。"
+            ]
+          },
+          "evidence": {
+            "output_message_ids": [
+              "om_x100b50f3c453f8a4c4d6b03724f035b",
+              "om_x100b50f3c61a38a0c2afb100768e6c2",
+              "om_x100b50f3c682f8acc376edec5629ec9",
+              "om_x100b50f3c6b9a8b4c34c5cc273e1ed8"
+            ],
+            "gold_message_ids": [
+              "om_x100b50f3c2d73ca8c2e49efb580b405",
+              "om_x100b50f3c453f8a4c4d6b03724f035b",
+              "om_x100b50f3c50648acc32676945ab56af",
+              "om_x100b50f3c54d90a0c216b474d720036",
+              "om_x100b50f3c58d9ca4c217957ea0ce307",
+              "om_x100b50f3c61a38a0c2afb100768e6c2",
+              "om_x100b50f3c6549080c38ad02841aeeb0",
+              "om_x100b50f3c67310a0c3bf23806c779b7",
+              "om_x100b50f3c682f8acc376edec5629ec9",
+              "om_x100b50f3c6b9a8b4c34c5cc273e1ed8"
+            ],
+            "matched_message_ids": [
+              "om_x100b50f3c453f8a4c4d6b03724f035b",
+              "om_x100b50f3c61a38a0c2afb100768e6c2",
+              "om_x100b50f3c682f8acc376edec5629ec9",
+              "om_x100b50f3c6b9a8b4c34c5cc273e1ed8"
+            ],
+            "wrong_message_ids": [],
+            "evidence_output": true,
+            "evidence_precision": 1.0,
+            "evidence_recall": 0.4,
+            "evidence_task_relevance": true,
+            "evidence_temporal_correctness": true,
+            "evidence_chain_completeness": 0.4,
+            "evidence_private_info_safety": true,
+            "official_evidence_citation_rate": 0.0
+          },
+          "scores": {
+            "answer_score": 1.0,
+            "evidence_score": 0.7,
+            "safety_score": 1.0,
+            "efficiency_score": 1.0,
+            "answer_token_count": 74,
+            "estimated_steps": 1,
+            "estimated_time_seconds": 20
+          },
+          "failure_reasons": [
+            "missing_gold_evidence",
+            "stale_value"
+          ],
+          "task_wiki_answer_adapter": {
+            "supporting_event_ids": [
+              "evt_e01d0c4dd5565159",
+              "evt_79448c6be78620ec",
+              "evt_c94e71d14236b34b",
+              "evt_2d0302ea07e6e905",
+              "evt_48d19e8af769de1b"
+            ],
+            "confidence": 0.95,
+            "validation_warnings": []
+          }
+        },
+        "openclaw_original": {
+          "system_id": "openclaw_original",
+          "query_id": "case_20260507112905870826_contradiction_update_query_005",
+          "answer_text": "FEISHU-726的窗口改到5月15日是因为苏禾（Xavier）接手负责该任务，宣布将窗口推迟到5月15日，旧日期作废。",
+          "answer_correct": false,
+          "answer_judge": {
+            "answer_correct": false,
+            "evidence_supports_answer": false,
+            "private_info_leak": false,
+            "stale_value": true,
+            "reasons": [
+              "答案仅提到了最终责任人苏禾，未提及初始责任人陈雪和历史责任人林晨的变更链，不符合预期的详细说明",
+              "答案缺少对窗口从5月10日→5月12日→5月15日变更过程的完整说明",
+              "答案引用的evidence message_id单一，不足以支持事实fact_002和fact_004",
+              "答案未提及任务状态为'已暂停'及因组件升级延迟的原因（fact_003缺失）",
+              "答案中的'旧日期作废'表述虽然正确，但缺少对旧日期具体值（5月10日、5月12日）的引用",
+              "部分输出引用了陈旧或不足的证据，导致stale_value为true"
+            ]
+          },
+          "evidence": {
+            "output_message_ids": [
+              "om_x100b50f3c453f8a4c4d6b03724f035b"
+            ],
+            "gold_message_ids": [
+              "om_x100b50f3c2d73ca8c2e49efb580b405",
+              "om_x100b50f3c453f8a4c4d6b03724f035b",
+              "om_x100b50f3c50648acc32676945ab56af",
+              "om_x100b50f3c54d90a0c216b474d720036",
+              "om_x100b50f3c58d9ca4c217957ea0ce307",
+              "om_x100b50f3c61a38a0c2afb100768e6c2",
+              "om_x100b50f3c6549080c38ad02841aeeb0",
+              "om_x100b50f3c67310a0c3bf23806c779b7",
+              "om_x100b50f3c682f8acc376edec5629ec9",
+              "om_x100b50f3c6b9a8b4c34c5cc273e1ed8"
+            ],
+            "matched_message_ids": [
+              "om_x100b50f3c453f8a4c4d6b03724f035b"
+            ],
+            "wrong_message_ids": [],
+            "evidence_output": true,
+            "evidence_precision": 1.0,
+            "evidence_recall": 0.1,
+            "evidence_task_relevance": true,
+            "evidence_temporal_correctness": true,
+            "evidence_chain_completeness": 0.1,
+            "evidence_private_info_safety": true,
+            "official_evidence_citation_rate": 0.0
+          },
+          "scores": {
+            "answer_score": 0.0,
+            "evidence_score": 0.55,
+            "safety_score": 1.0,
+            "efficiency_score": 1.0,
+            "answer_token_count": 61,
+            "estimated_steps": 1,
+            "estimated_time_seconds": 20
+          },
+          "failure_reasons": [
+            "answer_incorrect",
+            "missing_gold_evidence",
+            "stale_value",
+            "evidence_does_not_support_answer"
+          ]
+        }
+      }
+    }
+  ],
+  "failure_reason_breakdown": {
+    "task_wiki_3_layer": {
+      "missing_gold_evidence": 5,
+      "stale_value": 2,
+      "wrong_evidence_source": 1
+    },
+    "openclaw_original": {
+      "answer_incorrect": 3,
+      "evidence_does_not_support_answer": 3,
+      "missing_gold_evidence": 5,
+      "stale_value": 5,
+      "wrong_evidence_source": 4
+    }
+  },
+  "evidence_metrics": {
+    "task_wiki_3_layer": {
+      "evidence_output_rate": 1.0,
+      "evidence_precision": 0.9,
+      "evidence_recall": 0.3167
+    },
+    "openclaw_original": {
+      "evidence_output_rate": 1.0,
+      "evidence_precision": 0.4167,
+      "evidence_recall": 0.0822
+    }
+  },
+  "systems": {
+    "task_wiki_3_layer": {
+      "source": "runtime/task_wiki_replay",
+      "raw_metrics": {
+        "input": {
+          "ingress_count": 88,
+          "collected_message_count": 88
+        },
+        "layer1_binding": {
+          "binding_total": 88,
+          "binding_bound": 88,
+          "binding_rate": 1,
+          "target_task_binding_rate": 1,
+          "skipped_count": 0,
+          "status": "passed",
+          "score": 100,
+          "blocking_failures": [],
+          "warnings": []
+        },
+        "layer2_events": {
+          "ingested_count": 88,
+          "skipped_count": 0,
+          "candidate_events_returned_during_ingest": 90,
+          "verification_jobs_queued": 87,
+          "candidate_event_count": 89,
+          "verified_event_count": 77,
+          "verification_rate": 0.8652,
+          "session_count": 11,
+          "sessions_with_events": 11,
+          "candidate_validation_breakdown": {
+            "ready_for_verification": 86,
+            "rejected": 3
+          },
+          "rejected_candidate_count": 6,
+          "ready_for_verification_count": 86,
+          "queued_verification_count": 86,
+          "rejection_reason_breakdown": {
+            "unknown": 3,
+            "quote_location:missing_entry": 3
+          },
+          "missing_field_breakdown": {},
+          "status": "passed",
+          "score": 86.52,
+          "blocking_failures": [],
+          "warnings": []
+        },
+        "layer3_wiki": {
+          "task_root_count": 1,
+          "projected_task_count": 1,
+          "projection_rate": 1,
+          "projection_status": "projected",
+          "lint_result_count": 1,
+          "orphan_event_count": 0,
+          "missing_evidence_ref_count": 0,
+          "stale_claim_count": 0,
+          "quote_strength_count": 2,
+          "unresolved_objection_count": 0,
+          "overdue_commitment_count": 0,
+          "open_conflict_count": 0,
+          "orphan_block_count": 0,
+          "missing_cross_ref_count": 0,
+          "orphan_session_wiki_count": 0,
+          "lint_blocking_count": 0,
+          "lint_warning_count": 2,
+          "status": "passed",
+          "score": 100,
+          "blocking_failures": [],
+          "warnings": [
+            "layer3:lint_warnings_present"
+          ]
+        },
+        "overall": {
+          "status": "passed",
+          "blocking_failures": [],
+          "warnings": [
+            "layer3:lint_warnings_present"
+          ],
+          "health_score": 95.28
+        }
+      },
+      "analysis_metrics": {
+        "query_success_rate": 1.0,
+        "evidence_output_rate": 1.0,
+        "evidence_precision": 0.9,
+        "evidence_recall": 0.3167,
+        "safety_score": 1.0,
+        "efficiency_score": 1.0,
+        "avg_answer_token_count": 61.0,
+        "avg_estimated_steps": 1.0,
+        "avg_estimated_time_seconds": 20.0,
+        "failure_reason_breakdown": {
+          "missing_gold_evidence": 5,
+          "stale_value": 2,
+          "wrong_evidence_source": 1
+        }
+      },
+      "metrics": {
+        "query_success_rate": 1.0,
+        "evidence_output_rate": 1.0,
+        "evidence_precision": 0.9,
+        "evidence_recall": 0.3167,
+        "safety_score": 1.0,
+        "efficiency_score": 1.0,
+        "avg_answer_token_count": 61.0,
+        "avg_estimated_steps": 1.0,
+        "avg_estimated_time_seconds": 20.0,
+        "failure_reason_breakdown": {
+          "missing_gold_evidence": 5,
+          "stale_value": 2,
+          "wrong_evidence_source": 1
+        }
+      }
+    },
+    "openclaw_original": {
+      "source": "runtime/openclaw_baseline",
+      "raw_metrics": {
+        "query_success_rate": 0.8,
+        "evidence_output_rate": 1,
+        "evidence_trace_rate": 0.8,
+        "current_state_accuracy": 1,
+        "private_info_leak_rate": 0
+      },
+      "analysis_metrics": {
+        "query_success_rate": 0.4,
+        "evidence_output_rate": 1.0,
+        "evidence_precision": 0.4167,
+        "evidence_recall": 0.0822,
+        "safety_score": 1.0,
+        "efficiency_score": 1.0,
+        "avg_answer_token_count": 69.6,
+        "avg_estimated_steps": 1.0,
+        "avg_estimated_time_seconds": 20.0,
+        "failure_reason_breakdown": {
+          "answer_incorrect": 3,
+          "evidence_does_not_support_answer": 3,
+          "missing_gold_evidence": 5,
+          "stale_value": 5,
+          "wrong_evidence_source": 4
+        }
+      },
+      "metrics": {
+        "query_success_rate": 0.4,
+        "evidence_output_rate": 1.0,
+        "evidence_precision": 0.4167,
+        "evidence_recall": 0.0822,
+        "safety_score": 1.0,
+        "efficiency_score": 1.0,
+        "avg_answer_token_count": 69.6,
+        "avg_estimated_steps": 1.0,
+        "avg_estimated_time_seconds": 20.0,
+        "failure_reason_breakdown": {
+          "answer_incorrect": 3,
+          "evidence_does_not_support_answer": 3,
+          "missing_gold_evidence": 5,
+          "stale_value": 5,
+          "wrong_evidence_source": 4
+        }
+      },
+      "baseline_mode": "openclaw_real_replay",
+      "openclaw_ingest_mode": "case_transcript"
+    }
+  },
+  "deltas": {
+    "query_success_rate_delta": 0.6,
+    "evidence_precision_delta": 0.4833,
+    "estimated_steps_saved": 0.0,
+    "estimated_time_saved_seconds": 0.0
+  },
+  "query_results": [
+    {
+      "query_id": "case_20260507112905870826_contradiction_update_query_001",
+      "query": "FEISHU-726 的当前负责人是谁？",
+      "gold_supporting_message_ids": [
+        "om_x100b50f3c6b9a8b4c34c5cc273e1ed8",
+        "om_x100b50f3c2aa9560c28682ccfe0da72",
+        "om_x100b50f3c682f8acc376edec5629ec9",
+        "om_x100b50f3c453f8a4c4d6b03724f035b",
+        "om_x100b50f3c6549080c38ad02841aeeb0",
+        "om_x100b50f3c67310a0c3bf23806c779b7",
+        "om_x100b50f3c58d9ca4c217957ea0ce307",
+        "om_x100b50f3c54d90a0c216b474d720036",
+        "om_x100b50f3c61a38a0c2afb100768e6c2",
+        "om_x100b50f3c50648acc32676945ab56af"
+      ],
+      "systems": {
+        "task_wiki_3_layer": {
+          "system_id": "task_wiki_3_layer",
+          "query_id": "case_20260507112905870826_contradiction_update_query_001",
+          "answer_text": "FEISHU-726 的当前负责人是Xavier；陈雪（Carol）、林晨（Alice）属于历史负责人。",
+          "answer_correct": true,
+          "answer_judge": {
+            "answer_correct": true,
+            "evidence_supports_answer": true,
+            "private_info_leak": false,
+            "stale_value": false,
+            "reasons": [
+              "Answer correctly identifies Xavier as current owner and clarifies Carol/Alice as historical owners.",
+              "Evidence messages support ownership transition: om_x100b50f3c682f8acc376edec5629ec9 (initial), om_x100b50f3c6b9a8b4c34c5cc273e1ed8 (handoff to Alice), om_x100b50f3c453f8a4c4d6b03724f035b (Xavier takes over and declares old dates invalid).",
+              "No private information leaked.",
+              "No stale value presented; current owner Xavier is correctly distinguished from historical owners."
+            ]
+          },
+          "evidence": {
+            "output_message_ids": [
+              "om_x100b50f3c453f8a4c4d6b03724f035b",
+              "om_x100b50f3c682f8acc376edec5629ec9",
+              "om_x100b50f3c6b9a8b4c34c5cc273e1ed8"
+            ],
+            "gold_message_ids": [
+              "om_x100b50f3c2aa9560c28682ccfe0da72",
+              "om_x100b50f3c453f8a4c4d6b03724f035b",
+              "om_x100b50f3c50648acc32676945ab56af",
+              "om_x100b50f3c54d90a0c216b474d720036",
+              "om_x100b50f3c58d9ca4c217957ea0ce307",
+              "om_x100b50f3c61a38a0c2afb100768e6c2",
+              "om_x100b50f3c6549080c38ad02841aeeb0",
+              "om_x100b50f3c67310a0c3bf23806c779b7",
+              "om_x100b50f3c682f8acc376edec5629ec9",
+              "om_x100b50f3c6b9a8b4c34c5cc273e1ed8"
+            ],
+            "matched_message_ids": [
+              "om_x100b50f3c453f8a4c4d6b03724f035b",
+              "om_x100b50f3c682f8acc376edec5629ec9",
+              "om_x100b50f3c6b9a8b4c34c5cc273e1ed8"
+            ],
+            "wrong_message_ids": [],
+            "evidence_output": true,
+            "evidence_precision": 1.0,
+            "evidence_recall": 0.3,
+            "evidence_task_relevance": true,
+            "evidence_temporal_correctness": true,
+            "evidence_chain_completeness": 0.3,
+            "evidence_private_info_safety": true,
+            "official_evidence_citation_rate": 0.0
+          },
+          "scores": {
+            "answer_score": 1.0,
+            "evidence_score": 0.65,
+            "safety_score": 1.0,
+            "efficiency_score": 1.0,
+            "answer_token_count": 52,
+            "estimated_steps": 1,
+            "estimated_time_seconds": 20
+          },
+          "failure_reasons": [
+            "missing_gold_evidence"
+          ],
+          "task_wiki_answer_adapter": {
+            "supporting_event_ids": [
+              "evt_c94e71d14236b34b",
+              "evt_48d19e8af769de1b",
+              "evt_2d0302ea07e6e905"
+            ],
+            "confidence": 0.95,
+            "validation_warnings": [
+              "missing_query_facet:private_boundary"
+            ]
+          }
+        },
+        "openclaw_original": {
+          "system_id": "openclaw_original",
+          "query_id": "case_20260507112905870826_contradiction_update_query_001",
+          "answer_text": "FEISHU-726的当前负责人是Xavier（苏禾）",
+          "answer_correct": true,
+          "answer_judge": {
+            "answer_correct": true,
+            "evidence_supports_answer": true,
+            "private_info_leak": false,
+            "stale_value": false,
+            "reasons": [
+              "system answer correctly identifies Xavier as the current owner",
+              "om_x100b50f3c453f8a4c4d6b03724f035b directly states owner handoff to Xavier and window change",
+              "evidence references are from appropriate source and session",
+              "no private information is leaked",
+              "answer does not contain stale value; old owners are correctly excluded"
+            ]
+          },
+          "evidence": {
+            "output_message_ids": [
+              "om_x100b50f3c453f8a4c4d6b03724f035b",
+              "om_x100b50f3c48e5cb4c2d545aaec8d4d8"
+            ],
+            "gold_message_ids": [
+              "om_x100b50f3c2aa9560c28682ccfe0da72",
+              "om_x100b50f3c453f8a4c4d6b03724f035b",
+              "om_x100b50f3c50648acc32676945ab56af",
+              "om_x100b50f3c54d90a0c216b474d720036",
+              "om_x100b50f3c58d9ca4c217957ea0ce307",
+              "om_x100b50f3c61a38a0c2afb100768e6c2",
+              "om_x100b50f3c6549080c38ad02841aeeb0",
+              "om_x100b50f3c67310a0c3bf23806c779b7",
+              "om_x100b50f3c682f8acc376edec5629ec9",
+              "om_x100b50f3c6b9a8b4c34c5cc273e1ed8"
+            ],
+            "matched_message_ids": [
+              "om_x100b50f3c453f8a4c4d6b03724f035b"
+            ],
+            "wrong_message_ids": [
+              "om_x100b50f3c48e5cb4c2d545aaec8d4d8"
+            ],
+            "evidence_output": true,
+            "evidence_precision": 0.5,
+            "evidence_recall": 0.1,
+            "evidence_task_relevance": false,
+            "evidence_temporal_correctness": false,
+            "evidence_chain_completeness": 0.1,
+            "evidence_private_info_safety": true,
+            "official_evidence_citation_rate": 0.0
+          },
+          "scores": {
+            "answer_score": 1.0,
+            "evidence_score": 0.3,
+            "safety_score": 1.0,
+            "efficiency_score": 1.0,
+            "answer_token_count": 27,
+            "estimated_steps": 1,
+            "estimated_time_seconds": 20
+          },
+          "failure_reasons": [
+            "wrong_evidence_source",
+            "missing_gold_evidence",
+            "stale_value"
+          ]
+        }
+      }
+    },
+    {
+      "query_id": "case_20260507112905870826_contradiction_update_query_002",
+      "query": "FEISHU-726 的发布窗口是哪天？",
+      "gold_supporting_message_ids": [
+        "om_x100b50f3c682f8acc376edec5629ec9",
+        "om_x100b50f3c6b9a8b4c34c5cc273e1ed8",
+        "om_x100b50f3c453f8a4c4d6b03724f035b",
+        "om_x100b50f3c67310a0c3bf23806c779b7",
+        "om_x100b50f3c58d9ca4c217957ea0ce307",
+        "om_x100b50f3c54d90a0c216b474d720036",
+        "om_x100b50f3c50648acc32676945ab56af",
+        "om_x100b50f3c2d73ca8c2e49efb580b405",
+        "om_x100b50f3c61a38a0c2afb100768e6c2"
+      ],
+      "systems": {
+        "task_wiki_3_layer": {
+          "system_id": "task_wiki_3_layer",
+          "query_id": "case_20260507112905870826_contradiction_update_query_002",
+          "answer_text": "FEISHU-726 的当前发布窗口是5月15日；此前5月10日、5月12日是历史窗口，已被最新口径作废。",
+          "answer_correct": true,
+          "answer_judge": {
+            "answer_correct": true,
+            "evidence_supports_answer": true,
+            "private_info_leak": false,
+            "stale_value": false,
+            "reasons": [
+              "答案正确返回当前发布窗口5月15日，并说明旧窗口5月10日、5月12日已作废，符合语义gold。",
+              "证据消息om_x100b50f3c61a38a0c2afb100768e6c2明确说明15日窗口不变且旧窗口作废，支撑当前窗口。",
+              "另外两条消息om_x100b50f3c682f8acc376edec5629ec9和om_x100b50f3c6b9a8b4c34c5cc273e1ed8提供了历史窗口信息，证据链完整。",
+              "未披露私有信息，未使用过期值作为当前状态。"
+            ]
+          },
+          "evidence": {
+            "output_message_ids": [
+              "om_x100b50f3c61a38a0c2afb100768e6c2",
+              "om_x100b50f3c682f8acc376edec5629ec9",
+              "om_x100b50f3c6b9a8b4c34c5cc273e1ed8"
+            ],
+            "gold_message_ids": [
+              "om_x100b50f3c2d73ca8c2e49efb580b405",
+              "om_x100b50f3c453f8a4c4d6b03724f035b",
+              "om_x100b50f3c50648acc32676945ab56af",
+              "om_x100b50f3c54d90a0c216b474d720036",
+              "om_x100b50f3c58d9ca4c217957ea0ce307",
+              "om_x100b50f3c61a38a0c2afb100768e6c2",
+              "om_x100b50f3c67310a0c3bf23806c779b7",
+              "om_x100b50f3c682f8acc376edec5629ec9",
+              "om_x100b50f3c6b9a8b4c34c5cc273e1ed8"
+            ],
+            "matched_message_ids": [
+              "om_x100b50f3c61a38a0c2afb100768e6c2",
+              "om_x100b50f3c682f8acc376edec5629ec9",
+              "om_x100b50f3c6b9a8b4c34c5cc273e1ed8"
+            ],
+            "wrong_message_ids": [],
+            "evidence_output": true,
+            "evidence_precision": 1.0,
+            "evidence_recall": 0.3333,
+            "evidence_task_relevance": true,
+            "evidence_temporal_correctness": true,
+            "evidence_chain_completeness": 0.3333,
+            "evidence_private_info_safety": true,
+            "official_evidence_citation_rate": 0.0
+          },
+          "scores": {
+            "answer_score": 1.0,
+            "evidence_score": 0.6666,
+            "safety_score": 1.0,
+            "efficiency_score": 1.0,
+            "answer_token_count": 53,
+            "estimated_steps": 1,
+            "estimated_time_seconds": 20
+          },
+          "failure_reasons": [
+            "missing_gold_evidence"
+          ],
+          "task_wiki_answer_adapter": {
+            "supporting_event_ids": [
+              "evt_79448c6be78620ec",
+              "evt_e01d0c4dd5565159",
+              "evt_2d0302ea07e6e905",
+              "evt_48d19e8af769de1b"
+            ],
+            "confidence": 0.95,
+            "validation_warnings": []
+          }
+        },
+        "openclaw_original": {
+          "system_id": "openclaw_original",
+          "query_id": "case_20260507112905870826_contradiction_update_query_002",
+          "answer_text": "FEISHU-726的发布窗口为5月15日",
+          "answer_correct": true,
+          "answer_judge": {
+            "answer_correct": true,
+            "evidence_supports_answer": true,
+            "private_info_leak": false,
+            "stale_value": true,
+            "reasons": [
+              "Answer correctly states release window as May 15th.",
+              "Evidence includes updated window message (om_x100b50f3c453f8a4c4d6b03724f035b) with '旧日期作废', but other evidence messages (om_x100b50f3c466c8a8c445fd067564b92 and om_x100b50f3c77b58a4c2c5ab1892c9d58) only confirm May 15th without superseding context.",
+              "Stale value detection: om_x100b50f3c77b58a4c2c5ab1892c9d58 is an acknowledgement that contains only current window, no stale value risk.",
+              "However, om_x100b50f3c466c8a8c445fd067564b92 does not explicitly state that older dates are superseded, which could allow inference of May 15th without recognizing supersession chain."
+            ]
+          },
+          "evidence": {
+            "output_message_ids": [
+              "om_x100b50f3c453f8a4c4d6b03724f035b",
+              "om_x100b50f3c466c8a8c445fd067564b92",
+              "om_x100b50f3c77b58a4c2c5ab1892c9d58"
+            ],
+            "gold_message_ids": [
+              "om_x100b50f3c2d73ca8c2e49efb580b405",
+              "om_x100b50f3c453f8a4c4d6b03724f035b",
+              "om_x100b50f3c50648acc32676945ab56af",
+              "om_x100b50f3c54d90a0c216b474d720036",
+              "om_x100b50f3c58d9ca4c217957ea0ce307",
+              "om_x100b50f3c61a38a0c2afb100768e6c2",
+              "om_x100b50f3c67310a0c3bf23806c779b7",
+              "om_x100b50f3c682f8acc376edec5629ec9",
+              "om_x100b50f3c6b9a8b4c34c5cc273e1ed8"
+            ],
+            "matched_message_ids": [
+              "om_x100b50f3c453f8a4c4d6b03724f035b"
+            ],
+            "wrong_message_ids": [
+              "om_x100b50f3c466c8a8c445fd067564b92",
+              "om_x100b50f3c77b58a4c2c5ab1892c9d58"
+            ],
+            "evidence_output": true,
+            "evidence_precision": 0.3333,
+            "evidence_recall": 0.1111,
+            "evidence_task_relevance": false,
+            "evidence_temporal_correctness": false,
+            "evidence_chain_completeness": 0.1111,
+            "evidence_private_info_safety": true,
+            "official_evidence_citation_rate": 0.0
+          },
+          "scores": {
+            "answer_score": 1.0,
+            "evidence_score": 0.2222,
+            "safety_score": 1.0,
+            "efficiency_score": 1.0,
+            "answer_token_count": 21,
+            "estimated_steps": 1,
+            "estimated_time_seconds": 20
+          },
+          "failure_reasons": [
+            "wrong_evidence_source",
+            "missing_gold_evidence",
+            "stale_value"
+          ]
+        }
+      }
+    },
+    {
+      "query_id": "case_20260507112905870826_contradiction_update_query_003",
+      "query": "FEISHU-726 当前状态如何？",
+      "gold_supporting_message_ids": [
+        "om_x100b50f3c682f8acc376edec5629ec9",
+        "om_x100b50f3c6b9a8b4c34c5cc273e1ed8",
+        "om_x100b50f3c453f8a4c4d6b03724f035b",
+        "om_x100b50f3c6549080c38ad02841aeeb0",
+        "om_x100b50f3c67310a0c3bf23806c779b7",
+        "om_x100b50f3c58d9ca4c217957ea0ce307",
+        "om_x100b50f3c54d90a0c216b474d720036",
+        "om_x100b50f3c50648acc32676945ab56af"
+      ],
+      "systems": {
+        "task_wiki_3_layer": {
+          "system_id": "task_wiki_3_layer",
+          "query_id": "case_20260507112905870826_contradiction_update_query_003",
+          "answer_text": "FEISHU-726 当前状态为已暂停，暂停原因是依赖组件升级延迟；当前负责人是Xavier，发布窗口为5月15日，旧窗口已作废。",
+          "answer_correct": true,
+          "answer_judge": {
+            "answer_correct": true,
+            "evidence_supports_answer": true,
+            "private_info_leak": false,
+            "stale_value": false,
+            "reasons": [
+              "Answer correctly states current status '已暂停' with reason '组件升级延迟'.",
+              "Evidence includes messages confirming status change (om_x100b50f3c6549080c38ad02841aeeb0) and blocker (om_x100b50f3c5cc2cb4c4a9b69c6be5393).",
+              "Answer mentions current owner Xavier and window May 15, supported by evidence (om_x100b50f3c453f8a4c4d6b03724f035b, om_x100b50f3c61a38a0c2afb100768e6c2).",
+              "No private information leak detected.",
+              "No stale values reported."
+            ]
+          },
+          "evidence": {
+            "output_message_ids": [
+              "om_x100b50f3c453f8a4c4d6b03724f035b",
+              "om_x100b50f3c5cc2cb4c4a9b69c6be5393",
+              "om_x100b50f3c61a38a0c2afb100768e6c2",
+              "om_x100b50f3c6549080c38ad02841aeeb0"
+            ],
+            "gold_message_ids": [
+              "om_x100b50f3c453f8a4c4d6b03724f035b",
+              "om_x100b50f3c50648acc32676945ab56af",
+              "om_x100b50f3c54d90a0c216b474d720036",
+              "om_x100b50f3c58d9ca4c217957ea0ce307",
+              "om_x100b50f3c6549080c38ad02841aeeb0",
+              "om_x100b50f3c67310a0c3bf23806c779b7",
+              "om_x100b50f3c682f8acc376edec5629ec9",
+              "om_x100b50f3c6b9a8b4c34c5cc273e1ed8"
+            ],
+            "matched_message_ids": [
+              "om_x100b50f3c453f8a4c4d6b03724f035b",
+              "om_x100b50f3c6549080c38ad02841aeeb0"
+            ],
+            "wrong_message_ids": [
+              "om_x100b50f3c5cc2cb4c4a9b69c6be5393",
+              "om_x100b50f3c61a38a0c2afb100768e6c2"
+            ],
+            "evidence_output": true,
+            "evidence_precision": 0.5,
+            "evidence_recall": 0.25,
+            "evidence_task_relevance": false,
+            "evidence_temporal_correctness": false,
+            "evidence_chain_completeness": 0.25,
+            "evidence_private_info_safety": true,
+            "official_evidence_citation_rate": 0.0
+          },
+          "scores": {
+            "answer_score": 1.0,
+            "evidence_score": 0.375,
+            "safety_score": 1.0,
+            "efficiency_score": 1.0,
+            "answer_token_count": 65,
+            "estimated_steps": 1,
+            "estimated_time_seconds": 20
+          },
+          "failure_reasons": [
+            "wrong_evidence_source",
+            "missing_gold_evidence",
+            "stale_value"
+          ],
+          "task_wiki_answer_adapter": {
+            "supporting_event_ids": [
+              "evt_843be33b870b15cb",
+              "evt_82d3f8095137212b",
+              "evt_c94e71d14236b34b",
+              "evt_79448c6be78620ec",
+              "evt_e01d0c4dd5565159"
+            ],
+            "confidence": 0.95,
+            "validation_warnings": []
+          }
+        },
+        "openclaw_original": {
+          "system_id": "openclaw_original",
+          "query_id": "case_20260507112905870826_contradiction_update_query_003",
+          "answer_text": "FEISHU-726当前状态如下：1. 负责人变更：原任务页显示Alice为负责人，已确认负责人变更序列为陈雪->林晨->苏禾，周宇已将任务页负责人更新为Xavier；2. 时间信息修正：此前赵敏记错网络变更窗口为5月10日，已确认勘误，以Xavier公布的时间为准；3. 潜在冲突：梁昕提出网络变更窗口可能与FEISHU-726冲突，尚待协调。",
+          "answer_correct": false,
+          "answer_judge": {
+            "answer_correct": false,
+            "evidence_supports_answer": false,
+            "private_info_leak": false,
+            "stale_value": true,
+            "reasons": [
+              "System output incorrectly states '原任务页显示Alice为负责人' and '负责人变更序列为陈雪->林晨->苏禾', but does not explicitly state the current owner is Xavier (苏禾). It mentions '周宇已将任务页负责人更新为Xavier', which is correct, but the answer lacks a clear final state.",
+              "The answer incorrectly mentions '赵敏记错网络变更窗口为5月10日' and '以Xavier公布的时间为准' without providing the current specific release window (2026年5月15日). It fails to state the current window correctly.",
+              "The answer introduces a '潜在冲突' about network change window conflict, which is not part of the expected query answer. The query asks for '当前状态如何', but the answer includes irrelevant coordination details (conflict with FEISHU-726) not requested.",
+              "The answer does not explicitly state the current status '已暂停，因组件升级延迟' as required by expected_good_behavior. Instead, it discusses owner change and window correction, missing the status entirely.",
+              "Evidence message ids include messages not supporting the required facts (e.g., om_x100b50f3c70918a8c3992d936d63517 about conflict is not required). The supporting evidence for facts (like current status) is missing."
+            ]
+          },
+          "evidence": {
+            "output_message_ids": [
+              "om_x100b50f3c48e5cb4c2d545aaec8d4d8",
+              "om_x100b50f3c4e1b4acc2821c192b5bb90",
+              "om_x100b50f3c4f590b8c3d76c1ccdb1472",
+              "om_x100b50f3c70918a8c3992d936d63517",
+              "om_x100b50f3c7505024c2a5eca5e634233",
+              "om_x100b50f3c7643ca8c2b72e03492b465",
+              "om_x100b50f3c77b58a4c2c5ab1892c9d58"
+            ],
+            "gold_message_ids": [
+              "om_x100b50f3c453f8a4c4d6b03724f035b",
+              "om_x100b50f3c50648acc32676945ab56af",
+              "om_x100b50f3c54d90a0c216b474d720036",
+              "om_x100b50f3c58d9ca4c217957ea0ce307",
+              "om_x100b50f3c6549080c38ad02841aeeb0",
+              "om_x100b50f3c67310a0c3bf23806c779b7",
+              "om_x100b50f3c682f8acc376edec5629ec9",
+              "om_x100b50f3c6b9a8b4c34c5cc273e1ed8"
+            ],
+            "matched_message_ids": [],
+            "wrong_message_ids": [
+              "om_x100b50f3c48e5cb4c2d545aaec8d4d8",
+              "om_x100b50f3c4e1b4acc2821c192b5bb90",
+              "om_x100b50f3c4f590b8c3d76c1ccdb1472",
+              "om_x100b50f3c70918a8c3992d936d63517",
+              "om_x100b50f3c7505024c2a5eca5e634233",
+              "om_x100b50f3c7643ca8c2b72e03492b465",
+              "om_x100b50f3c77b58a4c2c5ab1892c9d58"
+            ],
+            "evidence_output": true,
+            "evidence_precision": 0.0,
+            "evidence_recall": 0.0,
+            "evidence_task_relevance": false,
+            "evidence_temporal_correctness": false,
+            "evidence_chain_completeness": 0.0,
+            "evidence_private_info_safety": true,
+            "official_evidence_citation_rate": 0.0
+          },
+          "scores": {
+            "answer_score": 0.0,
+            "evidence_score": 0.0,
+            "safety_score": 1.0,
+            "efficiency_score": 1.0,
+            "answer_token_count": 173,
+            "estimated_steps": 1,
+            "estimated_time_seconds": 20
+          },
+          "failure_reasons": [
+            "answer_incorrect",
+            "wrong_evidence_source",
+            "missing_gold_evidence",
+            "stale_value",
+            "evidence_does_not_support_answer"
+          ]
+        }
+      }
+    },
+    {
+      "query_id": "case_20260507112905870826_contradiction_update_query_004",
+      "query": "FEISHU-726 有哪些历史负责人？",
+      "gold_supporting_message_ids": [
+        "om_x100b50f3c6b9a8b4c34c5cc273e1ed8",
+        "om_x100b50f3c2aa9560c28682ccfe0da72",
+        "om_x100b50f3c682f8acc376edec5629ec9",
+        "om_x100b50f3c453f8a4c4d6b03724f035b",
+        "om_x100b50f3c6549080c38ad02841aeeb0",
+        "om_x100b50f3c67310a0c3bf23806c779b7",
+        "om_x100b50f3c58d9ca4c217957ea0ce307",
+        "om_x100b50f3c54d90a0c216b474d720036",
+        "om_x100b50f3c61a38a0c2afb100768e6c2",
+        "om_x100b50f3c50648acc32676945ab56af"
+      ],
+      "systems": {
+        "task_wiki_3_layer": {
+          "system_id": "task_wiki_3_layer",
+          "query_id": "case_20260507112905870826_contradiction_update_query_004",
+          "answer_text": "FEISHU-726 的历史负责人是陈雪（Carol）、林晨（Alice）；当前负责人是当前负责人，不应再算作历史负责人。",
+          "answer_correct": true,
+          "answer_judge": {
+            "answer_correct": true,
+            "evidence_supports_answer": true,
+            "private_info_leak": false,
+            "stale_value": false,
+            "reasons": [
+              "系统正确回答了历史负责人（陈雪、林晨），且未将当前负责人苏禾列入历史负责人。",
+              "引用的证据消息 om_x100b50f3c682f8acc376edec5629ec9 和 om_x100b50f3c6b9a8b4c34c5cc273e1ed8 分别支持陈雪为初始负责人、林晨为历史负责人。",
+              "引用的消息 om_x100b50f3c453f8a4c4d6b03724f035b 支持当前负责人为苏禾，但系统未将其列入历史负责人，符合语义。",
+              "答案未包含私有信息。",
+              "答案使用的证据均为目标任务 FEISHU-726 的当前或历史状态，未使用陈旧值。"
+            ]
+          },
+          "evidence": {
+            "output_message_ids": [
+              "om_x100b50f3c453f8a4c4d6b03724f035b",
+              "om_x100b50f3c682f8acc376edec5629ec9",
+              "om_x100b50f3c6b9a8b4c34c5cc273e1ed8"
+            ],
+            "gold_message_ids": [
+              "om_x100b50f3c2aa9560c28682ccfe0da72",
+              "om_x100b50f3c453f8a4c4d6b03724f035b",
+              "om_x100b50f3c50648acc32676945ab56af",
+              "om_x100b50f3c54d90a0c216b474d720036",
+              "om_x100b50f3c58d9ca4c217957ea0ce307",
+              "om_x100b50f3c61a38a0c2afb100768e6c2",
+              "om_x100b50f3c6549080c38ad02841aeeb0",
+              "om_x100b50f3c67310a0c3bf23806c779b7",
+              "om_x100b50f3c682f8acc376edec5629ec9",
+              "om_x100b50f3c6b9a8b4c34c5cc273e1ed8"
+            ],
+            "matched_message_ids": [
+              "om_x100b50f3c453f8a4c4d6b03724f035b",
+              "om_x100b50f3c682f8acc376edec5629ec9",
+              "om_x100b50f3c6b9a8b4c34c5cc273e1ed8"
+            ],
+            "wrong_message_ids": [],
+            "evidence_output": true,
+            "evidence_precision": 1.0,
+            "evidence_recall": 0.3,
+            "evidence_task_relevance": true,
+            "evidence_temporal_correctness": true,
+            "evidence_chain_completeness": 0.3,
+            "evidence_private_info_safety": true,
+            "official_evidence_citation_rate": 0.0
+          },
+          "scores": {
+            "answer_score": 1.0,
+            "evidence_score": 0.65,
+            "safety_score": 1.0,
+            "efficiency_score": 1.0,
+            "answer_token_count": 61,
+            "estimated_steps": 1,
+            "estimated_time_seconds": 20
+          },
+          "failure_reasons": [
+            "missing_gold_evidence"
+          ],
+          "task_wiki_answer_adapter": {
+            "supporting_event_ids": [
+              "evt_48d19e8af769de1b",
+              "evt_2d0302ea07e6e905",
+              "evt_c94e71d14236b34b"
+            ],
+            "confidence": 0.95,
+            "validation_warnings": [
+              "missing_query_facet:private_boundary"
+            ]
+          }
+        },
+        "openclaw_original": {
+          "system_id": "openclaw_original",
+          "query_id": "case_20260507112905870826_contradiction_update_query_004",
+          "answer_text": "FEISHU-726的历史负责人依次为陈雪、林晨（英文名Alice）、苏禾（英文名Xavier），当前负责人为苏禾（Xavier）。",
+          "answer_correct": false,
+          "answer_judge": {
+            "answer_correct": false,
+            "evidence_supports_answer": false,
+            "private_info_leak": false,
+            "stale_value": false,
+            "reasons": [
+              "答案仅回答了历史负责人，但遗漏了当前负责人苏禾（Xavier），而答案中虽提及苏禾为当前负责人，但语义含糊，未明确强调其当前状态，与expected_good_behavior要求不符。",
+              "证据中缺少对历史负责人陈雪（初始）和林晨（历史）的直接支持消息ID，系统输出的证据未包含应引用的om_x100b50f3c682f8acc376edec5629ec9、om_x100b50f3c6b9a8b4c34c5cc273e1ed8等，且引用了一些不直接相关的消息（如om_x100b50f3c48e5cb4c2d545aaec8d4d8和om_x100b50f3c4e1b4acc2821c192b5bb90），未能充分支撑答案。"
+            ]
+          },
+          "evidence": {
+            "output_message_ids": [
+              "om_x100b50f3c453f8a4c4d6b03724f035b",
+              "om_x100b50f3c48e5cb4c2d545aaec8d4d8",
+              "om_x100b50f3c4e1b4acc2821c192b5bb90",
+              "om_x100b50f3c4f590b8c3d76c1ccdb1472"
+            ],
+            "gold_message_ids": [
+              "om_x100b50f3c2aa9560c28682ccfe0da72",
+              "om_x100b50f3c453f8a4c4d6b03724f035b",
+              "om_x100b50f3c50648acc32676945ab56af",
+              "om_x100b50f3c54d90a0c216b474d720036",
+              "om_x100b50f3c58d9ca4c217957ea0ce307",
+              "om_x100b50f3c61a38a0c2afb100768e6c2",
+              "om_x100b50f3c6549080c38ad02841aeeb0",
+              "om_x100b50f3c67310a0c3bf23806c779b7",
+              "om_x100b50f3c682f8acc376edec5629ec9",
+              "om_x100b50f3c6b9a8b4c34c5cc273e1ed8"
+            ],
+            "matched_message_ids": [
+              "om_x100b50f3c453f8a4c4d6b03724f035b"
+            ],
+            "wrong_message_ids": [
+              "om_x100b50f3c48e5cb4c2d545aaec8d4d8",
+              "om_x100b50f3c4e1b4acc2821c192b5bb90",
+              "om_x100b50f3c4f590b8c3d76c1ccdb1472"
+            ],
+            "evidence_output": true,
+            "evidence_precision": 0.25,
+            "evidence_recall": 0.1,
+            "evidence_task_relevance": false,
+            "evidence_temporal_correctness": false,
+            "evidence_chain_completeness": 0.1,
+            "evidence_private_info_safety": true,
+            "official_evidence_citation_rate": 0.0
+          },
+          "scores": {
+            "answer_score": 0.0,
+            "evidence_score": 0.175,
+            "safety_score": 1.0,
+            "efficiency_score": 1.0,
+            "answer_token_count": 66,
+            "estimated_steps": 1,
+            "estimated_time_seconds": 20
+          },
+          "failure_reasons": [
+            "answer_incorrect",
+            "wrong_evidence_source",
+            "missing_gold_evidence",
+            "stale_value",
+            "evidence_does_not_support_answer"
+          ]
+        }
+      }
+    },
+    {
+      "query_id": "case_20260507112905870826_contradiction_update_query_005",
+      "query": "FEISHU-726 的窗口为什么改到5月15日？",
+      "gold_supporting_message_ids": [
+        "om_x100b50f3c682f8acc376edec5629ec9",
+        "om_x100b50f3c6b9a8b4c34c5cc273e1ed8",
+        "om_x100b50f3c453f8a4c4d6b03724f035b",
+        "om_x100b50f3c67310a0c3bf23806c779b7",
+        "om_x100b50f3c58d9ca4c217957ea0ce307",
+        "om_x100b50f3c54d90a0c216b474d720036",
+        "om_x100b50f3c50648acc32676945ab56af",
+        "om_x100b50f3c2d73ca8c2e49efb580b405",
+        "om_x100b50f3c61a38a0c2afb100768e6c2",
+        "om_x100b50f3c6549080c38ad02841aeeb0"
+      ],
+      "systems": {
+        "task_wiki_3_layer": {
+          "system_id": "task_wiki_3_layer",
+          "query_id": "case_20260507112905870826_contradiction_update_query_005",
+          "answer_text": "FEISHU-726 的窗口改到5月15日，是因为组件升级预计5月14日完成，原5月10日和5月12日窗口已作废，并以Xavier最新确认口径为准。",
+          "answer_correct": true,
+          "answer_judge": {
+            "answer_correct": true,
+            "evidence_supports_answer": true,
+            "private_info_leak": false,
+            "stale_value": true,
+            "reasons": [
+              "答案正确指出了窗口改为5月15日的原因是组件升级延迟，并说明旧窗口已作废。",
+              "答案未引用当前负责人Xavier确认最新窗口的消息(om_x100b50f3c67310a0c3bf23806c779b7)，而是依赖于历史消息(om_x100b50f3c682f8acc376edec5629ec9和om_x100b50f3c6b9a8b4c34c5cc273e1ed8)来间接说明旧窗口，这些消息中旧窗口已被后续消息作废，导致evidence中包含了stale value。",
+              "证据中未包含最关键的后续确认消息om_x100b50f3c67310a0c3bf23806c779b7，该消息明确确认旧窗口作废。",
+              "evidence_snippets中消息om_x100b50f3c682f8acc376edec5629ec9和om_x100b50f3c6b9a8b4c34c5cc273e1ed8代表已作废的旧状态，属于stale value。"
+            ]
+          },
+          "evidence": {
+            "output_message_ids": [
+              "om_x100b50f3c453f8a4c4d6b03724f035b",
+              "om_x100b50f3c61a38a0c2afb100768e6c2",
+              "om_x100b50f3c682f8acc376edec5629ec9",
+              "om_x100b50f3c6b9a8b4c34c5cc273e1ed8"
+            ],
+            "gold_message_ids": [
+              "om_x100b50f3c2d73ca8c2e49efb580b405",
+              "om_x100b50f3c453f8a4c4d6b03724f035b",
+              "om_x100b50f3c50648acc32676945ab56af",
+              "om_x100b50f3c54d90a0c216b474d720036",
+              "om_x100b50f3c58d9ca4c217957ea0ce307",
+              "om_x100b50f3c61a38a0c2afb100768e6c2",
+              "om_x100b50f3c6549080c38ad02841aeeb0",
+              "om_x100b50f3c67310a0c3bf23806c779b7",
+              "om_x100b50f3c682f8acc376edec5629ec9",
+              "om_x100b50f3c6b9a8b4c34c5cc273e1ed8"
+            ],
+            "matched_message_ids": [
+              "om_x100b50f3c453f8a4c4d6b03724f035b",
+              "om_x100b50f3c61a38a0c2afb100768e6c2",
+              "om_x100b50f3c682f8acc376edec5629ec9",
+              "om_x100b50f3c6b9a8b4c34c5cc273e1ed8"
+            ],
+            "wrong_message_ids": [],
+            "evidence_output": true,
+            "evidence_precision": 1.0,
+            "evidence_recall": 0.4,
+            "evidence_task_relevance": true,
+            "evidence_temporal_correctness": true,
+            "evidence_chain_completeness": 0.4,
+            "evidence_private_info_safety": true,
+            "official_evidence_citation_rate": 0.0
+          },
+          "scores": {
+            "answer_score": 1.0,
+            "evidence_score": 0.7,
+            "safety_score": 1.0,
+            "efficiency_score": 1.0,
+            "answer_token_count": 74,
+            "estimated_steps": 1,
+            "estimated_time_seconds": 20
+          },
+          "failure_reasons": [
+            "missing_gold_evidence",
+            "stale_value"
+          ],
+          "task_wiki_answer_adapter": {
+            "supporting_event_ids": [
+              "evt_e01d0c4dd5565159",
+              "evt_79448c6be78620ec",
+              "evt_c94e71d14236b34b",
+              "evt_2d0302ea07e6e905",
+              "evt_48d19e8af769de1b"
+            ],
+            "confidence": 0.95,
+            "validation_warnings": []
+          }
+        },
+        "openclaw_original": {
+          "system_id": "openclaw_original",
+          "query_id": "case_20260507112905870826_contradiction_update_query_005",
+          "answer_text": "FEISHU-726的窗口改到5月15日是因为苏禾（Xavier）接手负责该任务，宣布将窗口推迟到5月15日，旧日期作废。",
+          "answer_correct": false,
+          "answer_judge": {
+            "answer_correct": false,
+            "evidence_supports_answer": false,
+            "private_info_leak": false,
+            "stale_value": true,
+            "reasons": [
+              "答案仅提到了最终责任人苏禾，未提及初始责任人陈雪和历史责任人林晨的变更链，不符合预期的详细说明",
+              "答案缺少对窗口从5月10日→5月12日→5月15日变更过程的完整说明",
+              "答案引用的evidence message_id单一，不足以支持事实fact_002和fact_004",
+              "答案未提及任务状态为'已暂停'及因组件升级延迟的原因（fact_003缺失）",
+              "答案中的'旧日期作废'表述虽然正确，但缺少对旧日期具体值（5月10日、5月12日）的引用",
+              "部分输出引用了陈旧或不足的证据，导致stale_value为true"
+            ]
+          },
+          "evidence": {
+            "output_message_ids": [
+              "om_x100b50f3c453f8a4c4d6b03724f035b"
+            ],
+            "gold_message_ids": [
+              "om_x100b50f3c2d73ca8c2e49efb580b405",
+              "om_x100b50f3c453f8a4c4d6b03724f035b",
+              "om_x100b50f3c50648acc32676945ab56af",
+              "om_x100b50f3c54d90a0c216b474d720036",
+              "om_x100b50f3c58d9ca4c217957ea0ce307",
+              "om_x100b50f3c61a38a0c2afb100768e6c2",
+              "om_x100b50f3c6549080c38ad02841aeeb0",
+              "om_x100b50f3c67310a0c3bf23806c779b7",
+              "om_x100b50f3c682f8acc376edec5629ec9",
+              "om_x100b50f3c6b9a8b4c34c5cc273e1ed8"
+            ],
+            "matched_message_ids": [
+              "om_x100b50f3c453f8a4c4d6b03724f035b"
+            ],
+            "wrong_message_ids": [],
+            "evidence_output": true,
+            "evidence_precision": 1.0,
+            "evidence_recall": 0.1,
+            "evidence_task_relevance": true,
+            "evidence_temporal_correctness": true,
+            "evidence_chain_completeness": 0.1,
+            "evidence_private_info_safety": true,
+            "official_evidence_citation_rate": 0.0
+          },
+          "scores": {
+            "answer_score": 0.0,
+            "evidence_score": 0.55,
+            "safety_score": 1.0,
+            "efficiency_score": 1.0,
+            "answer_token_count": 61,
+            "estimated_steps": 1,
+            "estimated_time_seconds": 20
+          },
+          "failure_reasons": [
+            "answer_incorrect",
+            "missing_gold_evidence",
+            "stale_value",
+            "evidence_does_not_support_answer"
+          ]
+        }
+      }
+    }
+  ],
+  "notes": [
+    "answer_correct and evidence correctness are scored separately.",
+    "A system can answer correctly but still receive a weak evidence score.",
+    "reports/phase3_score.json is the canonical Phase 3 scoring artifact."
+  ]
+}

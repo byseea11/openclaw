@@ -1,0 +1,33 @@
+{
+  "version": 1,
+  "generated_at": "2026-05-08T03:46:37.831Z",
+  "orphan_event_count": 0,
+  "missing_evidence_ref_count": 0,
+  "stale_claim_count": 0,
+  "quote_strength_count": 1,
+  "unresolved_objection_count": 0,
+  "overdue_commitment_count": 0,
+  "open_conflict_count": 0,
+  "orphan_block_count": 0,
+  "missing_cross_ref_count": 0,
+  "orphan_session_wiki_count": 0,
+  "findings": {
+    "orphan_events": [],
+    "missing_evidence_refs": [],
+    "stale_claims": [],
+    "quote_strength": [
+      {
+        "source_session_id": "task:FEISHU-334::chat:oc_95a1908001469fb3511314931c960609",
+        "event_id": "evt_7bb161f00af7f5b7",
+        "claim": "安全审查通过前不跑测试用例。",
+        "evidence_quote": "安全审查通过前不跑。"
+      }
+    ],
+    "unresolved_objections": [],
+    "overdue_commitments": [],
+    "open_conflicts": [],
+    "orphan_blocks": [],
+    "missing_cross_refs": [],
+    "orphan_session_wikis": []
+  }
+}

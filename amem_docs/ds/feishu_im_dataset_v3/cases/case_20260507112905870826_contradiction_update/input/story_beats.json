@@ -1,0 +1,115 @@
+{
+  "case_id": "case_20260507112905870826_contradiction_update",
+  "family_id": "contradiction_update",
+  "task_id": "FEISHU-726",
+  "beats": [
+    {
+      "beat_id": "beat_001",
+      "target_session_id": "main_chat",
+      "benchmark_role": "final_current_state_turn",
+      "description": "Carol 宣布 FEISHU-726 窗口为 5月10日，她本人负责。"
+    },
+    {
+      "beat_id": "beat_002",
+      "target_session_id": "main_chat",
+      "benchmark_role": "final_current_state_turn",
+      "description": "Alice 说 Carol 转交给她，窗口改为 5月12日。"
+    },
+    {
+      "beat_id": "beat_003",
+      "target_session_id": "risk_review_thread",
+      "benchmark_role": "final_current_state_turn",
+      "description": "Xavier 通知负责 FEISHU-726，窗口推迟到 5月15日，旧日期作废。"
+    },
+    {
+      "beat_id": "beat_004",
+      "target_session_id": "security_thread",
+      "benchmark_role": "final_current_state_turn",
+      "description": "Eve 说明安全审查已通过，但当前 blocker 是依赖组件升级延迟。"
+    },
+    {
+      "beat_id": "beat_005",
+      "target_session_id": "main_chat",
+      "benchmark_role": "final_current_state_turn",
+      "description": "Xavier 将 FEISHU-726 状态改为已暂停，等待组件升级完成。"
+    },
+    {
+      "beat_id": "beat_006",
+      "target_session_id": "infra_channel",
+      "benchmark_role": "final_current_state_turn",
+      "description": "Frank 引用 Carol 的旧消息说窗口是5月10日，需要勘误。"
+    },
+    {
+      "beat_id": "beat_007",
+      "target_session_id": "main_chat",
+      "benchmark_role": "final_current_state_turn",
+      "description": "Alice 纠正说窗口已两次变更，以 Xavier 的最新为准。"
+    },
+    {
+      "beat_id": "beat_008",
+      "target_session_id": "qa_thread",
+      "benchmark_role": "final_current_state_turn",
+      "description": "David 说 QA 在5月10日和12日都没空，但5月15日可以。"
+    },
+    {
+      "beat_id": "beat_009",
+      "target_session_id": "compliance_thread",
+      "benchmark_role": "final_current_state_turn",
+      "description": "Grace 强调合规审批需要3个工作日，窗口变更后需重新计算。"
+    },
+    {
+      "beat_id": "beat_010",
+      "target_session_id": "standup_thread",
+      "benchmark_role": "final_current_state_turn",
+      "description": "Leo 汇总说 FEISHU-726 当前负责人是 Xavier，窗口5月15日，状态已暂停。"
+    },
+    {
+      "beat_id": "beat_011",
+      "target_session_id": "devops_channel",
+      "benchmark_role": "final_current_state_turn",
+      "description": "Oscar 问为什么任务页还显示 Alice 是 owner，需要更新。"
+    },
+    {
+      "beat_id": "beat_012",
+      "target_session_id": "vendor_thread",
+      "benchmark_role": "final_current_state_turn",
+      "description": "Ulysses 问组件升级是否依赖供应商新版本，可能进一步推迟窗口。"
+    },
+    {
+      "beat_id": "beat_013",
+      "target_session_id": "main_chat",
+      "benchmark_role": "final_current_state_turn",
+      "description": "Xavier 说组件升级预计5月14日完成，15日窗口不变，旧窗口完全作废。"
+    },
+    {
+      "beat_id": "beat_014",
+      "target_session_id": "infra_channel",
+      "benchmark_role": "final_current_state_turn",
+      "description": "Ben 提醒网络变更窗口可能与 FEISHU-726 冲突，需要协调。"
+    },
+    {
+      "beat_id": "beat_015",
+      "target_session_id": "risk_review_thread",
+      "benchmark_role": "final_current_state_turn",
+      "description": "Victor 评估当前风险为低，因为窗口已推迟且 blocker 追踪中。"
+    },
+    {
+      "beat_id": "beat_016",
+      "target_session_id": "main_chat",
+      "benchmark_role": "final_current_state_turn",
+      "description": "Wendy 问是否需要通知客户关于窗口变更，Xavier 说暂不需要，以最新为准。"
+    },
+    {
+      "beat_id": "beat_017",
+      "target_session_id": "hr_thread",
+      "benchmark_role": "final_current_state_turn",
+      "description": "Tina 说 Carol 调岗后需更新任务负责人记录。"
+    },
+    {
+      "beat_id": "beat_018",
+      "target_session_id": "finance_thread",
+      "benchmark_role": "final_current_state_turn",
+      "description": "Sam 确认延期无额外成本，预算已覆盖。"
+    }
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "phase": "phase1",
+  "stage": "task-actor-layout",
+  "status": "skipped",
+  "started_at": "2026-05-07T11:16:00.684526+00:00",
+  "ended_at": "2026-05-07T11:16:00.685204+00:00",
+  "artifact_paths": [
+    "amem_docs/ds/feishu_im_dataset_v3/cases/case_20260507105819230766_private_info_in_official_file/input/task_actor_layout.json",
+    "amem_docs/ds/feishu_im_dataset_v3/cases/case_20260507105819230766_private_info_in_official_file/input/story_plan.json"
+  ],
+  "skipped": true,
+  "run_id": "20260507T111600685216Z",
+  "updated_at": "2026-05-07T11:16:00.685221+00:00"
+}

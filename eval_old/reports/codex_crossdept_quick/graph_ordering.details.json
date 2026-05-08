@@ -1,0 +1,78 @@
+[
+  {
+    "sample_id": "product_launch_v1",
+    "query_id": "q1",
+    "query_type": "state",
+    "predicted_answer": "根据最新的信息，**PROD-123 现在没有任何阻塞了！**\n\n让我解释一下：\n\n## 状态更新\n\n**之前的状态**（Graph state 显示）：\n- PROD-123 卡在 AP-456 审批\n- 阻塞项：approval:AP-456\n\n**现在的状态**（根据最新对话记录）：\n1. ✅ **AP-456 已通过**（Carol 确认）\n2. ✅ **TASK-789 已完成**（Bob 确认）\n3. ✅ **所有前置依赖已满足**\n\n## 当前进展\n\n从今天的对话可以看出：\n- **Bob**：已完成 PROD-123 工作量评估（2周），确认 TASK-789 已完成\n- **Carol**：确认 AP-456 技术审批已通过\n- **Alice**：希望本周推进上线\n\n## 结论\n\n**PROD-123 的所有阻塞都已解除**，现在状态是：\n- ✅ **开发进行中**\n- ✅ **实际开始时间**：2026-04-21（今天）\n- ✅ **预计完成时间**：2026-05-05（2周后）\n\nGraph state 显示的信息是之前的旧状态，需要更新。现在 PROD-123 已经可以正常推进开发了。",
+    "gold_answer": "已解除阻塞，可以开始开发",
+    "tool_calls": [],
+    "prompt_tokens": 12475,
+    "completion_tokens": 264,
+    "latency_ms": 18327.274,
+    "gold_evidence_items": [
+      {
+        "ref": "history[3]",
+        "texts": [
+          "TASK-789 已完成，PROD-123 可以开始开发了",
+          "TASK-789 这边已经 done 了，PROD-123 可以继续推进了。"
+        ]
+      }
+    ],
+    "retrieval_results": [],
+    "retrieval_probe_status": "missing_tool_output",
+    "retrieval_probe_source": null,
+    "retrieval_probe_error": "probe response did not contain parseable memory_search results",
+    "exact_match": 0.0,
+    "f1": 0.09282700421940929,
+    "memory_search_calls": 0,
+    "memory_get_calls": 0,
+    "memory_tool_calls": 0,
+    "recall_at_5": 0.0,
+    "recall_at_10": 0.0
+  },
+  {
+    "sample_id": "product_launch_v1",
+    "query_id": "q2",
+    "query_type": "why",
+    "predicted_answer": "根据群聊记录和记忆，我来分析一下 PROD-123 为什么一直没有启动的原因：\n\n## PROD-123 延迟启动的原因分析\n\n**主要阻塞点**（按时间顺序）：\n\n### 1. **AP-456 技术审批卡住**（主要阻塞）\n- **时间**: 2026-04-21\n- **状态**: 最初是\"卡在 AP-456 审批\"\n- **影响**: Bob 明确表示\"审批过了我再继续往下推\"\n- **解决时间**: 2026-04-21（Carol 确认 AP-456 已通过）\n\n### 2. **TASK-789 数据迁移未完成**（次要阻塞）\n- **时间**: 2026-04-21\n- **状态**: Carol 在 AP-456 通过后提醒\"还得先把 TASK-789 处理掉\"\n- **影响**: 即使 AP-456 通过了，还需要完成这个前置任务\n- **解决时间**: 2026-04-21（Bob 确认 TASK-789 已完成）\n\n### 3. **审批流程依赖**\n- **审批单号**: AP-456\n- **审批负责人**: Carol@ops\n- **审批状态变化**:\n  - 2026-04-21: 被 Carol 阻塞（需要审批）\n  - 2026-04-21: Carol 将状态改为\"已通过\"\n\n### 4. **任务依赖链**\n```\nPROD-123 开发启动\n    ↓\n需要 AP-456 技术审批通过\n    ↓\n需要 TASK-789 数据迁移完成\n```\n\n**关键时间点**:\n- **2026-04-01**: 任务创建（Alice）\n- **2026-04-02**: Bob 完成工作量评估（预计2周）\n- **2026-04-10**: TASK-789 数据迁移完成（但当时可能未关联到 PROD-123）\n- **2026-04-21**: \n  - 上午：Alice 催促推进上线\n  - 上午：Bob 指出卡在 AP-456\n  - 下午：Carol 通过 AP-456，但提醒需要 TASK-789\n  - 下午：Bob 确认 TASK-789 已完成，可以开始开发\n\n**根本原因**:\n1. **审批流程延迟**: AP-456 技术审批是主要瓶颈\n2. **依赖关系不清晰**: TASK-789 作为前置任务，其完成状态没有及时同步到 PROD-123 任务中\n3. **沟通延迟**: 直到 Alice 催促时，才暴露出这些阻塞点\n\n**当前状态**（截至 2026-04-21）:\n- ✅ 所有阻塞已解除\n- ✅ Bob 已确认可以开始开发\n- ✅ 开发实际已启动（2026-04-21）\n\n**总结**: PROD-123 延迟启动主要是因为技术审批（AP-456）卡住，加上前置数据迁移任务（TASK-789）的依赖关系没有提前明确。这些问题在 Alice 催促推进时才被逐一发现和解决。",
+    "gold_answer": "先被 AP-456 阻塞，审批通过后又被 TASK-789 阻塞，现在已解除",
+    "tool_calls": [],
+    "prompt_tokens": 7879,
+    "completion_tokens": 657,
+    "latency_ms": 29965.624,
+    "gold_evidence_items": [
+      {
+        "ref": "history[1]",
+        "texts": [
+          "PROD-123 评估完成，预计 2 周开发，但需要先完成 AP-456 的技术审批",
+          "@Carol PROD-123 我这边先评完了，当前还是卡在 AP-456。审批过了我再继续往下推。"
+        ]
+      },
+      {
+        "ref": "history[2]",
+        "texts": [
+          "AP-456 审批通过，但运营侧需要先完成数据迁移 TASK-789",
+          "@Bob 审批卡片更新：AP-456 已通过。 不过还得先把 TASK-789 处理掉。"
+        ]
+      },
+      {
+        "ref": "history[3]",
+        "texts": [
+          "TASK-789 已完成，PROD-123 可以开始开发了",
+          "TASK-789 这边已经 done 了，PROD-123 可以继续推进了。"
+        ]
+      }
+    ],
+    "retrieval_results": [],
+    "retrieval_probe_status": "missing_tool_output",
+    "retrieval_probe_source": null,
+    "retrieval_probe_error": "probe response did not contain parseable memory_search results",
+    "exact_match": 0.0,
+    "f1": 0.0743362831858407,
+    "memory_search_calls": 0,
+    "memory_get_calls": 0,
+    "memory_tool_calls": 0,
+    "recall_at_5": 0.0,
+    "recall_at_10": 0.0
+  }
+]

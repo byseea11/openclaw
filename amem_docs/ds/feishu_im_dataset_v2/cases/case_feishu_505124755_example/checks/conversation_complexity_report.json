@@ -1,0 +1,32 @@
+{
+  "case_id": "case_feishu_505124755_example",
+  "passed": false,
+  "failed_checks": [
+    "message_count",
+    "thread_reply_depth",
+    "supersession_count"
+  ],
+  "metrics": {
+    "session_count": 5,
+    "source_session_count": 5,
+    "message_count": 21,
+    "topic_count": 5,
+    "avg_turns_per_topic": 4,
+    "thread_reply_depth": 3,
+    "state_transition_count": 21,
+    "supersession_count": 1,
+    "cross_source_revision_count": 5,
+    "event_family_coverage": 8
+  },
+  "thresholds": {
+    "session_count": 5,
+    "source_session_count": 4,
+    "message_count": 28,
+    "topic_count": 5,
+    "thread_reply_depth": 5,
+    "state_transition_count": 6,
+    "supersession_count": 2,
+    "cross_source_revision_count": 2,
+    "event_family_coverage": 7
+  }
+}

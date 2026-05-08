@@ -1,0 +1,23 @@
+{
+  "case_id": "case_feishu_505150207_example",
+  "passed": false,
+  "errors": [
+    "conversation complexity gate did not pass"
+  ],
+  "checks": {
+    "characters_count": 10,
+    "planned_sessions": 5,
+    "planned_turns": 21,
+    "command_steps": 29,
+    "collected_messages": 21,
+    "gold_events": 42,
+    "memory_blocks": 5,
+    "current_state_items": 15,
+    "target_current_state_items": 15,
+    "command_step_ids": 29,
+    "unique_actual_senders": 1,
+    "unique_normalized_actors": 6,
+    "simulated_open_ids": 10,
+    "actor_registry_size": 10
+  }
+}

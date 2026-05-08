@@ -1,0 +1,29 @@
+{
+  "version": 1,
+  "task_id": "task:FEISHU-366",
+  "task_key": "FEISHU-366",
+  "source_session_id": "task:FEISHU-366::chat:oc_d5a10bb59e4bd3868e07d66286c5c237",
+  "source_scope": "chat:oc_d5a10bb59e4bd3868e07d66286c5c237",
+  "source_type": "chat",
+  "source_id": "chat:qa_triage_chat",
+  "session_title": "task:FEISHU-366::chat:oc_d5a10bb59e4bd3868e07d66286c5c237",
+  "time_range": {
+    "start": "2026-05-07T11:05:36.492Z",
+    "end": "2026-05-07T11:05:36.689Z"
+  },
+  "participants": [
+    "高骏",
+    "陈雪",
+    "苏禾"
+  ],
+  "relative_page_path": "sessions/FEISHU-366_chat_oc_d5a10bb59e4bd3868e07d66286c5c-3237abda/session_wiki.md",
+  "session_summary": "本次 session 暂无已验证的结构化记忆块。",
+  "block_order": [],
+  "blocks": {},
+  "lifecycle_summary": {
+    "active_event_count": 0,
+    "historical_event_count": 0,
+    "invalid_event_count": 0
+  },
+  "updated_at": "2026-05-07T11:05:36.830Z"
+}

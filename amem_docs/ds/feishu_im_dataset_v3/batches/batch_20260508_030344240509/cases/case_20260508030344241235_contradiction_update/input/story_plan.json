@@ -1,0 +1,247 @@
+{
+  "story_id": "story_case_20260508030344241235_contradiction_update",
+  "case_id": "case_20260508030344241235_contradiction_update",
+  "family_id": "contradiction_update",
+  "task": {
+    "task_id": "FEISHU-335",
+    "task_name": "PDT开发工具协作",
+    "role": "target_task"
+  },
+  "actors": [
+    {
+      "actor_id": "alice",
+      "display_name": "Alice",
+      "role": "项目经理"
+    },
+    {
+      "actor_id": "bob",
+      "display_name": "Bob",
+      "role": "开发工程师"
+    },
+    {
+      "actor_id": "carol",
+      "display_name": "Carol",
+      "role": "测试工程师"
+    },
+    {
+      "actor_id": "david",
+      "display_name": "David",
+      "role": "产品经理"
+    },
+    {
+      "actor_id": "eve",
+      "display_name": "Eve",
+      "role": "运维工程师"
+    },
+    {
+      "actor_id": "frank",
+      "display_name": "Frank",
+      "role": "架构师"
+    },
+    {
+      "actor_id": "grace",
+      "display_name": "Grace",
+      "role": "前端工程师"
+    },
+    {
+      "actor_id": "henry",
+      "display_name": "Henry",
+      "role": "后端工程师"
+    },
+    {
+      "actor_id": "ivy",
+      "display_name": "Ivy",
+      "role": "设计师"
+    },
+    {
+      "actor_id": "jack",
+      "display_name": "Jack",
+      "role": "安全工程师"
+    },
+    {
+      "actor_id": "kevin",
+      "display_name": "Kevin",
+      "role": "数据工程师"
+    },
+    {
+      "actor_id": "lisa",
+      "display_name": "Lisa",
+      "role": "技术经理"
+    }
+  ],
+  "task_actor_layout": {
+    "target_task_id": "FEISHU-335",
+    "shared_actors": [
+      "alice",
+      "bob",
+      "carol",
+      "david",
+      "eve",
+      "frank",
+      "grace",
+      "henry",
+      "ivy",
+      "jack",
+      "kevin",
+      "lisa"
+    ],
+    "actor_task_roles": [
+      {
+        "actor_id": "alice",
+        "task_id": "FEISHU-335",
+        "role": "task_owner"
+      },
+      {
+        "actor_id": "bob",
+        "task_id": "FEISHU-335",
+        "role": "initial_owner"
+      },
+      {
+        "actor_id": "carol",
+        "task_id": "FEISHU-335",
+        "role": "current_owner"
+      },
+      {
+        "actor_id": "david",
+        "task_id": "FEISHU-335",
+        "role": "historical_owner"
+      }
+    ]
+  },
+  "state_changes": [
+    {
+      "task_id": "FEISHU-335",
+      "field": "owner",
+      "sequence": [
+        {
+          "value": "bob",
+          "status": "initial"
+        },
+        {
+          "value": "david",
+          "status": "historical"
+        },
+        {
+          "value": "carol",
+          "status": "current"
+        }
+      ]
+    },
+    {
+      "task_id": "FEISHU-335",
+      "field": "deadline",
+      "sequence": [
+        {
+          "value": "2026-03-15",
+          "status": "initial"
+        },
+        {
+          "value": "2026-03-20",
+          "status": "historical"
+        },
+        {
+          "value": "2026-03-25",
+          "status": "current"
+        }
+      ]
+    },
+    {
+      "task_id": "FEISHU-335",
+      "field": "status",
+      "sequence": [
+        {
+          "value": "open",
+          "status": "initial"
+        },
+        {
+          "value": "in_progress",
+          "status": "historical"
+        },
+        {
+          "value": "blocked",
+          "status": "current"
+        }
+      ]
+    }
+  ],
+  "message_beats": [
+    {
+      "beat_id": "beat_001",
+      "purpose": "initial assignment of FEISHU-335 to bob",
+      "speaker_actor_id": "alice",
+      "session_id": "main_chat",
+      "message_intent": "Alice assigns FEISHU-335 to Bob with deadline 2026-03-15 and status open.",
+      "speaker": "Alice"
+    },
+    {
+      "beat_id": "beat_002",
+      "purpose": "status update to in_progress",
+      "speaker_actor_id": "bob",
+      "session_id": "main_chat",
+      "message_intent": "Bob updates FEISHU-335 status to in_progress.",
+      "speaker": "Bob"
+    },
+    {
+      "beat_id": "beat_003",
+      "purpose": "transfer owner to david with deadline extended",
+      "speaker_actor_id": "alice",
+      "session_id": "main_chat",
+      "message_intent": "Alice transfers FEISHU-335 to David, deadline extended to 2026-03-20.",
+      "speaker": "Alice"
+    },
+    {
+      "beat_id": "beat_004",
+      "purpose": "david changes owner to carol with final deadline",
+      "speaker_actor_id": "david",
+      "session_id": "main_chat",
+      "message_intent": "David changes FEISHU-335 owner to Carol, deadline pushed to 2026-03-25, status blocked.",
+      "speaker": "David"
+    },
+    {
+      "beat_id": "beat_005",
+      "purpose": "distractor unrelated to FEISHU-335",
+      "speaker_actor_id": "eve",
+      "session_id": "main_chat",
+      "message_intent": "Eve asks about server maintenance schedule this weekend.",
+      "speaker": "Eve"
+    },
+    {
+      "beat_id": "beat_006",
+      "purpose": "distractor unrelated to FEISHU-335",
+      "speaker_actor_id": "frank",
+      "session_id": "thread_release",
+      "message_intent": "Frank proposes a new architecture review for next quarter.",
+      "speaker": "Frank"
+    },
+    {
+      "beat_id": "beat_007",
+      "purpose": "historical confirmation of old owner",
+      "speaker_actor_id": "alice",
+      "session_id": "main_chat",
+      "message_intent": "Alice asks David to confirm his past owner role on FEISHU-335.",
+      "speaker": "Alice"
+    },
+    {
+      "beat_id": "beat_008",
+      "purpose": "final ack by current owner",
+      "speaker_actor_id": "carol",
+      "session_id": "main_chat",
+      "message_intent": "Carol acknowledges she is now the owner of FEISHU-335 and will work on the blocked status.",
+      "speaker": "Carol"
+    }
+  ],
+  "planned_probe_queries": [
+    {
+      "query": "FEISHU-335 现在的负责人是谁？",
+      "expected_good_behavior": "返回 Carol，并说明 Bob 和 David 是历史负责人。"
+    },
+    {
+      "query": "FEISHU-335 的截止日期目前是多少？",
+      "expected_good_behavior": "返回 2026-03-25，并说明之前是 2026-03-20 和 2026-03-15。"
+    },
+    {
+      "query": "FEISHU-335 当前的状态是什么？",
+      "expected_good_behavior": "返回 blocked，并说明之前是 in_progress 和 open。"
+    }
+  ]
+}

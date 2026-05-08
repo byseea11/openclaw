@@ -1,0 +1,217 @@
+{
+  "case_id": "case_20260507023754463003_contradiction_update",
+  "family_id": "contradiction_update",
+  "task_id": "FEISHU-703",
+  "actors": [
+    {
+      "actor_id": "alice",
+      "display_name": "Alice",
+      "role": "release_pm"
+    },
+    {
+      "actor_id": "bob",
+      "display_name": "Bob",
+      "role": "dev_lead"
+    },
+    {
+      "actor_id": "carol",
+      "display_name": "Carol",
+      "role": "qa_lead"
+    },
+    {
+      "actor_id": "dave",
+      "display_name": "Dave",
+      "role": "ops_lead"
+    },
+    {
+      "actor_id": "eve",
+      "display_name": "Eve",
+      "role": "security_auditor"
+    },
+    {
+      "actor_id": "frank",
+      "display_name": "Frank",
+      "role": "frontend_developer"
+    },
+    {
+      "actor_id": "grace",
+      "display_name": "Grace",
+      "role": "backend_developer"
+    },
+    {
+      "actor_id": "heidi",
+      "display_name": "Heidi",
+      "role": "database_administrator"
+    },
+    {
+      "actor_id": "ivan",
+      "display_name": "Ivan",
+      "role": "compliance_officer"
+    },
+    {
+      "actor_id": "judy",
+      "display_name": "Judy",
+      "role": "infrastructure_engineer"
+    },
+    {
+      "actor_id": "mallory",
+      "display_name": "Mallory",
+      "role": "third_party_vendor_coordinator"
+    },
+    {
+      "actor_id": "nancy",
+      "display_name": "Nancy",
+      "role": "tech_writer"
+    },
+    {
+      "actor_id": "oliver",
+      "display_name": "Oliver",
+      "role": "project_owner"
+    },
+    {
+      "actor_id": "peggy",
+      "display_name": "Peggy",
+      "role": "cross_team_liaison"
+    },
+    {
+      "actor_id": "quincy",
+      "display_name": "Quincy",
+      "role": "release_manager"
+    },
+    {
+      "actor_id": "rachel",
+      "display_name": "Rachel",
+      "role": "dev_ops_engineer"
+    },
+    {
+      "actor_id": "sybil",
+      "display_name": "Sybil",
+      "role": "product_manager"
+    },
+    {
+      "actor_id": "trent",
+      "display_name": "Trent",
+      "role": "architect"
+    },
+    {
+      "actor_id": "ursula",
+      "display_name": "Ursula",
+      "role": "data_analyst"
+    },
+    {
+      "actor_id": "victor",
+      "display_name": "Victor",
+      "role": "mobile_developer"
+    },
+    {
+      "actor_id": "wendy",
+      "display_name": "Wendy",
+      "role": "ui_designer"
+    },
+    {
+      "actor_id": "xavier",
+      "display_name": "Xavier",
+      "role": "target_owner"
+    },
+    {
+      "actor_id": "yvonne",
+      "display_name": "Yvonne",
+      "role": "customer_representative"
+    },
+    {
+      "actor_id": "zara",
+      "display_name": "Zara",
+      "role": "legal_advisor"
+    },
+    {
+      "actor_id": "aaron",
+      "display_name": "Aaron",
+      "role": "network_engineer"
+    },
+    {
+      "actor_id": "betty",
+      "display_name": "Betty",
+      "role": "hr_coordinator"
+    },
+    {
+      "actor_id": "charlie",
+      "display_name": "Charlie",
+      "role": "finance_manager"
+    },
+    {
+      "actor_id": "diana",
+      "display_name": "Diana",
+      "role": "marketing_specialist"
+    }
+  ],
+  "task_actor_layout": {
+    "target_task_id": "FEISHU-703",
+    "shared_actors": [
+      "alice",
+      "bob",
+      "carol",
+      "dave",
+      "eve",
+      "frank",
+      "grace",
+      "heidi",
+      "ivan",
+      "judy",
+      "mallory",
+      "nancy",
+      "oliver",
+      "peggy",
+      "quincy",
+      "rachel",
+      "sybil",
+      "trent",
+      "ursula",
+      "victor",
+      "wendy",
+      "xavier",
+      "yvonne",
+      "zara",
+      "aaron",
+      "betty",
+      "charlie",
+      "diana"
+    ],
+    "actor_task_roles": [
+      {
+        "actor_id": "xavier",
+        "task_id": "FEISHU-703",
+        "role": "current_owner"
+      },
+      {
+        "actor_id": "alice",
+        "task_id": "FEISHU-703",
+        "role": "historical_owner"
+      },
+      {
+        "actor_id": "bob",
+        "task_id": "FEISHU-703",
+        "role": "initial_owner"
+      },
+      {
+        "actor_id": "carol",
+        "task_id": "FEISHU-703",
+        "role": "qa_reviewer"
+      },
+      {
+        "actor_id": "dave",
+        "task_id": "FEISHU-703",
+        "role": "ops_deployment"
+      },
+      {
+        "actor_id": "oliver",
+        "task_id": "FEISHU-703",
+        "role": "project_sponsor"
+      },
+      {
+        "actor_id": "quincy",
+        "task_id": "FEISHU-703",
+        "role": "release_scheduler"
+      }
+    ]
+  }
+}

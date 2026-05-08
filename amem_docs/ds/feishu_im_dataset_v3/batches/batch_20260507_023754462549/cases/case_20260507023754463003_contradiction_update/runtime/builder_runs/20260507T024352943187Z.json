@@ -1,0 +1,14 @@
+{
+  "phase": "phase1",
+  "stage": "spec-generation",
+  "status": "completed",
+  "started_at": "2026-05-07T02:43:52.942885+00:00",
+  "ended_at": "2026-05-07T02:43:52.942897+00:00",
+  "artifact_paths": [
+    "amem_docs/ds/feishu_im_dataset_v3/batches/batch_20260507_023754462549/cases/case_20260507023754463003_contradiction_update/input/case_context.json",
+    "amem_docs/ds/feishu_im_dataset_v3/batches/batch_20260507_023754462549/cases/case_20260507023754463003_contradiction_update/case_spec.json"
+  ],
+  "skipped": false,
+  "run_id": "20260507T024352943187Z",
+  "updated_at": "2026-05-07T02:43:52.943231+00:00"
+}

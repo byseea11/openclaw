@@ -1,0 +1,13 @@
+{
+  "phase": "phase2",
+  "stage": "annotation-gold",
+  "status": "completed",
+  "started_at": "2026-05-07T11:55:02.894186+00:00",
+  "ended_at": "2026-05-07T11:55:02.896825+00:00",
+  "artifact_paths": [
+    "amem_docs/ds/feishu_im_dataset_v3/cases/case_20260507112905870826_contradiction_update/gold/annotation_gold.jsonl"
+  ],
+  "skipped": false,
+  "run_id": "20260507T115502896843Z",
+  "updated_at": "2026-05-07T11:55:02.896929+00:00"
+}

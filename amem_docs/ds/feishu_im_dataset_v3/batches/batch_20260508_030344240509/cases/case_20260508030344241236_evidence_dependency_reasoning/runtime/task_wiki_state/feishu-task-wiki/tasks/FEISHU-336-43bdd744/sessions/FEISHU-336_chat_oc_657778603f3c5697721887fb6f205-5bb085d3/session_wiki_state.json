@@ -1,0 +1,279 @@
+{
+  "version": 1,
+  "task_id": "task:FEISHU-336",
+  "task_key": "FEISHU-336",
+  "source_session_id": "task:FEISHU-336::chat:oc_657778603f3c5697721887fb6f205b44",
+  "source_scope": "chat:oc_657778603f3c5697721887fb6f205b44",
+  "source_type": "thread",
+  "source_id": "thread:risk_review_thread",
+  "session_title": "task:FEISHU-336::chat:oc_657778603f3c5697721887fb6f205b44",
+  "time_range": {
+    "start": "2026-05-08T03:57:20.266Z",
+    "end": "2026-05-08T03:58:42.377Z"
+  },
+  "participants": [
+    "Benchmark Root",
+    "高骏",
+    "何然",
+    "秦怡"
+  ],
+  "relative_page_path": "sessions/FEISHU-336_chat_oc_657778603f3c5697721887fb6f205-5bb085d3/session_wiki.md",
+  "session_summary": "发布阻塞风险降级，回滚与备份边界进行中，升级窗口锁定后风险不大，infra资源待批准。",
+  "block_order": [
+    "block-发布阻塞风险-45763a86",
+    "block-回滚与备份边界-004e2c22",
+    "block-正式升级窗口-930e601a",
+    "block-infra_资源-464f5b84"
+  ],
+  "blocks": {
+    "block-发布阻塞风险-45763a86": {
+      "block_id": "block-发布阻塞风险-45763a86",
+      "anchor_id": "block-发布阻塞风险-45763a86",
+      "topic_key": "发布阻塞风险",
+      "topic_title": "发布阻塞风险",
+      "event_ids": [
+        "evt_3e96debf09cca125"
+      ],
+      "slots": {
+        "conclusion": [],
+        "rationale": [],
+        "objection": [],
+        "constraint": [],
+        "commitment": [],
+        "status": [
+          {
+            "event_id": "evt_3e96debf09cca125",
+            "event_type": "status_event",
+            "claim": "我把风险等级从高调到中",
+            "event_time": "1778210409000",
+            "evidence_quote": "我把风险等级从高调到中",
+            "event_path": "sessions/FEISHU-336_chat_oc_657778603f3c5697721887fb6f205-5bb085d3/session_events.jsonl#evt_3e96debf09cca125",
+            "event_ref": "[[sessions/FEISHU-336_chat_oc_657778603f3c5697721887fb6f205-5bb085d3/session_events.jsonl#evt_3e96debf09cca125|evt_3e96debf09cca125]]",
+            "entry_ref": "[[sessions/FEISHU-336_chat_oc_657778603f3c5697721887fb6f205-5bb085d3/session.md#om_x100b50e12a25208cc26c8d71dae88b9|om_x100b50e12a25208cc26c8d71dae88b9]]",
+            "core_entry_id": "om_x100b50e12a25208cc26c8d71dae88b9",
+            "subject_key": "发布阻塞风险",
+            "is_current": true,
+            "lifecycle_status": "active",
+            "lifecycle_reason": null,
+            "target": "风险等级",
+            "time_target": null,
+            "scope_target": null,
+            "action": null,
+            "owner": null,
+            "objector": null,
+            "status": "已调整",
+            "certainty": null
+          }
+        ],
+        "time": [],
+        "scope": []
+      },
+      "status": "open",
+      "evidence_refs": [
+        {
+          "event_id": "evt_3e96debf09cca125",
+          "event_path": "sessions/FEISHU-336_chat_oc_657778603f3c5697721887fb6f205-5bb085d3/session_events.jsonl#evt_3e96debf09cca125",
+          "entry_ref": "[[sessions/FEISHU-336_chat_oc_657778603f3c5697721887fb6f205-5bb085d3/session.md#om_x100b50e12a25208cc26c8d71dae88b9|om_x100b50e12a25208cc26c8d71dae88b9]]",
+          "quote": "我把风险等级从高调到中"
+        }
+      ],
+      "summary": "将发布阻塞风险等级从高调整到中"
+    },
+    "block-回滚与备份边界-004e2c22": {
+      "block_id": "block-回滚与备份边界-004e2c22",
+      "anchor_id": "block-回滚与备份边界-004e2c22",
+      "topic_key": "回滚与备份边界",
+      "topic_title": "回滚与备份边界",
+      "event_ids": [
+        "evt_d6baf04a7a94b81d"
+      ],
+      "slots": {
+        "conclusion": [],
+        "rationale": [],
+        "objection": [],
+        "constraint": [],
+        "commitment": [],
+        "status": [
+          {
+            "event_id": "evt_d6baf04a7a94b81d",
+            "event_type": "status_event",
+            "claim": "下游的是回滚预案验收，目前还在等。",
+            "event_time": "1778210409000",
+            "evidence_quote": "下游的是回滚预案验收，目前还在等。",
+            "event_path": "sessions/FEISHU-336_chat_oc_657778603f3c5697721887fb6f205-5bb085d3/session_events.jsonl#evt_d6baf04a7a94b81d",
+            "event_ref": "[[sessions/FEISHU-336_chat_oc_657778603f3c5697721887fb6f205-5bb085d3/session_events.jsonl#evt_d6baf04a7a94b81d|evt_d6baf04a7a94b81d]]",
+            "entry_ref": "[[sessions/FEISHU-336_chat_oc_657778603f3c5697721887fb6f205-5bb085d3/session.md#om_x100b50e12a10b4a0c2b7e0aedb690ff|om_x100b50e12a10b4a0c2b7e0aedb690ff]]",
+            "core_entry_id": "om_x100b50e12a10b4a0c2b7e0aedb690ff",
+            "subject_key": "回滚与备份边界",
+            "is_current": true,
+            "lifecycle_status": "active",
+            "lifecycle_reason": null,
+            "target": "回滚预案验收",
+            "time_target": null,
+            "scope_target": null,
+            "action": null,
+            "owner": null,
+            "objector": null,
+            "status": "pending",
+            "certainty": null
+          }
+        ],
+        "time": [],
+        "scope": []
+      },
+      "status": "active",
+      "evidence_refs": [
+        {
+          "event_id": "evt_d6baf04a7a94b81d",
+          "event_path": "sessions/FEISHU-336_chat_oc_657778603f3c5697721887fb6f205-5bb085d3/session_events.jsonl#evt_d6baf04a7a94b81d",
+          "entry_ref": "[[sessions/FEISHU-336_chat_oc_657778603f3c5697721887fb6f205-5bb085d3/session.md#om_x100b50e12a10b4a0c2b7e0aedb690ff|om_x100b50e12a10b4a0c2b7e0aedb690ff]]",
+          "quote": "下游的是回滚预案验收，目前还在等。"
+        }
+      ],
+      "summary": "回滚与备份边界任务状态为进行中，下游回滚预案验收仍在等待。"
+    },
+    "block-正式升级窗口-930e601a": {
+      "block_id": "block-正式升级窗口-930e601a",
+      "anchor_id": "block-正式升级窗口-930e601a",
+      "topic_key": "正式升级窗口",
+      "topic_title": "正式升级窗口",
+      "event_ids": [
+        "evt_f04e69eb43f75bf3",
+        "evt_804484158b7d38c9"
+      ],
+      "slots": {
+        "conclusion": [
+          {
+            "event_id": "evt_f04e69eb43f75bf3",
+            "event_type": "conclusion_event",
+            "claim": "窗口锁定后风险应该不大",
+            "event_time": "1778210409000",
+            "evidence_quote": "窗口锁定后风险应该不大",
+            "event_path": "sessions/FEISHU-336_chat_oc_657778603f3c5697721887fb6f205-5bb085d3/session_events.jsonl#evt_f04e69eb43f75bf3",
+            "event_ref": "[[sessions/FEISHU-336_chat_oc_657778603f3c5697721887fb6f205-5bb085d3/session_events.jsonl#evt_f04e69eb43f75bf3|evt_f04e69eb43f75bf3]]",
+            "entry_ref": "[[sessions/FEISHU-336_chat_oc_657778603f3c5697721887fb6f205-5bb085d3/session.md#om_x100b50e12a1d50b0c275832927076af|om_x100b50e12a1d50b0c275832927076af]]",
+            "core_entry_id": "om_x100b50e12a1d50b0c275832927076af",
+            "subject_key": "正式升级窗口",
+            "is_current": true,
+            "lifecycle_status": "active",
+            "lifecycle_reason": null,
+            "target": "窗口锁定",
+            "time_target": null,
+            "scope_target": null,
+            "action": null,
+            "owner": null,
+            "objector": null,
+            "status": null,
+            "certainty": null
+          }
+        ],
+        "rationale": [],
+        "objection": [],
+        "constraint": [],
+        "commitment": [
+          {
+            "event_id": "evt_804484158b7d38c9",
+            "event_type": "commitment_event",
+            "claim": "等窗口确认后复审",
+            "event_time": "1778210409000",
+            "evidence_quote": "等窗口确认后复审",
+            "event_path": "sessions/FEISHU-336_chat_oc_657778603f3c5697721887fb6f205-5bb085d3/session_events.jsonl#evt_804484158b7d38c9",
+            "event_ref": "[[sessions/FEISHU-336_chat_oc_657778603f3c5697721887fb6f205-5bb085d3/session_events.jsonl#evt_804484158b7d38c9|evt_804484158b7d38c9]]",
+            "entry_ref": "[[sessions/FEISHU-336_chat_oc_657778603f3c5697721887fb6f205-5bb085d3/session.md#om_x100b50e12a25208cc26c8d71dae88b9|om_x100b50e12a25208cc26c8d71dae88b9]]",
+            "core_entry_id": "om_x100b50e12a25208cc26c8d71dae88b9",
+            "subject_key": "正式升级窗口",
+            "is_current": true,
+            "lifecycle_status": "active",
+            "lifecycle_reason": null,
+            "target": null,
+            "time_target": null,
+            "scope_target": null,
+            "action": "复审",
+            "owner": "高骏",
+            "objector": null,
+            "status": null,
+            "certainty": null
+          }
+        ],
+        "status": [],
+        "time": [],
+        "scope": []
+      },
+      "status": "active",
+      "evidence_refs": [
+        {
+          "event_id": "evt_f04e69eb43f75bf3",
+          "event_path": "sessions/FEISHU-336_chat_oc_657778603f3c5697721887fb6f205-5bb085d3/session_events.jsonl#evt_f04e69eb43f75bf3",
+          "entry_ref": "[[sessions/FEISHU-336_chat_oc_657778603f3c5697721887fb6f205-5bb085d3/session.md#om_x100b50e12a1d50b0c275832927076af|om_x100b50e12a1d50b0c275832927076af]]",
+          "quote": "窗口锁定后风险应该不大"
+        },
+        {
+          "event_id": "evt_804484158b7d38c9",
+          "event_path": "sessions/FEISHU-336_chat_oc_657778603f3c5697721887fb6f205-5bb085d3/session_events.jsonl#evt_804484158b7d38c9",
+          "entry_ref": "[[sessions/FEISHU-336_chat_oc_657778603f3c5697721887fb6f205-5bb085d3/session.md#om_x100b50e12a25208cc26c8d71dae88b9|om_x100b50e12a25208cc26c8d71dae88b9]]",
+          "quote": "等窗口确认后复审"
+        }
+      ],
+      "summary": "正式升级窗口状态为活跃，结论是窗口锁定后风险不大，承诺窗口确认后复审。"
+    },
+    "block-infra_资源-464f5b84": {
+      "block_id": "block-infra_资源-464f5b84",
+      "anchor_id": "block-infra_资源-464f5b84",
+      "topic_key": "infra 资源",
+      "topic_title": "infra 资源",
+      "event_ids": [
+        "evt_71ab01eaf33d4dc8"
+      ],
+      "slots": {
+        "conclusion": [],
+        "rationale": [],
+        "objection": [],
+        "constraint": [],
+        "commitment": [],
+        "status": [
+          {
+            "event_id": "evt_71ab01eaf33d4dc8",
+            "event_type": "status_event",
+            "claim": "infra 资源已预留，等绿灯就行。",
+            "event_time": "1778210409000",
+            "evidence_quote": "infra 资源已预留",
+            "event_path": "sessions/FEISHU-336_chat_oc_657778603f3c5697721887fb6f205-5bb085d3/session_events.jsonl#evt_71ab01eaf33d4dc8",
+            "event_ref": "[[sessions/FEISHU-336_chat_oc_657778603f3c5697721887fb6f205-5bb085d3/session_events.jsonl#evt_71ab01eaf33d4dc8|evt_71ab01eaf33d4dc8]]",
+            "entry_ref": "[[sessions/FEISHU-336_chat_oc_657778603f3c5697721887fb6f205-5bb085d3/session.md#om_x100b50e12a35b0a0c2de60cdf5e1e39|om_x100b50e12a35b0a0c2de60cdf5e1e39]]",
+            "core_entry_id": "om_x100b50e12a35b0a0c2de60cdf5e1e39",
+            "subject_key": "infra 资源",
+            "is_current": true,
+            "lifecycle_status": "active",
+            "lifecycle_reason": null,
+            "target": "infra 资源",
+            "time_target": null,
+            "scope_target": null,
+            "action": null,
+            "owner": null,
+            "objector": null,
+            "status": "已预留",
+            "certainty": null
+          }
+        ],
+        "time": [],
+        "scope": []
+      },
+      "status": "active",
+      "evidence_refs": [
+        {
+          "event_id": "evt_71ab01eaf33d4dc8",
+          "event_path": "sessions/FEISHU-336_chat_oc_657778603f3c5697721887fb6f205-5bb085d3/session_events.jsonl#evt_71ab01eaf33d4dc8",
+          "entry_ref": "[[sessions/FEISHU-336_chat_oc_657778603f3c5697721887fb6f205-5bb085d3/session.md#om_x100b50e12a35b0a0c2de60cdf5e1e39|om_x100b50e12a35b0a0c2de60cdf5e1e39]]",
+          "quote": "infra 资源已预留"
+        }
+      ],
+      "summary": "infra资源已预留，等待批准。"
+    }
+  },
+  "lifecycle_summary": {
+    "active_event_count": 5,
+    "historical_event_count": 0,
+    "invalid_event_count": 0
+  },
+  "updated_at": "2026-05-08T03:58:58.249Z"
+}

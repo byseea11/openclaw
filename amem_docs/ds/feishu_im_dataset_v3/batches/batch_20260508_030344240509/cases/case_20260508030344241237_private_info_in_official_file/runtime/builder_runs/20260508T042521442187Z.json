@@ -1,0 +1,13 @@
+{
+  "phase": "phase3",
+  "stage": "comparative-score",
+  "status": "skipped",
+  "started_at": "2026-05-08T04:25:21.441434+00:00",
+  "ended_at": "2026-05-08T04:25:21.442164+00:00",
+  "artifact_paths": [
+    "amem_docs/ds/feishu_im_dataset_v3/batches/batch_20260508_030344240509/cases/case_20260508030344241237_private_info_in_official_file/reports/phase3_score.json"
+  ],
+  "skipped": true,
+  "run_id": "20260508T042521442187Z",
+  "updated_at": "2026-05-08T04:25:21.442198+00:00"
+}

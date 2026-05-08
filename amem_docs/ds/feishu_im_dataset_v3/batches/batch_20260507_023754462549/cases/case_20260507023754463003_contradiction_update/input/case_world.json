@@ -1,0 +1,60 @@
+{
+  "case_id": "case_20260507023754463003_contradiction_update",
+  "family_id": "contradiction_update",
+  "task_id": "FEISHU-703",
+  "organization": "Globex Corporation",
+  "team": "Platform Engineering",
+  "business_goal": "确保项目计划和调度数据始终反映最新决策，避免因旧口径残留导致交付延迟。",
+  "scenario_summary": "在复杂多任务环境中，项目经理先后通过飞书消息更改了某个关键任务的负责人和交付截止日期，要求系统准确识别当前有效信息。",
+  "family_fit_explanation": "该场景需要处理多个按时间顺序发生的状态更新，并有明确的 supersede 关系，属于 contradiction_update 范畴。",
+  "source_sessions": [
+    {
+      "session_id": "main_chat",
+      "session_type": "main_chat",
+      "title": "主群协调",
+      "session_purpose": "沉淀目标任务的主线协作信息和最终 current state。"
+    },
+    {
+      "session_id": "risk_review_thread",
+      "session_type": "risk_review_thread",
+      "title": "风险复核线程",
+      "session_purpose": "承载依赖、风险和证据分层补充信息。"
+    },
+    {
+      "session_id": "handoff_thread",
+      "session_type": "handoff_thread",
+      "title": "交接修正线程",
+      "session_purpose": "承载 owner 交接、旧状态修正和 supersession 说明。"
+    },
+    {
+      "session_id": "customer_sync_chat",
+      "session_type": "customer_sync_chat",
+      "title": "客户同步侧群",
+      "session_purpose": "承接外部压力、模糊口径和对外同步上下文。"
+    },
+    {
+      "session_id": "exec_sync_chat",
+      "session_type": "exec_sync_chat",
+      "title": "管理层同步侧群",
+      "session_purpose": "承载跨部门升级、相似措辞和并行决策噪声。"
+    },
+    {
+      "session_id": "qa_triage_chat",
+      "session_type": "chat",
+      "title": "质量联调群",
+      "session_purpose": "承载测试、验收、缺陷确认和状态复核。"
+    },
+    {
+      "session_id": "ops_window_thread",
+      "session_type": "thread",
+      "title": "运维窗口线程",
+      "session_purpose": "承载发布窗口、迁移窗口和运维配合细节。"
+    },
+    {
+      "session_id": "dependency_sync_chat",
+      "session_type": "chat",
+      "title": "依赖同步群",
+      "session_purpose": "承载上下游依赖、阻塞原因和影响传播。"
+    }
+  ]
+}

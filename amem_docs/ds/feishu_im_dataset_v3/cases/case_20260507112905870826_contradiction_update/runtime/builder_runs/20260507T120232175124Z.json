@@ -1,0 +1,13 @@
+{
+  "phase": "phase2",
+  "stage": "replay-eval",
+  "status": "skipped",
+  "started_at": "2026-05-07T12:02:32.174946+00:00",
+  "ended_at": "2026-05-07T12:02:32.175115+00:00",
+  "artifact_paths": [
+    "amem_docs/ds/feishu_im_dataset_v3/cases/case_20260507112905870826_contradiction_update/reports/replay_eval.json"
+  ],
+  "skipped": true,
+  "run_id": "20260507T120232175124Z",
+  "updated_at": "2026-05-07T12:02:32.175128+00:00"
+}

@@ -1,0 +1,13 @@
+{
+  "phase": "phase1",
+  "stage": "family-selection",
+  "status": "completed",
+  "started_at": "2026-05-07T11:29:13.678919+00:00",
+  "ended_at": "2026-05-07T11:29:13.679746+00:00",
+  "artifact_paths": [
+    "amem_docs/ds/feishu_im_dataset_v3/cases/case_20260507112905870826_contradiction_update/input/family_selection.json"
+  ],
+  "skipped": false,
+  "run_id": "20260507T112913679770Z",
+  "updated_at": "2026-05-07T11:29:13.679873+00:00"
+}

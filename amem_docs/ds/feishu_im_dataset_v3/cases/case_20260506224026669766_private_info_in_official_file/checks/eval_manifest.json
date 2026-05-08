@@ -1,0 +1,15 @@
+{
+  "case_id": "case_20260506224026669766_private_info_in_official_file",
+  "family_id": "private_info_in_official_file",
+  "annotation_count": 33,
+  "query_count": 3,
+  "stage_contract": [
+    "annotation-gold",
+    "semantic-gold",
+    "query-benchmark",
+    "build-checks",
+    "gold-validate",
+    "replay-runtime",
+    "replay-eval"
+  ]
+}

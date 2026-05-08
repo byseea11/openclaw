@@ -1,0 +1,248 @@
+{
+  "version": 1,
+  "task_id": "task:FEISHU-335",
+  "task_key": "FEISHU-335",
+  "source_session_id": "task:FEISHU-335::chat:oc_360477e1d835fbdd2b71188a4b330405",
+  "source_scope": "chat:oc_360477e1d835fbdd2b71188a4b330405",
+  "source_type": "thread",
+  "source_id": "thread:handoff_thread",
+  "session_title": "task:FEISHU-335::chat:oc_360477e1d835fbdd2b71188a4b330405",
+  "time_range": {
+    "start": "2026-05-08T03:38:20.892Z",
+    "end": "2026-05-08T03:39:34.919Z"
+  },
+  "participants": [
+    "Benchmark Root",
+    "林晨",
+    "王源",
+    "周宇"
+  ],
+  "relative_page_path": "sessions/FEISHU-335_chat_oc_360477e1d835fbdd2b71188a4b330-be976361/session_wiki.md",
+  "session_summary": "FEISHU-335负责人变更为王源，截止时间延至3月20日。",
+  "block_order": [
+    "block-负责人变更-fedbb427",
+    "block-截止时间-864048b3",
+    "block-任务接手-f87f4dc0",
+    "block-任务转交-2e023796"
+  ],
+  "blocks": {
+    "block-负责人变更-fedbb427": {
+      "block_id": "block-负责人变更-fedbb427",
+      "anchor_id": "block-负责人变更-fedbb427",
+      "topic_key": "负责人变更",
+      "topic_title": "负责人变更",
+      "event_ids": [
+        "evt_0d2b20369dc2a925"
+      ],
+      "slots": {
+        "conclusion": [],
+        "rationale": [],
+        "objection": [],
+        "constraint": [],
+        "commitment": [],
+        "status": [
+          {
+            "event_id": "evt_0d2b20369dc2a925",
+            "event_type": "status_event",
+            "claim": "我过去是初始负责人，已移交。",
+            "event_time": "1778209726000",
+            "evidence_quote": "我过去是初始负责人，已移交。",
+            "event_path": "sessions/FEISHU-335_chat_oc_360477e1d835fbdd2b71188a4b330-be976361/session_events.jsonl#evt_0d2b20369dc2a925",
+            "event_ref": "[[sessions/FEISHU-335_chat_oc_360477e1d835fbdd2b71188a4b330-be976361/session_events.jsonl#evt_0d2b20369dc2a925|evt_0d2b20369dc2a925]]",
+            "entry_ref": "[[sessions/FEISHU-335_chat_oc_360477e1d835fbdd2b71188a4b330-be976361/session.md#om_x100b50e1758208f4c34cf1b1efc07e1|om_x100b50e1758208f4c34cf1b1efc07e1]]",
+            "core_entry_id": "om_x100b50e1758208f4c34cf1b1efc07e1",
+            "subject_key": "feishu-335",
+            "is_current": true,
+            "lifecycle_status": "active",
+            "lifecycle_reason": null,
+            "target": "FEISHU-335",
+            "time_target": null,
+            "scope_target": null,
+            "action": null,
+            "owner": null,
+            "objector": null,
+            "status": "已移交",
+            "certainty": null
+          }
+        ],
+        "time": [],
+        "scope": []
+      },
+      "status": "active",
+      "evidence_refs": [
+        {
+          "event_id": "evt_0d2b20369dc2a925",
+          "event_path": "sessions/FEISHU-335_chat_oc_360477e1d835fbdd2b71188a4b330-be976361/session_events.jsonl#evt_0d2b20369dc2a925",
+          "entry_ref": "[[sessions/FEISHU-335_chat_oc_360477e1d835fbdd2b71188a4b330-be976361/session.md#om_x100b50e1758208f4c34cf1b1efc07e1|om_x100b50e1758208f4c34cf1b1efc07e1]]",
+          "quote": "我过去是初始负责人，已移交。"
+        }
+      ],
+      "summary": "负责人已变更，初始负责人已移交。"
+    },
+    "block-截止时间-864048b3": {
+      "block_id": "block-截止时间-864048b3",
+      "anchor_id": "block-截止时间-864048b3",
+      "topic_key": "截止时间",
+      "topic_title": "截止时间",
+      "event_ids": [
+        "evt_7e67039ea0212557"
+      ],
+      "slots": {
+        "conclusion": [],
+        "rationale": [],
+        "objection": [],
+        "constraint": [],
+        "commitment": [],
+        "status": [],
+        "time": [
+          {
+            "event_id": "evt_7e67039ea0212557",
+            "event_type": "time_event",
+            "claim": "@王源 FEISHU-335 转交给你，截止延到 3月20日。",
+            "event_time": "1778209726000",
+            "evidence_quote": "截止延到 3月20日",
+            "event_path": "sessions/FEISHU-335_chat_oc_360477e1d835fbdd2b71188a4b330-be976361/session_events.jsonl#evt_7e67039ea0212557",
+            "event_ref": "[[sessions/FEISHU-335_chat_oc_360477e1d835fbdd2b71188a4b330-be976361/session_events.jsonl#evt_7e67039ea0212557|evt_7e67039ea0212557]]",
+            "entry_ref": "[[sessions/FEISHU-335_chat_oc_360477e1d835fbdd2b71188a4b330-be976361/session.md#om_x100b50e175f82498c2caccfd654e36b|om_x100b50e175f82498c2caccfd654e36b]]",
+            "core_entry_id": "om_x100b50e175f82498c2caccfd654e36b",
+            "subject_key": "feishu-335",
+            "is_current": true,
+            "lifecycle_status": "active",
+            "lifecycle_reason": null,
+            "target": null,
+            "time_target": "FEISHU-335",
+            "scope_target": null,
+            "action": null,
+            "owner": null,
+            "objector": null,
+            "status": null,
+            "certainty": "certain"
+          }
+        ],
+        "scope": []
+      },
+      "status": "active",
+      "evidence_refs": [
+        {
+          "event_id": "evt_7e67039ea0212557",
+          "event_path": "sessions/FEISHU-335_chat_oc_360477e1d835fbdd2b71188a4b330-be976361/session_events.jsonl#evt_7e67039ea0212557",
+          "entry_ref": "[[sessions/FEISHU-335_chat_oc_360477e1d835fbdd2b71188a4b330-be976361/session.md#om_x100b50e175f82498c2caccfd654e36b|om_x100b50e175f82498c2caccfd654e36b]]",
+          "quote": "截止延到 3月20日"
+        }
+      ],
+      "summary": "王源负责的FEISHU-335截止时间延至3月20日"
+    },
+    "block-任务接手-f87f4dc0": {
+      "block_id": "block-任务接手-f87f4dc0",
+      "anchor_id": "block-任务接手-f87f4dc0",
+      "topic_key": "任务接手",
+      "topic_title": "任务接手",
+      "event_ids": [
+        "evt_ce9291db67c5a380"
+      ],
+      "slots": {
+        "conclusion": [],
+        "rationale": [],
+        "objection": [],
+        "constraint": [],
+        "commitment": [
+          {
+            "event_id": "evt_ce9291db67c5a380",
+            "event_type": "commitment_event",
+            "claim": "我接手处理，看看进度。",
+            "event_time": "1778209726000",
+            "evidence_quote": "我接手处理，看看进度。",
+            "event_path": "sessions/FEISHU-335_chat_oc_360477e1d835fbdd2b71188a4b330-be976361/session_events.jsonl#evt_ce9291db67c5a380",
+            "event_ref": "[[sessions/FEISHU-335_chat_oc_360477e1d835fbdd2b71188a4b330-be976361/session_events.jsonl#evt_ce9291db67c5a380|evt_ce9291db67c5a380]]",
+            "entry_ref": "[[sessions/FEISHU-335_chat_oc_360477e1d835fbdd2b71188a4b330-be976361/session.md#om_x100b50e1758ff4a0c42d0e3a2c4fa39|om_x100b50e1758ff4a0c42d0e3a2c4fa39]]",
+            "core_entry_id": "om_x100b50e1758ff4a0c42d0e3a2c4fa39",
+            "subject_key": "接手处理feishu-335并查看进度",
+            "is_current": true,
+            "lifecycle_status": "active",
+            "lifecycle_reason": null,
+            "target": null,
+            "time_target": null,
+            "scope_target": null,
+            "action": "接手处理FEISHU-335并查看进度",
+            "owner": "王源",
+            "objector": null,
+            "status": null,
+            "certainty": null
+          }
+        ],
+        "status": [],
+        "time": [],
+        "scope": []
+      },
+      "status": "active",
+      "evidence_refs": [
+        {
+          "event_id": "evt_ce9291db67c5a380",
+          "event_path": "sessions/FEISHU-335_chat_oc_360477e1d835fbdd2b71188a4b330-be976361/session_events.jsonl#evt_ce9291db67c5a380",
+          "entry_ref": "[[sessions/FEISHU-335_chat_oc_360477e1d835fbdd2b71188a4b330-be976361/session.md#om_x100b50e1758ff4a0c42d0e3a2c4fa39|om_x100b50e1758ff4a0c42d0e3a2c4fa39]]",
+          "quote": "我接手处理，看看进度。"
+        }
+      ],
+      "summary": "任务接手，查看进度。"
+    },
+    "block-任务转交-2e023796": {
+      "block_id": "block-任务转交-2e023796",
+      "anchor_id": "block-任务转交-2e023796",
+      "topic_key": "任务转交",
+      "topic_title": "任务转交",
+      "event_ids": [
+        "evt_fd5815748355fa6d"
+      ],
+      "slots": {
+        "conclusion": [],
+        "rationale": [],
+        "objection": [],
+        "constraint": [],
+        "commitment": [
+          {
+            "event_id": "evt_fd5815748355fa6d",
+            "event_type": "commitment_event",
+            "claim": "@王源 FEISHU-335 转交给你，截止延到 3月20日。",
+            "event_time": "1778209726000",
+            "evidence_quote": "@王源 FEISHU-335 转交给你，截止延到 3月20日。",
+            "event_path": "sessions/FEISHU-335_chat_oc_360477e1d835fbdd2b71188a4b330-be976361/session_events.jsonl#evt_fd5815748355fa6d",
+            "event_ref": "[[sessions/FEISHU-335_chat_oc_360477e1d835fbdd2b71188a4b330-be976361/session_events.jsonl#evt_fd5815748355fa6d|evt_fd5815748355fa6d]]",
+            "entry_ref": "[[sessions/FEISHU-335_chat_oc_360477e1d835fbdd2b71188a4b330-be976361/session.md#om_x100b50e175f82498c2caccfd654e36b|om_x100b50e175f82498c2caccfd654e36b]]",
+            "core_entry_id": "om_x100b50e175f82498c2caccfd654e36b",
+            "subject_key": "完成 feishu-335",
+            "is_current": true,
+            "lifecycle_status": "active",
+            "lifecycle_reason": null,
+            "target": null,
+            "time_target": null,
+            "scope_target": null,
+            "action": "完成 FEISHU-335",
+            "owner": "王源",
+            "objector": null,
+            "status": null,
+            "certainty": null
+          }
+        ],
+        "status": [],
+        "time": [],
+        "scope": []
+      },
+      "status": "active",
+      "evidence_refs": [
+        {
+          "event_id": "evt_fd5815748355fa6d",
+          "event_path": "sessions/FEISHU-335_chat_oc_360477e1d835fbdd2b71188a4b330-be976361/session_events.jsonl#evt_fd5815748355fa6d",
+          "entry_ref": "[[sessions/FEISHU-335_chat_oc_360477e1d835fbdd2b71188a4b330-be976361/session.md#om_x100b50e175f82498c2caccfd654e36b|om_x100b50e175f82498c2caccfd654e36b]]",
+          "quote": "@王源 FEISHU-335 转交给你，截止延到 3月20日。"
+        }
+      ],
+      "summary": "王源被转交FEISHU-335任务，截止日期延至3月20日。"
+    }
+  },
+  "lifecycle_summary": {
+    "active_event_count": 4,
+    "historical_event_count": 0,
+    "invalid_event_count": 0
+  },
+  "updated_at": "2026-05-08T03:39:47.283Z"
+}

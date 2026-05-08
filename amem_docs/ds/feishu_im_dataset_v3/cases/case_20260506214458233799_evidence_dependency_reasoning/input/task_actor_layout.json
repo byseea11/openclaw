@@ -1,0 +1,249 @@
+{
+  "case_id": "case_20260506214458233799_evidence_dependency_reasoning",
+  "family_id": "evidence_dependency_reasoning",
+  "task_id": "FEISHU-499",
+  "actors": [
+    {
+      "actor_id": "alice",
+      "display_name": "Alice",
+      "role": "release_pm"
+    },
+    {
+      "actor_id": "bob",
+      "display_name": "Bob",
+      "role": "ops_partner"
+    },
+    {
+      "actor_id": "carol",
+      "display_name": "Carol",
+      "role": "migration_owner"
+    },
+    {
+      "actor_id": "dave",
+      "display_name": "Dave",
+      "role": "dba_lead"
+    },
+    {
+      "actor_id": "eve",
+      "display_name": "Eve",
+      "role": "security_officer"
+    },
+    {
+      "actor_id": "frank",
+      "display_name": "Frank",
+      "role": "compliance_lead"
+    },
+    {
+      "actor_id": "grace",
+      "display_name": "Grace",
+      "role": "finance_controller"
+    },
+    {
+      "actor_id": "henry",
+      "display_name": "Henry",
+      "role": "na_ops_manager"
+    },
+    {
+      "actor_id": "ivy",
+      "display_name": "Ivy",
+      "role": "eu_ops_manager"
+    },
+    {
+      "actor_id": "jack",
+      "display_name": "Jack",
+      "role": "apac_ops_manager"
+    },
+    {
+      "actor_id": "kate",
+      "display_name": "Kate",
+      "role": "qa_lead"
+    },
+    {
+      "actor_id": "leo",
+      "display_name": "Leo",
+      "role": "release_coordinator"
+    },
+    {
+      "actor_id": "mia",
+      "display_name": "Mia",
+      "role": "sre_lead"
+    },
+    {
+      "actor_id": "nick",
+      "display_name": "Nick",
+      "role": "network_engineer"
+    },
+    {
+      "actor_id": "olivia",
+      "display_name": "Olivia",
+      "role": "product_manager"
+    },
+    {
+      "actor_id": "paul",
+      "display_name": "Paul",
+      "role": "vendor_coordinator"
+    },
+    {
+      "actor_id": "quinn",
+      "display_name": "Quinn",
+      "role": "legal_counsel"
+    },
+    {
+      "actor_id": "rachel",
+      "display_name": "Rachel",
+      "role": "training_lead"
+    },
+    {
+      "actor_id": "sam",
+      "display_name": "Sam",
+      "role": "customer_support_lead"
+    },
+    {
+      "actor_id": "tina",
+      "display_name": "Tina",
+      "role": "regional_risk_analyst"
+    },
+    {
+      "actor_id": "ulysses",
+      "display_name": "Ulysses",
+      "role": "data_engineer"
+    },
+    {
+      "actor_id": "victor",
+      "display_name": "Victor",
+      "role": "infra_architect"
+    },
+    {
+      "actor_id": "wendy",
+      "display_name": "Wendy",
+      "role": "program_manager"
+    },
+    {
+      "actor_id": "xavier",
+      "display_name": "Xavier",
+      "role": "target_owner"
+    },
+    {
+      "actor_id": "yara",
+      "display_name": "Yara",
+      "role": "regional_compliance_analyst"
+    },
+    {
+      "actor_id": "zack",
+      "display_name": "Zack",
+      "role": "audit_lead"
+    },
+    {
+      "actor_id": "amy",
+      "display_name": "Amy",
+      "role": "security_analyst"
+    },
+    {
+      "actor_id": "brian",
+      "display_name": "Brian",
+      "role": "sre_engineer"
+    }
+  ],
+  "task_actor_layout": {
+    "target_task_id": "FEISHU-499",
+    "shared_actors": [
+      "carol",
+      "xavier",
+      "alice",
+      "bob",
+      "kate",
+      "mia"
+    ],
+    "dependency_context_blocks": [
+      {
+        "context_ref": "ctx_upstream_window",
+        "context_label": "上游数据库迁移窗口正式确认",
+        "dependency_role": "verified_anchor",
+        "evidence_strength": "verified",
+        "impact_on_target": "窗口未锁定 → FEISHU-499 不能承诺上线时间；一旦锁定则可启动灰度。"
+      },
+      {
+        "context_ref": "ctx_window_hearsay",
+        "context_label": "窗口即将锁定的传闻",
+        "dependency_role": "hearsay_channel",
+        "evidence_strength": "hearsay",
+        "impact_on_target": "误信传闻会导致系统提前判断 blocker 消失，过早确认发布排期。"
+      },
+      {
+        "context_ref": "ctx_target_assessment",
+        "context_label": "目标负责人模糊判断",
+        "dependency_role": "ambiguous_channel",
+        "evidence_strength": "ambiguous",
+        "impact_on_target": "模糊判断不能替代正式确认，但容易被系统压成确定性结论。"
+      },
+      {
+        "context_ref": "ctx_downstream_rollback",
+        "context_label": "下游回滚预案验收排期影响",
+        "dependency_role": "downstream_impact",
+        "evidence_strength": "derived_from_verified",
+        "impact_on_target": "FEISHU-499 窗口未锁 → 回滚预案验收顺延；验收完成前不能全量放量。"
+      },
+      {
+        "context_ref": "ctx_security_gating",
+        "context_label": "安全合规审批进展",
+        "dependency_role": "ambiguous_channel",
+        "evidence_strength": "ambiguous",
+        "impact_on_target": "Eve 表示安全审批接近完成但尚未正式签字，若系统将其作为正式条件则会误判风险。"
+      },
+      {
+        "context_ref": "ctx_finance_approval",
+        "context_label": "财务预算审批状态",
+        "dependency_role": "hearsay_channel",
+        "evidence_strength": "hearsay",
+        "impact_on_target": "Grace 从财务 VP 处听说预算即将通过，但无正式邮件，不能作为发布依据。"
+      }
+    ],
+    "actor_task_roles": [
+      {
+        "actor_id": "carol",
+        "context_ref": "ctx_upstream_window",
+        "role": "verified_source"
+      },
+      {
+        "actor_id": "bob",
+        "context_ref": "ctx_window_hearsay",
+        "role": "hearsay_source"
+      },
+      {
+        "actor_id": "alice",
+        "task_id": "FEISHU-499",
+        "role": "ambiguous_source"
+      },
+      {
+        "actor_id": "xavier",
+        "task_id": "FEISHU-499",
+        "role": "target_owner"
+      },
+      {
+        "actor_id": "alice",
+        "context_ref": "ctx_downstream_rollback",
+        "role": "rollback_owner"
+      },
+      {
+        "actor_id": "kate",
+        "context_ref": "ctx_downstream_rollback",
+        "role": "qa_lead"
+      },
+      {
+        "actor_id": "mia",
+        "context_ref": "ctx_downstream_rollback",
+        "role": "sre_support"
+      },
+      {
+        "actor_id": "eve",
+        "context_ref": "ctx_security_gating",
+        "role": "security_officer"
+      },
+      {
+        "actor_id": "grace",
+        "context_ref": "ctx_finance_approval",
+        "role": "finance_controller"
+      }
+    ]
+  }
+}

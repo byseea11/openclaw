@@ -1,0 +1,63 @@
+{
+  "case_id": "case_20260506224026669766_private_info_in_official_file",
+  "family_id": "private_info_in_official_file",
+  "task_id": "FEISHU-666",
+  "required_case_structure": [
+    "target_task",
+    "official_file_reference",
+    "personal_private_context",
+    "task_relevance_boundary",
+    "official_conclusion_vs_private_note"
+  ],
+  "message_beat_ids": [
+    "beat_001",
+    "beat_002",
+    "beat_003",
+    "beat_004",
+    "beat_005",
+    "beat_006",
+    "beat_007",
+    "beat_008",
+    "beat_009",
+    "beat_010",
+    "beat_011",
+    "beat_012",
+    "beat_013",
+    "beat_014",
+    "beat_015",
+    "beat_016",
+    "beat_017",
+    "beat_018",
+    "beat_019",
+    "beat_020",
+    "beat_021",
+    "beat_022",
+    "beat_023",
+    "beat_024",
+    "beat_025",
+    "beat_026",
+    "beat_027",
+    "beat_028",
+    "beat_029",
+    "beat_030",
+    "beat_031",
+    "beat_032",
+    "beat_033",
+    "beat_034",
+    "beat_035"
+  ],
+  "probe_queries": [
+    {
+      "query": "FEISHU-301 的正式升级窗口是什么？这个窗口是否因为 Carol 或 Frank 的个人偏好而调整过？请引用正式依据。",
+      "expected_good_behavior": "回答升级窗口是2026-05-10 22:00 UTC，并说明该窗口来自上线风险评审纪要 #2026-04-28，是正式结论，未因任何个人偏好调整。Carol 希望周三前、Frank 希望白天变更等只是个人背景，不影响任务状态。"
+    },
+    {
+      "query": "Carol 在纪要中的个人备注是否影响 FEISHU-301 的升级计划？请区分个人背景和正式结论。",
+      "expected_good_behavior": "指出 Carol 的个人备注（希望周三前，周四有面试）是个人背景，不是正式任务要求。正式升级计划不受影响，仍以纪要中的窗口为准。"
+    },
+    {
+      "query": "请列出 FEISHU-301 当前正式 blocker 和回滚计划状态。这些状态是否来源于正式文件？Jack 的备份偏好是否影响任务？",
+      "expected_good_behavior": "回答当前 blocker 是 network config drift，回滚计划已批准，均来源于上线风险评审纪要。Jack 的增量/全量备份偏好只是个人观点，正式流程允许增量备份，偏好不影响任务。"
+    }
+  ]
+}

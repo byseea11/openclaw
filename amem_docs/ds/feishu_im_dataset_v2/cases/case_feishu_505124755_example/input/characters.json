@@ -1,0 +1,175 @@
+{
+  "case_id": "case_feishu_505124755_example",
+  "characters": [
+    {
+      "person_id": "product_manager_01",
+      "name": "高骏",
+      "department": "产品",
+      "role": "产品经理",
+      "simulated_open_id": "ou_sim_product_manager_01",
+      "responsibility": "负责统一目标、范围和对外口径。",
+      "communication_style": "谨慎、强调跨部门对齐。",
+      "conflict_bias": "会阻止过早对外承诺。",
+      "stance": "倾向于先收敛内部事实再决定说法。",
+      "risk_preference": "中等风险偏好",
+      "information_access_level": "掌握跨部门上下游信息",
+      "default_channels": [
+        "main_chat",
+        "customer_sync_chat"
+      ]
+    },
+    {
+      "person_id": "engineering_lead_02",
+      "name": "王源",
+      "department": "研发",
+      "role": "研发负责人",
+      "simulated_open_id": "ou_sim_engineering_lead_02",
+      "responsibility": "负责核心依赖、改动窗口和技术可交付性判断。",
+      "communication_style": "直接、强调事实和依赖。",
+      "conflict_bias": "会指出实现风险和隐性 blocker。",
+      "stance": "倾向于先锁依赖再承诺日期。",
+      "risk_preference": "低风险偏好",
+      "information_access_level": "掌握技术依赖和改动细节",
+      "default_channels": [
+        "main_chat",
+        "launch_window_thread"
+      ]
+    },
+    {
+      "person_id": "engineering_pm_03",
+      "name": "林晨",
+      "department": "研发",
+      "role": "研发项目经理",
+      "simulated_open_id": "ou_sim_engineering_pm_03",
+      "responsibility": "负责跟踪工程侧承诺和跨团队动作。",
+      "communication_style": "条理化、会追问闭环。",
+      "conflict_bias": "会推动承诺落到明确 owner。",
+      "stance": "倾向于把风险拆成可执行动作。",
+      "risk_preference": "中等风险偏好",
+      "information_access_level": "掌握工程推进状态",
+      "default_channels": [
+        "main_chat",
+        "launch_window_thread"
+      ]
+    },
+    {
+      "person_id": "qa_lead_04",
+      "name": "许薇",
+      "department": "测试",
+      "role": "测试负责人",
+      "simulated_open_id": "ou_sim_qa_lead_04",
+      "responsibility": "负责验证风险和放行前缺陷状态。",
+      "communication_style": "系统化、会强调验证条件。",
+      "conflict_bias": "会阻止质量不确定的上线。",
+      "stance": "倾向于先收敛高优问题。",
+      "risk_preference": "低风险偏好",
+      "information_access_level": "掌握验证结论和问题清单",
+      "default_channels": [
+        "main_chat",
+        "launch_window_thread"
+      ]
+    },
+    {
+      "person_id": "operations_lead_05",
+      "name": "韩朔",
+      "department": "运维",
+      "role": "运维负责人",
+      "simulated_open_id": "ou_sim_operations_lead_05",
+      "responsibility": "负责上线窗口、回滚预案和演练闭环。",
+      "communication_style": "保守、强调放行条件。",
+      "conflict_bias": "会收紧乐观窗口判断。",
+      "stance": "倾向于先满足回滚条件再放行。",
+      "risk_preference": "低风险偏好",
+      "information_access_level": "掌握窗口和演练状态",
+      "default_channels": [
+        "main_chat",
+        "launch_window_thread"
+      ]
+    },
+    {
+      "person_id": "security_reviewer_06",
+      "name": "苏禾",
+      "department": "安全",
+      "role": "安全评审",
+      "simulated_open_id": "ou_sim_security_reviewer_06",
+      "responsibility": "负责高风险能力评审与放行条件。",
+      "communication_style": "规则优先、直接指出边界。",
+      "conflict_bias": "会拒绝未完成评审的高风险能力。",
+      "stance": "倾向于在风险材料齐备前收紧承诺。",
+      "risk_preference": "低风险偏好",
+      "information_access_level": "掌握风险和合规约束",
+      "default_channels": [
+        "main_chat",
+        "launch_window_thread"
+      ]
+    },
+    {
+      "person_id": "architecture_owner_07",
+      "name": "秦怡",
+      "department": "架构",
+      "role": "架构负责人",
+      "simulated_open_id": "ou_sim_architecture_owner_07",
+      "responsibility": "负责关键技术方案边界和系统稳定性判断。",
+      "communication_style": "抽象能力强、强调长期影响。",
+      "conflict_bias": "会反对短期绕过架构约束的方案。",
+      "stance": "倾向于先确认架构边界再推进发布日期。",
+      "risk_preference": "低风险偏好",
+      "information_access_level": "掌握关键系统依赖与架构风险",
+      "default_channels": [
+        "main_chat",
+        "launch_window_thread"
+      ]
+    },
+    {
+      "person_id": "compliance_owner_08",
+      "name": "唐越",
+      "department": "合规",
+      "role": "合规负责人",
+      "simulated_open_id": "ou_sim_compliance_owner_08",
+      "responsibility": "负责监管、审计和流程合规边界。",
+      "communication_style": "谨慎、偏规则化表达。",
+      "conflict_bias": "会阻止没有合规结论的上线动作。",
+      "stance": "倾向于先拿到合规结论再确认对外口径。",
+      "risk_preference": "低风险偏好",
+      "information_access_level": "掌握审计与监管要求",
+      "default_channels": [
+        "main_chat",
+        "launch_window_thread"
+      ]
+    },
+    {
+      "person_id": "risk_control_owner_09",
+      "name": "陈雪",
+      "department": "风控",
+      "role": "风控负责人",
+      "simulated_open_id": "ou_sim_risk_control_owner_09",
+      "responsibility": "负责评估业务风险暴露和控制策略。",
+      "communication_style": "偏保守、会强调风险后果。",
+      "conflict_bias": "会放大潜在事故影响。",
+      "stance": "倾向于先降低风险暴露再给承诺。",
+      "risk_preference": "低风险偏好",
+      "information_access_level": "掌握业务风险敞口和控制要求",
+      "default_channels": [
+        "main_chat",
+        "launch_window_thread"
+      ]
+    },
+    {
+      "person_id": "sre_owner_10",
+      "name": "顾宁",
+      "department": "站点可靠性工程",
+      "role": "站点可靠性工程负责人",
+      "simulated_open_id": "ou_sim_sre_owner_10",
+      "responsibility": "负责可靠性目标、容量和监控门槛。",
+      "communication_style": "数据化、强调可观测性和容量边界。",
+      "conflict_bias": "会否定没有监控和容量余量的窗口判断。",
+      "stance": "倾向于先满足可靠性门槛再放行。",
+      "risk_preference": "低风险偏好",
+      "information_access_level": "掌握稳定性和容量风险",
+      "default_channels": [
+        "main_chat",
+        "launch_window_thread"
+      ]
+    }
+  ]
+}

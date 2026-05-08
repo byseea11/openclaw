@@ -1,0 +1,42 @@
+{
+  "case_id": "case_20260506211506345155_anti_interference",
+  "family_id": "anti_interference",
+  "task_id": "FEISHU-655",
+  "organization": "Globex Corporation",
+  "team": "大中华区基础架构部与安全合规部联合项目组",
+  "business_goal": "在并行推进多个基础设施升级项目期间，确保每个任务的负责人、阻塞项和交付状态不被跨任务干扰混淆。",
+  "scenario_summary": "Globex 大中华区正在进行多个并行基础设施升级项目，包括支付网关灰度放量、数据中心迁移、全球合规取证支持等。这些项目共享多位核心工程师和运维人员，且部分项目使用了相似的负责人代码、阻塞项表述和收口进度说法，容易在跨项目集成环境中造成任务级记忆污染。需要设计抗干扰能力，确保系统能精准回答每个任务独立的当前状态。",
+  "family_fit_explanation": "多项目并行、共享角色、相似字段表述的场景天然产生 shared_actor_noise、similar_wording_noise 和 parallel_discussion_noise，与 anti_interference 家族的测试目标高度吻合。",
+  "source_sessions": [
+    {
+      "session_id": "main_chat",
+      "session_type": "main_chat",
+      "title": "主群协调",
+      "session_purpose": "沉淀目标任务的主线协作信息和最终 current state。"
+    },
+    {
+      "session_id": "thread_release",
+      "session_type": "chat",
+      "title": "thread_release 会话",
+      "session_purpose": "承载目标任务相关的补充协作上下文。"
+    },
+    {
+      "session_id": "thread_network",
+      "session_type": "chat",
+      "title": "thread_network 会话",
+      "session_purpose": "承载目标任务相关的补充协作上下文。"
+    },
+    {
+      "session_id": "thread_db",
+      "session_type": "chat",
+      "title": "thread_db 会话",
+      "session_purpose": "承载目标任务相关的补充协作上下文。"
+    },
+    {
+      "session_id": "thread_vendor",
+      "session_type": "chat",
+      "title": "thread_vendor 会话",
+      "session_purpose": "承载目标任务相关的补充协作上下文。"
+    }
+  ]
+}

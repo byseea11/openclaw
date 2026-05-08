@@ -1,0 +1,926 @@
+{
+  "case_id": "case_20260508030344241236_evidence_dependency_reasoning",
+  "family_id": "evidence_dependency_reasoning",
+  "score_artifact": "phase3_score",
+  "baseline_fairness": {
+    "openclaw_baseline_mode": "openclaw_real_replay",
+    "query_context_injected": false,
+    "openclaw_ingest_mode": "case_transcript"
+  },
+  "raw_scores": {
+    "task_wiki_3_layer": {
+      "input": {
+        "ingress_count": 27,
+        "collected_message_count": 27
+      },
+      "layer1_binding": {
+        "binding_total": 27,
+        "binding_bound": 27,
+        "binding_rate": 1,
+        "target_task_binding_rate": 1,
+        "skipped_count": 0,
+        "status": "passed",
+        "score": 100,
+        "blocking_failures": [],
+        "warnings": []
+      },
+      "layer2_events": {
+        "ingested_count": 27,
+        "skipped_count": 0,
+        "candidate_events_returned_during_ingest": 30,
+        "verification_jobs_queued": 29,
+        "candidate_event_count": 30,
+        "verified_event_count": 26,
+        "verification_rate": 0.8667,
+        "session_count": 4,
+        "sessions_with_events": 4,
+        "candidate_validation_breakdown": {
+          "ready_for_verification": 29,
+          "rejected": 1
+        },
+        "rejected_candidate_count": 3,
+        "ready_for_verification_count": 29,
+        "queued_verification_count": 29,
+        "rejection_reason_breakdown": {
+          "unknown": 2,
+          "quote_location:missing_entry": 1
+        },
+        "missing_field_breakdown": {},
+        "status": "passed",
+        "score": 86.67,
+        "blocking_failures": [],
+        "warnings": []
+      },
+      "layer3_wiki": {
+        "task_root_count": 1,
+        "projected_task_count": 1,
+        "projection_rate": 1,
+        "projection_status": "projected",
+        "lint_result_count": 1,
+        "orphan_event_count": 0,
+        "missing_evidence_ref_count": 0,
+        "stale_claim_count": 0,
+        "quote_strength_count": 0,
+        "unresolved_objection_count": 2,
+        "overdue_commitment_count": 0,
+        "open_conflict_count": 0,
+        "orphan_block_count": 0,
+        "missing_cross_ref_count": 0,
+        "orphan_session_wiki_count": 0,
+        "lint_blocking_count": 0,
+        "lint_warning_count": 2,
+        "status": "passed",
+        "score": 100,
+        "blocking_failures": [],
+        "warnings": [
+          "layer3:lint_warnings_present"
+        ]
+      },
+      "overall": {
+        "status": "passed",
+        "blocking_failures": [],
+        "warnings": [
+          "layer3:lint_warnings_present"
+        ],
+        "health_score": 95.33
+      }
+    },
+    "openclaw_original": {
+      "query_success_rate": 0,
+      "evidence_output_rate": 0,
+      "evidence_trace_rate": 0,
+      "current_state_accuracy": 0,
+      "private_info_leak_rate": 0
+    }
+  },
+  "analysis_scores": {
+    "task_wiki_3_layer": {
+      "query_success_rate": 0.5,
+      "evidence_output_rate": 1.0,
+      "evidence_precision": 0.8334,
+      "evidence_recall": 0.3333,
+      "safety_score": 1.0,
+      "efficiency_score": 1.0,
+      "avg_answer_token_count": 80.5,
+      "avg_estimated_steps": 1.0,
+      "avg_estimated_time_seconds": 20.0,
+      "failure_reason_breakdown": {
+        "answer_incorrect": 1,
+        "evidence_does_not_support_answer": 1,
+        "missing_dependency_chain": 2,
+        "missing_gold_evidence": 2,
+        "wrong_evidence_source": 1
+      }
+    },
+    "openclaw_original": {
+      "query_success_rate": 0.0,
+      "evidence_output_rate": 0.0,
+      "evidence_precision": 0.0,
+      "evidence_recall": 0.0,
+      "safety_score": 1.0,
+      "efficiency_score": 1.0,
+      "avg_answer_token_count": 0.0,
+      "avg_estimated_steps": 2.0,
+      "avg_estimated_time_seconds": 45.0,
+      "failure_reason_breakdown": {
+        "answer_incorrect": 2,
+        "missing_dependency_chain": 2,
+        "missing_gold_evidence": 2,
+        "no_evidence_output": 2
+      }
+    }
+  },
+  "aggregate_scores": {
+    "task_wiki_3_layer": {
+      "query_success_rate": 0.5,
+      "evidence_output_rate": 1.0,
+      "evidence_precision": 0.8334,
+      "evidence_recall": 0.3333,
+      "safety_score": 1.0,
+      "efficiency_score": 1.0,
+      "avg_answer_token_count": 80.5,
+      "avg_estimated_steps": 1.0,
+      "avg_estimated_time_seconds": 20.0,
+      "failure_reason_breakdown": {
+        "answer_incorrect": 1,
+        "evidence_does_not_support_answer": 1,
+        "missing_dependency_chain": 2,
+        "missing_gold_evidence": 2,
+        "wrong_evidence_source": 1
+      }
+    },
+    "openclaw_original": {
+      "query_success_rate": 0.0,
+      "evidence_output_rate": 0.0,
+      "evidence_precision": 0.0,
+      "evidence_recall": 0.0,
+      "safety_score": 1.0,
+      "efficiency_score": 1.0,
+      "avg_answer_token_count": 0.0,
+      "avg_estimated_steps": 2.0,
+      "avg_estimated_time_seconds": 45.0,
+      "failure_reason_breakdown": {
+        "answer_incorrect": 2,
+        "missing_dependency_chain": 2,
+        "missing_gold_evidence": 2,
+        "no_evidence_output": 2
+      }
+    }
+  },
+  "per_query_scores": [
+    {
+      "query_id": "case_20260508030344241236_evidence_dependency_reasoning_query_001",
+      "query": "FEISHU-336 当前的 blocker 是什么？依据来自谁的哪条消息？",
+      "gold_supporting_message_ids": [
+        "om_x100b50e12d0214a8c22c35da003b353",
+        "om_x100b50e12d33d8b0c4d1a5ed75d0b53",
+        "om_x100b50e12a807890c104f049147ba36",
+        "om_x100b50e12d164c84c4434462d171ee0",
+        "om_x100b50e12a1d50b0c275832927076af",
+        "om_x100b50e12ab014acc2efef17e2fbce0"
+      ],
+      "systems": {
+        "task_wiki_3_layer": {
+          "system_id": "task_wiki_3_layer",
+          "query_id": "case_20260508030344241236_evidence_dependency_reasoning_query_001",
+          "answer_text": "FEISHU-336 当前的 blocker 是窗口锁定状态，但下游无阻塞。依据来自陈雪在正式任务群中的消息（窗口已锁定）以及回滚预案验收通过的消息（窗口已锁，下游无阻塞）。",
+          "answer_correct": false,
+          "answer_judge": {
+            "answer_correct": false,
+            "evidence_supports_answer": false,
+            "private_info_leak": false,
+            "stale_value": false,
+            "reasons": [
+              "系统回答声称 blocker 是'窗口锁定状态'，但语义 gold fact_001 明确窗口已锁定，因此 target 无 blocker - 语义矛盾。",
+              "系统回答未识别 blocker 已解除，且错将下游验收作为 blocker 相关依据（赵敏消息实际表明下游无阻塞，不构成 blocker）。",
+              "系统依据的证据 message_id 'om_x100b50e12a807890c104f049147ba36' 是王源的总结，其中包含传闻和主观判断，不应作为 blocker 的主要依据；且该证据不直接确认 blocker 状态。",
+              "系统未引用 Carol（陈雪）的正式确认消息（fact_001 的 om_x100b50e12d0214a8c22c35da003b353），导致证据链断裂。",
+              "系统证据 message_id 'om_x100b50e12ab014acc2efef17e2fbce0' 来自赵敏，内容与 blocker 无关（下游无阻塞），不支撑 blocker 判断。",
+              "整体 answer 与 semantic gold 不符，证据选择错误，未区分正式确认与传闻。"
+            ]
+          },
+          "evidence": {
+            "output_message_ids": [
+              "om_x100b50e12a807890c104f049147ba36",
+              "om_x100b50e12ab014acc2efef17e2fbce0"
+            ],
+            "gold_message_ids": [
+              "om_x100b50e12a1d50b0c275832927076af",
+              "om_x100b50e12a807890c104f049147ba36",
+              "om_x100b50e12ab014acc2efef17e2fbce0",
+              "om_x100b50e12d0214a8c22c35da003b353",
+              "om_x100b50e12d164c84c4434462d171ee0",
+              "om_x100b50e12d33d8b0c4d1a5ed75d0b53"
+            ],
+            "matched_message_ids": [
+              "om_x100b50e12a807890c104f049147ba36",
+              "om_x100b50e12ab014acc2efef17e2fbce0"
+            ],
+            "wrong_message_ids": [],
+            "evidence_output": true,
+            "evidence_precision": 1.0,
+            "evidence_recall": 0.3333,
+            "evidence_task_relevance": true,
+            "evidence_temporal_correctness": true,
+            "evidence_chain_completeness": 0.3333,
+            "evidence_private_info_safety": true,
+            "official_evidence_citation_rate": 1.0
+          },
+          "scores": {
+            "answer_score": 0.0,
+            "evidence_score": 0.6666,
+            "safety_score": 1.0,
+            "efficiency_score": 1.0,
+            "answer_token_count": 87,
+            "estimated_steps": 1,
+            "estimated_time_seconds": 20
+          },
+          "failure_reasons": [
+            "answer_incorrect",
+            "missing_gold_evidence",
+            "missing_dependency_chain",
+            "evidence_does_not_support_answer"
+          ],
+          "task_wiki_answer_adapter": {
+            "supporting_event_ids": [
+              "evt_db432245514fcb9f",
+              "evt_6145e0a570833026",
+              "evt_dfb709d7c85631b6"
+            ],
+            "confidence": 0.9,
+            "validation_warnings": []
+          }
+        },
+        "openclaw_original": {
+          "system_id": "openclaw_original",
+          "query_id": "case_20260508030344241236_evidence_dependency_reasoning_query_001",
+          "answer_text": "",
+          "answer_correct": false,
+          "answer_judge": {
+            "answer_correct": false,
+            "evidence_supports_answer": false,
+            "private_info_leak": false,
+            "stale_value": false,
+            "reasons": [
+              "system_output.answer is empty, cannot be correct",
+              "system_output.evidence_message_ids and evidence_snippets are empty, no evidence provided"
+            ]
+          },
+          "evidence": {
+            "output_message_ids": [],
+            "gold_message_ids": [
+              "om_x100b50e12a1d50b0c275832927076af",
+              "om_x100b50e12a807890c104f049147ba36",
+              "om_x100b50e12ab014acc2efef17e2fbce0",
+              "om_x100b50e12d0214a8c22c35da003b353",
+              "om_x100b50e12d164c84c4434462d171ee0",
+              "om_x100b50e12d33d8b0c4d1a5ed75d0b53"
+            ],
+            "matched_message_ids": [],
+            "wrong_message_ids": [],
+            "evidence_output": false,
+            "evidence_precision": 0.0,
+            "evidence_recall": 0.0,
+            "evidence_task_relevance": false,
+            "evidence_temporal_correctness": true,
+            "evidence_chain_completeness": 0.0,
+            "evidence_private_info_safety": true,
+            "official_evidence_citation_rate": 0.0
+          },
+          "scores": {
+            "answer_score": 0.0,
+            "evidence_score": 0.0,
+            "safety_score": 1.0,
+            "efficiency_score": 1.0,
+            "answer_token_count": 0,
+            "estimated_steps": 2,
+            "estimated_time_seconds": 45
+          },
+          "failure_reasons": [
+            "answer_incorrect",
+            "no_evidence_output",
+            "missing_gold_evidence",
+            "missing_dependency_chain"
+          ]
+        }
+      }
+    },
+    {
+      "query_id": "case_20260508030344241236_evidence_dependency_reasoning_query_002",
+      "query": "FEISHU-336 的上游窗口状态如何影响下游任务？",
+      "gold_supporting_message_ids": [
+        "om_x100b50e12d0214a8c22c35da003b353",
+        "om_x100b50e12ab014acc2efef17e2fbce0",
+        "om_x100b50e12a807890c104f049147ba36",
+        "om_x100b50e12d164c84c4434462d171ee0",
+        "om_x100b50e12a1d50b0c275832927076af",
+        "om_x100b50e12d33d8b0c4d1a5ed75d0b53"
+      ],
+      "systems": {
+        "task_wiki_3_layer": {
+          "system_id": "task_wiki_3_layer",
+          "query_id": "case_20260508030344241236_evidence_dependency_reasoning_query_002",
+          "answer_text": "FEISHU-336 的上游窗口当前已锁定，回滚预案验收通过，下游任务无阻塞。正式依据来自陈雪的官方消息，窗口交接文件也已签署，此前有异议但已澄清。",
+          "answer_correct": true,
+          "answer_judge": {
+            "answer_correct": true,
+            "evidence_supports_answer": true,
+            "private_info_leak": false,
+            "stale_value": false,
+            "reasons": [
+              "Answer correctly states upstream window is locked and downstream tasks are unblocked, matching semantic gold fact_001 and fact_005.",
+              "Evidence includes verified messages (om_x100b50e12ab014acc2efef17e2fbce0, om_x100b50e12a807890c104f049147ba36, om_x100b50e12becc4b8c315fad9f3c10d4) that support the answer.",
+              "No private information leak detected.",
+              "No stale value detected; answer references current locked state, not outdated hearsay."
+            ]
+          },
+          "evidence": {
+            "output_message_ids": [
+              "om_x100b50e12a807890c104f049147ba36",
+              "om_x100b50e12ab014acc2efef17e2fbce0",
+              "om_x100b50e12becc4b8c315fad9f3c10d4"
+            ],
+            "gold_message_ids": [
+              "om_x100b50e12a1d50b0c275832927076af",
+              "om_x100b50e12a807890c104f049147ba36",
+              "om_x100b50e12ab014acc2efef17e2fbce0",
+              "om_x100b50e12d0214a8c22c35da003b353",
+              "om_x100b50e12d164c84c4434462d171ee0",
+              "om_x100b50e12d33d8b0c4d1a5ed75d0b53"
+            ],
+            "matched_message_ids": [
+              "om_x100b50e12a807890c104f049147ba36",
+              "om_x100b50e12ab014acc2efef17e2fbce0"
+            ],
+            "wrong_message_ids": [
+              "om_x100b50e12becc4b8c315fad9f3c10d4"
+            ],
+            "evidence_output": true,
+            "evidence_precision": 0.6667,
+            "evidence_recall": 0.3333,
+            "evidence_task_relevance": false,
+            "evidence_temporal_correctness": true,
+            "evidence_chain_completeness": 0.3333,
+            "evidence_private_info_safety": true,
+            "official_evidence_citation_rate": 1.0
+          },
+          "scores": {
+            "answer_score": 1.0,
+            "evidence_score": 0.5,
+            "safety_score": 1.0,
+            "efficiency_score": 1.0,
+            "answer_token_count": 74,
+            "estimated_steps": 1,
+            "estimated_time_seconds": 20
+          },
+          "failure_reasons": [
+            "wrong_evidence_source",
+            "missing_gold_evidence",
+            "missing_dependency_chain"
+          ],
+          "task_wiki_answer_adapter": {
+            "supporting_event_ids": [
+              "evt_dfb709d7c85631b6",
+              "evt_db432245514fcb9f",
+              "evt_04d20a471c7c7888"
+            ],
+            "confidence": 0.95,
+            "validation_warnings": []
+          }
+        },
+        "openclaw_original": {
+          "system_id": "openclaw_original",
+          "query_id": "case_20260508030344241236_evidence_dependency_reasoning_query_002",
+          "answer_text": "",
+          "answer_correct": false,
+          "answer_judge": {
+            "answer_correct": false,
+            "evidence_supports_answer": false,
+            "private_info_leak": false,
+            "stale_value": false,
+            "reasons": [
+              "system_output has empty answer and no evidence provided.",
+              "expected answer should explain how upstream window status affects downstream tasks based on Ethan's confirmation (beat_005), distinguishing Carol's verified message from Diana's ambiguous inference (beat_003).",
+              "No evidence_message_ids or evidence_snippets were provided."
+            ]
+          },
+          "evidence": {
+            "output_message_ids": [],
+            "gold_message_ids": [
+              "om_x100b50e12a1d50b0c275832927076af",
+              "om_x100b50e12a807890c104f049147ba36",
+              "om_x100b50e12ab014acc2efef17e2fbce0",
+              "om_x100b50e12d0214a8c22c35da003b353",
+              "om_x100b50e12d164c84c4434462d171ee0",
+              "om_x100b50e12d33d8b0c4d1a5ed75d0b53"
+            ],
+            "matched_message_ids": [],
+            "wrong_message_ids": [],
+            "evidence_output": false,
+            "evidence_precision": 0.0,
+            "evidence_recall": 0.0,
+            "evidence_task_relevance": false,
+            "evidence_temporal_correctness": true,
+            "evidence_chain_completeness": 0.0,
+            "evidence_private_info_safety": true,
+            "official_evidence_citation_rate": 0.0
+          },
+          "scores": {
+            "answer_score": 0.0,
+            "evidence_score": 0.0,
+            "safety_score": 1.0,
+            "efficiency_score": 1.0,
+            "answer_token_count": 0,
+            "estimated_steps": 2,
+            "estimated_time_seconds": 45
+          },
+          "failure_reasons": [
+            "answer_incorrect",
+            "no_evidence_output",
+            "missing_gold_evidence",
+            "missing_dependency_chain"
+          ]
+        }
+      }
+    }
+  ],
+  "failure_reason_breakdown": {
+    "task_wiki_3_layer": {
+      "answer_incorrect": 1,
+      "evidence_does_not_support_answer": 1,
+      "missing_dependency_chain": 2,
+      "missing_gold_evidence": 2,
+      "wrong_evidence_source": 1
+    },
+    "openclaw_original": {
+      "answer_incorrect": 2,
+      "missing_dependency_chain": 2,
+      "missing_gold_evidence": 2,
+      "no_evidence_output": 2
+    }
+  },
+  "evidence_metrics": {
+    "task_wiki_3_layer": {
+      "evidence_output_rate": 1.0,
+      "evidence_precision": 0.8334,
+      "evidence_recall": 0.3333
+    },
+    "openclaw_original": {
+      "evidence_output_rate": 0.0,
+      "evidence_precision": 0.0,
+      "evidence_recall": 0.0
+    }
+  },
+  "systems": {
+    "task_wiki_3_layer": {
+      "source": "runtime/task_wiki_replay",
+      "raw_metrics": {
+        "input": {
+          "ingress_count": 27,
+          "collected_message_count": 27
+        },
+        "layer1_binding": {
+          "binding_total": 27,
+          "binding_bound": 27,
+          "binding_rate": 1,
+          "target_task_binding_rate": 1,
+          "skipped_count": 0,
+          "status": "passed",
+          "score": 100,
+          "blocking_failures": [],
+          "warnings": []
+        },
+        "layer2_events": {
+          "ingested_count": 27,
+          "skipped_count": 0,
+          "candidate_events_returned_during_ingest": 30,
+          "verification_jobs_queued": 29,
+          "candidate_event_count": 30,
+          "verified_event_count": 26,
+          "verification_rate": 0.8667,
+          "session_count": 4,
+          "sessions_with_events": 4,
+          "candidate_validation_breakdown": {
+            "ready_for_verification": 29,
+            "rejected": 1
+          },
+          "rejected_candidate_count": 3,
+          "ready_for_verification_count": 29,
+          "queued_verification_count": 29,
+          "rejection_reason_breakdown": {
+            "unknown": 2,
+            "quote_location:missing_entry": 1
+          },
+          "missing_field_breakdown": {},
+          "status": "passed",
+          "score": 86.67,
+          "blocking_failures": [],
+          "warnings": []
+        },
+        "layer3_wiki": {
+          "task_root_count": 1,
+          "projected_task_count": 1,
+          "projection_rate": 1,
+          "projection_status": "projected",
+          "lint_result_count": 1,
+          "orphan_event_count": 0,
+          "missing_evidence_ref_count": 0,
+          "stale_claim_count": 0,
+          "quote_strength_count": 0,
+          "unresolved_objection_count": 2,
+          "overdue_commitment_count": 0,
+          "open_conflict_count": 0,
+          "orphan_block_count": 0,
+          "missing_cross_ref_count": 0,
+          "orphan_session_wiki_count": 0,
+          "lint_blocking_count": 0,
+          "lint_warning_count": 2,
+          "status": "passed",
+          "score": 100,
+          "blocking_failures": [],
+          "warnings": [
+            "layer3:lint_warnings_present"
+          ]
+        },
+        "overall": {
+          "status": "passed",
+          "blocking_failures": [],
+          "warnings": [
+            "layer3:lint_warnings_present"
+          ],
+          "health_score": 95.33
+        }
+      },
+      "analysis_metrics": {
+        "query_success_rate": 0.5,
+        "evidence_output_rate": 1.0,
+        "evidence_precision": 0.8334,
+        "evidence_recall": 0.3333,
+        "safety_score": 1.0,
+        "efficiency_score": 1.0,
+        "avg_answer_token_count": 80.5,
+        "avg_estimated_steps": 1.0,
+        "avg_estimated_time_seconds": 20.0,
+        "failure_reason_breakdown": {
+          "answer_incorrect": 1,
+          "evidence_does_not_support_answer": 1,
+          "missing_dependency_chain": 2,
+          "missing_gold_evidence": 2,
+          "wrong_evidence_source": 1
+        }
+      },
+      "metrics": {
+        "query_success_rate": 0.5,
+        "evidence_output_rate": 1.0,
+        "evidence_precision": 0.8334,
+        "evidence_recall": 0.3333,
+        "safety_score": 1.0,
+        "efficiency_score": 1.0,
+        "avg_answer_token_count": 80.5,
+        "avg_estimated_steps": 1.0,
+        "avg_estimated_time_seconds": 20.0,
+        "failure_reason_breakdown": {
+          "answer_incorrect": 1,
+          "evidence_does_not_support_answer": 1,
+          "missing_dependency_chain": 2,
+          "missing_gold_evidence": 2,
+          "wrong_evidence_source": 1
+        }
+      }
+    },
+    "openclaw_original": {
+      "source": "runtime/openclaw_baseline",
+      "raw_metrics": {
+        "query_success_rate": 0,
+        "evidence_output_rate": 0,
+        "evidence_trace_rate": 0,
+        "current_state_accuracy": 0,
+        "private_info_leak_rate": 0
+      },
+      "analysis_metrics": {
+        "query_success_rate": 0.0,
+        "evidence_output_rate": 0.0,
+        "evidence_precision": 0.0,
+        "evidence_recall": 0.0,
+        "safety_score": 1.0,
+        "efficiency_score": 1.0,
+        "avg_answer_token_count": 0.0,
+        "avg_estimated_steps": 2.0,
+        "avg_estimated_time_seconds": 45.0,
+        "failure_reason_breakdown": {
+          "answer_incorrect": 2,
+          "missing_dependency_chain": 2,
+          "missing_gold_evidence": 2,
+          "no_evidence_output": 2
+        }
+      },
+      "metrics": {
+        "query_success_rate": 0.0,
+        "evidence_output_rate": 0.0,
+        "evidence_precision": 0.0,
+        "evidence_recall": 0.0,
+        "safety_score": 1.0,
+        "efficiency_score": 1.0,
+        "avg_answer_token_count": 0.0,
+        "avg_estimated_steps": 2.0,
+        "avg_estimated_time_seconds": 45.0,
+        "failure_reason_breakdown": {
+          "answer_incorrect": 2,
+          "missing_dependency_chain": 2,
+          "missing_gold_evidence": 2,
+          "no_evidence_output": 2
+        }
+      },
+      "baseline_mode": "openclaw_real_replay",
+      "openclaw_ingest_mode": "case_transcript"
+    }
+  },
+  "deltas": {
+    "query_success_rate_delta": 0.5,
+    "evidence_precision_delta": 0.8334,
+    "estimated_steps_saved": 1.0,
+    "estimated_time_saved_seconds": 25.0
+  },
+  "query_results": [
+    {
+      "query_id": "case_20260508030344241236_evidence_dependency_reasoning_query_001",
+      "query": "FEISHU-336 当前的 blocker 是什么？依据来自谁的哪条消息？",
+      "gold_supporting_message_ids": [
+        "om_x100b50e12d0214a8c22c35da003b353",
+        "om_x100b50e12d33d8b0c4d1a5ed75d0b53",
+        "om_x100b50e12a807890c104f049147ba36",
+        "om_x100b50e12d164c84c4434462d171ee0",
+        "om_x100b50e12a1d50b0c275832927076af",
+        "om_x100b50e12ab014acc2efef17e2fbce0"
+      ],
+      "systems": {
+        "task_wiki_3_layer": {
+          "system_id": "task_wiki_3_layer",
+          "query_id": "case_20260508030344241236_evidence_dependency_reasoning_query_001",
+          "answer_text": "FEISHU-336 当前的 blocker 是窗口锁定状态，但下游无阻塞。依据来自陈雪在正式任务群中的消息（窗口已锁定）以及回滚预案验收通过的消息（窗口已锁，下游无阻塞）。",
+          "answer_correct": false,
+          "answer_judge": {
+            "answer_correct": false,
+            "evidence_supports_answer": false,
+            "private_info_leak": false,
+            "stale_value": false,
+            "reasons": [
+              "系统回答声称 blocker 是'窗口锁定状态'，但语义 gold fact_001 明确窗口已锁定，因此 target 无 blocker - 语义矛盾。",
+              "系统回答未识别 blocker 已解除，且错将下游验收作为 blocker 相关依据（赵敏消息实际表明下游无阻塞，不构成 blocker）。",
+              "系统依据的证据 message_id 'om_x100b50e12a807890c104f049147ba36' 是王源的总结，其中包含传闻和主观判断，不应作为 blocker 的主要依据；且该证据不直接确认 blocker 状态。",
+              "系统未引用 Carol（陈雪）的正式确认消息（fact_001 的 om_x100b50e12d0214a8c22c35da003b353），导致证据链断裂。",
+              "系统证据 message_id 'om_x100b50e12ab014acc2efef17e2fbce0' 来自赵敏，内容与 blocker 无关（下游无阻塞），不支撑 blocker 判断。",
+              "整体 answer 与 semantic gold 不符，证据选择错误，未区分正式确认与传闻。"
+            ]
+          },
+          "evidence": {
+            "output_message_ids": [
+              "om_x100b50e12a807890c104f049147ba36",
+              "om_x100b50e12ab014acc2efef17e2fbce0"
+            ],
+            "gold_message_ids": [
+              "om_x100b50e12a1d50b0c275832927076af",
+              "om_x100b50e12a807890c104f049147ba36",
+              "om_x100b50e12ab014acc2efef17e2fbce0",
+              "om_x100b50e12d0214a8c22c35da003b353",
+              "om_x100b50e12d164c84c4434462d171ee0",
+              "om_x100b50e12d33d8b0c4d1a5ed75d0b53"
+            ],
+            "matched_message_ids": [
+              "om_x100b50e12a807890c104f049147ba36",
+              "om_x100b50e12ab014acc2efef17e2fbce0"
+            ],
+            "wrong_message_ids": [],
+            "evidence_output": true,
+            "evidence_precision": 1.0,
+            "evidence_recall": 0.3333,
+            "evidence_task_relevance": true,
+            "evidence_temporal_correctness": true,
+            "evidence_chain_completeness": 0.3333,
+            "evidence_private_info_safety": true,
+            "official_evidence_citation_rate": 1.0
+          },
+          "scores": {
+            "answer_score": 0.0,
+            "evidence_score": 0.6666,
+            "safety_score": 1.0,
+            "efficiency_score": 1.0,
+            "answer_token_count": 87,
+            "estimated_steps": 1,
+            "estimated_time_seconds": 20
+          },
+          "failure_reasons": [
+            "answer_incorrect",
+            "missing_gold_evidence",
+            "missing_dependency_chain",
+            "evidence_does_not_support_answer"
+          ],
+          "task_wiki_answer_adapter": {
+            "supporting_event_ids": [
+              "evt_db432245514fcb9f",
+              "evt_6145e0a570833026",
+              "evt_dfb709d7c85631b6"
+            ],
+            "confidence": 0.9,
+            "validation_warnings": []
+          }
+        },
+        "openclaw_original": {
+          "system_id": "openclaw_original",
+          "query_id": "case_20260508030344241236_evidence_dependency_reasoning_query_001",
+          "answer_text": "",
+          "answer_correct": false,
+          "answer_judge": {
+            "answer_correct": false,
+            "evidence_supports_answer": false,
+            "private_info_leak": false,
+            "stale_value": false,
+            "reasons": [
+              "system_output.answer is empty, cannot be correct",
+              "system_output.evidence_message_ids and evidence_snippets are empty, no evidence provided"
+            ]
+          },
+          "evidence": {
+            "output_message_ids": [],
+            "gold_message_ids": [
+              "om_x100b50e12a1d50b0c275832927076af",
+              "om_x100b50e12a807890c104f049147ba36",
+              "om_x100b50e12ab014acc2efef17e2fbce0",
+              "om_x100b50e12d0214a8c22c35da003b353",
+              "om_x100b50e12d164c84c4434462d171ee0",
+              "om_x100b50e12d33d8b0c4d1a5ed75d0b53"
+            ],
+            "matched_message_ids": [],
+            "wrong_message_ids": [],
+            "evidence_output": false,
+            "evidence_precision": 0.0,
+            "evidence_recall": 0.0,
+            "evidence_task_relevance": false,
+            "evidence_temporal_correctness": true,
+            "evidence_chain_completeness": 0.0,
+            "evidence_private_info_safety": true,
+            "official_evidence_citation_rate": 0.0
+          },
+          "scores": {
+            "answer_score": 0.0,
+            "evidence_score": 0.0,
+            "safety_score": 1.0,
+            "efficiency_score": 1.0,
+            "answer_token_count": 0,
+            "estimated_steps": 2,
+            "estimated_time_seconds": 45
+          },
+          "failure_reasons": [
+            "answer_incorrect",
+            "no_evidence_output",
+            "missing_gold_evidence",
+            "missing_dependency_chain"
+          ]
+        }
+      }
+    },
+    {
+      "query_id": "case_20260508030344241236_evidence_dependency_reasoning_query_002",
+      "query": "FEISHU-336 的上游窗口状态如何影响下游任务？",
+      "gold_supporting_message_ids": [
+        "om_x100b50e12d0214a8c22c35da003b353",
+        "om_x100b50e12ab014acc2efef17e2fbce0",
+        "om_x100b50e12a807890c104f049147ba36",
+        "om_x100b50e12d164c84c4434462d171ee0",
+        "om_x100b50e12a1d50b0c275832927076af",
+        "om_x100b50e12d33d8b0c4d1a5ed75d0b53"
+      ],
+      "systems": {
+        "task_wiki_3_layer": {
+          "system_id": "task_wiki_3_layer",
+          "query_id": "case_20260508030344241236_evidence_dependency_reasoning_query_002",
+          "answer_text": "FEISHU-336 的上游窗口当前已锁定，回滚预案验收通过，下游任务无阻塞。正式依据来自陈雪的官方消息，窗口交接文件也已签署，此前有异议但已澄清。",
+          "answer_correct": true,
+          "answer_judge": {
+            "answer_correct": true,
+            "evidence_supports_answer": true,
+            "private_info_leak": false,
+            "stale_value": false,
+            "reasons": [
+              "Answer correctly states upstream window is locked and downstream tasks are unblocked, matching semantic gold fact_001 and fact_005.",
+              "Evidence includes verified messages (om_x100b50e12ab014acc2efef17e2fbce0, om_x100b50e12a807890c104f049147ba36, om_x100b50e12becc4b8c315fad9f3c10d4) that support the answer.",
+              "No private information leak detected.",
+              "No stale value detected; answer references current locked state, not outdated hearsay."
+            ]
+          },
+          "evidence": {
+            "output_message_ids": [
+              "om_x100b50e12a807890c104f049147ba36",
+              "om_x100b50e12ab014acc2efef17e2fbce0",
+              "om_x100b50e12becc4b8c315fad9f3c10d4"
+            ],
+            "gold_message_ids": [
+              "om_x100b50e12a1d50b0c275832927076af",
+              "om_x100b50e12a807890c104f049147ba36",
+              "om_x100b50e12ab014acc2efef17e2fbce0",
+              "om_x100b50e12d0214a8c22c35da003b353",
+              "om_x100b50e12d164c84c4434462d171ee0",
+              "om_x100b50e12d33d8b0c4d1a5ed75d0b53"
+            ],
+            "matched_message_ids": [
+              "om_x100b50e12a807890c104f049147ba36",
+              "om_x100b50e12ab014acc2efef17e2fbce0"
+            ],
+            "wrong_message_ids": [
+              "om_x100b50e12becc4b8c315fad9f3c10d4"
+            ],
+            "evidence_output": true,
+            "evidence_precision": 0.6667,
+            "evidence_recall": 0.3333,
+            "evidence_task_relevance": false,
+            "evidence_temporal_correctness": true,
+            "evidence_chain_completeness": 0.3333,
+            "evidence_private_info_safety": true,
+            "official_evidence_citation_rate": 1.0
+          },
+          "scores": {
+            "answer_score": 1.0,
+            "evidence_score": 0.5,
+            "safety_score": 1.0,
+            "efficiency_score": 1.0,
+            "answer_token_count": 74,
+            "estimated_steps": 1,
+            "estimated_time_seconds": 20
+          },
+          "failure_reasons": [
+            "wrong_evidence_source",
+            "missing_gold_evidence",
+            "missing_dependency_chain"
+          ],
+          "task_wiki_answer_adapter": {
+            "supporting_event_ids": [
+              "evt_dfb709d7c85631b6",
+              "evt_db432245514fcb9f",
+              "evt_04d20a471c7c7888"
+            ],
+            "confidence": 0.95,
+            "validation_warnings": []
+          }
+        },
+        "openclaw_original": {
+          "system_id": "openclaw_original",
+          "query_id": "case_20260508030344241236_evidence_dependency_reasoning_query_002",
+          "answer_text": "",
+          "answer_correct": false,
+          "answer_judge": {
+            "answer_correct": false,
+            "evidence_supports_answer": false,
+            "private_info_leak": false,
+            "stale_value": false,
+            "reasons": [
+              "system_output has empty answer and no evidence provided.",
+              "expected answer should explain how upstream window status affects downstream tasks based on Ethan's confirmation (beat_005), distinguishing Carol's verified message from Diana's ambiguous inference (beat_003).",
+              "No evidence_message_ids or evidence_snippets were provided."
+            ]
+          },
+          "evidence": {
+            "output_message_ids": [],
+            "gold_message_ids": [
+              "om_x100b50e12a1d50b0c275832927076af",
+              "om_x100b50e12a807890c104f049147ba36",
+              "om_x100b50e12ab014acc2efef17e2fbce0",
+              "om_x100b50e12d0214a8c22c35da003b353",
+              "om_x100b50e12d164c84c4434462d171ee0",
+              "om_x100b50e12d33d8b0c4d1a5ed75d0b53"
+            ],
+            "matched_message_ids": [],
+            "wrong_message_ids": [],
+            "evidence_output": false,
+            "evidence_precision": 0.0,
+            "evidence_recall": 0.0,
+            "evidence_task_relevance": false,
+            "evidence_temporal_correctness": true,
+            "evidence_chain_completeness": 0.0,
+            "evidence_private_info_safety": true,
+            "official_evidence_citation_rate": 0.0
+          },
+          "scores": {
+            "answer_score": 0.0,
+            "evidence_score": 0.0,
+            "safety_score": 1.0,
+            "efficiency_score": 1.0,
+            "answer_token_count": 0,
+            "estimated_steps": 2,
+            "estimated_time_seconds": 45
+          },
+          "failure_reasons": [
+            "answer_incorrect",
+            "no_evidence_output",
+            "missing_gold_evidence",
+            "missing_dependency_chain"
+          ]
+        }
+      }
+    }
+  ],
+  "notes": [
+    "answer_correct and evidence correctness are scored separately.",
+    "A system can answer correctly but still receive a weak evidence score.",
+    "reports/phase3_score.json is the canonical Phase 3 scoring artifact."
+  ]
+}

@@ -1,0 +1,308 @@
+{
+  "version": 1,
+  "task_id": "task:FEISHU-335",
+  "task_key": "FEISHU-335",
+  "pages": {
+    "task:FEISHU-335::chat:oc_360477e1d835fbdd2b71188a4b330405": {
+      "source_session_id": "task:FEISHU-335::chat:oc_360477e1d835fbdd2b71188a4b330405",
+      "relative_page_path": "sessions/FEISHU-335_chat_oc_360477e1d835fbdd2b71188a4b330-be976361/session_wiki.md",
+      "summary": "FEISHU-335负责人变更为王源，截止时间延至3月20日。",
+      "blocks": [
+        {
+          "block_id": "block-负责人变更-fedbb427",
+          "anchor_id": "block-负责人变更-fedbb427",
+          "topic_key": "负责人变更",
+          "topic_title": "负责人变更",
+          "status": "active",
+          "slots": [
+            "status"
+          ],
+          "summary": "负责人已变更，初始负责人已移交。"
+        },
+        {
+          "block_id": "block-截止时间-864048b3",
+          "anchor_id": "block-截止时间-864048b3",
+          "topic_key": "截止时间",
+          "topic_title": "截止时间",
+          "status": "active",
+          "slots": [
+            "time"
+          ],
+          "summary": "王源负责的FEISHU-335截止时间延至3月20日"
+        },
+        {
+          "block_id": "block-任务接手-f87f4dc0",
+          "anchor_id": "block-任务接手-f87f4dc0",
+          "topic_key": "任务接手",
+          "topic_title": "任务接手",
+          "status": "active",
+          "slots": [
+            "commitment"
+          ],
+          "summary": "任务接手，查看进度。"
+        },
+        {
+          "block_id": "block-任务转交-2e023796",
+          "anchor_id": "block-任务转交-2e023796",
+          "topic_key": "任务转交",
+          "topic_title": "任务转交",
+          "status": "active",
+          "slots": [
+            "commitment"
+          ],
+          "summary": "王源被转交FEISHU-335任务，截止日期延至3月20日。"
+        }
+      ],
+      "updated_at": "2026-05-08T03:39:47.287Z"
+    },
+    "task:FEISHU-335::chat:oc_3f833cdfb811d37de2a96f250c231139": {
+      "source_session_id": "task:FEISHU-335::chat:oc_3f833cdfb811d37de2a96f250c231139",
+      "relative_page_path": "sessions/FEISHU-335_chat_oc_3f833cdfb811d37de2a96f250c231-08c7f48f/session_wiki.md",
+      "summary": "FEISHU-335发布阻塞风险已登记，状态为开放，阻塞原因待确认。",
+      "blocks": [
+        {
+          "block_id": "block-发布阻塞风险-45763a86",
+          "anchor_id": "block-发布阻塞风险-45763a86",
+          "topic_key": "发布阻塞风险",
+          "topic_title": "发布阻塞风险",
+          "status": "open",
+          "slots": [
+            "status"
+          ],
+          "summary": "FEISHU-335风险已登记，阻塞原因待确认。"
+        }
+      ],
+      "updated_at": "2026-05-08T03:39:55.813Z"
+    },
+    "task:FEISHU-335::chat:oc_e04355a17fcd34369ab4eda64d84c019": {
+      "source_session_id": "task:FEISHU-335::chat:oc_e04355a17fcd34369ab4eda64d84c019",
+      "relative_page_path": "sessions/FEISHU-335_chat_oc_e04355a17fcd34369ab4eda64d84c-9f222dd5/session_wiki.md",
+      "summary": "FEISHU-335 安全审查需两周，接口已修复可测试，阻塞至3月25日，负责人变更为周宇，截止3月15日，开发中，需求梳理中，周末可值班需提前给权限。",
+      "blocks": [
+        {
+          "block_id": "block-安全审查-d2e06d4b",
+          "anchor_id": "block-安全审查-d2e06d4b",
+          "topic_key": "安全审查",
+          "topic_title": "安全审查",
+          "status": "active",
+          "slots": [
+            "time"
+          ],
+          "summary": "安全审查需两周，建议提前安排。"
+        },
+        {
+          "block_id": "block-测试安排-55bff6ea",
+          "anchor_id": "block-测试安排-55bff6ea",
+          "topic_key": "测试安排",
+          "topic_title": "测试安排",
+          "status": "active",
+          "slots": [
+            "time"
+          ],
+          "summary": "接口已修复，明天可测试"
+        },
+        {
+          "block_id": "block-发布阻塞风险-45763a86",
+          "anchor_id": "block-发布阻塞风险-45763a86",
+          "topic_key": "发布阻塞风险",
+          "topic_title": "发布阻塞风险",
+          "status": "open",
+          "slots": [
+            "commitment",
+            "status",
+            "time"
+          ],
+          "summary": "FEISHU-335 阻塞，负责人陈雪，截止3月25日。"
+        },
+        {
+          "block_id": "block-负责人变更-fedbb427",
+          "anchor_id": "block-负责人变更-fedbb427",
+          "topic_key": "负责人变更",
+          "topic_title": "负责人变更",
+          "status": "active",
+          "slots": [
+            "commitment",
+            "status"
+          ],
+          "summary": "负责人变更：FEISHU-335转交周宇，陈雪接替王源成为新负责人。"
+        },
+        {
+          "block_id": "block-接口修复-d5fe02dc",
+          "anchor_id": "block-接口修复-d5fe02dc",
+          "topic_key": "接口修复",
+          "topic_title": "接口修复",
+          "status": "active",
+          "slots": [
+            "status"
+          ],
+          "summary": "接口已修复，明天可测试。"
+        },
+        {
+          "block_id": "block-截止时间-864048b3",
+          "anchor_id": "block-截止时间-864048b3",
+          "topic_key": "截止时间",
+          "topic_title": "截止时间",
+          "status": "active",
+          "slots": [
+            "time"
+          ],
+          "summary": "截止时间为3月15日"
+        },
+        {
+          "block_id": "block-开发行动-a4ab6c51",
+          "anchor_id": "block-开发行动-a4ab6c51",
+          "topic_key": "开发行动",
+          "topic_title": "开发行动",
+          "status": "active",
+          "slots": [
+            "commitment"
+          ],
+          "summary": "FEISHU-335 开发中"
+        },
+        {
+          "block_id": "block-任务状态-b7d4128d",
+          "anchor_id": "block-任务状态-b7d4128d",
+          "topic_key": "任务状态",
+          "topic_title": "任务状态",
+          "status": "active",
+          "slots": [
+            "status"
+          ],
+          "summary": "任务状态为新建"
+        },
+        {
+          "block_id": "block-需求梳理-652e0607",
+          "anchor_id": "block-需求梳理-652e0607",
+          "topic_key": "需求梳理",
+          "topic_title": "需求梳理",
+          "status": "active",
+          "slots": [
+            "commitment"
+          ],
+          "summary": "需求梳理中，承诺稍后更新排期。"
+        },
+        {
+          "block_id": "block-值班安排-a28785da",
+          "anchor_id": "block-值班安排-a28785da",
+          "topic_key": "值班安排",
+          "topic_title": "值班安排",
+          "status": "open",
+          "slots": [
+            "constraint",
+            "commitment"
+          ],
+          "summary": "值班安排：有人周末可值班但需提前给权限。"
+        },
+        {
+          "block_id": "block-阻塞原因-853fe27a",
+          "anchor_id": "block-阻塞原因-853fe27a",
+          "topic_key": "阻塞原因",
+          "topic_title": "阻塞原因",
+          "status": "active",
+          "slots": [
+            "rationale"
+          ],
+          "summary": "依赖接口导致进度缓慢"
+        }
+      ],
+      "updated_at": "2026-05-08T03:41:12.583Z"
+    }
+  },
+  "topic_routes": [
+    {
+      "topic_key": "发布时间",
+      "topic_title": "发布时间",
+      "block_links": [
+        {
+          "label": "截止时间 (task:FEISHU-335::chat:oc_360477e1d835fbdd2b71188a4b330405)",
+          "target": "sessions/FEISHU-335_chat_oc_360477e1d835fbdd2b71188a4b330-be976361/session_wiki.md#block-截止时间-864048b3"
+        },
+        {
+          "label": "截止时间 (task:FEISHU-335::chat:oc_e04355a17fcd34369ab4eda64d84c019)",
+          "target": "sessions/FEISHU-335_chat_oc_e04355a17fcd34369ab4eda64d84c-9f222dd5/session_wiki.md#block-截止时间-864048b3"
+        }
+      ]
+    },
+    {
+      "topic_key": "风险",
+      "topic_title": "风险",
+      "block_links": [
+        {
+          "label": "发布阻塞风险 (task:FEISHU-335::chat:oc_3f833cdfb811d37de2a96f250c231139)",
+          "target": "sessions/FEISHU-335_chat_oc_3f833cdfb811d37de2a96f250c231-08c7f48f/session_wiki.md#block-发布阻塞风险-45763a86"
+        },
+        {
+          "label": "发布阻塞风险 (task:FEISHU-335::chat:oc_e04355a17fcd34369ab4eda64d84c019)",
+          "target": "sessions/FEISHU-335_chat_oc_e04355a17fcd34369ab4eda64d84c-9f222dd5/session_wiki.md#block-发布阻塞风险-45763a86"
+        },
+        {
+          "label": "阻塞原因 (task:FEISHU-335::chat:oc_e04355a17fcd34369ab4eda64d84c019)",
+          "target": "sessions/FEISHU-335_chat_oc_e04355a17fcd34369ab4eda64d84c-9f222dd5/session_wiki.md#block-阻塞原因-853fe27a"
+        }
+      ]
+    },
+    {
+      "topic_key": "行动项",
+      "topic_title": "行动项",
+      "block_links": [
+        {
+          "label": "负责人变更 (task:FEISHU-335::chat:oc_e04355a17fcd34369ab4eda64d84c019)",
+          "target": "sessions/FEISHU-335_chat_oc_e04355a17fcd34369ab4eda64d84c-9f222dd5/session_wiki.md#block-负责人变更-fedbb427"
+        },
+        {
+          "label": "开发行动 (task:FEISHU-335::chat:oc_e04355a17fcd34369ab4eda64d84c019)",
+          "target": "sessions/FEISHU-335_chat_oc_e04355a17fcd34369ab4eda64d84c-9f222dd5/session_wiki.md#block-开发行动-a4ab6c51"
+        },
+        {
+          "label": "任务接手 (task:FEISHU-335::chat:oc_360477e1d835fbdd2b71188a4b330405)",
+          "target": "sessions/FEISHU-335_chat_oc_360477e1d835fbdd2b71188a4b330-be976361/session_wiki.md#block-任务接手-f87f4dc0"
+        },
+        {
+          "label": "任务转交 (task:FEISHU-335::chat:oc_360477e1d835fbdd2b71188a4b330405)",
+          "target": "sessions/FEISHU-335_chat_oc_360477e1d835fbdd2b71188a4b330-be976361/session_wiki.md#block-任务转交-2e023796"
+        },
+        {
+          "label": "需求梳理 (task:FEISHU-335::chat:oc_e04355a17fcd34369ab4eda64d84c019)",
+          "target": "sessions/FEISHU-335_chat_oc_e04355a17fcd34369ab4eda64d84c-9f222dd5/session_wiki.md#block-需求梳理-652e0607"
+        },
+        {
+          "label": "值班安排 (task:FEISHU-335::chat:oc_e04355a17fcd34369ab4eda64d84c019)",
+          "target": "sessions/FEISHU-335_chat_oc_e04355a17fcd34369ab4eda64d84c-9f222dd5/session_wiki.md#block-值班安排-a28785da"
+        }
+      ]
+    },
+    {
+      "topic_key": "时间线",
+      "topic_title": "时间线",
+      "block_links": [
+        {
+          "label": "安全审查 (task:FEISHU-335::chat:oc_e04355a17fcd34369ab4eda64d84c019)",
+          "target": "sessions/FEISHU-335_chat_oc_e04355a17fcd34369ab4eda64d84c-9f222dd5/session_wiki.md#block-安全审查-d2e06d4b"
+        },
+        {
+          "label": "测试安排 (task:FEISHU-335::chat:oc_e04355a17fcd34369ab4eda64d84c019)",
+          "target": "sessions/FEISHU-335_chat_oc_e04355a17fcd34369ab4eda64d84c-9f222dd5/session_wiki.md#block-测试安排-55bff6ea"
+        }
+      ]
+    },
+    {
+      "topic_key": "状态",
+      "topic_title": "状态",
+      "block_links": [
+        {
+          "label": "负责人变更 (task:FEISHU-335::chat:oc_360477e1d835fbdd2b71188a4b330405)",
+          "target": "sessions/FEISHU-335_chat_oc_360477e1d835fbdd2b71188a4b330-be976361/session_wiki.md#block-负责人变更-fedbb427"
+        },
+        {
+          "label": "接口修复 (task:FEISHU-335::chat:oc_e04355a17fcd34369ab4eda64d84c019)",
+          "target": "sessions/FEISHU-335_chat_oc_e04355a17fcd34369ab4eda64d84c-9f222dd5/session_wiki.md#block-接口修复-d5fe02dc"
+        },
+        {
+          "label": "任务状态 (task:FEISHU-335::chat:oc_e04355a17fcd34369ab4eda64d84c019)",
+          "target": "sessions/FEISHU-335_chat_oc_e04355a17fcd34369ab4eda64d84c-9f222dd5/session_wiki.md#block-任务状态-b7d4128d"
+        }
+      ]
+    }
+  ],
+  "updated_at": "2026-05-08T03:41:12.583Z"
+}

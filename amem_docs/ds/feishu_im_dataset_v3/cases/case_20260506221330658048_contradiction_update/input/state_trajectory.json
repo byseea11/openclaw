@@ -1,0 +1,79 @@
+{
+  "case_id": "case_20260506221330658048_contradiction_update",
+  "family_id": "contradiction_update",
+  "task_id": "FEISHU-448",
+  "state_changes": [
+    {
+      "task_id": "FEISHU-448",
+      "field": "owner",
+      "sequence": [
+        {
+          "value": "Bob",
+          "status": "initial"
+        },
+        {
+          "value": "Carol",
+          "status": "historical"
+        },
+        {
+          "value": "David",
+          "status": "current"
+        }
+      ]
+    },
+    {
+      "task_id": "FEISHU-448",
+      "field": "release_window",
+      "sequence": [
+        {
+          "value": "6月5日",
+          "status": "initial"
+        },
+        {
+          "value": "6月12日",
+          "status": "historical"
+        },
+        {
+          "value": "6月19日",
+          "status": "current"
+        }
+      ]
+    },
+    {
+      "task_id": "FEISHU-448",
+      "field": "resource_allocation",
+      "sequence": [
+        {
+          "value": "Frank 团队",
+          "status": "initial"
+        },
+        {
+          "value": "Grace 团队",
+          "status": "historical"
+        },
+        {
+          "value": "Frank 团队",
+          "status": "current"
+        }
+      ]
+    },
+    {
+      "task_id": "FEISHU-448",
+      "field": "risk_level",
+      "sequence": [
+        {
+          "value": "低",
+          "status": "initial"
+        },
+        {
+          "value": "中",
+          "status": "historical"
+        },
+        {
+          "value": "高",
+          "status": "current"
+        }
+      ]
+    }
+  ]
+}

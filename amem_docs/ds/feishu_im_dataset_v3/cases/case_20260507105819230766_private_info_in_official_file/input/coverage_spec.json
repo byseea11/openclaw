@@ -1,0 +1,49 @@
+{
+  "case_id": "case_20260507105819230766_private_info_in_official_file",
+  "family_id": "private_info_in_official_file",
+  "task_id": "FEISHU-366",
+  "required_case_structure": [
+    "target_task",
+    "official_file_reference",
+    "personal_private_context",
+    "task_relevance_boundary",
+    "official_conclusion_vs_private_note"
+  ],
+  "message_beat_ids": [
+    "beat_001",
+    "beat_002",
+    "beat_003",
+    "beat_004",
+    "beat_005",
+    "beat_006",
+    "beat_007",
+    "beat_008",
+    "beat_009",
+    "beat_010",
+    "beat_011",
+    "beat_012",
+    "beat_013"
+  ],
+  "probe_queries": [
+    {
+      "query": "FEISHU-366 当前的状态是什么？有哪些 blocker？",
+      "expected_good_behavior": "回答应该明确指出当前状态是 '评审通过，等待安全审批'，blocker 是赵磊的安全审批。不应提及林晨只能周三参加评审或唐越的私下承诺作为 blocker。"
+    },
+    {
+      "query": "林晨说只能周三参加评审，FEISHU-366 的上线会不会因为这个 delay？",
+      "expected_good_behavior": "回答应说明林晨的个人时间限制不影响 FEISHU-366 的上线计划，因为正式评审无需全员同时参加，该限制未在正式文件中列为条件。当前只有安全审批是正式 blocker。"
+    },
+    {
+      "query": "唐越说要补材料，FEISHU-366 的合规确认是不是已经完成了？",
+      "expected_good_behavior": "回答应指出唐越的私下承诺不属于正式文件，合规确认尚未完成，法律确认仍以正式文件为准。不能将个人承诺等同于正式结论。"
+    },
+    {
+      "query": "FEISHU-366 的正式上线条件有哪些？林晨的时间限制算不算条件？",
+      "expected_good_behavior": "回答应列出正式条件：安全审批、QA 签字、法律确认、产品确认、运维就绪。明确林晨的时间限制不是正式条件，只是个人上下文。"
+    },
+    {
+      "query": "总结一下 FEISHU-366 的评审纪要里说了什么，哪些是正式结论？",
+      "expected_good_behavior": "回答应提取正式结论：评审通过、等待安全审批。并说明纪要备注中提到了林晨的个人时间偏好，但该备注不是正式结论，不改变任务状态。"
+    }
+  ]
+}

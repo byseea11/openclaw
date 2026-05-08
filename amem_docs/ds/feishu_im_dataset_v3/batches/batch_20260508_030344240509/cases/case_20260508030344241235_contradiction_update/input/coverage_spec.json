@@ -1,0 +1,35 @@
+{
+  "case_id": "case_20260508030344241235_contradiction_update",
+  "family_id": "contradiction_update",
+  "task_id": "FEISHU-335",
+  "required_case_structure": [
+    "target_task",
+    "owner_or_schedule_field",
+    "multi_step_update_sequence",
+    "supersedes_relation"
+  ],
+  "message_beat_ids": [
+    "beat_001",
+    "beat_002",
+    "beat_003",
+    "beat_004",
+    "beat_005",
+    "beat_006",
+    "beat_007",
+    "beat_008"
+  ],
+  "probe_queries": [
+    {
+      "query": "FEISHU-335 现在的负责人是谁？",
+      "expected_good_behavior": "返回 Carol，并说明 Bob 和 David 是历史负责人。"
+    },
+    {
+      "query": "FEISHU-335 的截止日期目前是多少？",
+      "expected_good_behavior": "返回 2026-03-25，并说明之前是 2026-03-20 和 2026-03-15。"
+    },
+    {
+      "query": "FEISHU-335 当前的状态是什么？",
+      "expected_good_behavior": "返回 blocked，并说明之前是 in_progress 和 open。"
+    }
+  ]
+}

@@ -1,0 +1,70 @@
+{
+  "snapshot_id": "acme_q2_ops_v1",
+  "source": "deterministic_realistic_enterprise_fixture",
+  "workspace_id": "feishu_test_workspace_acme_q2_ops",
+  "created_at": "2026-04-25T00:00:00Z",
+  "frozen_at": "2026-04-25T00:00:00Z",
+  "scenario": "B2B SaaS Q2 growth launch across product, engineering, security, data, finance, legal, marketing, and customer success.",
+  "employees_version": {
+    "employee_count": 22,
+    "source": "eval.office_fixture_dataset.EMPLOYEES"
+  },
+  "validation_case_count": 14,
+  "coverage": {
+    "chats": {
+      "oc_acme_launch": "Q2 Growth Launch War Room",
+      "oc_acme_risk": "Risk & Security Review",
+      "oc_acme_cutover": "Data Migration Cutover",
+      "oc_acme_incident": "Incident SEV-2 Payment Callback",
+      "oc_acme_finance": "Finance Approval Desk",
+      "oc_acme_beta": "Customer Beta Escalations",
+      "oc_acme_enablement": "Launch Docs & Enablement"
+    },
+    "threads": {
+      "th_launch": "Q2 Growth Launch",
+      "th_risk": "Security and Legal Risk Review",
+      "th_cutover": "Warehouse Migration Cutover",
+      "th_incident": "SEV-2 Payment Callback",
+      "th_finance": "Budget and Vendor Approval",
+      "th_beta": "Beta Customer Escalations",
+      "th_enablement": "Launch Enablement Materials"
+    },
+    "abilities": [
+      "approval_progression",
+      "blocked_by_chain",
+      "cross_thread_relation",
+      "doc_reference",
+      "file_reference",
+      "graph_hit",
+      "long_horizon_status",
+      "multi_party_dependency",
+      "owner_change",
+      "stale_info_resolution",
+      "temporal_reasoning"
+    ],
+    "message_types": [
+      "approval",
+      "bot_notice",
+      "card",
+      "comment",
+      "document",
+      "file",
+      "post",
+      "system",
+      "text"
+    ]
+  },
+  "stats": {
+    "event_count": 102,
+    "chat_count": 7,
+    "thread_count": 7,
+    "time_range": {
+      "start": "2026-04-01T08:45:00Z",
+      "end": "2026-04-12T16:45:00Z"
+    }
+  },
+  "immutability": {
+    "policy": "Do not edit this snapshot in place. Create a new snapshot_id for updates or Feishu capture output.",
+    "validation_mode": "read_only_replay"
+  }
+}

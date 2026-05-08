@@ -1,0 +1,55 @@
+{
+  "case_id": "case_20260507023754463002_anti_interference",
+  "family_id": "anti_interference",
+  "task_id": "FEISHU-702",
+  "required_case_structure": [
+    "target_task",
+    "distractor_context",
+    "shared_actors",
+    "scope_limited_query_need"
+  ],
+  "message_beat_ids": [
+    "beat_001",
+    "beat_002",
+    "beat_003",
+    "beat_004",
+    "beat_005",
+    "beat_006",
+    "beat_007",
+    "beat_008",
+    "beat_009",
+    "beat_010",
+    "beat_011",
+    "beat_012",
+    "beat_013",
+    "beat_014",
+    "beat_015",
+    "beat_016",
+    "beat_017",
+    "beat_018",
+    "beat_019",
+    "beat_020",
+    "beat_021",
+    "beat_022",
+    "beat_023",
+    "beat_024",
+    "beat_025",
+    "beat_026",
+    "beat_027",
+    "beat_028"
+  ],
+  "probe_queries": [
+    {
+      "query": "FEISHU-702 当前的 owner 是谁？有哪些 blocker？发布状态和窗口定好了吗？",
+      "expected_good_behavior": "只回答 FEISHU-702 的当前 owner 是 Alice，无 blocker，状态代码冻结，窗口本周五晚。不混入 Alice 在文档评审或运维演练中的其他角色信息，也不混入其他项目的 blocker 或状态。"
+    },
+    {
+      "query": "FEISHU-702 的发布是否就绪？还有没有阻塞项？",
+      "expected_good_behavior": "回答发布就绪，无阻塞项（安全审计已通过，回归测试通过，产品验收通过）。不引用运维演练或生产环境中的其他 blocker。"
+    },
+    {
+      "query": "谁是 FEISHU-702 的负责人？请确认。",
+      "expected_good_behavior": "指定 Alice 是负责人，明确这是 FEISHU-702 的任务 owner，不提及她在其他线程中的角色如 reviewer 或演练参与者。"
+    }
+  ]
+}

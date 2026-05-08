@@ -1,0 +1,128 @@
+{
+  "case_id": "case_20260508030344241236_evidence_dependency_reasoning",
+  "family_id": "evidence_dependency_reasoning",
+  "task_id": "FEISHU-336",
+  "mode": "rule",
+  "expected_task_facts": [
+    {
+      "fact_id": "fact_001",
+      "claim": "【项目管理/陈雪】上游迁移窗口刚刚锁定，FEISHU-336 可以按计划推进上线。",
+      "required_supporting_message_ids": [
+        "om_x100b50e12d0214a8c22c35da003b353"
+      ]
+    },
+    {
+      "fact_id": "fact_002",
+      "claim": "【运维保障/周宇】听说窗口可能提前解锁，但还没确认。",
+      "required_supporting_message_ids": [
+        "om_x100b50e12d164c84c4434462d171ee0"
+      ]
+    },
+    {
+      "fact_id": "fact_003",
+      "claim": "【企业协作/高骏】窗口锁定后风险应该不大，但具体影响还要看下游。",
+      "required_supporting_message_ids": [
+        "om_x100b50e12a1d50b0c275832927076af"
+      ]
+    },
+    {
+      "fact_id": "fact_004",
+      "claim": "【项目管理/林晨】既然窗口可能提前解锁，FEISHU-336 的 blocker 基本没了。",
+      "required_supporting_message_ids": [
+        "om_x100b50e12d33d8b0c4d1a5ed75d0b53"
+      ]
+    },
+    {
+      "fact_id": "fact_005",
+      "claim": "【质量保障/赵敏】窗口已锁，回滚预案验收通过，FEISHU-336 下游无阻塞。",
+      "required_supporting_message_ids": [
+        "om_x100b50e12ab014acc2efef17e2fbce0"
+      ]
+    },
+    {
+      "fact_id": "fact_006",
+      "claim": "【项目管理/王源】陈雪 说窗口已锁定，周宇 说可能提前解锁，高骏 觉得风险不大。FEISHU-336 当前应以 陈雪 的正式消息为准。",
+      "required_supporting_message_ids": [
+        "om_x100b50e12a807890c104f049147ba36"
+      ]
+    }
+  ],
+  "expected_event_semantics": [
+    {
+      "event_semantic_id": "event_semantic_001",
+      "purpose": "Carol 正式确认上游迁移窗口已锁定，是 verified anchor",
+      "turn_kind": "event_bearing",
+      "required_supporting_message_ids": [
+        "om_x100b50e12d0214a8c22c35da003b353"
+      ]
+    },
+    {
+      "event_semantic_id": "event_semantic_002",
+      "purpose": "Bob 传播传闻说窗口可能会提前解锁，属于 hearsay",
+      "turn_kind": "event_bearing",
+      "required_supporting_message_ids": [
+        "om_x100b50e12d164c84c4434462d171ee0"
+      ]
+    },
+    {
+      "event_semantic_id": "event_semantic_003",
+      "purpose": "Diana 给出模糊推断，认为风险可控，属于 ambiguous",
+      "turn_kind": "event_bearing",
+      "required_supporting_message_ids": [
+        "om_x100b50e12a1d50b0c275832927076af"
+      ]
+    },
+    {
+      "event_semantic_id": "event_semantic_004",
+      "purpose": "Alice 基于 hearsay 过早判断 blocker 已消失",
+      "turn_kind": "event_bearing",
+      "required_supporting_message_ids": [
+        "om_x100b50e12d33d8b0c4d1a5ed75d0b53"
+      ]
+    },
+    {
+      "event_semantic_id": "event_semantic_005",
+      "purpose": "Ethan 确认下游回滚预案验收因窗口解锁而解除阻塞",
+      "turn_kind": "event_bearing",
+      "required_supporting_message_ids": [
+        "om_x100b50e12ab014acc2efef17e2fbce0"
+      ]
+    },
+    {
+      "event_semantic_id": "event_semantic_006",
+      "purpose": "Xavier 总结当前状态，需区分谁是可靠来源",
+      "turn_kind": "event_bearing",
+      "required_supporting_message_ids": [
+        "om_x100b50e12a807890c104f049147ba36"
+      ]
+    }
+  ],
+  "expected_query_answers": [
+    {
+      "query_id": "case_20260508030344241236_evidence_dependency_reasoning_semantic_query_001",
+      "query": "FEISHU-336 当前的 blocker 是什么？依据来自谁的哪条消息？",
+      "expected_answer_summary": "指出当前 blocker（上游窗口已锁定），依据来自 Carol 的正式确认（beat_001），并说明 Bob 的传闻（beat_002）不可作为正式依据。",
+      "required_supporting_message_ids": [
+        "om_x100b50e12d0214a8c22c35da003b353",
+        "om_x100b50e12d164c84c4434462d171ee0",
+        "om_x100b50e12a1d50b0c275832927076af",
+        "om_x100b50e12d33d8b0c4d1a5ed75d0b53",
+        "om_x100b50e12ab014acc2efef17e2fbce0",
+        "om_x100b50e12a807890c104f049147ba36"
+      ]
+    },
+    {
+      "query_id": "case_20260508030344241236_evidence_dependency_reasoning_semantic_query_002",
+      "query": "FEISHU-336 的上游窗口状态如何影响下游任务？",
+      "expected_answer_summary": "解释上游窗口锁定解除了下游回滚预案验收的阻塞，具体依据 Ethan 的确认（beat_005），并区分 Carol 的正式消息与 Diana 的模糊推断（beat_003）。",
+      "required_supporting_message_ids": [
+        "om_x100b50e12d0214a8c22c35da003b353",
+        "om_x100b50e12d164c84c4434462d171ee0",
+        "om_x100b50e12a1d50b0c275832927076af",
+        "om_x100b50e12d33d8b0c4d1a5ed75d0b53",
+        "om_x100b50e12ab014acc2efef17e2fbce0",
+        "om_x100b50e12a807890c104f049147ba36"
+      ]
+    }
+  ]
+}

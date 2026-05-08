@@ -1,0 +1,61 @@
+{
+  "case_id": "case_20260508030344241235_contradiction_update",
+  "family_id": "contradiction_update",
+  "task_id": "FEISHU-335",
+  "state_changes": [
+    {
+      "task_id": "FEISHU-335",
+      "field": "owner",
+      "sequence": [
+        {
+          "value": "bob",
+          "status": "initial"
+        },
+        {
+          "value": "david",
+          "status": "historical"
+        },
+        {
+          "value": "carol",
+          "status": "current"
+        }
+      ]
+    },
+    {
+      "task_id": "FEISHU-335",
+      "field": "deadline",
+      "sequence": [
+        {
+          "value": "2026-03-15",
+          "status": "initial"
+        },
+        {
+          "value": "2026-03-20",
+          "status": "historical"
+        },
+        {
+          "value": "2026-03-25",
+          "status": "current"
+        }
+      ]
+    },
+    {
+      "task_id": "FEISHU-335",
+      "field": "status",
+      "sequence": [
+        {
+          "value": "open",
+          "status": "initial"
+        },
+        {
+          "value": "in_progress",
+          "status": "historical"
+        },
+        {
+          "value": "blocked",
+          "status": "current"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,463 @@
+{
+  "story_id": "story_case_20260506211506345155_anti_interference",
+  "case_id": "case_20260506211506345155_anti_interference",
+  "family_id": "anti_interference",
+  "task": {
+    "task_id": "FEISHU-655",
+    "task_name": "支付网关灰度放量准备",
+    "role": "target_task"
+  },
+  "actors": [
+    {
+      "actor_id": "alice",
+      "display_name": "Alice",
+      "role": "infra_pm"
+    },
+    {
+      "actor_id": "bob",
+      "display_name": "Bob",
+      "role": "sre_lead"
+    },
+    {
+      "actor_id": "carol",
+      "display_name": "Carol",
+      "role": "release_manager"
+    },
+    {
+      "actor_id": "dave",
+      "display_name": "Dave",
+      "role": "security_engineer"
+    },
+    {
+      "actor_id": "eve",
+      "display_name": "Eve",
+      "role": "compliance_officer"
+    },
+    {
+      "actor_id": "frank",
+      "display_name": "Frank",
+      "role": "network_architect"
+    },
+    {
+      "actor_id": "grace",
+      "display_name": "Grace",
+      "role": "db_admin"
+    },
+    {
+      "actor_id": "hank",
+      "display_name": "Hank",
+      "role": "devops_engineer"
+    },
+    {
+      "actor_id": "iris",
+      "display_name": "Iris",
+      "role": "qa_lead"
+    },
+    {
+      "actor_id": "jack",
+      "display_name": "Jack",
+      "role": "ops_manager"
+    },
+    {
+      "actor_id": "karen",
+      "display_name": "Karen",
+      "role": "project_coordinator"
+    },
+    {
+      "actor_id": "leo",
+      "display_name": "Leo",
+      "role": "cloud_architect"
+    },
+    {
+      "actor_id": "mia",
+      "display_name": "Mia",
+      "role": "data_analyst"
+    },
+    {
+      "actor_id": "nick",
+      "display_name": "Nick",
+      "role": "vendor_manager"
+    },
+    {
+      "actor_id": "olivia",
+      "display_name": "Olivia",
+      "role": "risk_assessor"
+    },
+    {
+      "actor_id": "paul",
+      "display_name": "Paul",
+      "role": "team_lead"
+    },
+    {
+      "actor_id": "quinn",
+      "display_name": "Quinn",
+      "role": "support_engineer"
+    },
+    {
+      "actor_id": "rachel",
+      "display_name": "Rachel",
+      "role": "product_owner"
+    },
+    {
+      "actor_id": "sam",
+      "display_name": "Sam",
+      "role": "scrum_master"
+    },
+    {
+      "actor_id": "tina",
+      "display_name": "Tina",
+      "role": "ui_designer"
+    },
+    {
+      "actor_id": "uma",
+      "display_name": "Uma",
+      "role": "backend_dev"
+    },
+    {
+      "actor_id": "victor",
+      "display_name": "Victor",
+      "role": "frontend_dev"
+    },
+    {
+      "actor_id": "wendy",
+      "display_name": "Wendy",
+      "role": "legal_advisor"
+    },
+    {
+      "actor_id": "xavier",
+      "display_name": "Xavier",
+      "role": "target_owner"
+    },
+    {
+      "actor_id": "yara",
+      "display_name": "Yara",
+      "role": "migration_lead"
+    },
+    {
+      "actor_id": "zack",
+      "display_name": "Zack",
+      "role": "auditor"
+    },
+    {
+      "actor_id": "amy",
+      "display_name": "Amy",
+      "role": "hrbp"
+    },
+    {
+      "actor_id": "brian",
+      "display_name": "Brian",
+      "role": "finance_analyst"
+    }
+  ],
+  "task_actor_layout": {
+    "target_task_id": "FEISHU-655",
+    "shared_actors": [
+      "alice",
+      "bob",
+      "carol",
+      "dave",
+      "eve",
+      "frank",
+      "grace",
+      "hank",
+      "iris",
+      "jack",
+      "karen",
+      "leo",
+      "mia",
+      "nick",
+      "olivia",
+      "paul"
+    ],
+    "interference_context_blocks": [
+      {
+        "context_ref": "ctx_migration",
+        "context_label": "数据中心迁移任务",
+        "noise_source_type": "shared_actor_noise",
+        "relationship_to_target": "Alice 在 FEISHU-655 中是 infra_pm，同时在 ctx_migration 中也是负责人，两个任务共用 Alice，易把迁移阻塞项混淆入目标任务。"
+      },
+      {
+        "context_ref": "ctx_compliance",
+        "context_label": "全球合规取证支持任务",
+        "noise_source_type": "similar_wording_noise",
+        "relationship_to_target": "该任务也使用 'blocker' 和 'ready' 措辞，且 Eve 和 Dave 同时参与两个任务，易把合规取证阻塞误认为是 FEISHU-655 的阻塞。"
+      },
+      {
+        "context_ref": "ctx_network_upgrade",
+        "context_label": "骨干网络升级讨论",
+        "noise_source_type": "parallel_discussion_noise",
+        "relationship_to_target": "Frank 和 Leo 在并行讨论中多次提到 'window' 和 'owner'，与 FEISHU-655 的放量窗口表述相似。"
+      },
+      {
+        "context_ref": "ctx_db_migration",
+        "context_label": "数据库版本升级任务",
+        "noise_source_type": "similar_wording_noise",
+        "relationship_to_target": "Grace 和 Hank 的数据库升级也使用 '收口' 和 'owner'，容易混淆两个任务的当前负责人。"
+      },
+      {
+        "context_ref": "ctx_vendor_review",
+        "context_label": "供应商评审同步",
+        "noise_source_type": "shared_actor_noise",
+        "relationship_to_target": "Nick 和 Paul 在供应商评审中讨论的 blocker 和时间线并非 FEISHU-655 相关。"
+      }
+    ],
+    "actor_task_roles": [
+      {
+        "actor_id": "alice",
+        "task_id": "FEISHU-655",
+        "role": "target_owner"
+      },
+      {
+        "actor_id": "alice",
+        "context_ref": "ctx_migration",
+        "role": "migration_pm"
+      },
+      {
+        "actor_id": "bob",
+        "task_id": "FEISHU-655",
+        "role": "sre_support"
+      },
+      {
+        "actor_id": "bob",
+        "context_ref": "ctx_network_upgrade",
+        "role": "network_sre"
+      },
+      {
+        "actor_id": "carol",
+        "task_id": "FEISHU-655",
+        "role": "release_coordinator"
+      },
+      {
+        "actor_id": "carol",
+        "context_ref": "ctx_compliance",
+        "role": "release_audit"
+      },
+      {
+        "actor_id": "dave",
+        "task_id": "FEISHU-655",
+        "role": "security_reviewer"
+      },
+      {
+        "actor_id": "dave",
+        "context_ref": "ctx_compliance",
+        "role": "security_lead"
+      },
+      {
+        "actor_id": "eve",
+        "context_ref": "ctx_compliance",
+        "role": "compliance_owner"
+      },
+      {
+        "actor_id": "frank",
+        "context_ref": "ctx_network_upgrade",
+        "role": "network_owner"
+      },
+      {
+        "actor_id": "grace",
+        "context_ref": "ctx_db_migration",
+        "role": "db_owner"
+      },
+      {
+        "actor_id": "hank",
+        "context_ref": "ctx_db_migration",
+        "role": "db_ops"
+      },
+      {
+        "actor_id": "iris",
+        "task_id": "FEISHU-655",
+        "role": "qa_coordinator"
+      },
+      {
+        "actor_id": "jack",
+        "context_ref": "ctx_migration",
+        "role": "ops_migration"
+      },
+      {
+        "actor_id": "karen",
+        "task_id": "FEISHU-655",
+        "role": "project_coordinator"
+      },
+      {
+        "actor_id": "karen",
+        "context_ref": "ctx_migration",
+        "role": "migration_coordinator"
+      },
+      {
+        "actor_id": "leo",
+        "context_ref": "ctx_network_upgrade",
+        "role": "cloud_architect"
+      },
+      {
+        "actor_id": "mia",
+        "task_id": "FEISHU-655",
+        "role": "analytics_support"
+      },
+      {
+        "actor_id": "nick",
+        "context_ref": "ctx_vendor_review",
+        "role": "vendor_manager"
+      },
+      {
+        "actor_id": "olivia",
+        "task_id": "FEISHU-655",
+        "role": "risk_assessor"
+      },
+      {
+        "actor_id": "olivia",
+        "context_ref": "ctx_compliance",
+        "role": "risk_reviewer"
+      },
+      {
+        "actor_id": "paul",
+        "context_ref": "ctx_vendor_review",
+        "role": "team_lead"
+      },
+      {
+        "actor_id": "xavier",
+        "task_id": "FEISHU-655",
+        "role": "target_owner_advisory"
+      },
+      {
+        "actor_id": "yara",
+        "context_ref": "ctx_migration",
+        "role": "migration_lead"
+      }
+    ]
+  },
+  "state_changes": [
+    {
+      "task_id": "FEISHU-655",
+      "field": "owner",
+      "sequence": [
+        {
+          "value": "Alice",
+          "status": "current"
+        }
+      ]
+    },
+    {
+      "task_id": "FEISHU-655",
+      "field": "blocker",
+      "sequence": [
+        {
+          "value": "支付风控回归测试未完成",
+          "status": "current"
+        }
+      ]
+    },
+    {
+      "task_id": "FEISHU-655",
+      "field": "release_window",
+      "sequence": [
+        {
+          "value": "待定，需等待风控回归通过",
+          "status": "current"
+        }
+      ]
+    }
+  ],
+  "message_beats": [
+    {
+      "beat_id": "beat_001",
+      "speaker": "Alice",
+      "session_id": "main_chat",
+      "message_intent": "FEISHU-655 当前由 Alice 负责收口，真正 blocker 是支付风控回归测试还没跑完，窗口暂时锁定不了。",
+      "purpose": "FEISHU-655 当前由 Alice 负责收口，真正 blocker 是支付风控回归测试还没跑完，窗口暂时锁定不了。",
+      "speaker_actor_id": "alice"
+    },
+    {
+      "beat_id": "beat_002",
+      "speaker": "Bob",
+      "session_id": "main_chat",
+      "message_intent": "运维演练那边也卡在 blocker，不过那是一条并行讨论，不是 FEISHU-655 的变更。",
+      "purpose": "运维演练那边也卡在 blocker，不过那是一条并行讨论，不是 FEISHU-655 的变更。",
+      "speaker_actor_id": "bob"
+    },
+    {
+      "beat_id": "beat_003",
+      "speaker": "Carol",
+      "session_id": "thread_release",
+      "message_intent": "Alice 晚上还要审文档收口，但那只是 reviewer 身份，不代表 FEISHU-655 再次换 owner。",
+      "purpose": "Alice 晚上还要审文档收口，但那只是 reviewer 身份，不代表 FEISHU-655 再次换 owner。",
+      "speaker_actor_id": "carol"
+    },
+    {
+      "beat_id": "beat_004",
+      "speaker": "Eve",
+      "session_id": "main_chat",
+      "message_intent": "合规取证那边 blocker 是法规文件不齐，这个和 FEISHU-655 没关系，别混在一起。",
+      "purpose": "合规取证那边 blocker 是法规文件不齐，这个和 FEISHU-655 没关系，别混在一起。",
+      "speaker_actor_id": "eve"
+    },
+    {
+      "beat_id": "beat_005",
+      "speaker": "Frank",
+      "session_id": "thread_network",
+      "message_intent": "骨干网络升级的窗口计划在下周一，这个时间点不是 FEISHU-655 的放量窗口。",
+      "purpose": "骨干网络升级的窗口计划在下周一，这个时间点不是 FEISHU-655 的放量窗口。",
+      "speaker_actor_id": "frank"
+    },
+    {
+      "beat_id": "beat_006",
+      "speaker": "Grace",
+      "session_id": "thread_db",
+      "message_intent": "数据库升级的收口负责人是 Grace，不是 Alice，两个任务不要搞混。",
+      "purpose": "数据库升级的收口负责人是 Grace，不是 Alice，两个任务不要搞混。",
+      "speaker_actor_id": "grace"
+    },
+    {
+      "beat_id": "beat_007",
+      "speaker": "Nick",
+      "session_id": "thread_vendor",
+      "message_intent": "供应商评审的 blocker 是合同条款，与 FEISHU-655 的风控回归无关。",
+      "purpose": "供应商评审的 blocker 是合同条款，与 FEISHU-655 的风控回归无关。",
+      "speaker_actor_id": "nick"
+    },
+    {
+      "beat_id": "beat_008",
+      "speaker": "Alice",
+      "session_id": "thread_release",
+      "message_intent": "注意：FEISHU-655 的 owner 没有变化，还是 Alice，其他讨论的 owner 变更都是不同任务的。",
+      "purpose": "注意：FEISHU-655 的 owner 没有变化，还是 Alice，其他讨论的 owner 变更都是不同任务的。",
+      "speaker_actor_id": "alice"
+    },
+    {
+      "beat_id": "beat_009",
+      "speaker": "Iris",
+      "session_id": "main_chat",
+      "message_intent": "FEISHU-655 的 blocker 只有风控回归，数据迁移和合规取证的 blocker 都不是本任务的。",
+      "purpose": "FEISHU-655 的 blocker 只有风控回归，数据迁移和合规取证的 blocker 都不是本任务的。",
+      "speaker_actor_id": "iris"
+    },
+    {
+      "beat_id": "beat_010",
+      "speaker": "Jack",
+      "session_id": "main_chat",
+      "message_intent": "迁移任务的 blocker 是机房电力，不是支付风控，大家记住两个任务是独立的。",
+      "purpose": "迁移任务的 blocker 是机房电力，不是支付风控，大家记住两个任务是独立的。",
+      "speaker_actor_id": "jack"
+    },
+    {
+      "beat_id": "beat_011",
+      "speaker": "Karen",
+      "session_id": "main_chat",
+      "message_intent": "FEISHU-655 的最新状态：Alice 是 owner，风控回归 blocker，窗口待定。其他项目的状态不要混入本条消息。",
+      "purpose": "FEISHU-655 的最新状态：Alice 是 owner，风控回归 blocker，窗口待定。其他项目的状态不要混入本条消息。",
+      "speaker_actor_id": "karen"
+    },
+    {
+      "beat_id": "beat_012",
+      "speaker": "Xavier",
+      "session_id": "thread_release",
+      "message_intent": "我确认 FEISHU-655 的当前状态就是 Alice 负责、风控回归 blocker，没有其他干扰项。",
+      "purpose": "我确认 FEISHU-655 的当前状态就是 Alice 负责、风控回归 blocker，没有其他干扰项。",
+      "speaker_actor_id": "xavier"
+    }
+  ],
+  "planned_probe_queries": [
+    {
+      "query": "FEISHU-655 当前的负责人是谁？真正的 blocker 是什么？Alice 在其他任务（如数据中心迁移、文档收口）中的角色是否会改变 FEISHU-655 的负责人？Bob 在运维演练中提到的 blocker 是否属于 FEISHU-655？为什么？",
+      "expected_good_behavior": "只回答 Alice 是当前 owner，支付风控回归测试未完成是当前 blocker；明确说明 Alice 在其他任务中的身份不影响 FEISHU-655 的 owner；明确排除运维演练 blocker，因其属于并行讨论。"
+    }
+  ]
+}

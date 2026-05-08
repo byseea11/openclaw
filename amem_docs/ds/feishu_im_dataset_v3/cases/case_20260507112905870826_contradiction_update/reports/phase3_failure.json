@@ -1,0 +1,9 @@
+{
+  "case_dir": "amem_docs/ds/feishu_im_dataset_v3/cases/case_20260507112905870826_contradiction_update",
+  "phase": "phase3",
+  "failed_stage": "openclaw-real-baseline-eval",
+  "status": "failed",
+  "failed_at": "2026-05-07T15:59:29.849354+00:00",
+  "error_type": "RuntimeScriptError",
+  "error_message": "Phase 3 runtime script failed: command=node /Users/byseea/programscoding/nanobot/openclaw-main/feishu_task_wiki_benchmark_builder/runtime/openclaw_baseline_eval.mjs --case-dir amem_docs/ds/feishu_im_dataset_v3/cases/case_20260507112905870826_contradiction_update --semantic-gold rule --json returncode=-15 stderr="
+}

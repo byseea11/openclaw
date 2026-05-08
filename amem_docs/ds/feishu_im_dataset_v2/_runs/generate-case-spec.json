@@ -1,0 +1,48 @@
+{
+  "case_dir": "amem_docs/ds/feishu_im_dataset_v2/cases/case_feishu_505160829_example",
+  "case_spec_path": "amem_docs/ds/feishu_im_dataset_v2/cases/case_feishu_505160829_example/case_spec.json",
+  "llm_mode": "live",
+  "generation_modes": {
+    "spec": "live"
+  },
+  "dataset_manifest": {
+    "dataset_version": "v2",
+    "builder_version": "v2",
+    "case_count": 4,
+    "case_ids": [
+      "case_feishu_505123758_example",
+      "case_feishu_505124755_example",
+      "case_feishu_505150207_example",
+      "case_feishu_505160829_example"
+    ],
+    "created_at": "2026-05-05T16:08:33Z",
+    "default_operator_mode": {
+      "operator_identity": "user",
+      "delivery_mode": "prefixed_single_operator"
+    }
+  },
+  "case_spec": {
+    "case_id": "case_feishu_505160829_example",
+    "task_id": "FEISHU-505160829",
+    "title": "",
+    "company_type": "",
+    "department_hints": [
+      "产品",
+      "研发",
+      "安全",
+      "合规",
+      "风控",
+      "运维",
+      "数据平台",
+      "测试",
+      "法务",
+      "项目管理办公室"
+    ],
+    "scenario_profile": "enterprise_release_coordination",
+    "title_hint": "某金融科技公司因新功能发布涉及跨部门协作，需协调产品、研发、安全、合规、风控、运维、数据平台、测试、法务和项目管理办公室等10个部门，确保发布流程合规且高效。",
+    "main_goal_hint": "模拟一次高风险版本发布，涉及安全合规审查、风控策略调整、数据迁移和跨部门审批，最终成功上线。",
+    "main_goal": "",
+    "difficulty": "hard",
+    "seed": 505160829
+  }
+}

@@ -1,0 +1,53 @@
+{
+  "case_id": "case_20260507112905870826_contradiction_update",
+  "family_id": "contradiction_update",
+  "task_id": "FEISHU-726",
+  "required_case_structure": [
+    "target_task",
+    "owner_or_schedule_field",
+    "multi_step_update_sequence",
+    "supersedes_relation"
+  ],
+  "message_beat_ids": [
+    "beat_001",
+    "beat_002",
+    "beat_003",
+    "beat_004",
+    "beat_005",
+    "beat_006",
+    "beat_007",
+    "beat_008",
+    "beat_009",
+    "beat_010",
+    "beat_011",
+    "beat_012",
+    "beat_013",
+    "beat_014",
+    "beat_015",
+    "beat_016",
+    "beat_017",
+    "beat_018"
+  ],
+  "probe_queries": [
+    {
+      "query": "FEISHU-726 的当前负责人是谁？",
+      "expected_good_behavior": "返回 Xavier，并说明 Carol 是初始负责人，Alice 是历史负责人，Xavier 是当前负责人，旧负责人已失效。"
+    },
+    {
+      "query": "FEISHU-726 的发布窗口是哪天？",
+      "expected_good_behavior": "返回 2026年5月15日，并说明原定5月10日，后改为5月12日，最终确认为5月15日，旧窗口已作废。"
+    },
+    {
+      "query": "FEISHU-726 当前状态如何？",
+      "expected_good_behavior": "返回已暂停，并说明初始为待启动，后改为进行中，当前因组件升级延迟暂停。"
+    },
+    {
+      "query": "FEISHU-726 有哪些历史负责人？",
+      "expected_good_behavior": "列出 Carol（初始负责人）、Alice（历史负责人），并强调 Xavier 是当前负责人。"
+    },
+    {
+      "query": "FEISHU-726 的窗口为什么改到5月15日？",
+      "expected_good_behavior": "说明最初为5月10日，Alice 接手后改为5月12日，Xavier 接手后因依赖组件升级延迟改为5月15日，旧日期已废。"
+    }
+  ]
+}

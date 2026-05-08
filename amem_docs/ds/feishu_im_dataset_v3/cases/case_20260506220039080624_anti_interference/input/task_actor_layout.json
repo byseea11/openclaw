@@ -1,0 +1,231 @@
+{
+  "case_id": "case_20260506220039080624_anti_interference",
+  "family_id": "anti_interference",
+  "task_id": "FEISHU-724",
+  "actors": [
+    {
+      "actor_id": "alice",
+      "display_name": "Alice",
+      "role": "project_manager"
+    },
+    {
+      "actor_id": "bob",
+      "display_name": "Bob",
+      "role": "ops_manager"
+    },
+    {
+      "actor_id": "carol",
+      "display_name": "Carol",
+      "role": "release_manager"
+    },
+    {
+      "actor_id": "diana",
+      "display_name": "Diana",
+      "role": "qa_lead"
+    },
+    {
+      "actor_id": "edward",
+      "display_name": "Edward",
+      "role": "dev_lead"
+    },
+    {
+      "actor_id": "fiona",
+      "display_name": "Fiona",
+      "role": "security_auditor"
+    },
+    {
+      "actor_id": "george",
+      "display_name": "George",
+      "role": "infra_engineer"
+    },
+    {
+      "actor_id": "helen",
+      "display_name": "Helen",
+      "role": "compliance_officer"
+    },
+    {
+      "actor_id": "ivan",
+      "display_name": "Ivan",
+      "role": "tech_writer"
+    },
+    {
+      "actor_id": "julia",
+      "display_name": "Julia",
+      "role": "customer_success_manager"
+    },
+    {
+      "actor_id": "kevin",
+      "display_name": "Kevin",
+      "role": "third_party_vendor_contact"
+    },
+    {
+      "actor_id": "laura",
+      "display_name": "Laura",
+      "role": "data_analyst"
+    },
+    {
+      "actor_id": "mike",
+      "display_name": "Mike",
+      "role": "network_engineer"
+    },
+    {
+      "actor_id": "nancy",
+      "display_name": "Nancy",
+      "role": "hr_business_partner"
+    },
+    {
+      "actor_id": "oscar",
+      "display_name": "Oscar",
+      "role": "finance_controller"
+    },
+    {
+      "actor_id": "pat",
+      "display_name": "Pat",
+      "role": "procurement_specialist"
+    },
+    {
+      "actor_id": "quinn",
+      "display_name": "Quinn",
+      "role": "legal_counsel"
+    },
+    {
+      "actor_id": "rachel",
+      "display_name": "Rachel",
+      "role": "marketing_coordinator"
+    },
+    {
+      "actor_id": "sam",
+      "display_name": "Sam",
+      "role": "sales_engineer"
+    },
+    {
+      "actor_id": "tina",
+      "display_name": "Tina",
+      "role": "training_lead"
+    },
+    {
+      "actor_id": "ursula",
+      "display_name": "Ursula",
+      "role": "ux_designer"
+    },
+    {
+      "actor_id": "victor",
+      "display_name": "Victor",
+      "role": "devops_engineer"
+    },
+    {
+      "actor_id": "wendy",
+      "display_name": "Wendy",
+      "role": "product_owner"
+    },
+    {
+      "actor_id": "xander",
+      "display_name": "Xander",
+      "role": "architect"
+    },
+    {
+      "actor_id": "yvonne",
+      "display_name": "Yvonne",
+      "role": "scrum_master"
+    },
+    {
+      "actor_id": "zack",
+      "display_name": "Zack",
+      "role": "support_engineer"
+    },
+    {
+      "actor_id": "amy",
+      "display_name": "Amy",
+      "role": "release_train_engineer"
+    },
+    {
+      "actor_id": "brian",
+      "display_name": "Brian",
+      "role": "site_reliability_engineer"
+    }
+  ],
+  "task_actor_layout": {
+    "target_task_id": "FEISHU-724",
+    "shared_actors": [
+      "alice",
+      "bob",
+      "carol",
+      "diana",
+      "edward"
+    ],
+    "interference_context_blocks": [
+      {
+        "context_ref": "ctx_doc_review",
+        "context_label": "并行文档收口讨论",
+        "noise_source_type": "shared_actor_noise",
+        "relationship_to_target": "Alice 在文档收口里是 reviewer，不应被误当成 FEISHU-724 的 owner 再次变更。"
+      },
+      {
+        "context_ref": "ctx_ops_rehearsal",
+        "context_label": "运维演练 blocker 讨论",
+        "noise_source_type": "similar_wording_noise",
+        "relationship_to_target": "Bob 在这里说的 blocker 和 ready 不是 FEISHU-724 的当前 blocker。"
+      },
+      {
+        "context_ref": "ctx_release_sync",
+        "context_label": "并行发布节奏同步",
+        "noise_source_type": "parallel_discussion_noise",
+        "relationship_to_target": "并行同步里的 window/ready 讨论会和 FEISHU-724 混淆。"
+      },
+      {
+        "context_ref": "ctx_security_review",
+        "context_label": "安全审查阻塞项",
+        "noise_source_type": "shared_actor_noise",
+        "relationship_to_target": "Alice 是安全审查的 reviewer，但该审查属于另一任务，与 FEISHU-724 无关。"
+      },
+      {
+        "context_ref": "ctx_vendor_onboarding",
+        "context_label": "第三方供应商对接",
+        "noise_source_type": "parallel_discussion_noise",
+        "relationship_to_target": "Kevin 作为第三方 vendor 联系人，参与另一条并行任务对接，其提到的 'blocker' 与 FEISHU-724 无关。"
+      }
+    ],
+    "actor_task_roles": [
+      {
+        "actor_id": "alice",
+        "task_id": "FEISHU-724",
+        "role": "target_owner"
+      },
+      {
+        "actor_id": "alice",
+        "context_ref": "ctx_doc_review",
+        "role": "reviewer"
+      },
+      {
+        "actor_id": "bob",
+        "context_ref": "ctx_ops_rehearsal",
+        "role": "ops_owner"
+      },
+      {
+        "actor_id": "carol",
+        "context_ref": "ctx_release_sync",
+        "role": "release_coordinator"
+      },
+      {
+        "actor_id": "diana",
+        "task_id": "FEISHU-724",
+        "role": "qa_lead"
+      },
+      {
+        "actor_id": "edward",
+        "task_id": "FEISHU-724",
+        "role": "dev_lead"
+      },
+      {
+        "actor_id": "alice",
+        "context_ref": "ctx_security_review",
+        "role": "reviewer"
+      },
+      {
+        "actor_id": "kevin",
+        "context_ref": "ctx_vendor_onboarding",
+        "role": "vendor_contact"
+      }
+    ]
+  }
+}

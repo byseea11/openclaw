@@ -1,0 +1,11 @@
+{
+  "task_id": "task:FEISHU-666",
+  "task_key": "FEISHU-666",
+  "source_session_id": "task:FEISHU-666::chat:oc_f1c581e38c20b845ed42c30671f63193",
+  "source_scope": "chat:oc_f1c581e38c20b845ed42c30671f63193",
+  "source_type": "thread",
+  "source_id": "thread:ops_window_thread",
+  "latest_ingest_version": 4,
+  "created_at": "2026-05-07T05:34:02.992Z",
+  "updated_at": "2026-05-07T05:36:48.525Z"
+}

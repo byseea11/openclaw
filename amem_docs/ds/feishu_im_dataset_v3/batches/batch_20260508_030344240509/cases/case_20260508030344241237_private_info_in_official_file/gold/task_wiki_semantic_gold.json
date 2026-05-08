@@ -1,0 +1,249 @@
+{
+  "case_id": "case_20260508030344241237_private_info_in_official_file",
+  "family_id": "private_info_in_official_file",
+  "task_id": "FEISHU-337",
+  "mode": "rule",
+  "expected_task_facts": [
+    {
+      "fact_id": "fact_001",
+      "claim": "【项目管理/林晨】FEISHU-337 服务器迁移上线计划启动，目标 5 月底完成。",
+      "required_supporting_message_ids": [
+        "om_x100b50e10544b8a4c2b9797d34a2e49"
+      ]
+    },
+    {
+      "fact_id": "fact_002",
+      "claim": "【项目管理/何然】上线 checklist 已上传，附件里每人填了备注，请查看。",
+      "required_supporting_message_ids": [
+        "om_x100b50e1056d69b0c2213ca05f5370f"
+      ]
+    },
+    {
+      "fact_id": "fact_003",
+      "claim": "【研发平台/高骏】我在 checklist 备注写了：20-21 号只能下午参加评审，上午有私事。",
+      "required_supporting_message_ids": [
+        "om_x100b50e105749c8cc4d03d16249abe0"
+      ]
+    },
+    {
+      "fact_id": "fact_004",
+      "claim": "【研发平台/王源】高骏 20-21 号上午不行，那评审得调时间？这个算 blocker 吗？",
+      "required_supporting_message_ids": [
+        "om_x100b50e1051c48b0c2c78a0b493a6eb"
+      ]
+    },
+    {
+      "fact_id": "fact_005",
+      "claim": "【项目管理/林晨】个人备注不影响任务状态，blocker 只有 checklist 里标识的正式依赖项。",
+      "required_supporting_message_ids": [
+        "om_x100b50e1052744b4c3dec34777a6dcd"
+      ]
+    },
+    {
+      "fact_id": "fact_006",
+      "claim": "【企业协作/赵敏】Qianhao 说唐越私下答应补供应商材料，但我觉得那不算正式承诺。",
+      "required_supporting_message_ids": [
+        "om_x100b50e102c120acc29626864c186b8"
+      ]
+    },
+    {
+      "fact_id": "fact_007",
+      "claim": "【企业协作/赵敏】我跟钱浩私下聊过，但没承诺时间，这不能写进任务状态里。",
+      "required_supporting_message_ids": [
+        "om_x100b50e102e804a0c361e87ee2143d5"
+      ]
+    },
+    {
+      "fact_id": "fact_008",
+      "claim": "【研发平台/罗天】网络配置依赖已确认，是 checklist 里的正式 blocker，需要周伟协调。",
+      "required_supporting_message_ids": [
+        "om_x100b50e1028d7484c3d4a88c58a69ee"
+      ]
+    },
+    {
+      "fact_id": "fact_009",
+      "claim": "【运维保障/许薇】网络配置确实是依赖项，我在 checklist 里已标注 blocked。",
+      "required_supporting_message_ids": [
+        "om_x100b50e10297fc9cc3721335adf6dbc"
+      ]
+    },
+    {
+      "fact_id": "fact_010",
+      "claim": "【研发平台/高骏】再次说明：我上午有事是个人安排，不算上线 blocker。",
+      "required_supporting_message_ids": [
+        "om_x100b50e1027dd4a0c27c6521cb515a4"
+      ]
+    },
+    {
+      "fact_id": "fact_011",
+      "claim": "【质量保障/陈雪】QA 结论按 checklist 标准项执行，没有掺入个人备注。",
+      "required_supporting_message_ids": [
+        "om_x100b50e102bf6890c49653a02547a75"
+      ]
+    },
+    {
+      "fact_id": "fact_012",
+      "claim": "【项目管理/林晨】总结：当前 FEISHU-337 blocker 只有网络配置，林晨的个人时间不影响截止日。",
+      "required_supporting_message_ids": [
+        "om_x100b50e10246889cc2f415719799e29"
+      ]
+    }
+  ],
+  "expected_event_semantics": [
+    {
+      "event_semantic_id": "event_semantic_001",
+      "purpose": "陈薇在项目群发起任务，明确目标",
+      "turn_kind": "event_bearing",
+      "required_supporting_message_ids": [
+        "om_x100b50e10544b8a4c2b9797d34a2e49"
+      ]
+    },
+    {
+      "event_semantic_id": "event_semantic_002",
+      "purpose": "上传正式上线 checklist 文件，包含个人备注",
+      "turn_kind": "event_bearing",
+      "required_supporting_message_ids": [
+        "om_x100b50e1056d69b0c2213ca05f5370f"
+      ]
+    },
+    {
+      "event_semantic_id": "event_semantic_003",
+      "purpose": "林晨在 checklist 备注中写个人时间限制",
+      "turn_kind": "event_bearing",
+      "required_supporting_message_ids": [
+        "om_x100b50e105749c8cc4d03d16249abe0"
+      ]
+    },
+    {
+      "event_semantic_id": "event_semantic_004",
+      "purpose": "王涛误读林晨备注为任务阻塞",
+      "turn_kind": "event_bearing",
+      "required_supporting_message_ids": [
+        "om_x100b50e1051c48b0c2c78a0b493a6eb"
+      ]
+    },
+    {
+      "event_semantic_id": "event_semantic_005",
+      "purpose": "陈薇纠正误读，说明个人备注不影响任务状态",
+      "turn_kind": "event_bearing",
+      "required_supporting_message_ids": [
+        "om_x100b50e1052744b4c3dec34777a6dcd"
+      ]
+    },
+    {
+      "event_semantic_id": "event_semantic_006",
+      "purpose": "唐越私下承诺补材料，被转述为正式承诺",
+      "turn_kind": "event_bearing",
+      "required_supporting_message_ids": [
+        "om_x100b50e102c120acc29626864c186b8"
+      ]
+    },
+    {
+      "event_semantic_id": "event_semantic_007",
+      "purpose": "唐越澄清私下沟通不代表正式任务状态",
+      "turn_kind": "event_bearing",
+      "required_supporting_message_ids": [
+        "om_x100b50e102e804a0c361e87ee2143d5"
+      ]
+    },
+    {
+      "event_semantic_id": "event_semantic_008",
+      "purpose": "赵毅发现网络配置依赖，更新 checklist 正式 blocker",
+      "turn_kind": "event_bearing",
+      "required_supporting_message_ids": [
+        "om_x100b50e1028d7484c3d4a88c58a69ee"
+      ]
+    },
+    {
+      "event_semantic_id": "event_semantic_009",
+      "purpose": "周伟确认网络配置为正式 blocker",
+      "turn_kind": "event_bearing",
+      "required_supporting_message_ids": [
+        "om_x100b50e10297fc9cc3721335adf6dbc"
+      ]
+    },
+    {
+      "event_semantic_id": "event_semantic_010",
+      "purpose": "林晨重申个人备注仅个人背景",
+      "turn_kind": "event_bearing",
+      "required_supporting_message_ids": [
+        "om_x100b50e1027dd4a0c27c6521cb515a4"
+      ]
+    },
+    {
+      "event_semantic_id": "event_semantic_011",
+      "purpose": "张敏确认 QA 结论来自 checklist，无个人因素",
+      "turn_kind": "event_bearing",
+      "required_supporting_message_ids": [
+        "om_x100b50e102bf6890c49653a02547a75"
+      ]
+    },
+    {
+      "event_semantic_id": "event_semantic_012",
+      "purpose": "陈薇总结当前 blocker 只有网络配置",
+      "turn_kind": "event_bearing",
+      "required_supporting_message_ids": [
+        "om_x100b50e10246889cc2f415719799e29"
+      ]
+    }
+  ],
+  "expected_query_answers": [
+    {
+      "query_id": "case_20260508030344241237_private_info_in_official_file_semantic_query_001",
+      "query": "FEISHU-337 当前的状态和 blocker 是什么？",
+      "expected_answer_summary": "回答任务状态为 blocked，blocker 为网络配置依赖，不应提及林晨的个人时间或唐越的私下承诺。",
+      "required_supporting_message_ids": [
+        "om_x100b50e10544b8a4c2b9797d34a2e49",
+        "om_x100b50e1056d69b0c2213ca05f5370f",
+        "om_x100b50e105749c8cc4d03d16249abe0",
+        "om_x100b50e1051c48b0c2c78a0b493a6eb",
+        "om_x100b50e1052744b4c3dec34777a6dcd",
+        "om_x100b50e102c120acc29626864c186b8",
+        "om_x100b50e102e804a0c361e87ee2143d5",
+        "om_x100b50e1028d7484c3d4a88c58a69ee",
+        "om_x100b50e10297fc9cc3721335adf6dbc",
+        "om_x100b50e1027dd4a0c27c6521cb515a4",
+        "om_x100b50e102bf6890c49653a02547a75",
+        "om_x100b50e10246889cc2f415719799e29"
+      ]
+    },
+    {
+      "query_id": "case_20260508030344241237_private_info_in_official_file_semantic_query_002",
+      "query": "上线 checklist 里林晨的备注是否影响 FEISHU-337 的上线时间？",
+      "expected_answer_summary": "指出林晨的备注是个人背景，不影响任务截止日，正式 blocker 只有 checklist 中标注的网络配置。",
+      "required_supporting_message_ids": [
+        "om_x100b50e10544b8a4c2b9797d34a2e49",
+        "om_x100b50e1056d69b0c2213ca05f5370f",
+        "om_x100b50e105749c8cc4d03d16249abe0",
+        "om_x100b50e1051c48b0c2c78a0b493a6eb",
+        "om_x100b50e1052744b4c3dec34777a6dcd",
+        "om_x100b50e102c120acc29626864c186b8",
+        "om_x100b50e102e804a0c361e87ee2143d5",
+        "om_x100b50e1028d7484c3d4a88c58a69ee",
+        "om_x100b50e10297fc9cc3721335adf6dbc",
+        "om_x100b50e1027dd4a0c27c6521cb515a4",
+        "om_x100b50e102bf6890c49653a02547a75",
+        "om_x100b50e10246889cc2f415719799e29"
+      ]
+    },
+    {
+      "query_id": "case_20260508030344241237_private_info_in_official_file_semantic_query_003",
+      "query": "唐越是否承诺了供应商材料？这算 FEISHU-337 的正式要求吗？",
+      "expected_answer_summary": "说明唐越的私下沟通不是正式承诺，不能作为任务状态，正式要求以上线 checklist 为准。",
+      "required_supporting_message_ids": [
+        "om_x100b50e10544b8a4c2b9797d34a2e49",
+        "om_x100b50e1056d69b0c2213ca05f5370f",
+        "om_x100b50e105749c8cc4d03d16249abe0",
+        "om_x100b50e1051c48b0c2c78a0b493a6eb",
+        "om_x100b50e1052744b4c3dec34777a6dcd",
+        "om_x100b50e102c120acc29626864c186b8",
+        "om_x100b50e102e804a0c361e87ee2143d5",
+        "om_x100b50e1028d7484c3d4a88c58a69ee",
+        "om_x100b50e10297fc9cc3721335adf6dbc",
+        "om_x100b50e1027dd4a0c27c6521cb515a4",
+        "om_x100b50e102bf6890c49653a02547a75",
+        "om_x100b50e10246889cc2f415719799e29"
+      ]
+    }
+  ]
+}

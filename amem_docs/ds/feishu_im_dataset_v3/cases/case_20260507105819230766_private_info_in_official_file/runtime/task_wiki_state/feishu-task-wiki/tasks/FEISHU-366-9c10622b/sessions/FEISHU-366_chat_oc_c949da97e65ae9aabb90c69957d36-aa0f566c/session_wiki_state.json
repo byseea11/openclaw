@@ -1,0 +1,84 @@
+{
+  "version": 1,
+  "task_id": "task:FEISHU-366",
+  "task_key": "FEISHU-366",
+  "source_session_id": "task:FEISHU-366::chat:oc_c949da97e65ae9aabb90c69957d363bd",
+  "source_scope": "chat:oc_c949da97e65ae9aabb90c69957d363bd",
+  "source_type": "thread",
+  "source_id": "thread:review_meeting_thread",
+  "session_title": "task:FEISHU-366::chat:oc_c949da97e65ae9aabb90c69957d363bd",
+  "time_range": {
+    "start": "2026-05-07T11:05:36.374Z",
+    "end": "2026-05-07T11:05:36.425Z"
+  },
+  "participants": [
+    "Benchmark Root",
+    "陈雪"
+  ],
+  "relative_page_path": "sessions/FEISHU-366_chat_oc_c949da97e65ae9aabb90c69957d36-aa0f566c/session_wiki.md",
+  "session_summary": "这次讨论主要涉及：发布时间口径。",
+  "block_order": [
+    "block-发布时间口径-867908bd"
+  ],
+  "blocks": {
+    "block-发布时间口径-867908bd": {
+      "block_id": "block-发布时间口径-867908bd",
+      "anchor_id": "block-发布时间口径-867908bd",
+      "topic_key": "发布时间口径",
+      "topic_title": "发布时间口径",
+      "event_ids": [
+        "evt_409642e81306d7a3"
+      ],
+      "slots": {
+        "conclusion": [],
+        "rationale": [],
+        "objection": [],
+        "constraint": [],
+        "commitment": [],
+        "status": [
+          {
+            "event_id": "evt_409642e81306d7a3",
+            "event_type": "status_event",
+            "claim": "评审纪要：FEISHU-366 上线评审通过，签名条件满足，上线前需赵磊安全审批完成",
+            "event_time": "1778151846000",
+            "evidence_quote": "评审纪要：FEISHU-366 上线评审通过，签名条件满足，上线前需赵磊安全审批完成",
+            "event_path": "sessions/FEISHU-366_chat_oc_c949da97e65ae9aabb90c69957d36-aa0f566c/session_events.jsonl#evt_409642e81306d7a3",
+            "event_ref": "[[sessions/FEISHU-366_chat_oc_c949da97e65ae9aabb90c69957d36-aa0f566c/session_events.jsonl#evt_409642e81306d7a3|evt_409642e81306d7a3]]",
+            "entry_ref": "[[sessions/FEISHU-366_chat_oc_c949da97e65ae9aabb90c69957d36-aa0f566c/session.md#om_x100b50f35623d0a8c27c3def99763b9|om_x100b50f35623d0a8c27c3def99763b9]]",
+            "core_entry_id": "om_x100b50f35623d0a8c27c3def99763b9",
+            "subject_key": "发布时间口径",
+            "is_current": true,
+            "lifecycle_status": "active",
+            "lifecycle_reason": null,
+            "target": "评审纪要",
+            "time_target": null,
+            "scope_target": null,
+            "action": null,
+            "owner": null,
+            "objector": null,
+            "status": "评审纪要：FEISHU-366 上线评审通过，签名条件满足，上线前需赵磊安全审批完成",
+            "certainty": null
+          }
+        ],
+        "time": [],
+        "scope": []
+      },
+      "status": "resolved",
+      "evidence_refs": [
+        {
+          "event_id": "evt_409642e81306d7a3",
+          "event_path": "sessions/FEISHU-366_chat_oc_c949da97e65ae9aabb90c69957d36-aa0f566c/session_events.jsonl#evt_409642e81306d7a3",
+          "entry_ref": "[[sessions/FEISHU-366_chat_oc_c949da97e65ae9aabb90c69957d36-aa0f566c/session.md#om_x100b50f35623d0a8c27c3def99763b9|om_x100b50f35623d0a8c27c3def99763b9]]",
+          "quote": "评审纪要：FEISHU-366 上线评审通过，签名条件满足，上线前需赵磊安全审批完成"
+        }
+      ],
+      "summary": "评审纪要：FEISHU-366 上线评审通过，签名条件满足，上线前需赵磊安全审批完成"
+    }
+  },
+  "lifecycle_summary": {
+    "active_event_count": 1,
+    "historical_event_count": 0,
+    "invalid_event_count": 0
+  },
+  "updated_at": "2026-05-07T11:05:36.758Z"
+}

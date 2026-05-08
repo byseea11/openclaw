@@ -1,0 +1,9 @@
+{
+  "case_id": "case_20260506213901711117_anti_interference",
+  "family_id": "anti_interference",
+  "task_wiki_advantage": {
+    "vs_openclaw_memory_md": 0.58,
+    "vs_raw_message_rag": 0.32
+  },
+  "summary": "Task Wiki 在该 case 上保持完整 query 成功率，并相对 baseline 展现正向提升。"
+}

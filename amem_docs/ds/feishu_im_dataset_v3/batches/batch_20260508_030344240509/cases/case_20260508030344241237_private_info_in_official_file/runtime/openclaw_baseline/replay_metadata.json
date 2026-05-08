@@ -1,0 +1,79 @@
+{
+  "baseline_mode": "openclaw_real_replay",
+  "replay_kind": "gateway_agent_rpc",
+  "query_context_injected": false,
+  "replay_command_used": false,
+  "gateway_state": {
+    "failed_session_key": "agent:main:feishu-benchmark:case_20260508030344241237_private_info_in_official_file:run:1778213190192:case-transcript",
+    "failed_run_id": "phase3-case_20260508030344241237_private_info_in_offici-1778213190192-ingest-3dcb36a5f4ccb1b8",
+    "failed_wait_status": "timeout",
+    "openclaw_ingest_mode": "case_transcript",
+    "ingest_session_count": 1,
+    "sender_session_count": 1,
+    "source_session_count": 1,
+    "run_token": "1778213190192",
+    "state_dir": "amem_docs/ds/feishu_im_dataset_v3/batches/batch_20260508_030344240509/cases/case_20260508030344241237_private_info_in_official_file/runtime/openclaw_baseline_state"
+  },
+  "ingress_count": 27,
+  "openclaw_ingest_mode": "case_transcript",
+  "ingest_session_count": 1,
+  "sender_session_count": 1,
+  "source_session_count": 1,
+  "unique_idempotency_key_count": null,
+  "ingest_gateway_session_count": null,
+  "ingest_gateway_run_count": null,
+  "sender_scope_stats": [],
+  "source_scope_stats": [],
+  "memory_visibility": {
+    "status": "failed",
+    "visibility_quality": "failed",
+    "task_id": "FEISHU-337",
+    "required_message_id_count": 1,
+    "recommended_message_id_count": 3,
+    "found_message_ids": [],
+    "missing_expected_message_ids_sample": [
+      "om_x100b50e102056c4cc42d6fb8f2c2568",
+      "om_x100b50e102154a08c32bf6a336b8924",
+      "om_x100b50e10544b8a4c2b9797d34a2e49",
+      "om_x100b50e1055958acc3833f181f2a7bd",
+      "om_x100b50e1056d69b0c2213ca05f5370f",
+      "om_x100b50e1056154a4c4e61b50b5e682b",
+      "om_x100b50e105749c8cc4d03d16249abe0",
+      "om_x100b50e1050b90a0c2bafc3893ae66d",
+      "om_x100b50e1051c48b0c2c78a0b493a6eb",
+      "om_x100b50e10513a8bcc2c1951d8bb7ea3"
+    ],
+    "probe_answers": [],
+    "reasons": [
+      "真实 OpenClaw gateway source session ingest 失败 session_key=agent:main:feishu-benchmark:case_20260508030344241237_private_info_in_official_file:run:1778213190192:case-transcript: agent.wait status=timeout"
+    ],
+    "warnings": [],
+    "raw_runs": []
+  },
+  "progress_path": "amem_docs/ds/feishu_im_dataset_v3/batches/batch_20260508_030344240509/cases/case_20260508030344241237_private_info_in_official_file/runtime/openclaw_baseline/replay_progress.jsonl",
+  "raw_runs": [
+    {
+      "phase": "gateway_health",
+      "command": "openclaw gateway call health --params {} --timeout 60000 --json",
+      "returncode": 0,
+      "stdout": "{\n  \"ok\": true,\n  \"ts\": 1778213193742,\n  \"durationMs\": 0,\n  \"channels\": {\n    \"feishu\": {\n      \"configured\": true,\n      \"running\": false,\n      \"lastStartAt\": null,\n      \"lastStopAt\": null,\n      \"lastError\": null,\n      \"port\": null,\n      \"probe\": {\n        \"ok\": true,\n        \"appId\": \"cli_a961397ce3785cd2\",\n        \"botName\": \"byseeasopenclaw\",\n        \"botOpenId\": \"ou_fdfae1d55f15ebdceca9a9380feed9fd\"\n      },\n      \"lastProbeAt\": 1778213193742,\n      \"accountId\": \"default\",\n      \"accounts\": {\n        \"default\": {\n          \"configured\": true,\n          \"running\": false,\n          \"lastStartAt\": null,\n          \"lastStopAt\": null,\n          \"lastError\": null,\n          \"port\": null,\n          \"probe\": {\n            \"ok\": true,\n            \"appId\": \"cli_a961397ce3785cd2\",\n            \"botName\": \"byseeasopenclaw\",\n            \"botOpenId\": \"ou_fdfae1d55f15ebdceca9a9380feed9fd\"\n          },\n          \"lastProbeAt\": 1778213193742,\n          \"accountId\": \"default\"\n        }\n      }\n    },\n    \"zalouser\": {\n      \"configured\": false,\n      \"running\": false,\n      \"lastStartAt\": null,\n      \"lastStopAt\": null,\n      \"lastError\": null,\n      \"lastProbeAt\": null,\n      \"accountId\": \"default\",\n      \"accounts\": {\n        \"default\": {\n          \"configured\": false,\n          \"running\": false,\n          \"lastStartAt\": null,\n          \"lastStopAt\": null,\n          \"lastError\": null,\n          \"lastProbeAt\": null,\n          \"accountId\": \"default\"\n        }\n      }\n    }\n  },\n  \"channelOrder\": [\n    \"feishu\",\n    \"zalouser\"\n  ],\n  \"channelLabels\": {\n    \"feishu\": \"Feishu\",\n    \"zalouser\": \"Zalo Personal\"\n  },\n  \"heartbeatSeconds\": 1800,\n  \"defaultAgentId\": \"main\",\n  \"agents\": [\n    {\n      \"agentId\": \"main\",\n      \"isDefault\": true,\n      \"heartbeat\": {\n        \"enabled\": true,\n        \"every\": \"30m\",\n        \"everyMs\": 1800000,\n        \"prompt\": \"Read HEARTBEAT.md if it exists (workspace context). Follow it strictly. Do not infer or repeat old tasks from prior chats. If nothing needs attention, reply HEARTBEAT_OK.\",\n        \"target\": \"none\",\n        \"ackMaxChars\": 300\n      },\n      \"sessions\": {\n        \"path\": \"/Users/byseea/.openclaw/agents/main/sessions/sessions.json\",\n        \"count\": 268,\n        \"recent\": [\n          {\n            \"key\": \"agent:main:feishu-benchmark:case_20260508030344241236_evidence_dependency_reasoning:run:1778212835095:probe:memory-visibility\",\n            \"updatedAt\": 1778212964544,\n            \"age\": 229198\n          },\n          {\n            \"key\": \"agent:main:feishu-benchmark:case_20260508030344241236_evidence_dependency_reasoning:run:1778212835095:case-transcript\",\n            \"updatedAt\": 1778212934332,\n            \"age\": 259410\n          },\n          {\n            \"key\": \"agent:main:feishu-benchmark:case_20260508030344241235_contradiction_update:run:1778212466058:probe:memory-visibility\",\n            \"updatedAt\": 1778212615163,\n            \"age\": 578579\n          },\n          {\n            \"key\": \"agent:main:feishu-benchmark:case_20260508030344241235_contradiction_update:run:1778212466058:case-transcript\",\n            \"updatedAt\": 1778212570993,\n            \"age\": 622749\n          },\n          {\n            \"key\": \"agent:main:feishu-benchmark:case_20260508030344241234_anti_interference:run:1778212178254:query:case_20260508030344241234_anti_interference_query_003\",\n            \"updatedAt\": 1778212428874,\n            \"age\": 764868\n          }\n        ]\n      }\n    }\n  ],\n  \"sessions\": {\n    \"path\": \"/Users/byseea/.openclaw/agents/main/sessions/sessions.json\",\n    \"count\": 268,\n    \"recent\": [\n      {\n        \"key\": \"agent:main:feishu-benchmark:case_20260508030344241236_evidence_dependency_reasoning:run:1778212835095:probe:memory-visibility\",\n        \"updatedAt\": 1778212964544,\n        \"age\": 229198\n      },\n      {\n        \"key\": \"agent:main:feishu-benchmark:case_20260508030344241236_evidence_dependency_reasoning:run:1778212835095:case-transcript\",\n        \"updatedAt\": 1778212934332,\n        \"age\": 259410\n      },\n      {\n        \"key\": \"agent:main:feishu-benchmark:case_20260508030344241235_contradiction_update:run:1778212466058:probe:memory-visibility\",\n        \"updatedAt\": 1778212615163,\n        \"age\": 578579\n      },\n      {\n        \"key\": \"agent:main:feishu-benchmark:case_20260508030344241235_contradiction_update:run:1778212466058:case-transcript\",\n        \"updatedAt\": 1778212570993,\n        \"age\": 622749\n      },\n      {\n        \"key\": \"agent:main:feishu-benchmark:case_20260508030344241234_anti_interference:run:1778212178254:query:case_20260508030344241234_anti_interference_query_003\",\n        \"updatedAt\": 1778212428874,\n        \"age\": 764868\n      }\n    ]\n  }\n}\n",
+      "stderr": ""
+    },
+    {
+      "phase": "ingest_source_session",
+      "session_key": "agent:main:feishu-benchmark:case_20260508030344241237_private_info_in_official_file:run:1778213190192:case-transcript",
+      "idempotency_key": "phase3-case_20260508030344241237_private_info_in_offici-1778213190192-ingest-3dcb36a5f4ccb1b8",
+      "message_count": 27,
+      "gateway_session_id": "",
+      "gateway_run_id": "phase3-case_20260508030344241237_private_info_in_offici-1778213190192-ingest-3dcb36a5f4ccb1b8",
+      "command": "openclaw gateway call agent --params <json> --json",
+      "wait_command": "openclaw gateway call agent.wait --params <json> --json",
+      "history_command": "",
+      "wait_status": "timeout",
+      "returncode": 1,
+      "stdout": "{\n  \"runId\": \"phase3-case_20260508030344241237_private_info_in_offici-1778213190192-ingest-3dcb36a5f4ccb1b8\",\n  \"status\": \"timeout\",\n  \"startedAt\": 1778213199098,\n  \"endedAt\": 1778213320046\n}\n",
+      "history_stdout": "",
+      "stderr": "agent.wait status=timeout"
+    }
+  ]
+}

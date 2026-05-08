@@ -1,0 +1,1580 @@
+{
+  "case_id": "case_20260506213901711117_anti_interference",
+  "status": "success",
+  "operator_identity": "user",
+  "delivery_mode": "prefixed_single_operator",
+  "created_resources": {
+    "chat_main_chat": {
+      "chat_id": "oc_1fdc8c70f80ea1eaa4774f5d250fd0da"
+    },
+    "chat_thread_docs": {
+      "chat_id": "oc_df6fdd010e5d7d9df957b733e8ba3776"
+    },
+    "chat_thread_security": {
+      "chat_id": "oc_0120bf052898ed1b6d56f8945de330a1"
+    },
+    "chat_customer_sync_chat": {
+      "chat_id": "oc_ba319810df4016bf08242b67cd4d76e5"
+    },
+    "chat_exec_sync_chat": {
+      "chat_id": "oc_2780ad820943283bb8a3785651247be6"
+    },
+    "chat_risk_review_thread": {
+      "chat_id": "oc_7612bb5aa651d6a1c39ca3f0944c87bf"
+    },
+    "chat_handoff_thread": {
+      "chat_id": "oc_ac4a6f2dfa51c1221777ed3cda66fe84"
+    },
+    "msg_turn_001": {
+      "message_id": "om_x100b508f1c5a6130c44b37689e0f5c2",
+      "chat_id": "oc_1fdc8c70f80ea1eaa4774f5d250fd0da"
+    },
+    "msg_turn_002": {
+      "message_id": "om_x100b508f1c6e04a0c4d75b184a0065e",
+      "chat_id": "oc_1fdc8c70f80ea1eaa4774f5d250fd0da"
+    },
+    "msg_turn_015": {
+      "message_id": "om_x100b508f1c6288a4c4e3163c4e81f3c",
+      "chat_id": "oc_1fdc8c70f80ea1eaa4774f5d250fd0da"
+    },
+    "msg_turn_003": {
+      "message_id": "om_x100b508f1c767ca0c43b25ea7d811ca",
+      "chat_id": "oc_df6fdd010e5d7d9df957b733e8ba3776"
+    },
+    "msg_turn_004": {
+      "message_id": "om_x100b508f1c1d30a0c3ce27af030f765",
+      "chat_id": "oc_0120bf052898ed1b6d56f8945de330a1"
+    },
+    "msg_turn_011": {
+      "message_id": "om_x100b508f1c11e8a0c2b2e89660298df",
+      "chat_id": "oc_0120bf052898ed1b6d56f8945de330a1"
+    },
+    "msg_turn_005": {
+      "message_id": "om_x100b508f1c25c4a0c37d4c05fc5d68a",
+      "chat_id": "oc_ba319810df4016bf08242b67cd4d76e5"
+    },
+    "msg_turn_012": {
+      "message_id": "om_x100b508f1c39aca0c1187bf41a65406",
+      "chat_id": "oc_ba319810df4016bf08242b67cd4d76e5"
+    },
+    "msg_turn_006": {
+      "message_id": "om_x100b508f1c32e0a4c3f7f0aa45a1377",
+      "chat_id": "oc_2780ad820943283bb8a3785651247be6"
+    },
+    "msg_turn_013": {
+      "message_id": "om_x100b508f1ddc94a0c10eb9040e886e7",
+      "chat_id": "oc_2780ad820943283bb8a3785651247be6"
+    },
+    "thread_root_risk_review_thread": {
+      "message_id": "om_x100b508f1dd034a0c3b5ca1aa014b2b",
+      "chat_id": "oc_7612bb5aa651d6a1c39ca3f0944c87bf"
+    },
+    "thread_root_handoff_thread": {
+      "message_id": "om_x100b508f1de784acc4fe05b643a7a0a",
+      "chat_id": "oc_ac4a6f2dfa51c1221777ed3cda66fe84"
+    },
+    "msg_turn_007": {
+      "message_id": "om_x100b508f1d4d4ca0c107f2655c6b837",
+      "thread_id": "om_x100b508f1d4d4ca0c107f2655c6b837",
+      "chat_id": "oc_7612bb5aa651d6a1c39ca3f0944c87bf"
+    },
+    "msg_turn_014": {
+      "message_id": "om_x100b508f1d429ca0c4aa8a5d66a786d",
+      "thread_id": "om_x100b508f1d429ca0c4aa8a5d66a786d",
+      "chat_id": "oc_7612bb5aa651d6a1c39ca3f0944c87bf"
+    },
+    "msg_turn_008": {
+      "message_id": "om_x100b508f1d5094a0c387bfc72037141",
+      "thread_id": "om_x100b508f1d5094a0c387bfc72037141",
+      "chat_id": "oc_ac4a6f2dfa51c1221777ed3cda66fe84"
+    },
+    "msg_turn_009": {
+      "message_id": "om_x100b508f1d66d8a0c31dc5a63371c53",
+      "thread_id": "om_x100b508f1d66d8a0c31dc5a63371c53",
+      "chat_id": "oc_ac4a6f2dfa51c1221777ed3cda66fe84"
+    },
+    "msg_turn_010": {
+      "message_id": "om_x100b508f1d74c8a0c392c6a9deec8a2",
+      "thread_id": "om_x100b508f1d74c8a0c392c6a9deec8a2",
+      "chat_id": "oc_ac4a6f2dfa51c1221777ed3cda66fe84"
+    }
+  },
+  "thread_id_to_chat_id": {
+    "om_x100b508f1d4d4ca0c107f2655c6b837": "oc_7612bb5aa651d6a1c39ca3f0944c87bf",
+    "om_x100b508f1d429ca0c4aa8a5d66a786d": "oc_7612bb5aa651d6a1c39ca3f0944c87bf",
+    "om_x100b508f1d5094a0c387bfc72037141": "oc_ac4a6f2dfa51c1221777ed3cda66fe84",
+    "om_x100b508f1d66d8a0c31dc5a63371c53": "oc_ac4a6f2dfa51c1221777ed3cda66fe84",
+    "om_x100b508f1d74c8a0c392c6a9deec8a2": "oc_ac4a6f2dfa51c1221777ed3cda66fe84"
+  },
+  "action_status": [
+    {
+      "action_id": "step_001",
+      "status": "success",
+      "command": [
+        "lark-cli",
+        "im",
+        "+chat-create",
+        "--name",
+        "主群协调",
+        "--as",
+        "user"
+      ],
+      "stdout": {
+        "ok": true,
+        "identity": "user",
+        "data": {
+          "chat_id": "oc_1fdc8c70f80ea1eaa4774f5d250fd0da",
+          "chat_type": "private",
+          "external": false,
+          "name": "主群协调",
+          "owner_id": "ou_7488779f2769b648358fca04a3e1919f",
+          "share_link": "https://applink.feishu.cn/client/chat/chatter/add_by_link?link_token=29fm7ce2-3cb1-4332-94d2-cf954e373b82"
+        },
+        "_notice": {
+          "update": {
+            "current": "1.0.19",
+            "latest": "1.0.24",
+            "message": "lark-cli 1.0.24 available, current 1.0.19"
+          }
+        }
+      },
+      "stderr": "",
+      "returncode": 0
+    },
+    {
+      "action_id": "step_002",
+      "status": "success",
+      "command": [
+        "lark-cli",
+        "im",
+        "+chat-create",
+        "--name",
+        "thread_docs 会话",
+        "--as",
+        "user"
+      ],
+      "stdout": {
+        "ok": true,
+        "identity": "user",
+        "data": {
+          "chat_id": "oc_df6fdd010e5d7d9df957b733e8ba3776",
+          "chat_type": "private",
+          "external": false,
+          "name": "thread_docs 会话",
+          "owner_id": "ou_7488779f2769b648358fca04a3e1919f",
+          "share_link": "https://applink.feishu.cn/client/chat/chatter/add_by_link?link_token=566vdc3d-fb50-4598-9260-04a21807258e"
+        },
+        "_notice": {
+          "update": {
+            "current": "1.0.19",
+            "latest": "1.0.24",
+            "message": "lark-cli 1.0.24 available, current 1.0.19"
+          }
+        }
+      },
+      "stderr": "",
+      "returncode": 0
+    },
+    {
+      "action_id": "step_003",
+      "status": "success",
+      "command": [
+        "lark-cli",
+        "im",
+        "+chat-create",
+        "--name",
+        "thread_security 会话",
+        "--as",
+        "user"
+      ],
+      "stdout": {
+        "ok": true,
+        "identity": "user",
+        "data": {
+          "chat_id": "oc_0120bf052898ed1b6d56f8945de330a1",
+          "chat_type": "private",
+          "external": false,
+          "name": "thread_security 会话",
+          "owner_id": "ou_7488779f2769b648358fca04a3e1919f",
+          "share_link": "https://applink.feishu.cn/client/chat/chatter/add_by_link?link_token=400gad13-166c-4204-aba1-77850ef9dcab"
+        },
+        "_notice": {
+          "update": {
+            "current": "1.0.19",
+            "latest": "1.0.24",
+            "message": "lark-cli 1.0.24 available, current 1.0.19"
+          }
+        }
+      },
+      "stderr": "",
+      "returncode": 0
+    },
+    {
+      "action_id": "step_004",
+      "status": "success",
+      "command": [
+        "lark-cli",
+        "im",
+        "+chat-create",
+        "--name",
+        "客户同步侧群",
+        "--as",
+        "user"
+      ],
+      "stdout": {
+        "ok": true,
+        "identity": "user",
+        "data": {
+          "chat_id": "oc_ba319810df4016bf08242b67cd4d76e5",
+          "chat_type": "private",
+          "external": false,
+          "name": "客户同步侧群",
+          "owner_id": "ou_7488779f2769b648358fca04a3e1919f",
+          "share_link": "https://applink.feishu.cn/client/chat/chatter/add_by_link?link_token=f3fjdba1-ffd8-4cca-b307-bdfb3a08a42c"
+        },
+        "_notice": {
+          "update": {
+            "current": "1.0.19",
+            "latest": "1.0.24",
+            "message": "lark-cli 1.0.24 available, current 1.0.19"
+          }
+        }
+      },
+      "stderr": "",
+      "returncode": 0
+    },
+    {
+      "action_id": "step_005",
+      "status": "success",
+      "command": [
+        "lark-cli",
+        "im",
+        "+chat-create",
+        "--name",
+        "管理层同步侧群",
+        "--as",
+        "user"
+      ],
+      "stdout": {
+        "ok": true,
+        "identity": "user",
+        "data": {
+          "chat_id": "oc_2780ad820943283bb8a3785651247be6",
+          "chat_type": "private",
+          "external": false,
+          "name": "管理层同步侧群",
+          "owner_id": "ou_7488779f2769b648358fca04a3e1919f",
+          "share_link": "https://applink.feishu.cn/client/chat/chatter/add_by_link?link_token=43cqd595-aef3-4f5c-a170-729833555163"
+        },
+        "_notice": {
+          "update": {
+            "current": "1.0.19",
+            "latest": "1.0.24",
+            "message": "lark-cli 1.0.24 available, current 1.0.19"
+          }
+        }
+      },
+      "stderr": "",
+      "returncode": 0
+    },
+    {
+      "action_id": "step_006",
+      "status": "success",
+      "command": [
+        "lark-cli",
+        "im",
+        "+chat-create",
+        "--name",
+        "风险复核线程",
+        "--as",
+        "user"
+      ],
+      "stdout": {
+        "ok": true,
+        "identity": "user",
+        "data": {
+          "chat_id": "oc_7612bb5aa651d6a1c39ca3f0944c87bf",
+          "chat_type": "private",
+          "external": false,
+          "name": "风险复核线程",
+          "owner_id": "ou_7488779f2769b648358fca04a3e1919f",
+          "share_link": "https://applink.feishu.cn/client/chat/chatter/add_by_link?link_token=abcn2fce-482d-4992-a5dd-294dd05b4be9"
+        },
+        "_notice": {
+          "update": {
+            "current": "1.0.19",
+            "latest": "1.0.24",
+            "message": "lark-cli 1.0.24 available, current 1.0.19"
+          }
+        }
+      },
+      "stderr": "",
+      "returncode": 0
+    },
+    {
+      "action_id": "step_007",
+      "status": "success",
+      "command": [
+        "lark-cli",
+        "im",
+        "+chat-create",
+        "--name",
+        "交接修正线程",
+        "--as",
+        "user"
+      ],
+      "stdout": {
+        "ok": true,
+        "identity": "user",
+        "data": {
+          "chat_id": "oc_ac4a6f2dfa51c1221777ed3cda66fe84",
+          "chat_type": "private",
+          "external": false,
+          "name": "交接修正线程",
+          "owner_id": "ou_7488779f2769b648358fca04a3e1919f",
+          "share_link": "https://applink.feishu.cn/client/chat/chatter/add_by_link?link_token=261i5587-ad27-401c-8525-6495956fa0ac"
+        },
+        "_notice": {
+          "update": {
+            "current": "1.0.19",
+            "latest": "1.0.24",
+            "message": "lark-cli 1.0.24 available, current 1.0.19"
+          }
+        }
+      },
+      "stderr": "",
+      "returncode": 0
+    },
+    {
+      "action_id": "step_010",
+      "status": "success",
+      "command": [
+        "lark-cli",
+        "im",
+        "+messages-send",
+        "--chat-id",
+        "oc_1fdc8c70f80ea1eaa4774f5d250fd0da",
+        "--text",
+        "【project_manager/Alice】FEISHU-217 当前由 Alice 负责收口，真正 blocker 还是支付风控回归没有完成。",
+        "--as",
+        "user"
+      ],
+      "stdout": {
+        "ok": true,
+        "identity": "user",
+        "data": {
+          "chat_id": "oc_1fdc8c70f80ea1eaa4774f5d250fd0da",
+          "create_time": "2026-05-07 05:39:53",
+          "message_id": "om_x100b508f1c5a6130c44b37689e0f5c2"
+        },
+        "_notice": {
+          "update": {
+            "current": "1.0.19",
+            "latest": "1.0.24",
+            "message": "lark-cli 1.0.24 available, current 1.0.19"
+          }
+        }
+      },
+      "stderr": "",
+      "returncode": 0
+    },
+    {
+      "action_id": "step_011",
+      "status": "success",
+      "command": [
+        "lark-cli",
+        "im",
+        "+messages-send",
+        "--chat-id",
+        "oc_1fdc8c70f80ea1eaa4774f5d250fd0da",
+        "--text",
+        "【ops_manager/Bob】运维演练那边也卡在 blocker，但这是另外一条并行讨论，不是 FEISHU-217 的 owner 变更。",
+        "--as",
+        "user"
+      ],
+      "stdout": {
+        "ok": true,
+        "identity": "user",
+        "data": {
+          "chat_id": "oc_1fdc8c70f80ea1eaa4774f5d250fd0da",
+          "create_time": "2026-05-07 05:39:54",
+          "message_id": "om_x100b508f1c6e04a0c4d75b184a0065e"
+        },
+        "_notice": {
+          "update": {
+            "current": "1.0.19",
+            "latest": "1.0.24",
+            "message": "lark-cli 1.0.24 available, current 1.0.19"
+          }
+        }
+      },
+      "stderr": "",
+      "returncode": 0
+    },
+    {
+      "action_id": "step_024",
+      "status": "success",
+      "command": [
+        "lark-cli",
+        "im",
+        "+messages-send",
+        "--chat-id",
+        "oc_1fdc8c70f80ea1eaa4774f5d250fd0da",
+        "--text",
+        "【project_manager/Alice】最后确认：FEISHU-217 当前 owner 是 Alice，blocker 是支付风控回归未完成，安全审批和 QA 签收都是 pending，但没有其他任务能改变这些状态。",
+        "--as",
+        "user"
+      ],
+      "stdout": {
+        "ok": true,
+        "identity": "user",
+        "data": {
+          "chat_id": "oc_1fdc8c70f80ea1eaa4774f5d250fd0da",
+          "create_time": "2026-05-07 05:39:55",
+          "message_id": "om_x100b508f1c6288a4c4e3163c4e81f3c"
+        },
+        "_notice": {
+          "update": {
+            "current": "1.0.19",
+            "latest": "1.0.24",
+            "message": "lark-cli 1.0.24 available, current 1.0.19"
+          }
+        }
+      },
+      "stderr": "",
+      "returncode": 0
+    },
+    {
+      "action_id": "step_012",
+      "status": "success",
+      "command": [
+        "lark-cli",
+        "im",
+        "+messages-send",
+        "--chat-id",
+        "oc_df6fdd010e5d7d9df957b733e8ba3776",
+        "--text",
+        "【release_manager/Carol】Alice 晚上还要审文档收口，不过那只是 reviewer 身份，不代表 FEISHU-217 再次换 owner。",
+        "--as",
+        "user"
+      ],
+      "stdout": {
+        "ok": true,
+        "identity": "user",
+        "data": {
+          "chat_id": "oc_df6fdd010e5d7d9df957b733e8ba3776",
+          "create_time": "2026-05-07 05:39:55",
+          "message_id": "om_x100b508f1c767ca0c43b25ea7d811ca"
+        },
+        "_notice": {
+          "update": {
+            "current": "1.0.19",
+            "latest": "1.0.24",
+            "message": "lark-cli 1.0.24 available, current 1.0.19"
+          }
+        }
+      },
+      "stderr": "",
+      "returncode": 0
+    },
+    {
+      "action_id": "step_013",
+      "status": "success",
+      "command": [
+        "lark-cli",
+        "im",
+        "+messages-send",
+        "--chat-id",
+        "oc_0120bf052898ed1b6d56f8945de330a1",
+        "--text",
+        "【security_lead/Dave】安全评审这边 blocker 是第三方渗透测试报告没出，跟 FEISHU-217 的支付风控回归 blocker 是两回事。",
+        "--as",
+        "user"
+      ],
+      "stdout": {
+        "ok": true,
+        "identity": "user",
+        "data": {
+          "chat_id": "oc_0120bf052898ed1b6d56f8945de330a1",
+          "create_time": "2026-05-07 05:39:57",
+          "message_id": "om_x100b508f1c1d30a0c3ce27af030f765"
+        },
+        "_notice": {
+          "update": {
+            "current": "1.0.19",
+            "latest": "1.0.24",
+            "message": "lark-cli 1.0.24 available, current 1.0.19"
+          }
+        }
+      },
+      "stderr": "",
+      "returncode": 0
+    },
+    {
+      "action_id": "step_020",
+      "status": "success",
+      "command": [
+        "lark-cli",
+        "im",
+        "+messages-send",
+        "--chat-id",
+        "oc_0120bf052898ed1b6d56f8945de330a1",
+        "--text",
+        "【security_lead/Dave】安全评审结束后，我会把结论发给相关方，但和 FEISHU-217 的 blocker 无关。",
+        "--as",
+        "user"
+      ],
+      "stdout": {
+        "ok": true,
+        "identity": "user",
+        "data": {
+          "chat_id": "oc_0120bf052898ed1b6d56f8945de330a1",
+          "create_time": "2026-05-07 05:39:57",
+          "message_id": "om_x100b508f1c11e8a0c2b2e89660298df"
+        },
+        "_notice": {
+          "update": {
+            "current": "1.0.19",
+            "latest": "1.0.24",
+            "message": "lark-cli 1.0.24 available, current 1.0.19"
+          }
+        }
+      },
+      "stderr": "",
+      "returncode": 0
+    },
+    {
+      "action_id": "step_014",
+      "status": "success",
+      "command": [
+        "lark-cli",
+        "im",
+        "+messages-send",
+        "--chat-id",
+        "oc_ba319810df4016bf08242b67cd4d76e5",
+        "--text",
+        "【dev_lead/Frank】供应商那边说他们的依赖已经 ready，但这是另一个任务，不是 FEISHU-217 的依赖准备。",
+        "--as",
+        "user"
+      ],
+      "stdout": {
+        "ok": true,
+        "identity": "user",
+        "data": {
+          "chat_id": "oc_ba319810df4016bf08242b67cd4d76e5",
+          "create_time": "2026-05-07 05:39:58",
+          "message_id": "om_x100b508f1c25c4a0c37d4c05fc5d68a"
+        },
+        "_notice": {
+          "update": {
+            "current": "1.0.19",
+            "latest": "1.0.24",
+            "message": "lark-cli 1.0.24 available, current 1.0.19"
+          }
+        }
+      },
+      "stderr": "",
+      "returncode": 0
+    },
+    {
+      "action_id": "step_021",
+      "status": "success",
+      "command": [
+        "lark-cli",
+        "im",
+        "+messages-send",
+        "--chat-id",
+        "oc_ba319810df4016bf08242b67cd4d76e5",
+        "--text",
+        "【dev_lead/Frank】供应商那边的 ready 状态已经确认，但 FEISHU-217 的 blocker 仍然只有支付风控回归。",
+        "--as",
+        "user"
+      ],
+      "stdout": {
+        "ok": true,
+        "identity": "user",
+        "data": {
+          "chat_id": "oc_ba319810df4016bf08242b67cd4d76e5",
+          "create_time": "2026-05-07 05:39:59",
+          "message_id": "om_x100b508f1c39aca0c1187bf41a65406"
+        },
+        "_notice": {
+          "update": {
+            "current": "1.0.19",
+            "latest": "1.0.24",
+            "message": "lark-cli 1.0.24 available, current 1.0.19"
+          }
+        }
+      },
+      "stderr": "",
+      "returncode": 0
+    },
+    {
+      "action_id": "step_015",
+      "status": "success",
+      "command": [
+        "lark-cli",
+        "im",
+        "+messages-send",
+        "--chat-id",
+        "oc_2780ad820943283bb8a3785651247be6",
+        "--text",
+        "【product_manager/Grace】高层同步会上有人问 FEISHU-217 什么时候能上，我解释说 blocker 是支付风控回归，没有其他任务能替代这个依赖。",
+        "--as",
+        "user"
+      ],
+      "stdout": {
+        "ok": true,
+        "identity": "user",
+        "data": {
+          "chat_id": "oc_2780ad820943283bb8a3785651247be6",
+          "create_time": "2026-05-07 05:40:00",
+          "message_id": "om_x100b508f1c32e0a4c3f7f0aa45a1377"
+        },
+        "_notice": {
+          "update": {
+            "current": "1.0.19",
+            "latest": "1.0.24",
+            "message": "lark-cli 1.0.24 available, current 1.0.19"
+          }
+        }
+      },
+      "stderr": "",
+      "returncode": 0
+    },
+    {
+      "action_id": "step_022",
+      "status": "success",
+      "command": [
+        "lark-cli",
+        "im",
+        "+messages-send",
+        "--chat-id",
+        "oc_2780ad820943283bb8a3785651247be6",
+        "--text",
+        "【product_manager/Grace】高层已明确，FEISHU-217 的进度只依赖支付风控回归，其他并行讨论不影响。",
+        "--as",
+        "user"
+      ],
+      "stdout": {
+        "ok": true,
+        "identity": "user",
+        "data": {
+          "chat_id": "oc_2780ad820943283bb8a3785651247be6",
+          "create_time": "2026-05-07 05:40:01",
+          "message_id": "om_x100b508f1ddc94a0c10eb9040e886e7"
+        },
+        "_notice": {
+          "update": {
+            "current": "1.0.19",
+            "latest": "1.0.24",
+            "message": "lark-cli 1.0.24 available, current 1.0.19"
+          }
+        }
+      },
+      "stderr": "",
+      "returncode": 0
+    },
+    {
+      "action_id": "step_008",
+      "status": "success",
+      "command": [
+        "lark-cli",
+        "im",
+        "+messages-send",
+        "--chat-id",
+        "oc_7612bb5aa651d6a1c39ca3f0944c87bf",
+        "--text",
+        "【benchmark/root】风险复核线程：以下回复承载该 source session 的真实 benchmark 消息。",
+        "--as",
+        "user"
+      ],
+      "stdout": {
+        "ok": true,
+        "identity": "user",
+        "data": {
+          "chat_id": "oc_7612bb5aa651d6a1c39ca3f0944c87bf",
+          "create_time": "2026-05-07 05:40:01",
+          "message_id": "om_x100b508f1dd034a0c3b5ca1aa014b2b"
+        },
+        "_notice": {
+          "update": {
+            "current": "1.0.19",
+            "latest": "1.0.24",
+            "message": "lark-cli 1.0.24 available, current 1.0.19"
+          }
+        }
+      },
+      "stderr": "",
+      "returncode": 0
+    },
+    {
+      "action_id": "step_009",
+      "status": "success",
+      "command": [
+        "lark-cli",
+        "im",
+        "+messages-send",
+        "--chat-id",
+        "oc_ac4a6f2dfa51c1221777ed3cda66fe84",
+        "--text",
+        "【benchmark/root】交接修正线程：以下回复承载该 source session 的真实 benchmark 消息。",
+        "--as",
+        "user"
+      ],
+      "stdout": {
+        "ok": true,
+        "identity": "user",
+        "data": {
+          "chat_id": "oc_ac4a6f2dfa51c1221777ed3cda66fe84",
+          "create_time": "2026-05-07 05:40:02",
+          "message_id": "om_x100b508f1de784acc4fe05b643a7a0a"
+        },
+        "_notice": {
+          "update": {
+            "current": "1.0.19",
+            "latest": "1.0.24",
+            "message": "lark-cli 1.0.24 available, current 1.0.19"
+          }
+        }
+      },
+      "stderr": "",
+      "returncode": 0
+    },
+    {
+      "action_id": "step_025",
+      "status": "success",
+      "command": [
+        "lark-cli",
+        "im",
+        "+chat-messages-list",
+        "--chat-id",
+        "oc_1fdc8c70f80ea1eaa4774f5d250fd0da",
+        "--sort",
+        "asc",
+        "--page-size",
+        "50",
+        "--format",
+        "json",
+        "--as",
+        "user"
+      ],
+      "stdout": {
+        "ok": true,
+        "identity": "user",
+        "data": {
+          "has_more": false,
+          "messages": [
+            {
+              "content": "Welcome to {group_type}",
+              "create_time": "2026-05-07 05:39",
+              "deleted": false,
+              "message_id": "om_x100b508f1cc1dca0c3d7a2a33d0d426",
+              "msg_type": "system",
+              "sender": {
+                "id": "",
+                "id_type": "",
+                "sender_type": "",
+                "tenant_key": ""
+              },
+              "updated": false
+            },
+            {
+              "content": "许祝愿 started the group chat.",
+              "create_time": "2026-05-07 05:39",
+              "deleted": false,
+              "message_id": "om_x100b508f1cc0b0a0c497f34986472d8",
+              "msg_type": "system",
+              "sender": {
+                "id": "",
+                "id_type": "",
+                "sender_type": "",
+                "tenant_key": ""
+              },
+              "updated": false
+            },
+            {
+              "content": "【project_manager/Alice】FEISHU-217 当前由 Alice 负责收口，真正 blocker 还是支付风控回归没有完成。",
+              "create_time": "2026-05-07 05:39",
+              "deleted": false,
+              "message_id": "om_x100b508f1c5a6130c44b37689e0f5c2",
+              "msg_type": "text",
+              "sender": {
+                "id": "ou_7488779f2769b648358fca04a3e1919f",
+                "id_type": "open_id",
+                "name": "许祝愿",
+                "sender_type": "user",
+                "tenant_key": "1abd20e084069b82"
+              },
+              "updated": false
+            },
+            {
+              "content": "【ops_manager/Bob】运维演练那边也卡在 blocker，但这是另外一条并行讨论，不是 FEISHU-217 的 owner 变更。",
+              "create_time": "2026-05-07 05:39",
+              "deleted": false,
+              "message_id": "om_x100b508f1c6e04a0c4d75b184a0065e",
+              "msg_type": "text",
+              "sender": {
+                "id": "ou_7488779f2769b648358fca04a3e1919f",
+                "id_type": "open_id",
+                "name": "许祝愿",
+                "sender_type": "user",
+                "tenant_key": "1abd20e084069b82"
+              },
+              "updated": false
+            },
+            {
+              "content": "【project_manager/Alice】最后确认：FEISHU-217 当前 owner 是 Alice，blocker 是支付风控回归未完成，安全审批和 QA 签收都是 pending，但没有其他任务能改变这些状态。",
+              "create_time": "2026-05-07 05:39",
+              "deleted": false,
+              "message_id": "om_x100b508f1c6288a4c4e3163c4e81f3c",
+              "msg_type": "text",
+              "sender": {
+                "id": "ou_7488779f2769b648358fca04a3e1919f",
+                "id_type": "open_id",
+                "name": "许祝愿",
+                "sender_type": "user",
+                "tenant_key": "1abd20e084069b82"
+              },
+              "updated": false
+            }
+          ],
+          "page_token": "",
+          "total": 5
+        },
+        "_notice": {
+          "update": {
+            "current": "1.0.19",
+            "latest": "1.0.24",
+            "message": "lark-cli 1.0.24 available, current 1.0.19"
+          }
+        }
+      },
+      "stderr": "",
+      "returncode": 0
+    },
+    {
+      "action_id": "step_026",
+      "status": "success",
+      "command": [
+        "lark-cli",
+        "im",
+        "+chat-messages-list",
+        "--chat-id",
+        "oc_df6fdd010e5d7d9df957b733e8ba3776",
+        "--sort",
+        "asc",
+        "--page-size",
+        "50",
+        "--format",
+        "json",
+        "--as",
+        "user"
+      ],
+      "stdout": {
+        "ok": true,
+        "identity": "user",
+        "data": {
+          "has_more": false,
+          "messages": [
+            {
+              "content": "Welcome to {group_type}",
+              "create_time": "2026-05-07 05:39",
+              "deleted": false,
+              "message_id": "om_x100b508f1ceccd30c3f32af6e077a1e",
+              "msg_type": "system",
+              "sender": {
+                "id": "",
+                "id_type": "",
+                "sender_type": "",
+                "tenant_key": ""
+              },
+              "updated": false
+            },
+            {
+              "content": "许祝愿 started the group chat.",
+              "create_time": "2026-05-07 05:39",
+              "deleted": false,
+              "message_id": "om_x100b508f1cefaca0c3a869116cc37c4",
+              "msg_type": "system",
+              "sender": {
+                "id": "",
+                "id_type": "",
+                "sender_type": "",
+                "tenant_key": ""
+              },
+              "updated": false
+            },
+            {
+              "content": "【release_manager/Carol】Alice 晚上还要审文档收口，不过那只是 reviewer 身份，不代表 FEISHU-217 再次换 owner。",
+              "create_time": "2026-05-07 05:39",
+              "deleted": false,
+              "message_id": "om_x100b508f1c767ca0c43b25ea7d811ca",
+              "msg_type": "text",
+              "sender": {
+                "id": "ou_7488779f2769b648358fca04a3e1919f",
+                "id_type": "open_id",
+                "name": "许祝愿",
+                "sender_type": "user",
+                "tenant_key": "1abd20e084069b82"
+              },
+              "updated": false
+            }
+          ],
+          "page_token": "",
+          "total": 3
+        },
+        "_notice": {
+          "update": {
+            "current": "1.0.19",
+            "latest": "1.0.24",
+            "message": "lark-cli 1.0.24 available, current 1.0.19"
+          }
+        }
+      },
+      "stderr": "",
+      "returncode": 0
+    },
+    {
+      "action_id": "step_027",
+      "status": "success",
+      "command": [
+        "lark-cli",
+        "im",
+        "+chat-messages-list",
+        "--chat-id",
+        "oc_0120bf052898ed1b6d56f8945de330a1",
+        "--sort",
+        "asc",
+        "--page-size",
+        "50",
+        "--format",
+        "json",
+        "--as",
+        "user"
+      ],
+      "stdout": {
+        "ok": true,
+        "identity": "user",
+        "data": {
+          "has_more": false,
+          "messages": [
+            {
+              "content": "Welcome to {group_type}",
+              "create_time": "2026-05-07 05:39",
+              "deleted": false,
+              "message_id": "om_x100b508f1cf8d8a0c44309bd62574b8",
+              "msg_type": "system",
+              "sender": {
+                "id": "",
+                "id_type": "",
+                "sender_type": "",
+                "tenant_key": ""
+              },
+              "updated": false
+            },
+            {
+              "content": "许祝愿 started the group chat.",
+              "create_time": "2026-05-07 05:39",
+              "deleted": false,
+              "message_id": "om_x100b508f1cfbb0a0c2e99728dc6295a",
+              "msg_type": "system",
+              "sender": {
+                "id": "",
+                "id_type": "",
+                "sender_type": "",
+                "tenant_key": ""
+              },
+              "updated": false
+            },
+            {
+              "content": "【security_lead/Dave】安全评审这边 blocker 是第三方渗透测试报告没出，跟 FEISHU-217 的支付风控回归 blocker 是两回事。",
+              "create_time": "2026-05-07 05:39",
+              "deleted": false,
+              "message_id": "om_x100b508f1c1d30a0c3ce27af030f765",
+              "msg_type": "text",
+              "sender": {
+                "id": "ou_7488779f2769b648358fca04a3e1919f",
+                "id_type": "open_id",
+                "name": "许祝愿",
+                "sender_type": "user",
+                "tenant_key": "1abd20e084069b82"
+              },
+              "updated": false
+            },
+            {
+              "content": "【security_lead/Dave】安全评审结束后，我会把结论发给相关方，但和 FEISHU-217 的 blocker 无关。",
+              "create_time": "2026-05-07 05:39",
+              "deleted": false,
+              "message_id": "om_x100b508f1c11e8a0c2b2e89660298df",
+              "msg_type": "text",
+              "sender": {
+                "id": "ou_7488779f2769b648358fca04a3e1919f",
+                "id_type": "open_id",
+                "name": "许祝愿",
+                "sender_type": "user",
+                "tenant_key": "1abd20e084069b82"
+              },
+              "updated": false
+            }
+          ],
+          "page_token": "",
+          "total": 4
+        },
+        "_notice": {
+          "update": {
+            "current": "1.0.19",
+            "latest": "1.0.24",
+            "message": "lark-cli 1.0.24 available, current 1.0.19"
+          }
+        }
+      },
+      "stderr": "",
+      "returncode": 0
+    },
+    {
+      "action_id": "step_028",
+      "status": "success",
+      "command": [
+        "lark-cli",
+        "im",
+        "+chat-messages-list",
+        "--chat-id",
+        "oc_ba319810df4016bf08242b67cd4d76e5",
+        "--sort",
+        "asc",
+        "--page-size",
+        "50",
+        "--format",
+        "json",
+        "--as",
+        "user"
+      ],
+      "stdout": {
+        "ok": true,
+        "identity": "user",
+        "data": {
+          "has_more": false,
+          "messages": [
+            {
+              "content": "Welcome to {group_type}",
+              "create_time": "2026-05-07 05:39",
+              "deleted": false,
+              "message_id": "om_x100b508f1c84cca0c22ae5a7eef38b4",
+              "msg_type": "system",
+              "sender": {
+                "id": "",
+                "id_type": "",
+                "sender_type": "",
+                "tenant_key": ""
+              },
+              "updated": false
+            },
+            {
+              "content": "许祝愿 started the group chat.",
+              "create_time": "2026-05-07 05:39",
+              "deleted": false,
+              "message_id": "om_x100b508f1c879534c2bc6683d994b83",
+              "msg_type": "system",
+              "sender": {
+                "id": "",
+                "id_type": "",
+                "sender_type": "",
+                "tenant_key": ""
+              },
+              "updated": false
+            },
+            {
+              "content": "【dev_lead/Frank】供应商那边说他们的依赖已经 ready，但这是另一个任务，不是 FEISHU-217 的依赖准备。",
+              "create_time": "2026-05-07 05:39",
+              "deleted": false,
+              "message_id": "om_x100b508f1c25c4a0c37d4c05fc5d68a",
+              "msg_type": "text",
+              "sender": {
+                "id": "ou_7488779f2769b648358fca04a3e1919f",
+                "id_type": "open_id",
+                "name": "许祝愿",
+                "sender_type": "user",
+                "tenant_key": "1abd20e084069b82"
+              },
+              "updated": false
+            },
+            {
+              "content": "【dev_lead/Frank】供应商那边的 ready 状态已经确认，但 FEISHU-217 的 blocker 仍然只有支付风控回归。",
+              "create_time": "2026-05-07 05:39",
+              "deleted": false,
+              "message_id": "om_x100b508f1c39aca0c1187bf41a65406",
+              "msg_type": "text",
+              "sender": {
+                "id": "ou_7488779f2769b648358fca04a3e1919f",
+                "id_type": "open_id",
+                "name": "许祝愿",
+                "sender_type": "user",
+                "tenant_key": "1abd20e084069b82"
+              },
+              "updated": false
+            }
+          ],
+          "page_token": "",
+          "total": 4
+        },
+        "_notice": {
+          "update": {
+            "current": "1.0.19",
+            "latest": "1.0.24",
+            "message": "lark-cli 1.0.24 available, current 1.0.19"
+          }
+        }
+      },
+      "stderr": "",
+      "returncode": 0
+    },
+    {
+      "action_id": "step_029",
+      "status": "success",
+      "command": [
+        "lark-cli",
+        "im",
+        "+chat-messages-list",
+        "--chat-id",
+        "oc_2780ad820943283bb8a3785651247be6",
+        "--sort",
+        "asc",
+        "--page-size",
+        "50",
+        "--format",
+        "json",
+        "--as",
+        "user"
+      ],
+      "stdout": {
+        "ok": true,
+        "identity": "user",
+        "data": {
+          "has_more": false,
+          "messages": [
+            {
+              "content": "Welcome to {group_type}",
+              "create_time": "2026-05-07 05:39",
+              "deleted": false,
+              "message_id": "om_x100b508f1c9134b0c4c02a29ab7a791",
+              "msg_type": "system",
+              "sender": {
+                "id": "",
+                "id_type": "",
+                "sender_type": "",
+                "tenant_key": ""
+              },
+              "updated": false
+            },
+            {
+              "content": "许祝愿 started the group chat.",
+              "create_time": "2026-05-07 05:39",
+              "deleted": false,
+              "message_id": "om_x100b508f1c901ca0c2d6925e9bc829e",
+              "msg_type": "system",
+              "sender": {
+                "id": "",
+                "id_type": "",
+                "sender_type": "",
+                "tenant_key": ""
+              },
+              "updated": false
+            },
+            {
+              "content": "【product_manager/Grace】高层同步会上有人问 FEISHU-217 什么时候能上，我解释说 blocker 是支付风控回归，没有其他任务能替代这个依赖。",
+              "create_time": "2026-05-07 05:40",
+              "deleted": false,
+              "message_id": "om_x100b508f1c32e0a4c3f7f0aa45a1377",
+              "msg_type": "text",
+              "sender": {
+                "id": "ou_7488779f2769b648358fca04a3e1919f",
+                "id_type": "open_id",
+                "name": "许祝愿",
+                "sender_type": "user",
+                "tenant_key": "1abd20e084069b82"
+              },
+              "updated": false
+            },
+            {
+              "content": "【product_manager/Grace】高层已明确，FEISHU-217 的进度只依赖支付风控回归，其他并行讨论不影响。",
+              "create_time": "2026-05-07 05:40",
+              "deleted": false,
+              "message_id": "om_x100b508f1ddc94a0c10eb9040e886e7",
+              "msg_type": "text",
+              "sender": {
+                "id": "ou_7488779f2769b648358fca04a3e1919f",
+                "id_type": "open_id",
+                "name": "许祝愿",
+                "sender_type": "user",
+                "tenant_key": "1abd20e084069b82"
+              },
+              "updated": false
+            }
+          ],
+          "page_token": "",
+          "total": 4
+        },
+        "_notice": {
+          "update": {
+            "current": "1.0.19",
+            "latest": "1.0.24",
+            "message": "lark-cli 1.0.24 available, current 1.0.19"
+          }
+        }
+      },
+      "stderr": "",
+      "returncode": 0
+    },
+    {
+      "action_id": "step_016",
+      "status": "success",
+      "command": [
+        "lark-cli",
+        "im",
+        "+messages-reply",
+        "--message-id",
+        "om_x100b508f1dd034a0c3b5ca1aa014b2b",
+        "--text",
+        "【qa_lead/Eve】风险评审把 FEISHU-217 的 blocker 和运维演练的 blocker 混在一起了，但两者完全不同，不要弄混。",
+        "--reply-in-thread",
+        "--as",
+        "user"
+      ],
+      "stdout": {
+        "ok": true,
+        "identity": "user",
+        "data": {
+          "chat_id": "oc_7612bb5aa651d6a1c39ca3f0944c87bf",
+          "create_time": "2026-05-07 05:40:08",
+          "message_id": "om_x100b508f1d4d4ca0c107f2655c6b837"
+        },
+        "_notice": {
+          "update": {
+            "current": "1.0.19",
+            "latest": "1.0.24",
+            "message": "lark-cli 1.0.24 available, current 1.0.19"
+          }
+        }
+      },
+      "stderr": "",
+      "returncode": 0
+    },
+    {
+      "action_id": "step_023",
+      "status": "success",
+      "command": [
+        "lark-cli",
+        "im",
+        "+messages-reply",
+        "--message-id",
+        "om_x100b508f1dd034a0c3b5ca1aa014b2b",
+        "--text",
+        "【qa_lead/Eve】风险评审记录里已经标注清楚，FEISHU-217 的 blocker 是唯一的，没有其他依赖。",
+        "--reply-in-thread",
+        "--as",
+        "user"
+      ],
+      "stdout": {
+        "ok": true,
+        "identity": "user",
+        "data": {
+          "chat_id": "oc_7612bb5aa651d6a1c39ca3f0944c87bf",
+          "create_time": "2026-05-07 05:40:09",
+          "message_id": "om_x100b508f1d429ca0c4aa8a5d66a786d"
+        },
+        "_notice": {
+          "update": {
+            "current": "1.0.19",
+            "latest": "1.0.24",
+            "message": "lark-cli 1.0.24 available, current 1.0.19"
+          }
+        }
+      },
+      "stderr": "",
+      "returncode": 0
+    },
+    {
+      "action_id": "step_017",
+      "status": "success",
+      "command": [
+        "lark-cli",
+        "im",
+        "+messages-reply",
+        "--message-id",
+        "om_x100b508f1de784acc4fe05b643a7a0a",
+        "--text",
+        "【project_manager/Alice】再次确认：FEISHU-217 只有 Alice 是 owner，其他人在其他上下文里的角色都不代表 FEISHU-217 的 owner 变动。",
+        "--reply-in-thread",
+        "--as",
+        "user"
+      ],
+      "stdout": {
+        "ok": true,
+        "identity": "user",
+        "data": {
+          "chat_id": "oc_ac4a6f2dfa51c1221777ed3cda66fe84",
+          "create_time": "2026-05-07 05:40:09",
+          "message_id": "om_x100b508f1d5094a0c387bfc72037141"
+        },
+        "_notice": {
+          "update": {
+            "current": "1.0.19",
+            "latest": "1.0.24",
+            "message": "lark-cli 1.0.24 available, current 1.0.19"
+          }
+        }
+      },
+      "stderr": "",
+      "returncode": 0
+    },
+    {
+      "action_id": "step_018",
+      "status": "success",
+      "command": [
+        "lark-cli",
+        "im",
+        "+messages-reply",
+        "--message-id",
+        "om_x100b508f1de784acc4fe05b643a7a0a",
+        "--text",
+        "【ops_manager/Bob】对，运维演练的 blocker 是环境问题，跟 FEISHU-217 无关，不要混淆。",
+        "--reply-in-thread",
+        "--as",
+        "user"
+      ],
+      "stdout": {
+        "ok": true,
+        "identity": "user",
+        "data": {
+          "chat_id": "oc_ac4a6f2dfa51c1221777ed3cda66fe84",
+          "create_time": "2026-05-07 05:40:10",
+          "message_id": "om_x100b508f1d66d8a0c31dc5a63371c53"
+        },
+        "_notice": {
+          "update": {
+            "current": "1.0.19",
+            "latest": "1.0.24",
+            "message": "lark-cli 1.0.24 available, current 1.0.19"
+          }
+        }
+      },
+      "stderr": "",
+      "returncode": 0
+    },
+    {
+      "action_id": "step_019",
+      "status": "success",
+      "command": [
+        "lark-cli",
+        "im",
+        "+messages-reply",
+        "--message-id",
+        "om_x100b508f1de784acc4fe05b643a7a0a",
+        "--text",
+        "【release_manager/Carol】文档收口那边的 reviewer 身份也只是 Alice 的额外职责，FEISHU-217 的 owner 没有变化。",
+        "--reply-in-thread",
+        "--as",
+        "user"
+      ],
+      "stdout": {
+        "ok": true,
+        "identity": "user",
+        "data": {
+          "chat_id": "oc_ac4a6f2dfa51c1221777ed3cda66fe84",
+          "create_time": "2026-05-07 05:40:11",
+          "message_id": "om_x100b508f1d74c8a0c392c6a9deec8a2"
+        },
+        "_notice": {
+          "update": {
+            "current": "1.0.19",
+            "latest": "1.0.24",
+            "message": "lark-cli 1.0.24 available, current 1.0.19"
+          }
+        }
+      },
+      "stderr": "",
+      "returncode": 0
+    },
+    {
+      "action_id": "step_030",
+      "status": "success",
+      "command": [
+        "lark-cli",
+        "im",
+        "+threads-messages-list",
+        "--thread",
+        "om_x100b508f1dd034a0c3b5ca1aa014b2b",
+        "--sort",
+        "asc",
+        "--page-size",
+        "50",
+        "--format",
+        "json",
+        "--as",
+        "user"
+      ],
+      "stdout": {
+        "ok": true,
+        "identity": "user",
+        "data": {
+          "has_more": false,
+          "messages": [
+            {
+              "content": "【qa_lead/Eve】风险评审把 FEISHU-217 的 blocker 和运维演练的 blocker 混在一起了，但两者完全不同，不要弄混。",
+              "create_time": "2026-05-07 05:40",
+              "deleted": false,
+              "message_id": "om_x100b508f1d4d4ca0c107f2655c6b837",
+              "msg_type": "text",
+              "sender": {
+                "id": "ou_7488779f2769b648358fca04a3e1919f",
+                "id_type": "open_id",
+                "name": "许祝愿",
+                "sender_type": "user",
+                "tenant_key": "1abd20e084069b82"
+              },
+              "thread_id": "omt_1a9e3df8fd8f1b97",
+              "updated": false
+            },
+            {
+              "content": "【qa_lead/Eve】风险评审记录里已经标注清楚，FEISHU-217 的 blocker 是唯一的，没有其他依赖。",
+              "create_time": "2026-05-07 05:40",
+              "deleted": false,
+              "message_id": "om_x100b508f1d429ca0c4aa8a5d66a786d",
+              "msg_type": "text",
+              "sender": {
+                "id": "ou_7488779f2769b648358fca04a3e1919f",
+                "id_type": "open_id",
+                "name": "许祝愿",
+                "sender_type": "user",
+                "tenant_key": "1abd20e084069b82"
+              },
+              "thread_id": "omt_1a9e3df8fd8f1b97",
+              "updated": false
+            }
+          ],
+          "page_token": "",
+          "thread_id": "omt_1a9e3df8fd8f1b97",
+          "total": 2
+        },
+        "_notice": {
+          "update": {
+            "current": "1.0.19",
+            "latest": "1.0.24",
+            "message": "lark-cli 1.0.24 available, current 1.0.19"
+          }
+        }
+      },
+      "stderr": "",
+      "returncode": 0
+    },
+    {
+      "action_id": "step_031",
+      "status": "success",
+      "command": [
+        "lark-cli",
+        "im",
+        "+threads-messages-list",
+        "--thread",
+        "om_x100b508f1de784acc4fe05b643a7a0a",
+        "--sort",
+        "asc",
+        "--page-size",
+        "50",
+        "--format",
+        "json",
+        "--as",
+        "user"
+      ],
+      "stdout": {
+        "ok": true,
+        "identity": "user",
+        "data": {
+          "has_more": false,
+          "messages": [
+            {
+              "content": "【project_manager/Alice】再次确认：FEISHU-217 只有 Alice 是 owner，其他人在其他上下文里的角色都不代表 FEISHU-217 的 owner 变动。",
+              "create_time": "2026-05-07 05:40",
+              "deleted": false,
+              "message_id": "om_x100b508f1d5094a0c387bfc72037141",
+              "msg_type": "text",
+              "sender": {
+                "id": "ou_7488779f2769b648358fca04a3e1919f",
+                "id_type": "open_id",
+                "name": "许祝愿",
+                "sender_type": "user",
+                "tenant_key": "1abd20e084069b82"
+              },
+              "thread_id": "omt_1a9e3dfb868fdbe3",
+              "updated": false
+            },
+            {
+              "content": "【ops_manager/Bob】对，运维演练的 blocker 是环境问题，跟 FEISHU-217 无关，不要混淆。",
+              "create_time": "2026-05-07 05:40",
+              "deleted": false,
+              "message_id": "om_x100b508f1d66d8a0c31dc5a63371c53",
+              "msg_type": "text",
+              "sender": {
+                "id": "ou_7488779f2769b648358fca04a3e1919f",
+                "id_type": "open_id",
+                "name": "许祝愿",
+                "sender_type": "user",
+                "tenant_key": "1abd20e084069b82"
+              },
+              "thread_id": "omt_1a9e3dfb868fdbe3",
+              "updated": false
+            },
+            {
+              "content": "【release_manager/Carol】文档收口那边的 reviewer 身份也只是 Alice 的额外职责，FEISHU-217 的 owner 没有变化。",
+              "create_time": "2026-05-07 05:40",
+              "deleted": false,
+              "message_id": "om_x100b508f1d74c8a0c392c6a9deec8a2",
+              "msg_type": "text",
+              "sender": {
+                "id": "ou_7488779f2769b648358fca04a3e1919f",
+                "id_type": "open_id",
+                "name": "许祝愿",
+                "sender_type": "user",
+                "tenant_key": "1abd20e084069b82"
+              },
+              "thread_id": "omt_1a9e3dfb868fdbe3",
+              "updated": false
+            }
+          ],
+          "page_token": "",
+          "thread_id": "omt_1a9e3dfb868fdbe3",
+          "total": 3
+        },
+        "_notice": {
+          "update": {
+            "current": "1.0.19",
+            "latest": "1.0.24",
+            "message": "lark-cli 1.0.24 available, current 1.0.19"
+          }
+        }
+      },
+      "stderr": "",
+      "returncode": 0
+    }
+  ],
+  "preflight": {
+    "lark_cli_available": true,
+    "operator_identity": "user",
+    "auth_ok": true,
+    "im_capabilities_ok": true,
+    "warnings": [],
+    "auth_status": {
+      "appId": "cli_a96614f041b8dcb2",
+      "brand": "feishu",
+      "defaultAs": "auto",
+      "expiresAt": "2026-05-07T07:32:11+08:00",
+      "grantedAt": "2026-04-28T19:32:46+08:00",
+      "identity": "user",
+      "refreshExpiresAt": "2026-05-14T05:32:11+08:00",
+      "scope": "approval:instance:read approval:instance:write approval:task:read approval:task:write attendance:task:readonly auth:user.id:read base:app:copy base:app:create base:app:read base:app:update base:dashboard:create base:dashboard:delete base:dashboard:read base:dashboard:update base:field:create base:field:delete base:field:read base:field:update base:form:create base:form:delete base:form:read base:form:update base:history:read base:record:create base:record:delete base:record:read base:record:update base:role:create base:role:delete base:role:read base:role:update base:table:create base:table:delete base:table:read base:table:update base:view:read base:view:write_only base:workflow:create base:workflow:delete base:workflow:read base:workflow:update base:workspace:list board:whiteboard:node:create board:whiteboard:node:delete board:whiteboard:node:read calendar:calendar.event:create calendar:calendar.event:delete calendar:calendar.event:read calendar:calendar.event:reply calendar:calendar.event:update calendar:calendar.free_busy:read calendar:calendar:create calendar:calendar:delete calendar:calendar:read calendar:calendar:update contact:user.base:readonly contact:user.basic_profile:readonly contact:user:search docs:document.comment:create docs:document.comment:delete docs:document.comment:read docs:document.comment:update docs:document.comment:write_only docs:document.content:read docs:document.media:download docs:document.media:upload docs:document:copy docs:document:export docs:document:import docs:event:subscribe docs:permission.member:apply docs:permission.member:auth docs:permission.member:create docs:permission.member:transfer docx:document:create docx:document:readonly docx:document:write_only drive:drive.metadata:readonly drive:file:download drive:file:upload drive:file:view_record:readonly im:chat.members:read im:chat.members:write_only im:chat:create_by_user im:chat:read im:chat:update im:message im:message.group_msg:get_as_user im:message.p2p_msg:get_as_user im:message.pins:read im:message.pins:write_only im:message.reactions:read im:message.reactions:write_only im:message.send_as_user im:message:readonly im:message:recall mail:event mail:user_mailbox.event.mail_address:read mail:user_mailbox.folder:read mail:user_mailbox.folder:write mail:user_mailbox.mail_contact:read mail:user_mailbox.mail_contact:write mail:user_mailbox.message.address:read mail:user_mailbox.message.body:read mail:user_mailbox.message.subject:read mail:user_mailbox.message:modify mail:user_mailbox.message:readonly mail:user_mailbox.message:send mail:user_mailbox.rule:read mail:user_mailbox.rule:write mail:user_mailbox:readonly minutes:minutes.basic:read minutes:minutes.media:export minutes:minutes.search:read okr:okr.content:readonly okr:okr.content:writeonly okr:okr.period:readonly okr:okr.setting:read search:docs:read search:message sheets:spreadsheet.meta:read sheets:spreadsheet.meta:write_only sheets:spreadsheet:create sheets:spreadsheet:read sheets:spreadsheet:write_only slides:presentation:create slides:presentation:read slides:presentation:update slides:presentation:write_only space:document:delete space:document:move space:document:retrieve space:document:shortcut space:folder:create task:comment:write task:task:read task:task:write task:tasklist:read task:tasklist:write vc:meeting.meetingevent:read vc:meeting.search:read vc:note:read vc:record:readonly wiki:member:create wiki:member:retrieve wiki:member:update wiki:node:copy wiki:node:create wiki:node:move wiki:node:read wiki:node:retrieve wiki:node:update wiki:space:read wiki:space:retrieve wiki:space:write_only wiki:wiki:readonly offline_access",
+      "tokenStatus": "valid",
+      "userName": "许祝愿",
+      "userOpenId": "ou_7488779f2769b648358fca04a3e1919f"
+    }
+  }
+}

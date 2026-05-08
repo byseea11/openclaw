@@ -1,0 +1,13 @@
+{
+  "phase": "phase3",
+  "stage": "openclaw-real-baseline-eval",
+  "status": "failed",
+  "started_at": "2026-05-07T01:56:32.290243+00:00",
+  "ended_at": "2026-05-07T01:57:14.319781+00:00",
+  "failure_artifact_path": "amem_docs/ds/feishu_im_dataset_v3/cases/case_20260506224026669766_private_info_in_official_file/runtime/failures/phase3/openclaw-real-baseline-eval_20260507T015714318175Z.json",
+  "error_type": "RuntimeScriptError",
+  "error_message": "Phase 3 runtime script failed: command=node /Users/byseea/programscoding/nanobot/openclaw-main/feishu_task_wiki_benchmark_builder/runtime/openclaw_baseline_eval.mjs --case-dir amem_docs/ds/feishu_im_dataset_v3/cases/case_20260506224026669766_private_info_in_official_file --semantic-gold rule --json returncode=1 stderr=真实 OpenClaw agent replay 失败 query_id=case_20260506224026669766_private_info_in_official_file_query_001: [openclaw] Building TypeScript (dist is stale: dirty_watched_tree - dirty watched source tree).\n[openclaw] Failed to write runtime build artifacts: failed to stage bundled runtime deps for diffs: npm install timed out after 30000ms. This fallback path runs when the root node_modules tree cannot satisfy the bundled plugin's declared runtime dependency versions; align those versions or run the build where npm can reach the registry.",
+  "skipped": false,
+  "run_id": "20260507T015714319805Z",
+  "updated_at": "2026-05-07T01:57:14.319921+00:00"
+}

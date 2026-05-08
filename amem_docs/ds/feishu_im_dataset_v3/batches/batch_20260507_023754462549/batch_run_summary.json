@@ -1,0 +1,24 @@
+{
+  "batch_id": "batch_20260507_023754462549",
+  "batch_dir": "amem_docs/ds/feishu_im_dataset_v3/batches/batch_20260507_023754462549",
+  "phases": {
+    "phase1": {
+      "phase": "phase1",
+      "status": "failed",
+      "started_at": "2026-05-07T02:37:54.463433+00:00",
+      "completed_at": "2026-05-07T02:51:29.574603+00:00",
+      "case_count": 2,
+      "completed_case_count": 1,
+      "failed_case_count": 1,
+      "skipped_case_count": 0,
+      "errors": [
+        {
+          "case_id": "case_20260507023754463003_contradiction_update",
+          "case_dir": "amem_docs/ds/feishu_im_dataset_v3/batches/batch_20260507_023754462549/cases/case_20260507023754463003_contradiction_update",
+          "error": "conversation-plan payload validation failed after repair: conversation_plan_artifact has too few event_bearing turns"
+        }
+      ]
+    }
+  },
+  "updated_at": "2026-05-07T02:51:29.574710+00:00"
+}

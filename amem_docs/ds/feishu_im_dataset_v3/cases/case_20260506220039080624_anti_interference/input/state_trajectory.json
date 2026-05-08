@@ -1,0 +1,27 @@
+{
+  "case_id": "case_20260506220039080624_anti_interference",
+  "family_id": "anti_interference",
+  "task_id": "FEISHU-724",
+  "state_changes": [
+    {
+      "task_id": "FEISHU-724",
+      "field": "owner",
+      "sequence": [
+        {
+          "value": "Alice",
+          "status": "current"
+        }
+      ]
+    },
+    {
+      "task_id": "FEISHU-724",
+      "field": "blocker",
+      "sequence": [
+        {
+          "value": "支付风控回归未完成",
+          "status": "current"
+        }
+      ]
+    }
+  ]
+}

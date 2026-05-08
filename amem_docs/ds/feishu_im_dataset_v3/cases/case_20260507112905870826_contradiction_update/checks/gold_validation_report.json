@@ -1,0 +1,11 @@
+{
+  "case_id": "case_20260507112905870826_contradiction_update",
+  "status": "passed",
+  "annotation_count": 18,
+  "missing_message_ids": [],
+  "allowed_task_ids": [
+    "FEISHU-726"
+  ],
+  "task_id_issues": [],
+  "dataset_audit_status": "passed"
+}

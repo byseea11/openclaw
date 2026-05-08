@@ -1,0 +1,77 @@
+{
+  "case_id": "case_feishu_505160829_example",
+  "task_id": "FEISHU-505160829",
+  "difficulty": "hard",
+  "started_at": "2026-05-05T16:10:10Z",
+  "finished_at": "2026-05-05T16:11:05Z",
+  "final_mode": "fallback_repaired",
+  "degraded": true,
+  "attempts": [
+    {
+      "stage": "fallback_plan",
+      "mode": "fallback_plan",
+      "success": true,
+      "validation_error": "",
+      "input_metrics": null,
+      "output_metrics": {
+        "session_count": 5,
+        "topic_count": 5,
+        "message_count": 21,
+        "thread_reply_depth": 3,
+        "state_transition_count": 21,
+        "supersession_count": 0,
+        "cross_source_revision_count": 5
+      },
+      "remaining_deficit": {
+        "message_count": 7,
+        "thread_reply_depth": 2,
+        "supersession_count": 2
+      },
+      "notes": "deterministic skeleton built from case_world.selected_topics"
+    },
+    {
+      "stage": "plan_live_attempt_1",
+      "mode": "live_invalid",
+      "success": false,
+      "validation_error": "release_window.desired_event_types must be a list",
+      "input_metrics": null,
+      "output_metrics": {
+        "session_count": 5,
+        "topic_count": 5,
+        "message_count": 28,
+        "thread_reply_depth": 6,
+        "state_transition_count": 28,
+        "supersession_count": 5,
+        "cross_source_revision_count": 5
+      },
+      "remaining_deficit": {},
+      "notes": "conversation_plan payload failed schema validation"
+    },
+    {
+      "stage": "repair",
+      "mode": "deterministic_repair",
+      "success": true,
+      "validation_error": "",
+      "input_metrics": {
+        "session_count": 5,
+        "topic_count": 5,
+        "message_count": 21,
+        "thread_reply_depth": 3,
+        "state_transition_count": 21,
+        "supersession_count": 0,
+        "cross_source_revision_count": 5
+      },
+      "output_metrics": {
+        "session_count": 5,
+        "topic_count": 5,
+        "message_count": 28,
+        "thread_reply_depth": 6,
+        "state_transition_count": 28,
+        "supersession_count": 5,
+        "cross_source_revision_count": 5
+      },
+      "remaining_deficit": {},
+      "notes": "thread_depth_delta=2, supersession_delta=2, cross_source_delta=0, message_delta=3"
+    }
+  ]
+}

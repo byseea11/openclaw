@@ -1,0 +1,86 @@
+{
+  "version": 1,
+  "task_id": "task:FEISHU-366",
+  "task_key": "FEISHU-366",
+  "source_session_id": "task:FEISHU-366::chat:oc_44e54ac15060a6eab01c6e242e582755",
+  "source_scope": "chat:oc_44e54ac15060a6eab01c6e242e582755",
+  "source_type": "thread",
+  "source_id": "thread:handoff_thread",
+  "session_title": "task:FEISHU-366::chat:oc_44e54ac15060a6eab01c6e242e582755",
+  "time_range": {
+    "start": "2026-05-07T11:05:36.384Z",
+    "end": "2026-05-07T11:05:36.657Z"
+  },
+  "participants": [
+    "Benchmark Root",
+    "陈雪",
+    "苏禾",
+    "王源"
+  ],
+  "relative_page_path": "sessions/FEISHU-366_chat_oc_44e54ac15060a6eab01c6e242e582-7e7d0bee/session_wiki.md",
+  "session_summary": "这次讨论主要涉及：确认收到交接，按当前状态推进。",
+  "block_order": [
+    "block-确认收到交接_按当前状态推进-5a3b98d1"
+  ],
+  "blocks": {
+    "block-确认收到交接_按当前状态推进-5a3b98d1": {
+      "block_id": "block-确认收到交接_按当前状态推进-5a3b98d1",
+      "anchor_id": "block-确认收到交接_按当前状态推进-5a3b98d1",
+      "topic_key": "确认收到交接，按当前状态推进",
+      "topic_title": "确认收到交接，按当前状态推进",
+      "event_ids": [
+        "evt_d0b77b1f8d49889f"
+      ],
+      "slots": {
+        "conclusion": [],
+        "rationale": [],
+        "objection": [],
+        "constraint": [],
+        "commitment": [
+          {
+            "event_id": "evt_d0b77b1f8d49889f",
+            "event_type": "commitment_event",
+            "claim": "确认收到交接，按当前状态推进",
+            "event_time": "1778151846000",
+            "evidence_quote": "确认收到交接，按当前状态推进",
+            "event_path": "sessions/FEISHU-366_chat_oc_44e54ac15060a6eab01c6e242e582-7e7d0bee/session_events.jsonl#evt_d0b77b1f8d49889f",
+            "event_ref": "[[sessions/FEISHU-366_chat_oc_44e54ac15060a6eab01c6e242e582-7e7d0bee/session_events.jsonl#evt_d0b77b1f8d49889f|evt_d0b77b1f8d49889f]]",
+            "entry_ref": "[[sessions/FEISHU-366_chat_oc_44e54ac15060a6eab01c6e242e582-7e7d0bee/session.md#om_x100b50f357dbf114c2d8b801410c159|om_x100b50f357dbf114c2d8b801410c159]]",
+            "core_entry_id": "om_x100b50f357dbf114c2d8b801410c159",
+            "subject_key": "确认收到交接，按当前状态推进",
+            "is_current": true,
+            "lifecycle_status": "active",
+            "lifecycle_reason": null,
+            "target": null,
+            "time_target": null,
+            "scope_target": null,
+            "action": "确认收到交接，按当前状态推进",
+            "owner": "按当前状态",
+            "objector": null,
+            "status": null,
+            "certainty": null
+          }
+        ],
+        "status": [],
+        "time": [],
+        "scope": []
+      },
+      "status": "active",
+      "evidence_refs": [
+        {
+          "event_id": "evt_d0b77b1f8d49889f",
+          "event_path": "sessions/FEISHU-366_chat_oc_44e54ac15060a6eab01c6e242e582-7e7d0bee/session_events.jsonl#evt_d0b77b1f8d49889f",
+          "entry_ref": "[[sessions/FEISHU-366_chat_oc_44e54ac15060a6eab01c6e242e582-7e7d0bee/session.md#om_x100b50f357dbf114c2d8b801410c159|om_x100b50f357dbf114c2d8b801410c159]]",
+          "quote": "确认收到交接，按当前状态推进"
+        }
+      ],
+      "summary": "确认收到交接，按当前状态推进"
+    }
+  },
+  "lifecycle_summary": {
+    "active_event_count": 1,
+    "historical_event_count": 0,
+    "invalid_event_count": 0
+  },
+  "updated_at": "2026-05-07T11:05:36.773Z"
+}

@@ -1,0 +1,8 @@
+{
+  "case_id": "case_20260507112905870826_contradiction_update",
+  "task_id": "FEISHU-726",
+  "seed": 20260507112905870826,
+  "difficulty": "hard",
+  "comparison_target": "default_memory_architectures",
+  "family_id": "contradiction_update"
+}

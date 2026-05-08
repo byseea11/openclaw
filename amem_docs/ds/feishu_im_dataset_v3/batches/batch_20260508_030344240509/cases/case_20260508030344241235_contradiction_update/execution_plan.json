@@ -1,0 +1,535 @@
+{
+  "case_id": "case_20260508030344241235_contradiction_update",
+  "operator_identity": "user",
+  "delivery_mode": "prefixed_single_operator",
+  "actions": [
+    {
+      "action_id": "step_001",
+      "action_type": "create_chat",
+      "depends_on": [],
+      "params": {
+        "chat_ref": "chat_main_chat",
+        "name": "主群协调",
+        "members": [
+          "alice",
+          "bob",
+          "carol",
+          "david",
+          "eve",
+          "frank",
+          "grace",
+          "henry",
+          "ivy",
+          "jack",
+          "kevin",
+          "lisa"
+        ]
+      },
+      "output_ref": "chat_main_chat"
+    },
+    {
+      "action_id": "step_002",
+      "action_type": "create_chat",
+      "depends_on": [],
+      "params": {
+        "chat_ref": "chat_thread_release",
+        "name": "thread_release 会话",
+        "members": [
+          "alice",
+          "bob",
+          "carol",
+          "david",
+          "eve",
+          "frank",
+          "grace",
+          "henry",
+          "ivy",
+          "jack",
+          "kevin",
+          "lisa"
+        ]
+      },
+      "output_ref": "chat_thread_release"
+    },
+    {
+      "action_id": "step_003",
+      "action_type": "create_chat",
+      "depends_on": [],
+      "params": {
+        "chat_ref": "chat_handoff_thread",
+        "name": "交接修正线程",
+        "members": [
+          "alice",
+          "bob",
+          "carol",
+          "david",
+          "eve",
+          "frank",
+          "grace",
+          "henry",
+          "ivy",
+          "jack",
+          "kevin",
+          "lisa"
+        ]
+      },
+      "output_ref": "chat_handoff_thread"
+    },
+    {
+      "action_id": "step_004",
+      "action_type": "create_chat",
+      "depends_on": [],
+      "params": {
+        "chat_ref": "chat_risk_review_thread",
+        "name": "风险复核线程",
+        "members": [
+          "alice",
+          "bob",
+          "carol",
+          "david",
+          "eve",
+          "frank",
+          "grace",
+          "henry",
+          "ivy",
+          "jack",
+          "kevin",
+          "lisa"
+        ]
+      },
+      "output_ref": "chat_risk_review_thread"
+    },
+    {
+      "action_id": "step_005",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_003"
+      ],
+      "params": {
+        "chat_ref": "chat_handoff_thread",
+        "sender_ref": "benchmark_root",
+        "content_text": "【benchmark/root】交接修正线程：以下回复承载该 source session 的真实 benchmark 消息。"
+      },
+      "output_ref": "thread_root_handoff_thread"
+    },
+    {
+      "action_id": "step_006",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_004"
+      ],
+      "params": {
+        "chat_ref": "chat_risk_review_thread",
+        "sender_ref": "benchmark_root",
+        "content_text": "【benchmark/root】风险复核线程：以下回复承载该 source session 的真实 benchmark 消息。"
+      },
+      "output_ref": "thread_root_risk_review_thread"
+    },
+    {
+      "action_id": "step_007",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_001"
+      ],
+      "params": {
+        "chat_ref": "chat_main_chat",
+        "sender_ref": "alice",
+        "content_text": "【企业协作/林晨】FEISHU-335 交给 周宇 负责，截止日 3月15日，状态新建。"
+      },
+      "output_ref": "msg_turn_001"
+    },
+    {
+      "action_id": "step_008",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_001"
+      ],
+      "params": {
+        "chat_ref": "chat_main_chat",
+        "sender_ref": "bob",
+        "content_text": "【企业协作/周宇】收到，我先梳理需求，稍后更新排期。"
+      },
+      "output_ref": "msg_turn_002"
+    },
+    {
+      "action_id": "step_009",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_001"
+      ],
+      "params": {
+        "chat_ref": "chat_main_chat",
+        "sender_ref": "bob",
+        "content_text": "【企业协作/周宇】FEISHU-335 状态改为进行中，我已在开发。"
+      },
+      "output_ref": "msg_turn_003"
+    },
+    {
+      "action_id": "step_010",
+      "action_type": "reply_in_thread",
+      "depends_on": [
+        "step_003",
+        "step_005"
+      ],
+      "params": {
+        "chat_ref": "chat_handoff_thread",
+        "sender_ref": "alice",
+        "content_text": "【企业协作/林晨】@王源 FEISHU-335 转交给你，截止延到 3月20日。",
+        "root_message_ref": "thread_root_handoff_thread"
+      },
+      "output_ref": "msg_turn_004"
+    },
+    {
+      "action_id": "step_011",
+      "action_type": "reply_in_thread",
+      "depends_on": [
+        "step_003",
+        "step_005"
+      ],
+      "params": {
+        "chat_ref": "chat_handoff_thread",
+        "sender_ref": "david",
+        "content_text": "【企业协作/王源】明白，我接手处理，看看进度。",
+        "root_message_ref": "thread_root_handoff_thread"
+      },
+      "output_ref": "msg_turn_005"
+    },
+    {
+      "action_id": "step_012",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_001"
+      ],
+      "params": {
+        "chat_ref": "chat_main_chat",
+        "sender_ref": "eve",
+        "content_text": "【企业协作/高骏】这周末服务器维护，谁有空值班？"
+      },
+      "output_ref": "msg_turn_006"
+    },
+    {
+      "action_id": "step_013",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_001"
+      ],
+      "params": {
+        "chat_ref": "chat_main_chat",
+        "sender_ref": "grace",
+        "content_text": "【企业协作/何然】我周末可以，但需要提前给权限。"
+      },
+      "output_ref": "msg_turn_007"
+    },
+    {
+      "action_id": "step_014",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_002"
+      ],
+      "params": {
+        "chat_ref": "chat_thread_release",
+        "sender_ref": "frank",
+        "content_text": "【企业协作/赵敏】建议下季度做一次架构评审。"
+      },
+      "output_ref": "msg_turn_008"
+    },
+    {
+      "action_id": "step_015",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_001"
+      ],
+      "params": {
+        "chat_ref": "chat_main_chat",
+        "sender_ref": "lisa",
+        "content_text": "【企业协作/许薇】FEISHU-335 进度如何？谁在负责？"
+      },
+      "output_ref": "msg_turn_009"
+    },
+    {
+      "action_id": "step_016",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_001"
+      ],
+      "params": {
+        "chat_ref": "chat_main_chat",
+        "sender_ref": "david",
+        "content_text": "【企业协作/王源】我现在是 owner，但准备转给 陈雪。"
+      },
+      "output_ref": "msg_turn_010"
+    },
+    {
+      "action_id": "step_017",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_001"
+      ],
+      "params": {
+        "chat_ref": "chat_main_chat",
+        "sender_ref": "david",
+        "content_text": "【企业协作/王源】FEISHU-335 负责人改为 陈雪，截止 3月25日，状态阻塞。"
+      },
+      "output_ref": "msg_turn_011"
+    },
+    {
+      "action_id": "step_018",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_001"
+      ],
+      "params": {
+        "chat_ref": "chat_main_chat",
+        "sender_ref": "carol",
+        "content_text": "【企业协作/陈雪】好的，我来看看阻塞原因。"
+      },
+      "output_ref": "msg_turn_012"
+    },
+    {
+      "action_id": "step_019",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_001"
+      ],
+      "params": {
+        "chat_ref": "chat_main_chat",
+        "sender_ref": "henry",
+        "content_text": "【企业协作/秦怡】我这边依赖一个接口，进度稍慢。"
+      },
+      "output_ref": "msg_turn_013"
+    },
+    {
+      "action_id": "step_020",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_001"
+      ],
+      "params": {
+        "chat_ref": "chat_main_chat",
+        "sender_ref": "kevin",
+        "content_text": "【企业协作/唐越】数据表结构需要调整，影响测试。"
+      },
+      "output_ref": "msg_turn_014"
+    },
+    {
+      "action_id": "step_021",
+      "action_type": "reply_in_thread",
+      "depends_on": [
+        "step_004",
+        "step_006"
+      ],
+      "params": {
+        "chat_ref": "chat_risk_review_thread",
+        "sender_ref": "alice",
+        "content_text": "【企业协作/林晨】FEISHU-335 风险已登记，阻塞原因待确认。",
+        "root_message_ref": "thread_root_risk_review_thread"
+      },
+      "output_ref": "msg_turn_015"
+    },
+    {
+      "action_id": "step_022",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_001"
+      ],
+      "params": {
+        "chat_ref": "chat_main_chat",
+        "sender_ref": "jack",
+        "content_text": "【企业协作/苏禾】安全审查需要两周，建议提前安排。"
+      },
+      "output_ref": "msg_turn_016"
+    },
+    {
+      "action_id": "step_023",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_001"
+      ],
+      "params": {
+        "chat_ref": "chat_main_chat",
+        "sender_ref": "ivy",
+        "content_text": "【企业协作/罗天】UI 设计稿已交付，麻烦开发确认。"
+      },
+      "output_ref": "msg_turn_017"
+    },
+    {
+      "action_id": "step_024",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_001"
+      ],
+      "params": {
+        "chat_ref": "chat_main_chat",
+        "sender_ref": "lisa",
+        "content_text": "【企业协作/许薇】@林晨 之前 FEISHU-335 的 owner 变动请总结一下。"
+      },
+      "output_ref": "msg_turn_018"
+    },
+    {
+      "action_id": "step_025",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_001"
+      ],
+      "params": {
+        "chat_ref": "chat_main_chat",
+        "sender_ref": "alice",
+        "content_text": "【企业协作/林晨】王源 之前是历史负责人，现在已转给 陈雪。"
+      },
+      "output_ref": "msg_turn_019"
+    },
+    {
+      "action_id": "step_026",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_001"
+      ],
+      "params": {
+        "chat_ref": "chat_main_chat",
+        "sender_ref": "david",
+        "content_text": "【企业协作/王源】确认，我之前 owner，现在 陈雪 负责。"
+      },
+      "output_ref": "msg_turn_020"
+    },
+    {
+      "action_id": "step_027",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_001"
+      ],
+      "params": {
+        "chat_ref": "chat_main_chat",
+        "sender_ref": "carol",
+        "content_text": "【企业协作/陈雪】我是当前 owner，正在处理阻塞问题。"
+      },
+      "output_ref": "msg_turn_021"
+    },
+    {
+      "action_id": "step_028",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_001"
+      ],
+      "params": {
+        "chat_ref": "chat_main_chat",
+        "sender_ref": "henry",
+        "content_text": "【企业协作/秦怡】接口已修复，明天可测试。"
+      },
+      "output_ref": "msg_turn_022"
+    },
+    {
+      "action_id": "step_029",
+      "action_type": "reply_in_thread",
+      "depends_on": [
+        "step_003",
+        "step_005"
+      ],
+      "params": {
+        "chat_ref": "chat_handoff_thread",
+        "sender_ref": "bob",
+        "content_text": "【企业协作/周宇】我过去是初始负责人，已移交。",
+        "root_message_ref": "thread_root_handoff_thread"
+      },
+      "output_ref": "msg_turn_023"
+    },
+    {
+      "action_id": "step_030",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_002"
+      ],
+      "params": {
+        "chat_ref": "chat_thread_release",
+        "sender_ref": "frank",
+        "content_text": "【企业协作/赵敏】架构评审可以先做初步方案。"
+      },
+      "output_ref": "msg_turn_024"
+    },
+    {
+      "action_id": "step_031",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_001"
+      ],
+      "params": {
+        "chat_ref": "chat_main_chat",
+        "sender_ref": "lisa",
+        "content_text": "【企业协作/许薇】那 FEISHU-335 最终负责人是 陈雪，截止 3月25日。"
+      },
+      "output_ref": "msg_turn_025"
+    },
+    {
+      "action_id": "step_032",
+      "action_type": "fetch_chat_messages",
+      "depends_on": [
+        "step_001",
+        "step_007",
+        "step_008",
+        "step_009",
+        "step_012",
+        "step_013",
+        "step_015",
+        "step_016",
+        "step_017",
+        "step_018",
+        "step_019",
+        "step_020",
+        "step_022",
+        "step_023",
+        "step_024",
+        "step_025",
+        "step_026",
+        "step_027",
+        "step_028",
+        "step_031"
+      ],
+      "params": {
+        "chat_ref": "chat_main_chat"
+      },
+      "output_ref": ""
+    },
+    {
+      "action_id": "step_033",
+      "action_type": "fetch_chat_messages",
+      "depends_on": [
+        "step_002",
+        "step_014",
+        "step_030"
+      ],
+      "params": {
+        "chat_ref": "chat_thread_release"
+      },
+      "output_ref": ""
+    },
+    {
+      "action_id": "step_034",
+      "action_type": "fetch_thread_messages",
+      "depends_on": [
+        "step_003",
+        "step_005",
+        "step_010",
+        "step_011",
+        "step_029"
+      ],
+      "params": {
+        "chat_ref": "chat_handoff_thread",
+        "root_message_ref": "thread_root_handoff_thread"
+      },
+      "output_ref": ""
+    },
+    {
+      "action_id": "step_035",
+      "action_type": "fetch_thread_messages",
+      "depends_on": [
+        "step_004",
+        "step_006",
+        "step_021"
+      ],
+      "params": {
+        "chat_ref": "chat_risk_review_thread",
+        "root_message_ref": "thread_root_risk_review_thread"
+      },
+      "output_ref": ""
+    }
+  ]
+}

@@ -1,0 +1,269 @@
+{
+  "case_id": "case_20260507112905870826_contradiction_update",
+  "family_id": "contradiction_update",
+  "task_id": "FEISHU-726",
+  "mode": "llm",
+  "expected_task_facts": [
+    {
+      "fact_id": "fact_001",
+      "claim": "FEISHU-726 的当前负责人是苏禾（Xavier）。",
+      "required_supporting_message_ids": [
+        "om_x100b50f3c453f8a4c4d6b03724f035b",
+        "om_x100b50f3c61a38a0c2afb100768e6c2",
+        "om_x100b50f3c50648acc32676945ab56af"
+      ],
+      "expected_task_fact_id": "expected_task_facts_001"
+    },
+    {
+      "fact_id": "fact_002",
+      "claim": "FEISHU-726 的发布窗口当前为2026年5月15日，旧窗口（5月10日、5月12日）已作废。",
+      "required_supporting_message_ids": [
+        "om_x100b50f3c61a38a0c2afb100768e6c2",
+        "om_x100b50f3c67310a0c3bf23806c779b7"
+      ],
+      "expected_task_fact_id": "expected_task_facts_002"
+    },
+    {
+      "fact_id": "fact_003",
+      "claim": "FEISHU-726 当前状态为已暂停，因组件升级延迟。",
+      "required_supporting_message_ids": [
+        "om_x100b50f3c6549080c38ad02841aeeb0",
+        "om_x100b50f3c50648acc32676945ab56af"
+      ],
+      "expected_task_fact_id": "expected_task_facts_003"
+    },
+    {
+      "fact_id": "fact_004",
+      "claim": "FEISHU-726 的历史负责人包括陈雪（Carol，初始负责人）和林晨（Alice，历史负责人）。",
+      "required_supporting_message_ids": [
+        "om_x100b50f3c682f8acc376edec5629ec9",
+        "om_x100b50f3c6b9a8b4c34c5cc273e1ed8",
+        "om_x100b50f3c67310a0c3bf23806c779b7"
+      ],
+      "expected_task_fact_id": "expected_task_facts_004"
+    }
+  ],
+  "expected_event_semantics": [
+    {
+      "event_semantic_id": "event_semantic_001",
+      "purpose": "陈雪（Carol）被确认为FEISHU-726的初始负责人，并设定发布窗口为5月10日。",
+      "turn_kind": "event_bearing",
+      "required_supporting_message_ids": [
+        "om_x100b50f3c682f8acc376edec5629ec9"
+      ],
+      "expected_event_semantic_id": "expected_event_semantics_001"
+    },
+    {
+      "event_semantic_id": "event_semantic_002",
+      "purpose": "林晨（Alice）接手FEISHU-726的负责人，并将窗口从5月10日改为5月12日。",
+      "turn_kind": "event_bearing",
+      "required_supporting_message_ids": [
+        "om_x100b50f3c6b9a8b4c34c5cc273e1ed8"
+      ],
+      "expected_event_semantic_id": "expected_event_semantics_002"
+    },
+    {
+      "event_semantic_id": "event_semantic_003",
+      "purpose": "苏禾（Xavier）接手FEISHU-726的负责人，并将窗口从5月12日改为5月15日，明确旧日期作废。",
+      "turn_kind": "event_bearing",
+      "required_supporting_message_ids": [
+        "om_x100b50f3c453f8a4c4d6b03724f035b"
+      ],
+      "expected_event_semantic_id": "expected_event_semantics_003"
+    },
+    {
+      "event_semantic_id": "event_semantic_004",
+      "purpose": "安全审查已通过，历史blocker为安全审查。",
+      "turn_kind": "event_bearing",
+      "required_supporting_message_ids": [
+        "om_x100b50f3c5cc2cb4c4a9b69c6be5393"
+      ],
+      "expected_event_semantic_id": "expected_event_semantics_004"
+    },
+    {
+      "event_semantic_id": "event_semantic_005",
+      "purpose": "FEISHU-726状态更新为已暂停，等待组件升级完成。",
+      "turn_kind": "event_bearing",
+      "required_supporting_message_ids": [
+        "om_x100b50f3c6549080c38ad02841aeeb0"
+      ],
+      "expected_event_semantic_id": "expected_event_semantics_005"
+    },
+    {
+      "event_semantic_id": "event_semantic_006",
+      "purpose": "赵敏错误地提起旧窗口5月10日，形成干扰。",
+      "turn_kind": "event_bearing",
+      "required_supporting_message_ids": [
+        "om_x100b50f3c7505024c2a5eca5e634233"
+      ],
+      "expected_event_semantic_id": "expected_event_semantics_006"
+    },
+    {
+      "event_semantic_id": "event_semantic_007",
+      "purpose": "林晨（Alice）澄清窗口已两次变更，以Xavier的最新为准，确认supersede关系。",
+      "turn_kind": "event_bearing",
+      "required_supporting_message_ids": [
+        "om_x100b50f3c67310a0c3bf23806c779b7"
+      ],
+      "expected_event_semantic_id": "expected_event_semantics_007"
+    },
+    {
+      "event_semantic_id": "event_semantic_008",
+      "purpose": "王源确认QA在5月10日和5月12日不可用，但5月15日可用。",
+      "turn_kind": "event_bearing",
+      "required_supporting_message_ids": [
+        "om_x100b50f3c58d9ca4c217957ea0ce307"
+      ],
+      "expected_event_semantic_id": "expected_event_semantics_008"
+    },
+    {
+      "event_semantic_id": "event_semantic_009",
+      "purpose": "何然提醒合规审批需3个工作日，窗口变更后需重算。",
+      "turn_kind": "event_bearing",
+      "required_supporting_message_ids": [
+        "om_x100b50f3c54d90a0c216b474d720036"
+      ],
+      "expected_event_semantic_id": "expected_event_semantics_009"
+    },
+    {
+      "event_semantic_id": "event_semantic_010",
+      "purpose": "许薇在站会上确认FEISHU-726当前负责人为Xavier，窗口5月15日，状态已暂停。",
+      "turn_kind": "event_bearing",
+      "required_supporting_message_ids": [
+        "om_x100b50f3c50648acc32676945ab56af"
+      ],
+      "expected_event_semantic_id": "expected_event_semantics_010"
+    },
+    {
+      "event_semantic_id": "event_semantic_011",
+      "purpose": "林晨提到任务页仍显示Alice为owner，形成背景干扰。",
+      "turn_kind": "event_bearing",
+      "required_supporting_message_ids": [
+        "om_x100b50f3c4e1b4acc2821c192b5bb90"
+      ],
+      "expected_event_semantic_id": "expected_event_semantics_011"
+    },
+    {
+      "event_semantic_id": "event_semantic_012",
+      "purpose": "何然询问组件升级依赖供应商新版本，窗口可能进一步变动。",
+      "turn_kind": "event_bearing",
+      "required_supporting_message_ids": [
+        "om_x100b50f3c2d73ca8c2e49efb580b405"
+      ],
+      "expected_event_semantic_id": "expected_event_semantics_012"
+    },
+    {
+      "event_semantic_id": "event_semantic_013",
+      "purpose": "苏禾最终确认组件升级预计5月14日完成，5月15日窗口不变，旧窗口完全作废。",
+      "turn_kind": "event_bearing",
+      "required_supporting_message_ids": [
+        "om_x100b50f3c61a38a0c2afb100768e6c2"
+      ],
+      "expected_event_semantic_id": "expected_event_semantics_013"
+    },
+    {
+      "event_semantic_id": "event_semantic_014",
+      "purpose": "梁昕提出网络变更窗口可能与FEISHU-726冲突，需协调。",
+      "turn_kind": "event_bearing",
+      "required_supporting_message_ids": [
+        "om_x100b50f3c70918a8c3992d936d63517"
+      ],
+      "expected_event_semantic_id": "expected_event_semantics_014"
+    },
+    {
+      "event_semantic_id": "event_semantic_015",
+      "purpose": "秦怡进行风险评估，当前风险为低。",
+      "turn_kind": "event_bearing",
+      "required_supporting_message_ids": [
+        "om_x100b50f3c40e0908c494473daab30db"
+      ],
+      "expected_event_semantic_id": "expected_event_semantics_015"
+    },
+    {
+      "event_semantic_id": "event_semantic_016",
+      "purpose": "罗天询问是否需要通知客户关于窗口变更。",
+      "turn_kind": "event_bearing",
+      "required_supporting_message_ids": [
+        "om_x100b50f3c6304c8cc4ded85d1cccf80"
+      ],
+      "expected_event_semantic_id": "expected_event_semantics_016"
+    },
+    {
+      "event_semantic_id": "event_semantic_017",
+      "purpose": "赵敏提醒Carol调岗后需更新任务负责人记录。",
+      "turn_kind": "event_bearing",
+      "required_supporting_message_ids": [
+        "om_x100b50f3c2aa9560c28682ccfe0da72"
+      ],
+      "expected_event_semantic_id": "expected_event_semantics_017"
+    },
+    {
+      "event_semantic_id": "event_semantic_018",
+      "purpose": "高骏确认延期无额外成本，预算已覆盖。",
+      "turn_kind": "event_bearing",
+      "required_supporting_message_ids": [
+        "om_x100b50f3c2576cacc3899557d440d66"
+      ],
+      "expected_event_semantic_id": "expected_event_semantics_018"
+    }
+  ],
+  "expected_query_answers": [
+    {
+      "query_id": "semantic_query_001",
+      "query": "FEISHU-726 的当前负责人是谁？",
+      "expected_answer_summary": "当前负责人是苏禾（Xavier）。初始负责人是陈雪（Carol），历史负责人是林晨（Alice），Xavier 是当前负责人，旧负责人已失效。",
+      "required_supporting_message_ids": [
+        "om_x100b50f3c682f8acc376edec5629ec9",
+        "om_x100b50f3c6b9a8b4c34c5cc273e1ed8",
+        "om_x100b50f3c453f8a4c4d6b03724f035b",
+        "om_x100b50f3c50648acc32676945ab56af"
+      ],
+      "expected_query_answer_id": "expected_query_answers_001"
+    },
+    {
+      "query_id": "semantic_query_002",
+      "query": "FEISHU-726 的发布窗口是哪天？",
+      "expected_answer_summary": "当前发布窗口是2026年5月15日。最初定为5月10日，后改为5月12日，最终确认为5月15日，旧窗口已作废。",
+      "required_supporting_message_ids": [
+        "om_x100b50f3c682f8acc376edec5629ec9",
+        "om_x100b50f3c6b9a8b4c34c5cc273e1ed8",
+        "om_x100b50f3c453f8a4c4d6b03724f035b",
+        "om_x100b50f3c61a38a0c2afb100768e6c2"
+      ],
+      "expected_query_answer_id": "expected_query_answers_002"
+    },
+    {
+      "query_id": "semantic_query_003",
+      "query": "FEISHU-726 当前状态如何？",
+      "expected_answer_summary": "当前状态为已暂停，因组件升级延迟。",
+      "required_supporting_message_ids": [
+        "om_x100b50f3c6549080c38ad02841aeeb0",
+        "om_x100b50f3c50648acc32676945ab56af"
+      ],
+      "expected_query_answer_id": "expected_query_answers_003"
+    },
+    {
+      "query_id": "semantic_query_004",
+      "query": "FEISHU-726 有哪些历史负责人？",
+      "expected_answer_summary": "历史负责人有陈雪（Carol，初始负责人）和林晨（Alice，历史负责人），当前负责人是苏禾（Xavier）。",
+      "required_supporting_message_ids": [
+        "om_x100b50f3c682f8acc376edec5629ec9",
+        "om_x100b50f3c6b9a8b4c34c5cc273e1ed8",
+        "om_x100b50f3c453f8a4c4d6b03724f035b"
+      ],
+      "expected_query_answer_id": "expected_query_answers_004"
+    },
+    {
+      "query_id": "semantic_query_005",
+      "query": "FEISHU-726 的窗口为什么改到5月15日？",
+      "expected_answer_summary": "最初窗口为5月10日，Alice 接手后改为5月12日，Xavier 接手后因依赖组件升级延迟改为5月15日，旧日期已废。",
+      "required_supporting_message_ids": [
+        "om_x100b50f3c682f8acc376edec5629ec9",
+        "om_x100b50f3c6b9a8b4c34c5cc273e1ed8",
+        "om_x100b50f3c453f8a4c4d6b03724f035b",
+        "om_x100b50f3c61a38a0c2afb100768e6c2"
+      ],
+      "expected_query_answer_id": "expected_query_answers_005"
+    }
+  ]
+}

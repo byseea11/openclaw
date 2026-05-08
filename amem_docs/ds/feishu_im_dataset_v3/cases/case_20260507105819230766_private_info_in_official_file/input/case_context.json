@@ -1,0 +1,42 @@
+{
+  "family_id": "private_info_in_official_file",
+  "benchmark_requirement_name": "私有信息混入正式文件测试",
+  "benchmark_requirement_summary": "个人偏好、临时限制或私聊背景被写入正式文件引用中时，系统仍能区分任务事实、正式结论和个人私有上下文。",
+  "report_display_name": "私有信息与正式文件边界",
+  "capability_under_test": "在正式文件、聊天转述和个人背景混杂时，只把与目标任务 current state 相关的正式结论投影到任务答案，不让个人私有信息污染任务事实。",
+  "why_memory_systems_may_fail": "个人中心或摘要式记忆容易把某人的私有偏好、临时承诺和正式文件结论压缩到同一段摘要里，导致回答时把个人信息误当任务状态，或把正式文件权威性错误赋给私聊背景。",
+  "generation_rules": [
+    "必须出现至少一个正式文件或正式纪要口径，并在聊天中被多次引用、误读或纠正。",
+    "必须把个人私有信息放进正式文件上下文附近，但要明确哪些只是个人背景，不能成为目标任务 current state。",
+    "必须设计 task relevance boundary，让 query 能测试系统是否会把个人偏好、个人限制或私聊承诺混入正式任务答案。",
+    "正式 contract 里只有 1 个目标任务；distractor 或 upstream/downstream 只能作为上下文来源，不是并列正式 task。",
+    "更新必须通过真实消息落地，不能只在结构化字段里声明。"
+  ],
+  "required_case_structure": [
+    "target_task",
+    "official_file_reference",
+    "personal_private_context",
+    "task_relevance_boundary",
+    "official_conclusion_vs_private_note"
+  ],
+  "probe_strategy": [
+    "询问目标任务当前结论时，要求系统排除个人私有背景。",
+    "追问正式文件里哪些内容是任务事实，哪些只是个人信息或上下文证据。",
+    "让 query 同时提到正式文件和个人背景，要求系统明确区分。"
+  ],
+  "expected_good_system_behavior": [
+    "只把正式文件中的任务相关结论作为 current task answer。",
+    "把个人偏好、临时限制、私聊背景标为 evidence/context，不投影成任务 current state。",
+    "能够指出哪些聊天转述误读了正式文件，并回到正式结论本身。"
+  ],
+  "case_id": "case_20260507105819230766_private_info_in_official_file",
+  "task_id": "FEISHU-366",
+  "seed": 20260507105819230766,
+  "difficulty": "hard",
+  "comparison_target": "default_memory_architectures",
+  "organization": "星云科技集团",
+  "team": "技术风险与合规部",
+  "business_goal": "确保上线评审流程中任务状态仅反映正式决议，避免个人时间偏好或私下承诺被误记为项目阻塞。",
+  "scenario_summary": "在 FEISHU-366 上线评审过程中，林晨（个人）多次提出只能在周三上午参加评审，但正式上线 checklist 和风险登记表均未将这一限制列为任务事实；唐越私下承诺补充材料但未兑现；最终评审纪要明确将上线审查结论定为等待安全审批。系统需要区分个人上下文与正式结论，正确回答任务当前状态。",
+  "family_fit_explanation": "个人时间限制（林晨只能周三）、私人承诺（唐越补材料）与正式评审结论（等待安全审批）在消息流中紧密交织，系统容易把个人偏好误作为任务事实，属于 private_info_in_official_file 典型场景。同时存在误读与纠正：有同事将林晨的个人时间误当作项目阻断，后被纠正。"
+}

@@ -1,0 +1,163 @@
+{
+  "case_id": "case_feishu_505124755_example",
+  "expected_topics": [
+    "release_window",
+    "readiness_blockers",
+    "external_messaging",
+    "risk_controls",
+    "executive_sync"
+  ],
+  "expected_block_targets": [
+    {
+      "topic_key": "release_window",
+      "topic_title": "发布时间口径",
+      "slots": [
+        "conclusion",
+        "scope",
+        "time"
+      ]
+    },
+    {
+      "topic_key": "readiness_blockers",
+      "topic_title": "上线阻塞项",
+      "slots": [
+        "commitment",
+        "constraint",
+        "status"
+      ]
+    },
+    {
+      "topic_key": "external_messaging",
+      "topic_title": "客户同步口径",
+      "slots": [
+        "conclusion",
+        "rationale",
+        "scope"
+      ]
+    },
+    {
+      "topic_key": "risk_controls",
+      "topic_title": "风险控制与验收条件",
+      "slots": [
+        "commitment",
+        "objection",
+        "status"
+      ]
+    },
+    {
+      "topic_key": "executive_sync",
+      "topic_title": "管理层同步口径",
+      "slots": [
+        "conclusion",
+        "scope",
+        "status"
+      ]
+    }
+  ],
+  "expected_current_state_targets": [
+    {
+      "topic_key": "release_window",
+      "slot": "conclusion",
+      "claim_hint": "当前统一口径先收敛为暂不承诺具体日期，等关键依赖确认后再重开上线窗口讨论。"
+    },
+    {
+      "topic_key": "release_window",
+      "slot": "scope",
+      "claim_hint": "客户侧已经在追问上线时间，我们需要给一个保守但可执行的同步口径。"
+    },
+    {
+      "topic_key": "release_window",
+      "slot": "time",
+      "claim_hint": "当前统一口径先收敛为暂不承诺具体日期，等关键依赖确认后再重开上线窗口讨论。"
+    },
+    {
+      "topic_key": "readiness_blockers",
+      "slot": "commitment",
+      "claim_hint": "研发会在本周内补齐迁移方案细节，并和运维一起把窗口确认条件列清楚。"
+    },
+    {
+      "topic_key": "readiness_blockers",
+      "slot": "constraint",
+      "claim_hint": "回滚演练还没有完成闭环，这也是当前不建议锁定窗口的重要原因。"
+    },
+    {
+      "topic_key": "readiness_blockers",
+      "slot": "status",
+      "claim_hint": "当前 blocker 已经收敛成三项，等迁移窗口、回滚演练和安全结论都明确后再给最终上线建议。"
+    },
+    {
+      "topic_key": "external_messaging",
+      "slot": "conclusion",
+      "claim_hint": "那我对客户统一说现在还在做最后校验，具体时间等内部确认后第一时间同步。"
+    },
+    {
+      "topic_key": "external_messaging",
+      "slot": "rationale",
+      "claim_hint": "那我对客户统一说现在还在做最后校验，具体时间等内部确认后第一时间同步。"
+    },
+    {
+      "topic_key": "external_messaging",
+      "slot": "scope",
+      "claim_hint": "对外统一先说当前仍在完成最后的上线准备，预计窗口待确认，不给具体日历日期。"
+    },
+    {
+      "topic_key": "risk_controls",
+      "slot": "commitment",
+      "claim_hint": "研发会在下一个工作日把迁移方案、监控预案和回滚条件整理成一版供大家评审。"
+    },
+    {
+      "topic_key": "risk_controls",
+      "slot": "objection",
+      "claim_hint": "如果没有最终的风险验收清单，现在推进上线窗口只会放大后续回滚概率。"
+    },
+    {
+      "topic_key": "risk_controls",
+      "slot": "status",
+      "claim_hint": "最终是否放行以风险材料补齐和演练通过为准，在这之前所有对外说法都保持保守。"
+    },
+    {
+      "topic_key": "executive_sync",
+      "slot": "conclusion",
+      "claim_hint": "管理层同步也统一使用条件式表述，不再带具体乐观日期。"
+    },
+    {
+      "topic_key": "executive_sync",
+      "slot": "scope",
+      "claim_hint": "管理层同步也统一使用条件式表述，不再带具体乐观日期。"
+    },
+    {
+      "topic_key": "executive_sync",
+      "slot": "status",
+      "claim_hint": "需要同步说明当前仍取决于迁移窗口、回滚演练和最终风险验收三个条件。"
+    }
+  ],
+  "required_event_coverage": [
+    "commitment_event",
+    "conclusion_event",
+    "constraint_event",
+    "objection_event",
+    "rationale_event",
+    "scope_event",
+    "status_event",
+    "time_event"
+  ],
+  "required_state_transitions": [
+    "先以五月上旬作为内部目标。",
+    "在风险暴露后把对外口径收紧为暂不承诺具体日期。",
+    "先暴露核心 blocker。",
+    "再形成谁负责解除 blocker 的承诺。",
+    "先暴露客户同步压力。",
+    "再收敛成保守口径。",
+    "先暴露验收条件不足。",
+    "再形成补齐动作。",
+    "把内部讨论结论收敛成可以上卷的管理层摘要。",
+    "管理层同步不再使用乐观日期，而是采用条件式表述。"
+  ],
+  "required_cross_source_revisions": [
+    "executive_sync",
+    "external_messaging",
+    "readiness_blockers",
+    "release_window",
+    "risk_controls"
+  ]
+}

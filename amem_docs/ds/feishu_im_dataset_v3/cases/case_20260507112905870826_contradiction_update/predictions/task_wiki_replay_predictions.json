@@ -1,0 +1,77 @@
+{
+  "case_id": "case_20260507112905870826_contradiction_update",
+  "family_id": "contradiction_update",
+  "runtime": "task_wiki_replay_placeholder",
+  "answers": [
+    {
+      "query_id": "case_20260507112905870826_contradiction_update_query_001",
+      "answer": "返回 Xavier，并说明 Carol 是初始负责人，Alice 是历史负责人，Xavier 是当前负责人，旧负责人已失效。",
+      "supporting_message_ids": [
+        "om_x100b50f3c6b9a8b4c34c5cc273e1ed8",
+        "om_x100b50f3c2aa9560c28682ccfe0da72",
+        "om_x100b50f3c682f8acc376edec5629ec9",
+        "om_x100b50f3c453f8a4c4d6b03724f035b",
+        "om_x100b50f3c6549080c38ad02841aeeb0",
+        "om_x100b50f3c67310a0c3bf23806c779b7",
+        "om_x100b50f3c58d9ca4c217957ea0ce307",
+        "om_x100b50f3c54d90a0c216b474d720036"
+      ]
+    },
+    {
+      "query_id": "case_20260507112905870826_contradiction_update_query_002",
+      "answer": "返回 2026年5月15日，并说明原定5月10日，后改为5月12日，最终确认为5月15日，旧窗口已作废。",
+      "supporting_message_ids": [
+        "om_x100b50f3c682f8acc376edec5629ec9",
+        "om_x100b50f3c6b9a8b4c34c5cc273e1ed8",
+        "om_x100b50f3c453f8a4c4d6b03724f035b",
+        "om_x100b50f3c67310a0c3bf23806c779b7",
+        "om_x100b50f3c58d9ca4c217957ea0ce307",
+        "om_x100b50f3c54d90a0c216b474d720036",
+        "om_x100b50f3c50648acc32676945ab56af",
+        "om_x100b50f3c2d73ca8c2e49efb580b405"
+      ]
+    },
+    {
+      "query_id": "case_20260507112905870826_contradiction_update_query_003",
+      "answer": "返回已暂停，并说明初始为待启动，后改为进行中，当前因组件升级延迟暂停。",
+      "supporting_message_ids": [
+        "om_x100b50f3c682f8acc376edec5629ec9",
+        "om_x100b50f3c6b9a8b4c34c5cc273e1ed8",
+        "om_x100b50f3c453f8a4c4d6b03724f035b",
+        "om_x100b50f3c6549080c38ad02841aeeb0",
+        "om_x100b50f3c67310a0c3bf23806c779b7",
+        "om_x100b50f3c58d9ca4c217957ea0ce307",
+        "om_x100b50f3c54d90a0c216b474d720036",
+        "om_x100b50f3c50648acc32676945ab56af"
+      ]
+    },
+    {
+      "query_id": "case_20260507112905870826_contradiction_update_query_004",
+      "answer": "列出 Carol（初始负责人）、Alice（历史负责人），并强调 Xavier 是当前负责人。",
+      "supporting_message_ids": [
+        "om_x100b50f3c6b9a8b4c34c5cc273e1ed8",
+        "om_x100b50f3c2aa9560c28682ccfe0da72",
+        "om_x100b50f3c682f8acc376edec5629ec9",
+        "om_x100b50f3c453f8a4c4d6b03724f035b",
+        "om_x100b50f3c6549080c38ad02841aeeb0",
+        "om_x100b50f3c67310a0c3bf23806c779b7",
+        "om_x100b50f3c58d9ca4c217957ea0ce307",
+        "om_x100b50f3c54d90a0c216b474d720036"
+      ]
+    },
+    {
+      "query_id": "case_20260507112905870826_contradiction_update_query_005",
+      "answer": "说明最初为5月10日，Alice 接手后改为5月12日，Xavier 接手后因依赖组件升级延迟改为5月15日，旧日期已废。",
+      "supporting_message_ids": [
+        "om_x100b50f3c682f8acc376edec5629ec9",
+        "om_x100b50f3c6b9a8b4c34c5cc273e1ed8",
+        "om_x100b50f3c453f8a4c4d6b03724f035b",
+        "om_x100b50f3c67310a0c3bf23806c779b7",
+        "om_x100b50f3c58d9ca4c217957ea0ce307",
+        "om_x100b50f3c54d90a0c216b474d720036",
+        "om_x100b50f3c50648acc32676945ab56af",
+        "om_x100b50f3c2d73ca8c2e49efb580b405"
+      ]
+    }
+  ]
+}

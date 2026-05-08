@@ -1,0 +1,345 @@
+{
+  "snapshot_id": "yunhe_q2_ops_zh_v1",
+  "description": "云河 Q2 中文办公 fixture snapshot 的只读验证清单。",
+  "cases": [
+    {
+      "case_id": "yunhe-zh-001-final-launch-status",
+      "snapshot_id": "yunhe_q2_ops_zh_v1",
+      "history_window": {
+        "event_ids": [],
+        "start_event_id": "",
+        "end_event_id": "",
+        "start_time": "2026-04-01T09:00:00Z",
+        "end_time": "2026-04-12T14:00:00Z",
+        "chat_ids": [
+          "oc_yh_launch"
+        ],
+        "thread_ids": [],
+        "max_events": 120
+      },
+      "question": "Q2 增长版最终发布状态是什么？哪些关键工作流已完成？",
+      "expected_answer": "Q2 增长版在 4 月 22 日完成发布，PROD-510、ENG-387、DATA-218、FIN-304、MKT-255、CS-431、SEC-172、OPS-199 全部 done。",
+      "evidence_event_ids": [
+        "evt_yh_q2_zh_0094",
+        "evt_yh_q2_zh_0101"
+      ],
+      "ability_tag": "long_horizon_status"
+    },
+    {
+      "case_id": "yunhe-zh-002-security-block-chain",
+      "snapshot_id": "yunhe_q2_ops_zh_v1",
+      "history_window": {
+        "event_ids": [],
+        "start_event_id": "",
+        "end_event_id": "",
+        "start_time": "2026-04-01T09:00:00Z",
+        "end_time": "2026-04-12T14:00:00Z",
+        "chat_ids": [
+          "oc_yh_launch",
+          "oc_yh_risk"
+        ],
+        "thread_ids": [],
+        "max_events": 120
+      },
+      "question": "PROD-510 早期被阻塞的完整链路是什么？",
+      "expected_answer": "PROD-510 被 SEC-172 阻塞，SEC-172 又被 AP-810 阻塞，直到法务批准 AP-810。",
+      "evidence_event_ids": [
+        "evt_yh_q2_zh_0006",
+        "evt_yh_q2_zh_0015",
+        "evt_yh_q2_zh_0030",
+        "evt_yh_q2_zh_0035"
+      ],
+      "ability_tag": "blocked_by_chain"
+    },
+    {
+      "case_id": "yunhe-zh-003-data-owner-change",
+      "snapshot_id": "yunhe_q2_ops_zh_v1",
+      "history_window": {
+        "event_ids": [],
+        "start_event_id": "",
+        "end_event_id": "",
+        "start_time": "2026-04-01T09:00:00Z",
+        "end_time": "2026-04-12T14:00:00Z",
+        "chat_ids": [
+          "oc_yh_cutover",
+          "oc_yh_incident"
+        ],
+        "thread_ids": [],
+        "max_events": 120
+      },
+      "question": "DATA-218 最终割接决策由谁负责？为什么换负责人？",
+      "expected_answer": "DATA-218 最终割接决策由沈星澜负责，因为罗子墨要参与回放清理值班。",
+      "evidence_event_ids": [
+        "evt_yh_q2_zh_0045",
+        "evt_yh_q2_zh_0056",
+        "evt_yh_q2_zh_0097"
+      ],
+      "ability_tag": "owner_change"
+    },
+    {
+      "case_id": "yunhe-zh-004-incident-root-cause",
+      "snapshot_id": "yunhe_q2_ops_zh_v1",
+      "history_window": {
+        "event_ids": [],
+        "start_event_id": "",
+        "end_event_id": "",
+        "start_time": "2026-04-01T09:00:00Z",
+        "end_time": "2026-04-12T14:00:00Z",
+        "chat_ids": [
+          "oc_yh_incident",
+          "oc_yh_launch"
+        ],
+        "thread_ids": [],
+        "max_events": 120
+      },
+      "question": "ENG-387 是支付回调 SEV-2 的根因吗？",
+      "expected_answer": "不是。功能开关判断的初始怀疑被排除，根因是重复 PSP callback id。",
+      "evidence_event_ids": [
+        "evt_yh_q2_zh_0020",
+        "evt_yh_q2_zh_0044"
+      ],
+      "ability_tag": "stale_info_resolution"
+    },
+    {
+      "case_id": "yunhe-zh-005-finance-approval",
+      "snapshot_id": "yunhe_q2_ops_zh_v1",
+      "history_window": {
+        "event_ids": [],
+        "start_event_id": "",
+        "end_event_id": "",
+        "start_time": "2026-04-01T09:00:00Z",
+        "end_time": "2026-04-12T14:00:00Z",
+        "chat_ids": [
+          "oc_yh_finance",
+          "oc_yh_launch"
+        ],
+        "thread_ids": [],
+        "max_events": 120
+      },
+      "question": "AP-824 最终如何处理？财务是否还阻塞发布？",
+      "expected_answer": "AP-824 由宋知微批准，FIN-304 先进入 ready 后完成，因此财务不再阻塞发布。",
+      "evidence_event_ids": [
+        "evt_yh_q2_zh_0008",
+        "evt_yh_q2_zh_0021",
+        "evt_yh_q2_zh_0052"
+      ],
+      "ability_tag": "approval_progression"
+    },
+    {
+      "case_id": "yunhe-zh-006-legal-copy",
+      "snapshot_id": "yunhe_q2_ops_zh_v1",
+      "history_window": {
+        "event_ids": [],
+        "start_event_id": "",
+        "end_event_id": "",
+        "start_time": "2026-04-01T09:00:00Z",
+        "end_time": "2026-04-12T14:00:00Z",
+        "chat_ids": [
+          "oc_yh_enablement"
+        ],
+        "thread_ids": [],
+        "max_events": 120
+      },
+      "question": "法务最终批准的客户侧转化提升话术是什么？",
+      "expected_answer": "法务批准的话术是「灰度客户中观察到转化提升」。",
+      "evidence_event_ids": [
+        "evt_yh_q2_zh_0061",
+        "evt_yh_q2_zh_0064",
+        "evt_yh_q2_zh_0068"
+      ],
+      "ability_tag": "doc_reference"
+    },
+    {
+      "case_id": "yunhe-zh-007-launch-date",
+      "snapshot_id": "yunhe_q2_ops_zh_v1",
+      "history_window": {
+        "event_ids": [],
+        "start_event_id": "",
+        "end_event_id": "",
+        "start_time": "2026-04-01T09:00:00Z",
+        "end_time": "2026-04-12T14:00:00Z",
+        "chat_ids": [
+          "oc_yh_enablement",
+          "oc_yh_launch"
+        ],
+        "thread_ids": [],
+        "max_events": 120
+      },
+      "question": "最终发布日期是哪天？哪个旧日期应该忽略？",
+      "expected_answer": "最终发布日期是 4 月 22 日，早期的 4 月 18 日目标应该忽略。",
+      "evidence_event_ids": [
+        "evt_yh_q2_zh_0003",
+        "evt_yh_q2_zh_0036",
+        "evt_yh_q2_zh_0082",
+        "evt_yh_q2_zh_0101"
+      ],
+      "ability_tag": "temporal_reasoning"
+    },
+    {
+      "case_id": "yunhe-zh-008-enable-deck-file",
+      "snapshot_id": "yunhe_q2_ops_zh_v1",
+      "history_window": {
+        "event_ids": [],
+        "start_event_id": "",
+        "end_event_id": "",
+        "start_time": "2026-04-01T09:00:00Z",
+        "end_time": "2026-04-12T14:00:00Z",
+        "chat_ids": [
+          "oc_yh_enablement"
+        ],
+        "thread_ids": [],
+        "max_events": 120
+      },
+      "question": "最终获批的赋能 deck 是哪个版本？",
+      "expected_answer": "最终获批的赋能 deck 是 Q2发布赋能材料_v3.pptx。",
+      "evidence_event_ids": [
+        "evt_yh_q2_zh_0064",
+        "evt_yh_q2_zh_0076"
+      ],
+      "ability_tag": "file_reference"
+    },
+    {
+      "case_id": "yunhe-zh-009-beta-customers",
+      "snapshot_id": "yunhe_q2_ops_zh_v1",
+      "history_window": {
+        "event_ids": [],
+        "start_event_id": "",
+        "end_event_id": "",
+        "start_time": "2026-04-01T09:00:00Z",
+        "end_time": "2026-04-12T14:00:00Z",
+        "chat_ids": [
+          "oc_yh_beta",
+          "oc_yh_enablement"
+        ],
+        "thread_ids": [],
+        "max_events": 120
+      },
+      "question": "星河制造和北辰零售的灰度沟通最后如何处理？",
+      "expected_answer": "CS-431 已关闭，星河制造和北辰零售都被标记为 4 月 22 日发布邮件对象，叶思源负责首轮响应。",
+      "evidence_event_ids": [
+        "evt_yh_q2_zh_0009",
+        "evt_yh_q2_zh_0048",
+        "evt_yh_q2_zh_0078"
+      ],
+      "ability_tag": "cross_thread_relation"
+    },
+    {
+      "case_id": "yunhe-zh-010-data-cutover-readiness",
+      "snapshot_id": "yunhe_q2_ops_zh_v1",
+      "history_window": {
+        "event_ids": [],
+        "start_event_id": "",
+        "end_event_id": "",
+        "start_time": "2026-04-01T09:00:00Z",
+        "end_time": "2026-04-12T14:00:00Z",
+        "chat_ids": [
+          "oc_yh_cutover",
+          "oc_yh_incident"
+        ],
+        "thread_ids": [],
+        "max_events": 120
+      },
+      "question": "DATA-218 从被回滚方案阻塞到 ready 的关键条件是什么？",
+      "expected_answer": "OPS-199 回放清理关闭，回滚 owner 知夏已明确，星澜负责 go/no-go，口径一致率达到 99.95%。",
+      "evidence_event_ids": [
+        "evt_yh_q2_zh_0040",
+        "evt_yh_q2_zh_0053",
+        "evt_yh_q2_zh_0056"
+      ],
+      "ability_tag": "blocked_by_chain"
+    },
+    {
+      "case_id": "yunhe-zh-011-go-no-go",
+      "snapshot_id": "yunhe_q2_ops_zh_v1",
+      "history_window": {
+        "event_ids": [],
+        "start_event_id": "",
+        "end_event_id": "",
+        "start_time": "2026-04-01T09:00:00Z",
+        "end_time": "2026-04-12T14:00:00Z",
+        "chat_ids": [
+          "oc_yh_launch"
+        ],
+        "thread_ids": [],
+        "max_events": 120
+      },
+      "question": "谁批准了管理层 go/no-go？附带条件是什么？",
+      "expected_answer": "林若安批准 4 月 22 日发布，条件是发布窗口前不能出现新的 SEV-1 或安全阻塞。",
+      "evidence_event_ids": [
+        "evt_yh_q2_zh_0083",
+        "evt_yh_q2_zh_0085"
+      ],
+      "ability_tag": "approval_progression"
+    },
+    {
+      "case_id": "yunhe-zh-012-ops-release-roles",
+      "snapshot_id": "yunhe_q2_ops_zh_v1",
+      "history_window": {
+        "event_ids": [],
+        "start_event_id": "",
+        "end_event_id": "",
+        "start_time": "2026-04-01T09:00:00Z",
+        "end_time": "2026-04-12T14:00:00Z",
+        "chat_ids": [
+          "oc_yh_launch"
+        ],
+        "thread_ids": [],
+        "max_events": 120
+      },
+      "question": "发布窗口里回滚、发布 PM 和对外沟通分别是谁负责？",
+      "expected_answer": "何知夏负责回滚，陈雨薇是发布 PM，白芷晴负责对外沟通。",
+      "evidence_event_ids": [
+        "evt_yh_q2_zh_0085"
+      ],
+      "ability_tag": "multi_party_dependency"
+    },
+    {
+      "case_id": "yunhe-zh-013-security-final",
+      "snapshot_id": "yunhe_q2_ops_zh_v1",
+      "history_window": {
+        "event_ids": [],
+        "start_event_id": "",
+        "end_event_id": "",
+        "start_time": "2026-04-01T09:00:00Z",
+        "end_time": "2026-04-12T14:00:00Z",
+        "chat_ids": [
+          "oc_yh_launch",
+          "oc_yh_risk"
+        ],
+        "thread_ids": [],
+        "max_events": 120
+      },
+      "question": "SEC-172 最终状态是什么？token scope 说明记录在哪里？",
+      "expected_answer": "SEC-172 最终 done，token scope 说明记录在风险登记表和发布说明里。",
+      "evidence_event_ids": [
+        "evt_yh_q2_zh_0030",
+        "evt_yh_q2_zh_0035",
+        "evt_yh_q2_zh_0101"
+      ],
+      "ability_tag": "doc_reference"
+    },
+    {
+      "case_id": "yunhe-zh-014-graph-owner-status",
+      "snapshot_id": "yunhe_q2_ops_zh_v1",
+      "history_window": {
+        "event_ids": [],
+        "start_event_id": "",
+        "end_event_id": "",
+        "start_time": "2026-04-01T09:00:00Z",
+        "end_time": "2026-04-12T14:00:00Z",
+        "chat_ids": [],
+        "thread_ids": [],
+        "max_events": 120
+      },
+      "question": "Graph 应该把 PROD-510、DATA-218、MKT-255、FIN-304 分别连到哪些最终负责人？",
+      "expected_answer": "PROD-510 连到陈雨薇，DATA-218 连到沈星澜，MKT-255 连到白芷晴，FIN-304 连到邵予怀。",
+      "evidence_event_ids": [
+        "evt_yh_q2_zh_0045",
+        "evt_yh_q2_zh_0052",
+        "evt_yh_q2_zh_0076",
+        "evt_yh_q2_zh_0101"
+      ],
+      "ability_tag": "graph_hit"
+    }
+  ]
+}

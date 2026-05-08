@@ -1,0 +1,39 @@
+{
+  "family_id": "private_info_in_official_file",
+  "benchmark_requirement_name": "私有信息混入正式文件测试",
+  "benchmark_requirement_summary": "个人偏好、临时限制或私聊背景被写入正式文件引用中时，系统仍能区分任务事实、正式结论和个人私有上下文。",
+  "report_display_name": "私有信息与正式文件边界",
+  "capability_under_test": "在正式文件、聊天转述和个人背景混杂时，只把与目标任务 current state 相关的正式结论投影到任务答案，不让个人私有信息污染任务事实。",
+  "why_memory_systems_may_fail": "个人中心或摘要式记忆容易把某人的私有偏好、临时承诺和正式文件结论压缩到同一段摘要里，导致回答时把个人信息误当任务状态，或把正式文件权威性错误赋给私聊背景。",
+  "generation_rules": [
+    "必须出现至少一个正式文件或正式纪要口径，并在聊天中被多次引用、误读或纠正。",
+    "必须把个人私有信息放进正式文件上下文附近，但要明确哪些只是个人背景，不能成为目标任务 current state。",
+    "必须设计 task relevance boundary，让 query 能测试系统是否会把个人偏好、个人限制或私聊承诺混入正式任务答案。"
+  ],
+  "required_case_structure": [
+    "target_task",
+    "official_file_reference",
+    "personal_private_context",
+    "task_relevance_boundary",
+    "official_conclusion_vs_private_note"
+  ],
+  "probe_strategy": [
+    "询问目标任务当前结论时，要求系统排除个人私有背景。",
+    "追问正式文件里哪些内容是任务事实，哪些只是个人信息或上下文证据。"
+  ],
+  "expected_good_system_behavior": [
+    "只把正式文件中的任务相关结论作为 current task answer。",
+    "把个人偏好、临时限制、私聊背景标为 evidence/context，不投影成任务 current state。",
+    "能够指出哪些聊天转述误读了正式文件，并回到正式结论本身。"
+  ],
+  "case_id": "case_20260507103828413028_private_info_in_official_file",
+  "task_id": "FEISHU-828",
+  "seed": 20260507103828413028,
+  "difficulty": "hard",
+  "comparison_target": "default_memory_architectures",
+  "organization": "Globex Corporation",
+  "team": "Platform Engineering",
+  "business_goal": "确保任务状态和风险项始终基于正式文件结论，避免个人临时备注干扰项目决策。",
+  "scenario_summary": "在 Globex 的 FEISHU-828 任务中，多名参与者围绕正式风险登记表展开讨论，其中包含个人时间限制、私聊承诺等私有信息，同时正式文件中有明确的任务 owner 和截止日期。系统需要区分哪些是正式任务状态，哪些只是个人背景。",
+  "family_fit_explanation": "该场景自然包含多重信息源：正式风险登记表、个人私聊背景、以及对正式文件的误读与纠正，正好测试私有信息与正式任务边界的区分能力。"
+}

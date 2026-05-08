@@ -1,0 +1,13 @@
+{
+  "phase": "phase1",
+  "stage": "pre-annotation-validate",
+  "status": "completed",
+  "started_at": "2026-05-07T11:35:01.219831+00:00",
+  "ended_at": "2026-05-07T11:35:01.225511+00:00",
+  "artifact_paths": [
+    "amem_docs/ds/feishu_im_dataset_v3/cases/case_20260507112905870826_contradiction_update/checks/pre_annotation_validation_report.json"
+  ],
+  "skipped": false,
+  "run_id": "20260507T113501225532Z",
+  "updated_at": "2026-05-07T11:35:01.225547+00:00"
+}

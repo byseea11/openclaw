@@ -1,0 +1,116 @@
+{
+  "case_id": "case_20260506213901711117_anti_interference",
+  "family_id": "anti_interference",
+  "queries": [
+    {
+      "query_id": "case_20260506213901711117_anti_interference_query_001",
+      "query": "FEISHU-217 当前 owner 和 blocker 是什么？哪些上下文不应该混入当前答案？为什么文档收口、运维演练、安全评审、供应商讨论里的说法不属于 FEISHU-217？",
+      "expected_good_behavior": "只回答 Alice 是当前 owner、支付风控回归未完成是当前 blocker，并明确排除文档收口 reviewer 身份、运维演练 blocker、安全评审 blocker、供应商 ready 状态。",
+      "supporting_message_ids": [
+        "om_x100b508f1c5a6130c44b37689e0f5c2",
+        "om_x100b508f1c6e04a0c4d75b184a0065e",
+        "om_x100b508f1c767ca0c43b25ea7d811ca",
+        "om_x100b508f1c1d30a0c3ce27af030f765",
+        "om_x100b508f1c25c4a0c37d4c05fc5d68a",
+        "om_x100b508f1c32e0a4c3f7f0aa45a1377",
+        "om_x100b508f1d4d4ca0c107f2655c6b837",
+        "om_x100b508f1d5094a0c387bfc72037141",
+        "om_x100b508f1d66d8a0c31dc5a63371c53",
+        "om_x100b508f1d74c8a0c392c6a9deec8a2",
+        "om_x100b508f1c11e8a0c2b2e89660298df",
+        "om_x100b508f1c39aca0c1187bf41a65406",
+        "om_x100b508f1ddc94a0c10eb9040e886e7",
+        "om_x100b508f1d429ca0c4aa8a5d66a786d",
+        "om_x100b508f1c6288a4c4e3163c4e81f3c"
+      ]
+    },
+    {
+      "query_id": "case_20260506213901711117_anti_interference_query_002",
+      "query": "在 FEISHU-217 的上下文中，Alice 同时参与了哪些其他讨论？这些讨论中的角色是否影响 FEISHU-217 的 owner？",
+      "expected_good_behavior": "指出 Alice 在文档收口中是 reviewer，但 FEISHU-217 的 owner 仍是 Alice，其他角色的存在不改变 owner。",
+      "supporting_message_ids": [
+        "om_x100b508f1c5a6130c44b37689e0f5c2",
+        "om_x100b508f1c6e04a0c4d75b184a0065e",
+        "om_x100b508f1c767ca0c43b25ea7d811ca",
+        "om_x100b508f1c1d30a0c3ce27af030f765",
+        "om_x100b508f1c25c4a0c37d4c05fc5d68a",
+        "om_x100b508f1c32e0a4c3f7f0aa45a1377",
+        "om_x100b508f1d4d4ca0c107f2655c6b837",
+        "om_x100b508f1d5094a0c387bfc72037141",
+        "om_x100b508f1d66d8a0c31dc5a63371c53",
+        "om_x100b508f1d74c8a0c392c6a9deec8a2",
+        "om_x100b508f1c11e8a0c2b2e89660298df",
+        "om_x100b508f1c39aca0c1187bf41a65406",
+        "om_x100b508f1ddc94a0c10eb9040e886e7",
+        "om_x100b508f1d429ca0c4aa8a5d66a786d",
+        "om_x100b508f1c6288a4c4e3163c4e81f3c"
+      ]
+    },
+    {
+      "query_id": "case_20260506213901711117_anti_interference_query_003",
+      "query": "FEISHU-217 的 blocker 是否与运维演练的 blocker 相同？为什么？",
+      "expected_good_behavior": "明确指出两者不同：FEISHU-217 的 blocker 是支付风控回归未完成，运维演练的 blocker 是环境问题，不应混淆。",
+      "supporting_message_ids": [
+        "om_x100b508f1c5a6130c44b37689e0f5c2",
+        "om_x100b508f1c6e04a0c4d75b184a0065e",
+        "om_x100b508f1c767ca0c43b25ea7d811ca",
+        "om_x100b508f1c1d30a0c3ce27af030f765",
+        "om_x100b508f1c25c4a0c37d4c05fc5d68a",
+        "om_x100b508f1c32e0a4c3f7f0aa45a1377",
+        "om_x100b508f1d4d4ca0c107f2655c6b837",
+        "om_x100b508f1d5094a0c387bfc72037141",
+        "om_x100b508f1d66d8a0c31dc5a63371c53",
+        "om_x100b508f1d74c8a0c392c6a9deec8a2",
+        "om_x100b508f1c11e8a0c2b2e89660298df",
+        "om_x100b508f1c39aca0c1187bf41a65406",
+        "om_x100b508f1ddc94a0c10eb9040e886e7",
+        "om_x100b508f1d429ca0c4aa8a5d66a786d",
+        "om_x100b508f1c6288a4c4e3163c4e81f3c"
+      ]
+    },
+    {
+      "query_id": "case_20260506213901711117_anti_interference_query_004",
+      "query": "安全评审和供应商讨论中的信息是否应该作为 FEISHU-217 的证据？为什么？",
+      "expected_good_behavior": "说明安全评审的 blocker 是渗透测试报告，供应商的 ready 状态是其他任务的依赖，均与 FEISHU-217 无关，不应混入答案。",
+      "supporting_message_ids": [
+        "om_x100b508f1c5a6130c44b37689e0f5c2",
+        "om_x100b508f1c6e04a0c4d75b184a0065e",
+        "om_x100b508f1c767ca0c43b25ea7d811ca",
+        "om_x100b508f1c1d30a0c3ce27af030f765",
+        "om_x100b508f1c25c4a0c37d4c05fc5d68a",
+        "om_x100b508f1c32e0a4c3f7f0aa45a1377",
+        "om_x100b508f1d4d4ca0c107f2655c6b837",
+        "om_x100b508f1d5094a0c387bfc72037141",
+        "om_x100b508f1d66d8a0c31dc5a63371c53",
+        "om_x100b508f1d74c8a0c392c6a9deec8a2",
+        "om_x100b508f1c11e8a0c2b2e89660298df",
+        "om_x100b508f1c39aca0c1187bf41a65406",
+        "om_x100b508f1ddc94a0c10eb9040e886e7",
+        "om_x100b508f1d429ca0c4aa8a5d66a786d",
+        "om_x100b508f1c6288a4c4e3163c4e81f3c"
+      ]
+    },
+    {
+      "query_id": "case_20260506213901711117_anti_interference_query_005",
+      "query": "FEISHU-217 当前有哪些下游依赖项？这些依赖项的状态是否与并行讨论中的其他任务有关？",
+      "expected_good_behavior": "列出 FEISHU-217 的依赖项包括安全审批、QA 签收、支付风控回归，并说明这些依赖只属于 FEISHU-217，与其他并行讨论的依赖无关。",
+      "supporting_message_ids": [
+        "om_x100b508f1c5a6130c44b37689e0f5c2",
+        "om_x100b508f1c6e04a0c4d75b184a0065e",
+        "om_x100b508f1c767ca0c43b25ea7d811ca",
+        "om_x100b508f1c1d30a0c3ce27af030f765",
+        "om_x100b508f1c25c4a0c37d4c05fc5d68a",
+        "om_x100b508f1c32e0a4c3f7f0aa45a1377",
+        "om_x100b508f1d4d4ca0c107f2655c6b837",
+        "om_x100b508f1d5094a0c387bfc72037141",
+        "om_x100b508f1d66d8a0c31dc5a63371c53",
+        "om_x100b508f1d74c8a0c392c6a9deec8a2",
+        "om_x100b508f1c11e8a0c2b2e89660298df",
+        "om_x100b508f1c39aca0c1187bf41a65406",
+        "om_x100b508f1ddc94a0c10eb9040e886e7",
+        "om_x100b508f1d429ca0c4aa8a5d66a786d",
+        "om_x100b508f1c6288a4c4e3163c4e81f3c"
+      ]
+    }
+  ]
+}

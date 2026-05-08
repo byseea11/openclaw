@@ -1,0 +1,60 @@
+{
+  "case_id": "case_20260507105010931918_private_info_in_official_file",
+  "family_id": "private_info_in_official_file",
+  "task_id": "FEISHU-618",
+  "organization": "Globex Corporation",
+  "team": "Platform Engineering",
+  "business_goal": "确保任务状态仅基于正式文件结论，排除个人偏好或私聊背景的干扰。",
+  "scenario_summary": "在项目复盘评审过程中，某人将个人时间限制和偏好写入了正式纪要附件，后续讨论中有人误将这部分个人备注当作任务约束。系统需要区分正式文件中的任务事实和个人私有上下文，避免污染任务 current state。",
+  "family_fit_explanation": "该场景包含正式文件（评审纪要）、个人私有信息（个人时间限制和偏好）、以及误读和纠正，能够自然测试 private_info_in_official_file 能力。",
+  "source_sessions": [
+    {
+      "session_id": "main_chat",
+      "session_type": "main_chat",
+      "title": "主群协调",
+      "session_purpose": "沉淀目标任务的主线协作信息和最终 current state。"
+    },
+    {
+      "session_id": "thread_review_discussion",
+      "session_type": "chat",
+      "title": "thread_review_discussion 会话",
+      "session_purpose": "承载目标任务相关的补充协作上下文。"
+    },
+    {
+      "session_id": "private_chat_leak",
+      "session_type": "chat",
+      "title": "private_chat_leak 会话",
+      "session_purpose": "承载目标任务相关的补充协作上下文。"
+    },
+    {
+      "session_id": "handoff_thread",
+      "session_type": "handoff_thread",
+      "title": "交接修正线程",
+      "session_purpose": "承载 owner 交接、旧状态修正和 supersession 说明。"
+    },
+    {
+      "session_id": "risk_review_thread",
+      "session_type": "risk_review_thread",
+      "title": "风险复核线程",
+      "session_purpose": "承载依赖、风险和证据分层补充信息。"
+    },
+    {
+      "session_id": "customer_sync_chat",
+      "session_type": "customer_sync_chat",
+      "title": "客户同步侧群",
+      "session_purpose": "承接外部压力、模糊口径和对外同步上下文。"
+    },
+    {
+      "session_id": "exec_sync_chat",
+      "session_type": "exec_sync_chat",
+      "title": "管理层同步侧群",
+      "session_purpose": "承载跨部门升级、相似措辞和并行决策噪声。"
+    },
+    {
+      "session_id": "qa_triage_chat",
+      "session_type": "chat",
+      "title": "质量联调群",
+      "session_purpose": "承载测试、验收、缺陷确认和状态复核。"
+    }
+  ]
+}

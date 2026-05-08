@@ -1,0 +1,37 @@
+{
+  "case_id": "case_20260508030344241234_anti_interference",
+  "family_id": "anti_interference",
+  "task_id": "FEISHU-334",
+  "state_changes": [
+    {
+      "task_id": "FEISHU-334",
+      "field": "owner",
+      "sequence": [
+        {
+          "value": "Alice",
+          "status": "current"
+        }
+      ]
+    },
+    {
+      "task_id": "FEISHU-334",
+      "field": "blocker",
+      "sequence": [
+        {
+          "value": "pending_security_review",
+          "status": "current"
+        }
+      ]
+    },
+    {
+      "task_id": "FEISHU-334",
+      "field": "deployment_window",
+      "sequence": [
+        {
+          "value": "TBD (target week 12)",
+          "status": "current"
+        }
+      ]
+    }
+  ]
+}

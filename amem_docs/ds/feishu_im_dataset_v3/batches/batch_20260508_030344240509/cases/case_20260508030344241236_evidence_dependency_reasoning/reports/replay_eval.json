@@ -1,0 +1,11 @@
+{
+  "case_id": "case_20260508030344241236_evidence_dependency_reasoning",
+  "family_id": "evidence_dependency_reasoning",
+  "system": "task_wiki",
+  "query_count": 2,
+  "metrics": {
+    "query_success_rate": 1.0,
+    "evidence_trace_rate": 1.0,
+    "current_state_accuracy": 1.0
+  }
+}

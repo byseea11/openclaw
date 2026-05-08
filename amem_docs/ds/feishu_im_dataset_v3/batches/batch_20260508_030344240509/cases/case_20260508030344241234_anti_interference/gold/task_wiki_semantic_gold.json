@@ -1,0 +1,177 @@
+{
+  "case_id": "case_20260508030344241234_anti_interference",
+  "family_id": "anti_interference",
+  "task_id": "FEISHU-334",
+  "mode": "rule",
+  "expected_task_facts": [
+    {
+      "fact_id": "fact_001",
+      "claim": "【项目管理/林晨】安全审查还没通过，FEISHU-334 部署窗口暂不定。",
+      "required_supporting_message_ids": [
+        "om_x100b50e161e2e098c4a7d6ae43be6b8"
+      ]
+    },
+    {
+      "fact_id": "fact_002",
+      "claim": "【研发平台/周宇】安全环境没就绪，自动化部署脚本也无法测试。",
+      "required_supporting_message_ids": [
+        "om_x100b50e161f2dca4c22a575690d2c6f"
+      ]
+    },
+    {
+      "fact_id": "fact_003",
+      "claim": "【研发平台/王源】Ops 部署计划已草拟，等审查通过定窗口。",
+      "required_supporting_message_ids": [
+        "om_x100b50e16195ac94c2e817c79608c7d"
+      ]
+    },
+    {
+      "fact_id": "fact_004",
+      "claim": "【研发平台/赵敏】安全审查进展慢，还有三个风险项未关闭。",
+      "required_supporting_message_ids": [
+        "om_x100b50e161aac898c3fbbfeda5c94c5"
+      ]
+    },
+    {
+      "fact_id": "fact_005",
+      "claim": "【质量保障/陈雪】FEISHU-334 测试用例已准备，安全审查通过前不跑。",
+      "required_supporting_message_ids": [
+        "om_x100b50e161b87c84c22f69108517a4a"
+      ]
+    },
+    {
+      "fact_id": "fact_006",
+      "claim": "【研发平台/王源】FEISHU-334 的 ops 部署计划已草拟，等审查通过。",
+      "required_supporting_message_ids": [
+        "om_x100b50e1614f0098c2148aeaec2ed5d"
+      ]
+    },
+    {
+      "fact_id": "fact_007",
+      "claim": "【研发平台/赵敏】FEISHU-334 安全审查关键模块还有三个风险未关闭。",
+      "required_supporting_message_ids": [
+        "om_x100b50e17e5e54c8c2ec4e2b6bc8b01"
+      ]
+    },
+    {
+      "fact_id": "fact_008",
+      "claim": "【项目管理/林晨】总结：FEISHU-334 由我负责，安全审查是唯一 blocker。",
+      "required_supporting_message_ids": [
+        "om_x100b50e1612a98a8c4da805985b02aa"
+      ]
+    }
+  ],
+  "expected_event_semantics": [
+    {
+      "event_semantic_id": "event_semantic_001",
+      "purpose": "Alice 在 FEISHU-334 主群正式确认安全审查未完成，是当前 blocker 核心证据。",
+      "turn_kind": "event_bearing",
+      "required_supporting_message_ids": [
+        "om_x100b50e161e2e098c4a7d6ae43be6b8"
+      ]
+    },
+    {
+      "event_semantic_id": "event_semantic_002",
+      "purpose": "Bob 补充基础设施依赖，加固当前 blocker 信息。",
+      "turn_kind": "event_bearing",
+      "required_supporting_message_ids": [
+        "om_x100b50e161f2dca4c22a575690d2c6f"
+      ]
+    },
+    {
+      "event_semantic_id": "event_semantic_003",
+      "purpose": "event_bearing",
+      "turn_kind": "event_bearing",
+      "required_supporting_message_ids": [
+        "om_x100b50e16195ac94c2e817c79608c7d"
+      ]
+    },
+    {
+      "event_semantic_id": "event_semantic_004",
+      "purpose": "event_bearing",
+      "turn_kind": "event_bearing",
+      "required_supporting_message_ids": [
+        "om_x100b50e161aac898c3fbbfeda5c94c5"
+      ]
+    },
+    {
+      "event_semantic_id": "event_semantic_005",
+      "purpose": "Carol 在 FEISHU-334 主群确认测试进度，加固目标任务上下文。",
+      "turn_kind": "event_bearing",
+      "required_supporting_message_ids": [
+        "om_x100b50e161b87c84c22f69108517a4a"
+      ]
+    },
+    {
+      "event_semantic_id": "event_semantic_006",
+      "purpose": "Dave 在 FEISHU-334 主群回应 ops 依赖，加固目标任务上下文。",
+      "turn_kind": "event_bearing",
+      "required_supporting_message_ids": [
+        "om_x100b50e1614f0098c2148aeaec2ed5d"
+      ]
+    },
+    {
+      "event_semantic_id": "event_semantic_007",
+      "purpose": "Frank 在安全评审专用线程中更新评审进度，为后续 blocker 状态变化预留。",
+      "turn_kind": "event_bearing",
+      "required_supporting_message_ids": [
+        "om_x100b50e17e5e54c8c2ec4e2b6bc8b01"
+      ]
+    },
+    {
+      "event_semantic_id": "event_semantic_008",
+      "purpose": "Alice 在 FEISHU-334 主群做总结，强调当前 blocker 和 owner 不变。",
+      "turn_kind": "event_bearing",
+      "required_supporting_message_ids": [
+        "om_x100b50e1612a98a8c4da805985b02aa"
+      ]
+    }
+  ],
+  "expected_query_answers": [
+    {
+      "query_id": "case_20260508030344241234_anti_interference_semantic_query_001",
+      "query": "FEISHU-334 当前的负责人是谁，还有哪些 blocker？",
+      "expected_answer_summary": "回答 Alice 是负责人，当前 blocker 是安全审查未通过，部署窗口待定。不应混入文档评审或运维排练中的信息。",
+      "required_supporting_message_ids": [
+        "om_x100b50e161e2e098c4a7d6ae43be6b8",
+        "om_x100b50e161f2dca4c22a575690d2c6f",
+        "om_x100b50e16195ac94c2e817c79608c7d",
+        "om_x100b50e161aac898c3fbbfeda5c94c5",
+        "om_x100b50e161b87c84c22f69108517a4a",
+        "om_x100b50e1614f0098c2148aeaec2ed5d",
+        "om_x100b50e17e5e54c8c2ec4e2b6bc8b01",
+        "om_x100b50e1612a98a8c4da805985b02aa"
+      ]
+    },
+    {
+      "query_id": "case_20260508030344241234_anti_interference_semantic_query_002",
+      "query": "FEISHU-334 的当前状态是什么？是否已准备就绪？",
+      "expected_answer_summary": "回答尚未就绪，因为安全审查未完成，部署窗口未确定。不应引用Eve在文档评审线程中关于手册的评论或Grace的排练内容。",
+      "required_supporting_message_ids": [
+        "om_x100b50e161e2e098c4a7d6ae43be6b8",
+        "om_x100b50e161f2dca4c22a575690d2c6f",
+        "om_x100b50e16195ac94c2e817c79608c7d",
+        "om_x100b50e161aac898c3fbbfeda5c94c5",
+        "om_x100b50e161b87c84c22f69108517a4a",
+        "om_x100b50e1614f0098c2148aeaec2ed5d",
+        "om_x100b50e17e5e54c8c2ec4e2b6bc8b01",
+        "om_x100b50e1612a98a8c4da805985b02aa"
+      ]
+    },
+    {
+      "query_id": "case_20260508030344241234_anti_interference_semantic_query_003",
+      "query": "哪些因素阻碍了 FEISHU-334 的部署？",
+      "expected_answer_summary": "只提及安全审查未通过是唯一 blocker，不混入网络配置或文档评审中的其他问题。",
+      "required_supporting_message_ids": [
+        "om_x100b50e161e2e098c4a7d6ae43be6b8",
+        "om_x100b50e161f2dca4c22a575690d2c6f",
+        "om_x100b50e16195ac94c2e817c79608c7d",
+        "om_x100b50e161aac898c3fbbfeda5c94c5",
+        "om_x100b50e161b87c84c22f69108517a4a",
+        "om_x100b50e1614f0098c2148aeaec2ed5d",
+        "om_x100b50e17e5e54c8c2ec4e2b6bc8b01",
+        "om_x100b50e1612a98a8c4da805985b02aa"
+      ]
+    }
+  ]
+}

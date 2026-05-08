@@ -1,0 +1,57 @@
+{
+  "case_id": "case_20260507105819230766_private_info_in_official_file",
+  "family_id": "private_info_in_official_file",
+  "task_id": "FEISHU-366",
+  "state_changes": [
+    {
+      "task_id": "FEISHU-366",
+      "field": "status",
+      "sequence": [
+        {
+          "value": "待评审",
+          "status": "historical_initial"
+        },
+        {
+          "value": "评审中",
+          "status": "historical"
+        },
+        {
+          "value": "评审通过，等待安全审批",
+          "status": "current"
+        }
+      ]
+    },
+    {
+      "task_id": "FEISHU-366",
+      "field": "blocker",
+      "sequence": [
+        {
+          "value": "无",
+          "status": "historical_initial"
+        },
+        {
+          "value": "等待林晨时间确认（误读）",
+          "status": "historical_misinterpreted"
+        },
+        {
+          "value": "等待安全审批（赵磊）",
+          "status": "current"
+        }
+      ]
+    },
+    {
+      "task_id": "FEISHU-366",
+      "field": "owner",
+      "sequence": [
+        {
+          "value": "张薇",
+          "status": "current"
+        },
+        {
+          "value": "唐越（私有承诺误读）",
+          "status": "historical_misinterpreted"
+        }
+      ]
+    }
+  ]
+}

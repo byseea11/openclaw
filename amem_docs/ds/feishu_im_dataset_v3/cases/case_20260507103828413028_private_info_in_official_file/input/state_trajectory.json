@@ -1,0 +1,25 @@
+{
+  "case_id": "case_20260507103828413028_private_info_in_official_file",
+  "family_id": "private_info_in_official_file",
+  "task_id": "FEISHU-828",
+  "state_changes": [
+    {
+      "task_id": "FEISHU-828",
+      "field": "risk_status",
+      "sequence": [
+        {
+          "value": "open",
+          "status": "historical"
+        },
+        {
+          "value": "mitigating",
+          "status": "historical"
+        },
+        {
+          "value": "closed_by_official_review",
+          "status": "current"
+        }
+      ]
+    }
+  ]
+}

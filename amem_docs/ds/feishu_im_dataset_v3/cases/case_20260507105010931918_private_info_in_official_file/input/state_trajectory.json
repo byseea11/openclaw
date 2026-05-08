@@ -1,0 +1,39 @@
+{
+  "case_id": "case_20260507105010931918_private_info_in_official_file",
+  "family_id": "private_info_in_official_file",
+  "task_id": "FEISHU-618",
+  "state_changes": [
+    {
+      "task_id": "FEISHU-618",
+      "field": "status",
+      "sequence": [
+        {
+          "value": "pending_review",
+          "status": "initial"
+        },
+        {
+          "value": "blocked_by_security",
+          "status": "historical"
+        },
+        {
+          "value": "approved_with_conditions",
+          "status": "current"
+        }
+      ]
+    },
+    {
+      "task_id": "FEISHU-618",
+      "field": "owner",
+      "sequence": [
+        {
+          "value": "alice",
+          "status": "initial"
+        },
+        {
+          "value": "bob",
+          "status": "current"
+        }
+      ]
+    }
+  ]
+}

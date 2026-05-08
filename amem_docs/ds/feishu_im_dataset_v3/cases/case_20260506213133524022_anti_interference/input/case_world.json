@@ -1,0 +1,36 @@
+{
+  "case_id": "case_20260506213133524022_anti_interference",
+  "family_id": "anti_interference",
+  "task_id": "FEISHU-822",
+  "organization": "Globex Corporation",
+  "team": "Platform Engineering",
+  "business_goal": "确保在多项目并行推进中，关键任务的角色和状态不被其他项目的类似信息污染，提高协作决策的准确性。",
+  "scenario_summary": "Globex公司的平台工程部同时推进16个部门参与的基础设施升级、支付灰度放量准备、运维演练和发布节奏同步等项目。其中支付灰度放量准备（FEISHU-201）是目标任务，Alice和Bob等共享角色同时出现在多个相似讨论中。",
+  "family_fit_explanation": "该场景中Alice既是目标任务的owner，又在文档收口讨论中充当reviewer；Bob在运维演练中讨论blocker和ready，与FEISHU-201的表述高度相似；这些共享角色和相似措辞会自然干扰系统对目标任务的判断，适合测试抗干扰能力。",
+  "source_sessions": [
+    {
+      "session_id": "main_chat",
+      "session_type": "main_chat",
+      "title": "主群协调",
+      "session_purpose": "沉淀目标任务的主线协作信息和最终 current state。"
+    },
+    {
+      "session_id": "thread_docs",
+      "session_type": "chat",
+      "title": "thread_docs 会话",
+      "session_purpose": "承载目标任务相关的补充协作上下文。"
+    },
+    {
+      "session_id": "thread_infra",
+      "session_type": "chat",
+      "title": "thread_infra 会话",
+      "session_purpose": "承载目标任务相关的补充协作上下文。"
+    },
+    {
+      "session_id": "thread_customer",
+      "session_type": "chat",
+      "title": "thread_customer 会话",
+      "session_purpose": "承载目标任务相关的补充协作上下文。"
+    }
+  ]
+}

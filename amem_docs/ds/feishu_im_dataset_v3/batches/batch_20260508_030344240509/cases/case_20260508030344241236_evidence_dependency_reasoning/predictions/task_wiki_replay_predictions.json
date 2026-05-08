@@ -1,0 +1,31 @@
+{
+  "case_id": "case_20260508030344241236_evidence_dependency_reasoning",
+  "family_id": "evidence_dependency_reasoning",
+  "runtime": "task_wiki_replay_placeholder",
+  "answers": [
+    {
+      "query_id": "case_20260508030344241236_evidence_dependency_reasoning_query_001",
+      "answer": "指出当前 blocker（上游窗口已锁定），依据来自 Carol 的正式确认（beat_001），并说明 Bob 的传闻（beat_002）不可作为正式依据。",
+      "supporting_message_ids": [
+        "om_x100b50e12d0214a8c22c35da003b353",
+        "om_x100b50e12d33d8b0c4d1a5ed75d0b53",
+        "om_x100b50e12a807890c104f049147ba36",
+        "om_x100b50e12d164c84c4434462d171ee0",
+        "om_x100b50e12a1d50b0c275832927076af",
+        "om_x100b50e12ab014acc2efef17e2fbce0"
+      ]
+    },
+    {
+      "query_id": "case_20260508030344241236_evidence_dependency_reasoning_query_002",
+      "answer": "解释上游窗口锁定解除了下游回滚预案验收的阻塞，具体依据 Ethan 的确认（beat_005），并区分 Carol 的正式消息与 Diana 的模糊推断（beat_003）。",
+      "supporting_message_ids": [
+        "om_x100b50e12d0214a8c22c35da003b353",
+        "om_x100b50e12ab014acc2efef17e2fbce0",
+        "om_x100b50e12a807890c104f049147ba36",
+        "om_x100b50e12d164c84c4434462d171ee0",
+        "om_x100b50e12a1d50b0c275832927076af",
+        "om_x100b50e12d33d8b0c4d1a5ed75d0b53"
+      ]
+    }
+  ]
+}

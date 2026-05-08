@@ -1,0 +1,37 @@
+{
+  "generation_mode": "batch",
+  "dataset_size": 4,
+  "seed": 20260508030344241234,
+  "difficulty_policy": "easy",
+  "family_quotas": {
+    "anti_interference": 1,
+    "contradiction_update": 1,
+    "evidence_dependency_reasoning": 1,
+    "private_info_in_official_file": 1
+  },
+  "family_selection_policy": "round_robin_by_seed",
+  "batch_id": "batch_20260508_030344240509",
+  "family_policy": "all",
+  "case_plan": [
+    {
+      "index": 0,
+      "seed": 20260508030344241234,
+      "family_id": "anti_interference"
+    },
+    {
+      "index": 1,
+      "seed": 20260508030344241235,
+      "family_id": "contradiction_update"
+    },
+    {
+      "index": 2,
+      "seed": 20260508030344241236,
+      "family_id": "evidence_dependency_reasoning"
+    },
+    {
+      "index": 3,
+      "seed": 20260508030344241237,
+      "family_id": "private_info_in_official_file"
+    }
+  ]
+}

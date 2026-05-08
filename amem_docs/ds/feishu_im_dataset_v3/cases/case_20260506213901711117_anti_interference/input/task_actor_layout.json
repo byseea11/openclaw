@@ -1,0 +1,254 @@
+{
+  "case_id": "case_20260506213901711117_anti_interference",
+  "family_id": "anti_interference",
+  "task_id": "FEISHU-217",
+  "actors": [
+    {
+      "actor_id": "alice",
+      "display_name": "Alice",
+      "role": "project_manager"
+    },
+    {
+      "actor_id": "bob",
+      "display_name": "Bob",
+      "role": "ops_manager"
+    },
+    {
+      "actor_id": "carol",
+      "display_name": "Carol",
+      "role": "release_manager"
+    },
+    {
+      "actor_id": "dave",
+      "display_name": "Dave",
+      "role": "security_lead"
+    },
+    {
+      "actor_id": "eve",
+      "display_name": "Eve",
+      "role": "qa_lead"
+    },
+    {
+      "actor_id": "frank",
+      "display_name": "Frank",
+      "role": "dev_lead"
+    },
+    {
+      "actor_id": "grace",
+      "display_name": "Grace",
+      "role": "product_manager"
+    },
+    {
+      "actor_id": "henry",
+      "display_name": "Henry",
+      "role": "infra_engineer"
+    },
+    {
+      "actor_id": "irene",
+      "display_name": "Irene",
+      "role": "compliance_officer"
+    },
+    {
+      "actor_id": "jack",
+      "display_name": "Jack",
+      "role": "customer_support"
+    },
+    {
+      "actor_id": "kate",
+      "display_name": "Kate",
+      "role": "finance_manager"
+    },
+    {
+      "actor_id": "leo",
+      "display_name": "Leo",
+      "role": "vendor_coordinator"
+    },
+    {
+      "actor_id": "mia",
+      "display_name": "Mia",
+      "role": "legal_advisor"
+    },
+    {
+      "actor_id": "nick",
+      "display_name": "Nick",
+      "role": "data_analyst"
+    },
+    {
+      "actor_id": "olivia",
+      "display_name": "Olivia",
+      "role": "marketing_lead"
+    },
+    {
+      "actor_id": "paul",
+      "display_name": "Paul",
+      "role": "sales_ops"
+    },
+    {
+      "actor_id": "quinn",
+      "display_name": "Quinn",
+      "role": "hr_bp"
+    },
+    {
+      "actor_id": "rachel",
+      "display_name": "Rachel",
+      "role": "trainer"
+    },
+    {
+      "actor_id": "sam",
+      "display_name": "Sam",
+      "role": "sys_admin"
+    },
+    {
+      "actor_id": "tina",
+      "display_name": "Tina",
+      "role": "support_engineer"
+    },
+    {
+      "actor_id": "ulysses",
+      "display_name": "Ulysses",
+      "role": "auditor"
+    },
+    {
+      "actor_id": "victor",
+      "display_name": "Victor",
+      "role": "release_engineer"
+    },
+    {
+      "actor_id": "wendy",
+      "display_name": "Wendy",
+      "role": "doc_writer"
+    },
+    {
+      "actor_id": "xander",
+      "display_name": "Xander",
+      "role": "test_automation_engineer"
+    },
+    {
+      "actor_id": "yvonne",
+      "display_name": "Yvonne",
+      "role": "scrum_master"
+    },
+    {
+      "actor_id": "zack",
+      "display_name": "Zack",
+      "role": "integration_lead"
+    },
+    {
+      "actor_id": "aaron",
+      "display_name": "Aaron",
+      "role": "devops_engineer"
+    },
+    {
+      "actor_id": "bryce",
+      "display_name": "Bryce",
+      "role": "network_engineer"
+    }
+  ],
+  "task_actor_layout": {
+    "target_task_id": "FEISHU-217",
+    "shared_actors": [
+      "alice",
+      "bob",
+      "carol",
+      "dave",
+      "eve",
+      "frank",
+      "grace",
+      "henry",
+      "irene",
+      "jack",
+      "kate",
+      "leo",
+      "mia",
+      "nick",
+      "olivia",
+      "paul",
+      "quinn",
+      "rachel",
+      "sam",
+      "tina",
+      "ulysses",
+      "victor",
+      "wendy",
+      "xander",
+      "yvonne",
+      "zack",
+      "aaron",
+      "bryce"
+    ],
+    "interference_context_blocks": [
+      {
+        "context_ref": "ctx_doc_review",
+        "context_label": "并行文档收口讨论",
+        "noise_source_type": "shared_actor_noise",
+        "relationship_to_target": "Alice 在这条并行讨论里负责审文档，很容易被误当成 FEISHU-217 的 owner 再次变更。"
+      },
+      {
+        "context_ref": "ctx_ops_rehearsal",
+        "context_label": "运维演练 blocker 讨论",
+        "noise_source_type": "similar_wording_noise",
+        "relationship_to_target": "这里也在说 blocker、ready 和收口，容易把别的讨论污染到 FEISHU-217。"
+      },
+      {
+        "context_ref": "ctx_release_sync",
+        "context_label": "并行发布节奏同步",
+        "noise_source_type": "parallel_discussion_noise",
+        "relationship_to_target": "另一个并行同步会反复提到 owner、窗口和 ready，很适合制造 scope pollution。"
+      },
+      {
+        "context_ref": "ctx_security_review",
+        "context_label": "安全评审并行",
+        "noise_source_type": "parallel_discussion_noise",
+        "relationship_to_target": "Dave 和 Eve 同时在安全评审中讨论 blocker，容易与 FEISHU-217 的 blocker 混淆。"
+      },
+      {
+        "context_ref": "ctx_vendor_discussion",
+        "context_label": "供应商并行协调",
+        "noise_source_type": "shared_actor_noise",
+        "relationship_to_target": "Frank 和 Grace 在供应商讨论中提及的 owner 变更不属于 FEISHU-217。"
+      }
+    ],
+    "actor_task_roles": [
+      {
+        "actor_id": "alice",
+        "task_id": "FEISHU-217",
+        "role": "target_owner"
+      },
+      {
+        "actor_id": "alice",
+        "context_ref": "ctx_doc_review",
+        "role": "reviewer"
+      },
+      {
+        "actor_id": "bob",
+        "context_ref": "ctx_ops_rehearsal",
+        "role": "ops_owner"
+      },
+      {
+        "actor_id": "carol",
+        "context_ref": "ctx_release_sync",
+        "role": "release_coordinator"
+      },
+      {
+        "actor_id": "dave",
+        "context_ref": "ctx_security_review",
+        "role": "security_reviewer"
+      },
+      {
+        "actor_id": "eve",
+        "context_ref": "ctx_security_review",
+        "role": "security_reviewer"
+      },
+      {
+        "actor_id": "frank",
+        "context_ref": "ctx_vendor_discussion",
+        "role": "vendor_owner"
+      },
+      {
+        "actor_id": "grace",
+        "context_ref": "ctx_vendor_discussion",
+        "role": "vendor_owner"
+      }
+    ]
+  }
+}

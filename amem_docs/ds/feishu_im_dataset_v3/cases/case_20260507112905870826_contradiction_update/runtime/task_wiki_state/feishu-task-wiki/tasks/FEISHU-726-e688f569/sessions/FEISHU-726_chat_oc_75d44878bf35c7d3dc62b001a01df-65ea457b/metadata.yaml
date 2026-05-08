@@ -1,0 +1,26 @@
+task_id: task:FEISHU-726
+task_key: FEISHU-726
+source_session_id: task:FEISHU-726::chat:oc_75d44878bf35c7d3dc62b001a01df9f0
+source_scope: chat:oc_75d44878bf35c7d3dc62b001a01df9f0
+source_type: thread
+source_id: thread:qa_thread
+chat_id: oc_75d44878bf35c7d3dc62b001a01df9f0
+thread_id: om_x100b50f3c5be74a8c4414a4b5a26ec2
+root_id: om_x100b50f3c5be74a8c4414a4b5a26ec2
+time_range:
+  start: 2026-05-07T20:08:04.965Z
+  end: 2026-05-07T20:10:30.931Z
+participants:
+  - Benchmark Root
+  - 王源
+  - 梁昕
+  - 沈嘉
+source_locator: thread:qa_thread
+binding_mode: source_id
+created_at: 2026-05-07T20:08:04.965Z
+updated_at: 2026-05-07T20:10:30.932Z
+latest_ingest_version: 6
+raw_ingest_count: 6
+visible_ingest_count: 6
+compacted_at: 2026-05-07T20:10:30.932Z
+retained_entry_count: 6

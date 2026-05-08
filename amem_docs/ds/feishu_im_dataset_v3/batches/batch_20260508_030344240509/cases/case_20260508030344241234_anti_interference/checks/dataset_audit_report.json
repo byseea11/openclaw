@@ -1,0 +1,11 @@
+{
+  "case_id": "case_20260508030344241234_anti_interference",
+  "case_dir": "amem_docs/ds/feishu_im_dataset_v3/batches/batch_20260508_030344240509/cases/case_20260508030344241234_anti_interference",
+  "family_id": "anti_interference",
+  "task_id": "FEISHU-334",
+  "allowed_task_ids": [
+    "FEISHU-334"
+  ],
+  "status": "passed",
+  "issues": []
+}

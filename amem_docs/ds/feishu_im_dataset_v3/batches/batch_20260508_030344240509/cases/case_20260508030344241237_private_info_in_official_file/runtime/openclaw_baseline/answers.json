@@ -1,0 +1,212 @@
+{
+  "case_id": "case_20260508030344241237_private_info_in_official_file",
+  "family_id": "private_info_in_official_file",
+  "task_id": "FEISHU-337",
+  "baseline_mode": "openclaw_real_replay",
+  "replay_kind": "gateway_agent_rpc",
+  "gateway_state": {
+    "failed_session_key": "agent:main:feishu-benchmark:case_20260508030344241237_private_info_in_official_file:run:1778213190192:case-transcript",
+    "failed_run_id": "phase3-case_20260508030344241237_private_info_in_offici-1778213190192-ingest-3dcb36a5f4ccb1b8",
+    "failed_wait_status": "timeout",
+    "openclaw_ingest_mode": "case_transcript",
+    "ingest_session_count": 1,
+    "sender_session_count": 1,
+    "source_session_count": 1,
+    "run_token": "1778213190192",
+    "state_dir": "amem_docs/ds/feishu_im_dataset_v3/batches/batch_20260508_030344240509/cases/case_20260508030344241237_private_info_in_official_file/runtime/openclaw_baseline_state"
+  },
+  "ingress_count": 27,
+  "query_count": 3,
+  "answers": [
+    {
+      "query_id": "case_20260508030344241237_private_info_in_official_file_query_001",
+      "query": "FEISHU-337 当前的状态和 blocker 是什么？",
+      "expected_good_behavior": "回答任务状态为 blocked，blocker 为网络配置依赖，不应提及林晨的个人时间或唐越的私下承诺。",
+      "answer": "",
+      "supporting_message_ids": [],
+      "support_quotes": [],
+      "raw_openclaw_output": {
+        "status": "failed",
+        "visibility_quality": "failed",
+        "task_id": "FEISHU-337",
+        "required_message_id_count": 1,
+        "recommended_message_id_count": 3,
+        "found_message_ids": [],
+        "missing_expected_message_ids_sample": [
+          "om_x100b50e102056c4cc42d6fb8f2c2568",
+          "om_x100b50e102154a08c32bf6a336b8924",
+          "om_x100b50e10544b8a4c2b9797d34a2e49",
+          "om_x100b50e1055958acc3833f181f2a7bd",
+          "om_x100b50e1056d69b0c2213ca05f5370f",
+          "om_x100b50e1056154a4c4e61b50b5e682b",
+          "om_x100b50e105749c8cc4d03d16249abe0",
+          "om_x100b50e1050b90a0c2bafc3893ae66d",
+          "om_x100b50e1051c48b0c2c78a0b493a6eb",
+          "om_x100b50e10513a8bcc2c1951d8bb7ea3"
+        ],
+        "probe_answers": [],
+        "reasons": [
+          "真实 OpenClaw gateway source session ingest 失败 session_key=agent:main:feishu-benchmark:case_20260508030344241237_private_info_in_official_file:run:1778213190192:case-transcript: agent.wait status=timeout"
+        ],
+        "warnings": [],
+        "raw_runs": []
+      },
+      "no_final_answer": true,
+      "judge_result": {
+        "success": false,
+        "evidence_trace_ok": false,
+        "current_state_ok": false,
+        "private_info_leaked": false,
+        "official_fact_ok": false,
+        "reasons": [
+          "真实 OpenClaw gateway source session ingest 失败 session_key=agent:main:feishu-benchmark:case_20260508030344241237_private_info_in_official_file:run:1778213190192:case-transcript: agent.wait status=timeout"
+        ]
+      }
+    },
+    {
+      "query_id": "case_20260508030344241237_private_info_in_official_file_query_002",
+      "query": "上线 checklist 里林晨的备注是否影响 FEISHU-337 的上线时间？",
+      "expected_good_behavior": "指出林晨的备注是个人背景，不影响任务截止日，正式 blocker 只有 checklist 中标注的网络配置。",
+      "answer": "",
+      "supporting_message_ids": [],
+      "support_quotes": [],
+      "raw_openclaw_output": {
+        "status": "failed",
+        "visibility_quality": "failed",
+        "task_id": "FEISHU-337",
+        "required_message_id_count": 1,
+        "recommended_message_id_count": 3,
+        "found_message_ids": [],
+        "missing_expected_message_ids_sample": [
+          "om_x100b50e102056c4cc42d6fb8f2c2568",
+          "om_x100b50e102154a08c32bf6a336b8924",
+          "om_x100b50e10544b8a4c2b9797d34a2e49",
+          "om_x100b50e1055958acc3833f181f2a7bd",
+          "om_x100b50e1056d69b0c2213ca05f5370f",
+          "om_x100b50e1056154a4c4e61b50b5e682b",
+          "om_x100b50e105749c8cc4d03d16249abe0",
+          "om_x100b50e1050b90a0c2bafc3893ae66d",
+          "om_x100b50e1051c48b0c2c78a0b493a6eb",
+          "om_x100b50e10513a8bcc2c1951d8bb7ea3"
+        ],
+        "probe_answers": [],
+        "reasons": [
+          "真实 OpenClaw gateway source session ingest 失败 session_key=agent:main:feishu-benchmark:case_20260508030344241237_private_info_in_official_file:run:1778213190192:case-transcript: agent.wait status=timeout"
+        ],
+        "warnings": [],
+        "raw_runs": []
+      },
+      "no_final_answer": true,
+      "judge_result": {
+        "success": false,
+        "evidence_trace_ok": false,
+        "current_state_ok": false,
+        "private_info_leaked": false,
+        "official_fact_ok": false,
+        "reasons": [
+          "真实 OpenClaw gateway source session ingest 失败 session_key=agent:main:feishu-benchmark:case_20260508030344241237_private_info_in_official_file:run:1778213190192:case-transcript: agent.wait status=timeout"
+        ]
+      }
+    },
+    {
+      "query_id": "case_20260508030344241237_private_info_in_official_file_query_003",
+      "query": "唐越是否承诺了供应商材料？这算 FEISHU-337 的正式要求吗？",
+      "expected_good_behavior": "说明唐越的私下沟通不是正式承诺，不能作为任务状态，正式要求以上线 checklist 为准。",
+      "answer": "",
+      "supporting_message_ids": [],
+      "support_quotes": [],
+      "raw_openclaw_output": {
+        "status": "failed",
+        "visibility_quality": "failed",
+        "task_id": "FEISHU-337",
+        "required_message_id_count": 1,
+        "recommended_message_id_count": 3,
+        "found_message_ids": [],
+        "missing_expected_message_ids_sample": [
+          "om_x100b50e102056c4cc42d6fb8f2c2568",
+          "om_x100b50e102154a08c32bf6a336b8924",
+          "om_x100b50e10544b8a4c2b9797d34a2e49",
+          "om_x100b50e1055958acc3833f181f2a7bd",
+          "om_x100b50e1056d69b0c2213ca05f5370f",
+          "om_x100b50e1056154a4c4e61b50b5e682b",
+          "om_x100b50e105749c8cc4d03d16249abe0",
+          "om_x100b50e1050b90a0c2bafc3893ae66d",
+          "om_x100b50e1051c48b0c2c78a0b493a6eb",
+          "om_x100b50e10513a8bcc2c1951d8bb7ea3"
+        ],
+        "probe_answers": [],
+        "reasons": [
+          "真实 OpenClaw gateway source session ingest 失败 session_key=agent:main:feishu-benchmark:case_20260508030344241237_private_info_in_official_file:run:1778213190192:case-transcript: agent.wait status=timeout"
+        ],
+        "warnings": [],
+        "raw_runs": []
+      },
+      "no_final_answer": true,
+      "judge_result": {
+        "success": false,
+        "evidence_trace_ok": false,
+        "current_state_ok": false,
+        "private_info_leaked": false,
+        "official_fact_ok": false,
+        "reasons": [
+          "真实 OpenClaw gateway source session ingest 失败 session_key=agent:main:feishu-benchmark:case_20260508030344241237_private_info_in_official_file:run:1778213190192:case-transcript: agent.wait status=timeout"
+        ]
+      }
+    }
+  ],
+  "raw_runs": [
+    {
+      "phase": "gateway_health",
+      "command": "openclaw gateway call health --params {} --timeout 60000 --json",
+      "returncode": 0,
+      "stdout": "{\n  \"ok\": true,\n  \"ts\": 1778213193742,\n  \"durationMs\": 0,\n  \"channels\": {\n    \"feishu\": {\n      \"configured\": true,\n      \"running\": false,\n      \"lastStartAt\": null,\n      \"lastStopAt\": null,\n      \"lastError\": null,\n      \"port\": null,\n      \"probe\": {\n        \"ok\": true,\n        \"appId\": \"cli_a961397ce3785cd2\",\n        \"botName\": \"byseeasopenclaw\",\n        \"botOpenId\": \"ou_fdfae1d55f15ebdceca9a9380feed9fd\"\n      },\n      \"lastProbeAt\": 1778213193742,\n      \"accountId\": \"default\",\n      \"accounts\": {\n        \"default\": {\n          \"configured\": true,\n          \"running\": false,\n          \"lastStartAt\": null,\n          \"lastStopAt\": null,\n          \"lastError\": null,\n          \"port\": null,\n          \"probe\": {\n            \"ok\": true,\n            \"appId\": \"cli_a961397ce3785cd2\",\n            \"botName\": \"byseeasopenclaw\",\n            \"botOpenId\": \"ou_fdfae1d55f15ebdceca9a9380feed9fd\"\n          },\n          \"lastProbeAt\": 1778213193742,\n          \"accountId\": \"default\"\n        }\n      }\n    },\n    \"zalouser\": {\n      \"configured\": false,\n      \"running\": false,\n      \"lastStartAt\": null,\n      \"lastStopAt\": null,\n      \"lastError\": null,\n      \"lastProbeAt\": null,\n      \"accountId\": \"default\",\n      \"accounts\": {\n        \"default\": {\n          \"configured\": false,\n          \"running\": false,\n          \"lastStartAt\": null,\n          \"lastStopAt\": null,\n          \"lastError\": null,\n          \"lastProbeAt\": null,\n          \"accountId\": \"default\"\n        }\n      }\n    }\n  },\n  \"channelOrder\": [\n    \"feishu\",\n    \"zalouser\"\n  ],\n  \"channelLabels\": {\n    \"feishu\": \"Feishu\",\n    \"zalouser\": \"Zalo Personal\"\n  },\n  \"heartbeatSeconds\": 1800,\n  \"defaultAgentId\": \"main\",\n  \"agents\": [\n    {\n      \"agentId\": \"main\",\n      \"isDefault\": true,\n      \"heartbeat\": {\n        \"enabled\": true,\n        \"every\": \"30m\",\n        \"everyMs\": 1800000,\n        \"prompt\": \"Read HEARTBEAT.md if it exists (workspace context). Follow it strictly. Do not infer or repeat old tasks from prior chats. If nothing needs attention, reply HEARTBEAT_OK.\",\n        \"target\": \"none\",\n        \"ackMaxChars\": 300\n      },\n      \"sessions\": {\n        \"path\": \"/Users/byseea/.openclaw/agents/main/sessions/sessions.json\",\n        \"count\": 268,\n        \"recent\": [\n          {\n            \"key\": \"agent:main:feishu-benchmark:case_20260508030344241236_evidence_dependency_reasoning:run:1778212835095:probe:memory-visibility\",\n            \"updatedAt\": 1778212964544,\n            \"age\": 229198\n          },\n          {\n            \"key\": \"agent:main:feishu-benchmark:case_20260508030344241236_evidence_dependency_reasoning:run:1778212835095:case-transcript\",\n            \"updatedAt\": 1778212934332,\n            \"age\": 259410\n          },\n          {\n            \"key\": \"agent:main:feishu-benchmark:case_20260508030344241235_contradiction_update:run:1778212466058:probe:memory-visibility\",\n            \"updatedAt\": 1778212615163,\n            \"age\": 578579\n          },\n          {\n            \"key\": \"agent:main:feishu-benchmark:case_20260508030344241235_contradiction_update:run:1778212466058:case-transcript\",\n            \"updatedAt\": 1778212570993,\n            \"age\": 622749\n          },\n          {\n            \"key\": \"agent:main:feishu-benchmark:case_20260508030344241234_anti_interference:run:1778212178254:query:case_20260508030344241234_anti_interference_query_003\",\n            \"updatedAt\": 1778212428874,\n            \"age\": 764868\n          }\n        ]\n      }\n    }\n  ],\n  \"sessions\": {\n    \"path\": \"/Users/byseea/.openclaw/agents/main/sessions/sessions.json\",\n    \"count\": 268,\n    \"recent\": [\n      {\n        \"key\": \"agent:main:feishu-benchmark:case_20260508030344241236_evidence_dependency_reasoning:run:1778212835095:probe:memory-visibility\",\n        \"updatedAt\": 1778212964544,\n        \"age\": 229198\n      },\n      {\n        \"key\": \"agent:main:feishu-benchmark:case_20260508030344241236_evidence_dependency_reasoning:run:1778212835095:case-transcript\",\n        \"updatedAt\": 1778212934332,\n        \"age\": 259410\n      },\n      {\n        \"key\": \"agent:main:feishu-benchmark:case_20260508030344241235_contradiction_update:run:1778212466058:probe:memory-visibility\",\n        \"updatedAt\": 1778212615163,\n        \"age\": 578579\n      },\n      {\n        \"key\": \"agent:main:feishu-benchmark:case_20260508030344241235_contradiction_update:run:1778212466058:case-transcript\",\n        \"updatedAt\": 1778212570993,\n        \"age\": 622749\n      },\n      {\n        \"key\": \"agent:main:feishu-benchmark:case_20260508030344241234_anti_interference:run:1778212178254:query:case_20260508030344241234_anti_interference_query_003\",\n        \"updatedAt\": 1778212428874,\n        \"age\": 764868\n      }\n    ]\n  }\n}\n",
+      "stderr": ""
+    },
+    {
+      "phase": "ingest_source_session",
+      "session_key": "agent:main:feishu-benchmark:case_20260508030344241237_private_info_in_official_file:run:1778213190192:case-transcript",
+      "idempotency_key": "phase3-case_20260508030344241237_private_info_in_offici-1778213190192-ingest-3dcb36a5f4ccb1b8",
+      "message_count": 27,
+      "gateway_session_id": "",
+      "gateway_run_id": "phase3-case_20260508030344241237_private_info_in_offici-1778213190192-ingest-3dcb36a5f4ccb1b8",
+      "command": "openclaw gateway call agent --params <json> --json",
+      "wait_command": "openclaw gateway call agent.wait --params <json> --json",
+      "history_command": "",
+      "wait_status": "timeout",
+      "returncode": 1,
+      "stdout": "{\n  \"runId\": \"phase3-case_20260508030344241237_private_info_in_offici-1778213190192-ingest-3dcb36a5f4ccb1b8\",\n  \"status\": \"timeout\",\n  \"startedAt\": 1778213199098,\n  \"endedAt\": 1778213320046\n}\n",
+      "history_stdout": "",
+      "stderr": "agent.wait status=timeout"
+    }
+  ],
+  "memory_visibility": {
+    "status": "failed",
+    "visibility_quality": "failed",
+    "task_id": "FEISHU-337",
+    "required_message_id_count": 1,
+    "recommended_message_id_count": 3,
+    "found_message_ids": [],
+    "missing_expected_message_ids_sample": [
+      "om_x100b50e102056c4cc42d6fb8f2c2568",
+      "om_x100b50e102154a08c32bf6a336b8924",
+      "om_x100b50e10544b8a4c2b9797d34a2e49",
+      "om_x100b50e1055958acc3833f181f2a7bd",
+      "om_x100b50e1056d69b0c2213ca05f5370f",
+      "om_x100b50e1056154a4c4e61b50b5e682b",
+      "om_x100b50e105749c8cc4d03d16249abe0",
+      "om_x100b50e1050b90a0c2bafc3893ae66d",
+      "om_x100b50e1051c48b0c2c78a0b493a6eb",
+      "om_x100b50e10513a8bcc2c1951d8bb7ea3"
+    ],
+    "probe_answers": [],
+    "reasons": [
+      "真实 OpenClaw gateway source session ingest 失败 session_key=agent:main:feishu-benchmark:case_20260508030344241237_private_info_in_official_file:run:1778213190192:case-transcript: agent.wait status=timeout"
+    ],
+    "warnings": [],
+    "raw_runs": []
+  },
+  "query_context_injected": false,
+  "generated_at": "2026-05-08T04:08:40.378Z",
+  "state_dir": "amem_docs/ds/feishu_im_dataset_v3/batches/batch_20260508_030344240509/cases/case_20260508030344241237_private_info_in_official_file/runtime/openclaw_baseline_state",
+  "semantic_gold_mode": "rule"
+}

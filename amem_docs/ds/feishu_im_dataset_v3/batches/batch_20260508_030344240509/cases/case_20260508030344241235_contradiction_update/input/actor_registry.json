@@ -1,0 +1,139 @@
+{
+  "case_id": "case_20260508030344241235_contradiction_update",
+  "family_id": "contradiction_update",
+  "task_id": "FEISHU-335",
+  "actors": [
+    {
+      "person_id": "alice",
+      "simulated_open_id": "ou_sim_alice",
+      "name": "林晨",
+      "department": "企业协作",
+      "role": "项目经理",
+      "default_channels": [
+        "chat_main_chat",
+        "chat_thread_release"
+      ]
+    },
+    {
+      "person_id": "bob",
+      "simulated_open_id": "ou_sim_bob",
+      "name": "周宇",
+      "department": "企业协作",
+      "role": "开发工程师",
+      "default_channels": [
+        "chat_main_chat",
+        "chat_thread_release"
+      ]
+    },
+    {
+      "person_id": "carol",
+      "simulated_open_id": "ou_sim_carol",
+      "name": "陈雪",
+      "department": "企业协作",
+      "role": "测试工程师",
+      "default_channels": [
+        "chat_main_chat",
+        "chat_thread_release"
+      ]
+    },
+    {
+      "person_id": "david",
+      "simulated_open_id": "ou_sim_david",
+      "name": "王源",
+      "department": "企业协作",
+      "role": "产品经理",
+      "default_channels": [
+        "chat_main_chat",
+        "chat_thread_release"
+      ]
+    },
+    {
+      "person_id": "eve",
+      "simulated_open_id": "ou_sim_eve",
+      "name": "高骏",
+      "department": "企业协作",
+      "role": "运维工程师",
+      "default_channels": [
+        "chat_main_chat",
+        "chat_thread_release"
+      ]
+    },
+    {
+      "person_id": "frank",
+      "simulated_open_id": "ou_sim_frank",
+      "name": "赵敏",
+      "department": "企业协作",
+      "role": "架构师",
+      "default_channels": [
+        "chat_main_chat",
+        "chat_thread_release"
+      ]
+    },
+    {
+      "person_id": "grace",
+      "simulated_open_id": "ou_sim_grace",
+      "name": "何然",
+      "department": "企业协作",
+      "role": "前端工程师",
+      "default_channels": [
+        "chat_main_chat",
+        "chat_thread_release"
+      ]
+    },
+    {
+      "person_id": "henry",
+      "simulated_open_id": "ou_sim_henry",
+      "name": "秦怡",
+      "department": "企业协作",
+      "role": "后端工程师",
+      "default_channels": [
+        "chat_main_chat",
+        "chat_thread_release"
+      ]
+    },
+    {
+      "person_id": "ivy",
+      "simulated_open_id": "ou_sim_ivy",
+      "name": "罗天",
+      "department": "企业协作",
+      "role": "设计师",
+      "default_channels": [
+        "chat_main_chat",
+        "chat_thread_release"
+      ]
+    },
+    {
+      "person_id": "jack",
+      "simulated_open_id": "ou_sim_jack",
+      "name": "苏禾",
+      "department": "企业协作",
+      "role": "安全工程师",
+      "default_channels": [
+        "chat_main_chat",
+        "chat_thread_release"
+      ]
+    },
+    {
+      "person_id": "kevin",
+      "simulated_open_id": "ou_sim_kevin",
+      "name": "唐越",
+      "department": "企业协作",
+      "role": "数据工程师",
+      "default_channels": [
+        "chat_main_chat",
+        "chat_thread_release"
+      ]
+    },
+    {
+      "person_id": "lisa",
+      "simulated_open_id": "ou_sim_lisa",
+      "name": "许薇",
+      "department": "企业协作",
+      "role": "技术经理",
+      "default_channels": [
+        "chat_main_chat",
+        "chat_thread_release"
+      ]
+    }
+  ]
+}

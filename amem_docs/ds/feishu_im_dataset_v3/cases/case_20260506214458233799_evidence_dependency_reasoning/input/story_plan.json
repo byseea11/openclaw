@@ -1,0 +1,422 @@
+{
+  "story_id": "story_case_20260506214458233799_evidence_dependency_reasoning",
+  "case_id": "case_20260506214458233799_evidence_dependency_reasoning",
+  "family_id": "evidence_dependency_reasoning",
+  "task": {
+    "task_id": "FEISHU-499",
+    "task_name": "支付网关多区域灰度发布",
+    "role": "target_task"
+  },
+  "actors": [
+    {
+      "actor_id": "alice",
+      "display_name": "Alice",
+      "role": "release_pm"
+    },
+    {
+      "actor_id": "bob",
+      "display_name": "Bob",
+      "role": "ops_partner"
+    },
+    {
+      "actor_id": "carol",
+      "display_name": "Carol",
+      "role": "migration_owner"
+    },
+    {
+      "actor_id": "dave",
+      "display_name": "Dave",
+      "role": "dba_lead"
+    },
+    {
+      "actor_id": "eve",
+      "display_name": "Eve",
+      "role": "security_officer"
+    },
+    {
+      "actor_id": "frank",
+      "display_name": "Frank",
+      "role": "compliance_lead"
+    },
+    {
+      "actor_id": "grace",
+      "display_name": "Grace",
+      "role": "finance_controller"
+    },
+    {
+      "actor_id": "henry",
+      "display_name": "Henry",
+      "role": "na_ops_manager"
+    },
+    {
+      "actor_id": "ivy",
+      "display_name": "Ivy",
+      "role": "eu_ops_manager"
+    },
+    {
+      "actor_id": "jack",
+      "display_name": "Jack",
+      "role": "apac_ops_manager"
+    },
+    {
+      "actor_id": "kate",
+      "display_name": "Kate",
+      "role": "qa_lead"
+    },
+    {
+      "actor_id": "leo",
+      "display_name": "Leo",
+      "role": "release_coordinator"
+    },
+    {
+      "actor_id": "mia",
+      "display_name": "Mia",
+      "role": "sre_lead"
+    },
+    {
+      "actor_id": "nick",
+      "display_name": "Nick",
+      "role": "network_engineer"
+    },
+    {
+      "actor_id": "olivia",
+      "display_name": "Olivia",
+      "role": "product_manager"
+    },
+    {
+      "actor_id": "paul",
+      "display_name": "Paul",
+      "role": "vendor_coordinator"
+    },
+    {
+      "actor_id": "quinn",
+      "display_name": "Quinn",
+      "role": "legal_counsel"
+    },
+    {
+      "actor_id": "rachel",
+      "display_name": "Rachel",
+      "role": "training_lead"
+    },
+    {
+      "actor_id": "sam",
+      "display_name": "Sam",
+      "role": "customer_support_lead"
+    },
+    {
+      "actor_id": "tina",
+      "display_name": "Tina",
+      "role": "regional_risk_analyst"
+    },
+    {
+      "actor_id": "ulysses",
+      "display_name": "Ulysses",
+      "role": "data_engineer"
+    },
+    {
+      "actor_id": "victor",
+      "display_name": "Victor",
+      "role": "infra_architect"
+    },
+    {
+      "actor_id": "wendy",
+      "display_name": "Wendy",
+      "role": "program_manager"
+    },
+    {
+      "actor_id": "xavier",
+      "display_name": "Xavier",
+      "role": "target_owner"
+    },
+    {
+      "actor_id": "yara",
+      "display_name": "Yara",
+      "role": "regional_compliance_analyst"
+    },
+    {
+      "actor_id": "zack",
+      "display_name": "Zack",
+      "role": "audit_lead"
+    },
+    {
+      "actor_id": "amy",
+      "display_name": "Amy",
+      "role": "security_analyst"
+    },
+    {
+      "actor_id": "brian",
+      "display_name": "Brian",
+      "role": "sre_engineer"
+    }
+  ],
+  "task_actor_layout": {
+    "target_task_id": "FEISHU-499",
+    "shared_actors": [
+      "carol",
+      "xavier",
+      "alice",
+      "bob",
+      "kate",
+      "mia"
+    ],
+    "dependency_context_blocks": [
+      {
+        "context_ref": "ctx_upstream_window",
+        "context_label": "上游数据库迁移窗口正式确认",
+        "dependency_role": "verified_anchor",
+        "evidence_strength": "verified",
+        "impact_on_target": "窗口未锁定 → FEISHU-499 不能承诺上线时间；一旦锁定则可启动灰度。"
+      },
+      {
+        "context_ref": "ctx_window_hearsay",
+        "context_label": "窗口即将锁定的传闻",
+        "dependency_role": "hearsay_channel",
+        "evidence_strength": "hearsay",
+        "impact_on_target": "误信传闻会导致系统提前判断 blocker 消失，过早确认发布排期。"
+      },
+      {
+        "context_ref": "ctx_target_assessment",
+        "context_label": "目标负责人模糊判断",
+        "dependency_role": "ambiguous_channel",
+        "evidence_strength": "ambiguous",
+        "impact_on_target": "模糊判断不能替代正式确认，但容易被系统压成确定性结论。"
+      },
+      {
+        "context_ref": "ctx_downstream_rollback",
+        "context_label": "下游回滚预案验收排期影响",
+        "dependency_role": "downstream_impact",
+        "evidence_strength": "derived_from_verified",
+        "impact_on_target": "FEISHU-499 窗口未锁 → 回滚预案验收顺延；验收完成前不能全量放量。"
+      },
+      {
+        "context_ref": "ctx_security_gating",
+        "context_label": "安全合规审批进展",
+        "dependency_role": "ambiguous_channel",
+        "evidence_strength": "ambiguous",
+        "impact_on_target": "Eve 表示安全审批接近完成但尚未正式签字，若系统将其作为正式条件则会误判风险。"
+      },
+      {
+        "context_ref": "ctx_finance_approval",
+        "context_label": "财务预算审批状态",
+        "dependency_role": "hearsay_channel",
+        "evidence_strength": "hearsay",
+        "impact_on_target": "Grace 从财务 VP 处听说预算即将通过，但无正式邮件，不能作为发布依据。"
+      }
+    ],
+    "actor_task_roles": [
+      {
+        "actor_id": "carol",
+        "context_ref": "ctx_upstream_window",
+        "role": "verified_source"
+      },
+      {
+        "actor_id": "bob",
+        "context_ref": "ctx_window_hearsay",
+        "role": "hearsay_source"
+      },
+      {
+        "actor_id": "alice",
+        "task_id": "FEISHU-499",
+        "role": "ambiguous_source"
+      },
+      {
+        "actor_id": "xavier",
+        "task_id": "FEISHU-499",
+        "role": "target_owner"
+      },
+      {
+        "actor_id": "alice",
+        "context_ref": "ctx_downstream_rollback",
+        "role": "rollback_owner"
+      },
+      {
+        "actor_id": "kate",
+        "context_ref": "ctx_downstream_rollback",
+        "role": "qa_lead"
+      },
+      {
+        "actor_id": "mia",
+        "context_ref": "ctx_downstream_rollback",
+        "role": "sre_support"
+      },
+      {
+        "actor_id": "eve",
+        "context_ref": "ctx_security_gating",
+        "role": "security_officer"
+      },
+      {
+        "actor_id": "grace",
+        "context_ref": "ctx_finance_approval",
+        "role": "finance_controller"
+      }
+    ]
+  },
+  "state_changes": [
+    {
+      "task_id": "FEISHU-499",
+      "field": "upstream_dependency_status",
+      "sequence": [
+        {
+          "value": "待确认",
+          "status": "initial"
+        },
+        {
+          "value": "Carol 确认迁移窗口未锁定",
+          "status": "current"
+        }
+      ]
+    },
+    {
+      "task_id": "FEISHU-499",
+      "field": "release_commitment",
+      "sequence": [
+        {
+          "value": "计划 6 月 15 日灰度",
+          "status": "initial"
+        },
+        {
+          "value": "等待窗口确认后承诺",
+          "status": "current"
+        }
+      ]
+    },
+    {
+      "task_id": "FEISHU-499",
+      "field": "rollback_drill_schedule",
+      "sequence": [
+        {
+          "value": "计划 6 月 10 日前完成",
+          "status": "initial"
+        },
+        {
+          "value": "顺延至窗口确认后另行安排",
+          "status": "current"
+        }
+      ]
+    },
+    {
+      "task_id": "FEISHU-499",
+      "field": "security_approval_status",
+      "sequence": [
+        {
+          "value": "进行中",
+          "status": "initial"
+        },
+        {
+          "value": "接近完成（Eve 口头表示尚未签字）",
+          "status": "current"
+        }
+      ]
+    },
+    {
+      "task_id": "FEISHU-499",
+      "field": "finance_approval_status",
+      "sequence": [
+        {
+          "value": "待审批",
+          "status": "initial"
+        },
+        {
+          "value": "传闻即将通过（无正式确认）",
+          "status": "current"
+        }
+      ]
+    }
+  ],
+  "message_beats": [
+    {
+      "beat_id": "beat_001",
+      "speaker_actor_id": "carol",
+      "speaker": "Carol",
+      "session_id": "main_chat",
+      "message_intent": "正式确认：上游迁移窗口今天仍未锁定，FEISHU-499 暂不能承诺 6 月 15 日灰度。",
+      "purpose": "正式确认：上游迁移窗口今天仍未锁定，FEISHU-499 暂不能承诺 6 月 15 日灰度。"
+    },
+    {
+      "beat_id": "beat_002",
+      "speaker_actor_id": "bob",
+      "speaker": "Bob",
+      "session_id": "main_chat",
+      "message_intent": "听 DBA 说窗口可能这两天就锁定了，可以开始准备对外沟通了吧？但我没看到正式邮件。",
+      "purpose": "听 DBA 说窗口可能这两天就锁定了，可以开始准备对外沟通了吧？但我没看到正式邮件。"
+    },
+    {
+      "beat_id": "beat_003",
+      "speaker_actor_id": "alice",
+      "speaker": "Alice",
+      "session_id": "handoff_thread",
+      "message_intent": "窗口风险感觉不大，但确实还没锁定，我们暂时先不对外确认。",
+      "purpose": "窗口风险感觉不大，但确实还没锁定，我们暂时先不对外确认。"
+    },
+    {
+      "beat_id": "beat_004",
+      "speaker_actor_id": "alice",
+      "speaker": "Alice",
+      "session_id": "handoff_thread",
+      "message_intent": "如果 FEISHU-499 不能按时灰度，回滚预案验收也得一起顺延，Kate 那边 QA 资源要重新排。",
+      "purpose": "如果 FEISHU-499 不能按时灰度，回滚预案验收也得一起顺延，Kate 那边 QA 资源要重新排。"
+    },
+    {
+      "beat_id": "beat_005",
+      "speaker_actor_id": "eve",
+      "speaker": "Eve",
+      "session_id": "handoff_thread",
+      "message_intent": "安全审批基本快完了，就差最后一个签字。不过还没正式下来，你们别当已完成。",
+      "purpose": "安全审批基本快完了，就差最后一个签字。不过还没正式下来，你们别当已完成。"
+    },
+    {
+      "beat_id": "beat_006",
+      "speaker_actor_id": "grace",
+      "speaker": "Grace",
+      "session_id": "customer_sync_chat",
+      "message_intent": "VP 说预算大概率能过，但正式批复邮件还没发。先按这个方向准备，别对外说。",
+      "purpose": "VP 说预算大概率能过，但正式批复邮件还没发。先按这个方向准备，别对外说。"
+    },
+    {
+      "beat_id": "beat_007",
+      "speaker_actor_id": "xavier",
+      "speaker": "Xavier",
+      "session_id": "risk_review_thread",
+      "message_intent": "总结：当前 verified blocker 是 Carol 确认的迁移窗口未锁定，这会直接推迟 FEISHU-499 灰度，导致回滚验收顺延。Bob 和 Grace 的传闻、Alice 和 Eve 的模糊判断都不能替代正式确认。",
+      "purpose": "总结：当前 verified blocker 是 Carol 确认的迁移窗口未锁定，这会直接推迟 FEISHU-499 灰度，导致回滚验收顺延。Bob 和 Grace 的传闻、Alice 和 Eve 的模糊判断都不能替代正式确认。"
+    },
+    {
+      "beat_id": "beat_008",
+      "speaker_actor_id": "kate",
+      "speaker": "Kate",
+      "session_id": "risk_review_thread",
+      "message_intent": "收到，回滚验收资源已重新排期，等窗口锁定通知即可启动。",
+      "purpose": "收到，回滚验收资源已重新排期，等窗口锁定通知即可启动。"
+    },
+    {
+      "beat_id": "beat_009",
+      "speaker_actor_id": "frank",
+      "speaker": "Frank",
+      "session_id": "exec_sync_chat",
+      "message_intent": "合规角度我们同意 Xavier 的结论：目前唯一正式依据是 Carol 的确认。窗口锁定后才能对外承诺，建议同步给各区域运营团队。",
+      "purpose": "合规角度我们同意 Xavier 的结论：目前唯一正式依据是 Carol 的确认。窗口锁定后才能对外承诺，建议同步给各区域运营团队。"
+    },
+    {
+      "beat_id": "beat_010",
+      "speaker_actor_id": "dave",
+      "speaker": "Dave",
+      "session_id": "main_chat",
+      "message_intent": "补充：窗口未锁定是因为亚太区域还有一条索引变更未验证，预计需要 3-5 个工作日。这是 Carol 团队评估后得出的。",
+      "purpose": "补充：窗口未锁定是因为亚太区域还有一条索引变更未验证，预计需要 3-5 个工作日。这是 Carol 团队评估后得出的。"
+    }
+  ],
+  "planned_probe_queries": [
+    {
+      "query": "FEISHU-499 当前真实 blocker 是什么？依据来自谁、哪条消息？Bob 和 Eve 的说法为什么不能当正式确认？这个 blocker 如何影响后续回滚预案验收？",
+      "expected_good_behavior": "回答真实 blocker 是上游迁移窗口未锁定，依据来自 Carol 在 main_chat 的正式确认；Bob 是 hearsay（无正式邮件），Eve 是口头未签字，二者都不能替代正式确认；由于窗口未锁定，FEISHU-499 灰度推迟，导致下游回滚验收顺延至窗口确认后。"
+    },
+    {
+      "query": "除了窗口 blocker，还有哪些潜在风险？这些风险的证据强度如何？哪些可以忽略？",
+      "expected_good_behavior": "列出安全审批（Eve 口头接近完成但未签字，证据强度 ambiguous）、财务预算（Grace 听到 VP 意向但无正式批复，证据强度 hearsay），二者均不能作为正式 blocker 或 release 条件。唯一 verified 风险是窗口未锁定。"
+    },
+    {
+      "query": "FEISHU-499 的灰度时间安排目前是什么状态？哪些信息是可靠的？",
+      "expected_good_behavior": "最初计划 6 月 15 日灰度，但因窗口未锁定已改为等待窗口确认后承诺，当前无确定时间。可靠信息仅来自 Carol 的正式确认，Bob/Grace 的非正式消息不可靠。"
+    }
+  ]
+}

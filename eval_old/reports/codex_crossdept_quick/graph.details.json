@@ -1,0 +1,78 @@
+[
+  {
+    "sample_id": "product_launch_v1",
+    "query_id": "q1",
+    "query_type": "state",
+    "predicted_answer": "根据最新的群聊记录和 MEMORY.md 中的信息：\n\n**PROD-123 现在没有被任何阻塞！** ✅\n\n## 当前状态\n\n**所有前置依赖已满足：**\n1. ✅ **AP-456 技术审批** - 已通过（Carol 确认）\n2. ✅ **TASK-789 数据迁移** - 已完成（Bob 确认）\n\n## 开发进展\n- **状态**: 开发进行中\n- **开发负责人**: Bob\n- **实际开始时间**: 2026-04-21（今天）\n- **预计完成时间**: 2026-05-05（2周后）\n- **上线目标**: 本周内推进上线（Alice 要求）\n\n## 最新时间线（今天）\n1. Alice 建单希望本周推进上线\n2. Bob 完成工作量评估（2周）\n3. Carol 确认 AP-456 审批通过，提醒需要 TASK-789\n4. Bob 确认 TASK-789 已完成，可以开始开发\n\n**结论：PROD-123 的所有阻塞都已解除，开发工作已经可以开始。**",
+    "gold_answer": "已解除阻塞，可以开始开发",
+    "tool_calls": [],
+    "prompt_tokens": 10948,
+    "completion_tokens": 235,
+    "latency_ms": 17439.383,
+    "gold_evidence_items": [
+      {
+        "ref": "history[3]",
+        "texts": [
+          "TASK-789 已完成，PROD-123 可以开始开发了",
+          "TASK-789 这边已经 done 了，PROD-123 可以继续推进了。"
+        ]
+      }
+    ],
+    "retrieval_results": [],
+    "retrieval_probe_status": "missing_tool_output",
+    "retrieval_probe_source": null,
+    "retrieval_probe_error": "probe response did not contain parseable memory_search results",
+    "exact_match": 0.0,
+    "f1": 0.10232558139534884,
+    "memory_search_calls": 0,
+    "memory_get_calls": 0,
+    "memory_tool_calls": 0,
+    "recall_at_5": 0.0,
+    "recall_at_10": 0.0
+  },
+  {
+    "sample_id": "product_launch_v1",
+    "query_id": "q2",
+    "query_type": "why",
+    "predicted_answer": "让我分析一下 PROD-123 为什么一直没有启动的原因。根据 MEMORY.md 中的记录和群聊对话，我来梳理一下时间线和阻塞点。\n\n让我重新查看 PROD-123 的完整记录：\n\n现在让我查看一下 PROD-123 的创建时间线：\n\n基于所有信息，我来分析 **PROD-123 为什么一直没有启动**：\n\n## 🕵️‍♂️ PROD-123 延迟启动原因分析\n\n### 📅 时间线回顾\n1. **创建时间**: 2026-04-01（3周前）\n2. **评估完成时间**: 2026-04-02（Bob 评估需要2周开发时间）\n3. **实际启动时间**: 2026-04-21（今天）\n\n### 🔴 主要阻塞原因\n\n#### 1. **技术审批阻塞（AP-456）**\n- **问题**: AP-456 技术审批一直未通过\n- **影响**: Bob 在 2026-04-02 完成评估后，因 AP-456 未通过而无法启动开发\n- **解决时间**: 2026-04-21（今天）由 Carol 确认通过\n\n#### 2. **数据迁移依赖（TASK-789）**\n- **问题**: 即使 AP-456 通过，还需要先完成 TASK-789 数据迁移\n- **状态**: TASK-789 已于 2026-04-10 完成，但 Bob 今天才确认\n- **影响**: 双重依赖导致进一步延迟\n\n#### 3. **沟通与跟进问题**\n- **评估与审批脱节**: Bob 在 4月2日完成评估，但审批流程直到今天才明确状态\n- **依赖关系不清晰**: 直到今天群聊中才明确 TASK-789 也是前置条件\n- **主动跟进不足**: 从 4月2日到 4月21日，近3周时间没有明显的推进动作\n\n### 🔄 关键转折点\n1. **2026-04-21**: Alice 在群公告中主动推动，要求本周上线\n2. **2026-04-21**: Carol 明确 AP-456 已通过，并指出 TASK-789 依赖\n3. **2026-04-21**: Bob 确认 TASK-789 已完成，所有阻塞解除\n\n### 📊 根本原因总结\n\n| 原因 | 影响程度 | 解决时间 |\n|------|----------|----------|\n| **AP-456 技术审批未通过** | 高 - 完全阻塞 | 2026-04-21 |\n| **TASK-789 数据迁移依赖** | 中 - 额外依赖 | 2026-04-10（完成）<br>2026-04-21（确认） |\n| **缺乏主动跟进机制** | 中 - 流程问题 | 2026-04-21（Alice 推动） |\n| **依赖关系不透明** | 低 - 信息问题 | 2026-04-21（群聊澄清） |\n\n### 💡 经验教训\n1. **审批流程效率**: 技术审批（AP-456）耗时近3周，是主要瓶颈\n2. **依赖管理**: 需要更清晰地定义和跟踪任务依赖关系\n3. **主动跟进**: 评估完成后缺乏持续跟进，导致任务\"休眠\"\n4. **沟通透明度**: 直到今天群聊才完全明确所有阻塞项\n\n### ✅ 当前状态\n- **所有阻塞已解除**（2026-04-21）\n- **开发已开始**（今天）\n- **预计完成**: 2026-05-05（2周后）\n- **上线目标**: 本周内推进上线（Alice 要求）\n\n**总结**: PROD-123 延迟启动的主要原因是 **AP-456 技术审批流程耗时过长**，加上 **TASK-789 数据迁移依赖**未被及时识别和处理，导致任务在评估完成后停滞了近3周。今天 Alice 的主动推动和群聊沟通才最终解决了所有阻塞。",
+    "gold_answer": "先被 AP-456 阻塞，审批通过后又被 TASK-789 阻塞，现在已解除",
+    "tool_calls": [],
+    "prompt_tokens": 11808,
+    "completion_tokens": 1148,
+    "latency_ms": 70858.351,
+    "gold_evidence_items": [
+      {
+        "ref": "history[1]",
+        "texts": [
+          "PROD-123 评估完成，预计 2 周开发，但需要先完成 AP-456 的技术审批",
+          "@Carol PROD-123 我这边先评完了，当前还是卡在 AP-456。审批过了我再继续往下推。"
+        ]
+      },
+      {
+        "ref": "history[2]",
+        "texts": [
+          "AP-456 审批通过，但运营侧需要先完成数据迁移 TASK-789",
+          "@Bob 审批卡片更新：AP-456 已通过。 不过还得先把 TASK-789 处理掉。"
+        ]
+      },
+      {
+        "ref": "history[3]",
+        "texts": [
+          "TASK-789 已完成，PROD-123 可以开始开发了",
+          "TASK-789 这边已经 done 了，PROD-123 可以继续推进了。"
+        ]
+      }
+    ],
+    "retrieval_results": [],
+    "retrieval_probe_status": "missing_tool_output",
+    "retrieval_probe_source": null,
+    "retrieval_probe_error": "probe response did not contain parseable memory_search results",
+    "exact_match": 0.0,
+    "f1": 0.05141388174807198,
+    "memory_search_calls": 0,
+    "memory_get_calls": 0,
+    "memory_tool_calls": 0,
+    "recall_at_5": 0.0,
+    "recall_at_10": 0.0
+  }
+]

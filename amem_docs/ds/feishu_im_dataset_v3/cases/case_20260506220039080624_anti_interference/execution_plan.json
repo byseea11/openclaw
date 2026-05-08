@@ -1,0 +1,459 @@
+{
+  "case_id": "case_20260506220039080624_anti_interference",
+  "operator_identity": "user",
+  "delivery_mode": "prefixed_single_operator",
+  "actions": [
+    {
+      "action_id": "step_001",
+      "action_type": "create_chat",
+      "depends_on": [],
+      "params": {
+        "chat_ref": "chat_main_chat",
+        "name": "主群协调",
+        "members": [
+          "alice",
+          "amy",
+          "bob",
+          "brian",
+          "carol",
+          "diana",
+          "edward",
+          "fiona",
+          "george",
+          "helen",
+          "ivan",
+          "julia",
+          "kevin",
+          "laura",
+          "mike",
+          "nancy",
+          "oscar",
+          "pat",
+          "quinn",
+          "rachel",
+          "sam",
+          "tina",
+          "ursula",
+          "victor",
+          "wendy",
+          "xander",
+          "yvonne",
+          "zack"
+        ]
+      },
+      "output_ref": "chat_main_chat"
+    },
+    {
+      "action_id": "step_002",
+      "action_type": "create_chat",
+      "depends_on": [],
+      "params": {
+        "chat_ref": "chat_thread_docs",
+        "name": "thread_docs 会话",
+        "members": [
+          "alice",
+          "amy",
+          "bob",
+          "brian",
+          "carol",
+          "diana",
+          "edward",
+          "fiona",
+          "george",
+          "helen",
+          "ivan",
+          "julia",
+          "kevin",
+          "laura",
+          "mike",
+          "nancy",
+          "oscar",
+          "pat",
+          "quinn",
+          "rachel",
+          "sam",
+          "tina",
+          "ursula",
+          "victor",
+          "wendy",
+          "xander",
+          "yvonne",
+          "zack"
+        ]
+      },
+      "output_ref": "chat_thread_docs"
+    },
+    {
+      "action_id": "step_003",
+      "action_type": "create_chat",
+      "depends_on": [],
+      "params": {
+        "chat_ref": "chat_thread_release",
+        "name": "thread_release 会话",
+        "members": [
+          "alice",
+          "amy",
+          "bob",
+          "brian",
+          "carol",
+          "diana",
+          "edward",
+          "fiona",
+          "george",
+          "helen",
+          "ivan",
+          "julia",
+          "kevin",
+          "laura",
+          "mike",
+          "nancy",
+          "oscar",
+          "pat",
+          "quinn",
+          "rachel",
+          "sam",
+          "tina",
+          "ursula",
+          "victor",
+          "wendy",
+          "xander",
+          "yvonne",
+          "zack"
+        ]
+      },
+      "output_ref": "chat_thread_release"
+    },
+    {
+      "action_id": "step_004",
+      "action_type": "create_chat",
+      "depends_on": [],
+      "params": {
+        "chat_ref": "chat_handoff_thread",
+        "name": "交接修正线程",
+        "members": [
+          "alice",
+          "amy",
+          "bob",
+          "brian",
+          "carol",
+          "diana",
+          "edward",
+          "fiona",
+          "george",
+          "helen",
+          "ivan",
+          "julia",
+          "kevin",
+          "laura",
+          "mike",
+          "nancy",
+          "oscar",
+          "pat",
+          "quinn",
+          "rachel",
+          "sam",
+          "tina",
+          "ursula",
+          "victor",
+          "wendy",
+          "xander",
+          "yvonne",
+          "zack"
+        ]
+      },
+      "output_ref": "chat_handoff_thread"
+    },
+    {
+      "action_id": "step_005",
+      "action_type": "create_chat",
+      "depends_on": [],
+      "params": {
+        "chat_ref": "chat_risk_review_thread",
+        "name": "风险复核线程",
+        "members": [
+          "alice",
+          "amy",
+          "bob",
+          "brian",
+          "carol",
+          "diana",
+          "edward",
+          "fiona",
+          "george",
+          "helen",
+          "ivan",
+          "julia",
+          "kevin",
+          "laura",
+          "mike",
+          "nancy",
+          "oscar",
+          "pat",
+          "quinn",
+          "rachel",
+          "sam",
+          "tina",
+          "ursula",
+          "victor",
+          "wendy",
+          "xander",
+          "yvonne",
+          "zack"
+        ]
+      },
+      "output_ref": "chat_risk_review_thread"
+    },
+    {
+      "action_id": "step_006",
+      "action_type": "create_chat",
+      "depends_on": [],
+      "params": {
+        "chat_ref": "chat_customer_sync_chat",
+        "name": "客户同步侧群",
+        "members": [
+          "alice",
+          "amy",
+          "bob",
+          "brian",
+          "carol",
+          "diana",
+          "edward",
+          "fiona",
+          "george",
+          "helen",
+          "ivan",
+          "julia",
+          "kevin",
+          "laura",
+          "mike",
+          "nancy",
+          "oscar",
+          "pat",
+          "quinn",
+          "rachel",
+          "sam",
+          "tina",
+          "ursula",
+          "victor",
+          "wendy",
+          "xander",
+          "yvonne",
+          "zack"
+        ]
+      },
+      "output_ref": "chat_customer_sync_chat"
+    },
+    {
+      "action_id": "step_007",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_004"
+      ],
+      "params": {
+        "chat_ref": "chat_handoff_thread",
+        "sender_ref": "benchmark_root",
+        "content_text": "【benchmark/root】交接修正线程：以下回复承载该 source session 的真实 benchmark 消息。"
+      },
+      "output_ref": "thread_root_handoff_thread"
+    },
+    {
+      "action_id": "step_008",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_005"
+      ],
+      "params": {
+        "chat_ref": "chat_risk_review_thread",
+        "sender_ref": "benchmark_root",
+        "content_text": "【benchmark/root】风险复核线程：以下回复承载该 source session 的真实 benchmark 消息。"
+      },
+      "output_ref": "thread_root_risk_review_thread"
+    },
+    {
+      "action_id": "step_009",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_001"
+      ],
+      "params": {
+        "chat_ref": "chat_main_chat",
+        "sender_ref": "alice",
+        "content_text": "【项目管理/林晨】FEISHU-724 当前由 林晨 负责收口，真正 blocker 还是支付风控回归没有完成。"
+      },
+      "output_ref": "msg_turn_001"
+    },
+    {
+      "action_id": "step_010",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_001"
+      ],
+      "params": {
+        "chat_ref": "chat_main_chat",
+        "sender_ref": "bob",
+        "content_text": "【运维保障/周宇】运维演练那边也卡在 blocker，但这是另外一条并行讨论，不是 FEISHU-724 的 owner 变更。"
+      },
+      "output_ref": "msg_turn_002"
+    },
+    {
+      "action_id": "step_011",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_002"
+      ],
+      "params": {
+        "chat_ref": "chat_thread_docs",
+        "sender_ref": "carol",
+        "content_text": "【项目管理/陈雪】林晨 晚上还要审文档收口，不过那只是 reviewer 身份，不代表 FEISHU-724 再次换 owner。"
+      },
+      "output_ref": "msg_turn_003"
+    },
+    {
+      "action_id": "step_012",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_001"
+      ],
+      "params": {
+        "chat_ref": "chat_main_chat",
+        "sender_ref": "diana",
+        "content_text": "【质量保障/王源】QA 角度：FEISHU-724 的回归测试还在进行，风控回归是当前卡点。"
+      },
+      "output_ref": "msg_turn_004"
+    },
+    {
+      "action_id": "step_013",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_003"
+      ],
+      "params": {
+        "chat_ref": "chat_thread_release",
+        "sender_ref": "edward",
+        "content_text": "【研发平台/高骏】开发侧，FEISHU-724 代码已冻结，等风控回归完成即可。"
+      },
+      "output_ref": "msg_turn_005"
+    },
+    {
+      "action_id": "step_014",
+      "action_type": "reply_in_thread",
+      "depends_on": [
+        "step_004",
+        "step_007"
+      ],
+      "params": {
+        "chat_ref": "chat_handoff_thread",
+        "sender_ref": "alice",
+        "content_text": "【项目管理/林晨】文档收口已全部完成，我作为 reviewer 签字了，但这是另一件事，不涉及 FEISHU-724 的 owner 变更。",
+        "root_message_ref": "thread_root_handoff_thread"
+      },
+      "output_ref": "msg_turn_006"
+    },
+    {
+      "action_id": "step_015",
+      "action_type": "reply_in_thread",
+      "depends_on": [
+        "step_005",
+        "step_008"
+      ],
+      "params": {
+        "chat_ref": "chat_risk_review_thread",
+        "sender_ref": "fiona",
+        "content_text": "【安全合规/赵敏】安全审查发现几个 low risk 项，需要 林晨 跟进，但这不影响 FEISHU-724 的当前 block。",
+        "root_message_ref": "thread_root_risk_review_thread"
+      },
+      "output_ref": "msg_turn_007"
+    },
+    {
+      "action_id": "step_016",
+      "action_type": "send_message",
+      "depends_on": [
+        "step_006"
+      ],
+      "params": {
+        "chat_ref": "chat_customer_sync_chat",
+        "sender_ref": "kevin",
+        "content_text": "【企业协作/唐越】第三方供应商对接进度有个 blocker，但不是 FEISHU-724 的。"
+      },
+      "output_ref": "msg_turn_008"
+    },
+    {
+      "action_id": "step_017",
+      "action_type": "fetch_chat_messages",
+      "depends_on": [
+        "step_001",
+        "step_009",
+        "step_010",
+        "step_012"
+      ],
+      "params": {
+        "chat_ref": "chat_main_chat"
+      },
+      "output_ref": ""
+    },
+    {
+      "action_id": "step_018",
+      "action_type": "fetch_chat_messages",
+      "depends_on": [
+        "step_002",
+        "step_011"
+      ],
+      "params": {
+        "chat_ref": "chat_thread_docs"
+      },
+      "output_ref": ""
+    },
+    {
+      "action_id": "step_019",
+      "action_type": "fetch_chat_messages",
+      "depends_on": [
+        "step_003",
+        "step_013"
+      ],
+      "params": {
+        "chat_ref": "chat_thread_release"
+      },
+      "output_ref": ""
+    },
+    {
+      "action_id": "step_020",
+      "action_type": "fetch_chat_messages",
+      "depends_on": [
+        "step_006",
+        "step_016"
+      ],
+      "params": {
+        "chat_ref": "chat_customer_sync_chat"
+      },
+      "output_ref": ""
+    },
+    {
+      "action_id": "step_021",
+      "action_type": "fetch_thread_messages",
+      "depends_on": [
+        "step_004",
+        "step_007",
+        "step_014"
+      ],
+      "params": {
+        "chat_ref": "chat_handoff_thread",
+        "root_message_ref": "thread_root_handoff_thread"
+      },
+      "output_ref": ""
+    },
+    {
+      "action_id": "step_022",
+      "action_type": "fetch_thread_messages",
+      "depends_on": [
+        "step_005",
+        "step_008",
+        "step_015"
+      ],
+      "params": {
+        "chat_ref": "chat_risk_review_thread",
+        "root_message_ref": "thread_root_risk_review_thread"
+      },
+      "output_ref": ""
+    }
+  ]
+}

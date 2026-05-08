@@ -1,0 +1,56 @@
+{
+  "case_id": "case_20260507103828413028_private_info_in_official_file",
+  "is_valid": false,
+  "checks": [
+    {
+      "check_id": "message_beat_coverage",
+      "passed": false,
+      "details": "缺少 beats: ['beat_002']"
+    },
+    {
+      "check_id": "probe_queries_present",
+      "passed": true,
+      "details": "story plan 已包含 planned probe queries。"
+    },
+    {
+      "check_id": "state_changes_present",
+      "passed": true,
+      "details": "story plan 已包含 state_changes。"
+    },
+    {
+      "check_id": "total_message_count",
+      "passed": true,
+      "details": "observed messages: 83"
+    },
+    {
+      "check_id": "session_distribution",
+      "passed": true,
+      "details": "observed sessions: 8"
+    },
+    {
+      "check_id": "annotation_target_count",
+      "passed": true,
+      "details": "annotation/event-bearing messages: 21"
+    },
+    {
+      "check_id": "openclaw_ingress_count",
+      "passed": true,
+      "details": "openclaw ingress: 83 / observed: 83"
+    },
+    {
+      "check_id": "template_like_message_ratio",
+      "passed": true,
+      "details": "template-like messages: 0"
+    },
+    {
+      "check_id": "official_file_references_landed",
+      "passed": true,
+      "details": "official file refs in observed messages: ['official_file_001', 'official_file_003']"
+    },
+    {
+      "check_id": "private_info_boundary_landed",
+      "passed": true,
+      "details": "private refs: ['private_info_001', 'private_info_003', 'private_info_004'], boundary rows: 19"
+    }
+  ]
+}

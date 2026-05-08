@@ -1,0 +1,39 @@
+{
+  "family_id": "contradiction_update",
+  "benchmark_requirement_name": "矛盾更新测试",
+  "benchmark_requirement_summary": "当先后输入冲突口径时，系统能够理解时间顺序，让新指令覆盖旧指令。",
+  "report_display_name": "矛盾更新测试",
+  "capability_under_test": "在多个状态更新发生后，识别哪个值已经被覆盖，哪个值仍是当前值，并明确旧口径已经作废。",
+  "why_memory_systems_may_fail": "系统容易记住较早的显式值，却忽略后续修正和 supersede 关系，最终把 stale value 当成 current value。",
+  "generation_rules": [
+    "必须有至少 3 段状态：initial、historical、current。",
+    "更新必须通过真实消息落地，不能只在结构化字段里声明。",
+    "必须覆盖至少 4 个状态跟踪维度（如 owner、release_window、blocker、priority）。",
+    "必须满足 hard 难度：至少 24 个 actor、16 个部门、8 个 session。",
+    "probe 必须逼系统同时区分 current 和 historical。"
+  ],
+  "required_case_structure": [
+    "target_task",
+    "owner_or_schedule_field",
+    "multi_step_update_sequence",
+    "supersedes_relation"
+  ],
+  "probe_strategy": [
+    "查询当前状态，同时追问历史状态是否仍然有效。",
+    "要求系统明确指出哪个值已经 stale。"
+  ],
+  "expected_good_system_behavior": [
+    "返回 current value，并标注历史值已经失效。",
+    "解释更新发生在哪些消息里。"
+  ],
+  "case_id": "case_20260506203841812547_contradiction_update",
+  "task_id": "FEISHU-447",
+  "seed": 20260506203841812547,
+  "difficulty": "hard",
+  "comparison_target": "default_memory_architectures",
+  "organization": "NexGen Solutions",
+  "team": "Platform Engineering",
+  "business_goal": "确保跨团队项目调度数据始终反映最新决策，避免因旧口径残留导致交付延误。",
+  "scenario_summary": "在涉及16个部门、28个角色的复杂多任务环境中，项目经理 Alice 和发布经理 Xavier 先后通过飞书主群和子线程对关键发布任务 FEISHU-202 的负责人和上线窗口进行多轮修改，最终 Xavier 在子线程中明确宣布旧口径作废。系统需要在多部门协作的噪声中准确识别当前有效信息。",
+  "family_fit_explanation": "该场景需要处理多个按时间顺序发生的状态更新，并有明确的 supersede 关系，属于 contradiction_update 范畴。多部门、多 session 的协作结构天然导致状态口径的多次修正，并且旧口径容易被误认为是当前状态。"
+}
