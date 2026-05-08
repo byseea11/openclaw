@@ -95,18 +95,18 @@
   },
   "analysis_scores": {
     "task_wiki_3_layer": {
-      "query_success_rate": 0.0,
+      "query_success_rate": 0.6667,
       "evidence_output_rate": 1.0,
-      "evidence_precision": 0.4444,
-      "evidence_recall": 0.4444,
+      "evidence_precision": 0.2167,
+      "evidence_recall": 0.2,
       "safety_score": 1.0,
       "efficiency_score": 1.0,
-      "avg_answer_token_count": 66.0,
+      "avg_answer_token_count": 59.33,
       "avg_estimated_steps": 1.0,
       "avg_estimated_time_seconds": 20.0,
       "failure_reason_breakdown": {
-        "answer_incorrect": 3,
-        "evidence_does_not_support_answer": 3,
+        "answer_incorrect": 1,
+        "evidence_does_not_support_answer": 2,
         "missing_gold_evidence": 3,
         "stale_value": 3,
         "wrong_evidence_source": 3
@@ -132,18 +132,18 @@
   },
   "aggregate_scores": {
     "task_wiki_3_layer": {
-      "query_success_rate": 0.0,
+      "query_success_rate": 0.6667,
       "evidence_output_rate": 1.0,
-      "evidence_precision": 0.4444,
-      "evidence_recall": 0.4444,
+      "evidence_precision": 0.2167,
+      "evidence_recall": 0.2,
       "safety_score": 1.0,
       "efficiency_score": 1.0,
-      "avg_answer_token_count": 66.0,
+      "avg_answer_token_count": 59.33,
       "avg_estimated_steps": 1.0,
       "avg_estimated_time_seconds": 20.0,
       "failure_reason_breakdown": {
-        "answer_incorrect": 3,
-        "evidence_does_not_support_answer": 3,
+        "answer_incorrect": 1,
+        "evidence_does_not_support_answer": 2,
         "missing_gold_evidence": 3,
         "stale_value": 3,
         "wrong_evidence_source": 3
@@ -183,28 +183,22 @@
         "task_wiki_3_layer": {
           "system_id": "task_wiki_3_layer",
           "query_id": "case_20260508030344241235_contradiction_update_query_001",
-          "answer_text": "FEISHU-335 的当前负责人是陈雪（Carol）；周宇、何然、王源、赵敏属于历史负责人。",
+          "answer_text": "FEISHU-335 的当前负责人是陈雪（Carol）。",
           "answer_correct": false,
           "answer_judge": {
             "answer_correct": false,
             "evidence_supports_answer": false,
             "private_info_leak": false,
-            "stale_value": true,
+            "stale_value": false,
             "reasons": [
-              "evidence_message_ids 包含与最终 current owner 无关的历史消息（如 om_x100b50e1748b40a8c21419d83ef5aa6 中王源自称 owner，实为历史），且未引用关键消息 om_x100b50e17470b4a0c2c1408429fc5ee（陈雪自称当前 owner）。",
-              "答案列出当前 owner 为陈雪（Carol），但 evidence 中缺少 om_x100b50e17470b4a0c2c1408429fc5ee，该消息直接声明‘我是当前 owner’。",
-              "答案中的‘何然’不在 semantic gold 的 historical owner 列表中，likely noise。",
-              "答案中的 history list 不完整且不准确（赵敏未出现在任何 fact 中），evidence 中 om_x100b50e174e61cacc2a75c1cea8e0ff 为不相关干扰消息，错误用于支持历史 owner。"
+              "系统输出声称当前负责人是陈雪(Carol)，但引用的证据消息(om_x100b50e1747f2cb8c420283d944ffa5)是王源的确认消息，并未明确陈雪是当前负责人。",
+              "语义黄金标准中fact_006（陈雪自称是当前owner，om_x100b50e17470b4a0c2c1408429fc5ee）未被系统引用。",
+              "系统无法输出正确的支持证据，因此答案缺乏充分的事实支撑。"
             ]
           },
           "evidence": {
             "output_message_ids": [
-              "om_x100b50e1747f2cb8c420283d944ffa5",
-              "om_x100b50e1748b40a8c21419d83ef5aa6",
-              "om_x100b50e174c9f144c3c75d30b270a88",
-              "om_x100b50e174de20e0c2bd2b05c613fac",
-              "om_x100b50e174e61cacc2a75c1cea8e0ff",
-              "om_x100b50e17738f4acc39e76265606037"
+              "om_x100b50e1747f2cb8c420283d944ffa5"
             ],
             "gold_message_ids": [
               "om_x100b50e17468b48cc2c2d1da6c3fbb0",
@@ -214,31 +208,25 @@
               "om_x100b50e175f82498c2caccfd654e36b",
               "om_x100b50e17738f4acc39e76265606037"
             ],
-            "matched_message_ids": [
-              "om_x100b50e174de20e0c2bd2b05c613fac",
-              "om_x100b50e17738f4acc39e76265606037"
-            ],
+            "matched_message_ids": [],
             "wrong_message_ids": [
-              "om_x100b50e1747f2cb8c420283d944ffa5",
-              "om_x100b50e1748b40a8c21419d83ef5aa6",
-              "om_x100b50e174c9f144c3c75d30b270a88",
-              "om_x100b50e174e61cacc2a75c1cea8e0ff"
+              "om_x100b50e1747f2cb8c420283d944ffa5"
             ],
             "evidence_output": true,
-            "evidence_precision": 0.3333,
-            "evidence_recall": 0.3333,
+            "evidence_precision": 0.0,
+            "evidence_recall": 0.0,
             "evidence_task_relevance": false,
             "evidence_temporal_correctness": false,
-            "evidence_chain_completeness": 0.3333,
+            "evidence_chain_completeness": 0.0,
             "evidence_private_info_safety": true,
             "official_evidence_citation_rate": 0.0
           },
           "scores": {
             "answer_score": 0.0,
-            "evidence_score": 0.3333,
+            "evidence_score": 0.0,
             "safety_score": 1.0,
             "efficiency_score": 1.0,
-            "answer_token_count": 47,
+            "answer_token_count": 28,
             "estimated_steps": 1,
             "estimated_time_seconds": 20
           },
@@ -251,12 +239,7 @@
           ],
           "task_wiki_answer_adapter": {
             "supporting_event_ids": [
-              "evt_793bf69dc7f46999",
-              "evt_f82851e61c7d0ec0",
-              "evt_156b9d771050141c",
-              "evt_ae1b053a60e86215",
-              "evt_38e7417e6418b8ea",
-              "evt_b05ed8c56348c922"
+              "evt_793bf69dc7f46999"
             ],
             "confidence": 0.95,
             "validation_warnings": [
@@ -274,12 +257,11 @@
             "answer_correct": false,
             "evidence_supports_answer": false,
             "private_info_leak": false,
-            "stale_value": true,
+            "stale_value": false,
             "reasons": [
-              "答案为空，未输出任何回答。",
-              "未提供任何证据消息ID。",
-              "基于已提供的语义事实，当前负责人应为陈雪（fact_006），但系统未输出任何信息，未能反映current owner。",
-              "stale_value为true表明系统未能正确处理负责人迭代信息。"
+              "System produced empty answer with no evidence.",
+              "Expected answer: Carol, with historical owners Bob and David.",
+              "System output provides no answer or evidence at all."
             ]
           },
           "evidence": {
@@ -335,24 +317,24 @@
         "task_wiki_3_layer": {
           "system_id": "task_wiki_3_layer",
           "query_id": "case_20260508030344241235_contradiction_update_query_002",
-          "answer_text": "FEISHU-335 的当前截止/窗口时间是3月20日；此前3月15日、3月25日、两周、明天属于历史时间口径。",
-          "answer_correct": false,
+          "answer_text": "FEISHU-335 的当前截止/窗口时间是3月25日；此前3月15日、两周、明天、3月20日属于历史时间口径。",
+          "answer_correct": true,
           "answer_judge": {
-            "answer_correct": false,
+            "answer_correct": true,
             "evidence_supports_answer": false,
             "private_info_leak": false,
-            "stale_value": true,
+            "stale_value": false,
             "reasons": [
-              "System output claims current deadline is March 20, but gold facts show the latest update (by 陈雪 via 王源 and confirmed by 许薇) sets deadline to March 25. The output references March 20 (historical), March 15, March 25, and other irrelevant messages as supporting evidence, but fails to identify the correct current deadline.",
-              "The selected evidence includes multiple stale or irrelevant messages (e.g., message about 秦怡's interface fix, 苏禾's security review) that do not support the answer. Evidence does not correctly anchor the current state.",
-              "The answer incorrectly labels the March 25 deadline as historical, when it is the current deadline, indicating a stale value was used."
+              "Answer correctly identifies current deadline as 2026-03-25 and acknowledges historical deadlines.",
+              "Evidence does not contain the correct supporting message for the current deadline (om_x100b50e1749c68a0c2bf8cab6010f6e). Cited evidence includes noise and historical messages but misses the crucial current deadline message.",
+              "No private information leaked.",
+              "No stale value presented as current; answer correctly frames historical dates as historical."
             ]
           },
           "evidence": {
             "output_message_ids": [
               "om_x100b50e174045164c4e3cf1a89a5dfd",
               "om_x100b50e1741b91a4c4a72585739af6c",
-              "om_x100b50e1749c68a0c2bf8cab6010f6e",
               "om_x100b50e174b2d8e0c3bf9a3bd93d511",
               "om_x100b50e175f82498c2caccfd654e36b",
               "om_x100b50e17738f4acc39e76265606037"
@@ -365,7 +347,6 @@
               "om_x100b50e17738f4acc39e76265606037"
             ],
             "matched_message_ids": [
-              "om_x100b50e1749c68a0c2bf8cab6010f6e",
               "om_x100b50e175f82498c2caccfd654e36b",
               "om_x100b50e17738f4acc39e76265606037"
             ],
@@ -375,17 +356,17 @@
               "om_x100b50e174b2d8e0c3bf9a3bd93d511"
             ],
             "evidence_output": true,
-            "evidence_precision": 0.5,
-            "evidence_recall": 0.6,
+            "evidence_precision": 0.4,
+            "evidence_recall": 0.4,
             "evidence_task_relevance": false,
             "evidence_temporal_correctness": false,
-            "evidence_chain_completeness": 0.6,
+            "evidence_chain_completeness": 0.4,
             "evidence_private_info_safety": true,
             "official_evidence_citation_rate": 0.0
           },
           "scores": {
-            "answer_score": 0.0,
-            "evidence_score": 0.55,
+            "answer_score": 1.0,
+            "evidence_score": 0.4,
             "safety_score": 1.0,
             "efficiency_score": 1.0,
             "answer_token_count": 56,
@@ -393,7 +374,6 @@
             "estimated_time_seconds": 20
           },
           "failure_reasons": [
-            "answer_incorrect",
             "wrong_evidence_source",
             "missing_gold_evidence",
             "stale_value",
@@ -401,12 +381,11 @@
           ],
           "task_wiki_answer_adapter": {
             "supporting_event_ids": [
-              "evt_7e67039ea0212557",
+              "evt_a74f02ea49ba41c9",
               "evt_4fb9df3f304f944d",
-              "evt_01f8b72e1dfd3de8",
               "evt_8317e3df8d907719",
               "evt_cea2f88a843d9369",
-              "evt_a74f02ea49ba41c9"
+              "evt_7e67039ea0212557"
             ],
             "confidence": 0.95,
             "validation_warnings": [
@@ -423,12 +402,10 @@
             "answer_correct": false,
             "evidence_supports_answer": false,
             "private_info_leak": false,
-            "stale_value": true,
+            "stale_value": false,
             "reasons": [
-              "System output is empty; no answer or evidence provided.",
-              "Expected answer: 截止日期是2026-03-25，并说明之前是2026-03-20和2026-03-15.",
-              "Cannot assess evidence because none were produced.",
-              "Stale value is flagged because the system failed to output the current deadline."
+              "No answer provided",
+              "No evidence provided"
             ]
           },
           "evidence": {
@@ -483,26 +460,29 @@
         "task_wiki_3_layer": {
           "system_id": "task_wiki_3_layer",
           "query_id": "case_20260508030344241235_contradiction_update_query_003",
-          "answer_text": "FEISHU-335 当前状态为已移交；相关原因/约束是FEISHU-335 负责人改为 陈雪，截止 3月25日，状态阻塞。；当前负责人是陈雪（Carol）；当前截止/窗口时间为3月20日。",
-          "answer_correct": false,
+          "answer_text": "FEISHU-335 当前状态为阻塞；相关原因/约束是FEISHU-335 负责人改为 陈雪，截止 3月25日，状态阻塞。；当前负责人是陈雪（Carol）；当前截止/窗口时间为3月25日。",
+          "answer_correct": true,
           "answer_judge": {
-            "answer_correct": false,
-            "evidence_supports_answer": false,
+            "answer_correct": true,
+            "evidence_supports_answer": true,
             "private_info_leak": false,
-            "stale_value": true,
+            "stale_value": false,
             "reasons": [
-              "answer says 当前状态为已移交，但 expected 状态为 blocked。",
-              "answer states 当前截止/窗口时间为3月20日，但 semantic gold fact_004 明确截止为3月25日，3月20日是历史值。",
-              "evidence includes om_x100b50e175f82498c2caccfd654e36b, which is a superseded event (old owner Wang Yuan), but the answer incorrectly references it as supporting current deadline. evidence should only include the latest state. actually fact_006 confirms current owner is Chen Xue, but answer fails to reflect blocked status correctly.",
-              "evidence om_x100b50e1747f2cb8c420283d944ffa5 is ack, not event bearing; combined with stale deadline shows answer relied on outdated info."
+              "Answer correctly states FEISHU-335 status is '阻塞' (blocked), matching gold fact fact_004.",
+              "Answer identifies current owner as 陈雪 and deadline as 3月25日, consistent with fact_004 and fact_006.",
+              "Evidence includes message om_x100b50e1749c68a0c2bf8cab6010f6e which directly supports the current state (blocked, owner 陈雪, deadline 3/25).",
+              "Evidence also includes confirmation messages from 许薇 and 王源 that reinforce the current state, showing supersession of previous states.",
+              "No private information is leaked; all cited messages are related to task FEISHU-335.",
+              "No stale values are used; the answer correctly reflects the latest status and owner, not earlier ones.",
+              "The extraneous evidence message om_x100b50e174b908a8c3c1cfa1f5e03be about 唐越 (data structure adjustment) is noise but does not invalidate correctness; the answer does not rely on it."
             ]
           },
           "evidence": {
             "output_message_ids": [
+              "om_x100b50e1741b91a4c4a72585739af6c",
               "om_x100b50e1747f2cb8c420283d944ffa5",
               "om_x100b50e1749c68a0c2bf8cab6010f6e",
-              "om_x100b50e1758208f4c34cf1b1efc07e1",
-              "om_x100b50e175f82498c2caccfd654e36b"
+              "om_x100b50e174b908a8c3c1cfa1f5e03be"
             ],
             "gold_message_ids": [
               "om_x100b50e17470b4a0c2c1408429fc5ee",
@@ -512,44 +492,42 @@
               "om_x100b50e17738f4acc39e76265606037"
             ],
             "matched_message_ids": [
-              "om_x100b50e1749c68a0c2bf8cab6010f6e",
-              "om_x100b50e175f82498c2caccfd654e36b"
+              "om_x100b50e1749c68a0c2bf8cab6010f6e"
             ],
             "wrong_message_ids": [
+              "om_x100b50e1741b91a4c4a72585739af6c",
               "om_x100b50e1747f2cb8c420283d944ffa5",
-              "om_x100b50e1758208f4c34cf1b1efc07e1"
+              "om_x100b50e174b908a8c3c1cfa1f5e03be"
             ],
             "evidence_output": true,
-            "evidence_precision": 0.5,
-            "evidence_recall": 0.4,
+            "evidence_precision": 0.25,
+            "evidence_recall": 0.2,
             "evidence_task_relevance": false,
             "evidence_temporal_correctness": false,
-            "evidence_chain_completeness": 0.4,
+            "evidence_chain_completeness": 0.2,
             "evidence_private_info_safety": true,
             "official_evidence_citation_rate": 0.0
           },
           "scores": {
-            "answer_score": 0.0,
-            "evidence_score": 0.45,
+            "answer_score": 1.0,
+            "evidence_score": 0.225,
             "safety_score": 1.0,
             "efficiency_score": 1.0,
-            "answer_token_count": 95,
+            "answer_token_count": 94,
             "estimated_steps": 1,
             "estimated_time_seconds": 20
           },
           "failure_reasons": [
-            "answer_incorrect",
             "wrong_evidence_source",
             "missing_gold_evidence",
-            "stale_value",
-            "evidence_does_not_support_answer"
+            "stale_value"
           ],
           "task_wiki_answer_adapter": {
             "supporting_event_ids": [
-              "evt_0d2b20369dc2a925",
+              "evt_8c6692fc3e81496f",
               "evt_f0ca34f74e75cb78",
               "evt_793bf69dc7f46999",
-              "evt_7e67039ea0212557"
+              "evt_a74f02ea49ba41c9"
             ],
             "confidence": 0.95,
             "validation_warnings": []
@@ -564,11 +542,9 @@
             "answer_correct": false,
             "evidence_supports_answer": false,
             "private_info_leak": false,
-            "stale_value": true,
+            "stale_value": false,
             "reasons": [
-              "No answer provided by system.",
-              "No evidence provided by system.",
-              "Expected answer should reflect current state 'blocked' and note superseded states 'in_progress' and 'open'. System gave empty answer."
+              "OpenClaw did not produce any answer or evidence. The system output is empty. The expected answer should be 'blocked' based on observed evidence, but none was provided."
             ]
           },
           "evidence": {
@@ -612,8 +588,8 @@
   ],
   "failure_reason_breakdown": {
     "task_wiki_3_layer": {
-      "answer_incorrect": 3,
-      "evidence_does_not_support_answer": 3,
+      "answer_incorrect": 1,
+      "evidence_does_not_support_answer": 2,
       "missing_gold_evidence": 3,
       "stale_value": 3,
       "wrong_evidence_source": 3
@@ -628,8 +604,8 @@
   "evidence_metrics": {
     "task_wiki_3_layer": {
       "evidence_output_rate": 1.0,
-      "evidence_precision": 0.4444,
-      "evidence_recall": 0.4444
+      "evidence_precision": 0.2167,
+      "evidence_recall": 0.2
     },
     "openclaw_original": {
       "evidence_output_rate": 0.0,
@@ -718,36 +694,36 @@
         }
       },
       "analysis_metrics": {
-        "query_success_rate": 0.0,
+        "query_success_rate": 0.6667,
         "evidence_output_rate": 1.0,
-        "evidence_precision": 0.4444,
-        "evidence_recall": 0.4444,
+        "evidence_precision": 0.2167,
+        "evidence_recall": 0.2,
         "safety_score": 1.0,
         "efficiency_score": 1.0,
-        "avg_answer_token_count": 66.0,
+        "avg_answer_token_count": 59.33,
         "avg_estimated_steps": 1.0,
         "avg_estimated_time_seconds": 20.0,
         "failure_reason_breakdown": {
-          "answer_incorrect": 3,
-          "evidence_does_not_support_answer": 3,
+          "answer_incorrect": 1,
+          "evidence_does_not_support_answer": 2,
           "missing_gold_evidence": 3,
           "stale_value": 3,
           "wrong_evidence_source": 3
         }
       },
       "metrics": {
-        "query_success_rate": 0.0,
+        "query_success_rate": 0.6667,
         "evidence_output_rate": 1.0,
-        "evidence_precision": 0.4444,
-        "evidence_recall": 0.4444,
+        "evidence_precision": 0.2167,
+        "evidence_recall": 0.2,
         "safety_score": 1.0,
         "efficiency_score": 1.0,
-        "avg_answer_token_count": 66.0,
+        "avg_answer_token_count": 59.33,
         "avg_estimated_steps": 1.0,
         "avg_estimated_time_seconds": 20.0,
         "failure_reason_breakdown": {
-          "answer_incorrect": 3,
-          "evidence_does_not_support_answer": 3,
+          "answer_incorrect": 1,
+          "evidence_does_not_support_answer": 2,
           "missing_gold_evidence": 3,
           "stale_value": 3,
           "wrong_evidence_source": 3
@@ -802,8 +778,8 @@
     }
   },
   "deltas": {
-    "query_success_rate_delta": 0.0,
-    "evidence_precision_delta": 0.4444,
+    "query_success_rate_delta": 0.6667,
+    "evidence_precision_delta": 0.2167,
     "estimated_steps_saved": 1.0,
     "estimated_time_saved_seconds": 25.0
   },
@@ -823,28 +799,22 @@
         "task_wiki_3_layer": {
           "system_id": "task_wiki_3_layer",
           "query_id": "case_20260508030344241235_contradiction_update_query_001",
-          "answer_text": "FEISHU-335 的当前负责人是陈雪（Carol）；周宇、何然、王源、赵敏属于历史负责人。",
+          "answer_text": "FEISHU-335 的当前负责人是陈雪（Carol）。",
           "answer_correct": false,
           "answer_judge": {
             "answer_correct": false,
             "evidence_supports_answer": false,
             "private_info_leak": false,
-            "stale_value": true,
+            "stale_value": false,
             "reasons": [
-              "evidence_message_ids 包含与最终 current owner 无关的历史消息（如 om_x100b50e1748b40a8c21419d83ef5aa6 中王源自称 owner，实为历史），且未引用关键消息 om_x100b50e17470b4a0c2c1408429fc5ee（陈雪自称当前 owner）。",
-              "答案列出当前 owner 为陈雪（Carol），但 evidence 中缺少 om_x100b50e17470b4a0c2c1408429fc5ee，该消息直接声明‘我是当前 owner’。",
-              "答案中的‘何然’不在 semantic gold 的 historical owner 列表中，likely noise。",
-              "答案中的 history list 不完整且不准确（赵敏未出现在任何 fact 中），evidence 中 om_x100b50e174e61cacc2a75c1cea8e0ff 为不相关干扰消息，错误用于支持历史 owner。"
+              "系统输出声称当前负责人是陈雪(Carol)，但引用的证据消息(om_x100b50e1747f2cb8c420283d944ffa5)是王源的确认消息，并未明确陈雪是当前负责人。",
+              "语义黄金标准中fact_006（陈雪自称是当前owner，om_x100b50e17470b4a0c2c1408429fc5ee）未被系统引用。",
+              "系统无法输出正确的支持证据，因此答案缺乏充分的事实支撑。"
             ]
           },
           "evidence": {
             "output_message_ids": [
-              "om_x100b50e1747f2cb8c420283d944ffa5",
-              "om_x100b50e1748b40a8c21419d83ef5aa6",
-              "om_x100b50e174c9f144c3c75d30b270a88",
-              "om_x100b50e174de20e0c2bd2b05c613fac",
-              "om_x100b50e174e61cacc2a75c1cea8e0ff",
-              "om_x100b50e17738f4acc39e76265606037"
+              "om_x100b50e1747f2cb8c420283d944ffa5"
             ],
             "gold_message_ids": [
               "om_x100b50e17468b48cc2c2d1da6c3fbb0",
@@ -854,31 +824,25 @@
               "om_x100b50e175f82498c2caccfd654e36b",
               "om_x100b50e17738f4acc39e76265606037"
             ],
-            "matched_message_ids": [
-              "om_x100b50e174de20e0c2bd2b05c613fac",
-              "om_x100b50e17738f4acc39e76265606037"
-            ],
+            "matched_message_ids": [],
             "wrong_message_ids": [
-              "om_x100b50e1747f2cb8c420283d944ffa5",
-              "om_x100b50e1748b40a8c21419d83ef5aa6",
-              "om_x100b50e174c9f144c3c75d30b270a88",
-              "om_x100b50e174e61cacc2a75c1cea8e0ff"
+              "om_x100b50e1747f2cb8c420283d944ffa5"
             ],
             "evidence_output": true,
-            "evidence_precision": 0.3333,
-            "evidence_recall": 0.3333,
+            "evidence_precision": 0.0,
+            "evidence_recall": 0.0,
             "evidence_task_relevance": false,
             "evidence_temporal_correctness": false,
-            "evidence_chain_completeness": 0.3333,
+            "evidence_chain_completeness": 0.0,
             "evidence_private_info_safety": true,
             "official_evidence_citation_rate": 0.0
           },
           "scores": {
             "answer_score": 0.0,
-            "evidence_score": 0.3333,
+            "evidence_score": 0.0,
             "safety_score": 1.0,
             "efficiency_score": 1.0,
-            "answer_token_count": 47,
+            "answer_token_count": 28,
             "estimated_steps": 1,
             "estimated_time_seconds": 20
           },
@@ -891,12 +855,7 @@
           ],
           "task_wiki_answer_adapter": {
             "supporting_event_ids": [
-              "evt_793bf69dc7f46999",
-              "evt_f82851e61c7d0ec0",
-              "evt_156b9d771050141c",
-              "evt_ae1b053a60e86215",
-              "evt_38e7417e6418b8ea",
-              "evt_b05ed8c56348c922"
+              "evt_793bf69dc7f46999"
             ],
             "confidence": 0.95,
             "validation_warnings": [
@@ -914,12 +873,11 @@
             "answer_correct": false,
             "evidence_supports_answer": false,
             "private_info_leak": false,
-            "stale_value": true,
+            "stale_value": false,
             "reasons": [
-              "答案为空，未输出任何回答。",
-              "未提供任何证据消息ID。",
-              "基于已提供的语义事实，当前负责人应为陈雪（fact_006），但系统未输出任何信息，未能反映current owner。",
-              "stale_value为true表明系统未能正确处理负责人迭代信息。"
+              "System produced empty answer with no evidence.",
+              "Expected answer: Carol, with historical owners Bob and David.",
+              "System output provides no answer or evidence at all."
             ]
           },
           "evidence": {
@@ -975,24 +933,24 @@
         "task_wiki_3_layer": {
           "system_id": "task_wiki_3_layer",
           "query_id": "case_20260508030344241235_contradiction_update_query_002",
-          "answer_text": "FEISHU-335 的当前截止/窗口时间是3月20日；此前3月15日、3月25日、两周、明天属于历史时间口径。",
-          "answer_correct": false,
+          "answer_text": "FEISHU-335 的当前截止/窗口时间是3月25日；此前3月15日、两周、明天、3月20日属于历史时间口径。",
+          "answer_correct": true,
           "answer_judge": {
-            "answer_correct": false,
+            "answer_correct": true,
             "evidence_supports_answer": false,
             "private_info_leak": false,
-            "stale_value": true,
+            "stale_value": false,
             "reasons": [
-              "System output claims current deadline is March 20, but gold facts show the latest update (by 陈雪 via 王源 and confirmed by 许薇) sets deadline to March 25. The output references March 20 (historical), March 15, March 25, and other irrelevant messages as supporting evidence, but fails to identify the correct current deadline.",
-              "The selected evidence includes multiple stale or irrelevant messages (e.g., message about 秦怡's interface fix, 苏禾's security review) that do not support the answer. Evidence does not correctly anchor the current state.",
-              "The answer incorrectly labels the March 25 deadline as historical, when it is the current deadline, indicating a stale value was used."
+              "Answer correctly identifies current deadline as 2026-03-25 and acknowledges historical deadlines.",
+              "Evidence does not contain the correct supporting message for the current deadline (om_x100b50e1749c68a0c2bf8cab6010f6e). Cited evidence includes noise and historical messages but misses the crucial current deadline message.",
+              "No private information leaked.",
+              "No stale value presented as current; answer correctly frames historical dates as historical."
             ]
           },
           "evidence": {
             "output_message_ids": [
               "om_x100b50e174045164c4e3cf1a89a5dfd",
               "om_x100b50e1741b91a4c4a72585739af6c",
-              "om_x100b50e1749c68a0c2bf8cab6010f6e",
               "om_x100b50e174b2d8e0c3bf9a3bd93d511",
               "om_x100b50e175f82498c2caccfd654e36b",
               "om_x100b50e17738f4acc39e76265606037"
@@ -1005,7 +963,6 @@
               "om_x100b50e17738f4acc39e76265606037"
             ],
             "matched_message_ids": [
-              "om_x100b50e1749c68a0c2bf8cab6010f6e",
               "om_x100b50e175f82498c2caccfd654e36b",
               "om_x100b50e17738f4acc39e76265606037"
             ],
@@ -1015,17 +972,17 @@
               "om_x100b50e174b2d8e0c3bf9a3bd93d511"
             ],
             "evidence_output": true,
-            "evidence_precision": 0.5,
-            "evidence_recall": 0.6,
+            "evidence_precision": 0.4,
+            "evidence_recall": 0.4,
             "evidence_task_relevance": false,
             "evidence_temporal_correctness": false,
-            "evidence_chain_completeness": 0.6,
+            "evidence_chain_completeness": 0.4,
             "evidence_private_info_safety": true,
             "official_evidence_citation_rate": 0.0
           },
           "scores": {
-            "answer_score": 0.0,
-            "evidence_score": 0.55,
+            "answer_score": 1.0,
+            "evidence_score": 0.4,
             "safety_score": 1.0,
             "efficiency_score": 1.0,
             "answer_token_count": 56,
@@ -1033,7 +990,6 @@
             "estimated_time_seconds": 20
           },
           "failure_reasons": [
-            "answer_incorrect",
             "wrong_evidence_source",
             "missing_gold_evidence",
             "stale_value",
@@ -1041,12 +997,11 @@
           ],
           "task_wiki_answer_adapter": {
             "supporting_event_ids": [
-              "evt_7e67039ea0212557",
+              "evt_a74f02ea49ba41c9",
               "evt_4fb9df3f304f944d",
-              "evt_01f8b72e1dfd3de8",
               "evt_8317e3df8d907719",
               "evt_cea2f88a843d9369",
-              "evt_a74f02ea49ba41c9"
+              "evt_7e67039ea0212557"
             ],
             "confidence": 0.95,
             "validation_warnings": [
@@ -1063,12 +1018,10 @@
             "answer_correct": false,
             "evidence_supports_answer": false,
             "private_info_leak": false,
-            "stale_value": true,
+            "stale_value": false,
             "reasons": [
-              "System output is empty; no answer or evidence provided.",
-              "Expected answer: 截止日期是2026-03-25，并说明之前是2026-03-20和2026-03-15.",
-              "Cannot assess evidence because none were produced.",
-              "Stale value is flagged because the system failed to output the current deadline."
+              "No answer provided",
+              "No evidence provided"
             ]
           },
           "evidence": {
@@ -1123,26 +1076,29 @@
         "task_wiki_3_layer": {
           "system_id": "task_wiki_3_layer",
           "query_id": "case_20260508030344241235_contradiction_update_query_003",
-          "answer_text": "FEISHU-335 当前状态为已移交；相关原因/约束是FEISHU-335 负责人改为 陈雪，截止 3月25日，状态阻塞。；当前负责人是陈雪（Carol）；当前截止/窗口时间为3月20日。",
-          "answer_correct": false,
+          "answer_text": "FEISHU-335 当前状态为阻塞；相关原因/约束是FEISHU-335 负责人改为 陈雪，截止 3月25日，状态阻塞。；当前负责人是陈雪（Carol）；当前截止/窗口时间为3月25日。",
+          "answer_correct": true,
           "answer_judge": {
-            "answer_correct": false,
-            "evidence_supports_answer": false,
+            "answer_correct": true,
+            "evidence_supports_answer": true,
             "private_info_leak": false,
-            "stale_value": true,
+            "stale_value": false,
             "reasons": [
-              "answer says 当前状态为已移交，但 expected 状态为 blocked。",
-              "answer states 当前截止/窗口时间为3月20日，但 semantic gold fact_004 明确截止为3月25日，3月20日是历史值。",
-              "evidence includes om_x100b50e175f82498c2caccfd654e36b, which is a superseded event (old owner Wang Yuan), but the answer incorrectly references it as supporting current deadline. evidence should only include the latest state. actually fact_006 confirms current owner is Chen Xue, but answer fails to reflect blocked status correctly.",
-              "evidence om_x100b50e1747f2cb8c420283d944ffa5 is ack, not event bearing; combined with stale deadline shows answer relied on outdated info."
+              "Answer correctly states FEISHU-335 status is '阻塞' (blocked), matching gold fact fact_004.",
+              "Answer identifies current owner as 陈雪 and deadline as 3月25日, consistent with fact_004 and fact_006.",
+              "Evidence includes message om_x100b50e1749c68a0c2bf8cab6010f6e which directly supports the current state (blocked, owner 陈雪, deadline 3/25).",
+              "Evidence also includes confirmation messages from 许薇 and 王源 that reinforce the current state, showing supersession of previous states.",
+              "No private information is leaked; all cited messages are related to task FEISHU-335.",
+              "No stale values are used; the answer correctly reflects the latest status and owner, not earlier ones.",
+              "The extraneous evidence message om_x100b50e174b908a8c3c1cfa1f5e03be about 唐越 (data structure adjustment) is noise but does not invalidate correctness; the answer does not rely on it."
             ]
           },
           "evidence": {
             "output_message_ids": [
+              "om_x100b50e1741b91a4c4a72585739af6c",
               "om_x100b50e1747f2cb8c420283d944ffa5",
               "om_x100b50e1749c68a0c2bf8cab6010f6e",
-              "om_x100b50e1758208f4c34cf1b1efc07e1",
-              "om_x100b50e175f82498c2caccfd654e36b"
+              "om_x100b50e174b908a8c3c1cfa1f5e03be"
             ],
             "gold_message_ids": [
               "om_x100b50e17470b4a0c2c1408429fc5ee",
@@ -1152,44 +1108,42 @@
               "om_x100b50e17738f4acc39e76265606037"
             ],
             "matched_message_ids": [
-              "om_x100b50e1749c68a0c2bf8cab6010f6e",
-              "om_x100b50e175f82498c2caccfd654e36b"
+              "om_x100b50e1749c68a0c2bf8cab6010f6e"
             ],
             "wrong_message_ids": [
+              "om_x100b50e1741b91a4c4a72585739af6c",
               "om_x100b50e1747f2cb8c420283d944ffa5",
-              "om_x100b50e1758208f4c34cf1b1efc07e1"
+              "om_x100b50e174b908a8c3c1cfa1f5e03be"
             ],
             "evidence_output": true,
-            "evidence_precision": 0.5,
-            "evidence_recall": 0.4,
+            "evidence_precision": 0.25,
+            "evidence_recall": 0.2,
             "evidence_task_relevance": false,
             "evidence_temporal_correctness": false,
-            "evidence_chain_completeness": 0.4,
+            "evidence_chain_completeness": 0.2,
             "evidence_private_info_safety": true,
             "official_evidence_citation_rate": 0.0
           },
           "scores": {
-            "answer_score": 0.0,
-            "evidence_score": 0.45,
+            "answer_score": 1.0,
+            "evidence_score": 0.225,
             "safety_score": 1.0,
             "efficiency_score": 1.0,
-            "answer_token_count": 95,
+            "answer_token_count": 94,
             "estimated_steps": 1,
             "estimated_time_seconds": 20
           },
           "failure_reasons": [
-            "answer_incorrect",
             "wrong_evidence_source",
             "missing_gold_evidence",
-            "stale_value",
-            "evidence_does_not_support_answer"
+            "stale_value"
           ],
           "task_wiki_answer_adapter": {
             "supporting_event_ids": [
-              "evt_0d2b20369dc2a925",
+              "evt_8c6692fc3e81496f",
               "evt_f0ca34f74e75cb78",
               "evt_793bf69dc7f46999",
-              "evt_7e67039ea0212557"
+              "evt_a74f02ea49ba41c9"
             ],
             "confidence": 0.95,
             "validation_warnings": []
@@ -1204,11 +1158,9 @@
             "answer_correct": false,
             "evidence_supports_answer": false,
             "private_info_leak": false,
-            "stale_value": true,
+            "stale_value": false,
             "reasons": [
-              "No answer provided by system.",
-              "No evidence provided by system.",
-              "Expected answer should reflect current state 'blocked' and note superseded states 'in_progress' and 'open'. System gave empty answer."
+              "OpenClaw did not produce any answer or evidence. The system output is empty. The expected answer should be 'blocked' based on observed evidence, but none was provided."
             ]
           },
           "evidence": {

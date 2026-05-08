@@ -91,13 +91,13 @@
       "case_count": 1,
       "systems": {
         "task_wiki_3_layer": {
-          "query_success_rate": 0.0,
+          "query_success_rate": 0.6667,
           "evidence_output_rate": 1.0,
-          "evidence_precision": 0.4444,
-          "evidence_recall": 0.4444,
+          "evidence_precision": 0.2167,
+          "evidence_recall": 0.2,
           "safety_score": 1.0,
           "efficiency_score": 1.0,
-          "avg_answer_token_count": 66.0,
+          "avg_answer_token_count": 59.33,
           "avg_estimated_steps": 1.0,
           "avg_estimated_time_seconds": 20.0
         },
@@ -116,13 +116,13 @@
       "deltas": {
         "estimated_steps_saved": 1.0,
         "estimated_time_saved_seconds": 25.0,
-        "evidence_precision_delta": 0.4444,
-        "query_success_rate_delta": 0.0
+        "evidence_precision_delta": 0.2167,
+        "query_success_rate_delta": 0.6667
       },
       "failure_reason_breakdown": {
         "task_wiki_3_layer": {
-          "answer_incorrect": 3,
-          "evidence_does_not_support_answer": 3,
+          "answer_incorrect": 1,
+          "evidence_does_not_support_answer": 2,
           "missing_gold_evidence": 3,
           "stale_value": 3,
           "wrong_evidence_source": 3
@@ -135,7 +135,7 @@
         }
       },
       "win_criteria": {
-        "answer_win": false,
+        "answer_win": true,
         "evidence_win": true,
         "safety_not_worse": true
       },
@@ -249,13 +249,13 @@
   },
   "overall_scores": {
     "task_wiki_3_layer": {
-      "query_success_rate": 0.5417,
+      "query_success_rate": 0.7084,
       "evidence_output_rate": 1.0,
-      "evidence_precision": 0.7431,
-      "evidence_recall": 0.379,
+      "evidence_precision": 0.6862,
+      "evidence_recall": 0.3179,
       "safety_score": 0.9167,
       "efficiency_score": 1.0,
-      "avg_answer_token_count": 79.4575,
+      "avg_answer_token_count": 77.79,
       "avg_estimated_steps": 1.0,
       "avg_estimated_time_seconds": 20.0
     },
@@ -272,8 +272,8 @@
     }
   },
   "overall_deltas": {
-    "query_success_rate_delta": 0.4584,
-    "evidence_precision_delta": 0.7431,
+    "query_success_rate_delta": 0.6251,
+    "evidence_precision_delta": 0.6862,
     "safety_score_delta": 0.0417
   },
   "winning_family_count": 4,
@@ -284,9 +284,9 @@
   },
   "failure_reason_breakdown": {
     "task_wiki_3_layer": {
-      "answer_incorrect": 5,
+      "answer_incorrect": 3,
       "distractor_leak": 2,
-      "evidence_does_not_support_answer": 5,
+      "evidence_does_not_support_answer": 4,
       "missing_dependency_chain": 2,
       "missing_gold_evidence": 11,
       "stale_value": 3,
@@ -302,5 +302,5 @@
       "stale_value": 3
     }
   },
-  "updated_at": "2026-05-08T04:25:21.466663+00:00"
+  "updated_at": "2026-05-08T06:01:41.941863+00:00"
 }

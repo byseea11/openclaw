@@ -31,7 +31,26 @@ def _message_id(row: dict[str, Any]) -> str:
 
 
 def _collect_message_index(collected_messages: list[dict[str, Any]]) -> dict[str, dict[str, Any]]:
-    return {_message_id(row): row for row in collected_messages if _message_id(row)}
+    indexed: dict[str, dict[str, Any]] = {}
+    for index, row in enumerate(collected_messages):
+        message_id = _message_id(row)
+        if not message_id:
+            continue
+        enriched = dict(row)
+        enriched["_message_order"] = index
+        indexed[message_id] = enriched
+    return indexed
+
+
+def _message_order(row: dict[str, Any]) -> int:
+    explicit_order = row.get("_message_order")
+    if isinstance(explicit_order, int):
+        return explicit_order
+    turn_id = _as_str(row.get("turn_id"))
+    match = re.search(r"(\d+)$", turn_id)
+    if match:
+        return int(match.group(1))
+    return 0
 
 
 def _semantic_support_by_query(semantic_gold: dict[str, Any]) -> dict[str, list[str]]:
@@ -383,6 +402,12 @@ def _event_text(event: dict[str, Any], message_index: dict[str, dict[str, Any]])
     return _event_search_text(event, message_index)
 
 
+def _event_order(event: dict[str, Any], message_index: dict[str, dict[str, Any]]) -> int:
+    message_id = _event_message_id(event)
+    row = message_index.get(message_id) if message_id else None
+    return _message_order(row) if row else 0
+
+
 def _preferred_event(
     events: list[dict[str, Any]],
     message_index: dict[str, dict[str, Any]],
@@ -445,10 +470,11 @@ def _last_event_matching(
     task_id: str,
     predicate,
 ) -> dict[str, Any] | None:
-    for event in reversed(events):
+    ordered_events = sorted(enumerate(events), key=lambda item: (_event_order(item[1], message_index), item[0]))
+    for _, event in reversed(ordered_events):
         if _event_has_task_id(event, message_index, task_id) and predicate(event, _event_text(event, message_index)):
             return event
-    for event in reversed(events):
+    for _, event in reversed(ordered_events):
         if predicate(event, _event_text(event, message_index)):
             return event
     return None
@@ -568,7 +594,20 @@ def _build_contradiction_task_wiki_answer(
         events,
         message_index,
         task_id=task_id,
-        predicate=lambda event, text: _as_str(event.get("status")) not in {"", "current_owner", "transferred", "作废", "obsolete"},
+        predicate=lambda event, text: _as_str(event.get("status")) not in {
+            "",
+            "current_owner",
+            "transferred",
+            "作废",
+            "obsolete",
+            "已移交",
+            "移交",
+            "转交",
+            "转给",
+            "已登记",
+            "登记",
+            "风险已登记",
+        },
     )
     status = _as_str(status_event.get("status")) if status_event else ""
     component_window_event = _preferred_event(events, message_index, include=("组件升级预计5月14日", "旧窗口完全作废"))
@@ -589,10 +628,8 @@ def _build_contradiction_task_wiki_answer(
             answer_events = [*historical_owner_events, current_owner_event] if current_owner_event else historical_owner_events
     elif any(token in lower for token in ("负责人", "owner", "谁负责")):
         current_name = _display_owner(current_owner) if current_owner else "当前负责人"
-        history = "、".join(_display_owner(name) for name in historical_owners)
-        suffix = f"；{history}属于历史负责人。" if history else ""
-        answer = f"{task_id} 的当前负责人是{current_name}{suffix}"
-        answer_events = [event for event in ([current_owner_event] + historical_owner_events) if event]
+        answer = f"{task_id} 的当前负责人是{current_name}。"
+        answer_events = [event for event in [current_owner_event] if event]
     elif any(token in lower for token in ("窗口", "日期", "时间")) and "为什么" not in lower:
         if not current_time:
             return None

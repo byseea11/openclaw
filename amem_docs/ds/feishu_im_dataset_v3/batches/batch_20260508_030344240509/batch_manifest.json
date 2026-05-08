@@ -67,7 +67,7 @@
         "outputs": {
           "phase3_score": "amem_docs/ds/feishu_im_dataset_v3/batches/batch_20260508_030344240509/cases/case_20260508030344241234_anti_interference/reports/phase3_score.json"
         },
-        "completed_at": "2026-05-08T04:25:21.424319+00:00"
+        "completed_at": "2026-05-08T06:01:41.913492+00:00"
       }
     },
     {
@@ -130,7 +130,7 @@
         "outputs": {
           "phase3_score": "amem_docs/ds/feishu_im_dataset_v3/batches/batch_20260508_030344240509/cases/case_20260508030344241235_contradiction_update/reports/phase3_score.json"
         },
-        "completed_at": "2026-05-08T04:25:21.431481+00:00"
+        "completed_at": "2026-05-08T06:01:41.917512+00:00"
       }
     },
     {
@@ -193,7 +193,7 @@
         "outputs": {
           "phase3_score": "amem_docs/ds/feishu_im_dataset_v3/batches/batch_20260508_030344240509/cases/case_20260508030344241236_evidence_dependency_reasoning/reports/phase3_score.json"
         },
-        "completed_at": "2026-05-08T04:25:21.437890+00:00"
+        "completed_at": "2026-05-08T06:01:41.921770+00:00"
       }
     },
     {
@@ -256,10 +256,10 @@
         "outputs": {
           "phase3_score": "amem_docs/ds/feishu_im_dataset_v3/batches/batch_20260508_030344240509/cases/case_20260508030344241237_private_info_in_official_file/reports/phase3_score.json"
         },
-        "completed_at": "2026-05-08T04:25:21.442751+00:00"
+        "completed_at": "2026-05-08T06:01:41.925377+00:00"
       }
     }
   ],
   "created_at": "2026-05-08T03:03:44.241436+00:00",
-  "updated_at": "2026-05-08T04:25:21.442755+00:00"
+  "updated_at": "2026-05-08T06:01:41.925379+00:00"
 }

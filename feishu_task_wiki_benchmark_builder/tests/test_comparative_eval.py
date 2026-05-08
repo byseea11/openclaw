@@ -391,9 +391,8 @@ class ComparativeEvalTests(unittest.TestCase):
         window_answer = task_results[1]["answer_text"]
         status_answer = task_results[2]["answer_text"]
         self.assertNotIn("Bob", owner_answer)
-        self.assertIn("Carol", owner_answer)
-        self.assertIn("Alice", owner_answer)
         self.assertIn("Xavier", owner_answer)
+        self.assertNotIn("Carol、Alice", owner_answer)
         self.assertIn("5月10", window_answer)
         self.assertIn("5月12", window_answer)
         self.assertIn("5月15", window_answer)
@@ -441,6 +440,46 @@ class ComparativeEvalTests(unittest.TestCase):
         for answer in answers:
             self.assertIn("FEISHU-335", answer)
             self.assertNotIn("FEISHU-726", answer)
+
+    def test_contradiction_adapter_uses_message_order_for_current_state(self) -> None:
+        payload = self._contradiction_payload()
+        payload["collected_messages"] = [
+            {"message_id": "om_initial", "turn_id": "turn_001", "message_text": "FEISHU-726 我负责，窗口定5月10日。"},
+            {"message_id": "om_handoff", "turn_id": "turn_002", "message_text": "Carol转交给我负责，窗口改5月12日。"},
+            {"message_id": "om_current", "turn_id": "turn_003", "message_text": "我来负责FEISHU-726，窗口推迟到5月15日，旧日期作废。"},
+            {"message_id": "om_status", "turn_id": "turn_004", "message_text": "FEISHU-726状态改为已暂停，等组件升级完成。"},
+        ]
+        # Runtime verified event order is not guaranteed to match transcript order.
+        payload["task_wiki_predictions"]["verified_events"] = list(reversed(payload["task_wiki_predictions"]["verified_events"]))  # type: ignore[index]
+
+        class AlwaysCorrectJudge:
+            def complete_json(self, *, stage: str, system_prompt: str, user_payload: dict[str, object]) -> ModelCallResult:
+                if stage == "phase3-task-wiki-answer":
+                    raise AssertionError("contradiction_update should use deterministic Task Wiki answer")
+                if stage == "phase3-answer-judge":
+                    return ModelCallResult(
+                        payload={
+                            "answer_correct": True,
+                            "evidence_supports_answer": True,
+                            "private_info_leak": False,
+                            "stale_value": False,
+                            "reasons": ["message order guard"],
+                        },
+                        backend="fixture",
+                        model="fake-phase3",
+                        base_url="fixture://phase3",
+                        duration_ms=0,
+                    )
+                raise AssertionError(f"unexpected stage {stage}")
+
+        artifact = build_comparative_eval(**payload, model_client=AlwaysCorrectJudge())  # type: ignore[arg-type]
+        answers = [
+            item["systems"]["task_wiki_3_layer"]["answer_text"]
+            for item in artifact["query_results"]
+        ]
+        self.assertIn("5月15", answers[1])
+        self.assertNotIn("当前截止/窗口时间是5月12", answers[1])
+        self.assertIn("已暂停", answers[2])
 
 
 if __name__ == "__main__":

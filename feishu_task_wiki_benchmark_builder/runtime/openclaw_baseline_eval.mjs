@@ -1858,7 +1858,10 @@ function main() {
     baselineReport: relativePath(baselineReportPath),
   };
 
-  if (fs.existsSync(failurePath)) {
+  const scoredReplayFailure =
+    baselineResult.memory_visibility?.status === "failed" ||
+    baselineResult.answers.some((answer) => answer?.raw_openclaw_output?.status === "failed");
+  if (fs.existsSync(failurePath) && !scoredReplayFailure) {
     fs.rmSync(failurePath, { force: true });
   }
   writeJson(answersPath, answersPayload);
